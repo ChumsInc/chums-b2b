@@ -29,16 +29,6 @@ export interface DeprecatedPageAction extends DeprecatedAsyncAction {
     page: ContentPage;
 }
 
-export interface DeprecatedProductsAction extends DeprecatedAsyncAction {
-    type: 'FETCH_PRODUCT',
-    product: Product | null;
-    variant: ProductVariant | null;
-    msrp: string[];
-    customerPrice: string[];
-    salesUM: string;
-    cartItem: CartProduct | null;
-}
-
 export interface DeprecatedSelectVariantAction extends DeprecatedAsyncAction {
     type: 'SELECT_VARIANT',
     variant: ProductVariant | null;

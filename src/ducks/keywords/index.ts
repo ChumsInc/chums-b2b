@@ -1,9 +1,8 @@
-import {createReducer, UnknownAction} from "@reduxjs/toolkit";
-import {FETCH_INIT, FETCH_KEYWORDS, FETCH_SUCCESS} from "../../constants/actions";
+import {createReducer} from "@reduxjs/toolkit";
 import {Keyword} from "b2b-types";
 import {PreloadedState} from "../../types/preload";
-import {DeprecatedAsyncAction} from "../../types/actions";
-import {isDeprecatedKeywordsAction} from "./utils";
+import {keywordsSorter} from "./utils";
+import {loadKeywords} from "./actions";
 
 export interface KeywordsState {
     list: Keyword[],
@@ -11,7 +10,7 @@ export interface KeywordsState {
     loaded: boolean;
 }
 
-export const initialKeywordsState = (preload:PreloadedState = {}):KeywordsState => ({
+export const initialKeywordsState = (preload: PreloadedState = {}): KeywordsState => ({
     list: preload?.keywords?.list ?? [],
     loading: false,
     loaded: !!preload.keywords?.list,
@@ -19,17 +18,16 @@ export const initialKeywordsState = (preload:PreloadedState = {}):KeywordsState 
 
 const keywordsReducer = createReducer(initialKeywordsState, (builder) => {
     builder
-        .addDefaultCase((state, action:UnknownAction|DeprecatedAsyncAction) => {
-            switch (action.type) {
-                case FETCH_KEYWORDS:
-                    if (isDeprecatedKeywordsAction(action)) {
-                        state.loading = action.status === FETCH_INIT;
-                        if (action.status === FETCH_SUCCESS) {
-                            state.list = action.list;
-                        }
-                    }
-                    return;
-            }
+        .addCase(loadKeywords.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(loadKeywords.fulfilled, (state, action) => {
+            state.loading = false;
+            state.loaded = true;
+            state.list = [...action.payload].sort(keywordsSorter);
+        })
+        .addCase(loadKeywords.rejected, (state) => {
+            state.loading = false;
         })
 });
 

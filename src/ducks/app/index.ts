@@ -1,4 +1,3 @@
-import {FETCH_KEYWORDS, FETCH_PRODUCT, FETCH_SUCCESS,} from "../../constants/actions";
 import {CUSTOMER_TABS, SUB_NAV_TYPES} from "../../constants/app";
 import localStore from "../../utils/LocalStore";
 import {STORE_USER_PREFS} from "../../constants/stores";
@@ -6,8 +5,6 @@ import {createReducer} from "@reduxjs/toolkit";
 import {setCustomerTab, setLifestyle, setRowsPerPage, setSubNavBar, toggleXSNavBar} from "./actions";
 import {setCustomerAccount} from "../customer/actions";
 import {PreloadedState} from "../../types/preload";
-import {isDeprecatedKeywordsAction} from "../keywords/utils";
-import {isAsyncAction} from "../../types/actions";
 
 import {Keyword, Menu} from "b2b-types";
 
@@ -21,7 +18,7 @@ export interface AppState {
     keywords: Keyword[],
     lifestyle: string;
     debug: boolean | null;
-    nonce: string|null;
+    nonce: string | null;
 }
 
 export const initialAppState = (preload?: PreloadedState): AppState => ({
@@ -59,20 +56,6 @@ const appReducer = createReducer(initialAppState, (builder) => {
         })
         .addCase(setCustomerTab, (state, action) => {
             state.customerTab = action.payload;
-        })
-        .addDefaultCase((state, action) => {
-            switch (action.type) {
-                case FETCH_KEYWORDS:
-                    if (isDeprecatedKeywordsAction(action) && action.status === FETCH_SUCCESS) {
-                        state.keywords = action.list;
-                    }
-                    return;
-                case FETCH_PRODUCT:
-                    if (isAsyncAction(action) && action.status === FETCH_SUCCESS) {
-                        state.lifestyle = '';
-                    }
-                    return;
-            }
         })
 })
 

@@ -1,18 +1,10 @@
-import {
-    CLEAR_PRODUCT,
-    FETCH_INIT,
-    FETCH_PRODUCT,
-    FETCH_SUCCESS,
-    SELECT_COLOR,
-    SELECT_VARIANT
-} from "../../constants/actions";
+import {CLEAR_PRODUCT, SELECT_COLOR, SELECT_VARIANT} from "../../constants/actions";
 import {getDefaultColor, getMSRP, getPrices} from "../../utils/products";
 import {customerPriceRecordSorter, customerSlug,} from "../../utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {
     getImageItemCode,
     isCartProduct,
-    isDeprecatedProductAction,
     isDeprecatedSelectColorAction,
     isDeprecatedVariantAction,
     updateCartProductPricing
@@ -132,30 +124,6 @@ const productsReducer = createReducer(initialProductsState, (builder) => {
         .addDefaultCase((state, action) => {
 
             switch (action.type) {
-                case FETCH_PRODUCT:
-                    if (isDeprecatedProductAction(action)) {
-                        state.loading = action.status === FETCH_INIT;
-                        if (action.status === FETCH_SUCCESS) {
-                            state.product = action.product ?? null;
-                            if (action.variant && action.variant.product) {
-                                state.selectedProduct = {...action.variant.product};
-                                state.colorCode = getDefaultColor(action.variant.product, state.colorCode);
-                                state.variantId = action.variant.id;
-                            } else if (action.product) {
-                                state.selectedProduct = {...action.product};
-                                state.colorCode = getDefaultColor(action.product, state.colorCode);
-                                state.variantId = null;
-                            } else {
-                                state.product = null;
-                                state.selectedProduct = null;
-                            }
-                            state.msrp = action.msrp ?? [];
-                            state.customerPrice = action.customerPrice ?? [];
-                            state.salesUM = action.salesUM ?? null;
-                            state.cartItem = action.cartItem ?? null;
-                        }
-                    }
-                    return;
                 case CLEAR_PRODUCT:
                     state.product = null;
                     return;
