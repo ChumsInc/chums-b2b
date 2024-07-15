@@ -9,13 +9,14 @@ import {getManifest} from "./manifest";
 import {getAPIRequest, handleInvalidURL} from "./utils";
 import helmet from "helmet";
 import * as crypto from "node:crypto";
-import compression from 'compression';
 import {IncomingMessage, ServerResponse} from 'node:http'
 
 const debug = Debug('chums:server:index');
 
 const app = express();
-app.use(compression());
+// DO NOT USE COMPRESSION - in order to prevent BREACH attack do not use compression when it will get recompressed on the nginx server outlet.
+// (do I understand that correctly? ...waiting for subsequent scan results)
+// app.use(compression());
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.cspNonce = crypto.randomBytes(32).toString("hex");
     next();
