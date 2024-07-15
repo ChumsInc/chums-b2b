@@ -96,10 +96,9 @@ const App = () => {
                                     <Route path="/products/:category" element={<ProductRouter/>}/>
                                     <Route path="/products/:category/:product" element={<ProductRouter/>}/>
                                     <Route path="/products/:category/:product/:sku" element={<ProductRouter/>}/>
+                                    <Route path="/pages/:keyword" element={<ContentPage/>}/>
                                     {!isLoggedIn && (
                                         <>
-                                            <Route path="/pages/chums-reps" element={<RepResourcesRedirect/>}/>
-                                            <Route path="/pages/:keyword" element={<ContentPage/>}/>
                                             <Route path="/set-password/:hash/:key" element={<ResetPassword/>}/>
                                             <Route path="/set-password" element={<ResetPassword/>}/>
                                             <Route path="/signup/:hash/:key" element={<ResetPassword/>}/>
@@ -111,7 +110,6 @@ const App = () => {
                                     )}
                                     {isLoggedIn && (
                                         <>
-                                            <Route path="/pages/:keyword" element={<ContentPage/>}/>
                                             <Route path="/login" element={<Login/>}/>
                                             <Route path="/logout" element={<Logout/>}/>
                                             <Route path="/profile" element={<ProfilePage/>}/>
