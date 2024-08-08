@@ -5,8 +5,8 @@ import {ErrorBoundary as ReactErrorBoundary, FallbackProps} from 'react-error-bo
 import {postErrors} from "../api/fetch";
 import Alert from "@mui/material/Alert";
 
-function ErrorFallback({error, resetErrorBoundary}: FallbackProps) {
-    resetErrorBoundary();
+function ErrorFallback({error}: FallbackProps) {
+    // resetErrorBoundary();
     return (
         <Alert severity="error">
             <strong>Sorry! Something went wrong.</strong>
