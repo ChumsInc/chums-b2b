@@ -13,7 +13,7 @@ const OrderItemImage = ({itemCode, itemCodeDesc, image}:{
     const src = image
         ? `/images/products/80/${encodeURIComponent(image)}`
         : API_PATH_CART_IMAGE.replace(':ItemCode', encodeURIComponent(itemCode));
-    return (<img src={src} alt={itemCodeDesc ?? itemCode} className="img-thumbnail"/>)
+    return (<img src={src} alt="" className="img-thumbnail"/>)
 };
 
 export default OrderItemImage;
