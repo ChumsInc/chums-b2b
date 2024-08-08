@@ -98,11 +98,18 @@ export default function ShipToSelect({
         return '';
     }
 
+    const isValidValue = value === ''
+        || (allowAllLocations && value === allLocationsValue)
+        || !!shipToAddresses.filter(st => st.ShipToCode === value).length;
+
+
+
     return (
         <FormControl fullWidth variant="filled" size="small" {...formControlProps}>
             <InputLabel id={id} shrink>{label ?? 'Ship-To Location'}</InputLabel>
             <Select onChange={changeHandler}
-                    value={value ?? (allowAllLocations ? allLocationsValue : '')} displayEmpty
+                    value={isValidValue ? (value ?? (allowAllLocations ? allLocationsValue : '')) : ''}
+                    displayEmpty
                     renderValue={renderValueHandler}
                     readOnly={readOnly} required={required}>
                 {allowAllLocations && (<MenuItem value={allLocationsValue}>All Addresses</MenuItem>)}
