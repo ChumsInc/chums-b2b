@@ -17,8 +17,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
+import {styled} from "@mui/material/styles";
 
 
+const NumericTextField = styled(TextField)`
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+`;
 export default function ItemAutocomplete({salesOrderNo}: {
     salesOrderNo: string;
 }) {
@@ -124,16 +132,18 @@ export default function ItemAutocomplete({salesOrderNo}: {
                     )
                 }}
                 value={value}/>
-            <TextField size="small" variant="filled"
-                       inputProps={{inputMode: 'numeric', pattern: '[0-9]*', maxLength: 4}} label="Quantity" value={quantity}
-                       onChange={quantityChangeHandler}
-                       InputProps={{
-                           endAdornment: (
-                               <InputAdornment position="end">
-                                   {value?.SalesUnitOfMeasure ?? 'EA'}
-                               </InputAdornment>
-                           )
-                       }}
+            <NumericTextField size="small" variant="filled"
+                              type="number"
+                              inputProps={{inputMode: 'numeric', min: 1, pattern: '[0-9]*', maxLength: 4}}
+                              label="Quantity" value={quantity}
+                              onChange={quantityChangeHandler}
+                              InputProps={{
+                                  endAdornment: (
+                                      <InputAdornment position="end">
+                                          {value?.SalesUnitOfMeasure ?? 'EA'}
+                                      </InputAdornment>
+                                  )
+                              }}
             />
             <AddToCartButton disabled={!quantity || !value || actionStatus !== 'idle'}
                              type="button" size="small" color="primary" fullWidth={false}
