@@ -94,7 +94,7 @@
     "ts-loader": "^9.2.4",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.0.4",
-    "typescript-eslint": "^7.16.0",
+    "typescript-eslint": "^8.0.1",
     "webpack": "^5.83.0",
     "webpack-bundle-analyzer": "^4.3.0",
     "webpack-chunk-hash": "^0.6.0",
