@@ -24,7 +24,6 @@ import CartQuantityInput from "../../../components/CartQuantityInput";
 import {CartProduct} from "b2b-types";
 import Decimal from "decimal.js";
 import {sendGtagEvent} from "../../../api/gtag";
-import ShipToAutocomplete from "../../customer/components/ShipToAutocomplete";
 import Box from "@mui/material/Box";
 
 const AddToCartForm = ({
@@ -68,7 +67,7 @@ const AddToCartForm = ({
     const [_comment, setComment] = useState<string>(comment ?? '');
     const [localCartName, setLocalCartName] = useState<string>(cartName ?? '');
     const [localCartNo, setLocalCartNo] = useState<string>(cartNo ?? '');
-    const [shipToCode, setShipToCode] = useState<string|null>(currentShipToCode);
+    const [shipToCode, setShipToCode] = useState<string | null>(currentShipToCode);
 
     useEffect(() => {
         if (!permissions && !permissionsLoading) {
