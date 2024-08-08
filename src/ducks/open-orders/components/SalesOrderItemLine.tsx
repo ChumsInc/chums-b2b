@@ -61,8 +61,8 @@ export default function SalesOrderItemLine({
                 verticalAlign: 'top'
             }}
                       className={classNames(rowClassName)}>
-                <TableCell rowSpan={showCommentInput ? 2 : 1}>
-                    <Typography variant="body1" sx={{fontWeight: 700}}>{line.ItemCode}</Typography>
+                <TableCell rowSpan={showCommentInput ? 2 : 1} component="th" >
+                    <Typography variant="body1" sx={{fontWeight: 700}} component="div">{line.ItemCode}</Typography>
                     {line.ItemType === '1' &&
                         <OrderItemImage itemCode={line.ItemCode} itemCodeDesc={line.ItemCodeDesc} image={line.image}/>}
                 </TableCell>
