@@ -48,6 +48,13 @@ let theme = createTheme({});
 
 theme = createTheme({
     palette: {
+        mode: 'light',
+        primary: {
+            main: '#3F51B5',
+        },
+        secondary: {
+            main: '#f50057',
+        },
         chumsRed: theme.palette.augmentColor({
             color: {
                 main: chumsRedBase,
@@ -57,6 +64,7 @@ theme = createTheme({
         chumsGrey: theme.palette.augmentColor({
             color: {
                 main: '#454547',
+                dark: '#232324'
             },
             name: 'chumsGrey',
         })
@@ -113,6 +121,14 @@ theme = createTheme({
             styleOverrides: {
                 root: {
                     color: theme.palette.chumsGrey.main,
+                }
+            }
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    opacity: 0.75,
+                    color: theme.palette.chumsGrey.dark
                 }
             }
         },
