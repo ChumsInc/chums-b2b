@@ -1,12 +1,18 @@
 import React, {useEffect, useRef} from 'react';
 import {useSelector} from "react-redux";
-import Marquee from "../../components/Marquee";
 import {selectActiveMessages, selectMessagesLoaded} from "./selectors";
 import {useAppDispatch} from "../../app/configureStore";
 import {loadMessages} from "./actions";
 import {useIsSSR} from "../../hooks/is-server-side";
+import Stack from "@mui/material/Stack";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import WebIcon from '@mui/icons-material/Web';
+import Typography from "@mui/material/Typography";
+import Alert, {AlertProps} from "@mui/material/Alert";
+import {Message} from "b2b-types";
+import Container from "@mui/material/Container";
 
-const messagesMaxAge  = 1000 * 60 * 30; //30 minutes
+const messagesMaxAge = 1000 * 60 * 30; //30 minutes
 
 const SiteMessages = () => {
     const dispatch = useAppDispatch();
@@ -28,19 +34,38 @@ const SiteMessages = () => {
             if (isSSR) {
                 return;
             }
-            if (global.window) {
-                window.clearInterval(timerRef.current)
-            }
+            window.clearInterval(timerRef.current);
         }
     }, [messages, loaded]);
+
+    const refreshHandler = () => {
+        dispatch(loadMessages);
+    }
 
     if (!messages.length) {
         return null;
     }
+
+    const alertProps = (message: Message): Pick<AlertProps, 'severity' | 'icon'> => {
+        switch (message.type) {
+            case 'shipping':
+                return {severity: "info", icon: <LocalShippingIcon onClick={refreshHandler}/>};
+            case 'site':
+                return {severity: 'warning', icon: <WebIcon onClick={refreshHandler}/>};
+        }
+        return {};
+    }
+
     return (
-        <div className="site-message">
-            <Marquee message={messages.map(m => m.message).join('; ')}/>
-        </div>
+        <Container>
+            <Stack spacing={1} sx={{mb: 5}}>
+                {messages.map((message) => (
+                    <Alert key={message.id} {...alertProps(message)}>
+                        <Typography>{message.message}</Typography>
+                    </Alert>
+                ))}
+            </Stack>
+        </Container>
     )
 }
 

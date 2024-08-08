@@ -9,6 +9,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import SiteMessages from "../ducks/messages/SiteMessages";
 
 
 const MainOutlet = () => {
@@ -18,6 +19,7 @@ const MainOutlet = () => {
         <>
             <Header/>
             <Box component="main" sx={{marginTop: '100px', marginBottom: '3rem'}}>
+                <SiteMessages />
                 <Container maxWidth="xl">
                     {loggedIn && <AppUpdateLocalLogin/>}
                     <AlertList/>
