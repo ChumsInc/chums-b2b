@@ -7,7 +7,7 @@ export default function SalesOrderLoadingProgress({salesOrderNo}:{
     salesOrderNo?: string
 }) {
     const loading = useAppSelector(state => selectSalesOrderLoading(state, salesOrderNo));
-    if (!loading) {
+    if (loading === 'idle' || loading === 'rejected') {
         return null;
     }
     return (

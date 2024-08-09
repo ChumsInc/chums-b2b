@@ -97,7 +97,7 @@ export const selectDetailChanged = createSelector(
 export const selectSalesOrderLoading = createSelector(
     [selectActionStatus, (state, salesOrderNo) => salesOrderNo],
     (list, salesOrderNo) => {
-        return !list[salesOrderNo] || list[salesOrderNo] !== 'idle';
+        return list[salesOrderNo] ?? 'idle';
     }
 )
 
