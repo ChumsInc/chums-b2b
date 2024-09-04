@@ -186,7 +186,18 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
     };
 };
 
+const isPreSeason = (item:ProductColorItem, product?: BasicProduct):boolean => {
+    if (item.additionalData?.season && item.additionalData.season.active) {
+        return !item.additionalData.season.product_available;
+    }
+    if (product?.season && product.season.active) {
+        return !product.season.product_available;
+    }
+    return false;
+}
 export const colorCartItem = (item: ProductColorItem, product?: BasicProduct): CartProduct => {
+    console.log('colorCartItem', item, product);
+    // const isSeasonAvailable =
     return {
         quantityAvailable: item.QuantityAvailable,
         msrp: item.msrp,
@@ -208,7 +219,7 @@ export const colorCartItem = (item: ProductColorItem, product?: BasicProduct): C
         quantity: 1,
         season: item.additionalData?.season ?? product?.season ?? null,
         seasonCode: item.additionalData?.season?.code,
-        seasonAvailable: (product?.additionalData?.seasonAvailable || item.additionalData?.season?.product_available || item.additionalData?.seasonAvailable),
+        seasonAvailable: !isPreSeason(item, product),
         seasonDescription: item.additionalData?.season?.description,
         seasonTeaser: item.additionalData?.season?.product_teaser,
         preSeasonMessage: (item.additionalData?.season?.product_available || item.additionalData?.seasonAvailable)
