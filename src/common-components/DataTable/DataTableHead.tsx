@@ -34,7 +34,7 @@ export const DataTableHead = <T = KeyedObject>({
                                )}>
                         <TableSortLabel
                             active={currentSort.field === tableField.field}
-                            direction={(currentSort.ascending ? 'asc' : 'desc') ?? 'asc'}
+                            direction={currentSort.ascending ? 'asc' : 'desc'}
                             onClick={sortClickHandler(tableField.field)}>
                             {tableField.title}
                         </TableSortLabel>
