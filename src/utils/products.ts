@@ -196,8 +196,6 @@ const isPreSeason = (item:ProductColorItem, product?: BasicProduct):boolean => {
     return false;
 }
 export const colorCartItem = (item: ProductColorItem, product?: BasicProduct): CartProduct => {
-    console.log('colorCartItem', item, product);
-    // const isSeasonAvailable =
     return {
         quantityAvailable: item.QuantityAvailable,
         msrp: item.msrp,
