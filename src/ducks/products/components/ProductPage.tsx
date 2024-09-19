@@ -12,14 +12,7 @@ import MissingTaxScheduleAlert from "../../customer/components/MissingTaxSchedul
 import RequireLogin from "../../../components/RequireLogin";
 import {useAppDispatch} from "../../../app/configureStore";
 import {selectLoggedIn} from "../../user/selectors";
-import {
-    selectCurrentProduct,
-    selectProductCartItem,
-    selectProductLoading,
-    selectProductSeasonAvailable,
-    selectProductSeasonCode,
-    selectSelectedProduct
-} from "../selectors";
+import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
 import ProductPageImage from "./ProductPageImage";
 import ProductPageTitle from "./ProductPageTitle";
@@ -48,8 +41,6 @@ const ProductPage = ({keyword}: {
     const loading = useSelector(selectProductLoading);
     const cartItem = useSelector(selectProductCartItem);
     const customerAccount = useSelector(selectCustomerAccount);
-    const season_code = useSelector(selectProductSeasonCode);
-    const season_available = useSelector(selectProductSeasonAvailable);
     const location = useLocation();
     const [cartMessage, setCartMessage] = useState<string | null>(null);
     const timerHandle = useRef<number>(0);
@@ -154,7 +145,6 @@ const ProductPage = ({keyword}: {
                                     && isBillToCustomer(customerAccount) && selectedProduct.availableForSale && (
                                         <AddToCartForm quantity={cartItem?.quantity ?? 1} cartItem={cartItem}
                                                        setGlobalCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
-                                                       season_code={season_code} season_available={season_available}
                                                        disabled={!customerAccount?.TaxSchedule}
                                                        onChangeQuantity={onChangeQuantity} onDone={noop} comment=""
                                                        afterAddToCart={setCartMessage}/>

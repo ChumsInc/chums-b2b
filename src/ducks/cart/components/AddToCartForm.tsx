@@ -26,33 +26,30 @@ import Decimal from "decimal.js";
 import {sendGtagEvent} from "../../../api/gtag";
 import Box from "@mui/material/Box";
 
-const AddToCartForm = ({
-                           cartItem,
-                           quantity,
-                           unitOfMeasure,
-                           comment,
-                           setGlobalCart,
-                           season_code,
-                           season_available,
-                           disabled,
-                           onDone,
-                           onChangeQuantity,
-                           excludeSalesOrder,
-                           afterAddToCart,
-                       }: {
+export interface AddToCartFormProps {
     cartItem: CartProduct;
     quantity: number;
     unitOfMeasure: string;
     comment?: string;
     setGlobalCart?: boolean;
-    season_code?: string | null;
-    season_available?: boolean | null;
     disabled?: boolean;
     onDone: () => void;
     onChangeQuantity: (val: number) => void;
     excludeSalesOrder?: string;
     afterAddToCart?: (message: string) => void;
-}) => {
+}
+export default function AddToCartForm({
+                           cartItem,
+                           quantity,
+                           unitOfMeasure,
+                           comment,
+                           setGlobalCart,
+                           disabled,
+                           onDone,
+                           onChangeQuantity,
+                           excludeSalesOrder,
+                           afterAddToCart,
+                       }: AddToCartFormProps) {
     const dispatch = useAppDispatch();
     const customer = useSelector(selectCustomerAccount);
     const cartsList = useSelector(selectCartsList);
@@ -131,8 +128,8 @@ const AddToCartForm = ({
             return;
         }
         let comment = '';
-        if (!!season_code && !(season_available || cartItem.seasonAvailable)) {
-            comment = [`PRE-SEASON ITEM: ${season_code}`, _comment].filter(val => !!val).join('; ');
+        if (cartItem.season?.active && !(cartItem.season.product_available || cartItem.seasonAvailable)) {
+            comment = [`PRE-SEASON ITEM: ${cartItem.season.code}`, _comment].filter(val => !!val).join('; ');
         }
         const price = cartItem.price ? new Decimal(cartItem.price).toNumber() : 0;
         const value = cartItem.price ? new Decimal(cartItem.price).times(quantity).toNumber() : 0;
@@ -196,5 +193,3 @@ const AddToCartForm = ({
         </form>
     );
 }
-
-export default AddToCartForm;
