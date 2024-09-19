@@ -188,7 +188,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
 
 const isPreSeason = (item:ProductColorItem, product?: BasicProduct):boolean => {
     if (item.additionalData?.season && item.additionalData.season.active) {
-        return !item.additionalData.season.product_available;
+        return !(item.additionalData.seasonAvailable || item.additionalData.season.product_available)
     }
     if (product?.season && product.season.active) {
         return !product.season.product_available;
