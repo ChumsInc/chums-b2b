@@ -26,6 +26,9 @@ const ResponsiveProductImage = ({
                                     ...rest
                                 }: ResponsiveProductImageProps) => {
     filename = filename?.replace(/\s/g, '%20');
+    if (!src) {
+        src = `/images/products/${rest.width ?? 800}/${filename}`;
+    }
     if (!srcSet) {
         const [nextSize = 2048] = imageSizes.filter(size => size >= (preferredSize ?? 2048));
         srcSet = imageSizes
