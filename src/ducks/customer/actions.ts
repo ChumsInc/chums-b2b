@@ -3,14 +3,14 @@ import localStore from "../../utils/LocalStore";
 import {STORE_RECENT_ACCOUNTS} from "../../constants/stores";
 import {selectLoggedIn} from "../user/selectors";
 import {
-    selectCustomerAccount,
+    selectCustomerAccount, selectCustomerKey,
     selectCustomerLoading,
     selectCustomerPermissionsLoading,
     selectCustomerSaving
 } from "./selectors";
 import {
     deleteCustomerUser,
-    fetchCustomerAccount,
+    fetchCustomerAccount, fetchCustomerUsers,
     fetchCustomerValidation,
     postBillingAddress,
     postCustomerUser,
@@ -31,8 +31,8 @@ export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser>(
     'customer/saveUser',
     async (arg, {getState}) => {
         const state = getState() as RootState;
-        const customer = selectCustomerAccount(state) as CustomerKey;
-        return await postCustomerUser(arg, customer);
+        const customer = selectCustomerKey(state);
+        return await postCustomerUser(arg, customer!);
     },
     {
         condition: (arg, {getState}) => {
@@ -148,8 +148,18 @@ export const loadCustomerPermissions = createAsyncThunk<CustomerPermissions | nu
         }
     }
 )
-// 87854183, 33888484, 55278385, 34156973, 81845234, 91405994, 57420316, 88428715, 02540498, 02837252
 
-// bS*RYjRHq&=54mT&
-
-// q2^yoFcViKc!@epg8*
+export const loadCustomerUsers = createAsyncThunk<CustomerUser[], void>(
+    'customer/users/load',
+    async (arg, {getState}) => {
+        const state = getState() as RootState;
+        const customerKey = selectCustomerKey(state);
+        return await fetchCustomerUsers(customerKey!);
+    },
+    {
+        condition: (arg, {getState}) => {
+            const state = getState() as RootState;
+            return selectLoggedIn(state) && !selectCustomerLoading(state) && !!selectCustomerKey(state);
+        }
+    }
+)

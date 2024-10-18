@@ -1,11 +1,10 @@
-const webpack = require('webpack');
-const {merge} = require('webpack-merge');
-const common = require('./webpack.common.cjs');
-const path = require('path');
-const {WebpackManifestPlugin} = require("webpack-manifest-plugin");
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
-const TerserPlugin = require('terser-webpack-plugin');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+import {merge} from 'webpack-merge';
+import common from './webpack.common.mjs';
+import path from 'node:path';
+import process from 'node:process'
+import webpack from 'webpack';
+import {WebpackManifestPlugin} from "webpack-manifest-plugin";
+import TerserPlugin from 'terser-webpack-plugin';
 
 const clientConfig = {
     target: 'web',
@@ -30,24 +29,19 @@ const clientConfig = {
         ],
     },
     output: {
-        path: path.resolve(__dirname, './public/build'),
+        path: path.resolve(process.cwd(), './public/build'),
         filename: "[name].[contenthash:8].js",
         sourceMapFilename: '[file].map',
         publicPath: '/build',
         clean: true,
     },
     plugins: [
-        // new HtmlWebpackPlugin({
-        //     title: 'Output Management',
-        // }),
         new webpack.SourceMapDevToolPlugin({
             filename: '[file].map',
             append: `\n //# sourceMappingURL=/build/[url]`
         }),
         new WebpackManifestPlugin({}),
-        // new BundleAnalyzerPlugin(),
-
     ]
 }
 
-module.exports = merge(common, clientConfig);
+export default merge(common, clientConfig);

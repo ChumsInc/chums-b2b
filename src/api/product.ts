@@ -1,11 +1,10 @@
 import {Product} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
-export const API_PATH_PRODUCT = '/api/products/v2/keyword/:keyword';
 
 export async function fetchProduct(arg:string):Promise<Product|null> {
     try {
-        const url = API_PATH_PRODUCT
+        const url = '/api/products/v2/keyword/:keyword'
             .replace(':keyword', encodeURIComponent(arg));
         const res = await fetchJSON<{products: Product[]}>(url, {cache: 'no-cache'});
         const [product] = (res.products ?? []);

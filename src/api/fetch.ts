@@ -72,7 +72,7 @@ export async function fetchJSON<T = unknown>(url:string, options:FetchJSONOption
             const credentials = getCredentials();
             if (credentials) {
                 _options.headers.append('Authorization', credentials);
-                options.credentials = 'omit';
+                _options.credentials = 'omit';
             }
         }
         if (!!_options?.method && ['POST', 'PUT'].includes(_options.method.toUpperCase())) {

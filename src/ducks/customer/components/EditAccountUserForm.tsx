@@ -21,8 +21,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
+import AccountUserNewButton from "./AccountUserNewButton";
 
-const newUser: CustomerUser = {id: 0, name: '', email: '', accountType: 4};
+const newUser: CustomerUser = {id: 0, accessId: 0, name: '', email: '', accountType: 4};
 
 const EditAccountUserForm = () => {
     const dispatch = useAppDispatch();
@@ -70,8 +71,10 @@ const EditAccountUserForm = () => {
             return;
         }
         switch (field) {
-            case 'name':
             case 'email':
+                setUser({...user, [field]: ev.target.value.trim(), changed: true});
+                return;
+            case 'name':
             case 'notes':
                 setUser({...user, [field]: ev.target.value, changed: true});
                 return;
@@ -158,11 +161,7 @@ const EditAccountUserForm = () => {
 
     if (!user) {
         return (
-            <Button variant="outlined" type="button"
-                    disabled={!(isEmployee || isRep)}
-                    onClick={newUserHandler}>
-                New User
-            </Button>
+            <AccountUserNewButton onClick={newUserHandler} disabled={!(isEmployee || isRep)} />
         )
     }
 
@@ -178,7 +177,7 @@ const EditAccountUserForm = () => {
                         An email will be sent to welcome the new user with links to set a password.
                     </Alert>
                 )}
-                <TextField type="string" fullWidth label="User Name"
+                <TextField type="text" fullWidth label="User Name"
                            value={user.name} onChange={changeHandler('name')}
                            variant="filled"
                            inputProps={{maxLength: 45}}
@@ -230,12 +229,10 @@ const EditAccountUserForm = () => {
                             New Ship-To Location
                         </Button>
                     )}
-                    {user.id !== 0 && (
-                        <Button type="button" variant="text" color="error"
-                                disabled={!canEdit} onClick={onDeleteUser}>
-                            Delete
-                        </Button>
-                    )}
+                    <Button type="button" variant="text" color="error"
+                            disabled={!canEdit || user.id === 0} onClick={onDeleteUser}>
+                        Delete
+                    </Button>
                 </Stack>
             </Stack>
             <Dialog open={!!confirmation} onClose={dialogCancelHandler} aria-describedby={dialogDescriptionId}>

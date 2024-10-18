@@ -45,6 +45,7 @@ import {auth} from "../api/IntranetAuthService";
 import {useLocation} from "react-router";
 import {sendGtagEvent} from "../api/gtag";
 import {selectAppNonce} from "../ducks/app/selectors";
+import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
 
 
 const App = () => {
@@ -119,8 +120,9 @@ const App = () => {
                                                 <Route index element={<BillToForm/>}/>
                                                 <Route path="delivery" element={<ShipToList/>}/>
                                                 <Route path="delivery/:shipToCode" element={<ShipToForm/>}/>
-                                                <Route path="users" element={<AccountUsers/>}/>
-                                                <Route path="users/:id" element={<AccountUsers/>}/>
+                                                <Route path="users" element={<AccountUsers/>}>
+                                                    <Route path=":id?" element={<EditAccountUserForm/>}/>
+                                                </Route>
                                                 <Route path="carts" element={<CartsList/>}/>
                                                 <Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>
                                                 <Route path="orders" element={<OpenOrdersList/>}/>

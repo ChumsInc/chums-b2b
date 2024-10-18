@@ -2,7 +2,7 @@ import {
     companyCode,
     customerShipToSorter,
     customerSlug,
-    customerUserSorter,
+    customerUserSorter, defaultCustomerUserSort,
     defaultShipToSort,
     emptyCustomer, shortCustomerKey
 } from "../../utils/customer";
@@ -18,7 +18,7 @@ import {
 } from "b2b-types";
 import {
     loadCustomer,
-    loadCustomerPermissions,
+    loadCustomerPermissions, loadCustomerUsers,
     removeUser,
     saveBillingAddress,
     saveShipToAddress,
@@ -90,7 +90,7 @@ const customerReducer = createReducer(initialCustomerState, builder => {
         })
         .addCase(saveUser.fulfilled, (state, action) => {
             state.loading = false;
-            state.users = [...action.payload].sort(customerUserSorter);
+            state.users = [...action.payload].sort(customerUserSorter(defaultCustomerUserSort));
         })
         .addCase(saveUser.rejected, (state) => {
             state.loading = false;
@@ -100,7 +100,7 @@ const customerReducer = createReducer(initialCustomerState, builder => {
         })
         .addCase(removeUser.fulfilled, (state, action) => {
             state.loading = false;
-            state.users = [...action.payload].sort(customerUserSorter);
+            state.users = [...action.payload].sort(customerUserSorter(defaultCustomerUserSort));
         })
         .addCase(removeUser.rejected, (state) => {
             state.loading = false;
@@ -298,6 +298,16 @@ const customerReducer = createReducer(initialCustomerState, builder => {
                     state.loaded = true;
                 }
             }
+        })
+        .addCase(loadCustomerUsers.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(loadCustomerUsers.fulfilled, (state, action) => {
+            state.loading = false;
+            state.users = action.payload.sort()
+        })
+        .addCase(loadCustomerUsers.rejected, (state) => {
+            state.loading = false;
         })
 })
 

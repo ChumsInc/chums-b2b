@@ -28,7 +28,8 @@ export const API_PATH_PASSWORD_RESET = '/api/user/b2b/login/reset-password';
 export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorResponse> {
     try {
         const body = JSON.stringify(arg);
-        const res = await fetchJSON<{ token: string }>(API_PATH_LOGIN_LOCAL, {
+        const url = '/api/user/b2b/login/local';
+        const res = await fetchJSON<{ token: string }>(url, {
             method: 'POST',
             body,
             credentials: 'omit',
@@ -51,7 +52,8 @@ export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorR
 
 export async function postLocalReauth(): Promise<string> {
     try {
-        const res = await fetchJSON<{ token: string }>(API_PATH_LOGIN_LOCAL_REAUTH, {method: 'POST'});
+        const url = '/api/user/b2b/auth/update';
+        const res = await fetchJSON<{ token: string }>(url, {method: 'POST'});
         return res.token;
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -113,9 +115,8 @@ export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<U
 
 export async function fetchRepList(): Promise<Salesperson[]> {
     try {
-        const response = await fetchJSON<{
-            list: Salesperson[]
-        }>('/api/sales/rep/list/chums/condensed', {cache: 'no-cache'});
+        const url = '/api/sales/rep/list/chums/condensed';
+        const response = await fetchJSON<{ list: Salesperson[] }>(url, {cache: 'no-cache'});
         return (response.list ?? []).filter(rep => !!rep.active);
     } catch (err) {
         if (err instanceof Error) {
@@ -134,7 +135,8 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
             auth.setToken(token);
         }
         const body = JSON.stringify({token});
-        const response = await fetchJSON<UserProfileResponse>(API_PATH_LOGIN_GOOGLE, {
+        const url = '/api/user/b2b/login/google';
+        const response = await fetchJSON<UserProfileResponse>(url, {
             method: 'POST',
             body,
             credentials: 'omit'
@@ -183,7 +185,8 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
 export async function postResetPassword(arg: string): Promise<boolean> {
     try {
         const body = JSON.stringify({email: arg});
-        const response = await fetchJSON<{ success: boolean }>(API_PATH_PASSWORD_RESET, {
+        const url = '/api/user/b2b/login/reset-password';
+        const response = await fetchJSON<{ success: boolean }>(url, {
             method: 'POST',
             body,
             credentials: 'omit'

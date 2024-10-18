@@ -1,13 +1,10 @@
-const {merge} = require('webpack-merge');
-const common = require('./webpack.common.cjs');
-const path = require('path');
-const webpack = require('webpack');
-
-process.traceDeprecation = true;
+import {merge} from 'webpack-merge';
+import common from './webpack.common.mjs';
+import path from 'node:path';
+import process from 'node:process'
 
 const localProxy = {
     target: 'http://localhost:8081',
-    // ignorePath: false,
     changeOrigin: true,
     secure: false,
 };
@@ -29,14 +26,13 @@ const clientConfig = {
                 runtimeErrors: (error) => {
                     console.log(error);
                     return error instanceof DOMException && error.name === 'ResizeObserver';
-
                 }
             }
         },
         historyApiFallback: true,
         static: [
-            {directory: path.join(__dirname, 'public'), watch: false},
-            {directory: path.join(__dirname), watch: false}
+            {directory: path.join(process.cwd(), 'public'), watch: false},
+            {directory: path.join(process.cwd()), watch: false}
         ],
         hot: true,
         proxy: [
@@ -60,4 +56,4 @@ const clientConfig = {
     }
 }
 
-module.exports = merge(common, clientConfig);
+export default merge(common, clientConfig);

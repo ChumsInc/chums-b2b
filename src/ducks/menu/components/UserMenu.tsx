@@ -4,7 +4,6 @@ import {selectCurrentAccess, selectLoggedIn} from "../../user/selectors";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItemRouterLink from "./MenuItemRouterLink";
-import GoogleSignInOneTap from "../../user/components/GoogleSignInOneTap";
 import UserAvatar from "../../user/components/UserAvatar";
 import {generatePath} from "react-router-dom";
 
@@ -40,7 +39,7 @@ const UserMenu = () => {
                 <Menu id={menuId} open={open} onClose={handleClose} anchorEl={anchorEl}
                       MenuListProps={{'aria-labelledby': buttonId}}>
                     <MenuItemRouterLink to="/login">Login</MenuItemRouterLink>
-                    <GoogleSignInOneTap onDone={handleClose}/>
+                    {/*<GoogleSignInOneTap onDone={handleClose}/>*/}
                 </Menu>
             </>
         )

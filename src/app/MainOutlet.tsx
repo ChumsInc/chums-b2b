@@ -10,6 +10,7 @@ import Footer from "./Footer";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import SiteMessages from "../ducks/messages/SiteMessages";
+import GoogleSignInOneTap from "../ducks/user/components/GoogleSignInOneTap";
 
 
 const MainOutlet = () => {
@@ -22,6 +23,7 @@ const MainOutlet = () => {
                 <SiteMessages />
                 <Container maxWidth="xl">
                     {loggedIn && <AppUpdateLocalLogin/>}
+                    {!loggedIn && <GoogleSignInOneTap />}
                     <AlertList/>
                     <ErrorBoundary>
                         <Outlet/>

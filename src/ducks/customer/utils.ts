@@ -4,8 +4,9 @@ import {CustomerState} from "./index";
 import {
     customerContactSorter, customerPaymentCardSorter,
     customerPriceRecordSorter,
-    customerShipToSorter, customerUserSorter, defaultShipToSort,
+    customerShipToSorter, customerUserSorter, defaultCustomerUserSort, defaultShipToSort,
 } from "../../utils/customer";
+import {SortProps} from "../../types/generic";
 
 export const addressFromShipToAddress = (address:ShipToAddress|null):CustomerAddress => {
     return {
@@ -78,7 +79,7 @@ export const customerResponseToState = (payload:FetchCustomerResponse|null, stat
         nextState.shipTo = shipTo ?? null;
     }
     nextState.paymentCards = [...(payload?.paymentCards ?? [])].sort(customerPaymentCardSorter);
-    nextState.users = [...(payload?.users ?? [])].sort(customerUserSorter);
+    nextState.users = [...(payload?.users ?? [])].sort(customerUserSorter(defaultCustomerUserSort));
     return nextState;
 }
 
@@ -92,3 +93,5 @@ export const filterShipToByUserAccount = (access:UserCustomerAccess|null) => (ad
     return [address.SalespersonDivisionNo, '%'].includes(access.SalespersonDivisionNo)
         && [address.SalespersonNo, '%'].includes(access.SalespersonNo)
 }
+
+// export const customerUserSorter = (sort:SortProps<Cu>)

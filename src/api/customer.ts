@@ -6,6 +6,7 @@ import {sageCompanyCode} from "../utils/customer";
 import {CustomerPermissions} from "../types/customer";
 
 
+
 export async function fetchCustomerAccount({ARDivisionNo, CustomerNo}: CustomerKey): Promise<FetchCustomerResponse> {
     try {
         const url = `/api/sales/b2b/account/chums/${encodeURIComponent(ARDivisionNo)}-${encodeURIComponent(CustomerNo)}`
@@ -25,17 +26,29 @@ export async function fetchCustomerAccount({ARDivisionNo, CustomerNo}: CustomerK
     }
 }
 
-export async function postAddCustomerUserLocation(arg:CustomerUser, customer:CustomerKey): Promise<CustomerUser[]> {
+export async function fetchCustomerUsers(customerKey:string):Promise<CustomerUser[]> {
+    try {
+        const url = '/api/user/v2/b2b/:customerKey/users.json'
+            .replace(':customerKey', encodeURIComponent(customerKey));
+        const response = await fetchJSON<{ users: CustomerUser[] }>(url, {cache: 'no-cache'});
+        return response?.users ?? [];
+    } catch(err:unknown) {
+        if (err instanceof Error) {
+            console.debug("fetchCustomerUsers()", err.message);
+            return Promise.reject(err);
+        }
+        console.debug("fetchCustomerUsers()", err);
+        return Promise.reject(new Error('Error in fetchCustomerUsers()'));
+    }
+}
+
+export async function postAddCustomerUserLocation(arg:CustomerUser, customerKey:string): Promise<CustomerUser[]> {
     try {
         if (!arg.shipToCode?.[0]) {
             return Promise.reject(new Error('Invalid Ship-To code'));
         }
-        const url = '/api/user/b2b/users/:Company/:ARDivisionNo-:CustomerNo/:id/:ShipToCode'
-            .replace(':Company', 'chums')
-            .replace(':ARDivisionNo', encodeURIComponent(customer.ARDivisionNo))
-            .replace(':CustomerNo', encodeURIComponent(customer.CustomerNo))
-            .replace(':id', arg.id ? encodeURIComponent(arg.id) : '')
-            .replace(':ShipToCode', encodeURIComponent(arg.shipToCode[0]));
+        const url = '/api/user/v2/b2b/:customerKey/users.json'
+            .replace(':customerKey', customerKey)
         const method = 'POST';
         const body = JSON.stringify(arg);
         const response = await fetchJSON<{ users: CustomerUser[] }>(url, {method, body});
@@ -50,16 +63,19 @@ export async function postAddCustomerUserLocation(arg:CustomerUser, customer:Cus
     }
 }
 
-export async function postCustomerUser(arg: CustomerUser, customer: CustomerKey): Promise<CustomerUser[]> {
+export async function postCustomerUser(arg: CustomerUser, customerKey: string): Promise<CustomerUser[]> {
     try {
-        if (!!arg.id && arg.shipToCode?.length === 1) {
-            return await postAddCustomerUserLocation(arg, customer);
+        if (arg.id && arg.shipToCode?.length === 1) {
+            // in this case we are adding a ship-to location to an existing user.
+            return await postAddCustomerUserLocation(arg, customerKey);
         }
-        const url = '/api/user/b2b/users/:Company/:ARDivisionNo-:CustomerNo/:id'
-            .replace(':Company', 'chums')
-            .replace(':ARDivisionNo', encodeURIComponent(customer.ARDivisionNo))
-            .replace(':CustomerNo', encodeURIComponent(customer.CustomerNo))
-            .replace(':id', arg.id ? encodeURIComponent(arg.id) : '');
+        const urlBase = arg.id
+            ? '/api/user/v2/b2b/:customerKey/users/:id.json'
+            : '/api/user/v2/b2b/:customerKey/users.json';
+        const _customerKey = customerKey + (arg.shipToCode?.length ? `-${arg.shipToCode[0]}` : '');
+        const url = urlBase
+            .replace(':customerKey', encodeURIComponent(_customerKey))
+            .replace(':id', encodeURIComponent(arg.id))
         const method = arg.id ? 'PUT' : 'POST';
         const body = JSON.stringify(arg);
         const response = await fetchJSON<{ users: CustomerUser[] }>(url, {method, body});
@@ -76,11 +92,10 @@ export async function postCustomerUser(arg: CustomerUser, customer: CustomerKey)
 
 export async function deleteCustomerUser(arg: CustomerUser, customer: CustomerKey): Promise<CustomerUser[]> {
     try {
-        const url = '/api/user/b2b/users/:Company/:ARDivisionNo-:CustomerNo/:email'
-            .replace(':Company', 'chums')
-            .replace(':ARDivisionNo', encodeURIComponent(customer.ARDivisionNo))
-            .replace(':CustomerNo', encodeURIComponent(customer.CustomerNo))
-            .replace(':email', encodeURIComponent(arg.email));
+        const customerKey = `${customer.ARDivisionNo}-${customer.CustomerNo}`;
+        const url = '/api/user/v2/b2b/:customerKey/users/:id.json'
+            .replace(':customerKey', encodeURIComponent(customerKey))
+            .replace(':id', encodeURIComponent(arg.id));
         const response = await fetchJSON<{ users: CustomerUser[] }>(url, {method: 'delete'});
         return response.users ?? [];
     } catch (err: unknown) {

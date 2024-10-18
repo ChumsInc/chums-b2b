@@ -8,7 +8,7 @@ export async function fetchCustomerList(arg:UserCustomerAccess):Promise<Customer
         if (!arg.isRepAccount) {
             return [];
         }
-        const url = API_PATH_CUSTOMER_LIST
+        const url = '/api/sales/b2b/account-list/:Company/:SalespersonDivisionNo-:SalespersonNo'
             .replace(':Company', encodeURIComponent('chums'))
             .replace(':SalespersonDivisionNo', encodeURIComponent(arg.SalespersonDivisionNo))
             .replace(':SalespersonNo', encodeURIComponent(arg.SalespersonNo));

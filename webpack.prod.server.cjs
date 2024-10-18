@@ -1,5 +1,5 @@
 const {merge} = require('webpack-merge');
-const common = require('./webpack.common.cjs');
+const common = require('./webpack.common.mjs');
 const path = require('path');
 const TerserPlugin = require("terser-webpack-plugin");
 

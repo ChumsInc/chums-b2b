@@ -1,6 +1,6 @@
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+import {TsconfigPathsPlugin} from 'tsconfig-paths-webpack-plugin';
 
-module.exports = {
+export default {
     module: {
         rules: [
             {
@@ -8,11 +8,6 @@ module.exports = {
                 use: ['ts-loader'],
                 exclude: /node_modules/,
             },
-            // {
-            //     test: /\.js$/,
-            //     use: ['ts-loader'],
-            //     exclude: /node_modules/,
-            // },
             {
                 test: /\.css$/,
                 use: [
