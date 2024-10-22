@@ -22,7 +22,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 
-const newUser: CustomerUser = {id: 0, name: '', email: '', accountType: 4};
+const newUser: CustomerUser = {id: 0, accessId: 0, name: '', email: '', accountType: 4};
 
 const EditAccountUserForm = () => {
     const dispatch = useAppDispatch();
