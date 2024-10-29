@@ -18,7 +18,6 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import AccountListContainer from "../ducks/customers/components/AccountListContainer";
 import {useAppDispatch, useAppSelector} from "./configureStore";
-import RepResourcesRedirect from "../ducks/page/RepResourcesRedirect";
 import MainOutlet from "./MainOutlet";
 import ProductRouter from "../ducks/products/components/ProductRouter";
 import BillToForm from "../ducks/customer/components/BillToForm";
