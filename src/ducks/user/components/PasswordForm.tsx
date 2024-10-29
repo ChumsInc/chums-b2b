@@ -16,6 +16,9 @@ export interface PasswordFormProps {
     onCancel: () => void;
 }
 
+const maxPasswordLength = 256;
+const minPasswordLength = 8;
+
 const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: PasswordFormProps) => {
     const isSSR = useIsSSR();
     const [oldPassword, setOldPassword] = useState<string>('');
@@ -46,6 +49,7 @@ const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: Pa
                            InputProps={{autoComplete: 'username'}}/>
                 {!isPasswordReset && (
                     <PasswordTextField type="password" label="Old Password" variant="filled"
+                                       inputProps={{maxLength: maxPasswordLength, minLength: minPasswordLength}}
                                        fullWidth required InputProps={{autoComplete: 'current-password'}}
                                        value={oldPassword} onChange={(ev) => setOldPassword(ev.target.value)}
                     />
@@ -54,12 +58,12 @@ const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: Pa
                                    fullWidth required
                                    value={password1} onChange={(ev) => setPassword1(ev.target.value)}
                                    InputProps={{autoComplete: 'new-password'}}
-                                   inputProps={{maxLength: 128}}
+                                   inputProps={{maxLength: maxPasswordLength, minLength: minPasswordLength}}
                                    FormHelperTextProps={{component: 'div'}}/>
                 <PasswordTextField type="password" label="Confirm New Password" variant="filled"
                                    fullWidth required InputProps={{autoComplete: 'new-password'}}
                                    value={password2} onChange={(ev) => setPassword2(ev.target.value)}
-                                   inputProps={{maxLength: 128}}
+                                   inputProps={{maxLength: maxPasswordLength, minLength: minPasswordLength}}
                                    helperText={password2 !== password1 ? 'Your new passwords do not match' : ''}/>
                 <Stack direction="row" justifyContent="flex-end" spacing={2}>
                     <Button type="button" variant="text" onClick={onCancel}>Cancel</Button>

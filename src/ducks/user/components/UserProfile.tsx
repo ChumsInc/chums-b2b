@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {loadProfile, logout, saveUserProfile} from "../actions";
+import {loadProfile, logoutUser, saveUserProfile} from "../actions";
 import {AUTH_GOOGLE, AUTH_LOCAL} from "../../../constants/app";
 import {useAppDispatch} from "../../../app/configureStore";
 import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "../selectors";
@@ -63,7 +63,7 @@ const UserProfile = () => {
         dispatch(loadProfile());
     }
     const logoutHandler = () => {
-        dispatch(logout());
+        dispatch(logoutUser());
     }
 
     const renderEmailLockIcon = () => {

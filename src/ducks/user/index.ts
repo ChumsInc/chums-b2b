@@ -14,7 +14,7 @@ import {createReducer, isRejected, UnknownAction} from "@reduxjs/toolkit";
 import {
     changePassword,
     loadProfile,
-    loginUser,
+    loginUser, logoutUser,
     resetPassword,
     saveUserProfile,
     setLoggedIn, setNewPassword,
@@ -55,7 +55,7 @@ export interface UserState {
     signUp: UserSignupState;
     authType: string;
     passwordChange: UserPasswordState;
-    actionStatus: LoadStatus | 'saving-profile' | 'resetting-password' | 'logging-in' | 'setting-password';
+    actionStatus: LoadStatus | 'saving-profile' | 'resetting-password' | 'logging-in' | 'setting-password' | 'logging-out';
 }
 
 export const initialUserState = (): UserState => {
@@ -122,13 +122,13 @@ const userReducer = createReducer(initialUserState, (builder) => {
             state.actionStatus = 'idle';
         })
         .addCase(updateLocalAuth.pending, (state) => {
-            state.actionStatus === 'logging-in';
+            state.actionStatus = 'logging-in';
         })
         .addCase(updateLocalAuth.fulfilled, (state) => {
-            state.actionStatus === 'idle';
+            state.actionStatus = 'idle';
         })
         .addCase(updateLocalAuth.rejected, (state) => {
-            state.actionStatus === 'idle';
+            state.actionStatus = 'idle';
         })
         .addCase(setLoggedIn, (state, action) => {
             if (!state.loggedIn && action.payload?.loggedIn) {
@@ -273,6 +273,15 @@ const userReducer = createReducer(initialUserState, (builder) => {
             }
         })
         .addCase(changePassword.rejected, (state) => {
+            state.actionStatus = 'idle';
+        })
+        .addCase(logoutUser.pending, (state) => {
+            state.actionStatus = 'logging-out';
+        })
+        .addCase(logoutUser.fulfilled, (state) => {
+            state.actionStatus = 'idle';
+        })
+        .addCase(logoutUser.rejected, (state) => {
             state.actionStatus = 'idle';
         })
         .addMatcher((action) => isUserAction(action) && isRejected(action) && !!action.error,

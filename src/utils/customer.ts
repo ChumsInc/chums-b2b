@@ -315,8 +315,24 @@ export const customerPaymentCardSorter = (a: CustomerPaymentCard, b: CustomerPay
     return a.CreditCardGUID > b.CreditCardGUID ? 1 : -1;
 }
 
-export const customerUserSorter = (a: CustomerUser, b: CustomerUser) => {
-    return a.id - b.id;
+export const defaultCustomerUserSort:SortProps<CustomerUser> = {field: 'id', ascending: true};
+
+export const customerUserSorter = ({field, ascending}:SortProps<CustomerUser>) => (a: CustomerUser, b: CustomerUser) => {
+    const sortMod = ascending ? 1 : -1;
+    switch (field) {
+        case 'name':
+            return (
+                a[field].toLowerCase() === b[field].toLowerCase()
+                    ? (a.email.toLowerCase() > b.email.toLowerCase() ? 1 : -1)
+                    : (a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1)
+            ) * sortMod;
+
+        case 'email':
+            // email is a unique field for users
+            return (a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1) * sortMod;
+        default:
+            return (a.id - b.id) * sortMod;
+    }
 }
 
 export const customerSlug = (customer: CustomerKey | null): string | null => {

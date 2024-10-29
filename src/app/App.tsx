@@ -18,7 +18,6 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import AccountListContainer from "../ducks/customers/components/AccountListContainer";
 import {useAppDispatch, useAppSelector} from "./configureStore";
-import RepResourcesRedirect from "../ducks/page/RepResourcesRedirect";
 import MainOutlet from "./MainOutlet";
 import ProductRouter from "../ducks/products/components/ProductRouter";
 import BillToForm from "../ducks/customer/components/BillToForm";
@@ -45,6 +44,7 @@ import {auth} from "../api/IntranetAuthService";
 import {useLocation} from "react-router";
 import {sendGtagEvent} from "../api/gtag";
 import {selectAppNonce} from "../ducks/app/selectors";
+import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
 
 
 const App = () => {
@@ -119,8 +119,9 @@ const App = () => {
                                                 <Route index element={<BillToForm/>}/>
                                                 <Route path="delivery" element={<ShipToList/>}/>
                                                 <Route path="delivery/:shipToCode" element={<ShipToForm/>}/>
-                                                <Route path="users" element={<AccountUsers/>}/>
-                                                <Route path="users/:id" element={<AccountUsers/>}/>
+                                                <Route path="users" element={<AccountUsers/>}>
+                                                    <Route path=":id?" element={<EditAccountUserForm/>}/>
+                                                </Route>
                                                 <Route path="carts" element={<CartsList/>}/>
                                                 <Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>
                                                 <Route path="orders" element={<OpenOrdersList/>}/>

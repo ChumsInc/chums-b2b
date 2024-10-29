@@ -1,9 +1,7 @@
-const {merge} = require('webpack-merge');
-const common = require('./webpack.common.cjs');
-const path = require('path');
-const webpack = require('webpack');
-
-const buildDir = path.resolve(__dirname, './dist');
+import {merge} from 'webpack-merge';
+import common from './webpack.common.mjs';
+import path from 'node:path';
+import process from 'node:process';
 
 const serverConfig = {
     target: 'node',
@@ -14,11 +12,11 @@ const serverConfig = {
     },
     devtool: 'inline-source-map',
     output: {
-        path: buildDir,
+        path: path.resolve(process.cwd(), './dist'),
         filename: "[name].js",
         sourceMapFilename: '[file].map',
         publicPath: '/',
     },
 }
 
-module.exports = merge(common, serverConfig);
+export default merge(common, serverConfig);

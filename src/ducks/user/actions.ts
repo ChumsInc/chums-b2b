@@ -143,8 +143,8 @@ export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string>(
     }
 )
 
-export const logout = createAsyncThunk<void>(
-    'user/logout',
+export const logoutUser = createAsyncThunk<void>(
+    'user/logoutUser',
     async (_arg, {dispatch}) => {
         await postLogout();
         auth.logout();
@@ -154,6 +154,12 @@ export const logout = createAsyncThunk<void>(
         localStore.removeItem(STORE_CURRENT_CART);
         localStore.removeItem(STORE_CUSTOMER_SHIPPING_ACCOUNT);
         dispatch(setLoggedIn({loggedIn: false}));
+    },
+    {
+        condition: (arg, {getState}) => {
+            const state = getState() as RootState;
+            return selectUserActionStatus(state) === 'idle';
+        }
     }
 )
 

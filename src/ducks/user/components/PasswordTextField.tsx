@@ -6,8 +6,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
-export interface PasswordInputProps extends FilledTextFieldProps {
-}
+export type PasswordInputProps = FilledTextFieldProps;
 
 const PasswordTextField = React.forwardRef<HTMLInputElement, PasswordInputProps>(
     function PasswordInput(props: PasswordInputProps, ref) {

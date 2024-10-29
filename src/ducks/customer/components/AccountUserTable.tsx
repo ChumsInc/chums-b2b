@@ -51,7 +51,7 @@ const AccountUserTable = () => {
                 <TableBody>
                     {users
                         .filter(u => u.id !== 0)
-                        .sort(customerUserSorter)
+                        .sort(customerUserSorter({field: 'name', ascending: true}))
                         .slice(page * 10, page * 10 + 10)
                         .map(user => (
                             <TableRow key={user.id}

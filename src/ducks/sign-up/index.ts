@@ -23,9 +23,9 @@ const signUpReducer = createReducer(initialState(), builder => {
         .addCase(signUpUser.pending, (state) => {
             state.status = 'saving';
         })
-        .addCase(signUpUser.fulfilled, (state) => {
-            state.status = 'success';
-
+        .addCase(signUpUser.fulfilled, (state, action) => {
+            state.status = action.payload?.success ? 'success' : 'rejected';
+            state.error = action.payload?.message ?? 'An unexpected error occurred';
         })
         .addCase(signUpUser.rejected, (state, action) => {
             state.status = 'rejected';

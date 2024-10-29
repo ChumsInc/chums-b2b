@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch} from "../app/configureStore";
-import {logout} from "../ducks/user/actions";
+import {logoutUser} from "../ducks/user/actions";
 import {useNavigate} from "react-router";
 
-const Logout = () => {
+export default function Logout() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(logout())
+        dispatch(logoutUser())
             .then(() => {
                 navigate('/login');
             })
@@ -18,5 +18,3 @@ const Logout = () => {
         <div>Logging out.</div>
     );
 }
-
-export default Logout;

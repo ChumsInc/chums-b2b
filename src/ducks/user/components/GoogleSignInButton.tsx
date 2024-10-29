@@ -14,10 +14,10 @@ const GoogleSignInButton = () => {
         }
     }
 
-
     return (
-        <GoogleLogin onSuccess={handleGoogleResponse} useOneTap use_fedcm_for_prompt={true} nonce={nonce ?? undefined}/>
+        <GoogleLogin onSuccess={handleGoogleResponse} use_fedcm_for_prompt={true} nonce={nonce ?? undefined}/>
     )
 }
 
+GoogleSignInButton.displayName = 'GoogleSignInButton';
 export default GoogleSignInButton;
