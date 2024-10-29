@@ -40,3 +40,8 @@ export interface SignUpUser {
     address: CustomerAddress|null;
     agreeToPolicy: boolean;
 }
+
+export interface SignUpResponse {
+    success: boolean;
+    message: string;
+}

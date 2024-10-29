@@ -201,7 +201,9 @@ export async function fetchCustomerValidation({ARDivisionNo, CustomerNo}:{
     CustomerNo: string;
 }):Promise<CustomerPermissions|null> {
     try {
-        const url = `/api/user/b2b/validate/customer/chums/${encodeURIComponent(ARDivisionNo)}-${encodeURIComponent(CustomerNo)}`;
+        const customerKey = `${encodeURIComponent(ARDivisionNo)}-${encodeURIComponent(CustomerNo)}`;
+        const url = `/api/user/v2/b2b/validate/customer/:customerKey.json`
+            .replace(':customerKey', customerKey);
         const response = await fetchJSON<CustomerPermissions>(url, {cache: 'no-cache'});
         return response ?? null;
     } catch(err) {

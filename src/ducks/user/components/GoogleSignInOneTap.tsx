@@ -1,31 +1,37 @@
 import React from 'react';
 import {signInWithGoogle} from "../actions";
 import {useAppDispatch} from "../../../app/configureStore";
-import {useGoogleOneTapLogin} from "@react-oauth/google";
+import {CredentialResponse, useGoogleOneTapLogin,} from "@react-oauth/google";
 
-const GoogleSignInOneTap = ({onDone}: { onDone?: () => void }) => {
+export default function GoogleSignInOneTap({onDone}: { onDone?: () => void }) {
     const dispatch = useAppDispatch();
 
+    const successHandler = (credentialResponse: CredentialResponse) => {
+        if (credentialResponse?.credential) {
+            dispatch(signInWithGoogle(credentialResponse.credential));
+        }
+        if (onDone) {
+            onDone();
+        }
+    }
+
+    const errorHandler = () => {
+        if (onDone) {
+            onDone();
+        }
+    }
+
+    // if (loggedIn) {
+    //     return null;
+    // }
+
     useGoogleOneTapLogin({
-        onSuccess: credentialResponse => {
-            if (credentialResponse?.credential) {
-                dispatch(signInWithGoogle(credentialResponse.credential));
-            }
-            if (onDone) {
-                onDone();
-            }
-        },
-        onError: () => {
-            if (onDone) {
-                onDone();
-            }
-        },
+        onSuccess: successHandler,
+        onError: errorHandler,
         use_fedcm_for_prompt: true,
     })
 
     return (
-        <span/>
+        <span data-logged-in={false}/>
     )
 }
-
-export default GoogleSignInOneTap;

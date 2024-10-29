@@ -7,7 +7,7 @@ import {
     UserProfileResponse
 } from "../ducks/user/types";
 import {allowErrorResponseHandler, fetchJSON} from "./fetch";
-import {LocalAuth, SignUpUser, StoredProfile} from "../types/user";
+import {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "../types/user";
 import {auth} from './IntranetAuthService';
 import {getSignInProfile, isTokenExpired} from "../utils/jwtHelper";
 import localStore from "../utils/LocalStore";
@@ -19,16 +19,11 @@ import {LoadProfileProps, SignUpProfile} from "../ducks/sign-up/types";
 import {APIErrorResponse} from "../types/generic";
 import {configGtag, sendGtagEvent} from "./gtag";
 
-export const API_PATH_LOGIN_GOOGLE = '/api/user/b2b/login/google';
-export const API_PATH_LOGIN_LOCAL = '/api/user/b2b/login/local';
-export const API_PATH_LOGIN_LOCAL_REAUTH = '/api/user/b2b/auth/update';
-export const API_PATH_PASSWORD_RESET = '/api/user/b2b/login/reset-password';
-
 
 export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorResponse> {
     try {
         const body = JSON.stringify(arg);
-        const url = '/api/user/b2b/login/local';
+        const url = '/api/user/v2/b2b/login/local.json';
         const res = await fetchJSON<{ token: string }>(url, {
             method: 'POST',
             body,
@@ -52,7 +47,7 @@ export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorR
 
 export async function postLocalReauth(): Promise<string> {
     try {
-        const url = '/api/user/b2b/auth/update';
+        const url = '/api/user/v2/b2b/auth/renew.json';
         const res = await fetchJSON<{ token: string }>(url, {method: 'POST'});
         return res.token;
     } catch (err: unknown) {
@@ -67,9 +62,9 @@ export async function postLocalReauth(): Promise<string> {
 
 export async function fetchUserProfile(): Promise<UserProfileResponse> {
     try {
-        const response = await fetchJSON<FunkyUserProfileResponse>('/api/user/b2b/profile', {cache: 'no-cache'});
+        const url = '/api/user/v2/b2b/profile.json';
+        const response = await fetchJSON<UserProfileResponse>(url, {cache: 'no-cache'});
         response.reps = [];
-        response.roles = response.roles?.map(role => isUserRole(role) ? role.role : role);
         if (response.user?.accountType === 1) {
             response.reps = await fetchRepList();
         }
@@ -87,8 +82,9 @@ export async function fetchUserProfile(): Promise<UserProfileResponse> {
 
 export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<UserProfileResponse> {
     try {
+        const url = '/api/user/v2/b2b/profile.json';
         const body = JSON.stringify(arg);
-        const response = await fetchJSON<FunkyUserProfileResponse>('/api/user/b2b/profile', {method: 'PUT', body});
+        const response = await fetchJSON<FunkyUserProfileResponse>(url, {method: 'PUT', body});
         response.reps = [];
         response.roles = response.roles?.map(role => isUserRole(role) ? role.role : role);
         if (response.user?.accountType === 1) {
@@ -98,6 +94,7 @@ export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<U
             try {
                 const decoded = jwtDecode(response.token);
                 response.expires = decoded.exp;
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err: unknown) {
                 //do nothing
             }
@@ -135,7 +132,7 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
             auth.setToken(token);
         }
         const body = JSON.stringify({token});
-        const url = '/api/user/b2b/login/google';
+        const url = '/api/user/v2/b2b/login/google.json';
         const response = await fetchJSON<UserProfileResponse>(url, {
             method: 'POST',
             body,
@@ -150,6 +147,7 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
             try {
                 const decoded = jwtDecode(response.token);
                 response.expires = decoded.exp;
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err: unknown) {
                 // do nothing
             }
@@ -185,7 +183,7 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
 export async function postResetPassword(arg: string): Promise<boolean> {
     try {
         const body = JSON.stringify({email: arg});
-        const url = '/api/user/b2b/login/reset-password';
+        const url = '/api/user/v2/b2b/login/reset-password.json';
         const response = await fetchJSON<{ success: boolean }>(url, {
             method: 'POST',
             body,
@@ -204,7 +202,7 @@ export async function postResetPassword(arg: string): Promise<boolean> {
 
 export async function fetchSignUpProfile(arg: LoadProfileProps): Promise<SignUpProfile | APIErrorResponse | null> {
     try {
-        const url = '/api/user/b2b/signup/:hash/:key'
+        const url = '/api/user/v2/b2b/signup/:hash/:key.json'
             .replace(':hash', encodeURIComponent(arg.hash))
             .replace(':key', encodeURIComponent(arg.key));
         const res = await fetchJSON<{
@@ -225,13 +223,13 @@ export async function fetchSignUpProfile(arg: LoadProfileProps): Promise<SignUpP
     }
 }
 
-export async function postSignUpUser(arg: SignUpUser): Promise<unknown> {
+export async function postSignUpUser(arg: SignUpUser): Promise<SignUpResponse|null> {
     try {
         const email = arg.email;
-        const url = '/api/user/b2b/signup/:email'
+        const url = '/api/user/v2/b2b/signup.json'
             .replace(':email', encodeURIComponent(email));
         const body = JSON.stringify(arg);
-        const res = await fetchJSON<unknown>(url, {method: 'POST', body});
+        const res = await fetchJSON<SignUpResponse>(url, {method: 'POST', body});
         sendGtagEvent('sign_up');
         return res;
     } catch (err: unknown) {
@@ -246,7 +244,7 @@ export async function postSignUpUser(arg: SignUpUser): Promise<unknown> {
 
 export async function postPasswordChange(arg: ChangePasswordProps): Promise<ChangePasswordResponse> {
     try {
-        const url = '/api/user/b2b/password';
+        const url = '/api/user/v2/b2b/password.json';
         const body = JSON.stringify(arg);
         return await fetchJSON<ChangePasswordResponse>(url, {
             method: 'POST',
@@ -265,7 +263,7 @@ export async function postPasswordChange(arg: ChangePasswordProps): Promise<Chan
 
 export async function postNewPassword(arg: SetNewPasswordProps): Promise<ChangePasswordResponse | null> {
     try {
-        const url = `/api/user/b2b/signup/:hash/:key`
+        const url = `/api/user/v2/b2b/signup/:hash/:key.json`
             .replace(':hash', encodeURIComponent(arg.hash))
             .replace(':key', encodeURIComponent(arg.key));
         const body = JSON.stringify({newPassword: arg.newPassword});
@@ -287,7 +285,7 @@ export async function postNewPassword(arg: SetNewPasswordProps): Promise<ChangeP
 
 export async function postLogout(): Promise<void> {
     try {
-        const url = '/api/user/b2b/logout';
+        const url = '/api/user/v2/b2b/logout.json';
         await fetchJSON(url, {method: 'POST', responseHandler: allowErrorResponseHandler});
     } catch (err: unknown) {
         if (err instanceof Error) {

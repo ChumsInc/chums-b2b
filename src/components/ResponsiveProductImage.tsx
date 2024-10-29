@@ -20,7 +20,6 @@ const ResponsiveProductImage = ({
                                     preferredSize,
                                     src,
                                     alt,
-                                    loading,
                                     srcSet,
                                     sizes,
                                     ...rest

@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {SignUpUser} from "../../types/user";
+import {SignUpResponse, SignUpUser} from "../../types/user";
 import {fetchSignUpProfile, postSignUpUser} from "../../api/user";
 import {RootState} from "../../app/configureStore";
 import isEmail from "validator/lib/isEmail";
@@ -7,8 +7,8 @@ import {selectSignUpStatus} from "./selectors";
 import {LoadProfileProps, SignUpProfile} from "./types";
 import {APIErrorResponse} from "../../types/generic";
 
-export const signUpUser = createAsyncThunk<unknown, SignUpUser>(
-    'sign-up/saveUser',
+export const signUpUser = createAsyncThunk<SignUpResponse|null, SignUpUser>(
+    'sign-up/signUpUser',
     async (arg) => {
         return await postSignUpUser(arg);
     },
@@ -21,7 +21,7 @@ export const signUpUser = createAsyncThunk<unknown, SignUpUser>(
 )
 
 export const loadSignUpProfile = createAsyncThunk<SignUpProfile | APIErrorResponse | null, LoadProfileProps>(
-    'sign-up/loadProfile',
+    'sign-up/loadSignUpProfile',
     async (arg) => {
         return await fetchSignUpProfile(arg);
     },
