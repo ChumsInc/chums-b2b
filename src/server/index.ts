@@ -50,6 +50,9 @@ app.use(handleInvalidURL);
 
 app.get('/products/:category?/:product?', renderAppProductPage);
 app.get('/pages/:keyword', renderAppContentPage);
+app.get('/*.*', (req, res) => {
+    res.status(404).json({error: 'Not Found', status: 404});
+})
 app.get('/*', renderApp);
 
 app.use((req, res) => {
