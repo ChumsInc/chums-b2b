@@ -6,7 +6,9 @@ import B2BError from "../types/generic";
 import localStore from "../utils/LocalStore";
 import {STORE_VERSION} from "../constants/stores";
 import 'isomorphic-fetch';
+import 'whatwg-fetch'
 import {sendGtagEvent} from "./gtag";
+
 
 function getCredentials():string|null {
     const token = auth.getToken();
@@ -60,27 +62,36 @@ export async function allowErrorResponseHandler<T = unknown>(res:Response):Promi
     }
 }
 
-export interface FetchJSONOptions extends RequestInit {
-    responseHandler?: <T = unknown>(res:Response) => Promise<T>;
-}
 
-export async function fetchJSON<T = unknown>(url:string, options:FetchJSONOptions = {}):Promise<T> {
+export type ResponseHandler = <T = unknown>(res:Response) => Promise<T>;
+
+export async function fetchJSON<T = unknown>(url:string, {headers, body, ...requestInit}:RequestInit = {}, responseHandler?:ResponseHandler):Promise<T> {
     try {
-        const {responseHandler, ..._options} = options;
-        _options.headers = new Headers(_options?.headers);
-        if (!_options.credentials || _options.credentials === 'same-origin') {
+        const options:RequestInit = {...requestInit};
+
+        if (!options.method) {
+            options.method = 'GET';
+        }
+        options.headers = new Headers(headers ?? undefined);
+
+        if (!options.credentials || options.credentials === 'same-origin') {
+            if (!options.credentials) {
+                options.credentials = 'same-origin';
+            }
             const credentials = getCredentials();
             if (credentials) {
-                _options.headers.append('Authorization', credentials);
-                _options.credentials = 'omit';
+                options.headers.append('Authorization', credentials);
             }
         }
-        if (!!_options?.method && ['POST', 'PUT'].includes(_options.method.toUpperCase())) {
-            _options.headers.append('Accept', 'application/json')
-            _options.headers.append('Content-Type', 'application/json')
+
+        options.headers.append('Accept', 'application/json')
+        if (!['HEAD', 'GET'].includes(options.method.toUpperCase())) {
+            options.body = body;
+            options.headers.append('Content-Type', 'application/json')
         }
-        const res = await fetch(url, {..._options});
-        if (typeof responseHandler !== 'undefined') {
+
+        const res = await fetch(url, {...options});
+        if (responseHandler) {
             return responseHandler(res);
         }
         return await handleJSONResponse<T>(res, options.body);
@@ -100,6 +111,9 @@ export async function fetchJSON<T = unknown>(url:string, options:FetchJSONOption
 export async function fetchHTML(url:string, options: RequestInit = {}):Promise<string|undefined> {
     try {
         options.headers = new Headers(options?.headers);
+        if (!options.method) {
+            options.method = 'GET';
+        }
         const credentials = getCredentials();
         if (credentials) {
             options.headers.append('Authorization', credentials)
@@ -140,7 +154,7 @@ export async function postErrors({message, componentStack, userId, fatal}:PostEr
             user_id: userId ?? 0,
             version,
         });
-        await fetchJSON('/api/error-reporting', {method: 'POST', body, responseHandler: allowErrorResponseHandler});
+        await fetchJSON('/api/error-reporting', {method: 'POST', body}, allowErrorResponseHandler);
         sendGtagEvent('exception', {description: message, fatal});
     } catch(err:unknown) {
         if (err instanceof Error) {
