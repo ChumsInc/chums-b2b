@@ -24,12 +24,10 @@ export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorR
     try {
         const body = JSON.stringify(arg);
         const url = '/api/user/v2/b2b/login/local.json';
-        const res = await fetchJSON<{ token: string }>(url, {
-            method: 'POST',
-            body,
-            credentials: 'omit',
-            responseHandler: allowErrorResponseHandler
-        });
+        const res = await fetchJSON<{ token: string }>(url,
+            {method: 'POST', body, credentials: 'omit',},
+            allowErrorResponseHandler
+        );
         if (isErrorResponse(res)) {
             return res;
         }
@@ -184,11 +182,9 @@ export async function postResetPassword(arg: string): Promise<boolean> {
     try {
         const body = JSON.stringify({email: arg});
         const url = '/api/user/v2/b2b/login/reset-password.json';
-        const response = await fetchJSON<{ success: boolean }>(url, {
-            method: 'POST',
-            body,
-            credentials: 'omit'
-        });
+        const response = await fetchJSON<{ success: boolean }>(url,
+            {method: 'POST', body, credentials: 'omit'}
+        );
         return response?.success ?? false;
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -207,7 +203,7 @@ export async function fetchSignUpProfile(arg: LoadProfileProps): Promise<SignUpP
             .replace(':key', encodeURIComponent(arg.key));
         const res = await fetchJSON<{
             user: SignUpProfile
-        } | APIErrorResponse>(url, {responseHandler: allowErrorResponseHandler, cache: 'no-cache'});
+        } | APIErrorResponse>(url, {cache: 'no-cache'}, allowErrorResponseHandler);
         if (isErrorResponse(res)) {
             return res;
         }
@@ -246,11 +242,9 @@ export async function postPasswordChange(arg: ChangePasswordProps): Promise<Chan
     try {
         const url = '/api/user/v2/b2b/password.json';
         const body = JSON.stringify(arg);
-        return await fetchJSON<ChangePasswordResponse>(url, {
-            method: 'POST',
+        return await fetchJSON<ChangePasswordResponse>(url, {method: 'POST',
             body,
-            responseHandler: allowErrorResponseHandler
-        });
+        }, allowErrorResponseHandler);
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("postPasswordChange()", err.message);
@@ -267,11 +261,7 @@ export async function postNewPassword(arg: SetNewPasswordProps): Promise<ChangeP
             .replace(':hash', encodeURIComponent(arg.hash))
             .replace(':key', encodeURIComponent(arg.key));
         const body = JSON.stringify({newPassword: arg.newPassword});
-        const res = await fetchJSON<ChangePasswordResponse>(url, {
-            method: 'POST',
-            body,
-            responseHandler: allowErrorResponseHandler
-        });
+        const res = await fetchJSON<ChangePasswordResponse>(url, {method: 'POST', body,}, allowErrorResponseHandler);
         return res ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -286,7 +276,7 @@ export async function postNewPassword(arg: SetNewPasswordProps): Promise<ChangeP
 export async function postLogout(): Promise<void> {
     try {
         const url = '/api/user/v2/b2b/logout.json';
-        await fetchJSON(url, {method: 'POST', responseHandler: allowErrorResponseHandler});
+        await fetchJSON(url, {method: 'POST'}, allowErrorResponseHandler);
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("postLogout()", err.message);

@@ -36,7 +36,7 @@ export const loadCustomerList = createAsyncThunk<Customer[], UserCustomerAccess 
             const token = auth.getToken();
             return selectLoggedIn(state)
                 && !!arg?.isRepAccount
-                && !selectCustomersLoading(state)
+                && selectCustomersLoading(state) === 'idle'
                 && !isTokenExpired(token);
         }
     }

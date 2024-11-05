@@ -4,14 +4,14 @@ import {loadCustomerList} from '../actions';
 import {longAccountNumber} from "../../../utils/customer";
 import ErrorBoundary from "../../../common-components/ErrorBoundary";
 import {selectCurrentUserAccount,} from "../../user/selectors";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
 import {documentTitles, PATH_PROFILE} from "../../../constants/paths";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Breadcrumb from "../../../components/Breadcrumb";
 import {useLocation, useMatch} from "react-router";
-import {selectCustomersLoaded, selectCustomersLoading} from "../selectors";
+import {selectCustomersLoaded, selectCustomersLoadError, selectCustomersLoading} from "../selectors";
 import Typography from "@mui/material/Typography";
 import AccountListFilters from "./AccountListFilters";
 import AccountListTable from "./AccountListTable";
@@ -23,14 +23,16 @@ const AccountList = () => {
     const userAccount = useSelector(selectCurrentUserAccount);
     const loading = useSelector(selectCustomersLoading);
     const loaded = useSelector(selectCustomersLoaded);
+    const error = useAppSelector(selectCustomersLoadError);
 
 
     useEffect(() => {
         const profileId = +(match?.params.id ?? 0);
-        if (!loading && !loaded && profileId === userAccount?.id) {
+        if (loading === 'idle' && !loaded && profileId === userAccount?.id) {
             dispatch(loadCustomerList(userAccount));
         }
     }, [loading, loaded, match, userAccount, dispatch]);
+
 
 
     if (!userAccount) {
@@ -58,8 +60,9 @@ const AccountList = () => {
             </Typography>
 
             <AccountListFilters/>
+            {!!error && <Alert severity="error">{error}</Alert> }
 
-            {loading && <LinearProgress variant="indeterminate" sx={{my: 1}}/>}
+            {loading === 'loading' && <LinearProgress variant="indeterminate" sx={{my: 1}}/>}
 
             <AccountListTable/>
         </ErrorBoundary>

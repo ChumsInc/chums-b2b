@@ -1,11 +1,12 @@
 import {RootState} from "../../app/configureStore";
 import {createSelector} from "@reduxjs/toolkit";
 import {customerListSorter, shortCustomerKey} from "../../utils/customer";
-import {STATES_USA, StateTerritory} from "../../constants/states";
+import {STATES_USA} from "../../constants/states";
 
 export const selectCustomerList = (state: RootState) => state.customers.list;
 export const selectCustomersLoading = (state: RootState) => state.customers.loading;
 export const selectCustomersLoaded = (state: RootState) => state.customers.loaded;
+export const selectCustomersLoadError = (state:RootState) => state.customers.error;
 export const selectCustomersRepFilter = (state: RootState) => state.customers.filters.rep;
 export const selectCustomersStateFilter = (state: RootState) => state.customers.filters.state;
 export const selectCustomersFilter = (state: RootState) => state.customers.filters.search;
@@ -18,6 +19,7 @@ export const selectFilteredCustomerList = createSelector(
         let filterRegex = /^/;
         try {
             filterRegex = new RegExp(`\\b${filter ?? ''}`, 'i');
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             filterRegex = /^/;
         }

@@ -146,8 +146,13 @@ export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string>(
 export const logoutUser = createAsyncThunk<void>(
     'user/logoutUser',
     async (_arg, {dispatch}) => {
-        await postLogout();
-        auth.logout();
+        try {
+            await Promise.allSettled([postLogout(), auth.logout()])
+        } catch(err:unknown) {
+            if (err instanceof Error) {
+                console.debug("()", err.message);
+            }
+        }
         localStore.removeItem(STORE_CUSTOMER);
         localStore.removeItem(STORE_USER_ACCESS);
         localStore.removeItem(STORE_AUTHTYPE);
@@ -163,7 +168,7 @@ export const logoutUser = createAsyncThunk<void>(
     }
 )
 
-export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCustomerAccess | null>(
+export  const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCustomerAccess | null>(
     'user/access/set',
     async (arg, {dispatch}) => {
         localStore.setItem<UserCustomerAccess | null>(STORE_USER_ACCESS, arg);

@@ -15,12 +15,14 @@ import {auth} from "../../api/IntranetAuthService";
 import localStore from "../../utils/LocalStore";
 import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "../../constants/stores";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
+import {dismissContextAlert} from "../alerts/actions";
 
 export interface CustomersState {
     key: number | null;
     list: Customer[];
-    loading: boolean;
+    loading: 'idle'|'loading'|'rejected';
     loaded: boolean;
+    error: null|string;
     filters: {
         search: string;
         rep: string;
@@ -39,8 +41,9 @@ export const initialUserState = (): CustomersState => {
     return {
         key: null,
         list: [],
-        loading: false,
+        loading: 'idle',
         loaded: false,
+        error: null,
         filters: {
             search: '',
             rep: localStore.getItem<string>(STORE_CUSTOMERS_FILTER_REP, '') ?? '',
@@ -64,16 +67,23 @@ export const customersReducer = createReducer(initialUserState, builder => {
             }
         })
         .addCase(loadCustomerList.pending, (state) => {
-            state.loading = true;
+            state.loading = 'loading';
         })
         .addCase(loadCustomerList.fulfilled, (state, action) => {
-            state.loading = false;
+            state.loading = 'idle';
             state.loaded = true;
             state.list = action.payload.sort(customerListSorter({field: 'CustomerNo', ascending: true}))
         })
         .addCase(loadCustomerList.rejected, (state) => {
             state.list = [];
-            state.loading = false;
+            state.loading = 'rejected';
+            state.error = `Failed to load the customer list, please clear the error to continue.`
+        })
+        .addCase(dismissContextAlert, (state, action) => {
+            if (action.payload === loadCustomerList.typePrefix) {
+                state.loading = 'idle'
+                state.error = null;
+            }
         })
         .addCase(setUserAccess.pending, (state, action) => {
             if (state.key !== action.meta.arg?.id) {
