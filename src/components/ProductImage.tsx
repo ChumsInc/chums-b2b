@@ -2,7 +2,7 @@
  * Created by steve on 11/8/2016.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {parseImageFilename} from '../common/image';
 import {ProductAlternateImage} from "b2b-types";
 import ProductImageList from "./ProductImageList";
@@ -30,13 +30,23 @@ export default function ProductImage({
                                          colorCode = '',
                                          altText = '',
                                      }: ProductImageProps) {
-    const selectedItemHash = `#${selectedItem}`;
-    const filter = /^#[A-Z0-9]+/i;
-    const carouselImages = altImages
-        .filter(img => !!img.status)
-        .filter(img => {
-            return !filter.test(img.altText) || img.altText.includes(selectedItemHash);
-        });
+    const [selectedItemHash, setSelectedItemHash] = useState(`#${selectedItem}`);
+    const [carouselImages, setCarouselImages] = useState<ProductAlternateImage[]>([]);
+
+    useEffect(() => {
+        setSelectedItemHash(`#${selectedItem}`)
+    }, [selectedItemHash]);
+
+    useEffect(() => {
+        const filter = /^#[A-Z0-9]+/i;
+        const carouselImages = altImages
+            .filter(img => !!img.status)
+            .filter(img => {
+                return !filter.test(img.altText) || img.altText.includes(selectedItemHash);
+            });
+        setCarouselImages(carouselImages);
+    }, [selectedItemHash, altImages])
+
 
     const mainImage: ProductAlternateImage = {
         id: 0,
