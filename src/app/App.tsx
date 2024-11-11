@@ -26,7 +26,6 @@ import CustomerUsers from "../ducks/customer/components/CustomerUsers";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ContentPage404 from "../components/ContentPage404";
-import CartsList from "../ducks/open-orders/components/CartsList";
 import OpenOrdersList from "../ducks/open-orders/components/OpenOrdersList";
 import InvoicesList from "../ducks/invoices/components/InvoicesList";
 import ShipToList from "../ducks/customer/components/ShipToList";
@@ -45,6 +44,7 @@ import {useLocation} from "react-router";
 import {sendGtagEvent} from "../api/gtag";
 import {selectAppNonce} from "../ducks/app/selectors";
 import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
+import CartsPage from "@components/carts/CartsPage";
 
 
 const App = () => {
@@ -122,7 +122,7 @@ const App = () => {
                                                 <Route path="users" element={<CustomerUsers/>}>
                                                     <Route path=":id?" element={<EditAccountUserForm/>}/>
                                                 </Route>
-                                                <Route path="carts" element={<CartsList/>}/>
+                                                <Route path="carts" element={<CartsPage/>}/>
                                                 <Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>
                                                 <Route path="orders" element={<OpenOrdersList/>}/>
                                                 <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>

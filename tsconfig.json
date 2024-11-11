@@ -24,7 +24,18 @@
         "sourceMap": true,
         "outDir": "dist",
         "baseUrl": "./src",
-        "newLine": "lf"
+        "newLine": "lf",
+        "paths": {
+            "@src/*": ["./*"],
+            "@api/*": ["./api/*"],
+            "@app/*": ["./app/*"],
+            "@components/*": ["./components/*"],
+            "@constants/*": ["./constants/*"],
+            "@ducks/*": ["./ducks/*"],
+            "@hooks/*": ["./hooks/*"],
+            "@typeDefs/*": ["./types/*"],
+            "@utils/*": ["./utils/*"],
+        }
     },
     "include": [
         "src/**/*"
