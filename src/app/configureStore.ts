@@ -25,14 +25,14 @@ import repsReducer from "../ducks/reps";
 import itemLookupReducer from "../ducks/item-lookup";
 import bannersReducer from "../ducks/banners";
 import signUpReducer from "../ducks/sign-up";
-import activeCartReducer from "ducks/active-cart";
+import b2bCartReducer from "@ducks/b2b-cart";
 import cartsReducer from "@ducks/carts";
 
 
 export const rootReducer = combineReducers({
-    activeCart: activeCartReducer,
     alerts: alertsReducer,
     app: appReducer,
+    b2bCart: b2bCartReducer,
     banners: bannersReducer,
     cart: cartReducer,
     carts: cartsReducer,
