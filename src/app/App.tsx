@@ -2,8 +2,8 @@ import React, {StrictMode, useEffect} from 'react';
 import {Route, Routes} from 'react-router-dom';
 import Login from "../ducks/user/components/LoginPage";
 import {useSelector} from 'react-redux';
-import {loadProfile} from '../ducks/user/actions';
-import {loadCustomer} from '../ducks/customer/actions';
+import {loadProfile} from '@ducks/user/actions';
+import {loadCustomer} from '@ducks/customer/actions';
 import ProfilePage from "../ducks/user/components/ProfilePage";
 import AccountPage from "../ducks/customer/components/AccountPage";
 import SalesOrderPage from "../ducks/open-orders/components/SalesOrderPage";
@@ -12,8 +12,8 @@ import Logout from "../components/Logout";
 import ResetPassword from "../ducks/user/components/ResetPassword";
 import ContentPage from "../ducks/page/ContentPage";
 import InvoicePage from "../ducks/invoices/components/InvoicePage";
-import {selectCurrentCustomer, selectLoggedIn} from "../ducks/user/selectors";
-import {selectCustomerLoaded, selectCustomerLoading} from "../ducks/customer/selectors";
+import {selectCurrentCustomer, selectLoggedIn} from "@ducks/user/selectors";
+import {selectCustomerLoaded, selectCustomerLoading} from "@ducks/customer/selectors";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import AccountListContainer from "../ducks/customers/components/AccountListContainer";
@@ -33,18 +33,19 @@ import theme from "./theme";
 import Home from "../components/Home";
 import ClosedSalesOrderPage from "../ducks/open-orders/components/ClosedSalesOrderPage";
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import {GOOGLE_CLIENT_ID} from "../constants/app";
+import {GOOGLE_CLIENT_ID} from "@constants/app";
 import RequestPasswordResetForm from "../ducks/user/components/RequestPasswordResetForm";
 import ChangePasswordPage from "../ducks/user/components/ChangePasswordPage";
-import {useIsSSR} from "../hooks/is-server-side";
+import {useIsSSR} from "@hooks/is-server-side";
 import LocalStore from "../utils/LocalStore";
-import {isTokenExpired} from "../utils/jwtHelper";
-import {auth} from "../api/IntranetAuthService";
+import {isTokenExpired} from "@utils/jwtHelper";
+import {auth} from "@api/IntranetAuthService";
 import {useLocation} from "react-router";
-import {sendGtagEvent} from "../api/gtag";
-import {selectAppNonce} from "../ducks/app/selectors";
+import {sendGtagEvent} from "@api/gtag";
+import {selectAppNonce} from "@ducks/app/selectors";
 import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
 import CartsPage from "@components/carts/CartsPage";
+import CartOrderHeader from "@components/carts/CartOrderHeader";
 
 
 const App = () => {
@@ -123,7 +124,8 @@ const App = () => {
                                                     <Route path=":id?" element={<EditAccountUserForm/>}/>
                                                 </Route>
                                                 <Route path="carts" element={<CartsPage/>}/>
-                                                <Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>
+                                                <Route path="carts/:id" element={<CartOrderHeader/>}/>
+                                                {/*<Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>*/}
                                                 <Route path="orders" element={<OpenOrdersList/>}/>
                                                 <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>
                                                 <Route path="closed/:salesOrderNo" element={<ClosedSalesOrderPage/>}/>

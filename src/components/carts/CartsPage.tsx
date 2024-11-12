@@ -5,18 +5,19 @@ import {selectCartsStatus} from "@ducks/carts/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartsList from "@components/carts/CartsList";
 import {useSelector} from "react-redux";
-import {selectCurrentCustomer} from "@ducks/user/selectors";
 import {loadCarts} from "@ducks/carts/actions";
 import NoCartsAlert from "@components/carts/NoCartsAlert";
+import {selectCustomerKey} from "@ducks/customer/selectors";
 
 export default function CartsPage() {
     const dispatch = useAppDispatch();
     const cartsStatus = useAppSelector(selectCartsStatus);
-    const currentCustomer = useSelector(selectCurrentCustomer);
+    const customerKey = useSelector(selectCustomerKey);
 
     useEffect(() => {
-        dispatch(loadCarts(currentCustomer));
-    }, [currentCustomer]);
+        dispatch(loadCarts(customerKey));
+    }, [customerKey]);
+    
     return (
         <div>
             <CartsFilter/>

@@ -1,11 +1,11 @@
 import React from 'react';
-import {useSelector} from "react-redux";
 import Alert from "@mui/material/Alert";
-import {selectCartsList} from "@ducks/carts/selectors";
+import {selectCartsLength} from "@ducks/carts/selectors";
+import {useAppSelector} from "@app/configureStore";
 
 export default function NoCartsAlert() {
-    const carts = useSelector(selectCartsList);
-    if (carts.length > 0) {
+    const length = useAppSelector(selectCartsLength);
+    if (length > 0) {
         return (
             <Alert severity="info">
                 <strong className="me-1">Hint:</strong>

@@ -8,12 +8,12 @@ import {selectCartsSearch} from "@ducks/carts/selectors";
 import {loadCarts, setCartsSearch} from "@ducks/carts/actions";
 import Button from "@mui/material/Button";
 import {useSelector} from "react-redux";
-import {selectCurrentCustomer} from "@ducks/user/selectors";
+import {selectCustomerKey} from "@ducks/customer/selectors";
 
 export default function CartsFilter() {
     const dispatch = useAppDispatch();
     const search = useAppSelector(selectCartsSearch);
-    const currentCustomer = useSelector(selectCurrentCustomer);
+    const customerKey = useSelector(selectCustomerKey);
     const id = useId();
 
     const changeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ export default function CartsFilter() {
     }
 
     const reloadHandler = () => {
-        dispatch(loadCarts(currentCustomer));
+        dispatch(loadCarts(customerKey));
     }
 
     return (
