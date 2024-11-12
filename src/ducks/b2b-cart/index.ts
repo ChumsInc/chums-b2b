@@ -1,5 +1,5 @@
 import {B2BCartDetail, B2BCartHeader} from "@typeDefs/carts";
-import {CustomerKey, SortProps} from "b2b-types";
+import {Editable, SortProps} from "b2b-types";
 import {CartProgress, cartProgress_Cart} from "@typeDefs/cart";
 import {CustomerShippingAccount} from "@typeDefs/customer";
 import {nextShipDate} from "@utils/orders";
@@ -7,23 +7,26 @@ import localStore from "@utils/LocalStore";
 import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
 import {createReducer} from "@reduxjs/toolkit";
 import {setCartProgress, setShipDate} from "@ducks/cart/actions";
-import {CART_PROGRESS_STATES, NEW_CART} from "@constants/orders";
+import {CART_PROGRESS_STATES} from "@constants/orders";
 import {setCustomerAccount} from "@ducks/customer/actions";
 import {setLoggedIn} from "@ducks/user/actions";
 import {loadCarts} from "@ducks/carts/actions";
-import {customerSlug} from "@utils/customer";
+import {loadCart} from "@ducks/b2b-cart/actions";
+import {cartDetailSorter, defaultCartDetailSort} from "@ducks/b2b-cart/utils";
+import Decimal from "decimal.js";
+import {dismissContextAlert} from "@ducks/alerts/actions";
 
 export interface B2BCartState {
-    customerKey: CustomerKey|null;
-    cartId: number|null;
+    customerKey: string | null;
+    cartId: number | null;
     cartName: string;
-    cartQuantity: number|null;
-    cartTotal: number|string;
+    cartQuantity: number | null;
+    cartTotal: number | string;
     promoCode: string | null;
-    header: B2BCartHeader|null;
-    detail: B2BCartDetail[];
-    sort:SortProps<B2BCartDetail>;
-    status: 'idle'|'loading'|'saving'|'rejected';
+    header: B2BCartHeader | null;
+    detail: (B2BCartDetail & Editable)[];
+    sort: SortProps<B2BCartDetail>;
+    status: 'idle' | 'loading' | 'saving' | 'rejected';
     progress: CartProgress;
     shipDate: string;
     shippingAccount: CustomerShippingAccount;
@@ -51,7 +54,6 @@ export const initialB2BCartState = (): B2BCartState => ({
 })
 
 
-
 const b2bCartReducer = createReducer(initialB2BCartState, builder => {
     builder
         .addCase(setCartProgress, (state, action) => {
@@ -61,7 +63,7 @@ const b2bCartReducer = createReducer(initialB2BCartState, builder => {
             localStore.setItem(STORE_CUSTOMER_SHIPPING_ACCOUNT, action.payload);
             state.shipDate = action.payload ?? nextShipDate();
         })
-        .addCase(setCustomerAccount.fulfilled, (state) => {
+        .addCase(setCustomerAccount.pending, (state) => {
             state.cartId = null;
             state.cartName = '';
             state.cartTotal = 0;
@@ -79,7 +81,7 @@ const b2bCartReducer = createReducer(initialB2BCartState, builder => {
             }
         })
         .addCase(loadCarts.pending, (state, action) => {
-            if (customerSlug(state.customerKey) !== customerSlug(action.meta.arg)) {
+            if (state.customerKey !== action.meta.arg) {
                 state.customerKey = action.meta.arg;
                 state.cartId = null;
                 state.cartName = '';
@@ -109,6 +111,38 @@ const b2bCartReducer = createReducer(initialB2BCartState, builder => {
                 state.cartName = cart.customerPONo ?? '';
                 state.header = cart;
                 state.cartTotal = cart.subTotalAmt;
+            }
+        })
+        .addCase(loadCart.pending, (state, action) => {
+            state.status = 'loading';
+            if (state.cartId !== +action.meta.arg.cartId) {
+                state.cartId = null;
+                state.cartName = '';
+                state.cartTotal = 0;
+                state.cartQuantity = null;
+                state.header = null;
+                state.detail = [];
+            }
+        })
+        .addCase(loadCart.fulfilled, (state, action) => {
+            state.status = 'idle';
+            if (action.payload) {
+                state.cartId = action.payload.header.id;
+                state.cartName = action.payload.header.customerPONo ?? '';
+                state.header = action.payload.header;
+                state.cartTotal = action.payload.header.subTotalAmt;
+                state.detail = action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort))
+                state.cartQuantity = state.detail
+                    .filter(row => row.itemType !== '4')
+                    .reduce((pv, cv) => new Decimal(pv).add(cv.quantityOrdered).toNumber(), 0);
+            }
+        })
+        .addCase(loadCart.rejected, (state) => {
+            state.status = 'rejected';
+        })
+        .addCase(dismissContextAlert, (state, action) => {
+            if (action.payload === loadCart.typePrefix) {
+                state.status = 'idle';
             }
         })
 

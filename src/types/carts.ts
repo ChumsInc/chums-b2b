@@ -1,12 +1,4 @@
-import {
-    PricingMethodType,
-    SalesOrder,
-    SalesOrderHeader,
-    SalesOrderStatus,
-    SalesOrderType,
-    ShipToAddress,
-    UserProfile
-} from "b2b-types";
+import {SalesOrderHeader, SalesOrderStatus, SalesOrderType, UserProfile} from "b2b-types";
 
 export type CartType = SalesOrderType | '_';
 
@@ -15,6 +7,8 @@ export type B2BUserInfo = Pick<UserProfile, 'id' | 'email' | 'name' | 'accountTy
 export interface B2BCart {
     header: B2BCartHeader;
     detail: B2BCartDetail[];
+    detailLoaded?: boolean;
+    status?: 'idle' | 'loading' | 'saving' | 'deleting' | 'rejected';
 }
 
 
@@ -46,6 +40,7 @@ export interface B2BCartHeader extends Partial<Omit<SalesOrderHeader, 'SalesOrde
     dateUpdated: string;
     updatedByUser: B2BUserInfo | null;
     dateImported: string | null;
+    paymentType?: string;
 }
 
 export interface B2BCartDetail extends Omit<B2BCartLine, 'priceLevel' | 'productId' | 'productItemId' | 'quantityOrdered' | 'unitOfMeasure'> {
@@ -70,6 +65,7 @@ export interface B2BCartLine {
     priceLevel: string | null;
     commentText: string | null;
     unitOfMeasure: string;
+    unitOfMeasureConvFactor: string|number|null;
     quantityOrdered: number;
     unitPrice: string | number;
     extensionAmt: string | number;
@@ -94,4 +90,42 @@ export interface B2BCartProduct {
     colorCode: string | null;
     swatchCode: string | null;
     available: string | number | null;
+}
+
+export interface CartActionProps {
+    cartId: number;
+    customerKey: string | null;
+}
+
+export interface AddToCartBody extends Pick<B2BCartDetail, 'itemCode' | 'unitOfMeasure' | 'quantityOrdered' | 'commentText'> {
+    itemType?: string;
+    productId?: number | null;
+    productItemId?: number | null;
+    priceLevel?: string | null;
+}
+
+export type UpdateCartItemBody = Pick<B2BCartDetail, 'quantityOrdered' | 'commentText'>;
+
+export type UpdateCartHeaderBody = Partial<Pick<B2BCartHeader, 'shipToCode' | 'promoCode' | 'customerPONo' | 'comment'>>;
+
+export interface UpdateCartProps extends CartActionProps {
+    body: UpdateCartHeaderBody;
+}
+
+export interface AddToCartProps extends Omit<CartActionProps, 'cartId'> {
+    cartId?: number;
+    body: AddToCartBody
+}
+
+export interface UpdateCartItemProps extends CartActionProps {
+    cartItemId: number | string;
+    body: UpdateCartItemBody;
+}
+
+export interface DeleteCartItemProps extends CartActionProps {
+    cartItemId: number | string;
+}
+
+export interface B2BCartList {
+    [key: number]: B2BCart;
 }

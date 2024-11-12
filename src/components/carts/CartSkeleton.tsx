@@ -3,7 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack'
 import Skeleton from '@mui/material/Skeleton';
 
-export default function SalesOrderSkeleton() {
+export default function CartSkeleton() {
     return (
         <Grid container spacing={2}>
             <Grid xs={12} lg={6}>
