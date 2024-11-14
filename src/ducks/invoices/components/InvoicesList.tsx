@@ -133,7 +133,7 @@ const InvoicesList = () => {
     }
 
     return (
-        <ErrorBoundary FallbackComponent={() => <Alert severity="error">Sorry, an error occurred</Alert> }>
+        <ErrorBoundary fallback={undefined} FallbackComponent={() => <Alert severity="error">Sorry, an error occurred</Alert> }>
             <Box>
                 <InvoiceListFilter onReload={reloadHandler}/>
                 {loading && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}

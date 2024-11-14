@@ -4,6 +4,7 @@ import React from "react";
 const DocumentTitle = ({documentTitle = ''}:{
     documentTitle: string;
 }) => {
+
     return (
         <Helmet>
             <title>{[documentTitle, 'Chums B2B'].join(' | ')}</title>

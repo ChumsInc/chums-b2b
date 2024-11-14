@@ -22,7 +22,7 @@ import MainOutlet from "./MainOutlet";
 import ProductRouter from "../ducks/products/components/ProductRouter";
 import BillToForm from "../ducks/customer/components/BillToForm";
 import ShipToForm from "../ducks/customer/components/ShipToForm";
-import AccountUsers from "../ducks/customer/components/AccountUsers";
+import CustomerUsers from "../ducks/customer/components/CustomerUsers";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ContentPage404 from "../components/ContentPage404";
@@ -119,7 +119,7 @@ const App = () => {
                                                 <Route index element={<BillToForm/>}/>
                                                 <Route path="delivery" element={<ShipToList/>}/>
                                                 <Route path="delivery/:shipToCode" element={<ShipToForm/>}/>
-                                                <Route path="users" element={<AccountUsers/>}>
+                                                <Route path="users" element={<CustomerUsers/>}>
                                                     <Route path=":id?" element={<EditAccountUserForm/>}/>
                                                 </Route>
                                                 <Route path="carts" element={<CartsList/>}/>

@@ -2,6 +2,7 @@ import {RootState} from "../../app/configureStore";
 import {createSelector} from "@reduxjs/toolkit";
 import Decimal from "decimal.js";
 import {invoicesSorter} from "./utils";
+import {selectPermittedBillToAddress, selectPermittedShipToAddresses} from "../customer/selectors";
 
 export const selectInvoicesList = (state:RootState) => state.invoices.list.invoices ?? [];
 export const selectInvoicesListLimit = (state:RootState) => state.invoices.list.limit;
@@ -20,11 +21,12 @@ export const selectInvoicesSort = (state:RootState) => state.invoices.sort;
 
 export const selectFilteredInvoicesList = createSelector(
     [selectInvoicesList, selectInvoicesShowPaid, selectInvoicesShipToFilter,
-        selectInvoicesSearch, selectInvoicesSort],
-    (list, showPaid, shipTo, search, sort) => {
+        selectInvoicesSearch, selectInvoicesSort, selectPermittedBillToAddress, selectPermittedShipToAddresses],
+    (list, showPaid, shipTo, search, sort, billTo, shipToList) => {
         return list
+            .filter(inv => (billTo && !inv.ShipToCode) || shipToList.map(c => c.ShipToCode).includes(inv.ShipToCode ?? ''))
             .filter(inv => showPaid || !new Decimal(inv.Balance ?? '0').eq(0))
-            .filter(inv => !shipTo || inv.ShipToCode === shipTo)
+            .filter(inv => shipTo === null || inv.ShipToCode === shipTo)
             .filter(inv => !search
                 || inv.CustomerPONo?.toLowerCase()?.includes(search.toLowerCase())
                 || inv.InvoiceNo.toLowerCase().includes(search.toLowerCase())

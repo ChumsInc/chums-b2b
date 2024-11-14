@@ -1,6 +1,11 @@
 import React, {useId} from 'react';
 import {useSelector} from 'react-redux';
-import {selectCustomerAccount, selectCustomerPermissions, selectPermittedShipToAddresses} from "../selectors";
+import {
+    selectCustomerAccount,
+    selectCustomerPermissions,
+    selectPermittedBillToAddress,
+    selectPermittedShipToAddresses
+} from "../selectors";
 import {InputBaseComponentProps} from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,6 +17,7 @@ import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
+import {useAppSelector} from "../../../app/configureStore";
 
 export interface ShipToSelectProps extends Omit<FormControlProps, 'value' | 'onChange'> {
     value: string | null;
@@ -24,7 +30,7 @@ export interface ShipToSelectProps extends Omit<FormControlProps, 'value' | 'onC
     required?: boolean;
 }
 
-const allLocationsValue = '__ALL';
+export const allLocationsValue = '__ALL';
 
 export default function ShipToSelect({
                                          value,
@@ -39,6 +45,7 @@ export default function ShipToSelect({
                                      }: ShipToSelectProps) {
     const customer = useSelector(selectCustomerAccount);
     const shipToAddresses = useSelector(selectPermittedShipToAddresses);
+    const hasBillToPermissions = useAppSelector(selectPermittedBillToAddress);
     const permissions = useSelector(selectCustomerPermissions);
     const id = useId();
 
@@ -107,13 +114,13 @@ export default function ShipToSelect({
     return (
         <FormControl fullWidth variant="filled" size="small" {...formControlProps}>
             <InputLabel id={id} shrink>{label ?? 'Ship-To Location'}</InputLabel>
-            <Select onChange={changeHandler}
+            <Select onChange={changeHandler} variant={formControlProps.variant ?? 'filled'}
                     value={isValidValue ? (value ?? (allowAllLocations ? allLocationsValue : '')) : ''}
                     displayEmpty
                     renderValue={renderValueHandler}
                     readOnly={readOnly} required={required}>
                 {allowAllLocations && (<MenuItem value={allLocationsValue}>All Addresses</MenuItem>)}
-                {permissions?.billTo && <MenuItem value="">Billing Address</MenuItem>}
+                {hasBillToPermissions && <MenuItem value="">Billing Address</MenuItem>}
                 {shipToAddresses
                     .filter(shipTo => shipTo.ShipToCode !== '' || permissions?.billTo)
                     .map(shipTo => (

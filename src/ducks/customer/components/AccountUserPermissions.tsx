@@ -1,7 +1,6 @@
 import React from 'react';
 import Typography from "@mui/material/Typography";
 import BusinessIcon from "@mui/icons-material/Business";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {useSelector} from "react-redux";
 import {selectCustomerUsers, selectPermittedShipToAddresses} from "../selectors";
 import {useMatch} from "react-router";
@@ -11,6 +10,7 @@ import Table from '@mui/material/Table';
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
+import StoreIcon from '@mui/icons-material/Store';
 
 const AccountUserPermissions = () => {
     const users = useSelector(selectCustomerUsers);
@@ -45,7 +45,7 @@ const AccountUserPermissions = () => {
                         .filter(st => user.shipToCode?.includes(st.ShipToCode))
                         .map(shipTo => (
                             <TableRow key={shipTo.ShipToCode}>
-                                <TableCell><ShoppingCartIcon/></TableCell>
+                                <TableCell><StoreIcon/></TableCell>
                                 <TableCell>{shipTo.ShipToCode}</TableCell>
                                 <TableCell>{shipTo.ShipToName}</TableCell>
                                 <TableCell>{shipTo.ShipToCity}, {shipTo.ShipToState} {shipTo.ShipToCountryCode}</TableCell>

@@ -7,6 +7,7 @@ import {selectCustomerAccount} from "../selectors";
 import {useLocation} from "react-router";
 import {BreadcrumbPath} from "../../../types/breadcrumbs";
 import {generatePath} from "react-router-dom";
+import {repAccessCode} from "../../user/utils";
 
 const AccountBreadcrumbs = () => {
     const countUserAccounts = useSelector(selectUserAccountsCount);
@@ -22,7 +23,9 @@ const AccountBreadcrumbs = () => {
         {title: 'Profile', pathname: PATH_PROFILE},
     ];
     if (userAccount?.isRepAccount) {
-        paths.push({
+        paths.push(
+            {title: repAccessCode(userAccount), pathname: PATH_PROFILE},
+            {
             title: 'Account List',
             pathname: generatePath(PATH_PROFILE_ACCOUNT, {id: `${userAccount?.id ?? 0}`})
         });

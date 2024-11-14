@@ -25,7 +25,7 @@ import {
     saveUser,
     setCustomerAccount,
     setDefaultShipTo,
-    setReturnToPath
+    setReturnToPath, setShipToCode
 } from "./actions";
 import {loadCustomerList} from '../customers/actions'
 import {setLoggedIn, setUserAccess} from "../user/actions";
@@ -308,6 +308,9 @@ const customerReducer = createReducer(initialCustomerState, builder => {
         })
         .addCase(loadCustomerUsers.rejected, (state) => {
             state.loading = false;
+        })
+        .addCase(setShipToCode, (state, action) => {
+            state.shipToCode = action.payload;
         })
 })
 

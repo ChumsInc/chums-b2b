@@ -26,6 +26,7 @@ import {CustomerPermissions} from "../../types/customer";
 import {selectRecentCustomers} from "../customers/selectors";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
+export const setShipToCode = createAction<string|null>('customer/setShipToCode');
 
 export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser>(
     'customer/saveUser',

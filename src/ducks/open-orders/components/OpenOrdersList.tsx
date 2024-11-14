@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {useAppDispatch} from "../../../app/configureStore";
+import React, {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import {useSelector} from "react-redux";
 import {
     selectOpenOrdersFilter,
@@ -20,6 +20,7 @@ import OrderFilter from "./OrderFilter";
 import LinearProgress from "@mui/material/LinearProgress";
 import NoOpenOrdersAlert from "./NoOpenOrdersAlert";
 import Button from "@mui/material/Button"
+import {selectCustomerShipToCode} from "../../customer/selectors";
 
 
 const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
@@ -55,16 +56,22 @@ const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
 const OpenOrdersList = () => {
     const dispatch = useAppDispatch();
     const currentCustomer = useSelector(selectCurrentCustomer);
-    const list = useSelector(selectOpenOrdersList);
+    const shipToCode = useAppSelector(selectCustomerShipToCode);
+    const orders = useSelector(selectOpenOrdersList);
     const loading = useSelector(selectOpenOrdersLoading);
     const loaded = useSelector(selectOpenOrdersLoaded);
     const filter = useSelector(selectOpenOrdersFilter);
+    const [list,  setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
 
     useEffect(() => {
         if (!loading && !loaded && !!currentCustomer) {
             dispatch(loadOpenOrders(currentCustomer));
         }
     }, [loading, loaded, currentCustomer]);
+
+    useEffect(() => {
+        setList(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
+    }, [shipToCode]);
 
     const reloadHandler = () => {
         if (currentCustomer) {

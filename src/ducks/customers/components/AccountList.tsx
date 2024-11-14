@@ -7,7 +7,7 @@ import {selectCurrentUserAccount,} from "../../user/selectors";
 import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
-import {documentTitles, PATH_PROFILE} from "../../../constants/paths";
+import {documentTitles, PATH_PROFILE, PATH_PROFILE_ACCOUNT} from "../../../constants/paths";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Breadcrumb from "../../../components/Breadcrumb";
 import {useLocation, useMatch} from "react-router";
@@ -15,6 +15,7 @@ import {selectCustomersLoaded, selectCustomersLoadError, selectCustomersLoading}
 import Typography from "@mui/material/Typography";
 import AccountListFilters from "./AccountListFilters";
 import AccountListTable from "./AccountListTable";
+import {repAccessCode} from "../../user/utils";
 
 const AccountList = () => {
     const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ const AccountList = () => {
 
     const paths = [
         {title: 'Profile', pathname: PATH_PROFILE},
+        {title: repAccessCode(userAccount), pathname: PATH_PROFILE},
         {title: 'Account List', pathname: location.pathname}
     ];
 

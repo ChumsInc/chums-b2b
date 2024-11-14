@@ -4,13 +4,14 @@ import TextField from "@mui/material/TextField";
 import React, {ChangeEvent} from "react";
 import {setInvoicesFilterSearch, setInvoicesFilterShipToCode, setShowPaidInvoices} from "../actions";
 import {selectInvoicesSearch, selectInvoicesShipToFilter, selectInvoicesShowPaid} from "../selectors";
-import ShipToSelect from "../../customer/components/ShipToSelect";
+import ShipToSelect, {allLocationsValue} from "../../customer/components/ShipToSelect";
 import FormGroup from "@mui/material/FormGroup";
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import InputAdornment from '@mui/material/InputAdornment'
 import Grid2 from "@mui/material/Unstable_Grid2";
+import CloseIcon from '@mui/icons-material/Close';
 
 const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
     const dispatch = useAppDispatch();
@@ -39,12 +40,12 @@ const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
                            InputProps={{
                                startAdornment: (
                                    <InputAdornment position="start"><SearchIcon/></InputAdornment>
-                               )
+                               ),
                            }}
                            placeholder={'Invoice or PO #'}/>
             </Grid2>
             <Grid2 sx={{flex: '1 1 auto'}}>
-                <ShipToSelect value={shipTo} onChange={shipToChangeHandler} variant="standard" allowAllLocations/>
+                <ShipToSelect value={shipTo ?? allLocationsValue} onChange={shipToChangeHandler} variant="standard" allowAllLocations/>
             </Grid2>
             <Grid2 sx={{flex: '1 1 auto'}}>
                 <FormGroup>

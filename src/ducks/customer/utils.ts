@@ -1,14 +1,24 @@
-import {BillToAddress, CustomerAddress, ShipToAddress, ShipToCustomer, UserCustomerAccess} from "b2b-types";
+import {
+    BillToAddress,
+    BillToCustomer,
+    CustomerAddress,
+    ShipToAddress,
+    ShipToCustomer,
+    UserCustomerAccess
+} from "b2b-types";
 import {FetchCustomerResponse} from "./types";
 import {CustomerState} from "./index";
 import {
-    customerContactSorter, customerPaymentCardSorter,
+    customerContactSorter,
+    customerPaymentCardSorter,
     customerPriceRecordSorter,
-    customerShipToSorter, customerUserSorter, defaultCustomerUserSort, defaultShipToSort,
+    customerShipToSorter,
+    customerUserSorter,
+    defaultCustomerUserSort,
+    defaultShipToSort,
 } from "../../utils/customer";
-import {SortProps} from "../../types/generic";
 
-export const addressFromShipToAddress = (address:ShipToAddress|null):CustomerAddress => {
+export const addressFromShipToAddress = (address: ShipToAddress | null): CustomerAddress => {
     return {
         CustomerName: address?.ShipToName ?? '',
         AddressLine1: address?.ShipToAddress1 ?? null,
@@ -21,7 +31,7 @@ export const addressFromShipToAddress = (address:ShipToAddress|null):CustomerAdd
     }
 }
 
-export const addressFromBillToAddress = (address:BillToAddress|null):CustomerAddress => {
+export const addressFromBillToAddress = (address: BillToAddress | null): CustomerAddress => {
     return {
         CustomerName: address?.BillToName ?? '',
         AddressLine1: address?.BillToAddress1 ?? null,
@@ -34,7 +44,7 @@ export const addressFromBillToAddress = (address:BillToAddress|null):CustomerAdd
     }
 }
 
-export const multiLineAddress = (address:CustomerAddress, includeName?: boolean):string[] => {
+export const multiLineAddress = (address: CustomerAddress, includeName?: boolean): string[] => {
     const finalLine = [address.City, address.State, address.CountryCode, address.ZipCode]
         .filter(val => !!val).join(' ');
     return [
@@ -46,8 +56,8 @@ export const multiLineAddress = (address:CustomerAddress, includeName?: boolean)
     ].filter(line => !!line);
 }
 
-export const customerResponseToState = (payload:FetchCustomerResponse|null, state:CustomerState):Partial<CustomerState> => {
-    const nextState:Partial<CustomerState> = {};
+export const customerResponseToState = (payload: FetchCustomerResponse | null, state: CustomerState): Partial<CustomerState> => {
+    const nextState: Partial<CustomerState> = {};
     nextState.account = payload?.customer ?? null;
     nextState.shipToCode = payload?.customer?.PrimaryShipToCode ?? null;
     nextState.permissions = {
@@ -73,7 +83,7 @@ export const customerResponseToState = (payload:FetchCustomerResponse|null, stat
             nextState.shipToCode = shipTo?.ShipToCode ?? null;
             nextState.shipTo = shipTo ?? null;
         }
-    } else  {
+    } else {
         const [shipTo] = nextState.shipToAddresses.filter(st => st.ShipToCode === nextState.shipToCode)
         nextState.shipToCode = shipTo?.ShipToCode ?? null;
         nextState.shipTo = shipTo ?? null;
@@ -83,15 +93,25 @@ export const customerResponseToState = (payload:FetchCustomerResponse|null, stat
     return nextState;
 }
 
-export const filterShipToByUserAccount = (access:UserCustomerAccess|null) => (address:ShipToCustomer): boolean => {
+export const filterShipToByUserAccount = (access: UserCustomerAccess | null) => (address: ShipToCustomer): boolean => {
     if (!access) {
         return false;
     }
-    if(!access.isRepAccount) {
+    if (!access.isRepAccount) {
         return true;
     }
     return [address.SalespersonDivisionNo, '%'].includes(access.SalespersonDivisionNo)
         && [address.SalespersonNo, '%'].includes(access.SalespersonNo)
 }
 
-// export const customerUserSorter = (sort:SortProps<Cu>)
+export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccount: BillToCustomer|null) => {
+    if (!access || !customerAccount) {
+        return false;
+    }
+    if (access.isRepAccount) {
+        return [customerAccount.SalespersonDivisionNo, '%'].includes(access.SalespersonDivisionNo)
+            && [customerAccount.SalespersonNo, '%'].includes(access.SalespersonNo)
+    }
+    return access.ARDivisionNo === customerAccount.ARDivisionNo
+        && access.CustomerNo === customerAccount.CustomerNo;
+}

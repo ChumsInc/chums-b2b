@@ -1,13 +1,13 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import {saveShipToAddress} from '../actions';
+import {saveShipToAddress, setShipToCode} from '../actions';
 import Alert from "@mui/material/Alert";
 import ShipToAddressFormFields from "./ShipToAddressFormFields";
 import {selectCanEdit} from "../../user/selectors";
-import {selectCustomerLoading, selectPermittedShipToAddresses} from "../selectors";
+import {selectCustomerLoading, selectPermittedBillToAddress, selectPermittedShipToAddresses} from "../selectors";
 import StoreMapToggle from "../../../components/StoreMapToggle";
 import {Editable, ShipToCustomer} from "b2b-types";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import {useNavigate, useParams} from "react-router";
 import DeliveryAddress from "../../../components/Address/DeliveryAddress";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -27,6 +27,7 @@ const ShipToForm = () => {
     const shipToAddresses = useSelector(selectPermittedShipToAddresses);
     const loading = useSelector(selectCustomerLoading);
     const canEdit = useSelector(selectCanEdit);
+    const billTo = useAppSelector(selectPermittedBillToAddress);
     const params = useParams<'shipToCode'>();
     const [shipTo, setShipTo] = useState<ShipToCustomer & Editable | null>(null);
     const navigate = useNavigate();
@@ -37,8 +38,11 @@ const ShipToForm = () => {
         if (!loading) {
             const [shipTo] = shipToAddresses.filter(row => row.ShipToCode === params.shipToCode);
             setShipTo(shipTo ?? null);
+            if (!billTo) {
+                dispatch(setShipToCode(shipTo?.ShipToCode ?? null));
+            }
         }
-    }, [shipToAddresses, params, loading])
+    }, [shipToAddresses, params, loading, billTo])
 
 
     // const onNewShipToCustomer = () => {
@@ -94,12 +98,13 @@ const ShipToForm = () => {
                                        onChange={fieldChangeHandler('ShipToName')}
                                        inputProps={{readOnly: readOnly}}/>
                         </Grid2>
-                        <Grid2 xs={12} md={6} style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Grid2 xs={12} md={6}
+                               style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <TextField variant="filled" label="Location Code" size="small"
                                        type="text" value={shipTo.ShipToCode ?? ''}
                                        onChange={fieldChangeHandler('ShipToCode')}
                                        inputProps={{readOnly: true}}/>
-                            <PrimaryShipToButton shipTo={shipTo} disabled={readOnly}/>
+                            <PrimaryShipToButton shipTo={shipTo} disabled={readOnly || !billTo}/>
                         </Grid2>
                     </Grid2>
                     <hr/>
@@ -118,7 +123,8 @@ const ShipToForm = () => {
                                                     onChange={changeHandler}/>
                                 <TelephoneFormFields account={shipTo} onChange={changeHandler} readOnly={!canEdit}/>
                                 {shipTo.changed && (
-                                    <Alert severity="warning" title="Hey!">Don&apos;t forget to save your changes.</Alert>
+                                    <Alert severity="warning" title="Hey!">Don&apos;t forget to save your
+                                        changes.</Alert>
                                 )}
                             </Stack>
                             <Stack direction="row" spacing={2} sx={{my: 3}} justifyContent="flex-end">

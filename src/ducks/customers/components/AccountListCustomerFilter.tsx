@@ -13,7 +13,7 @@ const AccountListCustomerFilter = () => {
     const dispatch = useAppDispatch();
     const filter = useSelector(selectCustomersFilter);
     const timer = useRef<number>(0);
-    const [debouncedSearch, setDebouncedSearch] = useState<string>('');
+    const [debouncedSearch, setDebouncedSearch] = useState<string>(filter);
     const [value, setValue] = useState<string>(filter);
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const AccountListCustomerFilter = () => {
     return (
         <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
             <SearchIcon sx={{color: 'action.active', mr: 1, my: 0.5}}/>
-            <TextField variant="standard"
+            <TextField variant="standard" type="search"
                        inputProps={{maxLength: 50}}
                        value={value}
                        onChange={filterChangeHandler} label="Filter Customers" fullWidth/>

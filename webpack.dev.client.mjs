@@ -17,7 +17,7 @@ const clientConfig = {
             './src/client/index.tsx',
         ],
     },
-    devtool: 'eval-source-map',
+    devtool: 'source-map',
     devServer: {
         compress: true,
         client: {

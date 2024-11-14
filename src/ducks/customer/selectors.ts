@@ -4,7 +4,7 @@ import {RootState} from "../../app/configureStore";
 import {ShipToCustomer} from "b2b-types";
 import {customerShipToSorter} from "../../utils/customer";
 import {selectCurrentUserAccount} from "../user/selectors";
-import {filterShipToByUserAccount} from "./utils";
+import {filterShipToByUserAccount, hasBillToAccess} from "./utils";
 
 export const selectCustomerKey = (state:RootState) => state.customer.key;
 export const selectCustomerAccount = (state:RootState) => state.customer.account ?? null;
@@ -27,6 +27,12 @@ export const selectCustomerPermissionsLoading = (state:RootState) => state.custo
 export const selectCustomerPermissionsLoaded = (state:RootState) => state.customer.permissions.loaded ?? false;
 
 
+export const selectPermittedBillToAddress = createSelector(
+    [selectCustomerPermissions, selectCurrentUserAccount, selectCustomerAccount],
+    (permissions, access, customer) => {
+        return permissions?.billTo && hasBillToAccess(access, customer);
+    }
+)
 export const selectPermittedShipToAddresses = createSelector(
     [selectCustomerShipToAddresses, selectCustomerPermissions, selectCurrentUserAccount],
     (addresses, permissions, access) => {
@@ -41,7 +47,8 @@ export const selectPermittedShipToAddresses = createSelector(
                     [address.SalespersonDivisionNo, '%'].includes(access.SalespersonDivisionNo)
                     && [address.SalespersonDivisionNo, '%'].includes(access.SalespersonDivisionNo)
                 ))
-            .filter(addr => permissions?.shipTo.includes(addr.ShipToCode)).sort(customerShipToSorter({field: 'ShipToName', ascending: true}));
+            .filter(addr => permissions?.shipTo.includes(addr.ShipToCode))
+            .sort(customerShipToSorter({field: 'ShipToName', ascending: true}));
     }
 )
 
@@ -61,5 +68,19 @@ export const selectPrimaryShipToCode = createSelector(
     [selectPrimaryShipTo],
     (shipTo) => {
         return shipTo?.ShipToCode ?? null;
+    }
+)
+export const selectPermittedCustomerUsers = createSelector(
+    [selectCustomerUsers, selectPermittedBillToAddress, selectPermittedShipToAddresses],
+    (users, billTo, shipToAddresses) => {
+        return users.filter(user => billTo || shipToAddresses.filter(addr => user.shipToCode?.includes(addr.ShipToCode)).length > 0);
+    }
+)
+
+export const selectShipToByCode = createSelector(
+    [selectPermittedShipToAddresses, (state, shipToCode:string|null) => shipToCode],
+    (shipToAddresses, shipToCode) => {
+        const [shipTo] = shipToAddresses.filter(st => st.ShipToCode === shipToCode);
+        return shipTo ?? null;
     }
 )

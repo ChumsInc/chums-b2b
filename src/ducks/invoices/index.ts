@@ -9,7 +9,7 @@ import {
     setShowPaidInvoices
 } from "./actions";
 import {customerSlug} from "../../utils/customer";
-import {loadCustomer, setCustomerAccount} from "../customer/actions";
+import {loadCustomer, setCustomerAccount, setShipToCode} from "../customer/actions";
 import {setLoggedIn, setUserAccess} from "../user/actions";
 import {InvoicesState} from "./types";
 import {SortProps} from "../../types/generic";
@@ -145,20 +145,25 @@ const invoicesReducer = createReducer(initialInvoicesState, builder => {
         })
         .addCase(setUserAccess.pending, (state, action) => {
             if (!action.meta.arg?.isRepAccount && state.customerKey !== customerSlug(action?.meta?.arg)) {
-                state.list.offset = 0;
-                state.list.limitReached = false;
-                state.list.invoices = [];
-                state.loaded = false;
-                state.invoice = null;
                 state.customerKey = customerSlug(action?.meta?.arg);
-                state.filters.shipToCode = null;
-                state.filters.search = '';
+            } else {
+                state.customerKey = null;
             }
+            state.list.offset = 0;
+            state.list.limitReached = false;
+            state.list.invoices = [];
+            state.loaded = false;
+            state.invoice = null;
+            state.filters.shipToCode = null;
+            state.filters.search = '';
         })
         .addCase(setShowPaidInvoices, (state, action) => {
             state.filters.showPaidInvoices = action.payload ?? !state.filters.showPaidInvoices;
         })
         .addCase(setInvoicesFilterShipToCode, (state, action) => {
+            state.filters.shipToCode = action.payload;
+        })
+        .addCase(setShipToCode, (state, action) => {
             state.filters.shipToCode = action.payload;
         })
         .addCase(setInvoicesFilterSearch, (state, action) => {

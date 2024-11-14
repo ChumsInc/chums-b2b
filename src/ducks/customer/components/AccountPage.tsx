@@ -6,12 +6,14 @@ import {
     selectCustomerAccount,
     selectCustomerLoaded,
     selectCustomerLoading,
-    selectCustomerLoadStatus
+    selectCustomerLoadStatus,
+    selectCustomerShipToCode,
+    selectShipToByCode
 } from "../selectors";
 import {useNavigate, useParams} from "react-router";
 import DocumentTitle from "../../../components/DocumentTitle";
 import AccountTabs from "./AccountTabs";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import {generatePath, Outlet} from "react-router-dom";
 import {customerNo, customerSlug, isSameCustomer, isValidCustomer, parseCustomerSlug} from "../../../utils/customer";
 import Typography from "@mui/material/Typography";
@@ -27,6 +29,8 @@ const AccountPage = () => {
     const loadStatus = useSelector(selectCustomerLoadStatus);
     const loaded = useSelector(selectCustomerLoaded);
     const loading = useSelector(selectCustomerLoading);
+    const shipToCode = useAppSelector(selectCustomerShipToCode);
+    const shipTo = useAppSelector((state) => selectShipToByCode(state, shipToCode));
 
     useEffect(() => {
         return () => {
@@ -80,9 +84,30 @@ const AccountPage = () => {
             <ReturnToAlert/>
             <Typography variant="h1" component="h1">
                 {customer?.CustomerName}
+                {shipTo
+                    && shipTo.ShipToCode !== customer?.PrimaryShipToCode
+                    && (
+                        <>
+                            <Box component="span" sx={{mx: 1}}>/</Box>
+                            <Box component="span">
+                                {shipTo.ShipToName}
+                            </Box>
+                        </>
+                    )}
             </Typography>
             <Typography variant="h2" component="h2">
-                {isValidCustomer(customer) && <Box sx={{me: 3}}>{customerNo(customer)}</Box>}
+                {isValidCustomer(customer) && (
+                    <Box sx={{me: 3}}>
+                        {customerNo(customer)}
+                        {shipTo
+                            && shipTo.ShipToCode !== customer?.PrimaryShipToCode
+                            && (
+                                <Box component="span">
+                                    /{shipTo.ShipToCode}
+                                </Box>
+                            )}
+                    </Box>
+                )}
                 {!isValidCustomer(customer) && !loading && <Box>Please select a customer</Box>}
             </Typography>
             <AccountTabs/>

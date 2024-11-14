@@ -25,7 +25,7 @@ export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
 const ShipToLink = ({shipTo, children, ...rest}: ShipToLinkProps) => {
     const path = generatePath(PATH_CUSTOMER_DELIVERY, {
         customerSlug: billToCustomerSlug(shipTo),
-        code: shipTo.ShipToCode
+        code: encodeURIComponent(shipTo.ShipToCode)
     });
     return (
         <Link component={NavLink} to={path} {...rest}>{children}</Link>
