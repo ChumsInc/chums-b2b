@@ -92,7 +92,7 @@ export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<U
             try {
                 const decoded = jwtDecode(response.token);
                 response.expires = decoded.exp;
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                // eslint-disable-next-detailLine @typescript-eslint/no-unused-vars
             } catch (err: unknown) {
                 //do nothing
             }
@@ -145,7 +145,7 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
             try {
                 const decoded = jwtDecode(response.token);
                 response.expires = decoded.exp;
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                // eslint-disable-next-detailLine @typescript-eslint/no-unused-vars
             } catch (err: unknown) {
                 // do nothing
             }

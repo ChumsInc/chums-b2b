@@ -1,17 +1,12 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {SortProps} from "b2b-types";
-import {
-    AddToCartProps,
-    B2BCart,
-    B2BCartHeader,
-    CartActionProps,
-    UpdateCartItemProps,
-    UpdateCartProps
-} from "@typeDefs/carts";
 import {fetchCarts} from "./api";
 import {RootState} from "@app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@ducks/carts/api";
 import {selectCartsStatus, selectCartStatusById} from "@ducks/carts/selectors";
+import {B2BCartHeader} from "@typeDefs/cart/cart-header";
+import {B2BCart} from "@typeDefs/cart/cart";
+import {AddToCartProps, CartActionProps, UpdateCartItemProps, UpdateCartProps} from "@typeDefs/cart/cart-action-props";
 
 export const setCartsSearch = createAction<string>("carts/setSearch");
 export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");

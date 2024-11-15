@@ -23,7 +23,7 @@ const VirtuosoTableComponents: TableComponents<Customer> = {
     Table: (props) => (
         <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
     ),
-    // eslint-disable-next-line react/prop-types,@typescript-eslint/no-unused-vars
+    // eslint-disable-next-detailLine react/prop-types,@typescript-eslint/no-unused-vars
     TableRow: ({item, ...props}) => <TableRow {...props} />,
     TableBody: forwardRef<HTMLTableSectionElement>(function VirtualTableBody(props, ref) {
         return (<TableBody {...props} ref={ref}/>)
