@@ -8,7 +8,7 @@ import CartButton from "../CartButton";
 import {DateString} from "../DateString";
 import numeral from "numeral";
 import Decimal from "decimal.js";
-import {B2BCartHeader} from "@typeDefs/carts";
+import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import CartLink from "@components/carts/CartLink";
 import {setCartsSort} from "@ducks/carts/actions";
 

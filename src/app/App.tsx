@@ -46,6 +46,7 @@ import {selectAppNonce} from "@ducks/app/selectors";
 import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
 import CartsPage from "@components/carts/CartsPage";
 import CartOrderHeader from "@components/carts/CartOrderHeader";
+import CartPage from "@components/carts/CartPage";
 
 
 const App = () => {
@@ -124,7 +125,7 @@ const App = () => {
                                                     <Route path=":id?" element={<EditAccountUserForm/>}/>
                                                 </Route>
                                                 <Route path="carts" element={<CartsPage/>}/>
-                                                <Route path="carts/:id" element={<CartOrderHeader/>}/>
+                                                <Route path="carts/:id" element={<CartPage/>}/>
                                                 {/*<Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>*/}
                                                 <Route path="orders" element={<OpenOrdersList/>}/>
                                                 <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>

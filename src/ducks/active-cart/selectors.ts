@@ -1,7 +1,6 @@
 import {RootState} from "@app/configureStore";
-import {createSelector} from "@reduxjs/toolkit";
 
-export const selectActiveCartId = (state: RootState) => state.activeCart.cartId ?? 0;
+export const selectCartId = (state: RootState) => state.activeCart.cartId ?? 0;
 export const selectCartPromoCode = (state: RootState) => state.activeCart.promoCode;
 export const selectCartDetailSort = (state: RootState) => state.activeCart.sort;
 export const selectCartStatus = (state: RootState) => state.activeCart.status;

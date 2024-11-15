@@ -10,8 +10,3 @@ export type CartProgress = CartProgress_Cart | CartProgress_Delivery | CartProgr
 export interface B2BCartList {
     [key: number]: B2BCart;
 }
-
-export interface CartMessage {
-    message: string;
-    key: string;
-}

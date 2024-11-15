@@ -12,7 +12,7 @@ import {setCustomerAccount} from "@ducks/customer/actions";
 import {setLoggedIn} from "@ducks/user/actions";
 import {loadCart, loadCarts} from "@ducks/carts/actions";
 import {dismissContextAlert} from "@ducks/alerts/actions";
-import {setActiveCartId} from "@ducks/active-cart/actions";
+import {setCurrentCartId} from "@ducks/active-cart/actions";
 import {cartProgress_Cart} from "@utils/cart";
 
 export interface ActiveCartState {
@@ -77,21 +77,12 @@ const activeCartReducer = createReducer(initialActiveCartState, builder => {
                 state.cartId = cart.id;
             }
         })
-        .addCase(loadCart.pending, (state, action) => {
-            if (action.meta.arg.setActiveCart) {
-                if (action.meta.arg.cartId !== state.cartId) {
-                    state.cartId = action.meta.arg.cartId;
-                    state.customerKey = action.meta.arg.customerKey;
-                    state.progress = CART_PROGRESS_STATES.cart;
-                }
-            }
-        })
         .addCase(dismissContextAlert, (state, action) => {
             if (action.payload === loadCart.typePrefix) {
                 state.status = 'idle';
             }
         })
-        .addCase(setActiveCartId, (state, action) => {
+        .addCase(setCurrentCartId, (state, action) => {
             state.cartId = action.payload;
         })
 

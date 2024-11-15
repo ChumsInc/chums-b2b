@@ -6,18 +6,7 @@ import {
     DeprecatedFetchOrdersAction,
     DeprecatedSaveCartAction
 } from "../types/actions";
-import {SalesOrderDetailLine} from "b2b-types";
-import {ChangeDetailLine, NewCommentLine} from "@typeDefs/cart";
 
-export const changedDetailLine = (line:SalesOrderDetailLine):ChangeDetailLine => {
-    const {LineKey, ItemCode, QuantityOrdered, CommentText} = line;
-    return {LineKey, ItemCode, QuantityOrdered, CommentText};
-}
-
-export const newCommentLine = (line:SalesOrderDetailLine):NewCommentLine => {
-    const {LineKey, CommentText} = line;
-    return {LineKey, CommentText};
-}
 
 export function isDeprecatedFetchOrdersAction(action: UnknownAction | DeprecatedFetchOrdersAction): action is DeprecatedFetchOrdersAction {
     return action.type === 'FETCH_ORDERS';
@@ -31,6 +20,9 @@ export function isDeprecatedDeleteCartAction(action: UnknownAction | DeprecatedD
     return action.type === "DELETE_CART";
 }
 
+export function isDeprecatedSaveCartAction(action: UnknownAction | DeprecatedSaveCartAction): action is DeprecatedSaveCartAction {
+    return action.type === 'SAVE_CART';
+}
 
 export const cartProgress_Cart: CartProgress = 0;
 export const cartProgress_Delivery: CartProgress = 1;

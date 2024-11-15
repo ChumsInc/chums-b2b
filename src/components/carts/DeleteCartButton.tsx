@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Button, {ButtonProps} from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {removeCart} from "@ducks/b2b-cart/actions";
+import {removeCart} from "@ducks/carts/actions";
 import {useNavigate} from "react-router";
 import {generatePath} from "react-router-dom";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -10,13 +10,20 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
-import {selectCartHeader} from "@ducks/b2b-cart/selectors";
-import {selectCustomerKey} from "@ducks/customer/selectors";
+import {selectCartHeaderById} from "@ducks/carts/selectors";
 
-export default function DeleteCartButton({disabled, children, ...rest}: ButtonProps) {
+export interface DeleteCartButtonProps extends ButtonProps {
+    customerKey: string | null;
+    cartId: number;
+}
+
+export default function DeleteCartButton({
+                                             customerKey,
+                                             cartId,
+                                             disabled, children, ...rest
+                                         }: DeleteCartButtonProps) {
     const dispatch = useAppDispatch();
-    const customerKey = useAppSelector(selectCustomerKey);
-    const header = useAppSelector(selectCartHeader);
+    const header = useAppSelector((state) => selectCartHeaderById(state, cartId));
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [busy, setBusy] = useState(false);

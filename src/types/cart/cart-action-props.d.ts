@@ -22,11 +22,10 @@ export type CartAction =
 export interface CartActionProps extends Partial<Pick<B2BCartHeader, 'shipToCode'>> {
     cartId: number;
     customerKey: string;
-    setActiveCart?: boolean;
 }
 
 export interface CartItemActionProps extends CartActionProps {
-    cartItemId: number;
+    cartItemId: string | number;
 }
 
 export interface CartActionBase {
@@ -128,25 +127,18 @@ export interface AddToCartBody extends Pick<B2BCartDetail, 'itemCode' | 'unitOfM
     itemType?: string;
 }
 
-export interface AddToCartProps extends Omit<CartItemActionProps, 'cartId'|'cartItemId'> {
-    cartId: number|null;
-    cartName?: string;
-    item: AddToCartBody;
+export interface AddToCartProps extends Omit<CartItemActionProps, 'cartItemId'> {
+    body: AddToCartBody;
 }
 export interface UpdateCartProps extends CartActionProps {
     body: UpdateCartHeaderBody;
 }
-export type UpdateCartItemBody = Pick<B2BCartDetail, 'quantityOrdered'|'commentText'|'itemType'>;
+export type UpdateCartItemBody = Pick<B2BCartDetail, 'quantityOrdered'|'commentText'>;
 
 export type UpdateCartHeaderBody = Partial<Pick<B2BCartHeader, 'shipToCode' | 'promoCode' | 'customerPONo' | 'comment'>>;
 
 export interface UpdateCartItemProps extends CartItemActionProps {
-    item: UpdateCartItemBody;
-}
-
-export interface UpdateCartItemsProps extends CartActionProps {
-    header?: UpdateCartHeaderBody;
-    items: Pick<B2BCartDetail, 'id'|'itemType'|'quantityOrdered'|'commentText'>[];
+    body: UpdateCartItemBody;
 }
 
 export interface DeleteCartItemProps extends CartActionProps {

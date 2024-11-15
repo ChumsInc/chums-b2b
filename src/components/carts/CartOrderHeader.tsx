@@ -6,14 +6,14 @@ import {addressFromShipToAddress, multiLineAddress} from "@ducks/customer/utils"
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {Editable, ShipToAddress} from "b2b-types";
 import CustomerShippingAccountControl from "./CustomerShippingAccountControl";
+import {CartProgress,} from "@typeDefs/cart/cart-utils";
 import {
-    CartProgress,
     cartProgress_Cart,
     cartProgress_Confirm,
     cartProgress_Delivery,
     cartProgress_Payment,
     nextCartProgress
-} from "@typeDefs/cart";
+} from "@utils/cart";
 import ShipDateInput from "./ShipDateInput";
 import {minShipDate, nextShipDate} from "@utils/orders";
 import ShippingMethodSelect from "@components/ShippingMethodSelect";
@@ -24,7 +24,6 @@ import {promoteCart} from "@ducks/cart/actions";
 import Alert from "@mui/material/Alert";
 import {useMatch, useNavigate} from "react-router";
 import {generatePath} from "react-router-dom";
-import {customerSlug} from "@utils/customer";
 import AlertList from "@ducks/alerts/AlertList";
 import SendEmailButton from "@ducks/open-orders/components/SendEmailButton";
 import ItemAutocomplete from "@ducks/item-lookup/ItemAutocomplete";
@@ -35,21 +34,16 @@ import {selectSOLoading} from "@ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
-import {
-    selectCartDetail,
-    selectCartHasChanges,
-    selectCartHeader,
-    selectCartId,
-    selectCartStatus
-} from "@ducks/b2b-cart/selectors";
-import {B2BCartHeader} from "@typeDefs/carts";
-import {loadCart} from "@ducks/b2b-cart/actions";
+import {selectCartId, selectCartStatus} from "@ducks/active-cart/selectors";
+import {B2BCartHeader} from "@typeDefs/cart/cart-header";
+import {loadCart} from "@ducks/carts/actions";
 import CartPaymentSelect from "@components/carts/CartPaymentSelect";
 import CartCheckoutProgress from "@components/carts/CartCheckoutProgress";
 import DeleteCartButton from "@components/carts/DeleteCartButton";
 import CheckoutButton from "@components/carts/CheckoutButton";
 import CartCommentInput from "@components/carts/CartCommentInput";
 import {selectCustomerKey} from "@ducks/customer/selectors";
+import {selectCartDetailById, selectCartHasChanges, selectCartHeaderById} from "@ducks/carts/selectors";
 
 
 export default function CartOrderHeader() {
@@ -57,9 +51,8 @@ export default function CartOrderHeader() {
     const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
     const currentCartId = useAppSelector(selectCartId);
-
-    const header = useAppSelector(selectCartHeader);
-    const detail = useAppSelector(selectCartDetail);
+    const header = useAppSelector((state) => selectCartHeaderById(state, currentCartId));
+    const detail = useAppSelector((state) => selectCartDetailById(state, currentCartId));
     const loadingStatus = useAppSelector(selectCartStatus);
     const loading = useAppSelector(selectSOLoading);
     const shipDateRef = useRef<HTMLInputElement | null>(null);
@@ -67,7 +60,7 @@ export default function CartOrderHeader() {
     const paymentMethodRef = useRef<HTMLDivElement | null>(null);
     const customerPORef = useRef<HTMLInputElement>();
     const navigate = useNavigate();
-    const detailChanged = useAppSelector(selectCartHasChanges);
+    const detailChanged = useAppSelector((state) => selectCartHasChanges(state, currentCartId));
 
     const [cartHeader, setCartHeader] = useState<(B2BCartHeader & Editable) | null>(header);
     const [cartProgress, setCartProgress] = useState<CartProgress>(cartProgress_Cart);
@@ -329,7 +322,8 @@ export default function CartOrderHeader() {
                     )}
                 </Stack>
                 <Stack spacing={3} direction={{sm: 'column', md: 'row'}} sx={{justifyContent: 'flex-end'}}>
-                    <DeleteCartButton disabled={loadingStatus !== 'idle' || cartHeader?.changed}>
+                    <DeleteCartButton customerKey={customerKey} cartId={cartHeader.id}
+                                      disabled={loadingStatus !== 'idle' || cartHeader?.changed}>
                         Delete Cart
                     </DeleteCartButton>
 
