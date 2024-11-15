@@ -3,17 +3,19 @@ import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {useMatch} from "react-router";
 import {useSelector} from "react-redux";
 import {selectCustomerKey, selectCustomerLoading} from "@ducks/customer/selectors";
-import {loadCart} from "@ducks/b2b-cart/actions";
+import {loadCart} from "@ducks/carts/actions";
 import {redirect} from "react-router-dom";
 import DocumentTitle from "@components/DocumentTitle";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartSkeleton from "@components/carts/CartSkeleton";
-import CartHeaderElement from "@components/carts/CartHeaderElement";
 import {selectCartById} from "@ducks/carts/selectors";
+import CartOrderHeader from "@components/carts/CartOrderHeader";
+import {setCurrentCartId} from "@ducks/active-cart/actions";
+import {parseCartId} from "@ducks/carts/utils";
+import CartTotal from "@components/carts/CartTotal";
 
 export default function CartPage() {
     const dispatch = useAppDispatch();
-    // const navigate = useNavigate();
     const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
     const customerLoading = useSelector(selectCustomerLoading);
@@ -21,9 +23,12 @@ export default function CartPage() {
     const cartHeader = cart?.header ?? null;
 
     useEffect(() => {
-        if (match?.params.cartId && customerKey) {
-            dispatch(loadCart({cartId: +match?.params.cartId, customerKey}));
+        const cartId = parseCartId(match?.params.cartId);
+        if (Number.isNaN(cartId) || !cartId || !customerKey) {
+            return;
         }
+        dispatch(setCurrentCartId(cartId))
+        dispatch(loadCart({cartId, customerKey}));
     }, [match, customerKey]);
 
 
@@ -49,7 +54,7 @@ export default function CartPage() {
     return (
         <div>
             <DocumentTitle documentTitle={documentTitle}/>
-            <CartHeaderElement/>
+            <CartOrderHeader/>
             <div>
                 <code>
                     <pre>

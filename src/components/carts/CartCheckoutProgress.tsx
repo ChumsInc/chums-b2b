@@ -1,11 +1,13 @@
 import React from 'react';
 import {
     CartProgress,
+} from "@typeDefs/cart/cart-utils";
+import {
     cartProgress_Cart,
     cartProgress_Confirm,
     cartProgress_Delivery,
     cartProgress_Payment
-} from "@typeDefs/cart";
+} from "@utils/cart";
 import Box from "@mui/material/Box";
 import LinearProgress from '@mui/material/LinearProgress'
 import Grid from '@mui/material/Unstable_Grid2'

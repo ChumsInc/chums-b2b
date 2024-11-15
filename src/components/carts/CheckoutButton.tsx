@@ -1,16 +1,12 @@
 import React from 'react';
-import {
-    CartProgress,
-    cartProgress_Cart,
-    cartProgress_Confirm,
-    cartProgress_Delivery,
-    cartProgress_Payment
-} from "@typeDefs/cart";
+import {CartProgress,} from "@typeDefs/cart/cart-utils";
+import {cartProgress_Cart, cartProgress_Confirm, cartProgress_Delivery, cartProgress_Payment} from "@utils/cart";
 import Button, {ButtonProps} from "@mui/material/Button";
 
 export interface CheckoutButtonProps extends ButtonProps {
     cartProgress: CartProgress;
 }
+
 export default function CheckoutButton({cartProgress, type, ...buttonProps}: CheckoutButtonProps) {
     const buttonText = () => {
         switch (cartProgress) {

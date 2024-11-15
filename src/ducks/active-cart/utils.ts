@@ -1,5 +1,5 @@
 import {SortProps} from "b2b-types";
-import {B2BCartDetail} from "@typeDefs/carts";
+import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 
 export const cartDetailSorter = ({
                                      field,

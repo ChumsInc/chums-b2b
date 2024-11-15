@@ -1,5 +1,5 @@
-import {CartProgress, SortProps} from "b2b-types";
-import {B2BCart, B2BCartHeader} from "../../types/carts";
+import {SortProps} from "b2b-types";
+import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import Decimal from "decimal.js";
 
 export const defaultCartsSort:SortProps<B2BCartHeader> = {
@@ -39,9 +39,9 @@ export const cartsSorter = ({field, ascending}:SortProps<B2BCartHeader>) => (a:B
     }
 }
 
-export const sendCartGTagEvent = ({progress, cart}:{
-    progress: CartProgress,
-    cart: B2BCart
-}): => {
-
+export const parseCartId = (str?: number|string|null):number => {
+    if (!str) {
+        return NaN;
+    }
+    return +str;
 }

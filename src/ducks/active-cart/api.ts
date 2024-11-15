@@ -1,13 +1,13 @@
+import {fetchJSON} from "@api/fetch";
 import {
     AddToCartProps,
-    B2BCart,
-    B2BCartHeader,
     CartActionProps,
     DeleteCartItemProps,
     UpdateCartItemProps,
     UpdateCartProps
-} from "@typeDefs/carts";
-import {fetchJSON} from "@api/fetch";
+} from "@typeDefs/cart/cart-action-props";
+import {B2BCart} from "@typeDefs/cart/cart";
+import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 
 
 export async function fetchCart(arg: CartActionProps): Promise<B2BCart | null> {

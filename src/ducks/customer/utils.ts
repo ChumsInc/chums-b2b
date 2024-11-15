@@ -16,9 +16,10 @@ import {
     customerUserSorter,
     defaultCustomerUserSort,
     defaultShipToSort,
-} from "../../utils/customer";
+} from "@utils/customer";
+import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 
-export const addressFromShipToAddress = (address: ShipToAddress | null): CustomerAddress => {
+export const addressFromShipToAddress = (address: B2BCartHeader | ShipToAddress | null): CustomerAddress => {
     return {
         CustomerName: address?.ShipToName ?? '',
         AddressLine1: address?.ShipToAddress1 ?? null,
