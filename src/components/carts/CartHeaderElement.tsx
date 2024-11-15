@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import {addressFromShipToAddress, multiLineAddress} from "@ducks/customer/utils";
 import {getShippingMethod} from "@constants/account";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {loadCart} from "@ducks/b2b-cart/actions";
+import {loadCart} from "@ducks/carts/actions";
 import Grid from '@mui/material/Unstable_Grid2';
 import {useMatch} from "react-router";
 import DuplicateCartDialog from "@ducks/cart/components/DuplicateCartDialog";
@@ -13,14 +13,14 @@ import {duplicateSalesOrder} from "@ducks/cart/actions";
 import {selectCartLoading} from "@ducks/cart/selectors";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
-import {selectCartHeader} from "@ducks/b2b-cart/selectors";
 import {selectCustomerKey} from "@ducks/customer/selectors";
+import {selectCartHeaderById} from "@ducks/carts/selectors";
 
 const SalesOrderHeaderElement = () => {
     const dispatch = useAppDispatch();
     const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
-    const header = useAppSelector(selectCartHeader);
+    const header = useAppSelector((state) => selectCartHeaderById(state, +(match?.params.cartId ?? 0)));
     const cartLoading = useAppSelector(selectCartLoading);
     const [showDuplicateCart, setShowDuplicateCart] = useState(false);
 

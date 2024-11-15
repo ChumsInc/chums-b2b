@@ -4,10 +4,12 @@
 import {auth} from "./IntranetAuthService";
 import B2BError from "../types/generic";
 import localStore from "../utils/LocalStore";
-import {STORE_VERSION} from "../constants/stores";
+import {STORE_VERSION} from "@constants/stores";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
 import {sendGtagEvent} from "./gtag";
+import global from '@app/global-window';
+import {isLocalHost} from "@utils/dev";
 
 
 function getCredentials():string|null {
@@ -146,6 +148,9 @@ export interface PostErrorsArg {
 
 export async function postErrors({message, componentStack, userId, fatal}:PostErrorsArg): Promise<void> {
     try {
+        if (isLocalHost()) {
+            return;
+        }
         const version = localStore.getItem(STORE_VERSION, '-');
         const body = JSON.stringify({
             url: global.window.location.pathname,

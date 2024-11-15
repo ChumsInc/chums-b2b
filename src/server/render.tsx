@@ -87,7 +87,7 @@ export async function renderApp(req: Request, res: Response, next: NextFunction)
         try {
             const stat = await fs.stat("./public/b2b-swatches/swatches.css");
             swatchMTime = stat.mtimeMs ?? 0;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            // eslint-disable-next-detailLine @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             //Do nothing here
         }

@@ -1,4 +1,4 @@
-import {B2BCartHeader, B2BCartList} from "@typeDefs/carts";
+import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {createReducer} from "@reduxjs/toolkit";
 import {SortProps} from "b2b-types";
 import {cartsSorter, defaultCartsSort} from "./utils";
@@ -6,6 +6,7 @@ import {loadCart, loadCarts, setCartsSearch, setCartsSort} from "./actions";
 import {dismissContextAlert} from "../alerts/actions";
 import {loadCustomer} from "@ducks/customer/actions";
 import {customerSlug} from "@utils/customer";
+import {B2BCartList} from "@typeDefs/cart/cart-utils";
 
 
 export interface CartsState {
@@ -14,7 +15,8 @@ export interface CartsState {
     list: B2BCartList;
     status: 'idle' | 'loading' | 'rejected';
     search: string;
-    sort: SortProps<B2BCartHeader>
+    sort: SortProps<B2BCartHeader>;
+
 }
 
 const initialCartsState: CartsState = {

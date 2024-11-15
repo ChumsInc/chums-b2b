@@ -1,4 +1,4 @@
-import {CartProgress} from "../types/cart";
+import {CartProgress} from "@typeDefs/cart/cart-utils";
 import {OrderType} from "../types/salesorder";
 import {KeyedObject} from "../types/generic";
 

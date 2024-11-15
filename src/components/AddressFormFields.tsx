@@ -38,12 +38,12 @@ const AddressFormFields = ({address, onChange, readOnly}: {
 
             <TextField variant="filled" fullWidth label="Address 1" size="small"
                        onChange={changeHandler('AddressLine1')} value={address.AddressLine1 ?? ''}
-                       inputProps={{readOnly, maxLength: 30, autoComplete: 'address-line-1'}} required/>
+                       inputProps={{readOnly, maxLength: 30, autoComplete: 'address-detailLine-1'}} required/>
             <TextField variant="filled" onChange={changeHandler('AddressLine2')} value={address.AddressLine2 ?? ''}
-                       inputProps={{readOnly, maxLength: 30, autoComplete: 'address-line-2'}} size="small"
+                       inputProps={{readOnly, maxLength: 30, autoComplete: 'address-detailLine-2'}} size="small"
                        fullWidth label="Address 2"/>
             <TextField variant="filled" onChange={changeHandler('AddressLine3')} value={address.AddressLine3 ?? ''}
-                       inputProps={{readOnly, maxLength: 30, autoComplete: 'address-line-3'}} size="small"
+                       inputProps={{readOnly, maxLength: 30, autoComplete: 'address-detailLine-3'}} size="small"
                        fullWidth label="Address 3"/>
             <TextField variant="filled" onChange={changeHandler('City')} value={address.City ?? ''}
                        inputProps={{readOnly, maxLength: 30, autoComplete: 'address-level2'}} size="small"
