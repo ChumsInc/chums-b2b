@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductImage from "../../../components/ProductImage";
+import ProductImage from "@components/product-image/ProductImage";
 import {useSelector} from "react-redux";
 import {
     selectCurrentProduct,

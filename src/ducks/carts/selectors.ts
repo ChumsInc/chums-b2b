@@ -1,6 +1,8 @@
 import {RootState} from "@app/configureStore";
 import {createSelector} from "@reduxjs/toolkit";
 import {cartsSorter} from "./utils";
+import {selectActiveCartId} from "@ducks/active-cart/selectors";
+import Decimal from "decimal.js";
 
 export const selectCartsList = (state: RootState) => state.carts.list;
 export const selectCartsIndexes = (state: RootState) => state.carts.indexes;
@@ -8,6 +10,7 @@ export const selectCartsStatus = (state: RootState) => state.carts.status;
 export const selectCartsSort = (state: RootState) => state.carts.sort;
 export const selectCartsSearch = (state: RootState) => state.carts.search;
 export const selectCartIdHelper = (state: RootState, cartId: number) => cartId;
+export const selectCartItemIdHelper = (state: RootState, cartId: number, id: number) => id;
 
 export const selectCartsLength = createSelector(
     [selectCartsIndexes],
@@ -77,8 +80,69 @@ export const selectFilteredCarts = createSelector(
 )
 
 export const selectCartHasChanges = createSelector(
-    [selectCartIdHelper, selectCartDetailById],
-    (cartId, detail) => {
+    [selectCartDetailById],
+    (detail) => {
         return detail.reduce((pv, cv) => cv.changed ?? pv, false)
     }
 );
+
+export const selectCartItemById = createSelector(
+    [selectCartDetailById, selectCartItemIdHelper],
+    (detail, id) => {
+        const [line] = detail.filter(line => line.id === id);
+        return line ?? null;
+    }
+)
+
+export const selectCartItemStatus = createSelector(
+    [selectCartById, selectCartItemIdHelper],
+    (cart, id) => {
+        return cart?.lineStatus?.[id] ?? 'idle';
+    }
+)
+
+export const selectCartTotal = createSelector(
+    [selectCartById],
+    (cart) => {
+        return cart?.header?.subTotalAmt ?? null;
+    }
+)
+
+export const selectActiveCart = createSelector(
+    [selectActiveCartId, selectCartsList],
+    (cartId, list) => {
+        return list[cartId] ?? null;
+    }
+)
+
+export const selectActiveCartTotal = createSelector(
+    [selectActiveCart],
+    (cart) => {
+        return cart?.header?.subTotalAmt ?? null;
+    }
+)
+
+export const selectActiveCartQuantity = createSelector(
+    [selectActiveCart],
+    (cart) => {
+        if (!cart) {
+            return 0;
+        }
+        return cart.detail
+            .filter(line => line.itemType === '1')
+            .map(line => new Decimal(line.quantityOrdered).times(line.unitOfMeasureConvFactor))
+            .reduce((pv, cv) => cv.add(pv), new Decimal(0))
+            .toNumber();
+    }
+)
+
+export const selectActiveCartLoading = createSelector(
+    [selectActiveCart],
+    (cart) => {
+        if (!cart || !cart.status) {
+            return false;
+        }
+        return cart?.status !== 'idle'
+    }
+)
+

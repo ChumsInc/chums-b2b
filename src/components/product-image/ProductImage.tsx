@@ -3,7 +3,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {parseImageFilename} from '../common/image';
+import {parseImageFilename} from '../../common/image';
 import {ProductAlternateImage} from "b2b-types";
 import ProductImageList from "./ProductImageList";
 
@@ -19,6 +19,17 @@ export interface ProductImageProps {
     loading?: boolean;
 }
 
+const buildMainImage = (filename: string, colorCode?: string, altText?: string):ProductAlternateImage => {
+    return {
+        id: 0,
+        productId: 0,
+        image: parseImageFilename(filename, colorCode),
+        altText: altText ?? '',
+        status: true,
+        priority: -1,
+    }
+}
+
 /**
  * @TODO: Add alternate images from variants if available, eliminate duplicates.
  * @TODO: Allow custom images in mixes.
@@ -32,6 +43,11 @@ export default function ProductImage({
                                      }: ProductImageProps) {
     const [selectedItemHash, setSelectedItemHash] = useState(`#${selectedItem}`);
     const [carouselImages, setCarouselImages] = useState<ProductAlternateImage[]>([]);
+    const [mainImage, setMainImage] = useState<ProductAlternateImage>(buildMainImage(image, colorCode, altText))
+
+    useEffect(() => {
+        setMainImage(buildMainImage(image, colorCode, altText))
+    }, [image, colorCode, altText]);
 
     useEffect(() => {
         setSelectedItemHash(`#${selectedItem}`)
@@ -47,17 +63,7 @@ export default function ProductImage({
         setCarouselImages(carouselImages);
     }, [selectedItemHash, altImages])
 
-
-    const mainImage: ProductAlternateImage = {
-        id: 0,
-        productId: 0,
-        image: parseImageFilename(image, colorCode),
-        altText,
-        status: true,
-        priority: -1,
-    }
-
     return (
-        <ProductImageList images={[mainImage, ...carouselImages]}/>
+        <ProductImageList primaryImage={mainImage} images={carouselImages}/>
     );
 }

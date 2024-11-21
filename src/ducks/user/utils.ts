@@ -2,7 +2,7 @@ import {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserP
 import {SortProps} from "../../types/generic";
 import {generatePath} from "react-router-dom";
 import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "../../constants/paths";
-import {shortCustomerKey} from "../../utils/customer";
+import {customerSlug, shortCustomerKey} from "../../utils/customer";
 import {isRejected, UnknownAction} from "@reduxjs/toolkit";
 import {DeprecatedUserAction, DeprecatedUserProfileAction} from "./types";
 import {ExtendedUserProfile} from "../../types/user";
@@ -59,7 +59,9 @@ export const salespersonPath = (rep: CustomerSalesperson | null) => {
 export const customerPath = (customer: CustomerKey) => `${customer.ARDivisionNo}-${customer.CustomerNo}`;
 
 export const customerURL = (customer: CustomerKey) => `/account/${encodeURIComponent(customerPath(customer))}`;
-export const customerCartURL = (customer: CustomerKey, salesOrderNo?: string | null) => `/account/${encodeURIComponent(customerPath(customer))}/carts/${encodeURIComponent(salesOrderNo ?? '')}`;
+export const customerCartURL = (customer: CustomerKey, cartId?: number) => {
+    return generatePath('/account/:customerSlug/carts/:cartId', {customerSlug: customerSlug(customer), cartId: `${cartId}`});
+};
 export const repAccountListURL = (rep: CustomerSalesperson) => `/profile/rep/${encodeURIComponent(salespersonPath(rep))}`;
 
 export const accessListURL = (access: UserCustomerAccess) => {

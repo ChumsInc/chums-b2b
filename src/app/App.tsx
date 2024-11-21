@@ -44,9 +44,8 @@ import {useLocation} from "react-router";
 import {sendGtagEvent} from "@api/gtag";
 import {selectAppNonce} from "@ducks/app/selectors";
 import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
-import CartsPage from "@components/carts/CartsPage";
-import CartOrderHeader from "@components/carts/CartOrderHeader";
-import CartPage from "@components/carts/CartPage";
+import CartsPage from "@ducks/carts/components/CartsPage";
+import CartPage from "@ducks/carts/components/CartPage";
 
 
 const App = () => {

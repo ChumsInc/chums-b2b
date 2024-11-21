@@ -36,8 +36,8 @@ export default function SalesOrderKitComponentLine({
                 <p>{line.ItemCodeDesc}</p>
                 {!!line.UDF_UPC && <p>{UPCA.format(line.UDF_UPC)}</p>}
                 {!readOnly && (
-                    <AvailabilityAlert QuantityOrdered={line.QuantityOrdered}
-                                       QuantityAvailable={line.QuantityAvailable}/>
+                    <AvailabilityAlert quantityOrdered={line.QuantityOrdered}
+                                       quantityAvailable={line.QuantityAvailable}/>
                 )}
             </TableCell>
             <TableCell>{line.UnitOfMeasure}</TableCell>

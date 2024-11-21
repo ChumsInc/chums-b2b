@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useId} from 'react';
+import React, {ChangeEvent, useEffect, useId, useState} from 'react';
 import FormControl from '@mui/material/FormControl';
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -8,8 +8,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import {visuallyHidden} from "@mui/utils";
-import {css} from "@emotion/react";
 import {styled} from "@mui/material/styles";
+import {useDebounceValue} from "usehooks-ts";
 
 const NumericInput = styled(FilledInput)`
     input[type=number]::-webkit-inner-spin-button,
@@ -27,61 +27,78 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
     required?: boolean;
 }) => {
     const id = useId();
+    const [qty, setQty] = useState<number>(quantity);
+    const [value, setValue] = useDebounceValue<number>(qty, 350);
+
+    useEffect(() => {
+        setValue(quantity);
+        setQty(quantity);
+    }, [quantity]);
+
+    useEffect(() => {
+        onChange(value);
+    }, [value]);
 
     const incrementHandler = () => {
-        onChange(+quantity + 1);
+        const value = qty + 1;
+        setQty(value);
+        setValue(value);
     }
 
     const decrementHandler = () => {
-        onChange(Math.max(min, +quantity - 1));
+        const value = Math.max(min, qty - 1);
+        setQty(value);
+        setValue(value);
     }
 
     const changeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
-        const value = +ev.target.value;
-        if (isNaN(value)) {
+        const _value = +ev.target.value;
+        if (isNaN(_value)) {
             return;
         }
-        onChange(Math.max(+ev.target.value, 0));
+        const value = Math.max(_value, 0);
+        setQty(value);
+        setValue(value);
     }
 
     return (
         <FormControl fullWidth>
             <InputLabel htmlFor={id} sx={{...visuallyHidden}}>Quantity</InputLabel>
-            <NumericInput value={quantity ?? ''} size="small"
-                         onChange={changeHandler}
-                         type="number"
-                         inputProps={{
-                             inputMode: 'numeric',
-                             pattern: '[0-9]*',
-                             readOnly: disabled,
-                             min: 1,
-                             maxLength: 4,
-                             sx: {textAlign: 'center'},
-                             id: id,
-                             autoCorrect: 'off',
-                             autoComplete: 'off'
-                         }}
-                         required={required}
-                         aria-label="Quantity to add to cart"
-                         startAdornment={
-                             <InputAdornment position="start">
-                                 <IconButton onClick={decrementHandler} size="small" edge="start"
-                                             aria-label="decrease by one"
-                                             disabled={disabled || +quantity === min}>
-                                     <RemoveIcon/>
-                                 </IconButton>
-                             </InputAdornment>
-                         }
-                         endAdornment={
-                             <InputAdornment position="end">
-                                 <IconButton onClick={incrementHandler} size="small" edge="end"
-                                             aria-label="increase by 1"
-                                             disabled={disabled}>
-                                     <AddIcon/>
-                                 </IconButton>
-                                 <Box sx={{ml: 1}}>{unitOfMeasure ?? 'EA'}</Box>
-                             </InputAdornment>
-                         }
+            <NumericInput value={qty || ''} size="small"
+                          onChange={changeHandler}
+                          type="number"
+                          inputProps={{
+                              inputMode: 'numeric',
+                              pattern: '[0-9]*',
+                              readOnly: disabled,
+                              min: 1,
+                              maxLength: 4,
+                              sx: {textAlign: 'center'},
+                              id: id,
+                              autoCorrect: 'off',
+                              autoComplete: 'off'
+                          }}
+                          required={required}
+                          aria-label="Quantity to add to cart"
+                          startAdornment={
+                              <InputAdornment position="start">
+                                  <IconButton onClick={decrementHandler} size="small" edge="start"
+                                              aria-label="decrease by one"
+                                              disabled={disabled || +quantity === min}>
+                                      <RemoveIcon/>
+                                  </IconButton>
+                              </InputAdornment>
+                          }
+                          endAdornment={
+                              <InputAdornment position="end">
+                                  <IconButton onClick={incrementHandler} size="small" edge="end"
+                                              aria-label="increase by 1"
+                                              disabled={disabled}>
+                                      <AddIcon/>
+                                  </IconButton>
+                                  <Box sx={{ml: 1}}>{unitOfMeasure ?? 'EA'}</Box>
+                              </InputAdornment>
+                          }
             />
         </FormControl>
     )
