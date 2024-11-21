@@ -2,41 +2,42 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {selectCartsSort, selectFilteredCarts} from "@ducks/carts/selectors";
 import {SortProps} from "b2b-types";
-import DataTable, {SortableTableField} from "../../common-components/DataTable";
+import DataTable, {SortableTableField} from "../../../../common-components/DataTable";
 import TablePagination from "@mui/material/TablePagination";
-import CartButton from "../CartButton";
-import {DateString} from "../DateString";
+import CartButton from "./CartButton";
+import {DateString} from "@components/DateString";
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import CartLink from "@components/carts/CartLink";
+import CartLink from "@ducks/carts/components/list/CartLink";
 import {setCartsSort} from "@ducks/carts/actions";
 
 
 const cartFields: SortableTableField<B2BCartHeader>[] = [
-    {field: 'id', title: 'Cart', render: (so) => <CartButton salesOrderNo={so.salesOrderNo}/>},
+    {field: 'id', title: 'Cart', render: (cart) => <CartButton cartId={cart.id}/>},
     {
         field: 'salesOrderNo',
         title: 'Order #',
-        render: (so) => <CartLink cartId={so.id}>{so.salesOrderNo ?? 'pending'}</CartLink>,
+        render: (cart) => <CartLink cartId={cart.id}>{cart.salesOrderNo ?? 'pending'}</CartLink>,
         sortable: true
     },
     {field: 'customerPONo', title: 'PO #', sortable: true},
     {
         field: 'dateCreated',
         title: 'Ordered Created',
-        render: (so) => <DateString date={so.dateCreated}/>,
+        render: (cart) => <DateString date={cart.dateCreated}/>,
         sortable: true
     },
     {
-        field: 'ShipToName', title: 'Ship To', sortable: true, render: (row) => (
-            <span>{!!row.shipToCode && (<span>[{row.shipToCode}]</span>)} {row.ShipToName}</span>
+        field: 'ShipToName', title: 'Ship To', sortable: true, 
+        render: (cart) => (
+            <span>{!!cart.shipToCode && (<span>[{cart.shipToCode}]</span>)} {cart.ShipToName}</span>
         )
     },
     {
         field: 'ShipToCity',
         title: 'Location',
-        render: (so) => `${so.ShipToCity}, ${so.ShipToState} ${so.ShipToZipCode}`,
+        render: (cart) => `${cart.ShipToCity}, ${cart.ShipToState} ${cart.ShipToZipCode}`,
         sortable: true
     },
     {

@@ -98,7 +98,6 @@ export default function OrderDetail({salesOrderNo}: {
                         <AddToCartForm cartItem={cartItem}
                                        unitOfMeasure={unitOfMeasure}
                                        quantity={cartItem?.quantity ?? 1} onChangeQuantity={quantityChangeHandler}
-                                       excludeSalesOrder={salesOrderNo}
                                        onDone={() => setCartItem(null)}
                         />
                     )}

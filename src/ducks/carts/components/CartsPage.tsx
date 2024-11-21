@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import CartsFilter from "@components/carts/CartsFilter";
+import CartsFilter from "@ducks/carts/components/list/CartsFilter";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {selectCartsStatus} from "@ducks/carts/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
-import CartsList from "@components/carts/CartsList";
+import CartsList from "@ducks/carts/components/list/CartsList";
 import {useSelector} from "react-redux";
 import {loadCarts} from "@ducks/carts/actions";
-import NoCartsAlert from "@components/carts/NoCartsAlert";
+import NoCartsAlert from "@ducks/carts/components/list/NoCartsAlert";
 import {selectCustomerKey} from "@ducks/customer/selectors";
 
 export default function CartsPage() {

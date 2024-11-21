@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import CartDetailLine from "./CartDetailLine";
-import CartTotal from "../CartTotal";
+import CartTotal from "./CartTotal";
 import {CartProduct, SalesOrderDetailLine} from "b2b-types";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "@ducks/sales-order/utils";
@@ -81,8 +81,7 @@ export default function CartDetail({cartId}: {
 
                 <TableBody>
                     {detail.map(line => (
-                        <CartDetailLine key={line.id} salesOrderNo={salesOrderNo} detailLine={line}
-                                        readOnly={!isCart}
+                        <CartDetailLine key={line.id} line={line}
                                         onAddToCart={addToCartHandler}/>
                     ))}
                 </TableBody>
@@ -95,7 +94,7 @@ export default function CartDetail({cartId}: {
                         <AddToCartForm cartItem={cartItem}
                                        unitOfMeasure={unitOfMeasure}
                                        quantity={cartItem?.quantity ?? 1} onChangeQuantity={quantityChangeHandler}
-                                       excludeSalesOrder={salesOrderNo}
+                                       excludeCartId={cartId}
                                        onDone={() => setCartItem(null)}
                         />
                     )}

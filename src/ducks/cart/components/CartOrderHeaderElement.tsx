@@ -18,12 +18,12 @@ import {
 } from "../../../types/cart";
 import ShipDateInput from "./ShipDateInput";
 import {minShipDate, nextShipDate} from "../../../utils/orders";
-import ShippingMethodSelect from "../../../components/ShippingMethodSelect";
+import ShippingMethodSelect from "@ducks/carts/components/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Unstable_Grid2';
 import ShipToSelect from "../../customer/components/ShipToSelect";
 import CartCheckoutProgress from "./CartCheckoutProgress";
-import CartPaymentSelect from "@components/carts/CartPaymentSelect";
+import CartPaymentSelect from "@ducks/carts/components/header/CartPaymentSelect";
 import CheckoutButton from "./CheckoutButton";
 import {selectCustomerAccount} from "../../customer/selectors";
 import {promoteCart, saveCart, setCurrentCart} from "../actions";
@@ -39,7 +39,7 @@ import {
     selectSalesOrderActionStatus,
     selectSalesOrderDetail
 } from "../../open-orders/selectors";
-import SendEmailButton from "../../open-orders/components/SendEmailButton";
+// import SendEmailButton from "@ducks/carts/components/header/SendEmailButton";
 import ItemAutocomplete from "../../item-lookup/ItemAutocomplete";
 import CartCommentInput from "./CartCommentInput";
 import Divider from "@mui/material/Divider";
@@ -326,10 +326,10 @@ const CartOrderHeaderElement = () => {
                             disabled={loadingStatus !== 'idle' || (cartProgress !== cartProgress_Cart && !detailChanged)}>
                         Save Cart
                     </Button>
-                    <SendEmailButton salesOrderNo={header.SalesOrderNo}
-                                     disabled={cartProgress !== cartProgress_Cart || detailChanged}>
-                        Send Email
-                    </SendEmailButton>
+                    {/*<SendEmailButton salesOrderNo={header.SalesOrderNo}*/}
+                    {/*                 disabled={cartProgress !== cartProgress_Cart || detailChanged}>*/}
+                    {/*    Send Email*/}
+                    {/*</SendEmailButton>*/}
                     <CheckoutButton cartProgress={cartProgress}
                                     onClick={submitHandler} disabled={loadingStatus !== 'idle' || detailChanged}/>
                     {!!cartHeader?.SalesOrderNo && cartHeader.SalesOrderNo !== cartNo && (

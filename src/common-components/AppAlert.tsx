@@ -3,6 +3,22 @@ import Alert, {AlertProps} from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from "@mui/material/IconButton";
+
+function AppAlertCloseButton({canClose, onClick}:{
+    canClose?: boolean;
+    onClick?: () => void;
+}) {
+    if (!canClose) {
+        return null;
+    }
+    return (
+        <IconButton onClick={onClick}>
+            <CloseIcon  />
+        </IconButton>
+    )
+}
 
 export interface AppAlertProps extends AlertProps {
     alertId?: number;
@@ -31,7 +47,9 @@ const AppAlert = ({
     }
 
     return (
-        <Alert severity={severity} onClose={dismissHandler}>
+        <Alert severity={severity} onClose={dismissHandler} action={
+            <AppAlertCloseButton canClose={!!onDismissContext || !!onDismiss} onClick={dismissHandler} />
+        }>
             <AlertTitle sx={{display: 'inline-block', mr: 3}}>
                 <Stack direction="row" spacing={2}>
                     {!!context && (<Typography sx={{fontWeight: 700}}>[{context}]</Typography>)}
