@@ -15,7 +15,7 @@ import {selectCartLoading, selectCartNo, selectShippingAccount} from "./selector
 import {fetchOpenSalesOrders, postApplyPromoCode} from "../../api/sales-order";
 import {postCartAction} from "../../api/cart";
 import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
-import {changedDetailLine, newCommentLine} from "../../utils/cart";
+import {changedDetailLine, newCommentLine} from "@utils/cart";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {AppDispatch, RootState} from "../../app/configureStore";
 import {isCustomer} from "../user/utils";

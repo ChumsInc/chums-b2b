@@ -70,8 +70,8 @@ export default function SalesOrderItemLine({
                     <Typography variant="body1">{line.ItemCodeDesc}</Typography>
                     {!!line.UDF_UPC && <FormattedUPC value={line.UDF_UPC}/>}
                     {!readOnly && canViewAvailable && (
-                        <AvailabilityAlert QuantityOrdered={line.QuantityOrdered}
-                                           QuantityAvailable={line.QuantityAvailable}/>
+                        <AvailabilityAlert quantityOrdered={line.QuantityOrdered}
+                                           quantityAvailable={line.QuantityAvailable}/>
                     )}
                 </TableCell>
                 <TableCell>{line.UnitOfMeasure}</TableCell>

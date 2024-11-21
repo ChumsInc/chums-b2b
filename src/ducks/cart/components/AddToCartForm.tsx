@@ -35,7 +35,7 @@ export interface AddToCartFormProps {
     disabled?: boolean;
     onDone: () => void;
     onChangeQuantity: (val: number) => void;
-    excludeSalesOrder?: string;
+    excludeCartId?: number;
     afterAddToCart?: (message: string) => void;
 }
 export default function AddToCartForm({
@@ -47,7 +47,7 @@ export default function AddToCartForm({
                            disabled,
                            onDone,
                            onChangeQuantity,
-                           excludeSalesOrder,
+                           excludeCartId,
                            afterAddToCart,
                        }: AddToCartFormProps) {
     const dispatch = useAppDispatch();
@@ -165,7 +165,7 @@ export default function AddToCartForm({
         <form onSubmit={submitHandler} className="add-to-cart" method="post">
             <Stack spacing={2} direction="column">
                 <CartSelect cartNo={localCartNo} onChange={cartChangeHandler}
-                            excludeCartNo={excludeSalesOrder}/>
+                            excludeCartId={excludeCartId}/>
                 {(!localCartNo || localCartNo === NEW_CART) && (
                     <Stack spacing={2} direction={{xs: "column", md: "row"}}>
                         <Box sx={{width: '50%'}}>

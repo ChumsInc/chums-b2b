@@ -16,7 +16,7 @@ import {
 } from "@utils/cart";
 import ShipDateInput from "./ShipDateInput";
 import {minShipDate, nextShipDate} from "@utils/orders";
-import ShippingMethodSelect from "@components/ShippingMethodSelect";
+import ShippingMethodSelect from "@ducks/carts/components/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Unstable_Grid2';
 import ShipToSelect from "@ducks/customer/components/ShipToSelect";
@@ -25,7 +25,7 @@ import Alert from "@mui/material/Alert";
 import {useMatch, useNavigate} from "react-router";
 import {generatePath} from "react-router-dom";
 import AlertList from "@ducks/alerts/AlertList";
-import SendEmailButton from "@ducks/open-orders/components/SendEmailButton";
+import SendEmailButton from "@ducks/carts/components/header/SendEmailButton";
 import ItemAutocomplete from "@ducks/item-lookup/ItemAutocomplete";
 import Divider from "@mui/material/Divider";
 import Decimal from "decimal.js";
@@ -34,26 +34,32 @@ import {selectSOLoading} from "@ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
-import {selectCartId, selectCartStatus} from "@ducks/active-cart/selectors";
+import {selectActiveCartId} from "@ducks/active-cart/selectors";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {loadCart} from "@ducks/carts/actions";
-import CartPaymentSelect from "@components/carts/CartPaymentSelect";
-import CartCheckoutProgress from "@components/carts/CartCheckoutProgress";
-import DeleteCartButton from "@components/carts/DeleteCartButton";
-import CheckoutButton from "@components/carts/CheckoutButton";
-import CartCommentInput from "@components/carts/CartCommentInput";
+import {loadCart, saveCart} from "@ducks/carts/actions";
+import CartPaymentSelect from "@ducks/carts/components/header/CartPaymentSelect";
+import CartCheckoutProgress from "@ducks/carts/components/header/CartCheckoutProgress";
+import DeleteCartButton from "@ducks/carts/components/header/DeleteCartButton";
+import CheckoutButton from "@ducks/carts/components/header/CheckoutButton";
+import CartCommentInput from "@ducks/carts/components/header/CartCommentInput";
 import {selectCustomerKey} from "@ducks/customer/selectors";
-import {selectCartDetailById, selectCartHasChanges, selectCartHeaderById} from "@ducks/carts/selectors";
+import {
+    selectCartDetailById,
+    selectCartHasChanges,
+    selectCartHeaderById,
+    selectCartStatusById
+} from "@ducks/carts/selectors";
+import LinearProgress from "@mui/material/LinearProgress";
 
 
 export default function CartOrderHeader() {
     const dispatch = useAppDispatch();
     const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
-    const currentCartId = useAppSelector(selectCartId);
+    const currentCartId = useAppSelector(selectActiveCartId);
     const header = useAppSelector((state) => selectCartHeaderById(state, currentCartId));
     const detail = useAppSelector((state) => selectCartDetailById(state, currentCartId));
-    const loadingStatus = useAppSelector(selectCartStatus);
+    const loadingStatus = useAppSelector((state) => selectCartStatusById(state, currentCartId));
     const loading = useAppSelector(selectSOLoading);
     const shipDateRef = useRef<HTMLInputElement | null>(null);
     const shipMethodRef = useRef<HTMLDivElement | null>(null);
@@ -64,12 +70,6 @@ export default function CartOrderHeader() {
 
     const [cartHeader, setCartHeader] = useState<(B2BCartHeader & Editable) | null>(header);
     const [cartProgress, setCartProgress] = useState<CartProgress>(cartProgress_Cart);
-
-    useEffect(() => {
-        if (customerKey && customerKey === match?.params.customerSlug && !!match.params.cartId) {
-            dispatch(loadCart({customerKey, cartId: +match.params.cartId}))
-        }
-    }, [match?.params.cartId, customerKey]);
 
     useEffect(() => {
         if (loading) {
@@ -154,7 +154,7 @@ export default function CartOrderHeader() {
                 setCartHeader({...cartHeader, [field]: value ?? '', changed: true});
                 return;
             case 'shipVia':
-            case 'paymentType':
+            case 'PaymentType':
                 setCartHeader({...cartHeader, [field]: value ?? '', changed: true});
         }
     }
@@ -187,11 +187,11 @@ export default function CartOrderHeader() {
         dispatch(loadCart({customerKey, cartId: header?.id}));
     }
 
-    const saveCartHandler = () => {
+    const saveCartHandler = async () => {
         if (!customerKey || !cartHeader) {
             return;
         }
-        // dispatch(saveCart(cartHeader));
+        dispatch(saveCart({customerKey, cartId: cartHeader.id, body: cartHeader}));
     }
 
     const submitHandler = async () => {
@@ -219,7 +219,7 @@ export default function CartOrderHeader() {
                 case cartProgress_Confirm:
                     sendGtagEvent(
                         'add_payment_info',
-                        {currency: "USD", value: gtagValue, payment_type: cartHeader.paymentType, items: gtagItems})
+                        {currency: "USD", value: gtagValue, payment_type: cartHeader.PaymentType, items: gtagItems})
                     break;
             }
             setCartProgress(next);
@@ -300,10 +300,10 @@ export default function CartOrderHeader() {
                 <Grid xs={12} lg={6}>
                     <Collapse in={cartProgress >= cartProgress_Payment} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
-                            <CartPaymentSelect value={cartHeader?.paymentType ?? ''} error={!cartHeader?.paymentType}
+                            <CartPaymentSelect value={cartHeader?.PaymentType ?? ''} error={!cartHeader?.PaymentType}
                                                ref={paymentMethodRef} required
                                                disabled={loadingStatus !== 'idle'}
-                                               onChange={valueChangeHandler('paymentType')}/>
+                                               onChange={valueChangeHandler('PaymentType')}/>
                             <TextField label="Purchase Order No" type="text" fullWidth variant="filled" size="small"
                                        inputProps={{maxLength: 30}}
                                        disabled={loadingStatus !== 'idle'}
@@ -338,7 +338,7 @@ export default function CartOrderHeader() {
                             disabled={loadingStatus !== 'idle' || (cartProgress !== cartProgress_Cart && !detailChanged)}>
                         Save Cart
                     </Button>
-                    <SendEmailButton salesOrderNo={header.salesOrderNo}
+                    <SendEmailButton cartId={cartHeader.id}
                                      disabled={cartProgress !== cartProgress_Cart || detailChanged}>
                         Send Email
                     </SendEmailButton>
@@ -352,6 +352,7 @@ export default function CartOrderHeader() {
                     )}
                 </Stack>
             </Stack>
+            {loadingStatus !== 'idle' && <LinearProgress variant="indeterminate"/>}
             <AlertList context={promoteCart.typePrefix}/>
             <hr/>
             <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between"

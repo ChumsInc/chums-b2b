@@ -7,19 +7,19 @@ import {loadCart} from "@ducks/carts/actions";
 import {redirect} from "react-router-dom";
 import DocumentTitle from "@components/DocumentTitle";
 import LinearProgress from "@mui/material/LinearProgress";
-import CartSkeleton from "@components/carts/CartSkeleton";
+import CartSkeleton from "@ducks/carts/components/header/CartSkeleton";
 import {selectCartById} from "@ducks/carts/selectors";
-import CartOrderHeader from "@components/carts/CartOrderHeader";
-import {setCurrentCartId} from "@ducks/active-cart/actions";
+import CartOrderHeader from "@ducks/carts/components/header/CartOrderHeader";
+import {setActiveCartId} from "@ducks/active-cart/actions";
 import {parseCartId} from "@ducks/carts/utils";
-import CartTotal from "@components/carts/CartTotal";
+import CartDetail from "@ducks/carts/components/detail/CartDetail";
 
 export default function CartPage() {
     const dispatch = useAppDispatch();
     const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
     const customerLoading = useSelector(selectCustomerLoading);
-    const cart = useAppSelector((state) => selectCartById(state, +(match?.params.cartId ?? 0)))
+    const cart = useAppSelector((state) => selectCartById(state, parseCartId(match?.params.cartId)))
     const cartHeader = cart?.header ?? null;
 
     useEffect(() => {
@@ -27,8 +27,7 @@ export default function CartPage() {
         if (Number.isNaN(cartId) || !cartId || !customerKey) {
             return;
         }
-        dispatch(setCurrentCartId(cartId))
-        dispatch(loadCart({cartId, customerKey}));
+        dispatch(loadCart({cartId, customerKey, setActiveCart: true}));
     }, [match, customerKey]);
 
 
@@ -55,6 +54,7 @@ export default function CartPage() {
         <div>
             <DocumentTitle documentTitle={documentTitle}/>
             <CartOrderHeader/>
+            <CartDetail cartId={cartHeader.id} />
             <div>
                 <code>
                     <pre>

@@ -31,7 +31,7 @@ export default function CartCommentInput({cartId, disabled}: CartCommentInputPro
                 itemType: '4',
                 itemCode: '/C',
                 commentText: text.trim(),
-                quantityOrdered: '',
+                quantityOrdered: 0,
                 unitOfMeasure: null
             }
         }));
