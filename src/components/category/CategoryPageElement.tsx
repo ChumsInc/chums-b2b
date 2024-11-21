@@ -1,6 +1,6 @@
 import React from 'react';
 import CategoryLink from "./CategoryLink";
-import CategoryProductLink from "./CategoryProductLink";
+import ProductLink from "./ProductLink";
 import {Link as RoutedLink} from "react-router-dom";
 import {ProductCategoryChild} from "b2b-types";
 import {
@@ -33,8 +33,8 @@ const CategoryPageElement = ({item}: {
                               keyword={item.category.keyword} imageUrl={item.imageUrl}/>);
     }
     if (isCategoryChildProduct(item)) {
-        return (<CategoryProductLink title={item.title} description={item.description}
-                                     product={item.product} imageUrl={item.imageUrl}/>);
+        return (<ProductLink title={item.title} description={item.description}
+                             product={item.product} imageUrl={item.imageUrl}/>);
     }
     if (isCategoryChildLink(item) && item.urlOverride) {
         return (

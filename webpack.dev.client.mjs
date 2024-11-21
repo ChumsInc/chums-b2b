@@ -4,7 +4,7 @@ import path from 'node:path';
 import process from 'node:process'
 
 const localProxy = {
-    target: 'http://localhost:80',
+    target: 'http://localhost',
     changeOrigin: true,
     secure: false,
 };

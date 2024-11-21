@@ -16,7 +16,6 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
 import {selectCartItemById} from "@ducks/carts/selectors";
 import {setCartItem} from "@ducks/carts/actions";
-import ProductLink from "@components/product";
 
 export default function CartItemLine({
                                          cartId,
@@ -66,21 +65,13 @@ export default function CartItemLine({
             }}
                       className={classNames(rowClassName)}>
                 <TableCell rowSpan={showCommentInput ? 2 : 1} component="th">
-                    <ProductLink categoryKeyword={line.cartProduct.categoryKeyword}
-                                 productKeyword={line.cartProduct.productKeyword}>
-                        <Typography variant="body1" sx={{fontWeight: 700}} component="div">
-                            {line.itemCode}
-                        </Typography>
-                        {line.itemType === '1' &&
-                            <OrderItemImage itemCode={line.itemCode} itemCodeDesc={line.itemCodeDesc}
-                                            image={line.cartProduct.image}/>}
-                    </ProductLink>
+                    <Typography variant="body1" sx={{fontWeight: 700}} component="div">{line.itemCode}</Typography>
+                    {line.itemType === '1' &&
+                        <OrderItemImage itemCode={line.itemCode} itemCodeDesc={line.itemCodeDesc}
+                                        image={line.cartProduct.image}/>}
                 </TableCell>
                 <TableCell>
-                    <ProductLink categoryKeyword={line.cartProduct.categoryKeyword}
-                                 productKeyword={line.cartProduct.productKeyword}>
-                        <Typography variant="body1">{line.itemCodeDesc}</Typography>
-                    </ProductLink>
+                    <Typography variant="body1">{line.itemCodeDesc}</Typography>
                     {!!line.cartProduct.upc && <FormattedUPC value={line.cartProduct.upc}/>}
                     {!readOnly && canViewAvailable && (
                         <AvailabilityAlert quantityOrdered={line.quantityOrdered}

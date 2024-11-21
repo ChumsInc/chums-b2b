@@ -27,7 +27,7 @@ export default function CartCommentInput({cartId, disabled}: CartCommentInputPro
         await dispatch(addToCart({
             customerKey,
             cartId,
-            item: {
+            body: {
                 itemType: '4',
                 itemCode: '/C',
                 commentText: text.trim(),

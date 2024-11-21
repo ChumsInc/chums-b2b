@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigate, useParams} from 'react-router';
 import CategoryPage2 from "@components/category/CategoryPage";
@@ -11,7 +11,6 @@ import Box from "@mui/material/Box";
 import {loadKeywords} from "../../keywords/actions";
 import {selectKeywordsList, selectKeywordsLoading} from "../../keywords/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
-import {generatePath} from "react-router-dom";
 
 const ProductRouter = () => {
     const dispatch = useAppDispatch();
@@ -19,7 +18,6 @@ const ProductRouter = () => {
     const keywordsLoading = useSelector(selectKeywordsLoading);
     const {category, product} = useParams();
     const navigate = useNavigate();
-    const [keyword, setKeyword] = useState<Keyword|null>(null);
 
     useEffect(() => {
         if (!keywords.length && !keywordsLoading) {
@@ -27,47 +25,43 @@ const ProductRouter = () => {
         }
     }, []);
 
-    useEffect(() => {
-        let keyword: Keyword | null = null;
-        if (!!category && !product) {
-            const [kw] = keywords.filter(kw => kw.keyword === category);
-            if (kw) {
-                keyword = {...kw};
-            }
-        } else if (product) {
-            const [kw] = keywords.filter(kw => kw.keyword === product);
-            if (kw) {
-                keyword = {...kw};
-            }
-        }
+    let keyword: Keyword | null = null;
 
-        if (!keyword) {
-            navigate('/products/all', {replace: true});
+    if (!!category && !product) {
+        const [kw] = keywords.filter(kw => kw.keyword === category);
+        if (kw) {
+            keyword = {...kw};
+        }
+    } else if (product) {
+        const [kw] = keywords.filter(kw => kw.keyword === product);
+        if (kw) {
+            keyword = {...kw};
+        }
+    }
+
+    if (!keyword) {
+        navigate('/products/all', {replace: true});
+        return;
+    }
+
+    if (keyword.redirect_to_parent > 0) {
+        const [kw] = keywords.filter(kw => kw.pagetype === 'product').filter(kw => kw.id === keyword.redirect_to_parent);
+        if (kw) {
+            const pathname = PATH_PRODUCT
+                .replace(':category', encodeURIComponent(kw.parent ? kw.parent : kw.keyword))
+                .replace(':product?', encodeURIComponent(kw.parent ? kw.keyword : ''));
+            const state = {variant: keyword.keyword};
+            navigate(pathname, {state, replace: true})
             return;
         }
-
-        if (keyword.redirect_to_parent > 0) {
-            const [kw] = keywords.filter(kw => kw.pagetype === 'product')
-                .filter(kw => kw.id === keyword.redirect_to_parent);
-            if (kw) {
-                const path = generatePath(PATH_PRODUCT, {
-                    category: kw.parent ? kw.parent : kw.keyword,
-                    product: kw.parent ? kw.parent : ''
-                })
-                const state = {variant: keyword.keyword};
-                navigate(path, {state, replace: true})
-                return;
-            }
-        }
-        setKeyword(keyword);
-    }, [category, product, keywords]);
+    }
 
     return (
         <ErrorBoundary>
             <Box>
                 {keywordsLoading && <LinearProgress variant="indeterminate" title="Loading Keywords"/>}
-                {keyword?.pagetype === 'category' && <CategoryPage2 keyword={keyword.keyword}/>}
-                {keyword?.pagetype === 'product' && (<ProductPage keyword={keyword.keyword}/>)}
+                {keyword.pagetype === 'category' && <CategoryPage2 keyword={keyword.keyword}/>}
+                {keyword.pagetype === 'product' && (<ProductPage keyword={keyword.keyword}/>)}
             </Box>
         </ErrorBoundary>
     );

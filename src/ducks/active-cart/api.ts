@@ -70,7 +70,7 @@ export async function putUpdateCartItem(arg: UpdateCartItemProps): Promise<B2BCa
             .replace(':customerKey', encodeURIComponent(arg.customerKey!))
             .replace(':cartId', encodeURIComponent(arg.cartId))
             .replace(':cartItemId', encodeURIComponent(arg.cartItemId));
-        const res = await fetchJSON<{ cart: B2BCart }>(url, {method: 'PUT', body: JSON.stringify(arg.body)});
+        const res = await fetchJSON<{ cart: B2BCart }>(url, {method: 'PUT', body: JSON.stringify(arg.item)});
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {

@@ -19,7 +19,7 @@ export const selectFilteredCustomerList = createSelector(
         let filterRegex = /^/;
         try {
             filterRegex = new RegExp(`\\b${filter ?? ''}`, 'i');
-            // eslint-disable-next-detailLine @typescript-eslint/no-unused-vars
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             filterRegex = /^/;
         }

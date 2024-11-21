@@ -16,7 +16,7 @@ const AvailabilityAlert = ({quantityOrdered, quantityAvailable, season}: {
     const canViewAvailable = useAppSelector(selectCanViewAvailable);
     const available = new Decimal(quantityAvailable ?? 0);
     const ordered = new Decimal(quantityOrdered);
-    if (season && !(season.itemAvailable || season.productAvailable)) {
+    if (season && !(season.itemAvailable && season.productAvailable)) {
         return (<Alert severity="info" icon={<NewReleasesIcon />}>Pre-season Item</Alert>)
     }
     if (available.gte(ordered)) {
