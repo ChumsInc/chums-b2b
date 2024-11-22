@@ -4,14 +4,14 @@ import {fetchPromoCode, fetchPromoCodes} from "../../api/promoCodes";
 import {RootState} from "../../app/configureStore";
 import {selectPromoCodesLoading} from "./selectors";
 
-export const loadPromoCodes = createAsyncThunk<PromoCode[]>(
+export const loadPromoCodes = createAsyncThunk<PromoCode[], void, {state: RootState}>(
     'promoCodes/load',
     async () => {
         return await fetchPromoCodes();
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !selectPromoCodesLoading(state);
         }
     }
@@ -19,7 +19,7 @@ export const loadPromoCodes = createAsyncThunk<PromoCode[]>(
 
 export const setPromoCode = createAction<PromoCode | null>('promoCodes/setCurrent');
 
-export const loadPromoCode = createAsyncThunk<PromoCode | null, string>(
+export const loadPromoCode = createAsyncThunk<PromoCode | null, string, {state: RootState}>(
     'promoCodes/current/load',
     async (arg) => {
         const promoCode = await fetchPromoCode(arg);
@@ -30,7 +30,7 @@ export const loadPromoCode = createAsyncThunk<PromoCode | null, string>(
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !selectPromoCodesLoading(state);
         }
     }

@@ -75,10 +75,10 @@ export const newCart = () => (dispatch: AppDispatch, getState: () => RootState) 
     // dispatch({type: SET_CART, cart});
 };
 
-export const setCurrentCart = createAsyncThunk<SalesOrderHeader | SalesOrder | null, string>(
+export const setCurrentCart = createAsyncThunk<SalesOrderHeader | SalesOrder | null, string, { state: RootState }>(
     'cart/setCurrentCart',
     async (arg, {dispatch, getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const carts = selectCartsList(state);
         const [cart] = carts.filter(so => so.SalesOrderNo === arg);
         localStore.setItem<string>(STORE_CURRENT_CART, arg);
@@ -87,7 +87,7 @@ export const setCurrentCart = createAsyncThunk<SalesOrderHeader | SalesOrder | n
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             const carts = selectCartsList(state);
             const [cart] = carts.filter(so => so.SalesOrderNo === arg);
             if (!cart) {
@@ -99,10 +99,10 @@ export const setCurrentCart = createAsyncThunk<SalesOrderHeader | SalesOrder | n
 )
 
 
-export const saveNewCart = createAsyncThunk<SalesOrder | null, SaveNewCartProps>(
+export const saveNewCart = createAsyncThunk<SalesOrder | null, SaveNewCartProps, { state: RootState }>(
     'cart/save-new',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const versionNo = selectVersion(state);
         const referrer = window?.location?.href;
         const customer = selectCurrentCustomer(state);
@@ -126,7 +126,7 @@ export const saveNewCart = createAsyncThunk<SalesOrder | null, SaveNewCartProps>
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             const customer = selectCurrentCustomer(state);
             return !!customer?.ARDivisionNo
                 && !selectCartLoading(state)
@@ -143,10 +143,10 @@ export interface AddToCartProps {
     comment?: string | null;
 }
 
-export const addToCart = createAsyncThunk<SalesOrder | null, AddToCartProps>(
+export const addToCart = createAsyncThunk<SalesOrder | null, AddToCartProps, { state: RootState }>(
     'cart/addItem',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const versionNo = selectVersion(state);
         const referrer = window?.location?.href;
         const customer = selectCurrentCustomer(state)!;
@@ -165,7 +165,7 @@ export const addToCart = createAsyncThunk<SalesOrder | null, AddToCartProps>(
         return await postCartAction('chums', customer.ARDivisionNo, customer.CustomerNo, header!.ShipToCode, body);
     }, {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return !!arg.itemCode
                 && +arg.quantity > 0
                 && selectLoggedIn(state)
@@ -180,10 +180,10 @@ export interface DuplicateSalesOrderProps {
     shipToCode?: string | null;
 }
 
-export const duplicateSalesOrder = createAsyncThunk<SalesOrder | null, DuplicateSalesOrderProps>(
+export const duplicateSalesOrder = createAsyncThunk<SalesOrder | null, DuplicateSalesOrderProps, { state: RootState }>(
     'cart/duplicateSalesOrder',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const versionNo = selectVersion(state);
         const referrer = window?.location?.href;
         const customer = selectCurrentCustomer(state)!;
@@ -200,10 +200,10 @@ export const duplicateSalesOrder = createAsyncThunk<SalesOrder | null, Duplicate
     },
 )
 
-export const saveCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader>(
+export const saveCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader, { state: RootState }>(
     'cart/save',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const customer = selectCustomerAccount(state)!;
         const {ARDivisionNo, CustomerNo} = customer;
         const ShipToCode = arg.ShipToCode ?? customer.PrimaryShipToCode ?? '';
@@ -255,7 +255,7 @@ export const saveCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader>(
         return await postCartAction('chums', ARDivisionNo, CustomerNo, ShipToCode, body);
     }, {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             if (!selectLoggedIn(state)) {
                 return false;
             }
@@ -274,10 +274,10 @@ export const saveCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader>(
     }
 )
 
-export const promoteCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader>(
+export const promoteCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader, { state: RootState }>(
     'cart/promote',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const versionNo = selectVersion(state);
         const referrer = window?.location?.href;
         const customer = selectCustomerAccount(state)!;
@@ -319,7 +319,7 @@ export const promoteCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader>
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return selectLoggedIn(state)
                 && selectSalesOrderActionStatus(state, arg.SalesOrderNo) === 'idle'
                 && arg.OrderType === 'Q'
@@ -328,10 +328,10 @@ export const promoteCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader>
     }
 )
 
-export const removeCart = createAsyncThunk<SalesOrderHeader[], SalesOrderHeader>(
+export const removeCart = createAsyncThunk<SalesOrderHeader[], SalesOrderHeader, { state: RootState }>(
     'cart/remove',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const versionNo = selectVersion(state);
         const referrer = window?.location?.href;
         const {Company, ARDivisionNo, CustomerNo, ShipToCode} = arg;
@@ -346,7 +346,7 @@ export const removeCart = createAsyncThunk<SalesOrderHeader[], SalesOrderHeader>
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return arg.OrderType === 'Q'
                 && selectSalesOrderActionStatus(state, arg.SalesOrderNo) === 'idle';
         }
@@ -361,10 +361,10 @@ export interface AddCartCommentProps {
     comment: string;
 }
 
-export const addCartComment = createAsyncThunk<SalesOrder | null, AddCartCommentProps>(
+export const addCartComment = createAsyncThunk<SalesOrder | null, AddCartCommentProps, { state: RootState }>(
     'cart/addComment',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const versionNo = selectVersion(state);
         const referrer = window?.location?.href;
         const salesOrder = selectSalesOrder(state, arg.salesOrderNo);
@@ -381,7 +381,7 @@ export const addCartComment = createAsyncThunk<SalesOrder | null, AddCartComment
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return selectLoggedIn(state)
                 && selectSalesOrderActionStatus(state, arg.salesOrderNo) === 'idle'
                 && !!selectSalesOrder(state, arg.salesOrderNo)
@@ -394,10 +394,10 @@ export const setCartProgress = createAction('cart/setProgress');
 export const setShipDate = createAction('cart/setShipDate');
 export const setShippingAccount = createAction<CustomerShippingAccount>('cart/setShippingAccount');
 
-export const applyPromoCode = createAsyncThunk<SalesOrder | null, PromoCode>(
+export const applyPromoCode = createAsyncThunk<SalesOrder | null, PromoCode, { state: RootState }>(
     'cart/applyPromoCode',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const customer = selectCurrentCustomer(state);
         const cartNo = selectCartNo(state);
         const body: ApplyPromoCodeBody = {
@@ -409,7 +409,7 @@ export const applyPromoCode = createAsyncThunk<SalesOrder | null, PromoCode>(
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return selectLoggedIn(state)
                 && !!selectCurrentCustomer(state)
                 && !!selectCartNo(state)

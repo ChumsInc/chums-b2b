@@ -33,32 +33,32 @@ export const initialMenuState = (preload: PreloadedState | null = null): MenuSta
     isOpen: false,
 });
 
-export const loadProductMenu = createAsyncThunk(
+export const loadProductMenu = createAsyncThunk<Menu | null, void, { state: RootState }>(
     'menus/productMenu',
     async () => {
         return fetchMenu(2);
     }, {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return !selectLoading(state);
         }
     }
 )
 
-export const loadResourcesMenu = createAsyncThunk<Menu | null>(
+export const loadResourcesMenu = createAsyncThunk<Menu | null, void, { state: RootState }>(
     'menus/loadResourcesMenu',
     async () => {
         return await fetchMenu(122);
     }, {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return !selectLoading(state);
         }
     }
 )
 
 export const selectProductMenu = (state: RootState): Menu | null => state.menu.productMenu;
-export const selectResourcesMenu = (state:RootState) => state.menu.resourcesMenu;
+export const selectResourcesMenu = (state: RootState) => state.menu.resourcesMenu;
 export const selectMenuItems = (state: RootState) => state.menu.items ?? [];
 export const selectLoading = (state: RootState) => state.menu.loading;
 export const selectLoaded = (state: RootState) => state.menu.loaded;

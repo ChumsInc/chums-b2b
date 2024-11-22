@@ -27,7 +27,7 @@ export const selectShowSearch = (state: RootState) => state.search.show;
 export const setSearchTerm = createAction<string>('search/setTerm');
 export const showSearch = createAction<boolean | undefined>('search/show');
 
-export const getSearchResults = createAsyncThunk<SearchResult[], string>(
+export const getSearchResults = createAsyncThunk<SearchResult[], string, {state: RootState}>(
     'search/load',
     async (arg) => {
         sendGtagEvent('search', {search_term: arg});
@@ -35,7 +35,7 @@ export const getSearchResults = createAsyncThunk<SearchResult[], string>(
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return arg.trim().length > 2 && !selectSearchLoading(state);
         }
     }

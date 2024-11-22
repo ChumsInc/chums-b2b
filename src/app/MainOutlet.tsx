@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import SiteMessages from "../ducks/messages/SiteMessages";
 import GoogleSignInOneTap from "../ducks/user/components/GoogleSignInOneTap";
+import CartMessageSnackbar from "@ducks/carts/components/CartMessageSnackbar";
 
 
 const MainOutlet = () => {
@@ -29,6 +30,7 @@ const MainOutlet = () => {
                         <Outlet/>
                     </ErrorBoundary>
                 </Container>
+                <CartMessageSnackbar />
             </Box>
             <Footer/>
         </>

@@ -4,7 +4,7 @@ import {RootState} from "../../app/configureStore";
 import {selectMessagesLoading} from "./selectors";
 import {LoadMessagesResponse} from "./index";
 
-export const loadMessages = createAsyncThunk<LoadMessagesResponse>(
+export const loadMessages = createAsyncThunk<LoadMessagesResponse, void, {state: RootState}>(
     'messages/load',
     async () => {
         const messages = await fetchMessages();
@@ -15,7 +15,7 @@ export const loadMessages = createAsyncThunk<LoadMessagesResponse>(
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !selectMessagesLoading(state);
         }
     }

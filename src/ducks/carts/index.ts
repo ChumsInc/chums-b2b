@@ -2,11 +2,20 @@ import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {createReducer} from "@reduxjs/toolkit";
 import {SortProps} from "b2b-types";
 import {cartDetailSorter, cartsSorter, defaultCartDetailSort, defaultCartsSort} from "./utils";
-import {loadCart, loadCarts, saveCart, saveCartItem, setCartItem, setCartsSearch, setCartsSort} from "./actions";
+import {
+    addToCart, clearCartMessages,
+    loadCart,
+    loadCarts,
+    saveCart,
+    saveCartItem,
+    setCartItem,
+    setCartsSearch,
+    setCartsSort
+} from "./actions";
 import {dismissContextAlert} from "../alerts/actions";
 import {loadCustomer} from "@ducks/customer/actions";
 import {customerSlug} from "@utils/customer";
-import {B2BCartList} from "@typeDefs/cart/cart-utils";
+import {B2BCartList, CartMessage} from "@typeDefs/cart/cart-utils";
 
 
 export interface CartsState {
@@ -16,7 +25,7 @@ export interface CartsState {
     status: 'idle' | 'loading' | 'rejected';
     search: string;
     sort: SortProps<B2BCartHeader>;
-
+    messages: CartMessage[];
 }
 
 const initialCartsState: CartsState = {
@@ -26,6 +35,7 @@ const initialCartsState: CartsState = {
     status: 'idle',
     search: '',
     sort: {...defaultCartsSort},
+    messages: [],
 }
 
 export const cartsReducer = createReducer(initialCartsState, builder => {
@@ -134,6 +144,10 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                     detailLoaded: true,
                     status: 'idle',
                 }
+                state.messages = [
+                    ...state.messages,
+                    {message: 'Cart updated', key: action.meta.requestId}
+                ];
             }
         })
         .addCase(saveCartItem.rejected, (state, action) => {
@@ -158,6 +172,10 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                         status: 'idle',
                     };
                 }
+                state.messages = [
+                    ...state.messages,
+                    {message: 'Cart saved', key: action.meta.requestId}
+                ];
             } else {
                 const cartId = action.meta.arg.cartId;
                 if (state.list[cartId]) {
@@ -170,7 +188,42 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
             if (state.list[cartId]) {
                 state.list[cartId].status = 'idle';
             }
-        });
+        })
+        .addCase(addToCart.pending, (state, action) => {
+            const cartId = action.meta.arg.cartId;
+            if (state.list[cartId]) {
+                state.list[cartId].status = 'saving';
+            }
+        })
+        .addCase(addToCart.fulfilled, (state, action) => {
+            if (action.payload) {
+                const cartId = action.payload.header.id;
+                if (state.list[cartId]) {
+                    state.list[cartId] = {
+                        ...action.payload,
+                        detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
+                        detailLoaded: true,
+                        status: 'idle',
+                    };
+                }
+                const item = action.meta.arg.item;
+                state.messages = [
+                    ...state.messages,
+                    {
+                        message: `Added to cart: ${item.itemCode}, ${item.quantityOrdered} ${item.unitOfMeasure}`.trim(),
+                        key: action.meta.requestId
+                    }
+                ];
+            } else {
+                const cartId = action.meta.arg.cartId;
+                if (state.list[cartId]) {
+                    state.list[cartId].status = 'idle';
+                }
+            }
+        })
+        .addCase(clearCartMessages, (state) => {
+            state.messages = [];
+        })
 });
 
 export default cartsReducer;
