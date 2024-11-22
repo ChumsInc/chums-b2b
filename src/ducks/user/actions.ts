@@ -55,7 +55,7 @@ export interface LoginUserProps {
     password: string;
 }
 
-export const loginUser = createAsyncThunk<string | APIErrorResponse, LoginUserProps>(
+export const loginUser = createAsyncThunk<string | APIErrorResponse, LoginUserProps, {state:RootState}>(
     'user/login',
     async (arg, {dispatch}) => {
         const res = await postLocalLogin(arg);
@@ -75,13 +75,13 @@ export const loginUser = createAsyncThunk<string | APIErrorResponse, LoginUserPr
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !!arg.email && !!arg.password && !selectLoggingIn(state);
         }
     }
 )
 
-export const updateLocalAuth = createAsyncThunk<void, void>(
+export const updateLocalAuth = createAsyncThunk<void, void, {state:RootState}>(
     'user/updateLocalAuth',
     async (_, {dispatch}) => {
         try {
@@ -101,7 +101,7 @@ export const updateLocalAuth = createAsyncThunk<void, void>(
         dispatch(loadProfile());
     }, {
         condition: (_, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             const loggedIn = selectLoggedIn(state);
             const actionStatus = selectUserActionStatus(state);
             return loggedIn && actionStatus === 'idle';
@@ -109,7 +109,7 @@ export const updateLocalAuth = createAsyncThunk<void, void>(
     }
 )
 
-export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string>(
+export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string, {state:RootState}>(
     'user/signInWithGoogle',
     async (arg) => {
         const response = await fetchGoogleLogin(arg);
@@ -137,13 +137,13 @@ export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string>(
     },
     {
         condition: (_arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !selectUserLoading(state);
         }
     }
 )
 
-export const logoutUser = createAsyncThunk<void>(
+export const logoutUser = createAsyncThunk<void, void, {state:RootState}>(
     'user/logoutUser',
     async (_arg, {dispatch}) => {
         try {
@@ -162,13 +162,13 @@ export const logoutUser = createAsyncThunk<void>(
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return selectUserActionStatus(state) === 'idle';
         }
     }
 )
 
-export  const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCustomerAccess | null>(
+export  const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCustomerAccess | null, {state:RootState}>(
     'user/access/set',
     async (arg, {dispatch}) => {
         localStore.setItem<UserCustomerAccess | null>(STORE_USER_ACCESS, arg);
@@ -192,7 +192,7 @@ export  const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCu
         condition: (arg, {getState}) => {
             // only set the user access if the access is a rep account
             // if not a rep access, then the access should be treated specifically as a customer and not an access object.
-            const state = getState() as RootState;
+            const state = getState() ;
             return selectLoggedIn(state)
                 && !!arg?.isRepAccount
                 && selectCurrentUserAccount(state)?.id !== arg?.id;
@@ -200,14 +200,14 @@ export  const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCu
     }
 )
 
-export const loadProfile = createAsyncThunk<UserProfileResponse>(
+export const loadProfile = createAsyncThunk<UserProfileResponse, void, {state:RootState}>(
     'user/loadProfile',
     async () => {
         return await fetchUserProfile();
     },
     {
         condition: (_arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !selectUserLoading(state) && selectLoggedIn(state);
         }
     }
@@ -217,20 +217,20 @@ export const loadProfile = createAsyncThunk<UserProfileResponse>(
 export const changeUserPassword = (props: Partial<UserPasswordState>) => ({type: CHANGE_USER_PASSWORD, props});
 
 
-export const changePassword = createAsyncThunk<ChangePasswordResponse, ChangePasswordProps>(
+export const changePassword = createAsyncThunk<ChangePasswordResponse, ChangePasswordProps, {state:RootState}>(
     'user/changePassword',
     async (arg) => {
         return await postPasswordChange(arg);
     },
     {
         condition: (_arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return selectUserActionStatus(state) === 'idle';
         }
     }
 )
 
-export const setNewPassword = createAsyncThunk<ChangePasswordResponse | null, SetNewPasswordProps>(
+export const setNewPassword = createAsyncThunk<ChangePasswordResponse | null, SetNewPasswordProps, {state:RootState}>(
     'user/setNewPassword',
     async (arg) => {
         const res = await postNewPassword(arg);
@@ -241,20 +241,20 @@ export const setNewPassword = createAsyncThunk<ChangePasswordResponse | null, Se
     },
     {
         condition: (_arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return selectUserActionStatus(state) === 'idle';
         }
     }
 )
 
-export const resetPassword = createAsyncThunk<boolean, string>(
+export const resetPassword = createAsyncThunk<boolean, string, {state: RootState}>(
     'user/resetPassword',
     async (arg) => {
         return await postResetPassword(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !!arg.trim()
                 && !selectLoggedIn(state)
                 && !selectResettingPassword(state);
@@ -262,14 +262,14 @@ export const resetPassword = createAsyncThunk<boolean, string>(
     }
 )
 
-export const saveUserProfile = createAsyncThunk<UserProfileResponse, Pick<UserProfile, 'name'>>(
+export const saveUserProfile = createAsyncThunk<UserProfileResponse, Pick<UserProfile, 'name'>, {state:RootState}>(
     'user/saveProfile',
     async (arg) => {
         return await postUserProfile(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !!arg.name.trim()
                 && selectLoggedIn(state);
         }

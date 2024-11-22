@@ -6,7 +6,6 @@ import {
     FETCH_ORDERS,
     FETCH_SALES_ORDER,
     FETCH_SUCCESS,
-    SAVE_CART,
     SELECT_COLOR,
     SELECT_VARIANT
 } from "../../constants/actions";
@@ -40,8 +39,7 @@ import {isEditableSalesOrder} from "../sales-order/utils";
 import {
     isDeprecatedCreateNewCartAction,
     isDeprecatedDeleteCartAction,
-    isDeprecatedFetchOrdersAction,
-    isDeprecatedSaveCartAction
+    isDeprecatedFetchOrdersAction
 } from "../../utils/cart";
 
 
@@ -326,14 +324,6 @@ const cartReducer = createReducer(initialCartState, builder => {
                         state.cartName = action.status === FETCH_SUCCESS ? '' : state.cartName;
                         state.cartTotal = 0;
                         state.cartQuantity = 0;
-                    }
-                    return;
-                case SAVE_CART:
-                    if (isDeprecatedSaveCartAction(action)) {
-                        if (state.cartNo === NEW_CART && action.payload) {
-                            state.cartNo = action.payload;
-                        }
-                        state.cartMessage = action.message ?? '';
                     }
                     return;
                 case SELECT_COLOR:

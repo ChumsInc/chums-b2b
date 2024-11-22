@@ -1,26 +1,18 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {EmailResponse, SalesOrderHeader, SortProps} from "b2b-types";
+import {EmailResponse, SortProps} from "b2b-types";
 import {fetchCarts, postCartEmail, putUpdateCartItems} from "./api";
 import {RootState} from "@app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@ducks/carts/api";
 import {selectCartDetailById, selectCartsStatus, selectCartStatusById} from "@ducks/carts/selectors";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
-import {
-    AddToCartProps,
-    CartActionProps,
-    UpdateCartItemProps,
-    UpdateCartItemsProps,
-    UpdateCartProps
-} from "@typeDefs/cart/cart-action-props";
+import {AddToCartProps, CartActionProps, UpdateCartItemProps, UpdateCartProps} from "@typeDefs/cart/cart-action-props";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
-import {postOrderEmail} from "@api/sales-order";
-import {selectLoggedIn} from "@ducks/user/selectors";
-import {selectSalesOrder, selectSendEmailStatus} from "@ducks/open-orders/selectors";
 
 export const setCartsSearch = createAction<string>("carts/setSearch");
 export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");
-export const setCartItem = createAction<Partial<B2BCartDetail> & Pick<B2BCartDetail, 'id'|'cartHeaderId'>>('carts/setCartItem')
+export const setCartItem = createAction<Partial<B2BCartDetail> & Pick<B2BCartDetail, 'id' | 'cartHeaderId'>>('carts/setCartItem');
+export const clearCartMessages = createAction("carts/clearMessages");
 
 export const loadCarts = createAsyncThunk<B2BCartHeader[], string | null, { state: RootState }>(
     'carts/loadCarts',
@@ -97,7 +89,7 @@ export const addToCart = createAsyncThunk<B2BCart | null, AddToCartProps, { stat
     {
         condition: (arg, {getState}) => {
             const state = getState();
-            return (arg.body.itemType === '4' || +arg.body.quantityOrdered > 0)
+            return (arg.item.itemType === '4' || +arg.item.quantityOrdered > 0)
                 && (!arg.cartId || selectCartStatusById(state, arg.cartId) === 'idle')
         }
     }
@@ -121,14 +113,14 @@ export const saveCartItem = createAsyncThunk<B2BCart | null, UpdateCartItemProps
     }
 )
 
-export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionProps>(
+export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionProps, {state:RootState}>(
     'open-orders/sendEmail',
     async (arg) => {
         return await postCartEmail(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return selectCartStatusById(state, arg.cartId) === 'idle';
         }
     }

@@ -11,6 +11,7 @@ export const selectCartsSort = (state: RootState) => state.carts.sort;
 export const selectCartsSearch = (state: RootState) => state.carts.search;
 export const selectCartIdHelper = (state: RootState, cartId: number) => cartId;
 export const selectCartItemIdHelper = (state: RootState, cartId: number, id: number) => id;
+export const selectCartMessages = (state:RootState) => state.carts.messages;
 
 export const selectCartsLength = createSelector(
     [selectCartsIndexes],
@@ -112,6 +113,13 @@ export const selectActiveCart = createSelector(
     [selectActiveCartId, selectCartsList],
     (cartId, list) => {
         return list[cartId] ?? null;
+    }
+)
+
+export const selectActiveCartHeader = createSelector(
+    [selectActiveCartId, selectCartsList],
+    (cartId, list) => {
+        return list[cartId]?.header ?? null;
     }
 )
 

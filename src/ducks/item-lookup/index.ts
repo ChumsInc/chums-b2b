@@ -32,14 +32,14 @@ export const selectSearchFulfilled = (state:RootState) => state.itemLookup.loadS
 
 export const setItemSearch = createAction<string>('itemLookup/search');
 
-export const loadItemLookup = createAsyncThunk<ItemSearchResult[], string>(
+export const loadItemLookup = createAsyncThunk<ItemSearchResult[], string, {state: RootState}>(
     'itemLookup/load',
     async (arg) => {
         return await fetchItemLookup(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !!arg.trim()
                 && selectSearchStatus(state) !== 'pending';
         }

@@ -4,7 +4,7 @@ import {RootState} from "../../app/configureStore";
 import {LoadBannersResponse} from "./index";
 import {selectBannersLoading} from "./selectors";
 
-export const loadBanners = createAsyncThunk<LoadBannersResponse, void>(
+export const loadBanners = createAsyncThunk<LoadBannersResponse, void, {state:RootState}>(
     'banners/load',
     async () => {
         const banners = await fetchBanners();
@@ -15,7 +15,7 @@ export const loadBanners = createAsyncThunk<LoadBannersResponse, void>(
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return !selectBannersLoading(state);
         }
     }

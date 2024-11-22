@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {loadProduct, setCartItemQuantity, setCurrentVariant} from '../actions';
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet";
-import AddToCartForm from "../../cart/components/AddToCartForm";
+import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
 import Alert from "@mui/material/Alert";
 import CartItemDetail from "./CartItemDetail";
 import {noop} from '../../../utils/general';
