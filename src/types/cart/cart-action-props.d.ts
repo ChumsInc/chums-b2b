@@ -129,7 +129,7 @@ export interface AddToCartBody extends Pick<B2BCartDetail, 'itemCode' | 'unitOfM
 }
 
 export interface AddToCartProps extends Omit<CartItemActionProps, 'cartItemId'> {
-    body: AddToCartBody;
+    item: AddToCartBody;
 }
 export interface UpdateCartProps extends CartActionProps {
     body: UpdateCartHeaderBody;

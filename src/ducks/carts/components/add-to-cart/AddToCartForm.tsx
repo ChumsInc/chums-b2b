@@ -56,7 +56,7 @@ export default function AddToCartForm({
     const permissionsLoading = useSelector(selectCustomerPermissionsLoading);
     const currentShipToCode = useSelector(selectCustomerShipToCode);
 
-    const [cartId, setCartId] = useState<number | null>(activeCart?.id ?? null);
+    const [cartId, setCartId] = useState<number>(activeCart?.id ?? 0);
     const [cart, setCart] = useState<B2BCartHeader | null>(activeCart);
     const [cartComment, setCartComment] = useState<string>(comment ?? '');
     const [cartName, setCartName] = useState<string>(activeCart?.customerPONo ?? '');
@@ -133,36 +133,20 @@ export default function AddToCartForm({
             value: value,
             items: [{item_id: cartItem.itemCode, item_name: cartItem.name, price: price, quantity}]
         })
-        if (!cartId) {
-            await dispatch(addToCart({
-                cartId: null,
-                cartName,
-                customerKey,
-                shipToCode,
-                item: {
-                    itemCode: cartItem.itemCode,
-                    itemType: '1',
-                    unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
-                    commentText: cartComment,
-                    productId: cartItem.productId,
-                    quantityOrdered: quantity,
-                }
-            }))
-        } else {
-            await dispatch(addToCart({
-                cartId,
-                customerKey,
-                shipToCode,
-                item: {
-                    itemCode: cartItem.itemCode,
-                    itemType: '1',
-                    unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
-                    commentText: cartComment,
-                    productId: cartItem.productId,
-                    quantityOrdered: quantity,
-                }
-            }))
-        }
+
+        await dispatch(addToCart({
+            cartId,
+            customerKey,
+            shipToCode,
+            item: {
+                itemCode: cartItem.itemCode,
+                itemType: '1',
+                unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
+                commentText: cartComment,
+                productId: cartItem.productId,
+                quantityOrdered: quantity,
+            }
+        }))
         if (onDone) {
             onDone();
         }
