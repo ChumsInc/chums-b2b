@@ -1,15 +1,15 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {CustomerKey, EmailResponse, SalesOrder, SalesOrderHeader} from "b2b-types";
-import {fetchOpenSalesOrders, fetchSalesOrder, postOrderEmail} from "../../api/sales-order";
-import {RootState} from "../../app/configureStore";
+import {fetchOpenSalesOrders, fetchSalesOrder, postOrderEmail} from "@api/sales-order";
+import {RootState} from "@app/configureStore";
 import {selectActionStatus, selectOpenOrdersLoading, selectSalesOrder, selectSendEmailStatus} from "./selectors";
-import {SortProps} from "../../types/generic";
+import {SortProps} from "@typeDefs/generic";
 import LocalStore from "../../utils/LocalStore";
-import {STORE_CURRENT_CART} from "../../constants/stores";
-import {DetailLineChangeProps} from "../../types/salesorder";
+import {STORE_CURRENT_CART} from "@constants/stores";
+import {DetailLineChangeProps} from "@typeDefs/salesorder";
 import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
 
-export const loadOpenOrders = createAsyncThunk<SalesOrderHeader[], CustomerKey>(
+export const loadOpenOrders = createAsyncThunk<SalesOrderHeader[], CustomerKey, { state: RootState }>(
     'open-orders/load',
     async (arg) => {
         const currentCartNo = LocalStore.getItem<string>(STORE_CURRENT_CART, '');
@@ -23,7 +23,7 @@ export const loadOpenOrders = createAsyncThunk<SalesOrderHeader[], CustomerKey>(
         return orders;
     }, {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return !!arg.CustomerNo && !selectOpenOrdersLoading(state);
         }
     }
@@ -35,16 +35,16 @@ export const setCartsFilter = createAction<string>('open-orders/setCartsFilter')
 
 export const updateDetailLine = createAction<DetailLineChangeProps>('open-orders/detail/update');
 
-export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string>(
+export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string, { state: RootState }>(
     'open-orders/loadSalesOrder',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState();
         const customer = selectCurrentCustomer(state)!;
         return await fetchSalesOrder({...customer, SalesOrderNo: arg});
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             const customer = selectCurrentCustomer(state);
             const actionStatus = selectActionStatus(state);
             return !!arg && !!customer && (!actionStatus[arg] || actionStatus[arg] === 'idle');
@@ -53,14 +53,14 @@ export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string>(
 )
 
 
-export const sendOrderEmail = createAsyncThunk<EmailResponse | null, SalesOrderHeader>(
+export const sendOrderEmail = createAsyncThunk<EmailResponse | null, SalesOrderHeader, { state: RootState }>(
     'open-orders/sendEmail',
     async (arg) => {
         return await postOrderEmail(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return selectLoggedIn(state)
                 && !!arg
                 && selectSendEmailStatus(state) === 'idle'

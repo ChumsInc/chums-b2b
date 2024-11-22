@@ -20,27 +20,27 @@ export const setInvoicesRowsPerPage = createAction('invoices/setRowsPerPage', (r
 });
 
 
-export const loadInvoice = createAsyncThunk<ExtendedInvoice | null, FetchInvoiceArg>(
+export const loadInvoice = createAsyncThunk<ExtendedInvoice | null, FetchInvoiceArg, {state: RootState}>(
     'invoices/loadInvoice',
     async (arg) => {
         return await fetchInvoice(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return !selectCurrentInvoiceLoading(state);
         }
     }
 )
 
 
-export const loadInvoices = createAsyncThunk<InvoiceHistoryHeader[], LoadInvoicesProps>(
+export const loadInvoices = createAsyncThunk<InvoiceHistoryHeader[], LoadInvoicesProps, {state: RootState}>(
     'invoices/loadInvoices',
     async (arg) => {
         return await fetchInvoices(arg);
     }, {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState();
             return selectLoggedIn(state) && !!arg && !selectInvoicesLoading(state) && isValidCustomer(arg.key);
         }
     }

@@ -31,9 +31,6 @@ export function isDeprecatedDeleteCartAction(action: UnknownAction | DeprecatedD
     return action.type === "DELETE_CART";
 }
 
-export function isDeprecatedSaveCartAction(action: UnknownAction | DeprecatedSaveCartAction): action is DeprecatedSaveCartAction {
-    return action.type === 'SAVE_CART';
-}
 
 export const cartProgress_Cart: CartProgress = 0;
 export const cartProgress_Delivery: CartProgress = 1;

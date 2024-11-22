@@ -24,11 +24,11 @@ export interface LoadProductResponse {
     cartItem: CartProduct | null;
 }
 
-export const loadProduct = createAsyncThunk<LoadProductResponse | null, string>(
+export const loadProduct = createAsyncThunk<LoadProductResponse | null, string, {state: RootState}>(
     'products/current/load',
     async (arg, {getState}) => {
         const product = await fetchProduct(arg);
-        const state = getState() as RootState;
+        const state = getState() ;
         const loggedIn = selectLoggedIn(state);
         const pricing = selectCustomerPricing(state);
         const variant = hasVariants(product) ? defaultVariant(product as SellAsVariantsProduct) : null;
@@ -55,17 +55,17 @@ export const loadProduct = createAsyncThunk<LoadProductResponse | null, string>(
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !selectProductLoading(state);
         }
     }
 )
 
 
-export const setColorCode = createAsyncThunk<CartProduct | null, string>(
+export const setColorCode = createAsyncThunk<CartProduct | null, string, {state: RootState}>(
     'products/setColorCode',
     (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState() ;
         const existingCartItem = selectProductCartItem(state);
         const selectedProduct = selectSelectedProduct(state);
         const customerKey = selectProductCustomerKey(state);
@@ -114,10 +114,10 @@ export interface SetVariantResponse {
     colorCode?: string;
 }
 
-export const setCurrentVariant = createAsyncThunk<SetVariantResponse, ProductVariant>(
+export const setCurrentVariant = createAsyncThunk<SetVariantResponse, ProductVariant, {state: RootState}>(
     'products/setVariant',
     (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState() ;
         const loggedIn = selectLoggedIn(state);
         const customerKey = selectProductCustomerKey(state);
         const priceCodes = selectCustomerPricing(state);

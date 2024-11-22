@@ -70,7 +70,7 @@ export async function postAddToCart(arg: AddToCartProps): Promise<B2BCart | null
         const url = '/api/carts/:customerKey/:cartId/cart.json'
             .replace(':customerKey', encodeURIComponent(arg.customerKey!))
             .replace(':cartId', encodeURIComponent(arg.cartId ?? 'new'))
-        const res = await fetchJSON<{ cart: B2BCart }>(url, {method: 'POST', body: JSON.stringify(arg.body)});
+        const res = await fetchJSON<{ cart: B2BCart }>(url, {method: 'POST', body: JSON.stringify(arg.item)});
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {

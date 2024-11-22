@@ -6,7 +6,7 @@ import localStore from '../../utils/LocalStore';
 import {STORE_VERSION} from "../../constants/stores";
 
 
-export const loadVersion = createAsyncThunk<LoadVersionResponse, boolean | undefined>(
+export const loadVersion = createAsyncThunk<LoadVersionResponse, boolean | undefined, {state: RootState}>(
     'version/load',
     async () => {
         const versionNo = await fetchVersion();
@@ -16,7 +16,7 @@ export const loadVersion = createAsyncThunk<LoadVersionResponse, boolean | undef
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return arg === true || (!selectVersionLoading(state) && selectShouldCheckVersion(state));
         }
     }

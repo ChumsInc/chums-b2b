@@ -12,16 +12,16 @@ import {
 } from "./selectors";
 import {DetailLineChangeProps} from "../../types/salesorder";
 
-export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string>(
+export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string, {state: RootState}>(
     'salesOrder/load',
     async (arg, {getState}) => {
-        const state = getState() as RootState;
+        const state = getState() ;
         const customer = selectCurrentCustomer(state)!;
         return await fetchSalesOrder({...customer, SalesOrderNo: arg});
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             const customer = selectCurrentCustomer(state);
             return !!arg && !!customer && selectSalesOrderProcessing(state) === 'idle' && !selectSOLoading(state);
         }
@@ -34,14 +34,14 @@ export const setSort = createAction<SortProps<SalesOrderHeader>>('orders/setSort
 export const setPage = createAction<number>('orders/setPage');
 export const setRowsPerPage = createAction<number>('orders/setRowsPerPage');
 
-export const sendOrderEmail = createAsyncThunk<EmailResponse | null, SalesOrderHeader>(
+export const sendOrderEmail = createAsyncThunk<EmailResponse | null, SalesOrderHeader, {state: RootState}>(
     'salesOrder/sendEmail',
     async (arg) => {
         return await postOrderEmail(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return selectLoggedIn(state)
                 && !!arg
                 && selectSendEmailStatus(state) === 'idle'
