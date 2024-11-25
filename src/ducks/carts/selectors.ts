@@ -9,8 +9,8 @@ export const selectCartsIndexes = (state: RootState) => state.carts.indexes;
 export const selectCartsStatus = (state: RootState) => state.carts.status;
 export const selectCartsSort = (state: RootState) => state.carts.sort;
 export const selectCartsSearch = (state: RootState) => state.carts.search;
-export const selectCartIdHelper = (state: RootState, cartId: number) => cartId;
-export const selectCartItemIdHelper = (state: RootState, cartId: number, id: number) => id;
+export const selectCartIdHelper = (state: RootState, cartId: number|null) => cartId;
+export const selectCartItemIdHelper = (state: RootState, cartId: number|null, id: number|null) => id;
 export const selectCartMessages = (state:RootState) => state.carts.messages;
 
 export const selectCartsLength = createSelector(
@@ -21,7 +21,7 @@ export const selectCartsLength = createSelector(
 export const selectCartById = createSelector(
     [selectCartsList, selectCartIdHelper],
     (list, cartId) => {
-        return list[cartId] ?? null;
+        return list[cartId ?? 0] ?? null;
     }
 )
 
@@ -38,14 +38,14 @@ export const selectCartHeaderById = createSelector(
 export const selectCartDetailById = createSelector(
     [selectCartsList, selectCartIdHelper],
     (list, cartId) => {
-        return list[cartId]?.detail ?? [];
+        return list[cartId ?? 0]?.detail ?? [];
     }
 )
 
 export const selectCartItemCountById = createSelector(
     [selectCartsList, selectCartIdHelper],
     (list, cartId) => {
-        return list[cartId]?.detail
+        return list[cartId ?? 0]?.detail
             .filter(item => item.itemType === '1')
             .map(item => item.quantityOrdered)
     }
@@ -54,7 +54,7 @@ export const selectCartItemCountById = createSelector(
 export const selectCartStatusById = createSelector(
     [selectCartsList, selectCartIdHelper],
     (list, cartId) => {
-        return list[cartId]?.status ?? 'idle';
+        return list[cartId ?? 0]?.status ?? 'idle';
     }
 )
 
@@ -98,7 +98,7 @@ export const selectCartItemById = createSelector(
 export const selectCartItemStatus = createSelector(
     [selectCartById, selectCartItemIdHelper],
     (cart, id) => {
-        return cart?.lineStatus?.[id] ?? 'idle';
+        return cart?.lineStatus?.[id ?? 0] ?? 'idle';
     }
 )
 

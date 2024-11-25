@@ -37,6 +37,8 @@ export interface B2BCartPricing {
 export interface B2BCartProduct {
     productId: number | null;
     productItemId: number | null;
+    categoryKeyword: string | null;
+    productKeyword: string | null;
     image: string | null;
     colorCode: string | null;
     swatchCode: string | null;
