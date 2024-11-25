@@ -35,7 +35,7 @@ export default function ProductImage({
 
     useEffect(() => {
         setSelectedItemHash(`#${selectedItem}`)
-    }, [selectedItemHash]);
+    }, [selectedItem]);
 
     useEffect(() => {
         const filter = /^#[A-Z0-9]+/i;
