@@ -191,7 +191,7 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         })
         .addCase(addToCart.pending, (state, action) => {
             const cartId = action.meta.arg.cartId;
-            if (state.list[cartId]) {
+            if (cartId && state.list[cartId]) {
                 state.list[cartId].status = 'saving';
             }
         })
@@ -216,7 +216,7 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 ];
             } else {
                 const cartId = action.meta.arg.cartId;
-                if (state.list[cartId]) {
+                if (cartId && state.list[cartId]) {
                     state.list[cartId].status = 'idle';
                 }
             }

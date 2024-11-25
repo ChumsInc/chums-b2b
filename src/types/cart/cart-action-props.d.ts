@@ -128,7 +128,9 @@ export interface AddToCartBody extends Pick<B2BCartDetail, 'itemCode' | 'unitOfM
     itemType?: string;
 }
 
-export interface AddToCartProps extends Omit<CartItemActionProps, 'cartItemId'> {
+export interface AddToCartProps extends Omit<CartItemActionProps, 'cartId'|'cartItemId'> {
+    cartId: number|null;
+    cartName?: string;
     item: AddToCartBody;
 }
 export interface UpdateCartProps extends CartActionProps {
