@@ -8,13 +8,19 @@ import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
 import {AddToCartProps, CartActionProps, UpdateCartItemProps, UpdateCartProps} from "@typeDefs/cart/cart-action-props";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
+import {CustomerShippingAccount} from "@typeDefs/customer";
+import {CartProgress} from "@typeDefs/cart/cart-utils";
+import localStore from "@utils/LocalStore";
+import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
+import {Dayjs} from "dayjs";
+import {nextShipDate} from "@utils/orders";
 
 export const setCartsSearch = createAction<string>("carts/setSearch");
 export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");
 export const setCartItem = createAction<Partial<B2BCartDetail> & Pick<B2BCartDetail, 'id' | 'cartHeaderId'>>('carts/setCartItem');
 export const clearCartMessages = createAction("carts/clearMessages");
 
-export const loadCarts = createAsyncThunk<B2BCartHeader[], string | null, { state: RootState }>(
+export const loadCarts = createAsyncThunk<B2BCart[], string | null, { state: RootState }>(
     'carts/loadCarts',
     async (arg) => {
         return await fetchCarts(arg!);
@@ -113,7 +119,7 @@ export const saveCartItem = createAsyncThunk<B2BCart | null, UpdateCartItemProps
     }
 )
 
-export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionProps, {state:RootState}>(
+export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionProps, { state: RootState }>(
     'open-orders/sendEmail',
     async (arg) => {
         return await postCartEmail(arg);
@@ -125,3 +131,19 @@ export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionPr
         }
     }
 )
+
+export const setActiveCartId = createAction<number | null>('activeCart/setActiveCartId')
+export const setCartShippingAccount = createAction('activeCart/setCartShippingAccount', (arg: CustomerShippingAccount | null) => {
+    localStore.setItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, arg);
+    return {
+        payload: arg
+    }
+});
+export const setCartCheckoutProgress = createAction<CartProgress>('activeCart/setCartCheckoutProgress');
+export const setCartShipDate = createAction('activeCart/setShipDate', (arg: Date | string | number | Dayjs) => {
+    const shipDate = nextShipDate(arg);
+    return {
+        payload: shipDate,
+    }
+});
+export const setCartDetailSort = createAction<SortProps<B2BCartDetail>>('activeCart/setCartDetailSort');

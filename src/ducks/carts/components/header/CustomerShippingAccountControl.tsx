@@ -8,8 +8,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import {selectCartShippingAccount} from "@ducks/active-cart/selectors";
-import {setCartShippingAccount} from "@ducks/active-cart/actions";
+import {selectCartShippingAccount} from "@ducks/carts/selectors";
+import {setCartShippingAccount} from "@ducks/carts/actions";
 
 const CustomerShippingAccountControl = ({readOnly = false}:{
     readOnly?: boolean;

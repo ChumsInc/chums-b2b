@@ -11,12 +11,12 @@ import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
 import {EmailResponse} from "b2b-types";
 
-export async function fetchCarts(arg: string): Promise<B2BCartHeader[]> {
+export async function fetchCarts(arg: string): Promise<B2BCart[]> {
     try {
 
         const url = `/api/carts/:customerSlug.json`
             .replace(':customerSlug', encodeURIComponent(arg));
-        const res = await fetchJSON<{ carts: B2BCartHeader[] }>(url, {cache: 'no-cache'});
+        const res = await fetchJSON<{ carts: B2BCart[] }>(url, {cache: 'no-cache'});
         return res.carts ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {

@@ -88,7 +88,10 @@ export const minShipDate = (): string => {
     return _dayjs(addWorkDays(_printDate, 6)).startOf('day').toISOString();
 }
 
-export const nextShipDate = (shipDate: Date | number | string | Dayjs = new Date()): string => {
+export const nextShipDate = (shipDate?: Date | number | string | Dayjs | undefined): string => {
+    if (!shipDate) {
+        shipDate = new Date();
+    }
     const min = minShipDate();
     if (!isInWorkWeek(shipDate)) {
         const isSunday = dayjs(shipDate).day() === 0;

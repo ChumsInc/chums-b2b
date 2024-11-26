@@ -5,7 +5,6 @@ import InvoiceDetailLine from "./InvoiceDetailLine";
 import TableFooter from "@mui/material/TableFooter";
 import {CartProduct, InvoiceHistoryDetail} from "b2b-types";
 import InvoiceFooter from "./InvoiceFooter";
-import AddToCartForm from "../../cart/components/AddToCartForm";
 import Dialog from "@mui/material/Dialog";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
@@ -17,6 +16,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
 
 const InvoicePageDetail = () => {
     const invoice = useSelector(selectCurrentInvoice);

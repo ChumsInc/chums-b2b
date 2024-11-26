@@ -3,19 +3,32 @@ import {createReducer} from "@reduxjs/toolkit";
 import {SortProps} from "b2b-types";
 import {cartDetailSorter, cartsSorter, defaultCartDetailSort, defaultCartsSort} from "./utils";
 import {
-    addToCart, clearCartMessages,
+    addToCart,
+    clearCartMessages,
     loadCart,
     loadCarts,
     saveCart,
     saveCartItem,
+    setActiveCartId,
+    setCartCheckoutProgress,
+    setCartDetailSort,
     setCartItem,
+    setCartShipDate,
+    setCartShippingAccount,
     setCartsSearch,
     setCartsSort
 } from "./actions";
 import {dismissContextAlert} from "../alerts/actions";
 import {loadCustomer} from "@ducks/customer/actions";
 import {customerSlug} from "@utils/customer";
-import {B2BCartList, CartMessage} from "@typeDefs/cart/cart-utils";
+import {B2BCartList, CartMessage, CartProgress} from "@typeDefs/cart/cart-utils";
+import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
+import {CustomerShippingAccount} from "@typeDefs/customer";
+import {nextShipDate} from "@utils/orders";
+import localStore from "@utils/LocalStore";
+import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
+import {cartProgress_Cart} from "@utils/cart";
+import {CART_PROGRESS_STATES} from "@constants/orders";
 
 
 export interface CartsState {
@@ -26,16 +39,41 @@ export interface CartsState {
     search: string;
     sort: SortProps<B2BCartHeader>;
     messages: CartMessage[];
+    activeCart: {
+        cartId: number | null;
+        promoCode: string | null;
+        sort: SortProps<B2BCartDetail>;
+        progress: CartProgress;
+        shipDate: string;
+        shippingAccount: CustomerShippingAccount;
+        cartMessage: string;
+    }
 }
 
-const initialCartsState: CartsState = {
-    customerKey: null,
-    indexes: [],
-    list: {},
-    status: 'idle',
-    search: '',
-    sort: {...defaultCartsSort},
-    messages: [],
+const initialCartsState = ():CartsState => {
+    const shipDate = nextShipDate();
+    const shippingAccount = localStore.getItem<CustomerShippingAccount|null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
+    return {
+        customerKey: null,
+        indexes: [],
+        list: {},
+        status: 'idle',
+        search: '',
+        sort: {...defaultCartsSort},
+        messages: [],
+        activeCart: {
+            cartId: null,
+            promoCode: null,
+            sort: {field: 'id', ascending: true},
+            progress: cartProgress_Cart,
+            shipDate: shipDate,
+            shippingAccount: {
+                enabled: shippingAccount?.enabled ?? false,
+                value: shippingAccount?.value ?? '',
+            },
+            cartMessage: '',
+        }
+    }
 }
 
 export const cartsReducer = createReducer(initialCartsState, builder => {
@@ -56,21 +94,24 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         })
         .addCase(loadCarts.fulfilled, (state, action) => {
             state.status = 'idle';
-            const indexes = action.payload.sort(cartsSorter(defaultCartsSort)).map(cart => cart.id);
+            const indexes = action.payload.map(cart => cart.header).sort(cartsSorter(defaultCartsSort)).map(cart => cart.id);
             state.indexes.forEach(id => {
                 if (!indexes.includes(id) && state.list[id]) {
                     delete state.list[id];
                 }
             })
             state.indexes = indexes;
-            action.payload.forEach(header => {
-                state.list[header.id] = {
-                    header,
-                    detail: state.list[header.id]?.detail ?? [],
+            action.payload.forEach(cart => {
+                state.list[cart.header.id] = {
+                    ...cart,
+                    detail: cart.detail.sort(cartDetailSorter(defaultCartDetailSort)),
                     status: 'idle',
 
                 };
             })
+            if (!state.activeCart.cartId && state.indexes.length) {
+                state.activeCart.cartId = state.indexes[0];
+            }
         })
         .addCase(loadCarts.rejected, (state) => {
             state.status = 'rejected';
@@ -88,7 +129,6 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 state.list[cartId] = {
                     ...action.payload,
                     detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    detailLoaded: true,
                     status: 'idle',
                 };
             }
@@ -141,7 +181,6 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 state.list[action.payload.header.id] = {
                     ...action.payload,
                     detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    detailLoaded: true,
                     status: 'idle',
                 }
                 state.messages = [
@@ -168,7 +207,6 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                     state.list[cartId] = {
                         ...action.payload,
                         detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                        detailLoaded: true,
                         status: 'idle',
                     };
                 }
@@ -202,7 +240,6 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                     state.list[cartId] = {
                         ...action.payload,
                         detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                        detailLoaded: true,
                         status: 'idle',
                     };
                 }
@@ -224,6 +261,23 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         .addCase(clearCartMessages, (state) => {
             state.messages = [];
         })
+        .addCase(setActiveCartId, (state, action) => {
+            state.activeCart.cartId = action.payload;
+        })
+        .addCase(setCartCheckoutProgress, (state, action) => {
+            state.activeCart.progress = action.payload ?? CART_PROGRESS_STATES.cart;
+        })
+        .addCase(setCartShippingAccount, (state, action) => {
+            state.activeCart.shippingAccount.enabled = action.payload?.enabled ?? false;
+            state.activeCart.shippingAccount.value = action.payload?.value ?? '';
+        })
+        .addCase(setCartShipDate, (state, action) => {
+            state.activeCart.shipDate = action.payload;
+        })
+        .addCase(setCartDetailSort, (state, action) => {
+            state.activeCart.sort = action.payload;
+        })
+
 });
 
 export default cartsReducer;

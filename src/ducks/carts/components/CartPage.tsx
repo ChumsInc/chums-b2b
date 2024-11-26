@@ -10,7 +10,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import CartSkeleton from "@ducks/carts/components/header/CartSkeleton";
 import {selectCartById} from "@ducks/carts/selectors";
 import CartOrderHeader from "@ducks/carts/components/header/CartOrderHeader";
-import {setActiveCartId} from "@ducks/active-cart/actions";
 import {parseCartId} from "@ducks/carts/utils";
 import CartDetail from "@ducks/carts/components/detail/CartDetail";
 
@@ -54,7 +53,7 @@ export default function CartPage() {
         <div>
             <DocumentTitle documentTitle={documentTitle}/>
             <CartOrderHeader/>
-            <CartDetail cartId={cartHeader.id} />
+            <CartDetail cartId={cartHeader.id}/>
             <div>
                 <code>
                     <pre>

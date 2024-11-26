@@ -11,7 +11,6 @@ import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import {loadSalesOrder} from "../actions";
 import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
 import SalesOrderSkeleton from "./SalesOrderSkeleton";
-import CartOrderHeaderElement from "../../cart/components/CartOrderHeaderElement";
 import {selectSalesOrder} from "../selectors";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import {isEditableSalesOrder} from "../../sales-order/utils";
@@ -80,19 +79,6 @@ const SalesOrderPage = () => {
 
     }
 
-    if (salesOrderHeader.OrderType === 'Q') {
-        return (
-            <div>
-                <DocumentTitle documentTitle={documentTitle}/>
-                <div className="sales-order-page">
-                    <h2>Cart #{salesOrderHeader.SalesOrderNo}</h2>
-                    <CartOrderHeaderElement/>
-                    <SalesOrderLoadingProgress salesOrderNo={match?.params?.salesOrderNo}/>
-                    <OrderDetail salesOrderNo={match?.params?.salesOrderNo}/>
-                </div>
-            </div>
-        )
-    }
     return (
         <div>
             <DocumentTitle documentTitle={documentTitle}/>

@@ -34,7 +34,7 @@ import {selectSOLoading} from "@ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
-import {selectActiveCartId} from "@ducks/active-cart/selectors";
+import {selectActiveCartId} from "@ducks/carts/selectors";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {loadCart, saveCart} from "@ducks/carts/actions";
 import CartPaymentSelect from "@ducks/carts/components/header/CartPaymentSelect";
@@ -54,7 +54,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 export default function CartOrderHeader() {
     const dispatch = useAppDispatch();
-    const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
     const currentCartId = useAppSelector(selectActiveCartId);
     const header = useAppSelector((state) => selectCartHeaderById(state, currentCartId));
