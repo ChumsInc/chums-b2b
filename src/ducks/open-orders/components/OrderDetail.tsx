@@ -4,7 +4,6 @@ import SalesOrderTotal from "./SalesOrderTotal";
 import {CartProduct, SalesOrderDetailLine} from "b2b-types";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "../../sales-order/utils";
-import AddToCartForm from "../../cart/components/AddToCartForm";
 import {selectSalesOrder, selectSalesOrderDetail, selectSalesOrderIsCart} from "../selectors";
 import {useAppSelector} from "../../../app/configureStore";
 import {sendGtagEvent} from "../../../api/gtag";
@@ -19,6 +18,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
 
 export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;

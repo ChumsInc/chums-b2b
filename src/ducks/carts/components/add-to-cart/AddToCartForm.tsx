@@ -29,11 +29,11 @@ export interface AddToCartFormProps {
     quantity: number;
     unitOfMeasure?: string;
     comment?: string;
-    setGlobalCart?: boolean;
     disabled?: boolean;
     onDone: () => void;
     onChangeQuantity: (val: number) => void;
     excludeCartId?: number;
+    setActiveCart?: boolean;
     afterAddToCart?: (message: string) => void;
 }
 
@@ -46,6 +46,7 @@ export default function AddToCartForm({
                                           onDone,
                                           onChangeQuantity,
                                           excludeCartId,
+                                          setActiveCart,
                                       }: AddToCartFormProps) {
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectCustomerKey);
@@ -139,6 +140,7 @@ export default function AddToCartForm({
                 cartName,
                 customerKey,
                 shipToCode,
+                setActiveCart,
                 item: {
                     itemCode: cartItem.itemCode,
                     itemType: '1',
@@ -153,6 +155,7 @@ export default function AddToCartForm({
                 cartId,
                 customerKey,
                 shipToCode,
+                setActiveCart,
                 item: {
                     itemCode: cartItem.itemCode,
                     itemType: '1',

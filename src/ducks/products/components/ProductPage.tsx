@@ -144,7 +144,7 @@ const ProductPage = ({keyword}: {
                                 {isProduct(selectedProduct) && isCartProduct(cartItem)
                                     && isBillToCustomer(customerAccount) && selectedProduct.availableForSale && (
                                         <AddToCartForm quantity={cartItem?.quantity ?? 1} cartItem={cartItem}
-                                                       setGlobalCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
+                                                       setActiveCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
                                                        disabled={!customerAccount?.TaxSchedule}
                                                        onChangeQuantity={onChangeQuantity} onDone={noop} comment=""
                                                        afterAddToCart={setCartMessage}/>

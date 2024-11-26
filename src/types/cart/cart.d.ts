@@ -6,5 +6,4 @@ export interface B2BCart {
     detail: B2BCartDetail[];
     status?: 'idle'|'loading'|'saving'|'deleting';
     lineStatus?: B2BCartDetailStatusList;
-    detailLoaded?: boolean;
 }

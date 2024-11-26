@@ -4,7 +4,6 @@ import CartTotal from "./CartTotal";
 import {CartProduct, SalesOrderDetailLine} from "b2b-types";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "@ducks/sales-order/utils";
-import AddToCartForm from "@ducks/cart/components/AddToCartForm";
 import {useAppSelector} from "@app/configureStore";
 import {sendGtagEvent} from "@api/gtag";
 import Decimal from "decimal.js";
@@ -19,6 +18,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import {selectCartDetailById, selectCartHeaderById} from "@ducks/carts/selectors";
+import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
 
 export default function CartDetail({cartId}: {
     cartId: number;

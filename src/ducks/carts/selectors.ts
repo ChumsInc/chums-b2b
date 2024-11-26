@@ -1,7 +1,6 @@
 import {RootState} from "@app/configureStore";
 import {createSelector} from "@reduxjs/toolkit";
-import {cartsSorter} from "./utils";
-import {selectActiveCartId} from "@ducks/active-cart/selectors";
+import {cartDetailSorter, cartsSorter} from "./utils";
 import Decimal from "decimal.js";
 
 export const selectCartsList = (state: RootState) => state.carts.list;
@@ -9,9 +8,18 @@ export const selectCartsIndexes = (state: RootState) => state.carts.indexes;
 export const selectCartsStatus = (state: RootState) => state.carts.status;
 export const selectCartsSort = (state: RootState) => state.carts.sort;
 export const selectCartsSearch = (state: RootState) => state.carts.search;
-export const selectCartIdHelper = (state: RootState, cartId: number|null) => cartId;
-export const selectCartItemIdHelper = (state: RootState, cartId: number|null, id: number|null) => id;
-export const selectCartMessages = (state:RootState) => state.carts.messages;
+export const selectCartIdHelper = (state: RootState, cartId: number | null) => cartId;
+export const selectCartItemIdHelper = (state: RootState, cartId: number | null, id: number | null) => id;
+export const selectCartMessages = (state: RootState) => state.carts.messages;
+
+export const selectActiveCartId = (state: RootState) => state.carts.activeCart.cartId ?? 0;
+export const selectCartPromoCode = (state: RootState) => state.carts.activeCart.promoCode;
+export const selectCartDetailSort = (state: RootState) => state.carts.activeCart.sort;
+export const selectCartProgress = (state: RootState) => state.carts.activeCart.progress;
+export const selectCartShipDate = (state: RootState) => state.carts.activeCart.shipDate;
+export const selectCartShippingAccount = (state: RootState) => state.carts.activeCart.shippingAccount;
+export const selectCartMessage = (state: RootState) => state.carts.activeCart.cartMessage;
+
 
 export const selectCartsLength = createSelector(
     [selectCartsIndexes],
@@ -36,9 +44,12 @@ export const selectCartHeaderById = createSelector(
 )
 
 export const selectCartDetailById = createSelector(
-    [selectCartsList, selectCartIdHelper],
-    (list, cartId) => {
-        return list[cartId ?? 0]?.detail ?? [];
+    [selectCartsList, selectCartIdHelper, selectCartDetailSort],
+    (list, cartId, sort) => {
+        if (!cartId || !list[cartId]) {
+            return [];
+        }
+        return [...list[cartId ?? 0].detail].sort(cartDetailSorter(sort))
     }
 )
 
@@ -57,6 +68,7 @@ export const selectCartStatusById = createSelector(
         return list[cartId ?? 0]?.status ?? 'idle';
     }
 )
+
 
 export const selectCartHeaders = createSelector(
     [selectCartsList, selectCartsIndexes],

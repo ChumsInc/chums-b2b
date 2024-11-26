@@ -4,11 +4,10 @@ import {selectLoggedIn} from "../../user/selectors";
 import NavItemButtonLink from "./NavItemButtonLink";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {selectCustomerAccount} from "../../customer/selectors";
-import {selectCartNo} from "../../cart/selectors";
 import {customerCartURL} from "../../user/utils";
 import CustomerIndicator from "../../customer/components/CustomerIndicator";
-import CartIcon from "./CartIcon";
-import {selectActiveCartId} from "@ducks/active-cart/selectors";
+import CartIcon from "../../carts/components/CartIcon";
+import {selectActiveCartId} from "@ducks/carts/selectors";
 
 
 const CartMenu = () => {
