@@ -34,7 +34,9 @@ export default function B2BHtml({html, css, state, helmet, manifestFiles, swatch
             <meta charSet="utf-8"/>
             <meta httpEquiv="x-ua-compatible" content="ie-edge"/>
             {!helmet && <title>CHUMS B2B</title>}
-            <>{helmet?.title?.toComponent()}</>
+            {helmet?.title && (
+                <React.Fragment>{helmet.title.toComponent() as unknown as React.ReactNode}</React.Fragment>
+            )}
             <meta name="description" content="Chums B2B"/>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
@@ -42,8 +44,9 @@ export default function B2BHtml({html, css, state, helmet, manifestFiles, swatch
             <meta property="og:image:alt" content="Chums Logo"/>
             <meta property="og:type" content="website"/>
             <meta property="og:url" content="https://b2b.chums.com/"/>
-            <>{helmet?.meta?.toComponent()}</>
-
+            {helmet?.meta && (
+                <React.Fragment>{helmet.meta.toComponent() as unknown as React.ReactNode}</React.Fragment>
+            )}
             <link rel="apple-touch-icon" sizes="57x57" href="/images/icons/apple-touch-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="/images/icons/apple-touch-icon-60x60.png"/>
             <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/apple-touch-icon-72x72.png"/>
