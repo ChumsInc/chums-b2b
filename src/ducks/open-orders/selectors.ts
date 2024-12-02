@@ -4,7 +4,7 @@ import {detailSequenceSorter, isEditableSalesOrder, salesOrderSorter} from "../s
 import {selectSalesOrderHeader} from "../sales-order/selectors";
 
 export const selectOpenOrders = (state: RootState) => state.openOrders.list;
-export const selectOpenOrdersLoading = (state: RootState) => state.openOrders.loading ?? false;
+export const selectOpenOrdersLoading = (state: RootState) => state.openOrders.loading ?? 'idle';
 export const selectOpenOrdersLoaded = (state: RootState) => state.openOrders.loaded ?? false;
 export const selectOpenOrdersSort = (state: RootState) => state.openOrders.sort;
 export const selectOpenOrdersFilter = (state: RootState) => state.openOrders.openFilter;

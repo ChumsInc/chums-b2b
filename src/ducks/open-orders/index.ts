@@ -25,11 +25,12 @@ import {
 } from "../cart/actions";
 import {LoadStatus, SortProps} from "../../types/generic";
 import {ActionStatusList, OpenOrderDetailList, OpenOrderList} from "./types";
+import {dismissContextAlert} from "../alerts/actions";
 
 export interface OpenOrdersState {
     customerKey: string | null;
     list: OpenOrderList;
-    loading: boolean;
+    loading: 'idle'|'pending'|'rejected'|'saving'|'deleting';
     loaded: boolean;
     sort: SortProps<SalesOrderHeader>;
     cartsFilter: string;
@@ -45,7 +46,7 @@ export interface OpenOrdersState {
 export const initialOpenOrderState = (): OpenOrdersState => ({
     customerKey: null,
     list: {},
-    loading: false,
+    loading: 'idle',
     loaded: false,
     sort: {field: 'SalesOrderNo', ascending: true},
     cartsFilter: '',
@@ -71,10 +72,10 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
             }
         })
         .addCase(loadOpenOrders.pending, (state) => {
-            state.loading = true;
+            state.loading = 'pending';
         })
         .addCase(loadOpenOrders.fulfilled, (state, action) => {
-            state.loading = false;
+            state.loading = 'idle';
             state.loaded = true;
             state.list = {};
             action.payload.map(so => {
@@ -85,7 +86,7 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
             })
         })
         .addCase(loadOpenOrders.rejected, (state) => {
-            state.loading = false;
+            state.loading = 'rejected';
         })
         .addCase(setLoggedIn, (state, action) => {
             if (!action.payload?.loggedIn) {
@@ -149,12 +150,12 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
         })
         .addCase(removeCart.pending, (state, action) => {
             state.actionStatus[action.meta.arg.SalesOrderNo] = 'deleting';
-            state.loading = true;
+            state.loading = 'deleting';
         })
         .addCase(removeCart.fulfilled, (state, action) => {
             delete state.actionStatus[action.meta.arg.SalesOrderNo];
             state.loaded = true;
-            state.loading = false;
+            state.loading = 'idle';
             state.list = {};
             action.payload.forEach(so => {
                 state.actionStatus[so.SalesOrderNo] = 'idle';
@@ -163,7 +164,7 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
         })
         .addCase(removeCart.rejected, (state, action) => {
             state.actionStatus[action.meta.arg.SalesOrderNo] = 'rejected';
-            state.loading = false;
+            state.loading = 'rejected';
         })
         .addCase(loadSalesOrder.pending, (state, action) => {
             state.actionStatus[action.meta.arg] = 'pending';
@@ -277,6 +278,14 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
         })
         .addCase(duplicateSalesOrder.rejected, (state, action) => {
             state.actionStatus[action.meta.arg.salesOrderNo] = 'idle';
+        })
+        .addCase(dismissContextAlert, (state, action) => {
+            switch (action.payload) {
+                case loadOpenOrders.typePrefix:
+                case removeCart.typePrefix:
+                    state.loading = 'idle';
+                    return;
+            }
         })
 })
 export default openOrdersReducer;

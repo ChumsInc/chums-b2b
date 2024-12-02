@@ -58,7 +58,7 @@ const CartsList = () => {
     const filter = useSelector(selectCartsFilter);
 
     useEffect(() => {
-        if (!loading && !loaded && !!currentCustomer) {
+        if (loading === 'idle' && !loaded && !!currentCustomer) {
             dispatch(loadOpenOrders(currentCustomer));
         }
     }, [loading, loaded, currentCustomer]);
@@ -86,7 +86,7 @@ const CartsList = () => {
                     Reload
                 </Button>
             </OrderFilter>
-            {loading && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
+            {loading === 'pending' && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
             <OrdersList list={list} fields={cartFields}/>
             <NoCartsAlert/>
         </div>

@@ -64,7 +64,7 @@ const OpenOrdersList = () => {
     const [list,  setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
 
     useEffect(() => {
-        if (!loading && !loaded && !!currentCustomer) {
+        if (loading === 'idle' && !loaded && !!currentCustomer) {
             dispatch(loadOpenOrders(currentCustomer));
         }
     }, [loading, loaded, currentCustomer]);
@@ -90,7 +90,7 @@ const OpenOrdersList = () => {
                     Reload
                 </Button>
             </OrderFilter>
-            {loading && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
+            {loading === 'pending' && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
             <OrdersList list={list} fields={openOrderFields}/>
             <NoOpenOrdersAlert/>
         </>
