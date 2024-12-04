@@ -7,6 +7,7 @@ export interface B2BCartLine {
     productItemId?: number | null;
     salesOrderNo: string | null;
     lineKey: string | null;
+    lineSeqNo: string | null;
     itemCode: string;
     productType: string|null;
     itemType: string;
@@ -49,8 +50,8 @@ export interface B2BCartProduct {
 
 export interface B2BCartSeason {
     code: string|null;
-    itemAvailable: boolean;
-    productAvailable: boolean;
+    active: boolean;
+    available: boolean;
 }
 
 export interface SalesOrderDetail {
@@ -62,7 +63,7 @@ export interface SalesOrderDetail {
 }
 
 export interface B2BCartDetail extends Omit<B2BCartLine, 'priceLevel' | 'productId' | 'productItemId' | 'quantityOrdered'
-    | 'unitOfMeasure' | 'lineKey'>, Editable {
+    | 'unitOfMeasure'>, Editable {
     cartProduct: B2BCartProduct;
     season: B2BCartSeason;
     itemCodeDesc: string;

@@ -61,6 +61,13 @@ export const cartDetailSorter = ({field, ascending}:SortProps<B2BCartDetail>) =>
                     ? (a.id - b.id)
                     : (a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1)
             ) * sortMod;
+        case 'lineKey':
+        case 'lineSeqNo':
+            return (
+                +(a[field] ?? 0) === +(b[field] ?? 0)
+                ? (a.id - b.id)
+                : +(a[field] ?? 0) - +(b[field] ?? 0)
+            ) * sortMod;
         case 'id':
         default:
             return (a.id - b.id) * sortMod;

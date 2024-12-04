@@ -1,12 +1,23 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {EmailResponse, SortProps} from "b2b-types";
-import {fetchCarts, postCartEmail, putUpdateCartItems} from "./api";
+import {fetchCarts, postCartEmail, postProcessCart, putUpdateCartItems} from "./api";
 import {RootState} from "@app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@ducks/carts/api";
-import {selectCartDetailById, selectCartsStatus, selectCartStatusById} from "@ducks/carts/selectors";
+import {
+    selectCartDetailById,
+    selectCartShippingAccount,
+    selectCartsStatus,
+    selectCartStatusById
+} from "@ducks/carts/selectors";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
-import {AddToCartProps, CartActionProps, UpdateCartItemProps, UpdateCartProps} from "@typeDefs/cart/cart-action-props";
+import {
+    AddToCartProps,
+    CartActionProps,
+    PromoteCartBody,
+    UpdateCartItemProps,
+    UpdateCartProps
+} from "@typeDefs/cart/cart-action-props";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {CustomerShippingAccount} from "@typeDefs/customer";
 import {CartProgress} from "@typeDefs/cart/cart-utils";
@@ -14,6 +25,7 @@ import localStore from "@utils/LocalStore";
 import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
 import {Dayjs} from "dayjs";
 import {nextShipDate} from "@utils/orders";
+import {CREDIT_CARD_PAYMENT_TYPES} from "@constants/account";
 
 export const setCartsSearch = createAction<string>("carts/setSearch");
 export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");
@@ -147,3 +159,40 @@ export const setCartShipDate = createAction('activeCart/setShipDate', (arg: Date
     }
 });
 export const setCartDetailSort = createAction<SortProps<B2BCartDetail>>('activeCart/setCartDetailSort');
+
+export const processCart = createAsyncThunk<unknown, B2BCartHeader, { state: RootState }>(
+    'processCart',
+    async (arg, {getState}) => {
+        const state = getState();
+        const shippingAccount = selectCartShippingAccount(state);
+        const comment: string[] = [];
+        if (shippingAccount.enabled) {
+            comment.push(`COL ${shippingAccount.value}`);
+        }
+
+        if (arg.CancelReasonCode === 'hold') {
+            comment.push('HOLD');
+        } else {
+            comment.push('SWR');
+        }
+
+        const body:PromoteCartBody = {
+            action: 'promote',
+            cartId: arg.id,
+            cartName: arg.customerPONo!,
+            shipExpireDate: arg.shipExpireDate!,
+            shipToCode: arg.shipToCode ?? '',
+            shipVia: arg.shipVia ?? '',
+            paymentType: arg.PaymentType!,
+            comment: comment.join(''),
+            promoCode: arg.promoCode ?? '',
+        }
+        return await postProcessCart(body);
+    },
+    {
+        condition: (arg, {getState}) => {
+            const state = getState();
+            return !!arg.id && selectCartStatusById(state, arg.id) === 'idle'
+        }
+    }
+);

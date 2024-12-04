@@ -38,7 +38,7 @@ export default function DeleteCartButton({
             return;
         }
         setBusy(true);
-        await dispatch(removeCart({customerKey, cartId: header.id}));
+        await dispatch(removeCart({customerKey, cartId: header.id, salesOrderNo: header.salesOrderNo}));
         setOpen(false);
         setBusy(false);
         const path = generatePath('/account/:customerSlug/carts', {

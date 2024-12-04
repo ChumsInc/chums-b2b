@@ -71,12 +71,6 @@ export default function CartDetailLine({
     }
 
     const isKitComponent = !!line.soDetail.salesKitLineKey && line.soDetail.salesKitLineKey !== line.soDetail.lineKey;
-    // if (isKitComponent) {
-    //     return (
-    //         <>
-    //         </>
-    //     )
-    // }
 
     return (
         <>

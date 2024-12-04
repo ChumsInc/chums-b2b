@@ -64,7 +64,7 @@ const initialCartsState = ():CartsState => {
         activeCart: {
             cartId: null,
             promoCode: null,
-            sort: {field: 'id', ascending: true},
+            sort: {field: 'lineSeqNo', ascending: true},
             progress: cartProgress_Cart,
             shipDate: shipDate,
             shippingAccount: {
@@ -119,6 +119,9 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         .addCase(loadCart.pending, (state, action) => {
             if (state.list[action.meta.arg.cartId]) {
                 state.list[action.meta.arg.cartId].status = 'loading';
+            }
+            if (action.meta.arg.cartId !== state.activeCart.cartId && action.meta.arg.setActiveCart) {
+                state.activeCart.cartId = action.meta.arg.cartId;
             }
         })
         .addCase(loadCart.fulfilled, (state, action) => {

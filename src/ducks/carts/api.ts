@@ -1,8 +1,8 @@
-import {fetchJSON} from "@api/fetch";
+import {allowErrorResponseHandler, fetchJSON} from "@api/fetch";
 import {
     AddToCartProps,
     CartActionProps,
-    DeleteCartItemProps,
+    DeleteCartItemProps, PromoteCartBody,
     UpdateCartItemProps,
     UpdateCartItemsProps,
     UpdateCartProps
@@ -139,6 +139,14 @@ export async function deleteCartItem(arg: DeleteCartItemProps): Promise<B2BCart 
 
 export async function deleteCart(arg: CartActionProps): Promise<B2BCartHeader[]> {
     try {
+        if (arg.salesOrderNo) {
+            const params = new URLSearchParams();
+            params.set('cartId', arg.cartId.toString());
+            params.set('salesOrderNo', arg.salesOrderNo);
+            const url = `/sage/b2b/cart-sync/delete-cart.php?${params.toString()}`;
+            await fetchJSON(url, {method: 'DELETE'}, allowErrorResponseHandler);
+            console.log('removed sage quote', arg.salesOrderNo);
+        }
         const url = '/api/carts/:customerKey/:cartId.json'
             .replace(':customerKey', encodeURIComponent(arg.customerKey!))
             .replace(':cartId', encodeURIComponent(arg.cartId));
@@ -169,5 +177,23 @@ export async function postCartEmail(arg: CartActionProps): Promise<EmailResponse
         }
         console.debug("postCartEmail()", err);
         return Promise.reject(new Error('Error in postCartEmail()'));
+    }
+}
+
+export async function postProcessCart(arg:PromoteCartBody):Promise<unknown|null> {
+    try {
+        const params = new URLSearchParams();
+        params.set('cartId', arg.cartId.toString());
+        const body = JSON.stringify(arg);
+        const url = `/sage/b2b/cart-sync/index.php?${params.toString()}`;
+        const res = await fetchJSON(url, {method: 'POST', body});
+        return null;
+    } catch(err:unknown) {
+        if (err instanceof Error) {
+            console.debug("postProcessCart()", err.message);
+            return Promise.reject(err);
+        }
+        console.debug("postProcessCart()", err);
+        return Promise.reject(new Error('Error in postProcessCart()'));
     }
 }

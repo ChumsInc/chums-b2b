@@ -19,7 +19,7 @@ export type CartAction =
     | 'update';
 
 
-export interface CartActionProps extends Partial<Pick<B2BCartHeader, 'shipToCode'>> {
+export interface CartActionProps extends Partial<Pick<B2BCartHeader, 'shipToCode'|'salesOrderNo'>> {
     cartId: number;
     customerKey: string;
     setActiveCart?: boolean;
@@ -58,6 +58,11 @@ export interface CartAppendCommentBody extends CartActionBase, Omit<CartDetailBo
 export interface CartDeleteItemBody extends CartActionBase, Pick<CartDetailBody, 'cartDetailId'> {
     action: 'delete-line';
 }
+
+export interface CartDeleteBody extends CartActionBase, Partial<Pick<B2BCartHeader, 'salesOrderNo'>> {
+    action: 'delete';
+}
+
 
 export interface PromoteCartBody extends CartActionBase {
     action: 'promote',

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector} from "react-redux";
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
@@ -34,9 +34,9 @@ import {selectSOLoading} from "@ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
-import {selectActiveCartId} from "@ducks/carts/selectors";
+import {selectActiveCartId, selectCartShippingAccount} from "@ducks/carts/selectors";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {loadCart, saveCart} from "@ducks/carts/actions";
+import {loadCart, processCart, saveCart} from "@ducks/carts/actions";
 import CartPaymentSelect from "@ducks/carts/components/header/CartPaymentSelect";
 import CartCheckoutProgress from "@ducks/carts/components/header/CartCheckoutProgress";
 import DeleteCartButton from "@ducks/carts/components/header/DeleteCartButton";
@@ -50,6 +50,7 @@ import {
     selectCartStatusById
 } from "@ducks/carts/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
+import {CREDIT_CARD_PAYMENT_TYPES} from "@constants/account";
 
 
 export default function CartOrderHeader() {
@@ -66,9 +67,22 @@ export default function CartOrderHeader() {
     const customerPORef = useRef<HTMLInputElement>();
     const navigate = useNavigate();
     const detailChanged = useAppSelector((state) => selectCartHasChanges(state, currentCartId));
+    const shippingAccount = useSelector(selectCartShippingAccount);
 
     const [cartHeader, setCartHeader] = useState<(B2BCartHeader & Editable) | null>(header);
     const [cartProgress, setCartProgress] = useState<CartProgress>(cartProgress_Cart);
+
+    const promoteCart = useCallback(async () => {
+        if (!cartHeader) {
+            return;
+        }
+        const response = await dispatch(processCart(cartHeader));
+        console.log('promoteCart', response);
+        // navigate(generatePath('/account/:customerSlug/orders', {
+        //     customerSlug: customerKey,
+        // }), {replace: true});
+
+    }, [dispatch, cartHeader, shippingAccount, customerKey, navigate])
 
     useEffect(() => {
         if (loading) {
@@ -235,11 +249,7 @@ export default function CartOrderHeader() {
                 quantity: +item.quantityOrdered,
             }))
         })
-        // await dispatch(promoteCart(cartHeader));
-        navigate(generatePath('/account/:customerSlug/orders/:salesOrderNo', {
-            customerSlug: customerKey,
-            salesOrderNo: header.salesOrderNo,
-        }), {replace: true});
+        await promoteCart();
     }
 
     return (
@@ -304,10 +314,10 @@ export default function CartOrderHeader() {
                                                disabled={loadingStatus !== 'idle'}
                                                onChange={valueChangeHandler('PaymentType')}/>
                             <TextField label="Purchase Order No" type="text" fullWidth variant="filled" size="small"
-                                       inputProps={{maxLength: 30}}
+                                       inputProps={{maxLength: 30}} onChange={changeHandler('customerPONo')}
                                        disabled={loadingStatus !== 'idle'}
-                                       error={!header.customerPONo}
-                                       value={header?.customerPONo ?? ''} required/>
+                                       error={!cartHeader.customerPONo}
+                                       value={cartHeader?.customerPONo ?? ''} required/>
                         </Stack>
                     </Collapse>
                 </Grid>
@@ -352,7 +362,7 @@ export default function CartOrderHeader() {
                 </Stack>
             </Stack>
             {loadingStatus !== 'idle' && <LinearProgress variant="indeterminate"/>}
-            <AlertList context={promoteCart.typePrefix}/>
+            <AlertList context={processCart.typePrefix}/>
             <hr/>
             <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between"
                    divider={<Divider orientation="vertical" flexItem/>}>

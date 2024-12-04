@@ -24,7 +24,7 @@ export const loadOpenOrders = createAsyncThunk<SalesOrderHeader[], CustomerKey, 
     }, {
         condition: (arg, {getState}) => {
             const state = getState();
-            return !!arg.CustomerNo && !selectOpenOrdersLoading(state);
+            return !!arg.CustomerNo && selectOpenOrdersLoading(state) === 'idle';
         }
     }
 )
