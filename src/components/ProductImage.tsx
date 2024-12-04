@@ -30,34 +30,35 @@ export default function ProductImage({
                                          colorCode = '',
                                          altText = '',
                                      }: ProductImageProps) {
-    const [selectedItemHash, setSelectedItemHash] = useState(`#${selectedItem}`);
     const [carouselImages, setCarouselImages] = useState<ProductAlternateImage[]>([]);
+    const [mainImage, setMainImage] = useState<ProductAlternateImage|null>(null);
 
     useEffect(() => {
-        setSelectedItemHash(`#${selectedItem}`)
-    }, [selectedItem]);
+        if (selectedItem && altImages?.length) {
+            const selectedItemHash = `#${selectedItem}`;
+            const filter = /^#[A-Z0-9]+/i;
+            const carouselImages = altImages
+                .filter(img => !!img.status)
+                .filter(img => {
+                    return !filter.test(img.altText) || img.altText.includes(selectedItemHash);
+                });
+            setCarouselImages(carouselImages);
+        }
+    }, [selectedItem, altImages]);
 
     useEffect(() => {
-        const filter = /^#[A-Z0-9]+/i;
-        const carouselImages = altImages
-            .filter(img => !!img.status)
-            .filter(img => {
-                return !filter.test(img.altText) || img.altText.includes(selectedItemHash);
-            });
-        setCarouselImages(carouselImages);
-    }, [selectedItemHash, altImages])
-
-
-    const mainImage: ProductAlternateImage = {
-        id: 0,
-        productId: 0,
-        image: parseImageFilename(image, colorCode),
-        altText,
-        status: true,
-        priority: -1,
-    }
+        const mainImage: ProductAlternateImage = {
+            id: 0,
+            productId: 0,
+            image: parseImageFilename(image, colorCode),
+            altText,
+            status: true,
+            priority: -1,
+        }
+        setMainImage(mainImage);
+    }, [image]);
 
     return (
-        <ProductImageList images={[mainImage, ...carouselImages]}/>
+        <ProductImageList mainImage={mainImage} alternateImages={carouselImages}/>
     );
 }

@@ -51,16 +51,17 @@ function ProductCurrentImage({image, show}:{
 }
 
 export interface ProductImageListProps {
-    images: ProductAlternateImage[];
+    mainImage: ProductAlternateImage|null;
+    alternateImages?: ProductAlternateImage[];
 }
 
-const ProductImageList = ({images}: ProductImageListProps) => {
-    const [image, setImage] = useState<ProductAlternateImage | null>(null);
+const ProductImageList = ({mainImage, alternateImages}: ProductImageListProps) => {
+    const [image, setImage] = useState<ProductAlternateImage | null>(mainImage);
     const [show, setShow] = useState(true);
 
     useEffect(() => {
-        setImage(images[0] ?? null);
-    }, [images]);
+        setImage(mainImage ?? null);
+    }, [mainImage]);
 
     const onSelectImage = async (img: ProductAlternateImage) => {
         if (img.image !== image?.image) {
@@ -76,7 +77,7 @@ const ProductImageList = ({images}: ProductImageListProps) => {
         return null;
     }
 
-    if (images.length === 1) {
+    if (!alternateImages || alternateImages.length === 0) {
         return (
             <ResponsiveProductImage filename={image.image.replace(/\s/g, '%20')} alt={image.altText} loading="eager"
                                     sizes={sizes}
@@ -87,8 +88,8 @@ const ProductImageList = ({images}: ProductImageListProps) => {
     return (
         <Stack direction="row" spacing={2}>
             <ProductCurrentImage image={image} show={show} />
-            <ProductAlternateImageList images={images} currentImage={image} onSelectImage={onSelectImage} />
-            <link rel="preload" as="image" imageSrcSet={images.map(img => `/images/products/800/${img.image} 800w`).join(', ')} />
+            <ProductAlternateImageList images={alternateImages} currentImage={image} onSelectImage={onSelectImage} />
+            <link rel="preload" as="image" imageSrcSet={alternateImages.map(img => `/images/products/800/${img.image} 800w`).join(', ')} />
         </Stack>
     )
 }
