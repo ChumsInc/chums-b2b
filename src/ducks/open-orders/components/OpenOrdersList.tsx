@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import {useSelector} from "react-redux";
 import {
+    selectOpenOrdersCustomerKey,
     selectOpenOrdersFilter,
     selectOpenOrdersList,
     selectOpenOrdersLoaded,
@@ -55,6 +56,7 @@ const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
 
 const OpenOrdersList = () => {
     const dispatch = useAppDispatch();
+    const customerKey = useAppSelector(selectOpenOrdersCustomerKey);
     const currentCustomer = useSelector(selectCurrentCustomer);
     const shipToCode = useAppSelector(selectCustomerShipToCode);
     const orders = useSelector(selectOpenOrdersList);
@@ -64,18 +66,18 @@ const OpenOrdersList = () => {
     const [list,  setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
 
     useEffect(() => {
-        if (loading === 'idle' && !loaded && !!currentCustomer) {
-            dispatch(loadOpenOrders(currentCustomer));
+        if (loading === 'idle' && !loaded && !!customerKey) {
+            dispatch(loadOpenOrders(customerKey));
         }
-    }, [loading, loaded, currentCustomer]);
+    }, [loading, loaded, customerKey]);
 
     useEffect(() => {
         setList(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
-    }, [shipToCode]);
+    }, [orders, shipToCode]);
 
     const reloadHandler = () => {
-        if (currentCustomer) {
-            dispatch(loadOpenOrders(currentCustomer));
+        if (customerKey) {
+            dispatch(loadOpenOrders(customerKey));
         }
     }
 

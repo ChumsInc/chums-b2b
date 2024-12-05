@@ -84,8 +84,7 @@ export default function OrderDetail({salesOrderNo}: {
 
                 <TableBody>
                     {detail.map(line => (
-                        <OrderDetailLine key={line.LineSeqNo} salesOrderNo={salesOrderNo} line={line}
-                                         readOnly={!isCart}
+                        <OrderDetailLine key={line.LineSeqNo} line={line}
                                          onAddToCart={addToCartHandler}/>
                     ))}
                 </TableBody>

@@ -22,7 +22,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import ShipToSelect from "@ducks/customer/components/ShipToSelect";
 import {promoteCart} from "@ducks/cart/actions";
 import Alert from "@mui/material/Alert";
-import {useMatch, useNavigate} from "react-router";
+import {useNavigate} from "react-router";
 import {generatePath} from "react-router-dom";
 import AlertList from "@ducks/alerts/AlertList";
 import SendEmailButton from "@ducks/carts/components/header/SendEmailButton";
@@ -34,7 +34,14 @@ import {selectSOLoading} from "@ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
-import {selectActiveCartId, selectCartShippingAccount} from "@ducks/carts/selectors";
+import {
+    selectActiveCartId,
+    selectCartDetailById,
+    selectCartHasChanges,
+    selectCartHeaderById,
+    selectCartShippingAccount,
+    selectCartStatusById
+} from "@ducks/carts/selectors";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {loadCart, processCart, saveCart} from "@ducks/carts/actions";
 import CartPaymentSelect from "@ducks/carts/components/header/CartPaymentSelect";
@@ -43,14 +50,7 @@ import DeleteCartButton from "@ducks/carts/components/header/DeleteCartButton";
 import CheckoutButton from "@ducks/carts/components/header/CheckoutButton";
 import CartCommentInput from "@ducks/carts/components/header/CartCommentInput";
 import {selectCustomerKey} from "@ducks/customer/selectors";
-import {
-    selectCartDetailById,
-    selectCartHasChanges,
-    selectCartHeaderById,
-    selectCartStatusById
-} from "@ducks/carts/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
-import {CREDIT_CARD_PAYMENT_TYPES} from "@constants/account";
 
 
 export default function CartOrderHeader() {
@@ -78,10 +78,12 @@ export default function CartOrderHeader() {
         }
         const response = await dispatch(processCart(cartHeader));
         console.log('promoteCart', response);
-        // navigate(generatePath('/account/:customerSlug/orders', {
-        //     customerSlug: customerKey,
-        // }), {replace: true});
-
+        if (response.payload && typeof response.payload === 'string') {
+            navigate(generatePath('/account/:customerSlug/orders/:salesOrderNo', {
+                customerSlug: customerKey,
+                salesOrderNo: response.payload,
+            }), {replace: true});
+        }
     }, [dispatch, cartHeader, shippingAccount, customerKey, navigate])
 
     useEffect(() => {

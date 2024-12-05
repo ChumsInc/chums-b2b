@@ -146,7 +146,7 @@ const ProductPage = ({keyword}: {
                                         <AddToCartForm quantity={cartItem?.quantity ?? 1} cartItem={cartItem}
                                                        setActiveCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
                                                        disabled={!customerAccount?.TaxSchedule}
-                                                       onChangeQuantity={onChangeQuantity} onDone={noop} comment=""
+                                                       onChangeQuantity={onChangeQuantity} comment=""
                                                        afterAddToCart={setCartMessage}/>
                                     )}
                                 <Collapse in={!!cartMessage}>

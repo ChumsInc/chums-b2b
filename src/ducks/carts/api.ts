@@ -1,6 +1,7 @@
 import {allowErrorResponseHandler, fetchJSON} from "@api/fetch";
 import {
-    AddToCartProps,
+    AddToCartBody,
+    AddToCartProps, AddToNewCartBody, AddToNewCartProps,
     CartActionProps,
     DeleteCartItemProps, PromoteCartBody,
     UpdateCartItemProps,
@@ -70,7 +71,12 @@ export async function postAddToCart(arg: AddToCartProps): Promise<B2BCart | null
         const url = '/api/carts/:customerKey/:cartId/cart.json'
             .replace(':customerKey', encodeURIComponent(arg.customerKey!))
             .replace(':cartId', encodeURIComponent(arg.cartId ?? 'new'))
-        const res = await fetchJSON<{ cart: B2BCart }>(url, {method: 'POST', body: JSON.stringify(arg.item)});
+        const body:AddToCartBody = {...arg.item};
+        if (!arg.cartId) {
+            body.customerPONo = arg.cartName;
+            body.shipToCode = arg.shipToCode;
+        }
+        const res = await fetchJSON<{ cart: B2BCart }>(url, {method: 'POST', body: JSON.stringify(body)});
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -180,14 +186,14 @@ export async function postCartEmail(arg: CartActionProps): Promise<EmailResponse
     }
 }
 
-export async function postProcessCart(arg:PromoteCartBody):Promise<unknown|null> {
+export async function postProcessCart(arg:PromoteCartBody):Promise<string|null> {
     try {
         const params = new URLSearchParams();
         params.set('cartId', arg.cartId.toString());
         const body = JSON.stringify(arg);
-        const url = `/sage/b2b/cart-sync/index.php?${params.toString()}`;
-        const res = await fetchJSON(url, {method: 'POST', body});
-        return null;
+        const url = `/sage/b2b/cart-sync/sync-to-sage.php?${params.toString()}`;
+        const res = await fetchJSON<{salesOrderNo: string}>(url, {method: 'POST', body});
+        return res?.salesOrderNo ?? null;
     } catch(err:unknown) {
         if (err instanceof Error) {
             console.debug("postProcessCart()", err.message);

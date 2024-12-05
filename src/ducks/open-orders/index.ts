@@ -11,7 +11,7 @@ import {
     setSalesOrderSort,
     updateDetailLine
 } from "./actions";
-import {setCustomerAccount} from "../customer/actions";
+import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {customerSlug} from "../../utils/customer";
 import {setLoggedIn, setUserAccess} from "../user/actions";
 import {
@@ -61,6 +61,16 @@ export const initialOpenOrderState = (): OpenOrdersState => ({
 
 const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
     builder
+        .addCase(loadCustomer.pending, (state, action) => {
+            const key = customerSlug(action.meta.arg);
+            if (state.customerKey !== key) {
+                state.customerKey = key;
+                state.list = {};
+                state.loaded = false;
+                state.openFilter = '';
+                state.cartsFilter = '';
+            }
+        })
         .addCase(setCustomerAccount.pending, (state, action) => {
             const key = customerSlug(action.meta.arg);
             if (state.customerKey !== key) {

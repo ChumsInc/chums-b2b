@@ -30,7 +30,7 @@ export interface AddToCartFormProps {
     unitOfMeasure?: string;
     comment?: string;
     disabled?: boolean;
-    onDone: () => void;
+    onDone?: () => void;
     onChangeQuantity: (val: number) => void;
     excludeCartId?: number;
     setActiveCart?: boolean;
@@ -58,15 +58,64 @@ export default function AddToCartForm({
     const currentShipToCode = useSelector(selectCustomerShipToCode);
 
     const [cartId, setCartId] = useState<number | null>(activeCart?.id ?? null);
-    const [cart, setCart] = useState<B2BCartHeader | null>(activeCart);
+    // const [cart, setCart] = useState<B2BCartHeader | null>(activeCart);
     const [cartComment, setCartComment] = useState<string>(comment ?? '');
     const [cartName, setCartName] = useState<string>(activeCart?.customerPONo ?? '');
     const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? null);
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId));
 
+    const submitHandler = useCallback(async (ev: FormEvent) => {
+        ev.preventDefault();
+        if (disabled || !customerKey) {
+            return;
+        }
+        const price = cartItem.price ? new Decimal(cartItem.price).toNumber() : 0;
+        const value = cartItem.price ? new Decimal(cartItem.price).times(quantity).toNumber() : 0;
+        sendGtagEvent('add_to_cart', {
+            currency: 'USD',
+            value: value,
+            items: [{item_id: cartItem.itemCode, item_name: cartItem.name, price: price, quantity}]
+        })
+        if (!cartId) {
+            await dispatch(addToCart({
+                cartId: null,
+                cartName,
+                customerKey,
+                shipToCode,
+                setActiveCart: true,
+                item: {
+                    itemCode: cartItem.itemCode,
+                    itemType: '1',
+                    unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
+                    commentText: cartComment,
+                    productId: cartItem.productId,
+                    quantityOrdered: quantity,
+                }
+            }))
+        } else {
+            await dispatch(addToCart({
+                cartId,
+                customerKey,
+                shipToCode,
+                setActiveCart,
+                item: {
+                    itemCode: cartItem.itemCode,
+                    itemType: '1',
+                    unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
+                    commentText: cartComment,
+                    productId: cartItem.productId,
+                    quantityOrdered: quantity,
+                }
+            }))
+        }
+        if (onDone) {
+            onDone();
+        }
+    }, [cartId, customerKey, cartName, shipToCode, cartItem, cartComment, setActiveCart, onDone]);
+
     const setCartState = useCallback((cart: B2BCartHeader | null) => {
         setCartId(cart?.id ?? 0);
-        setCart(cart);
+        // setCart(cart);
         setShipToCode(cart?.shipToCode ?? null);
         setCartName(cart?.customerPONo ?? '');
     }, [])
@@ -120,55 +169,6 @@ export default function AddToCartForm({
     const shipToCodeChangeHandler = (code: string | null) => {
         console.debug('shipToCodeChangeHandler()', {code});
         setShipToCode(code)
-    }
-
-    const submitHandler = async (ev: FormEvent) => {
-        ev.preventDefault();
-        if (disabled || !customerKey) {
-            return;
-        }
-        const price = cartItem.price ? new Decimal(cartItem.price).toNumber() : 0;
-        const value = cartItem.price ? new Decimal(cartItem.price).times(quantity).toNumber() : 0;
-        sendGtagEvent('add_to_cart', {
-            currency: 'USD',
-            value: value,
-            items: [{item_id: cartItem.itemCode, item_name: cartItem.name, price: price, quantity}]
-        })
-        if (!cartId) {
-            await dispatch(addToCart({
-                cartId: null,
-                cartName,
-                customerKey,
-                shipToCode,
-                setActiveCart,
-                item: {
-                    itemCode: cartItem.itemCode,
-                    itemType: '1',
-                    unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
-                    commentText: cartComment,
-                    productId: cartItem.productId,
-                    quantityOrdered: quantity,
-                }
-            }))
-        } else {
-            await dispatch(addToCart({
-                cartId,
-                customerKey,
-                shipToCode,
-                setActiveCart,
-                item: {
-                    itemCode: cartItem.itemCode,
-                    itemType: '1',
-                    unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
-                    commentText: cartComment,
-                    productId: cartItem.productId,
-                    quantityOrdered: quantity,
-                }
-            }))
-        }
-        if (onDone) {
-            onDone();
-        }
     }
 
     return (

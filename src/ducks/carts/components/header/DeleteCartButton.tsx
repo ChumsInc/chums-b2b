@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Button, {ButtonProps} from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
@@ -28,12 +28,7 @@ export default function DeleteCartButton({
     const [open, setOpen] = useState(false);
     const [busy, setBusy] = useState(false);
 
-    const clickHandler = () => {
-        setOpen(true);
-    }
-    const closeHandler = () => setOpen(false);
-
-    const confirmHandler = async () => {
+    const confirmHandler = useCallback(async () => {
         if (!header || !customerKey) {
             return;
         }
@@ -44,8 +39,14 @@ export default function DeleteCartButton({
         const path = generatePath('/account/:customerSlug/carts', {
             customerSlug: customerKey
         })
-        navigate(path);
+        navigate(path, {replace: true});
+    }, [header, customerKey])
+
+    const clickHandler = () => {
+        setOpen(true);
     }
+
+    const closeHandler = () => setOpen(false);
 
     if (!header || !customerKey) {
         return null;

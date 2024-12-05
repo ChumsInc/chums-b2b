@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {loadInvoice} from '../actions';
 import {useSelector} from "react-redux";
 import DuplicateCartDialog from "../../cart/components/DuplicateCartDialog";
-import {ShippingMethods} from "../../../utils/general";
+import {ShippingMethods} from "@utils/general";
 import TrackingLinkBadge from "../../../components/TrackingLinkBadge";
 import {selectCurrentInvoice} from "../selectors";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {selectCartLoading} from "../../cart/selectors";
 import {generatePath} from "react-router-dom";
 import dayjs from "dayjs";
@@ -21,7 +21,7 @@ import numeral from "numeral";
 import {selectCustomerPermissions} from "../../customer/selectors";
 import {duplicateSalesOrder, DuplicateSalesOrderProps} from "../../cart/actions";
 import {useNavigate} from "react-router";
-import {customerSlug} from "../../../utils/customer";
+import {customerSlug} from "@utils/customer";
 import {SalesOrderHeader} from "b2b-types";
 
 const InvoiceHeader = () => {
@@ -105,7 +105,7 @@ const InvoiceHeader = () => {
                         </Stack>
                         <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
                             <TextField label="Invoice Date" type="date" fullWidth variant="filled" size="small"
-                                       value={dayjs(invoice.OrderDate).format('YYYY-MM-DD')} placeholder=""
+                                       value={dayjs(invoice.InvoiceDate).format('YYYY-MM-DD')} placeholder=""
                                        inputProps={{readOnly: true}}/>
                             {!!invoice.InvoiceDueDate && (
                                 <TextField label="Invoice Due Date" type="date" fullWidth variant="filled" size="small"

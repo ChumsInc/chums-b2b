@@ -4,24 +4,21 @@ import {fetchSalesOrder, postOrderEmail} from "../../api/sales-order";
 import {SortProps} from "../../types/generic";
 import {RootState} from "../../app/configureStore";
 import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
-import {
-    selectSalesOrderHeader,
-    selectSalesOrderProcessing,
-    selectSendEmailStatus,
-    selectSOLoading
-} from "./selectors";
+import {selectSalesOrderHeader, selectSalesOrderProcessing, selectSendEmailStatus, selectSOLoading} from "./selectors";
 import {DetailLineChangeProps} from "../../types/salesorder";
+import {billToCustomerSlug} from "@utils/customer";
 
-export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string, {state: RootState}>(
+export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string, { state: RootState }>(
     'salesOrder/load',
     async (arg, {getState}) => {
-        const state = getState() ;
+        const state = getState();
         const customer = selectCurrentCustomer(state)!;
-        return await fetchSalesOrder({...customer, SalesOrderNo: arg});
+        const customerKey = billToCustomerSlug(customer);
+        return await fetchSalesOrder({customerKey, salesOrderNo: arg});
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() ;
+            const state = getState();
             const customer = selectCurrentCustomer(state);
             return !!arg && !!customer && selectSalesOrderProcessing(state) === 'idle' && !selectSOLoading(state);
         }
@@ -34,14 +31,14 @@ export const setSort = createAction<SortProps<SalesOrderHeader>>('orders/setSort
 export const setPage = createAction<number>('orders/setPage');
 export const setRowsPerPage = createAction<number>('orders/setRowsPerPage');
 
-export const sendOrderEmail = createAsyncThunk<EmailResponse | null, SalesOrderHeader, {state: RootState}>(
+export const sendOrderEmail = createAsyncThunk<EmailResponse | null, SalesOrderHeader, { state: RootState }>(
     'salesOrder/sendEmail',
     async (arg) => {
         return await postOrderEmail(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() ;
+            const state = getState();
             return selectLoggedIn(state)
                 && !!arg
                 && selectSendEmailStatus(state) === 'idle'

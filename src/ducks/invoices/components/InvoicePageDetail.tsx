@@ -27,7 +27,7 @@ const InvoicePageDetail = () => {
         setUnitOfMeasure(line.UnitOfMeasure);
         const item: CartProduct = {
             itemCode: line.ItemCode,
-            quantity: +line.QuantityOrdered,
+            quantity: Math.abs(+line.QuantityOrdered),
             comment: line.CommentText,
             name: line.ItemCodeDesc,
             productId: 0,

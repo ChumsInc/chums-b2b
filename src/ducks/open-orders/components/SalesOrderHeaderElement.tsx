@@ -55,6 +55,9 @@ const SalesOrderHeaderElement = () => {
     }
 
     const duplicateCartHandler = async (cartName: string, shipTo: string) => {
+        if (!header) {
+            return;
+        }
         await dispatch(duplicateSalesOrder({cartName, salesOrderNo: header.SalesOrderNo, shipToCode: shipTo}))
         setShowDuplicateCart(false);
     }

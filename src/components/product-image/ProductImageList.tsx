@@ -9,17 +9,17 @@ import ProductAlternateImageList from "@components/product-image/ProductAlternat
 
 
 export interface ProductImageListProps {
-    primaryImage: ProductAlternateImage;
-    images?: ProductAlternateImage[];
+    mainImage: ProductAlternateImage|null;
+    alternateImages?: ProductAlternateImage[];
 }
 
-const ProductImageList = ({primaryImage, images}: ProductImageListProps) => {
-    const [currentImage, setCurrentImage] = useState<ProductAlternateImage>(primaryImage);
+const ProductImageList = ({mainImage, alternateImages}: ProductImageListProps) => {
+    const [currentImage, setCurrentImage] = useState<ProductAlternateImage|null>(mainImage);
     const [show, setShow] = useState(true);
 
     useEffect(() => {
-        setCurrentImage(primaryImage);
-    }, [primaryImage]);
+        setCurrentImage(mainImage);
+    }, [mainImage]);
 
 
     const onSelectImage = async (img: ProductAlternateImage) => {
@@ -32,7 +32,11 @@ const ProductImageList = ({primaryImage, images}: ProductImageListProps) => {
         }
     }
 
-    if (!images || !images.length) {
+    if (!currentImage) {
+        return null;
+    }
+
+    if (!alternateImages || !alternateImages.length) {
         return (
             <ResponsiveProductImage filename={currentImage.image.replace(/\s/g, '%20')} alt={currentImage.altText}
                                     loading="eager"
@@ -43,10 +47,10 @@ const ProductImageList = ({primaryImage, images}: ProductImageListProps) => {
     return (
         <Stack direction="row" spacing={2}>
             <ProductCurrentImage image={currentImage} show={show}/>
-            <ProductAlternateImageList images={[primaryImage, ...images]} currentImage={currentImage}
+            <ProductAlternateImageList images={alternateImages} currentImage={currentImage}
                                        onSelectImage={onSelectImage}/>
             <link rel="preload" as="image"
-                  imageSrcSet={images.map(img => `/images/products/800/${img.image} 800w`).join(', ')}/>
+                  imageSrcSet={alternateImages.map(img => `/images/products/800/${img.image} 800w`).join(', ')}/>
         </Stack>
     )
 }

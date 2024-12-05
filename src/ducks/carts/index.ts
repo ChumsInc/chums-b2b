@@ -6,7 +6,7 @@ import {
     addToCart,
     clearCartMessages,
     loadCart,
-    loadCarts,
+    loadCarts, processCart,
     saveCart,
     saveCartItem,
     setActiveCartId,
@@ -50,9 +50,9 @@ export interface CartsState {
     }
 }
 
-const initialCartsState = ():CartsState => {
+const initialCartsState = (): CartsState => {
     const shipDate = nextShipDate();
-    const shippingAccount = localStore.getItem<CustomerShippingAccount|null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
+    const shippingAccount = localStore.getItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
     return {
         customerKey: null,
         indexes: [],
@@ -78,11 +78,83 @@ const initialCartsState = ():CartsState => {
 
 export const cartsReducer = createReducer(initialCartsState, builder => {
     builder
-        .addCase(setCartsSearch, (state, action) => {
-            state.search = action.payload;
+
+        .addCase(addToCart.pending, (state, action) => {
+            const cartId = action.meta.arg.cartId;
+            if (cartId && state.list[cartId]) {
+                state.list[cartId].status = 'saving';
+            }
         })
-        .addCase(setCartsSort, (state, action) => {
-            state.sort = action.payload;
+        .addCase(addToCart.fulfilled, (state, action) => {
+            if (action.payload) {
+                const cartId = action.payload.header.id;
+                if (!state.indexes.includes(cartId)) {
+                    state.indexes = [...state.indexes, cartId];
+                }
+                state.list[cartId] = {
+                    ...action.payload,
+                    detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
+                    status: 'idle',
+                };
+                if (action.meta.arg.setActiveCart) {
+                    state.activeCart.cartId = cartId;
+                }
+                const item = action.meta.arg.item;
+                state.messages = [
+                    ...state.messages,
+                    {
+                        message: `Added to cart: ${item.itemCode}, ${item.quantityOrdered} ${item.unitOfMeasure}`.trim(),
+                        key: action.meta.requestId
+                    }
+                ];
+            } else {
+                const cartId = action.meta.arg.cartId;
+                if (cartId && state.list[cartId]) {
+                    state.list[cartId].status = 'idle';
+                }
+            }
+        })
+        .addCase(addToCart.rejected, (state, action) => {
+            const cartId = action.meta.arg.cartId;
+            if (cartId && state.list[cartId]) {
+                state.list[cartId].status = 'idle';
+            }
+        })
+        .addCase(clearCartMessages, (state) => {
+            state.messages = [];
+        })
+        .addCase(dismissContextAlert, (state, action) => {
+            switch (action.payload) {
+                case loadCarts.typePrefix:
+                case loadCart.typePrefix:
+                    state.status = 'idle';
+                    return;
+            }
+        })
+        .addCase(loadCart.pending, (state, action) => {
+            if (state.list[action.meta.arg.cartId]) {
+                state.list[action.meta.arg.cartId].status = 'loading';
+            }
+            if (action.meta.arg.cartId !== state.activeCart.cartId && action.meta.arg.setActiveCart) {
+                state.activeCart.cartId = action.meta.arg.cartId;
+            }
+        })
+        .addCase(loadCart.fulfilled, (state, action) => {
+            if (!action.payload && state.list[action.meta.arg.cartId]) {
+                delete state.list[action.meta.arg.cartId];
+            } else if (action.payload) {
+                const cartId = action.payload.header.id;
+                state.list[cartId] = {
+                    ...action.payload,
+                    detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
+                    status: 'idle',
+                };
+            }
+        })
+        .addCase(loadCart.rejected, (state, action) => {
+            if (state.list[action.meta.arg.cartId]) {
+                state.list[action.meta.arg.cartId].status = 'idle';
+            }
         })
         .addCase(loadCarts.pending, (state, action) => {
             state.status = 'loading';
@@ -116,85 +188,11 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         .addCase(loadCarts.rejected, (state) => {
             state.status = 'rejected';
         })
-        .addCase(loadCart.pending, (state, action) => {
-            if (state.list[action.meta.arg.cartId]) {
-                state.list[action.meta.arg.cartId].status = 'loading';
-            }
-            if (action.meta.arg.cartId !== state.activeCart.cartId && action.meta.arg.setActiveCart) {
-                state.activeCart.cartId = action.meta.arg.cartId;
-            }
-        })
-        .addCase(loadCart.fulfilled, (state, action) => {
-            if (!action.payload && state.list[action.meta.arg.cartId]) {
-                delete state.list[action.meta.arg.cartId];
-            } else if (action.payload) {
-                const cartId = action.payload.header.id;
-                state.list[cartId] = {
-                    ...action.payload,
-                    detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    status: 'idle',
-                };
-            }
-        })
-        .addCase(loadCart.rejected, (state, action) => {
-            if (state.list[action.meta.arg.cartId]) {
-                state.list[action.meta.arg.cartId].status = 'idle';
-            }
-        })
-        .addCase(dismissContextAlert, (state, action) => {
-            switch (action.payload) {
-                case loadCarts.typePrefix:
-                case loadCart.typePrefix:
-                    state.status = 'idle';
-                    return;
-            }
-        })
         .addCase(loadCustomer.pending, (state, action) => {
             if (state.customerKey !== customerSlug(action.meta.arg)) {
                 state.customerKey = customerSlug(action.meta.arg);
                 state.list = {};
                 state.indexes = [];
-            }
-        })
-        .addCase(setCartItem, (state, action) => {
-            if (state.list[action.payload.cartHeaderId]) {
-                state.list[action.payload.cartHeaderId].detail = [
-                    ...state.list[action.payload.cartHeaderId].detail.filter(line => line.id !== action.payload.id),
-                    ...state.list[action.payload.cartHeaderId].detail.filter(line => line.id === action.payload.id)
-                        .map(line => ({...line, ...action.payload, changed: true})),
-                ].sort(cartDetailSorter(defaultCartDetailSort));
-            }
-        })
-        .addCase(saveCartItem.pending, (state, action) => {
-            const cartId = action.meta.arg.cartId;
-            const cartItemId = action.meta.arg.cartItemId;
-            if (state.list[cartId]) {
-                state.list[cartId].status = 'saving';
-                if (!state.list[cartId].lineStatus) {
-                    state.list[cartId].lineStatus = {}
-                }
-                state.list[cartId].lineStatus[cartItemId] = 'saving';
-            }
-        })
-        .addCase(saveCartItem.fulfilled, (state, action) => {
-            if (!action.payload) {
-                delete state.list[action.meta.arg.cartId];
-                state.indexes = state.indexes.filter(idx => idx !== action.meta.arg.cartId);
-            } else {
-                state.list[action.payload.header.id] = {
-                    ...action.payload,
-                    detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    status: 'idle',
-                }
-                state.messages = [
-                    ...state.messages,
-                    {message: 'Cart updated', key: action.meta.requestId}
-                ];
-            }
-        })
-        .addCase(saveCartItem.rejected, (state, action) => {
-            if (state.list[action.meta.arg.cartId]) {
-                state.list[action.meta.arg.cartId].status = 'idle';
             }
         })
         .addCase(saveCart.pending, (state, action) => {
@@ -230,45 +228,61 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 state.list[cartId].status = 'idle';
             }
         })
-        .addCase(addToCart.pending, (state, action) => {
+        .addCase(saveCartItem.pending, (state, action) => {
             const cartId = action.meta.arg.cartId;
-            if (cartId && state.list[cartId]) {
+            const cartItemId = action.meta.arg.cartItemId;
+            if (state.list[cartId]) {
                 state.list[cartId].status = 'saving';
+                if (!state.list[cartId].lineStatus) {
+                    state.list[cartId].lineStatus = {}
+                }
+                state.list[cartId].lineStatus[cartItemId] = 'saving';
             }
         })
-        .addCase(addToCart.fulfilled, (state, action) => {
-            if (action.payload) {
-                const cartId = action.payload.header.id;
-                if (state.list[cartId]) {
-                    state.list[cartId] = {
-                        ...action.payload,
-                        detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                        status: 'idle',
-                    };
+        .addCase(saveCartItem.fulfilled, (state, action) => {
+            if (!action.payload) {
+                delete state.list[action.meta.arg.cartId];
+                state.indexes = state.indexes.filter(idx => idx !== action.meta.arg.cartId);
+            } else {
+                state.list[action.payload.header.id] = {
+                    ...action.payload,
+                    detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
+                    status: 'idle',
                 }
-                const item = action.meta.arg.item;
                 state.messages = [
                     ...state.messages,
-                    {
-                        message: `Added to cart: ${item.itemCode}, ${item.quantityOrdered} ${item.unitOfMeasure}`.trim(),
-                        key: action.meta.requestId
-                    }
+                    {message: 'Cart updated', key: action.meta.requestId}
                 ];
-            } else {
-                const cartId = action.meta.arg.cartId;
-                if (cartId && state.list[cartId]) {
-                    state.list[cartId].status = 'idle';
-                }
             }
         })
-        .addCase(clearCartMessages, (state) => {
-            state.messages = [];
+        .addCase(saveCartItem.rejected, (state, action) => {
+            if (state.list[action.meta.arg.cartId]) {
+                state.list[action.meta.arg.cartId].status = 'idle';
+            }
+        })
+        .addCase(setCartItem, (state, action) => {
+            if (state.list[action.payload.cartHeaderId]) {
+                state.list[action.payload.cartHeaderId].detail = [
+                    ...state.list[action.payload.cartHeaderId].detail.filter(line => line.id !== action.payload.id),
+                    ...state.list[action.payload.cartHeaderId].detail.filter(line => line.id === action.payload.id)
+                        .map(line => ({...line, ...action.payload, changed: true})),
+                ].sort(cartDetailSorter(defaultCartDetailSort));
+            }
+        })
+        .addCase(setCartsSearch, (state, action) => {
+            state.search = action.payload;
+        })
+        .addCase(setCartsSort, (state, action) => {
+            state.sort = action.payload;
         })
         .addCase(setActiveCartId, (state, action) => {
             state.activeCart.cartId = action.payload;
         })
         .addCase(setCartCheckoutProgress, (state, action) => {
             state.activeCart.progress = action.payload ?? CART_PROGRESS_STATES.cart;
+        })
+        .addCase(setCartDetailSort, (state, action) => {
+            state.activeCart.sort = action.payload;
         })
         .addCase(setCartShippingAccount, (state, action) => {
             state.activeCart.shippingAccount.enabled = action.payload?.enabled ?? false;
@@ -277,8 +291,28 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         .addCase(setCartShipDate, (state, action) => {
             state.activeCart.shipDate = action.payload;
         })
-        .addCase(setCartDetailSort, (state, action) => {
-            state.activeCart.sort = action.payload;
+        .addCase(processCart.pending, (state, action) => {
+            const cartId = action.meta.arg.id;
+            if (state.list[cartId]) {
+                state.list[cartId].status = 'saving';
+            }
+        })
+        .addCase(processCart.fulfilled, (state, action) => {
+            const cartId = action.meta.arg.id;
+            if (state.list[cartId] && action.payload) {
+                delete state.list[cartId];
+                state.indexes = state.indexes.filter(id => id !== cartId);
+                if (state.activeCart.cartId === cartId) {
+                    state.activeCart.cartId = null;
+                    state.activeCart.progress = cartProgress_Cart;
+                }
+            }
+        })
+        .addCase(processCart.rejected, (state, action) => {
+            const cartId = action.meta.arg.id;
+            if (state.list[cartId]) {
+                state.list[cartId].status = 'idle';
+            }
         })
 
 });

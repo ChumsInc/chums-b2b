@@ -3,9 +3,9 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {parseImageFilename} from '../common/image';
 import {ProductAlternateImage} from "b2b-types";
 import ProductImageList from "./ProductImageList";
+import {parseImageFilename} from "@src/common/image";
 
 export interface ProductImageProps {
     image: string;

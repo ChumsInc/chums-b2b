@@ -1,5 +1,5 @@
 import {APPEND_ORDER_COMMENT, CREATE_NEW_CART, UPDATE_CART_ITEM} from "../../constants/actions";
-import {shipToAddressFromBillingAddress} from "../../utils/customer";
+import {shipToAddressFromBillingAddress, shortCustomerKey} from "../../utils/customer";
 import {CREDIT_CARD_PAYMENT_TYPES} from "../../constants/account";
 import localStore from "../../utils/LocalStore";
 import {STORE_CURRENT_CART} from "../../constants/stores";
@@ -328,7 +328,7 @@ export const promoteCart = createAsyncThunk<SalesOrder | null, SalesOrderHeader,
     }
 )
 
-export const removeCart = createAsyncThunk<SalesOrderHeader[], SalesOrderHeader, { state: RootState }>(
+export const removeCart = createAsyncThunk<SalesOrder[], SalesOrderHeader, { state: RootState }>(
     'cart/remove',
     async (arg, {getState}) => {
         const state = getState();
@@ -342,7 +342,8 @@ export const removeCart = createAsyncThunk<SalesOrderHeader[], SalesOrderHeader,
             referrer,
         };
         await postCartAction(Company, ARDivisionNo, CustomerNo, ShipToCode, data);
-        return await fetchOpenSalesOrders({ARDivisionNo, CustomerNo});
+        const customerKey = shortCustomerKey({ARDivisionNo, CustomerNo});
+        return await fetchOpenSalesOrders({customerKey});
     },
     {
         condition: (arg, {getState}) => {

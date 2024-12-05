@@ -69,25 +69,20 @@ export const customerResponseToState = (payload: FetchCustomerResponse | null, s
     nextState.contacts = [...(payload?.contacts ?? [])].sort(customerContactSorter);
     nextState.pricing = [...(payload?.pricing ?? [])].sort(customerPriceRecordSorter);
     nextState.shipToAddresses = [...(payload?.shipTo ?? [])].sort(customerShipToSorter(defaultShipToSort));
-    if (!!state.shipToCode && !nextState.shipToAddresses.filter(st => st.ShipToCode === state.shipToCode).length) {
-        nextState.shipToCode = null;
-    }
-    if (nextState.shipToCode && !nextState.permissions.values?.billTo && !nextState.permissions.values?.shipTo.includes(nextState.shipToCode)) {
-        nextState.shipToCode = null;
-    }
-    if (!nextState.shipToCode) {
-        if (nextState.permissions.values?.billTo) {
-            nextState.shipToCode = '';
-            nextState.shipTo = null;
-        } else if (nextState.permissions.values?.shipTo.length) {
-            const [shipTo] = nextState.shipToAddresses.filter(st => st.ShipToCode === nextState.permissions!.values?.shipTo[0])
-            nextState.shipToCode = shipTo?.ShipToCode ?? null;
-            nextState.shipTo = shipTo ?? null;
-        }
-    } else {
-        const [shipTo] = nextState.shipToAddresses.filter(st => st.ShipToCode === nextState.shipToCode)
+    const [shipTo] = nextState.shipToAddresses.filter(st => st.ShipToCode === state.shipToCode);
+    if (shipTo && nextState.permissions?.values?.billTo) {
         nextState.shipToCode = shipTo?.ShipToCode ?? null;
         nextState.shipTo = shipTo ?? null;
+    } else if (shipTo && nextState.permissions?.values?.shipTo.includes(shipTo.ShipToCode)) {
+        nextState.shipToCode = shipTo?.ShipToCode ?? null;
+        nextState.shipTo = shipTo ?? null;
+    } else if (!nextState.permissions?.values?.billTo) {
+        const [shipTo] = nextState.shipToAddresses;
+        nextState.shipToCode = shipTo?.ShipToCode ?? null;
+        nextState.shipTo = shipTo ?? null;
+    } else {
+        nextState.shipToCode = null;
+        nextState.shipTo = null;
     }
     nextState.paymentCards = [...(payload?.paymentCards ?? [])].sort(customerPaymentCardSorter);
     nextState.users = [...(payload?.users ?? [])].sort(customerUserSorter(defaultCustomerUserSort));

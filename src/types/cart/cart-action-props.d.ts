@@ -131,6 +131,13 @@ export interface AddToCartBody extends Pick<B2BCartDetail, 'itemCode' | 'unitOfM
     productItemId?: number | null;
     priceLevel?: string | null;
     itemType?: string;
+    customerPONo?: string;
+    shipToCode?: string|null;
+}
+
+export interface AddToNewCartBody extends AddToCartBody {
+    customerPONo: string;
+    shipToCode?: string|null;
 }
 
 export interface AddToCartProps extends Omit<CartItemActionProps, 'cartId'|'cartItemId'> {
@@ -138,6 +145,8 @@ export interface AddToCartProps extends Omit<CartItemActionProps, 'cartId'|'cart
     cartName?: string;
     item: AddToCartBody;
 }
+export type AddToNewCartProps = AddToCartProps & Partial<Pick<B2BCartHeader, 'shipToCode'>>;
+
 export interface UpdateCartProps extends CartActionProps {
     body: UpdateCartHeaderBody;
 }

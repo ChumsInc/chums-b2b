@@ -7,9 +7,10 @@ import B2BError from "../types/generic";
 
 export async function postCartAction(company: string, arDivisionNo: string, customerNo: string, shipToCode: string | null, body: CartActionBody): Promise<SalesOrder | null> {
     try {
+        const customerKey = `${arDivisionNo}-${customerNo}`;
         const params = new URLSearchParams();
         params.set('co', company);
-        params.set('account', `${arDivisionNo}-${customerNo}`);
+        params.set('account', customerKey);
         if (shipToCode) {
             params.set('account', `${arDivisionNo}-${customerNo}:${shipToCode}`);
         }
@@ -23,9 +24,8 @@ export async function postCartAction(company: string, arDivisionNo: string, cust
             return response.updated.salesOrder;
         }
         return await fetchSalesOrder({
-            ARDivisionNo: arDivisionNo,
-            CustomerNo: customerNo,
-            SalesOrderNo: response.SalesOrderNo
+            customerKey,
+            salesOrderNo: response.SalesOrderNo
         });
     } catch (err) {
         if (err instanceof Error) {

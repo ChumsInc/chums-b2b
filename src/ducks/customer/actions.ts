@@ -31,7 +31,7 @@ import {loadCarts} from "@ducks/carts/actions";
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');
 
-export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, {state:RootState}>(
+export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, { state: RootState }>(
     'customer/saveUser',
     async (arg, {getState}) => {
         const state = getState();
@@ -46,7 +46,7 @@ export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, {state:Ro
     }
 )
 
-export const removeUser = createAsyncThunk<CustomerUser[], CustomerUser, {state:RootState}>(
+export const removeUser = createAsyncThunk<CustomerUser[], CustomerUser, { state: RootState }>(
     'customer/removeUser',
     async (arg, {getState}) => {
         const state = getState();
@@ -64,7 +64,7 @@ export const removeUser = createAsyncThunk<CustomerUser[], CustomerUser, {state:
 export const setCustomerAccount = createAsyncThunk<{
     customer: BasicCustomer,
     recent: RecentCustomer[]
-}, BasicCustomer, {state:RootState}>(
+}, BasicCustomer, { state: RootState }>(
     'customer/setCurrent',
     async (arg, {getState}) => {
         const state = getState();
@@ -83,9 +83,10 @@ export const loadCustomer = createAsyncThunk<FetchCustomerResponse | null, Custo
     'customer/load',
     async (arg, {dispatch, getState}) => {
         const response = await fetchCustomerAccount(arg!);
-        if (response.customer) {
-            dispatch(loadOpenOrders(response.customer));
-            dispatch(loadCarts(billToCustomerSlug(response.customer)));
+        const customerKey = billToCustomerSlug(response.customer);
+        if (customerKey) {
+            dispatch(loadOpenOrders(customerKey));
+            dispatch(loadCarts(customerKey));
         }
         const state = getState();
         response.recent = buildRecentCustomers(selectRecentCustomers(state), response.customer);
@@ -100,7 +101,7 @@ export const loadCustomer = createAsyncThunk<FetchCustomerResponse | null, Custo
 )
 
 
-export const saveBillingAddress = createAsyncThunk<FetchCustomerResponse | null, BillToCustomer, {state:RootState}>(
+export const saveBillingAddress = createAsyncThunk<FetchCustomerResponse | null, BillToCustomer, { state: RootState }>(
     'customer/saveBillingAddress',
     async (arg) => {
         return await postBillingAddress(arg);
@@ -113,7 +114,7 @@ export const saveBillingAddress = createAsyncThunk<FetchCustomerResponse | null,
 )
 
 
-export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, ShipToCustomer, {state:RootState}>(
+export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, ShipToCustomer, { state: RootState }>(
     'customer/saveShipToAddress',
     async (arg) => {
         return await postShipToAddress(arg);
@@ -129,7 +130,7 @@ export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, 
     }
 )
 
-export const setDefaultShipTo = createAsyncThunk<void, string, {state:RootState}>(
+export const setDefaultShipTo = createAsyncThunk<void, string, { state: RootState }>(
     'customer/setDefaultShipTo',
     async (arg, {getState}) => {
         const state = getState();
@@ -144,7 +145,9 @@ export const setDefaultShipTo = createAsyncThunk<void, string, {state:RootState}
     }
 )
 
-export const loadCustomerPermissions = createAsyncThunk<CustomerPermissions | null, CustomerKey | null, {state:RootState}>(
+export const loadCustomerPermissions = createAsyncThunk<CustomerPermissions | null, CustomerKey | null, {
+    state: RootState
+}>(
     'customer/values/load',
     async (arg) => {
         return await fetchCustomerValidation(arg!);
@@ -156,7 +159,7 @@ export const loadCustomerPermissions = createAsyncThunk<CustomerPermissions | nu
     }
 )
 
-export const loadCustomerUsers = createAsyncThunk<CustomerUser[], void, {state:RootState}>(
+export const loadCustomerUsers = createAsyncThunk<CustomerUser[], void, { state: RootState }>(
     'customer/users/load',
     async (arg, {getState}) => {
         const state = getState();

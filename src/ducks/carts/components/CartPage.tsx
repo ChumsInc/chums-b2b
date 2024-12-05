@@ -54,13 +54,6 @@ export default function CartPage() {
             <DocumentTitle documentTitle={documentTitle}/>
             <CartOrderHeader/>
             <CartDetail cartId={cartHeader.id}/>
-            <div>
-                <code>
-                    <pre>
-                        {JSON.stringify(cartHeader, undefined, 2)}
-                    </pre>
-                </code>
-            </div>
         </div>
     )
 }

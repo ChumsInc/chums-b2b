@@ -12,7 +12,7 @@ import {
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
 import {
-    AddToCartProps,
+    AddToCartProps, AddToNewCartProps,
     CartActionProps,
     PromoteCartBody,
     UpdateCartItemProps,
@@ -160,7 +160,7 @@ export const setCartShipDate = createAction('activeCart/setShipDate', (arg: Date
 });
 export const setCartDetailSort = createAction<SortProps<B2BCartDetail>>('activeCart/setCartDetailSort');
 
-export const processCart = createAsyncThunk<unknown, B2BCartHeader, { state: RootState }>(
+export const processCart = createAsyncThunk<string|null, B2BCartHeader, { state: RootState }>(
     'processCart',
     async (arg, {getState}) => {
         const state = getState();
