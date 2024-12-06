@@ -6,8 +6,6 @@ import {ShippingMethods} from "@utils/general";
 import TrackingLinkBadge from "../../../components/TrackingLinkBadge";
 import {selectCurrentInvoice} from "../selectors";
 import {useAppDispatch} from "@app/configureStore";
-import {selectCartLoading} from "../../cart/selectors";
-import {generatePath} from "react-router-dom";
 import dayjs from "dayjs";
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -19,40 +17,15 @@ import {addressFromShipToAddress, multiLineAddress} from "../../customer/utils";
 import Decimal from "decimal.js";
 import numeral from "numeral";
 import {selectCustomerPermissions} from "../../customer/selectors";
-import {duplicateSalesOrder, DuplicateSalesOrderProps} from "../../cart/actions";
-import {useNavigate} from "react-router";
-import {customerSlug} from "@utils/customer";
-import {SalesOrderHeader} from "b2b-types";
 
 const InvoiceHeader = () => {
     const dispatch = useAppDispatch();
     const invoice = useSelector(selectCurrentInvoice);
     const [confirmDuplicate, setConfirmDuplicate] = useState(false);
-    const cartLoading = useSelector(selectCartLoading);
     const permissions = useSelector(selectCustomerPermissions);
-    const navigate = useNavigate();
 
     const onCancelDuplicate = () => {
         setConfirmDuplicate(false);
-    }
-
-    const onDuplicateOrder = async (newCartName: string, shipToCode: string) => {
-        if (!invoice?.SalesOrderNo) {
-            return;
-        }
-        const arg: DuplicateSalesOrderProps = {
-            salesOrderNo: invoice.SalesOrderNo,
-            cartName: newCartName,
-            shipToCode,
-        }
-        const res = await dispatch(duplicateSalesOrder(arg));
-        if ((res.payload as SalesOrderHeader | null)?.SalesOrderNo) {
-            const salesOrderNo = (res.payload as SalesOrderHeader).SalesOrderNo;
-            navigate(generatePath('/account/:customerSlug/carts/:salesOrderNo', {
-                customerSlug: customerSlug(invoice),
-                salesOrderNo,
-            }))
-        }
     }
 
     const onReload = () => {
@@ -70,10 +43,6 @@ const InvoiceHeader = () => {
 
     return (
         <div className="mb-1">
-            <DuplicateCartDialog open={confirmDuplicate} SalesOrderNo={invoice.SalesOrderNo ?? ''}
-                                 loading={cartLoading}
-                                 onCancel={onCancelDuplicate}
-                                 onConfirm={onDuplicateOrder}/>
             <Grid container spacing={2}>
                 <Grid xs={12} lg={6}>
                     <Stack spacing={2} direction="column">
@@ -162,6 +131,9 @@ const InvoiceHeader = () => {
                     Reload Invoice
                 </Button>
             </Stack>
+            <DuplicateCartDialog open={confirmDuplicate} salesOrderNo={invoice.SalesOrderNo ?? ''}
+                                 shipToCode={invoice.ShipToCode}
+                                 onClose={onCancelDuplicate}/>
         </div>
     )
 }

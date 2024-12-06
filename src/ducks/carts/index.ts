@@ -4,7 +4,7 @@ import {SortProps} from "b2b-types";
 import {cartDetailSorter, cartsSorter, defaultCartDetailSort, defaultCartsSort} from "./utils";
 import {
     addToCart,
-    clearCartMessages,
+    clearCartMessages, duplicateSalesOrder,
     loadCart,
     loadCarts, processCart,
     saveCart,
@@ -21,7 +21,7 @@ import {
 import {dismissContextAlert} from "../alerts/actions";
 import {loadCustomer} from "@ducks/customer/actions";
 import {customerSlug} from "@utils/customer";
-import {B2BCartList, CartMessage, CartProgress} from "@typeDefs/cart/cart-utils";
+import {B2BCartList, CartMessage, CartProgress, CartStatusList} from "@typeDefs/cart/cart-utils";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {CustomerShippingAccount} from "@typeDefs/customer";
 import {nextShipDate} from "@utils/orders";
@@ -35,6 +35,7 @@ export interface CartsState {
     customerKey: string | null;
     indexes: number[];
     list: B2BCartList;
+    cartStatus:CartStatusList;
     status: 'idle' | 'loading' | 'rejected';
     search: string;
     sort: SortProps<B2BCartHeader>;
@@ -58,6 +59,7 @@ const initialCartsState = (): CartsState => {
         indexes: [],
         list: {},
         status: 'idle',
+        cartStatus: {},
         search: '',
         sort: {...defaultCartsSort},
         messages: [],
@@ -81,9 +83,7 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
 
         .addCase(addToCart.pending, (state, action) => {
             const cartId = action.meta.arg.cartId;
-            if (cartId && state.list[cartId]) {
-                state.list[cartId].status = 'saving';
-            }
+            state.cartStatus[cartId ?? 0] = 'saving';
         })
         .addCase(addToCart.fulfilled, (state, action) => {
             if (action.payload) {
@@ -91,10 +91,13 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 if (!state.indexes.includes(cartId)) {
                     state.indexes = [...state.indexes, cartId];
                 }
+                if (!action.meta.arg.cartId) {
+                    delete state.cartStatus[0];
+                }
+                state.cartStatus[cartId] = 'idle';
                 state.list[cartId] = {
                     ...action.payload,
                     detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    status: 'idle',
                 };
                 if (action.meta.arg.setActiveCart) {
                     state.activeCart.cartId = cartId;
@@ -109,16 +112,14 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 ];
             } else {
                 const cartId = action.meta.arg.cartId;
-                if (cartId && state.list[cartId]) {
-                    state.list[cartId].status = 'idle';
+                if (cartId) {
+                    state.cartStatus[cartId] = 'saving';
                 }
             }
         })
         .addCase(addToCart.rejected, (state, action) => {
             const cartId = action.meta.arg.cartId;
-            if (cartId && state.list[cartId]) {
-                state.list[cartId].status = 'idle';
-            }
+            state.cartStatus[cartId ?? 0] = 'idle';
         })
         .addCase(clearCartMessages, (state) => {
             state.messages = [];
@@ -132,9 +133,7 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
             }
         })
         .addCase(loadCart.pending, (state, action) => {
-            if (state.list[action.meta.arg.cartId]) {
-                state.list[action.meta.arg.cartId].status = 'loading';
-            }
+            state.cartStatus[action.meta.arg.cartId] = 'loading';
             if (action.meta.arg.cartId !== state.activeCart.cartId && action.meta.arg.setActiveCart) {
                 state.activeCart.cartId = action.meta.arg.cartId;
             }
@@ -142,18 +141,21 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         .addCase(loadCart.fulfilled, (state, action) => {
             if (!action.payload && state.list[action.meta.arg.cartId]) {
                 delete state.list[action.meta.arg.cartId];
+                delete state.cartStatus[action.meta.arg.cartId];
             } else if (action.payload) {
                 const cartId = action.payload.header.id;
                 state.list[cartId] = {
                     ...action.payload,
                     detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    status: 'idle',
                 };
+                state.cartStatus[cartId] = 'idle';
             }
         })
         .addCase(loadCart.rejected, (state, action) => {
-            if (state.list[action.meta.arg.cartId]) {
-                state.list[action.meta.arg.cartId].status = 'idle';
+            if (action.error && action.error.message?.toLowerCase() === 'not found') {
+                state.cartStatus[action.meta.arg.cartId] = 'not-found';
+            } else {
+                state.cartStatus[action.meta.arg.cartId] = 'idle';
             }
         })
         .addCase(loadCarts.pending, (state, action) => {
@@ -173,13 +175,13 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 }
             })
             state.indexes = indexes;
+            state.cartStatus = {};
             action.payload.forEach(cart => {
                 state.list[cart.header.id] = {
                     ...cart,
                     detail: cart.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    status: 'idle',
-
                 };
+                state.cartStatus[cart.header.id] = 'idle';
             })
             if (!state.activeCart.cartId && state.indexes.length) {
                 state.activeCart.cartId = state.indexes[0];
@@ -196,19 +198,16 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
             }
         })
         .addCase(saveCart.pending, (state, action) => {
-            const cartId = action.meta.arg.cartId;
-            if (state.list[cartId]) {
-                state.list[cartId].status = 'saving';
-            }
+            state.cartStatus[action.meta.arg.cartId] = 'saving';
         })
         .addCase(saveCart.fulfilled, (state, action) => {
             if (action.payload) {
                 const cartId = action.payload.header.id;
+                state.cartStatus[cartId] = 'idle';
                 if (state.list[cartId]) {
                     state.list[cartId] = {
                         ...action.payload,
                         detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                        status: 'idle',
                     };
                 }
                 state.messages = [
@@ -217,22 +216,18 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 ];
             } else {
                 const cartId = action.meta.arg.cartId;
-                if (state.list[cartId]) {
-                    state.list[cartId].status = 'idle';
-                }
+                state.cartStatus[cartId] = 'idle';
             }
         })
         .addCase(saveCart.rejected, (state, action) => {
             const cartId = action.meta.arg.cartId;
-            if (state.list[cartId]) {
-                state.list[cartId].status = 'idle';
-            }
+            state.cartStatus[cartId] = 'idle';
         })
         .addCase(saveCartItem.pending, (state, action) => {
             const cartId = action.meta.arg.cartId;
+            state.cartStatus[cartId] = 'saving';
             const cartItemId = action.meta.arg.cartItemId;
             if (state.list[cartId]) {
-                state.list[cartId].status = 'saving';
                 if (!state.list[cartId].lineStatus) {
                     state.list[cartId].lineStatus = {}
                 }
@@ -242,12 +237,12 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         .addCase(saveCartItem.fulfilled, (state, action) => {
             if (!action.payload) {
                 delete state.list[action.meta.arg.cartId];
+                state.cartStatus[action.meta.arg.cartId] = 'idle';
                 state.indexes = state.indexes.filter(idx => idx !== action.meta.arg.cartId);
             } else {
                 state.list[action.payload.header.id] = {
                     ...action.payload,
                     detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),
-                    status: 'idle',
                 }
                 state.messages = [
                     ...state.messages,
@@ -256,9 +251,7 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
             }
         })
         .addCase(saveCartItem.rejected, (state, action) => {
-            if (state.list[action.meta.arg.cartId]) {
-                state.list[action.meta.arg.cartId].status = 'idle';
-            }
+            state.cartStatus[action.meta.arg.cartId] = 'idle';
         })
         .addCase(setCartItem, (state, action) => {
             if (state.list[action.payload.cartHeaderId]) {
@@ -293,14 +286,13 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         })
         .addCase(processCart.pending, (state, action) => {
             const cartId = action.meta.arg.id;
-            if (state.list[cartId]) {
-                state.list[cartId].status = 'saving';
-            }
+            state.cartStatus[cartId] = 'saving';
         })
         .addCase(processCart.fulfilled, (state, action) => {
             const cartId = action.meta.arg.id;
             if (state.list[cartId] && action.payload) {
                 delete state.list[cartId];
+                delete state.cartStatus[cartId];
                 state.indexes = state.indexes.filter(id => id !== cartId);
                 if (state.activeCart.cartId === cartId) {
                     state.activeCart.cartId = null;
@@ -310,11 +302,30 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
         })
         .addCase(processCart.rejected, (state, action) => {
             const cartId = action.meta.arg.id;
-            if (state.list[cartId]) {
-                state.list[cartId].status = 'idle';
+            state.cartStatus[cartId] = 'idle';
+        })
+        .addCase(duplicateSalesOrder.pending, (state) => {
+            state.cartStatus[0] = 'saving';
+        })
+        .addCase(duplicateSalesOrder.fulfilled, (state, action) => {
+            state.cartStatus[0] = 'idle';
+            if (action.payload) {
+                const cartId = action.payload.header.id;
+                state.cartStatus[cartId] = 'idle';
+                state.indexes.push(cartId);
+                state.list[cartId] = {
+                    ...action.payload,
+                    detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort))
+                }
+                if (!state.activeCart.cartId) {
+                    state.activeCart.cartId = cartId;
+                    state.activeCart.progress = cartProgress_Cart;
+                }
             }
         })
-
+        .addCase(duplicateSalesOrder.rejected, (state) => {
+            state.cartStatus[0] = 'idle';
+        })
 });
 
 export default cartsReducer;

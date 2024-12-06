@@ -124,7 +124,7 @@ const App = () => {
                                                     <Route path=":id?" element={<EditAccountUserForm/>}/>
                                                 </Route>
                                                 <Route path="carts" element={<CartsPage/>}/>
-                                                <Route path="carts/:id" element={<CartPage/>}/>
+                                                <Route path="carts/:cartId" element={<CartPage/>}/>
                                                 {/*<Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>*/}
                                                 <Route path="orders" element={<OpenOrdersList/>}/>
                                                 <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>

@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import numeral from "numeral";
 import React, {useEffect, useState} from "react";
 import Tooltip from "@mui/material/Tooltip";
-import {selectActiveCart} from "@ducks/carts/selectors";
+import {selectActiveCart, selectActiveCartLoading} from "@ducks/carts/selectors";
 import {useAppSelector} from "@app/configureStore";
 import Decimal from "decimal.js";
 import {B2BCart} from "@typeDefs/cart/cart";
@@ -25,6 +25,7 @@ function calcCartQty(cart: B2BCart | null): number {
 export default function CartIcon() {
     const cart = useAppSelector(selectActiveCart);
     const [cartQty, setCartQty] = useState<number>(calcCartQty(cart));
+    const cartStatus = useAppSelector(selectActiveCartLoading);
 
     useEffect(() => {
         setCartQty(calcCartQty(cart));
@@ -44,7 +45,7 @@ export default function CartIcon() {
                            anchorOrigin={{vertical: "bottom", horizontal: 'right'}}>
                         <ShoppingCartIcon fontSize="medium"/>
                     </Badge>
-                    {cart.status !== 'idle' && (
+                    {cartStatus !== 'idle' && (
                         <CircularProgress size={36} sx={{position: 'absolute', top: -6, left: -6, zIndex: 1}}/>
                     )}
                 </Box>

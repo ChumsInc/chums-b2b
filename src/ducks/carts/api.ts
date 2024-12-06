@@ -3,7 +3,7 @@ import {
     AddToCartBody,
     AddToCartProps, AddToNewCartBody, AddToNewCartProps,
     CartActionProps,
-    DeleteCartItemProps, PromoteCartBody,
+    DeleteCartItemProps, DuplicateCartProps, PromoteCartBody,
     UpdateCartItemProps,
     UpdateCartItemsProps,
     UpdateCartProps
@@ -201,5 +201,23 @@ export async function postProcessCart(arg:PromoteCartBody):Promise<string|null> 
         }
         console.debug("postProcessCart()", err);
         return Promise.reject(new Error('Error in postProcessCart()'));
+    }
+}
+
+export async function postDuplicateSalesOrder(arg:DuplicateCartProps):Promise<B2BCart|null> {
+    try {
+        const {customerKey, salesOrderNo, ...body} = arg;
+        const url = '/api/carts/:customerKey/duplicate/:salesOrderNo.json'
+            .replace(':customerKey', encodeURIComponent(customerKey!))
+            .replace(':salesOrderNo', encodeURIComponent(salesOrderNo));
+        const res = await fetchJSON<{ cart: B2BCart }>(url, {method: 'POST', body: JSON.stringify(body)});
+        return res?.cart ?? null;
+    } catch(err:unknown) {
+        if (err instanceof Error) {
+            console.debug("postDuplicateSalesOrder()", err.message);
+            return Promise.reject(err);
+        }
+        console.debug("postDuplicateSalesOrder()", err);
+        return Promise.reject(new Error('Error in postDuplicateSalesOrder()'));
     }
 }

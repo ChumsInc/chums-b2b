@@ -4,62 +4,56 @@ import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import {addressFromShipToAddress, multiLineAddress} from "../../customer/utils";
 import Typography from "@mui/material/Typography";
-import {generatePath, NavLink} from "react-router-dom";
-import {genInvoicePath} from "../../../utils/path-utils";
+import {NavLink} from "react-router-dom";
+import {genInvoicePath} from "@utils/path-utils";
 import {selectCurrentCustomer} from "../../user/selectors";
-import {getShippingMethod} from "../../../constants/account";
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {getShippingMethod} from "@constants/account";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {loadSalesOrder} from "../actions";
 import Grid from '@mui/material/Unstable_Grid2';
-import {customerSlug} from "../../../utils/customer";
-import {useMatch, useNavigate} from "react-router";
+import {useParams} from "react-router";
 import {selectSalesOrder, selectSalesOrderInvoices} from "../selectors";
 import DuplicateCartDialog from "../../cart/components/DuplicateCartDialog";
-import {duplicateSalesOrder} from "../../cart/actions";
-import {selectCartLoading} from "../../cart/selectors";
 import {isClosedSalesOrder} from "../../sales-order/utils";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 
+
+function isValidDate(date: string | null | undefined): boolean {
+    return !!date && dayjs(date).isValid() && dayjs(date).valueOf() > 0;
+}
+
+function toDateString(date: string | null | undefined): string {
+    return isValidDate(date)
+        ? dayjs(date).format('YYYY-MM-DD')
+        : ''
+}
+
 const SalesOrderHeaderElement = () => {
     const dispatch = useAppDispatch();
-    const match = useMatch('/account/:customerSlug/:orderType/:salesOrderNo');
+    const params = useParams<{ salesOrderNo: string }>();
     const customer = useSelector(selectCurrentCustomer);
-    const header = useAppSelector((state) => selectSalesOrder(state, match?.params.salesOrderNo ?? ''));
-    const invoices = useAppSelector((state) => selectSalesOrderInvoices(state, match?.params.salesOrderNo ?? ''));
-    const cartLoading = useAppSelector(selectCartLoading);
-    const navigate = useNavigate();
+    const header = useAppSelector((state) => selectSalesOrder(state, params?.salesOrderNo ?? ''));
+    const invoices = useAppSelector((state) => selectSalesOrderInvoices(state, params?.salesOrderNo ?? ''));
     const [showDuplicateCart, setShowDuplicateCart] = useState(false);
-
-    const hasCancelDate = header?.UDF_CANCEL_DATE ? dayjs(header?.UDF_CANCEL_DATE).valueOf() > 0 : false;
-    const cancelDate = hasCancelDate ? dayjs(header?.UDF_CANCEL_DATE).format('YYYY-MM-DD') : '';
-    const orderDate = header?.OrderDate ? dayjs(header.OrderDate).format('YYYY-MM-DD') : '';
-    const shipDate = header?.ShipExpireDate ? dayjs(header.ShipExpireDate).format('YYYY-MM-DD') : '';
+    const [hasCancelDate, setHasCancelDate] = useState(isValidDate(header?.UDF_CANCEL_DATE));
+    const [cancelDate, setCancelDate] = useState(toDateString(header?.UDF_CANCEL_DATE));
+    const [orderDate, setOrderDate] = useState(toDateString(header?.OrderDate));
+    const [shipDate, setShipDate] = useState(toDateString(header?.ShipExpireDate));
 
     useEffect(() => {
-        if (header?.OrderType === 'Q' && match?.params?.orderType !== 'carts') {
-            navigate(generatePath('/account/:customerSlug/carts/:salesOrderNo', {
-                customerSlug: customerSlug(customer),
-                salesOrderNo: header.SalesOrderNo,
-            }), {replace: true});
-            return;
-        }
-    }, [header, match]);
+        setHasCancelDate(isValidDate(header?.UDF_CANCEL_DATE));
+        setCancelDate(toDateString(header?.UDF_CANCEL_DATE));
+        setOrderDate(toDateString(header?.OrderDate));
+        setShipDate(toDateString(header?.ShipExpireDate));
+    }, [header]);
 
     const reloadHandler = () => {
         if (!customer || !header) {
             return;
         }
         dispatch(loadSalesOrder(header?.SalesOrderNo))
-    }
-
-    const duplicateCartHandler = async (cartName: string, shipTo: string) => {
-        if (!header) {
-            return;
-        }
-        await dispatch(duplicateSalesOrder({cartName, salesOrderNo: header.SalesOrderNo, shipToCode: shipTo}))
-        setShowDuplicateCart(false);
     }
 
     if (!customer || !header) {
@@ -134,11 +128,9 @@ const SalesOrderHeaderElement = () => {
                     </Stack>
                 </Grid>
             </Grid>
-            <DuplicateCartDialog open={showDuplicateCart} SalesOrderNo={header?.SalesOrderNo}
+            <DuplicateCartDialog open={showDuplicateCart} salesOrderNo={header?.SalesOrderNo}
                                  shipToCode={header.ShipToCode}
-                                 loading={cartLoading}
-                                 onConfirm={duplicateCartHandler}
-                                 onCancel={() => setShowDuplicateCart(false)}/>
+                                 onClose={() => setShowDuplicateCart(false)}/>
         </div>
     )
 }

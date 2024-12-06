@@ -172,3 +172,8 @@ export type LoadCartItemProps = Required<Pick<CartItemActionProps, 'userId'|'car
 export type LoadCartsProps = Partial<CartActionProps> & Required<Pick<CartActionProps, 'userId'>>;
 export type LoadCartProps = Required<Pick<CartActionProps, 'userId'|'cartId'>>;
 export type LoadCartDetailProps = Pick<CartActionProps, 'cartId' | 'userId'>;
+
+export interface DuplicateCartProps extends Pick<CartActionProps, 'customerKey'|'shipToCode'> {
+    cartName: string;
+    salesOrderNo: string;
+}

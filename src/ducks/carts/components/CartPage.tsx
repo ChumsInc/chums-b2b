@@ -1,49 +1,58 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {useMatch} from "react-router";
+import {useMatch, useNavigate, useParams} from "react-router";
 import {useSelector} from "react-redux";
 import {selectCustomerKey, selectCustomerLoading} from "@ducks/customer/selectors";
 import {loadCart} from "@ducks/carts/actions";
-import {redirect} from "react-router-dom";
+import {generatePath} from "react-router-dom";
 import DocumentTitle from "@components/DocumentTitle";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartSkeleton from "@ducks/carts/components/header/CartSkeleton";
-import {selectCartById} from "@ducks/carts/selectors";
+import {selectCartById, selectCartStatusById} from "@ducks/carts/selectors";
 import CartOrderHeader from "@ducks/carts/components/header/CartOrderHeader";
 import {parseCartId} from "@ducks/carts/utils";
 import CartDetail from "@ducks/carts/components/detail/CartDetail";
+import {billToCustomerSlug} from "@utils/customer";
+import Typography from "@mui/material/Typography";
 
 export default function CartPage() {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const params = useParams<{ cartId: string; }>();
     const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
     const customerLoading = useSelector(selectCustomerLoading);
-    const cart = useAppSelector((state) => selectCartById(state, parseCartId(match?.params.cartId)))
+    const cartStatus = useAppSelector((state) => selectCartStatusById(state, parseCartId(params.cartId)))
+    const cart = useAppSelector((state) => selectCartById(state, parseCartId(params.cartId)))
     const cartHeader = cart?.header ?? null;
 
     useEffect(() => {
-        const cartId = parseCartId(match?.params.cartId);
+        const cartId = parseCartId(params.cartId);
         if (Number.isNaN(cartId) || !cartId || !customerKey) {
             return;
         }
         dispatch(loadCart({cartId, customerKey, setActiveCart: true}));
-    }, [match, customerKey]);
+    }, [params, customerKey]);
 
+    useEffect(() => {
+        if (cartStatus === 'not-found') {
+            navigate(generatePath('/account/:customerSlug/carts', {customerSlug: billToCustomerSlug(customerKey)}), {replace: true});
+        }
+    }, [cartStatus, customerKey])
 
     if (!customerKey && !customerLoading) {
-        redirect('/profile');
+        navigate('/profile', {replace: true});
         return;
     }
 
-    const documentTitle = `Cart Info #${match?.params?.cartId}`;
+    const documentTitle = `Cart #${params?.cartId}`;
 
     if (!cartHeader || !customerKey) {
         return (
             <div>
                 <DocumentTitle documentTitle={documentTitle}/>
-                <div className="sales-order-page">
-                    <CartSkeleton/>
-                </div>
+                <Typography variant="h3" component="h2">{documentTitle}</Typography>
+                <CartSkeleton/>
                 <LinearProgress variant="indeterminate"/>
             </div>
         )
@@ -52,6 +61,7 @@ export default function CartPage() {
     return (
         <div>
             <DocumentTitle documentTitle={documentTitle}/>
+            <Typography variant="h3" component="h2">Cart #{cart.header.id}</Typography>
             <CartOrderHeader/>
             <CartDetail cartId={cartHeader.id}/>
         </div>

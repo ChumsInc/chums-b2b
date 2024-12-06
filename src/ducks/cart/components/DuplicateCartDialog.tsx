@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Alert from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -10,27 +10,61 @@ import DialogContentText from "@mui/material/DialogContentText";
 import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import {DuplicateCartProps} from "@typeDefs/cart/cart-action-props";
+import {duplicateSalesOrder} from "@ducks/carts/actions";
+import {B2BCart} from "@typeDefs/cart/cart";
+import {generatePath} from "react-router-dom";
+import {customerSlug, parseCustomerSlug} from "@utils/customer";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
+import {selectCustomerKey} from "@ducks/customer/selectors";
+import {selectCartStatusById} from "@ducks/carts/selectors";
+import {useNavigate} from "react-router";
 
-const DuplicateCartDialog = ({open, SalesOrderNo, shipToCode, loading = false, onConfirm, onCancel}: {
+const DuplicateCartDialog = ({open, salesOrderNo, shipToCode, onClose}: {
     open: boolean;
-    SalesOrderNo: string;
+    salesOrderNo: string;
     shipToCode?: string | null;
-    loading?: boolean;
-    onConfirm: (cartName: string, shipToCode: string) => void;
-    onCancel: () => void;
+    onClose: () => void;
 }) => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const customerKey = useAppSelector(selectCustomerKey);
+    const cartStatus = useAppSelector((state) => selectCartStatusById(state, 0));
     const [cartName, setCartName] = useState('');
     const [shipTo, setShipTo] = useState<string>(shipToCode ?? '');
+
+    const onDuplicateOrder = useCallback(async () => {
+        if (!salesOrderNo || !customerKey) {
+            return;
+        }
+        const arg: DuplicateCartProps = {
+            customerKey,
+            salesOrderNo,
+            cartName,
+            shipToCode: shipTo,
+        }
+        const res = await dispatch(duplicateSalesOrder(arg));
+        if ((res.payload as B2BCart | null)?.header) {
+            const cartId = (res.payload as B2BCart).header.id;
+            onClose();
+            navigate(generatePath('/account/:customerSlug/carts/:cartId', {
+                customerSlug: customerSlug(parseCustomerSlug(customerKey)),
+                cartId: cartId.toString(),
+            }))
+        }
+    }, [salesOrderNo, customerKey, shipTo, cartName]);
+
     return (
-        <Dialog open={open} onClose={onCancel} title="Confirm">
-            <DialogTitle>Duplicate SO# {SalesOrderNo}?</DialogTitle>
+        <Dialog open={open} onClose={onClose} title="Confirm">
+            <DialogTitle>Duplicate SO# {salesOrderNo}?</DialogTitle>
             <DialogContent>
-                <DialogContentText>Are you sure you want to duplicate order #{SalesOrderNo}?</DialogContentText>
+                <DialogContentText>Are you sure you want to duplicate order #{salesOrderNo}?</DialogContentText>
                 <Stack spacing={2} direction="column">
                     <Alert severity="info">
                         <Stack direction="column" spacing={1}>
                             <div>
-                                Any discontinued items will no longer be available. Please check your new cart for accuracy.
+                                Any discontinued items will no longer be available. Please check your new cart for
+                                accuracy.
                             </div>
                             <div>
                                 Comments will not copy to the new order - you may need to add those manually, or copy
@@ -41,12 +75,12 @@ const DuplicateCartDialog = ({open, SalesOrderNo, shipToCode, loading = false, o
                     <TextField autoFocus label="New Cart Name" type="text" fullWidth variant="filled"
                                value={cartName} onChange={(ev) => setCartName(ev.target.value)}/>
                     <ShipToSelect value={shipTo ?? ''} onChange={(shipToCode) => setShipTo(shipToCode ?? '')}/>
-                    {loading && <LinearProgress variant="indeterminate"/>}
+                    {cartStatus !== 'idle' && <LinearProgress variant="indeterminate"/>}
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onCancel}>Cancel</Button>
-                <Button onClick={() => onConfirm(cartName, shipTo)} disabled={!cartName}>Duplicate Order</Button>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={onDuplicateOrder} disabled={!cartName}>Duplicate Order</Button>
             </DialogActions>
         </Dialog>
     );

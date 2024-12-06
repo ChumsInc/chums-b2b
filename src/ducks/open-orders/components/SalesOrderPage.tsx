@@ -14,6 +14,7 @@ import SalesOrderSkeleton from "./SalesOrderSkeleton";
 import {selectSalesOrder} from "../selectors";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import {selectCurrentUserAccount} from "@ducks/user/selectors";
+import Typography from "@mui/material/Typography";
 
 const SalesOrderPage = () => {
     const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ const SalesOrderPage = () => {
         return (
             <div>
                 <DocumentTitle documentTitle={documentTitle}/>
+                <Typography variant="h3" component="h2">Sales Order #{match?.params?.salesOrderNo}</Typography>
                 <div className="sales-order-page">
                     <SalesOrderSkeleton/>
                 </div>
@@ -57,7 +59,7 @@ const SalesOrderPage = () => {
         return (
             <div>
                 <DocumentTitle documentTitle={documentTitle}/>
-                <h2>Cancelled Order #{salesOrderHeader.SalesOrderNo}</h2>
+                <Typography variant="h3" component="h2">Cancelled Order #{salesOrderHeader.SalesOrderNo}</Typography>
                 <div className="sales-order-page">
                     <SalesOrderSkeleton/>
                 </div>
@@ -73,7 +75,7 @@ const SalesOrderPage = () => {
         <div>
             <DocumentTitle documentTitle={documentTitle}/>
             <div className="sales-order-page">
-                <h2>Sales Order #{salesOrderHeader.SalesOrderNo}</h2>
+                <Typography variant="h3" component="h2">Sales Order #{salesOrderHeader.SalesOrderNo}</Typography>
                 <SalesOrderHeaderElement/>
                 <SalesOrderLoadingProgress salesOrderNo={match?.params?.salesOrderNo}/>
                 <OrderDetail salesOrderNo={match?.params?.salesOrderNo}/>

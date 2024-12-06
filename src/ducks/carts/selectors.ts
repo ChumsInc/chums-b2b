@@ -6,6 +6,7 @@ import Decimal from "decimal.js";
 export const selectCartsList = (state: RootState) => state.carts.list;
 export const selectCartsIndexes = (state: RootState) => state.carts.indexes;
 export const selectCartsStatus = (state: RootState) => state.carts.status;
+export const selectCartStatusList = (state: RootState) => state.carts.cartStatus;
 export const selectCartsSort = (state: RootState) => state.carts.sort;
 export const selectCartsSearch = (state: RootState) => state.carts.search;
 export const selectCartIdHelper = (state: RootState, cartId: number | null) => cartId;
@@ -63,9 +64,9 @@ export const selectCartItemCountById = createSelector(
 )
 
 export const selectCartStatusById = createSelector(
-    [selectCartsList, selectCartIdHelper],
+    [selectCartStatusList, selectCartIdHelper],
     (list, cartId) => {
-        return list[cartId ?? 0]?.status ?? 'idle';
+        return list[cartId ?? 0] ?? 'idle';
     }
 )
 
@@ -157,12 +158,9 @@ export const selectActiveCartQuantity = createSelector(
 )
 
 export const selectActiveCartLoading = createSelector(
-    [selectActiveCart],
-    (cart) => {
-        if (!cart || !cart.status) {
-            return false;
-        }
-        return cart?.status !== 'idle'
+    [selectActiveCart, selectCartStatusList],
+    (cart, status) => {
+        return status[cart?.header?.id] ?? 'idle';
     }
 )
 

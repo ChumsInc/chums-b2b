@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {EmailResponse, SortProps} from "b2b-types";
-import {fetchCarts, postCartEmail, postProcessCart, putUpdateCartItems} from "./api";
+import {fetchCarts, postCartEmail, postDuplicateSalesOrder, postProcessCart, putUpdateCartItems} from "./api";
 import {RootState} from "@app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@ducks/carts/api";
 import {
@@ -13,7 +13,7 @@ import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
 import {
     AddToCartProps, AddToNewCartProps,
-    CartActionProps,
+    CartActionProps, DuplicateCartProps,
     PromoteCartBody,
     UpdateCartItemProps,
     UpdateCartProps
@@ -196,3 +196,16 @@ export const processCart = createAsyncThunk<string|null, B2BCartHeader, { state:
         }
     }
 );
+
+export const duplicateSalesOrder = createAsyncThunk<B2BCart|null, DuplicateCartProps, {state:RootState}>(
+    'carts/duplicateSalesOrder',
+    async (arg) => {
+        return await postDuplicateSalesOrder(arg);
+    },
+    {
+        condition: (arg, {getState}) => {
+            const state = getState();
+            return !!arg.salesOrderNo && selectCartStatusById(state, 0) === 'idle'
+        }
+    }
+)
