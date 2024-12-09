@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
+import {NavLink} from "react-router";
 import {defaultFormatter, defaultMenuSorter} from "../utils";
 import SubNavItemList from "./SubNavItemList";
 import {MenuItem} from "b2b-types";

@@ -1,8 +1,8 @@
 import {useEffect} from 'react';
 import {useSelector} from "react-redux";
 import {selectLoggedIn} from "../user/selectors";
-import {PATH_PAGE_RESOURCES} from "../../constants/paths";
-import {redirect} from "react-router-dom";
+import {PATH_PAGE_RESOURCES} from "@constants/paths";
+import {redirect} from "react-router";
 
 const RepResourcesRedirect = () => {
     const loggedIn = useSelector(selectLoggedIn);

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Slide} from "b2b-types";
-import {Link as RoutedLink} from 'react-router-dom';
+import {Link as RoutedLink} from 'react-router';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Tooltip from "@mui/material/Tooltip";

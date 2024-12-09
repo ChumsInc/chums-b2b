@@ -14,7 +14,7 @@ import {resetPassword} from "../actions";
 import AccessWarningAlert from "./AccessWarningAlert";
 import {useNavigate} from "react-router";
 import Container from "@mui/material/Container";
-import {Link as NavLink} from 'react-router-dom'
+import {Link as NavLink} from 'react-router'
 
 const RequestPasswordResetForm = () => {
     const dispatch = useAppDispatch();

@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {redirect} from 'react-router-dom';
+import {redirect, useMatch} from 'react-router';
 import OrderDetail from "./OrderDetail";
 import DocumentTitle from "../../../components/DocumentTitle";
-import {useMatch} from "react-router";
 import {selectCustomerAccount, selectCustomerLoading} from "../../customer/selectors";
 import {selectSalesOrderHeader, selectSOLoading} from "../../sales-order/selectors";
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {loadSalesOrder} from "../actions";
 import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
 import SalesOrderSkeleton from "./SalesOrderSkeleton";

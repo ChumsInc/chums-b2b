@@ -32,12 +32,17 @@ export const DataTableHead = <T = KeyedObject>({
                                        ? {[`text-${tableField.align}`]: !!tableField.align}
                                        : tableField.className
                                )}>
-                        <TableSortLabel
-                            active={currentSort.field === tableField.field}
-                            direction={currentSort.ascending ? 'asc' : 'desc'}
-                            onClick={sortClickHandler(tableField.field)}>
-                            {tableField.title}
-                        </TableSortLabel>
+                        {!tableField.sortable && (
+                            <>{tableField.title}</>
+                        )}
+                        {tableField.sortable && (
+                            <TableSortLabel
+                                active={currentSort.field === tableField.field}
+                                direction={currentSort.ascending ? 'asc' : 'desc'}
+                                onClick={sortClickHandler(tableField.field)}>
+                                {tableField.title}
+                            </TableSortLabel>
+                        )}
                     </TableCell>
                 ))}
             </TableRow>

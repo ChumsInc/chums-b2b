@@ -1,12 +1,12 @@
 import React from 'react';
-import {PATH_PROFILE, PATH_PROFILE_ACCOUNT} from "../../../constants/paths";
-import Breadcrumb from "../../../components/Breadcrumb";
+import {PATH_PROFILE, PATH_PROFILE_ACCOUNT} from "@constants/paths";
+import Breadcrumb from "@components/Breadcrumb";
 import {useSelector} from "react-redux";
 import {selectCurrentUserAccount, selectUserAccountsCount} from "../../user/selectors";
 import {selectCustomerAccount} from "../selectors";
 import {useLocation} from "react-router";
-import {BreadcrumbPath} from "../../../types/breadcrumbs";
-import {generatePath} from "react-router-dom";
+import {BreadcrumbPath} from "@typeDefs/breadcrumbs";
+import {generatePath} from "react-router";
 import {repAccessCode} from "../../user/utils";
 
 const AccountBreadcrumbs = () => {

@@ -14,17 +14,17 @@ import {setCartsSort} from "@ducks/carts/actions";
 
 
 const cartFields: SortableTableField<B2BCartHeader>[] = [
-    {field: 'id', title: 'Cart', render: (cart) => <CartButton cartId={cart.id}/>},
+    {field: 'id', title: 'Active Cart', render: (cart) => <CartButton cartId={cart.id}/>, sortable: false},
     {
-        field: 'salesOrderNo',
-        title: 'Order #',
-        render: (cart) => <CartLink cartId={cart.id}>{cart.salesOrderNo ?? 'pending'}</CartLink>,
+        field: 'id',
+        title: 'Cart #',
+        render: (cart) => <CartLink cartId={cart.id}>{cart.id}</CartLink>,
         sortable: true
     },
-    {field: 'customerPONo', title: 'PO #', sortable: true},
+    {field: 'customerPONo', title: 'Cart Name', sortable: true},
     {
         field: 'dateCreated',
-        title: 'Ordered Created',
+        title: 'Cart Created',
         render: (cart) => <DateString date={cart.dateCreated}/>,
         sortable: true
     },

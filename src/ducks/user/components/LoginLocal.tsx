@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 import KeyIcon from '@mui/icons-material/Key';
 import Stack from "@mui/material/Stack";
 import PasswordTextField from "./PasswordTextField";
-import {Link as NavLink} from 'react-router-dom'
+import {Link as NavLink} from 'react-router'
 import {isErrorResponse} from "../../../utils/typeguards";
 import Alert from "@mui/material/Alert";
 

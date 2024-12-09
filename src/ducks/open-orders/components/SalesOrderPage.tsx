@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {redirect} from 'react-router-dom';
+import {redirect, useMatch, useParams} from 'react-router';
 import OrderDetail from "./OrderDetail";
 import Alert from "@mui/material/Alert";
 import DocumentTitle from "@components/DocumentTitle";
-import {useMatch, useParams} from "react-router";
 import {selectCustomerAccount, selectCustomerLoading} from "../../customer/selectors";
 import {selectSOLoading} from "../../sales-order/selectors";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";

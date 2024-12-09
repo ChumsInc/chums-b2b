@@ -2,7 +2,7 @@ import {NavItemProps} from "@typeDefs/ui-features";
 import {useSelector} from "react-redux";
 import {selectLoggedIn} from "../../user/selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
-import {generatePath} from "react-router-dom";
+import {generatePath} from "react-router";
 import {customerPath} from "../../user/utils";
 import React, {useId} from "react";
 import NavItemButtonLink from "./NavItemButtonLink";

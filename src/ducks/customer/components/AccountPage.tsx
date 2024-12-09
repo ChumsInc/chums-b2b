@@ -8,11 +8,10 @@ import {
     selectCustomerShipToCode,
     selectShipToByCode
 } from "../selectors";
-import {useNavigate, useParams} from "react-router";
+import {generatePath, Outlet, useNavigate, useParams} from "react-router";
 import DocumentTitle from "@components/DocumentTitle";
 import AccountTabs from "./AccountTabs";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {generatePath, Outlet} from "react-router-dom";
 import {customerSlug, isSameCustomer, parseCustomerSlug} from "@utils/customer";
 import ReturnToAlert from "./ReturnToAlert";
 import {sendGtagEvent} from "@api/gtag";

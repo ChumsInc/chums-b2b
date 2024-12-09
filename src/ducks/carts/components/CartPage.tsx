@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {useNavigate, useParams} from "react-router";
+import {generatePath, useNavigate, useParams} from "react-router";
 import {useSelector} from "react-redux";
 import {selectCustomerKey, selectCustomerLoading} from "@ducks/customer/selectors";
 import {loadCart} from "@ducks/carts/actions";
-import {generatePath} from "react-router-dom";
 import DocumentTitle from "@components/DocumentTitle";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartSkeleton from "@ducks/carts/components/header/CartSkeleton";

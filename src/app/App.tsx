@@ -1,5 +1,5 @@
 import React, {StrictMode, useEffect} from 'react';
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router';
 import Login from "../ducks/user/components/LoginPage";
 import {useSelector} from 'react-redux';
 import {loadProfile} from '@ducks/user/actions';

@@ -1,7 +1,7 @@
 import React from 'react';
 import CategoryLink from "./CategoryLink";
 import CategoryProductLink from "./CategoryProductLink";
-import {Link as RoutedLink} from "react-router-dom";
+import {Link as RoutedLink} from "react-router";
 import {ProductCategoryChild} from "b2b-types";
 import {
     isCategoryChildCategory,

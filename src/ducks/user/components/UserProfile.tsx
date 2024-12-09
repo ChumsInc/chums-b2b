@@ -12,7 +12,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import LinearProgress from "@mui/material/LinearProgress";
 import Avatar from "@mui/material/Avatar";
 import Alert from "@mui/material/Alert";
-import {Link as NavLink} from 'react-router-dom';
+import {Link as NavLink} from 'react-router';
 import Container from "@mui/material/Container";
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import TextField from "@mui/material/TextField";

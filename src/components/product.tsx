@@ -1,6 +1,6 @@
 import React from 'react';
 import Link, {LinkProps} from "@mui/material/Link";
-import {Link as RoutedLink} from 'react-router-dom';
+import {Link as RoutedLink} from 'react-router';
 
 export interface ProductLinkProps extends LinkProps {
     categoryKeyword: string | null;

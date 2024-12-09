@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
+import {NavLink} from "react-router";
 import {Menu, MenuItem} from "b2b-types";
 
 const defaultFormatter = (val:string) => val;

@@ -1,5 +1,5 @@
 import Button, {ButtonProps} from "@mui/material/Button";
-import {Link as RouterLink} from "react-router-dom";
+import {Link as RouterLink} from "react-router";
 import React from "react";
 import {useTheme} from "@mui/material/styles";
 

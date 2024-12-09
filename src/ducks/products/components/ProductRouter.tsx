@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {useNavigate, useParams} from 'react-router';
+import {generatePath, useNavigate, useParams} from 'react-router';
 import CategoryPage2 from "@components/category/CategoryPage";
 import ProductPage from "./ProductPage";
 import {PATH_PRODUCT} from "@constants/paths";
@@ -11,7 +11,6 @@ import Box from "@mui/material/Box";
 import {loadKeywords} from "../../keywords/actions";
 import {selectKeywordsList, selectKeywordsLoading} from "../../keywords/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
-import {generatePath} from "react-router-dom";
 
 const ProductRouter = () => {
     const dispatch = useAppDispatch();
@@ -19,7 +18,7 @@ const ProductRouter = () => {
     const keywordsLoading = useSelector(selectKeywordsLoading);
     const {category, product} = useParams();
     const navigate = useNavigate();
-    const [keyword, setKeyword] = useState<Keyword|null>(null);
+    const [keyword, setKeyword] = useState<Keyword | null>(null);
 
     useEffect(() => {
         if (!keywords.length && !keywordsLoading) {

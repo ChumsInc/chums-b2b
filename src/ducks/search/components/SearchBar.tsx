@@ -7,7 +7,7 @@ import {
     PATH_PRODUCT,
     PATH_PRODUCT_WITHOUT_PARENT
 } from "../../../constants/paths";
-import {generatePath, Link} from 'react-router-dom';
+import {generatePath, Link} from 'react-router';
 import {SearchResult} from "b2b-types";
 import {useDebounceValue} from 'usehooks-ts'
 import {useNavigate} from "react-router";

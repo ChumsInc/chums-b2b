@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter} from 'react-router';
 import {Provider} from 'react-redux';
 import App from "../app/App";
 import {createRoot} from "react-dom/client";
@@ -14,7 +14,7 @@ if (container) {
         <React.Fragment>
             <Provider store={store}>
                 <HelmetProvider>
-                    <BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
+                    <BrowserRouter>
                         <App/>
                     </BrowserRouter>
                 </HelmetProvider>
