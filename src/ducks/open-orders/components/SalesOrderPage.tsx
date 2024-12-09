@@ -6,7 +6,7 @@ import Alert from "@mui/material/Alert";
 import DocumentTitle from "@components/DocumentTitle";
 import {useMatch, useParams} from "react-router";
 import {selectCustomerAccount, selectCustomerLoading} from "../../customer/selectors";
-import {selectIsCart, selectSOLoading} from "../../sales-order/selectors";
+import {selectSOLoading} from "../../sales-order/selectors";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {loadSalesOrder} from "../actions";
 import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
@@ -15,6 +15,11 @@ import {selectSalesOrder} from "../selectors";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import {selectCurrentUserAccount} from "@ducks/user/selectors";
 import Typography from "@mui/material/Typography";
+
+/**
+ *
+ * @TODO: Handle S/O not found, might require an update to orderStatus like cartStatus
+ */
 
 const SalesOrderPage = () => {
     const dispatch = useAppDispatch();

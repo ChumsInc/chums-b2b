@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {useMatch, useNavigate, useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import {useSelector} from "react-redux";
 import {selectCustomerKey, selectCustomerLoading} from "@ducks/customer/selectors";
 import {loadCart} from "@ducks/carts/actions";
@@ -19,7 +19,6 @@ export default function CartPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const params = useParams<{ cartId: string; }>();
-    const match = useMatch('/account/:customerSlug/:orderType/:cartId');
     const customerKey = useSelector(selectCustomerKey);
     const customerLoading = useSelector(selectCustomerLoading);
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, parseCartId(params.cartId)))

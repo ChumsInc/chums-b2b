@@ -12,8 +12,9 @@ import {
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
 import {
-    AddToCartProps, AddToNewCartProps,
-    CartActionProps, DuplicateCartProps,
+    AddToCartProps,
+    CartActionProps,
+    DuplicateCartProps,
     PromoteCartBody,
     UpdateCartItemProps,
     UpdateCartProps
@@ -25,7 +26,6 @@ import localStore from "@utils/LocalStore";
 import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
 import {Dayjs} from "dayjs";
 import {nextShipDate} from "@utils/orders";
-import {CREDIT_CARD_PAYMENT_TYPES} from "@constants/account";
 
 export const setCartsSearch = createAction<string>("carts/setSearch");
 export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");
@@ -160,7 +160,7 @@ export const setCartShipDate = createAction('activeCart/setShipDate', (arg: Date
 });
 export const setCartDetailSort = createAction<SortProps<B2BCartDetail>>('activeCart/setCartDetailSort');
 
-export const processCart = createAsyncThunk<string|null, B2BCartHeader, { state: RootState }>(
+export const processCart = createAsyncThunk<string | null, B2BCartHeader, { state: RootState }>(
     'processCart',
     async (arg, {getState}) => {
         const state = getState();
@@ -176,7 +176,7 @@ export const processCart = createAsyncThunk<string|null, B2BCartHeader, { state:
             comment.push('SWR');
         }
 
-        const body:PromoteCartBody = {
+        const body: PromoteCartBody = {
             action: 'promote',
             cartId: arg.id,
             cartName: arg.customerPONo!,
@@ -197,7 +197,7 @@ export const processCart = createAsyncThunk<string|null, B2BCartHeader, { state:
     }
 );
 
-export const duplicateSalesOrder = createAsyncThunk<B2BCart|null, DuplicateCartProps, {state:RootState}>(
+export const duplicateSalesOrder = createAsyncThunk<B2BCart | null, DuplicateCartProps, { state: RootState }>(
     'carts/duplicateSalesOrder',
     async (arg) => {
         return await postDuplicateSalesOrder(arg);

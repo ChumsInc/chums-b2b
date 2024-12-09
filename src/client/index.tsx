@@ -14,7 +14,7 @@ if (container) {
         <React.Fragment>
             <Provider store={store}>
                 <HelmetProvider>
-                    <BrowserRouter>
+                    <BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
                         <App/>
                     </BrowserRouter>
                 </HelmetProvider>
