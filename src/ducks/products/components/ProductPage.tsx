@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {loadProduct, setCartItemQuantity, setCurrentVariant} from '../actions';
 import classNames from "classnames";
@@ -42,6 +42,12 @@ const ProductPage = ({keyword}: {
     const location = useLocation();
     const [cartMessage, setCartMessage] = useState<string | null>(null);
     const timerHandle = useRef<number>(0);
+    const onChangeQuantity = useCallback((quantity: number) => {
+        if (cartItem && quantity !== cartItem.quantity) {
+            dispatch(setCartItemQuantity(quantity));
+        }
+    }, [cartItem])
+
 
     useEffect(() => {
         dispatch(loadProduct(keyword));
@@ -90,9 +96,6 @@ const ProductPage = ({keyword}: {
     }, [location?.state?.variant]);
 
 
-    const onChangeQuantity = (quantity: number) => {
-        dispatch(setCartItemQuantity(quantity));
-    }
 
 
     return (

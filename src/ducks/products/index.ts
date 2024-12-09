@@ -19,6 +19,7 @@ import {PreloadedState} from "../../types/preload";
 
 
 export interface ProductsState {
+    keyword: string|null;
     product: Product | null;
     selectedProduct: Product | null;
     selectedItemCode: string | null;
@@ -35,6 +36,7 @@ export interface ProductsState {
 }
 
 export const initialProductsState = (preload: PreloadedState = {}): ProductsState => ({
+    keyword: null,
     product: preload.products?.product ?? null,
     selectedProduct: null,
     selectedItemCode: null,
@@ -75,8 +77,14 @@ const productsReducer = createReducer(initialProductsState, (builder) => {
                 state.cartItem = updateCartProductPricing(state.cartItem, state.pricing);
             }
         })
-        .addCase(loadProduct.pending, (state) => {
+        .addCase(loadProduct.pending, (state, action) => {
             state.loading = true;
+            if (action.meta.arg !== state.keyword) {
+                state.keyword = action.meta.arg;
+                state.product = null;
+                state.image.filename = null;
+                state.image.itemCode = null;
+            }
         })
         .addCase(loadProduct.fulfilled, (state, action) => {
             state.loading = false;
