@@ -40,17 +40,22 @@ export default function SalesOrderKitComponentLine({
                 {!!line.UDF_UPC && <p>{UPCA.format(line.UDF_UPC)}</p>}
             </TableCell>
             <TableCell>{line.UnitOfMeasure}</TableCell>
-            <TableCell className="text-end">
+            <TableCell align="right">
                 {numeral(line.QuantityOrdered).format('0,0')}
             </TableCell>
-            <TableCell className="right">
-                {numeral(unitPrice).format('0,0.00')}
+            <TableCell align="right">
+                {new Decimal(unitPrice).eq(0) ? null : numeral(unitPrice).format('0,0.00')}
             </TableCell>
-            <TableCell className="right hidden-xs">{numeral(line.SuggestedRetailPrice).format('0,0.00')}</TableCell>
-            <TableCell className="right hidden-xs">{numeral(itemPrice).format('0,0.00')}</TableCell>
-            <TableCell
-                className="right">{numeral(new Decimal(line.QuantityOrdered).times(itemPrice)).format('0,0.00')}</TableCell>
-            <TableCell className="right">
+            <TableCell align="right" sx={{display: {xs: 'none', sm: 'table-cell'}}}>
+                {numeral(line.SuggestedRetailPrice).format('0,0.00')}
+            </TableCell>
+            <TableCell  align="right" sx={{display: {xs: 'none', sm: 'table-cell'}}}>
+                {new Decimal(itemPrice).eq(0) ? null : numeral(itemPrice).format('0,0.00')}
+            </TableCell>
+            <TableCell align="right">
+                {new Decimal(itemPrice).eq(0) ? null : numeral(new Decimal(line.QuantityOrdered).times(itemPrice)).format('0,0.00')}
+            </TableCell>
+            <TableCell align="right">
                 <SalesOrderLineButtons onCopyToCart={onAddToCart}/>
             </TableCell>
         </TableRow>

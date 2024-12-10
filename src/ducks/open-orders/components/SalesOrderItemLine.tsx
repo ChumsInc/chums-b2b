@@ -57,8 +57,8 @@ export default function SalesOrderItemLine({
                 </TableCell>
                 <TableCell align="right">{numeral(line.SuggestedRetailPrice).format('0,0.00')}</TableCell>
                 <TableCell align="right">{numeral(itemPrice).format('0,0.00')}</TableCell>
-                <TableCell
-                    align="right">{numeral(new Decimal(line.QuantityOrdered).times(itemPrice)).format('0,0.00')}</TableCell>
+                <TableCell align="right">
+                    {numeral(new Decimal(line.QuantityOrdered).times(itemPrice)).format('0,0.00')}</TableCell>
                 <TableCell rowSpan={line.CommentText ? 2 : 1}>
                     <SalesOrderLineButtons onCopyToCart={onAddToCart}
                                            copyToCartDisabled={(!line.ProductType || line.ProductType === 'D' || line.InactiveItem === 'Y' || line.ItemType !== '1')}

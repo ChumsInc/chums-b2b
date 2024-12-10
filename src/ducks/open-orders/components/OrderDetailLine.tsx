@@ -35,8 +35,8 @@ export default function OrderDetailLine({
                 <TableRow sx={{verticalAlign: 'top'}}>
                     <TableCell>&nbsp;</TableCell>
                     <TableCell colSpan={4}>Contains:</TableCell>
-                    <TableCell>&nbsp;</TableCell>
-                    <TableCell>&nbsp;</TableCell>
+                    <TableCell colSpan={2} sx={{display: {xs: 'none', sm: 'table-cell'}}}>&nbsp;</TableCell>
+                    <TableCell colSpan={2}>&nbsp;</TableCell>
                 </TableRow>
             )}
             {line.ItemType !== '4' && isKitComponent && (

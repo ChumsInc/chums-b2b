@@ -240,6 +240,7 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
                 state.cartStatus[action.meta.arg.cartId] = 'idle';
                 state.indexes = state.indexes.filter(idx => idx !== action.meta.arg.cartId);
             } else {
+                state.cartStatus[action.payload.header.id] = 'idle';
                 state.list[action.payload.header.id] = {
                     ...action.payload,
                     detail: action.payload.detail.sort(cartDetailSorter(defaultCartDetailSort)),

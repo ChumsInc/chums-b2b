@@ -42,14 +42,14 @@ const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
         render: (so) => <DateString date={so.OrderDate}/>
     },
     {
-        field: 'ShipExpireDate', title: 'Ship Date', sortable: true,
+        field: 'ShipExpireDate', title: ' Req. Ship Date', sortable: true,
         render: (so) => <DateString date={so.ShipExpireDate}/>
     },
     {
         field: 'NonTaxableAmt',
         title: 'Total',
         render: (so) => numeral(new Decimal(so.NonTaxableAmt).add(so.TaxableAmt)).format('0,0.00'),
-        className: 'text-end',
+        align: 'right',
         sortable: true,
     }
 ];

@@ -367,7 +367,7 @@ export default function CartOrderHeader() {
             <hr/>
             <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between"
                    divider={<Divider orientation="vertical" flexItem/>}>
-                <ItemAutocomplete salesOrderNo={header.salesOrderNo}/>
+                <ItemAutocomplete cartId={header.id}/>
                 <CartCommentInput cartId={header.id}/>
             </Stack>
 

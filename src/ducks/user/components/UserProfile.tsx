@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {loadProfile, logoutUser, saveUserProfile} from "../actions";
-import {AUTH_GOOGLE, AUTH_LOCAL} from "../../../constants/app";
-import {useAppDispatch} from "../../../app/configureStore";
+import {AUTH_GOOGLE, AUTH_LOCAL} from "@constants/app";
+import {useAppDispatch} from "@app/configureStore";
 import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "../selectors";
 import {Editable} from "b2b-types";
-import {ExtendedUserProfile} from "../../../types/user";
+import {ExtendedUserProfile} from "@typeDefs/user";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -21,7 +21,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 type EditableUserProfile = Pick<ExtendedUserProfile, 'name' | 'email'> & Editable;
 
-const defaultProfilePic = (email: string) => email.endsWith('@chums.com') ? '/images/chums/Chums_Logo_Booby.png' : null;
+const defaultProfilePic = (email?: string):string|null => email?.endsWith('@chums.com') ? '/images/chums/Chums_Logo_Booby.png' : null;
 
 const UserProfile = () => {
     const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ const UserProfile = () => {
     const loading = useSelector(selectUserLoading);
 
     const [user, setUser] = useState<EditableUserProfile | null>(profile);
-    const [profilePic, setProfilePic] = useState<string | null>(imageUrl);
+    const [profilePic, setProfilePic] = useState<string | null>(imageUrl ?? defaultProfilePic(profile?.email));
 
     useEffect(() => {
         if (!profile) {
