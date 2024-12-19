@@ -73,6 +73,7 @@ export interface PromoteCartBody extends CartActionBase {
     shipToCode: string;
     comment: string;
     promoCode: string;
+    FOB: string;
 }
 
 export interface DeleteCartBody extends CartActionBase {

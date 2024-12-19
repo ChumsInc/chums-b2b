@@ -1,46 +1,35 @@
-import {
-    CHANGE_USER_PASSWORD,
-    CLEAR_USER_ACCOUNT,
-    FETCH_INIT,
-    FETCH_USER_SIGNUP,
-    UPDATE_SIGNUP
-} from "../../constants/actions";
 import {auth} from '../../api/IntranetAuthService';
 import localStore from "../../utils/LocalStore";
+import LocalStore from "../../utils/LocalStore";
 import {STORE_AUTHTYPE, STORE_AVATAR, STORE_CUSTOMER, STORE_USER_ACCESS} from "../../constants/stores";
 import {getFirstCustomer,} from "../../utils/customer";
 import {jwtDecode, JwtPayload} from "jwt-decode";
-import {createReducer, isRejected, UnknownAction} from "@reduxjs/toolkit";
+import {createReducer, isRejected} from "@reduxjs/toolkit";
 import {
     changePassword,
     loadProfile,
-    loginUser, logoutUser,
+    loginUser,
+    logoutUser,
     resetPassword,
     saveUserProfile,
-    setLoggedIn, setNewPassword,
+    setLoggedIn,
+    setNewPassword,
     setUserAccess,
-    signInWithGoogle, updateLocalAuth
+    signInWithGoogle,
+    updateLocalAuth
 } from "./actions";
-import {
-    getPrimaryAccount,
-    is401Action,
-    isCustomerAccess,
-    isUserAction,
-    isUserProfileAction,
-    userAccountSort
-} from "./utils";
-import {DeprecatedUserProfileAction, UserPasswordState, UserSignupState} from "./types";
+import {getPrimaryAccount, getUserType, is401Action, isCustomerAccess, isUserAction, userAccountSort} from "./utils";
+import {UserPasswordState, UserSignupState, UserType} from "./types";
 import {BasicCustomer, Editable, UserCustomerAccess, UserProfile} from "b2b-types";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {LoadStatus} from "../../types/generic";
-import LocalStore from "../../utils/LocalStore";
-
 
 
 export interface UserState {
     token: string | null;
     tokenExpires: number;
     profile: (UserProfile & Editable) | null;
+    userType: UserType | null;
     picture: string | null;
     access: {
         list: UserCustomerAccess[],
@@ -58,6 +47,7 @@ export interface UserState {
     actionStatus: LoadStatus | 'saving-profile' | 'resetting-password' | 'logging-in' | 'setting-password' | 'logging-out';
 }
 
+
 export const initialUserState = (): UserState => {
     const existingToken = auth.getToken();
     let existingTokenExpires = 0;
@@ -67,7 +57,7 @@ export const initialUserState = (): UserState => {
     }
     const isLoggedIn = auth.loggedIn();
     const profile = isLoggedIn ? (auth.getProfile() ?? null) : null
-    const avatar = LocalStore.getItem<string|null>(STORE_AVATAR, null);
+    const avatar = LocalStore.getItem<string | null>(STORE_AVATAR, null);
     const accounts = profile?.chums?.user?.accounts ?? [];
     const customer = isLoggedIn
         ? localStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, getFirstCustomer(accounts) ?? null)
@@ -75,12 +65,13 @@ export const initialUserState = (): UserState => {
     const currentAccess: UserCustomerAccess | null = isLoggedIn
         ? localStore.getItem<UserCustomerAccess | null>(STORE_USER_ACCESS, (accounts.length === 1 ? accounts[0] : null))
         : null;
-    const authType = isLoggedIn ? localStore.getItem<string|null>(STORE_AUTHTYPE, null) : null;
+    const authType = isLoggedIn ? localStore.getItem<string | null>(STORE_AUTHTYPE, null) : null;
 
     return {
         token: existingToken ?? null,
         tokenExpires: existingTokenExpires,
         profile: profile?.chums?.user ?? null,
+        userType: getUserType(profile?.chums?.user ?? null),
         picture: avatar ?? profile?.imageUrl ?? null,
         accounts: profile?.chums?.user?.accounts ?? [],
         roles: profile?.chums?.user?.roles ?? [],
@@ -150,6 +141,7 @@ const userReducer = createReducer(initialUserState, (builder) => {
                 state.token = null;
                 state.tokenExpires = 0;
                 state.profile = null;
+                state.userType = null;
                 state.accounts = [];
                 state.roles = [];
                 state.access.list = [];
@@ -167,6 +159,7 @@ const userReducer = createReducer(initialUserState, (builder) => {
         .addCase(loadProfile.fulfilled, (state, action) => {
             state.actionStatus = 'idle';
             state.profile = action.payload.user ?? null;
+            state.userType = getUserType(state.profile);
             state.roles = (action.payload.roles ?? []).sort();
             state.accounts = (action.payload.accounts ?? []).sort(userAccountSort);
             state.access.list = (action.payload.accounts ?? []).sort(userAccountSort);
@@ -236,6 +229,7 @@ const userReducer = createReducer(initialUserState, (builder) => {
         .addCase(saveUserProfile.fulfilled, (state, action) => {
             state.actionStatus = 'idle';
             state.profile = action.payload.user ?? null;
+            state.userType = getUserType(state.profile);
             state.roles = (action.payload.roles ?? []).sort();
             state.accounts = (action.payload.accounts ?? []).sort(userAccountSort);
             state.access.list = (action.payload.accounts ?? []).sort(userAccountSort);
@@ -294,28 +288,6 @@ const userReducer = createReducer(initialUserState, (builder) => {
             state.loggedIn = false;
             state.token = null;
             state.tokenExpires = 0;
-        })
-        .addDefaultCase((state, action: UnknownAction | DeprecatedUserProfileAction) => {
-            switch (action.type) {
-                case FETCH_USER_SIGNUP:
-                    if (isUserProfileAction(action)) {
-                        state.signUp = {
-                            ...state.signUp, ...(action.props ?? {}),
-                            loading: action.status === FETCH_INIT
-                        };
-                    }
-                    return;
-                case CLEAR_USER_ACCOUNT:
-                    localStore.removeItem(STORE_USER_ACCESS);
-                    state.access.current = null;
-                    return;
-                case UPDATE_SIGNUP:
-                    state.signUp = {...state.signUp, ...(action.props ?? {})};
-                    return;
-                case CHANGE_USER_PASSWORD:
-                    state.passwordChange = {...state.passwordChange, ...(action.props ?? {})};
-                    return;
-            }
         })
 })
 export default userReducer;

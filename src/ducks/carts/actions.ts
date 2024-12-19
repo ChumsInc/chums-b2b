@@ -26,6 +26,7 @@ import localStore from "@utils/LocalStore";
 import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
 import {Dayjs} from "dayjs";
 import {nextShipDate} from "@utils/orders";
+import {selectUserType} from "@ducks/user/selectors";
 
 export const setCartsSearch = createAction<string>("carts/setSearch");
 export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");
@@ -165,9 +166,10 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
     async (arg, {getState}) => {
         const state = getState();
         const shippingAccount = selectCartShippingAccount(state);
+        const userType = selectUserType(state);
         const comment: string[] = [];
         if (shippingAccount.enabled) {
-            comment.push('RCA')
+            comment.push('RCP')
             comment.push(`${shippingAccount.value.trim()}`);
         }
 
@@ -177,6 +179,13 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
             comment.push('SWR');
         }
 
+        if (arg.PaymentType === 'OTHER') {
+            comment.push('CC');
+        }
+
+        const FOB = [`SLC`, userType?.toUpperCase()?.slice(0,1) ?? '']
+            .filter(str => !!str)
+            .join('-');
         const body: PromoteCartBody = {
             action: 'promote',
             cartId: arg.id,
@@ -187,6 +196,7 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
             paymentType: arg.PaymentType!,
             comment: comment.join(' - '),
             promoCode: arg.promoCode ?? '',
+            FOB,
         }
         return await postProcessCart(body);
     },

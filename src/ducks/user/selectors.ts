@@ -4,6 +4,7 @@ import {isUserProfile} from "./utils";
 import {UserCustomerAccess} from "b2b-types";
 
 export const selectUserProfile = (state:RootState) => state.user.profile;
+export const selectUserType = (state:RootState) => state.user.userType;
 export const selectProfilePicture = (state: RootState) => state.user.picture;
 export const selectUserAccounts = (state:RootState) => state.user.accounts ?? [];
 export const selectUserCustomerAccounts = (state:RootState) => state.user.accounts.filter(acct => !acct.isRepAccount);

@@ -8,6 +8,7 @@ import {InputBaseComponentProps} from "@mui/material/InputBase";
 import {useSelector} from "react-redux";
 import {selectCustomerPaymentCards} from "@ducks/customer/selectors";
 import {PAYMENT_TYPES} from "@constants/account";
+import FormHelperText from "@mui/material/FormHelperText";
 
 export interface CartPaymentSelectProps extends Omit<FormControlProps, 'onChange'> {
     value: string;
@@ -65,6 +66,9 @@ export default React.forwardRef(function CartPaymentSelect({
                     </MenuItem>
                 ))}
             </Select>
+            {PAYMENT_TYPES[value]?.message && (
+                <FormHelperText>{PAYMENT_TYPES[value]?.message}</FormHelperText>
+            )}
         </FormControl>
     )
 })

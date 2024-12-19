@@ -192,6 +192,9 @@ export async function postProcessCart(arg: PromoteCartBody): Promise<string | nu
     try {
         const params = new URLSearchParams();
         params.set('cartId', arg.cartId.toString());
+        if (process.env.NODE_ENV === 'development') {
+            params.set('debug', '1');
+        }
         const body = JSON.stringify(arg);
         const url = `/sage/b2b/cart-sync/sync-to-sage.php?${params.toString()}`;
         const res = await fetchJSON<{ salesOrderNo: string }>(url, {method: 'POST', body});

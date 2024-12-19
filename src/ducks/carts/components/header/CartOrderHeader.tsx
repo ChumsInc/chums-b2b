@@ -143,7 +143,7 @@ export default function CartOrderHeader() {
                 setCartHeader({...cartHeader, [field]: ev.target.value, changed: true});
                 return;
             case 'CancelReasonCode':
-                setCartHeader({...cartHeader, [field]: ev.target.checked ? '' : 'HOLD', changed: true});
+                setCartHeader({...cartHeader, [field]: ev.target.checked ? 'HOLD' : '', changed: true});
                 return;
 
         }
@@ -304,9 +304,9 @@ export default function CartOrderHeader() {
                                                inputProps={{required: true}} ref={shipDateRef}/>
                                 <FormControl variant="filled" fullWidth>
                                     <FormControlLabel control={
-                                        <Checkbox checked={cartHeader?.CancelReasonCode !== 'HOLD'}
+                                        <Checkbox checked={cartHeader?.CancelReasonCode === 'HOLD'}
                                                   onChange={changeHandler('CancelReasonCode')} />
-                                    } label="Ship when ready" />
+                                    } label="Hold for Ship Date" />
                                 </FormControl>
                             </Stack>
                             <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
