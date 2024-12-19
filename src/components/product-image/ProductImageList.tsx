@@ -1,25 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {ProductAlternateImage} from "b2b-types";
 import Stack from "@mui/material/Stack";
-import {waitForIt} from "@utils/general";
 import ResponsiveProductImage from "./ResponsiveProductImage";
 import {sizesQuery} from "@components/product-image/utils";
 import ProductCurrentImage from "@components/product-image/ProductCurrentImage";
 import ProductAlternateImageList from "@components/product-image/ProductAlternateImageList";
 
-const imageSort = (a:ProductAlternateImage, b:ProductAlternateImage) => {
+const imageSort = (a: ProductAlternateImage, b: ProductAlternateImage) => {
     return a.priority === b.priority
         ? (a.id - b.id)
-        : (a.priority -  b.priority);
+        : (a.priority - b.priority);
 }
 
 export interface ProductImageListProps {
-    mainImage: ProductAlternateImage|null;
+    mainImage: ProductAlternateImage | null;
     alternateImages?: ProductAlternateImage[];
 }
 
 const ProductImageList = ({mainImage, alternateImages}: ProductImageListProps) => {
-    const [currentImage, setCurrentImage] = useState<ProductAlternateImage|null>(mainImage);
+    const [currentImage, setCurrentImage] = useState<ProductAlternateImage | null>(mainImage);
     const [images, setImages] = useState<ProductAlternateImage[]>([]);
 
     useEffect(() => {

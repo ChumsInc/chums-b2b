@@ -1,7 +1,6 @@
-import React, {useLayoutEffect, useRef, useState} from "react";
+import React, {useLayoutEffect, useState} from "react";
 import {ProductAlternateImage} from "b2b-types";
 import Box from "@mui/material/Box";
-import Fade from "@mui/material/Fade";
 import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
 import {sizesQuery} from "@components/product-image/utils";
 

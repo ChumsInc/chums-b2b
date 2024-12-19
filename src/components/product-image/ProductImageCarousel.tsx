@@ -2,7 +2,7 @@
  * Created by steve on 11/8/2016.
  */
 
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ProductAlternateImage} from "b2b-types";
 import {parseImageFilename} from "@src/common/image";
 import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
