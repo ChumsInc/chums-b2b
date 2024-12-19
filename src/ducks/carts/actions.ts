@@ -179,10 +179,6 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
             comment.push('SWR');
         }
 
-        if (arg.PaymentType === 'OTHER') {
-            comment.push('CC');
-        }
-
         const FOB = [`SLC`, userType?.toUpperCase()?.slice(0,1) ?? '']
             .filter(str => !!str)
             .join('-');
@@ -194,7 +190,7 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
             shipToCode: arg.shipToCode ?? '',
             shipVia: arg.shipVia ?? '',
             paymentType: arg.PaymentType!,
-            comment: comment.join(' - '),
+            comment: comment.join(' ~ '),
             promoCode: arg.promoCode ?? '',
             FOB,
         }

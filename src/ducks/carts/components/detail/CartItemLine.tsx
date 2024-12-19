@@ -73,7 +73,7 @@ export default function CartItemLine({
                         </Typography>
                         {line.itemType === '1' &&
                             <OrderItemImage itemCode={line.itemCode} itemCodeDesc={line.itemCodeDesc}
-                                            image={line.cartProduct.image}/>}
+                                            image={line.cartProduct.image} colorCode={line.cartProduct.colorCode}/>}
                     </ProductLink>
                 </TableCell>
                 <TableCell>

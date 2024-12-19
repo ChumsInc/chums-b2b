@@ -10,6 +10,8 @@ import SalesOrderLineButtons from "./SalesOrderLineButtons";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
 import {calcItemPrice, calcUnitPrice} from "@ducks/open-orders/utils";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Stack from "@mui/material/Stack";
 
 
 export default function SalesOrderKitComponentLine({
@@ -31,9 +33,17 @@ export default function SalesOrderKitComponentLine({
     return (
         <TableRow sx={{verticalAlign: 'top'}} className={classNames(rowClassName)}>
             <TableCell>
-                <div>{line.ItemCode}</div>
-                {line.ItemType === '1' &&
-                    <OrderItemImage itemCode={line.ItemCode} itemCodeDesc={line.ItemCodeDesc} image={line.image}/>}
+                <Stack direction="row">
+                    <div>
+                        <ArrowForwardIosIcon />
+                    </div>
+                    <div>
+                        <div>{line.ItemCode}</div>
+                        {line.ItemType === '1' && (
+                            <OrderItemImage itemCode={line.ItemCode} itemCodeDesc={line.ItemCodeDesc} image={line.image}/>
+                        )}
+                    </div>
+                </Stack>
             </TableCell>
             <TableCell>
                 <p>{line.ItemCodeDesc}</p>

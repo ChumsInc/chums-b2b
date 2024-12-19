@@ -24,7 +24,7 @@ const AvailabilityAlert = ({quantityOrdered, quantityAvailable, season}: {
     }
 
     if (available.lte(0) || !canViewAvailable) {
-        return (<AppAlert severity="warning" alertTitle={"Note:"}>Not available for immediate delivery.</AppAlert>)
+        return (<AppAlert severity="warning">Not available for immediate delivery.</AppAlert>)
     }
 
     const message = `Only ${available} ${available.eq(1) ? 'is' : 'are'} available for immediate delivery`;

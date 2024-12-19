@@ -192,7 +192,7 @@ export async function postProcessCart(arg: PromoteCartBody): Promise<string | nu
     try {
         const params = new URLSearchParams();
         params.set('cartId', arg.cartId.toString());
-        if (process.env.NODE_ENV === 'development') {
+        if (window.location.hostname === 'localhost') {
             params.set('debug', '1');
         }
         const body = JSON.stringify(arg);

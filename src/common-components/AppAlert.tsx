@@ -50,13 +50,15 @@ const AppAlert = ({
         <Alert severity={severity} onClose={dismissHandler} action={
             <AppAlertCloseButton canClose={!!onDismissContext || !!onDismiss} onClick={dismissHandler} />
         }>
-            <AlertTitle sx={{display: 'inline-block', mr: 3}}>
-                <Stack direction="row" spacing={2}>
-                    {!!context && (<Typography sx={{fontWeight: 700}}>[{context}]</Typography>)}
-                    {!!alertTitle && (<Typography sx={{fontWeight: 700}}>{alertTitle}</Typography>)}
-                    {(count ?? 0) > 1 && <Typography variant="caption">({count})</Typography>}
-                </Stack>
-            </AlertTitle>
+            {(!!context || !!alertTitle) && (
+                <AlertTitle sx={{display: 'inline-block', mr: 3}}>
+                    <Stack direction="row" spacing={2}>
+                        {!!context && (<Typography sx={{fontWeight: 700}}>[{context}]</Typography>)}
+                        {!!alertTitle && (<Typography sx={{fontWeight: 700}}>{alertTitle}</Typography>)}
+                        {(count ?? 0) > 1 && <Typography variant="caption">({count})</Typography>}
+                    </Stack>
+                </AlertTitle>
+            )}
             <Typography sx={{display: 'inline-block'}}
                         variant="body1">{message ?? children ?? 'Undefined alert'}</Typography>
         </Alert>

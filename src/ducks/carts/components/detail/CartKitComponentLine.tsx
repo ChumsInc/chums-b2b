@@ -10,6 +10,8 @@ import CartLineButtons from "./CartLineButtons";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Stack from "@mui/material/Stack";
 
 
 export default function CartKitComponentLine({
@@ -29,10 +31,18 @@ export default function CartKitComponentLine({
     return (
         <TableRow sx={{verticalAlign: 'top'}} className={classNames(rowClassName)}>
             <TableCell>
-                <div>{line.itemCode}</div>
-                {line.itemType === '1' &&
-                    <OrderItemImage itemCode={line.itemCode} itemCodeDesc={line.itemCodeDesc}
-                                    image={line.cartProduct.image}/>}
+                <Stack direction="row">
+                    <div>
+                        <ArrowRightIcon />
+                    </div>
+                    <div>
+                        <div>{line.itemCode}</div>
+                        {line.itemType === '1' && (
+                            <OrderItemImage itemCode={line.itemCode} itemCodeDesc={line.itemCodeDesc}
+                                            image={line.cartProduct.image} colorCode={line.cartProduct.colorCode} />
+                        )}
+                    </div>
+                </Stack>
             </TableCell>
             <TableCell>
                 <p>{line.itemCodeDesc}</p>
@@ -43,18 +53,22 @@ export default function CartKitComponentLine({
                 )}
             </TableCell>
             <TableCell>{line.unitOfMeasure}</TableCell>
-            <TableCell className="text-end">
+            <TableCell align="center">
                 {numeral(line.quantityOrdered).format('0,0')}
             </TableCell>
-            <TableCell className="right">
-                {numeral(unitPrice).format('0,0.00')}
+            <TableCell align="right">
+                {new Decimal(unitPrice ?? 0).eq(0) ? null : numeral(unitPrice).format('0,0.00')}
             </TableCell>
-            <TableCell
-                className="right hidden-xs">{numeral(line.pricing.suggestedRetailPrice).format('0,0.00')}</TableCell>
-            <TableCell className="right hidden-xs">{numeral(itemPrice).format('0,0.00')}</TableCell>
-            <TableCell
-                className="right">{numeral(new Decimal(line.quantityOrdered).times(itemPrice)).format('0,0.00')}</TableCell>
-            <TableCell className="right">
+            <TableCell align="right">{numeral(line.pricing.suggestedRetailPrice).format('0,0.00')}</TableCell>
+            <TableCell align="right">
+                {new Decimal(unitPrice ?? 0).eq(0) ? null : numeral(itemPrice).format('0,0.00')}
+            </TableCell>
+            <TableCell align="right">
+                {new Decimal(unitPrice ?? 0).eq(0)
+                    ? null
+                    : numeral(new Decimal(line.quantityOrdered).times(itemPrice)).format('0,0.00')}
+            </TableCell>
+            <TableCell align="right">
                 <CartLineButtons onCopyToCart={onAddToCart}
                                  copyToCartDisabled={readOnly || (!line.productType || line.productType === 'D' || line.cartProduct.inactiveItem || line.itemType !== '1')}
                 />
