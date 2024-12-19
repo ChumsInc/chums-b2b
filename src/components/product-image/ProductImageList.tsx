@@ -7,6 +7,11 @@ import {sizesQuery} from "@components/product-image/utils";
 import ProductCurrentImage from "@components/product-image/ProductCurrentImage";
 import ProductAlternateImageList from "@components/product-image/ProductAlternateImageList";
 
+const imageSort = (a:ProductAlternateImage, b:ProductAlternateImage) => {
+    return a.priority === b.priority
+        ? (a.id - b.id)
+        : (a.priority -  b.priority);
+}
 
 export interface ProductImageListProps {
     mainImage: ProductAlternateImage|null;
@@ -15,20 +20,22 @@ export interface ProductImageListProps {
 
 const ProductImageList = ({mainImage, alternateImages}: ProductImageListProps) => {
     const [currentImage, setCurrentImage] = useState<ProductAlternateImage|null>(mainImage);
-    const [show, setShow] = useState(true);
+    const [images, setImages] = useState<ProductAlternateImage[]>([]);
 
     useEffect(() => {
         setCurrentImage(mainImage);
-    }, [mainImage]);
+        if (mainImage) {
+            setImages([mainImage, ...(alternateImages ?? [])].sort(imageSort))
+        } else {
+            setImages([...(alternateImages ?? [])].sort(imageSort));
+        }
+
+    }, [mainImage, alternateImages]);
 
 
     const onSelectImage = async (img: ProductAlternateImage) => {
         if (img.image !== currentImage?.image) {
-            setShow(false);
-            await waitForIt(150);
             setCurrentImage(img);
-            await waitForIt(150);
-            setShow(true);
         }
     }
 
@@ -46,8 +53,8 @@ const ProductImageList = ({mainImage, alternateImages}: ProductImageListProps) =
 
     return (
         <Stack direction="row" spacing={2}>
-            <ProductCurrentImage image={currentImage} show={show}/>
-            <ProductAlternateImageList images={alternateImages} currentImage={currentImage}
+            <ProductCurrentImage image={currentImage}/>
+            <ProductAlternateImageList images={images} currentImage={currentImage}
                                        onSelectImage={onSelectImage}/>
             <link rel="preload" as="image"
                   imageSrcSet={alternateImages.map(img => `/images/products/800/${img.image} 800w`).join(', ')}/>

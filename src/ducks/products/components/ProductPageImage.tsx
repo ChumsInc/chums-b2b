@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductImage from "@components/product-image/ProductImage";
+import ProductImageCarousel from "@components/product-image/ProductImageCarousel";
 import {useSelector} from "react-redux";
 import {
     selectCurrentProduct,
@@ -21,11 +21,16 @@ const ProductPageImage = () => {
     }
 
     return (
-        <ProductImage image={image.filename}
-                      selectedItem={image.itemCode ?? ''}
-                      loading={loading}
-                      altImages={altImages}
-                      altText={product?.name}/>
+        <>
+            <ProductImageCarousel image={image.filename}
+                                  selectedItem={image.itemCode ?? ''}
+                                  loading={loading}
+                                  altImages={altImages}
+                                  altText={product?.name}/>
+            <link rel="preload" as="image"
+                  imageSrcSet={altImages.map(img => `/images/products/800/${img.image} 800w`).join(', ')}/>
+
+        </>
     )
 }
 export default ProductPageImage;

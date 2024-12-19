@@ -114,7 +114,9 @@ const ProductPage = ({keyword}: {
                         </Box>
 
                         <ProductPageInfo/>
-                        <VariantButtons/>
+                        {isSellAsVariants(product) && (
+                            <VariantButtons/>
+                        )}
 
                         <SwatchSet/>
                         {(!isCartProduct(cartItem) || !cartItem.itemCode) && !loading && (

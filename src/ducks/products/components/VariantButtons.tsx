@@ -1,34 +1,27 @@
-import React from 'react';
-import {getMSRP, getPrices, getSalesUM, sortVariants} from "../../../utils/products";
+import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import {selectLoggedIn} from "../../user/selectors";
-import {selectCurrentProduct, selectProductVariantId} from "../selectors";
-import {useAppDispatch} from "../../../app/configureStore";
+import {selectCurrentVariantProduct, selectProductVariantId} from "../selectors";
+import {useAppDispatch} from "@app/configureStore";
 import {setCurrentVariant} from "../actions";
-import {selectCustomerPricing} from "../../customer/selectors";
 import {ProductVariant} from "b2b-types";
-import {isSellAsMix, isSellAsVariants} from "../utils";
+import {isSellAsMix} from "../utils";
 import VariantButton from "./VariantButton";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {sendGtagEvent} from "../../../api/gtag";
+import {sendGtagEvent} from "@api/gtag";
 
 
-const VariantButtons = () => {
+const activeVariants = (variants: ProductVariant[]): ProductVariant[] => {
+    return variants.filter(v => v.product?.status).sort((a, b) => a.priority - b.priority);
+}
+
+export default function VariantButtons() {
     const dispatch = useAppDispatch();
     const selectedVariantId = useSelector(selectProductVariantId);
-    const loggedIn = useSelector(selectLoggedIn);
-    const product = useSelector(selectCurrentProduct);
-    const priceCodes = useSelector(selectCustomerPricing);
+    const product = useSelector(selectCurrentVariantProduct);
+    const [variants, setVariants] = useState(activeVariants(product?.variants ?? []));
 
-    if (!isSellAsVariants(product)) {
-        return null;
-    }
-
-    const variants = product?.variants ?? [];
-
-
-    const selectHandler = (variant: ProductVariant) => {
-        if (!variant || !variant.id) {
+    const selectHandler = useCallback((variant:ProductVariant) => {
+        if (!variant || !variant.id || !product) {
             return;
         }
         if (variant.product && isSellAsMix(variant.product)) {
@@ -47,43 +40,27 @@ const VariantButtons = () => {
             });
         }
         dispatch(setCurrentVariant(variant))
-    }
+    }, [product])
 
-    // const {productId, variants, selectedVariantId, priceCodes} = this.props;
-    const [variant] = variants.filter(v => v.id === selectedVariantId);
+    useEffect(() => {
+        setVariants(activeVariants(product?.variants ?? []));
+    }, [product]);
 
-    const activeVariants = variants.filter(v => v.status && v.product?.status)
-        .sort(sortVariants);
 
-    if (!product.variants || !product.variants.length) {
+    if (variants.length <= 1) {
         return null;
     }
 
-    if (!variant) {
-        return null;
-    }
-
-    if (activeVariants.length === 1) {
-        return (
-            <Grid2 container>
-                <Grid2 xs={12}>
-                    <VariantButton key={variant.id} onClick={selectHandler} variant={variant}
-                                   spacing={2}
-                                   direction="row" selected/>
-                </Grid2>
-            </Grid2>
-        )
-    }
     return (
         <Grid2 container spacing={1} className="variant-buttons-container"
-               direction={{xs: activeVariants.length > 2 ? 'row' : 'column', sm: 'row'}}
-               justifyContent={activeVariants.length === 2 ? 'center' : 'flex-start'}>
-            {activeVariants
+               direction={{xs: variants.length > 2 ? 'row' : 'column', sm: 'row'}}
+               justifyContent={variants.length === 2 ? 'center' : 'flex-start'}>
+            {variants
                 .map(variant => (
-                    <Grid2 key={variant.id} xs={activeVariants.length > 2 ? 4 : 12} sm={3} md={4}>
+                    <Grid2 key={variant.id} xs={variants.length > 2 ? 4 : 12} sm={3} md={4}>
                         <VariantButton onClick={selectHandler} variant={variant}
-                                       direction={{xs: activeVariants.length > 2 ? 'column' : 'row', sm: 'column'}}
-                                       spacing={{xs: activeVariants.length <= 2 ? 2 : 0, sm: 0}}
+                                       direction={{xs: variants.length > 2 ? 'column' : 'row', sm: 'column'}}
+                                       spacing={{xs: variants.length <= 2 ? 2 : 0, sm: 0}}
                                        selected={variant.id === selectedVariantId}/>
                     </Grid2>
                 ))
@@ -91,5 +68,3 @@ const VariantButtons = () => {
         </Grid2>
     );
 }
-
-export default VariantButtons;

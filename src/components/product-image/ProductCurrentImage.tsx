@@ -1,24 +1,25 @@
+import React, {useLayoutEffect, useRef, useState} from "react";
 import {ProductAlternateImage} from "b2b-types";
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
 import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
-import React from "react";
 import {sizesQuery} from "@components/product-image/utils";
 
-export default function ProductCurrentImage({image, show}: {
+export default function ProductCurrentImage({image}: {
     image: ProductAlternateImage;
-    show: boolean;
 }) {
+    const [filename, setFilename] = useState<string>(image.image.replace(/\s/g, '%20'));
+
+    useLayoutEffect(() => {
+        setFilename(image.image.replace(/\s/g, '%20'));
+    }, [image]);
+
     return (
         <Box>
-            <Fade in={show}>
-                <Box>
-                    <ResponsiveProductImage filename={image.image.replace(/\s/g, '%20')} alt={image.altText}
-                                            loading="eager"
-                                            sizes={sizesQuery}
-                                            width={800} height={800}/>
-                </Box>
-            </Fade>
+            <ResponsiveProductImage filename={filename} alt={image.altText}
+                                    loading="eager"
+                                    sizes={sizesQuery}
+                                    width={800} height={800}/>
         </Box>
     )
 }
