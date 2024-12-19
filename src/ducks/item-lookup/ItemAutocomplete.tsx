@@ -11,8 +11,6 @@ import {CONTENT_PATH_SEARCH_IMAGE} from "@constants/paths";
 import {useDebounceValue} from 'usehooks-ts'
 import Stack from "@mui/material/Stack";
 import {addToCart} from "@ducks/carts/actions";
-import AddToCartButton from "../cart/components/AddToCartButton";
-import {selectSalesOrderActionStatus} from "../open-orders/selectors";
 import CircularProgress from "@mui/material/CircularProgress";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from "@mui/material/TextField";
@@ -20,6 +18,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import {styled} from "@mui/material/styles";
 import {selectCartStatusById} from "@ducks/carts/selectors";
 import {selectCustomerKey} from "@ducks/customer/selectors";
+import AddToCartButton from "@ducks/carts/components/add-to-cart/AddToCartButton";
 
 
 const NumericTextField = styled(TextField)`

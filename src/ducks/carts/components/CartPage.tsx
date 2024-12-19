@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {generatePath, useNavigate, useParams} from "react-router";
 import {useSelector} from "react-redux";
-import {selectCustomerKey, selectCustomerLoading} from "@ducks/customer/selectors";
+import {selectCustomerKey} from "@ducks/customer/selectors";
 import {loadCart} from "@ducks/carts/actions";
 import DocumentTitle from "@components/DocumentTitle";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -19,7 +19,6 @@ export default function CartPage() {
     const navigate = useNavigate();
     const params = useParams<{ cartId: string; }>();
     const customerKey = useSelector(selectCustomerKey);
-    const customerLoading = useSelector(selectCustomerLoading);
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, parseCartId(params.cartId)))
     const cart = useAppSelector((state) => selectCartById(state, parseCartId(params.cartId)))
     const cartHeader = cart?.header ?? null;
@@ -36,12 +35,7 @@ export default function CartPage() {
         if (cartStatus === 'not-found') {
             navigate(generatePath('/account/:customerSlug/carts', {customerSlug: billToCustomerSlug(customerKey)}), {replace: true});
         }
-    }, [cartStatus, customerKey])
-
-    if (!customerKey && !customerLoading) {
-        navigate('/profile', {replace: true});
-        return;
-    }
+    }, [cartStatus, customerKey]);
 
     const documentTitle = `Cart #${params?.cartId}`;
 

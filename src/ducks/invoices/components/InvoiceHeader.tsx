@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {loadInvoice} from '../actions';
 import {useSelector} from "react-redux";
-import DuplicateCartDialog from "../../cart/components/DuplicateCartDialog";
+import DuplicateCartDialog from "../../carts/components/DuplicateCartDialog";
 import {ShippingMethods} from "@utils/general";
 import TrackingLinkBadge from "../../../components/TrackingLinkBadge";
 import {selectCurrentInvoice} from "../selectors";

@@ -20,7 +20,6 @@ import ShippingMethodSelect from "@ducks/carts/components/header/ShippingMethodS
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Unstable_Grid2';
 import ShipToSelect from "@ducks/customer/components/ShipToSelect";
-import {promoteCart} from "@ducks/cart/actions";
 import Alert from "@mui/material/Alert";
 import {generatePath, useNavigate} from "react-router";
 import AlertList from "@ducks/alerts/AlertList";
@@ -50,6 +49,9 @@ import CheckoutButton from "@ducks/carts/components/header/CheckoutButton";
 import CartCommentInput from "@ducks/carts/components/header/CartCommentInput";
 import {selectCustomerKey} from "@ducks/customer/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 
 export default function CartOrderHeader() {
@@ -139,6 +141,9 @@ export default function CartOrderHeader() {
             case 'customerPONo':
             case 'promoCode':
                 setCartHeader({...cartHeader, [field]: ev.target.value, changed: true});
+                return;
+            case 'CancelReasonCode':
+                setCartHeader({...cartHeader, [field]: ev.target.checked ? '' : 'HOLD', changed: true});
                 return;
 
         }
@@ -291,11 +296,19 @@ export default function CartOrderHeader() {
                 <Grid xs={12} lg={6}>
                     <Collapse in={cartProgress >= cartProgress_Delivery} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
-                            <ShipDateInput value={cartHeader?.shipExpireDate ?? ''}
-                                           disabled={loadingStatus !== 'idle'}
-                                           error={!cartHeader?.shipExpireDate || !dayjs(cartHeader.shipExpireDate).isValid() || dayjs(cartHeader?.shipExpireDate).isBefore(nextShipDate())}
-                                           onChange={valueChangeHandler('shipExpireDate')}
-                                           inputProps={{required: true}} ref={shipDateRef}/>
+                            <Stack spacing={2}  direction={{xs: 'column', md: 'row'}}>
+                                <ShipDateInput value={cartHeader?.shipExpireDate ?? ''}
+                                               disabled={loadingStatus !== 'idle'}
+                                               error={!cartHeader?.shipExpireDate || !dayjs(cartHeader.shipExpireDate).isValid() || dayjs(cartHeader?.shipExpireDate).isBefore(nextShipDate())}
+                                               onChange={valueChangeHandler('shipExpireDate')}
+                                               inputProps={{required: true}} ref={shipDateRef}/>
+                                <FormControl variant="filled" fullWidth>
+                                    <FormControlLabel control={
+                                        <Checkbox checked={cartHeader?.CancelReasonCode !== 'HOLD'}
+                                                  onChange={changeHandler('CancelReasonCode')} />
+                                    } label="Ship when ready" />
+                                </FormControl>
+                            </Stack>
                             <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
                                 <ShippingMethodSelect value={cartHeader?.shipVia ?? ''} required
                                                       disabled={loadingStatus !== 'idle'}

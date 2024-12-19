@@ -1,7 +1,6 @@
 import './global-window';
 import {initialProductsState} from "../ducks/products";
 import {initialCustomerState} from "../ducks/customer";
-import {initialCartState} from "../ducks/cart";
 import {initialMessagesState} from "../ducks/messages";
 import {initialUserState} from '../ducks/user';
 import {initialAppState} from '../ducks/app';
@@ -23,7 +22,6 @@ export default function prepState(preload: PreloadedState = typeof window === 'u
     return {
         app: initialAppState(preload),
         banners: initialBannersState(preload),
-        cart: initialCartState(),
         category: initialCategoryState(preload),
         customer: initialCustomerState(),
         invoices: initialInvoicesState(),

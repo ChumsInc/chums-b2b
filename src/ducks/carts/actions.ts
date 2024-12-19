@@ -167,10 +167,11 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
         const shippingAccount = selectCartShippingAccount(state);
         const comment: string[] = [];
         if (shippingAccount.enabled) {
-            comment.push(`COL ${shippingAccount.value}`);
+            comment.push('RCA')
+            comment.push(`${shippingAccount.value.trim()}`);
         }
 
-        if (arg.CancelReasonCode === 'hold') {
+        if (arg.CancelReasonCode?.toUpperCase() === 'HOLD') {
             comment.push('HOLD');
         } else {
             comment.push('SWR');
@@ -184,7 +185,7 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
             shipToCode: arg.shipToCode ?? '',
             shipVia: arg.shipVia ?? '',
             paymentType: arg.PaymentType!,
-            comment: comment.join(''),
+            comment: comment.join(' - '),
             promoCode: arg.promoCode ?? '',
         }
         return await postProcessCart(body);

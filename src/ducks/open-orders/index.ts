@@ -1,5 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {isCancelledSalesOrder, isEditableSalesOrder, isOpenSalesOrder} from "../sales-order/utils";
+import {isCancelledSalesOrder, isEditableSalesOrder} from "../sales-order/utils";
 import {EmailResponse, SalesOrderHeader} from "b2b-types";
 import {
     closeEmailResponse,
@@ -14,15 +14,6 @@ import {
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {customerSlug} from "../../utils/customer";
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {
-    addCartComment,
-    addToCart,
-    duplicateSalesOrder,
-    promoteCart,
-    removeCart,
-    saveCart,
-    saveNewCart
-} from "../cart/actions";
 import {LoadStatus, SortProps} from "../../types/generic";
 import {ActionStatusList, OpenOrderDetailList, OpenOrderList} from "./types";
 import {dismissContextAlert} from "../alerts/actions";
@@ -30,7 +21,7 @@ import {dismissContextAlert} from "../alerts/actions";
 export interface OpenOrdersState {
     customerKey: string | null;
     list: OpenOrderList;
-    loading: 'idle'|'pending'|'rejected'|'saving'|'deleting';
+    loading: 'idle' | 'pending' | 'rejected' | 'saving' | 'deleting';
     loaded: boolean;
     sort: SortProps<SalesOrderHeader>;
     cartsFilter: string;
@@ -113,69 +104,6 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
                 state.customerKey = customerSlug(action.meta.arg);
             }
         })
-        .addCase(saveNewCart.fulfilled, (state, action) => {
-            if (action.payload) {
-                state.actionStatus[action.payload?.SalesOrderNo] = 'idle';
-                const detail: OpenOrderDetailList = {};
-                action.payload.detail.forEach(line => {
-                    detail[line.LineKey] = line;
-                })
-                state.list[action.payload.SalesOrderNo] = {...action.payload, detail};
-            }
-        })
-        .addCase(saveCart.pending, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'saving';
-        })
-        .addCase(saveCart.fulfilled, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'idle';
-            if (action.payload) {
-                const detail: OpenOrderDetailList = {};
-                action.payload.detail.forEach(line => {
-                    detail[line.LineKey] = line;
-                })
-
-                state.list[action.payload.SalesOrderNo] = {...action.payload, detail};
-            }
-        })
-        .addCase(saveCart.rejected, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'rejected';
-        })
-        .addCase(promoteCart.pending, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'promoting';
-            if (state.list[action.meta.arg.SalesOrderNo]) {
-                state.list[action.meta.arg.SalesOrderNo] = {
-                    ...state.list[action.meta.arg.SalesOrderNo],
-                    ...action.meta.arg,
-                }
-            }
-        })
-        .addCase(promoteCart.fulfilled, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'idle';
-            if (action.payload) {
-                state.list[action.payload.SalesOrderNo] = action.payload;
-            }
-        })
-        .addCase(promoteCart.rejected, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'rejected';
-        })
-        .addCase(removeCart.pending, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'deleting';
-            state.loading = 'deleting';
-        })
-        .addCase(removeCart.fulfilled, (state, action) => {
-            delete state.actionStatus[action.meta.arg.SalesOrderNo];
-            state.loaded = true;
-            state.loading = 'idle';
-            state.list = {};
-            action.payload.forEach(so => {
-                state.actionStatus[so.SalesOrderNo] = 'idle';
-                state.list[so.SalesOrderNo] = so;
-            });
-        })
-        .addCase(removeCart.rejected, (state, action) => {
-            state.actionStatus[action.meta.arg.SalesOrderNo] = 'rejected';
-            state.loading = 'rejected';
-        })
         .addCase(loadSalesOrder.pending, (state, action) => {
             state.actionStatus[action.meta.arg] = 'pending';
         })
@@ -195,46 +123,6 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
         })
         .addCase(loadSalesOrder.rejected, (state, action) => {
             state.actionStatus[action.meta.arg] = 'rejected';
-        })
-        .addCase(addToCart.pending, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'saving';
-        })
-        .addCase(addToCart.fulfilled, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'idle';
-            if (action.payload && isOpenSalesOrder(action.payload)) {
-                const key = action.payload.SalesOrderNo;
-                const detail: OpenOrderDetailList = {};
-                action.payload.detail.forEach(line => {
-                    detail[line.LineKey] = line;
-                })
-                state.list[key] = {
-                    ...action.payload,
-                    detail,
-                }
-            }
-        })
-        .addCase(addToCart.rejected, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'idle';
-        })
-        .addCase(addCartComment.pending, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'saving';
-        })
-        .addCase(addCartComment.fulfilled, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'idle';
-            if (action.payload && isOpenSalesOrder(action.payload)) {
-                const key = action.payload.SalesOrderNo;
-                const detail: OpenOrderDetailList = {};
-                action.payload.detail.forEach(line => {
-                    detail[line.LineKey] = line;
-                })
-                state.list[key] = {
-                    ...action.payload,
-                    detail,
-                }
-            }
-        })
-        .addCase(addCartComment.rejected, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'idle';
         })
         .addCase(setCartsFilter, (state, action) => {
             state.cartsFilter = action.payload;
@@ -273,26 +161,9 @@ const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
             state.sendEmail.response = null;
             state.sendEmail.error = null;
         })
-        .addCase(duplicateSalesOrder.pending, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'pending';
-        })
-        .addCase(duplicateSalesOrder.fulfilled, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'idle';
-            if (action.payload) {
-                const detail: OpenOrderDetailList = {};
-                action.payload.detail.forEach(line => {
-                    detail[line.LineKey] = line;
-                })
-                state.list[action.payload.SalesOrderNo] = {...action.payload, detail};
-            }
-        })
-        .addCase(duplicateSalesOrder.rejected, (state, action) => {
-            state.actionStatus[action.meta.arg.salesOrderNo] = 'idle';
-        })
         .addCase(dismissContextAlert, (state, action) => {
             switch (action.payload) {
                 case loadOpenOrders.typePrefix:
-                case removeCart.typePrefix:
                     state.loading = 'idle';
                     return;
             }

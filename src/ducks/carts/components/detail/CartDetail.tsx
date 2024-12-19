@@ -33,7 +33,9 @@ export default function CartDetail({cartId}: {
             sendGtagEvent('view_cart', {
                 currency: 'USD',
                 value: new Decimal(header.subTotalAmt).sub(header.DiscountAmt ?? 0).toNumber(),
-                items: detail.map(item => ({
+                items: detail
+                    .filter(item => !(item.lineStatus === 'U' && item.quantityOrdered === 0))
+                    .map(item => ({
                     item_id: item.itemCode,
                     item_name: item.itemCodeDesc ?? item.itemCode,
                     quantity: +item.quantityOrdered,
@@ -80,7 +82,9 @@ export default function CartDetail({cartId}: {
                 </TableHead>
 
                 <TableBody>
-                    {detail.map(line => (
+                    {detail
+                        .filter(item => !(item.lineStatus === 'U' && item.quantityOrdered === 0))
+                        .map(line => (
                         <CartDetailLine key={line.id} line={line}
                                         onAddToCart={addToCartHandler}/>
                     ))}

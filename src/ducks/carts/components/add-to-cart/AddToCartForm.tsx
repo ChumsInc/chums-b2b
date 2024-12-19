@@ -66,7 +66,7 @@ export default function AddToCartForm({
 
     const submitHandler = useCallback(async (ev: FormEvent) => {
         ev.preventDefault();
-        if (disabled || !customerKey) {
+        if (disabled || !customerKey || !cartName) {
             return;
         }
         const price = cartItem.price ? new Decimal(cartItem.price).toNumber() : 0;
@@ -179,7 +179,7 @@ export default function AddToCartForm({
                 {(!cartId) && (
                     <Stack spacing={2} direction={{xs: "column", md: "row"}}>
                         <Box sx={{width: '50%'}}>
-                            <CartNameInput value={cartName} onChange={onChangeCartName}
+                            <CartNameInput value={cartName} onChange={onChangeCartName} required
                                            error={!cartName}
                                            fullWidth
                                            helperText="Please name your cart."/>

@@ -1,21 +1,50 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import numeral from "numeral";
-import {useSelector} from "react-redux";
 import Decimal from "decimal.js";
-import {getPaymentType, getShippingMethod} from "../../../constants/account";
-import {selectShippingAccount} from "../../cart/selectors";
-import {useAppSelector} from "../../../app/configureStore";
+import {useAppSelector} from "@app/configureStore";
 import {selectSalesOrder} from "../selectors";
-import {calcOrderType} from "../../../utils/orders";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
+import {SalesOrderHeader} from "b2b-types";
+
+const reCustomerFreight = /^(RCA|COL|FREE|THRD)[ -]+([\w ]+)[ -]+(SWR|HOLD|RUSH)/;
+
+interface FreightInfo {
+    isCharged: boolean;
+    freightMethod?: string;
+    freightAmt: string;
+    freightAcct?: string;
+    status?: string;
+}
+
+const getFreightInfo = (header: SalesOrderHeader | null): FreightInfo => {
+    if (reCustomerFreight.test(header?.Comment ?? '')) {
+        const info = reCustomerFreight.exec(header?.Comment ?? '') ?? [];
+        return {
+            isCharged: false,
+            freightMethod: info[1] ?? '',
+            freightAmt: '0.00',
+            freightAcct: info[2] ?? '',
+            status: info[3] ?? '',
+        }
+    }
+    return {
+        isCharged: true,
+        freightAmt: new Decimal(header?.FreightAmt ?? 0).gt(0) ? numeral(header?.FreightAmt).format("0,0.00") : 'TBD',
+    }
+}
 
 export default function SalesOrderTotal({salesOrderNo}: {
     salesOrderNo?: string;
 }) {
     const header = useAppSelector((state) => selectSalesOrder(state, salesOrderNo ?? ''));
-    const shippingAccount = useSelector(selectShippingAccount);
+    const [freightInfo, setFreightInfo] = React.useState<FreightInfo>(getFreightInfo(header));
+
+    useEffect(() => {
+        setFreightInfo(getFreightInfo(header));
+    }, [header]);
+
     if (!header) {
         return null;
     }
@@ -23,18 +52,6 @@ export default function SalesOrderTotal({salesOrderNo}: {
     const subTotal = new Decimal(header.NonTaxableAmt).add(header.TaxableAmt);
     const total = subTotal.add(header.FreightAmt ?? 0).add(header.SalesTaxAmt ?? 0).sub(header.DepositAmt ?? 0).sub(header.DiscountAmt ?? 0);
 
-    const isFreightTBD = () => {
-        const orderType = calcOrderType(header);
-        switch (orderType) {
-            case 'cart':
-                return !(getShippingMethod(header.ShipVia)?.allowCustomerAccount && shippingAccount.enabled)
-            case 'invoice':
-                return false;
-            default:
-                return !(getShippingMethod(header.ShipVia)?.allowCustomerAccount && shippingAccount.enabled)
-                    || !getPaymentType(header.PaymentType).prepaid
-        }
-    }
 
     return (
         <TableFooter>
@@ -56,9 +73,13 @@ export default function SalesOrderTotal({salesOrderNo}: {
             </TableRow>
             <TableRow>
                 <TableCell colSpan={5} align="right">Freight</TableCell>
-                <TableCell colSpan={2}> </TableCell>
+                <TableCell colSpan={2}>
+                    {!!freightInfo.freightAcct && <span>{freightInfo.freightMethod} - {freightInfo.freightAcct}</span>}
+                </TableCell>
                 <TableCell align="right">
-                    {isFreightTBD() ? 'TBD' : numeral(header.FreightAmt ?? 0).format('$ 0,0.00')}
+                    {freightInfo.freightAmt === 'TBD' || new Decimal(freightInfo.freightAmt).isNaN()
+                        ? 'TBD'
+                        : numeral(freightInfo.freightAmt).format('$ 0,0.00')}
                 </TableCell>
                 <TableCell> </TableCell>
             </TableRow>
@@ -79,8 +100,11 @@ export default function SalesOrderTotal({salesOrderNo}: {
             <TableRow>
                 <TableCell colSpan={5} align="right">Total</TableCell>
                 <TableCell colSpan={2}> </TableCell>
-                <TableCell
-                    align="right">{isFreightTBD() ? 'TBD' : numeral(total.toString()).format('$ 0,0.00')}</TableCell>
+                <TableCell align="right">
+                    {freightInfo.freightAmt === 'TBD' || new Decimal(freightInfo.freightAmt).isNaN()
+                        ? 'TBD'
+                        : numeral(total.toString()).format('$ 0,0.00')}
+                </TableCell>
                 <TableCell> </TableCell>
             </TableRow>
         </TableFooter>

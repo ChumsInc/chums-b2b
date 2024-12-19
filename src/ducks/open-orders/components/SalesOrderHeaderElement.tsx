@@ -12,7 +12,7 @@ import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {loadSalesOrder} from "../actions";
 import Grid from '@mui/material/Unstable_Grid2';
 import {selectSalesOrder, selectSalesOrderInvoices} from "../selectors";
-import DuplicateCartDialog from "../../cart/components/DuplicateCartDialog";
+import DuplicateCartDialog from "../../carts/components/DuplicateCartDialog";
 import {isClosedSalesOrder} from "../../sales-order/utils";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";

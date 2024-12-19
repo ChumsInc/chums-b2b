@@ -3,18 +3,17 @@ import numeral from "numeral";
 import {useSelector} from "react-redux";
 import Decimal from "decimal.js";
 import {getShippingMethod} from "@constants/account";
-import {selectShippingAccount} from "@ducks/cart/selectors";
 import {useAppSelector} from "@app/configureStore";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import {selectCartHeaderById} from "@ducks/carts/selectors";
+import {selectCartHeaderById, selectCartShippingAccount} from "@ducks/carts/selectors";
 
 export default function CartTotal({cartId}: {
     cartId: number;
 }) {
     const header = useAppSelector((state) => selectCartHeaderById(state, cartId));
-    const shippingAccount = useSelector(selectShippingAccount);
+    const shippingAccount = useSelector(selectCartShippingAccount);
     if (!header) {
         return null;
     }
