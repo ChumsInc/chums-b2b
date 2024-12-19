@@ -8,7 +8,7 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import {SalesOrderHeader} from "b2b-types";
 
-const reCustomerFreight = /^(RCA|COL|FREE|THRD)[ -]+([\w ]+)[ -]+(SWR|HOLD|RUSH)/;
+const reCustomerFreight = /^(RCP|COL|FREE|THRD)[ ~-]+([\w ]*)[ ~-]+(SWR|HOLD|RUSH)/;
 
 interface FreightInfo {
     isCharged: boolean;
@@ -23,10 +23,10 @@ const getFreightInfo = (header: SalesOrderHeader | null): FreightInfo => {
         const info = reCustomerFreight.exec(header?.Comment ?? '') ?? [];
         return {
             isCharged: false,
-            freightMethod: info[1] ?? '',
+            freightMethod: info[1]?.trim() ?? '',
             freightAmt: '0.00',
-            freightAcct: info[2] ?? '',
-            status: info[3] ?? '',
+            freightAcct: info[2]?.trim() ?? '',
+            status: info[3]?.trim() ?? '',
         }
     }
     return {
