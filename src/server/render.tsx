@@ -16,6 +16,7 @@ import {HelmetData, HelmetProvider} from "react-helmet-async";
 import {StaticRouter} from "react-router";
 import {configureStore} from "@reduxjs/toolkit";
 import {PreloadedState} from "../types/preload";
+import {Keyword} from "b2b-types";
 
 const debug = Debug('chums:server:render');
 
@@ -119,14 +120,15 @@ export async function renderAppProductPage(req: Request, res: Response, next: Ne
         if (req.params.product) {
             const [found] = keywords.filter(kw => kw.pagetype === 'product')
                 .filter(kw => kw.keyword === req.params.product);
-            if (!found) {
+            if (!found || !found.status) {
                 res.redirect(`/products/${req.params.category}`);
                 return;
             }
             if (found?.redirect_to_parent) {
                 const [parent] = keywords.filter(kw => kw.status).filter(kw => kw.id === found.redirect_to_parent);
                 if (!parent || !parent.status) {
-                    next();
+                    res.redirect('/products/all');
+                    return;
                 }
                 res.redirect(`/products/${parent.keyword}`);
                 return;
@@ -142,7 +144,8 @@ export async function renderAppProductPage(req: Request, res: Response, next: Ne
             if (found?.redirect_to_parent) {
                 const [parent] = keywords.filter(kw => kw.status).filter(kw => kw.id === found.redirect_to_parent);
                 if (!parent || !parent.status) {
-                    next();
+                    res.redirect('/products/all');
+                    return;
                 }
                 res.redirect(`/products/${parent.keyword}`);
                 return;
@@ -235,9 +238,9 @@ export async function renderAppContentPage(req: Request, res: Response, next: Ne
         res.send(html);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            debug("renderAppProductPage()", err.message);
+            debug("renderAppContentPage()", err.message);
             return res.json({error: err.message, name: err.name});
         }
-        res.json({error: 'unknown error in renderAppProductPage'});
+        res.json({error: 'unknown error in renderAppContentPage'});
     }
 }
