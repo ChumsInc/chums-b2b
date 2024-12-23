@@ -72,8 +72,8 @@ export const PAYMENT_TYPES:PaymentTypeList = {
     OTHER: {
         code: 'OTHER',
         sageCode: 'OTHER',
-        description: 'Other',
-        message: 'Please arrange payment with your customer support person.',
+        description: 'Credit Card',
+        message: 'If you don\'t have a current card on file the Customer Service Team will send a secure link to enter a new credit card.',
         allowTerms: false,
         allowCC: false,
         disabled: false,

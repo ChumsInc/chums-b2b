@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
 import {useSelector} from "react-redux";
 import {
+    selectOpenOrdersCustomerKey,
     selectOpenOrdersFilter,
     selectOpenOrdersList,
     selectOpenOrdersLoaded,
@@ -41,20 +42,21 @@ const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
         render: (so) => <DateString date={so.OrderDate}/>
     },
     {
-        field: 'ShipExpireDate', title: 'Ship Date', sortable: true,
+        field: 'ShipExpireDate', title: ' Req. Ship Date', sortable: true,
         render: (so) => <DateString date={so.ShipExpireDate}/>
     },
     {
         field: 'NonTaxableAmt',
         title: 'Total',
         render: (so) => numeral(new Decimal(so.NonTaxableAmt).add(so.TaxableAmt)).format('0,0.00'),
-        className: 'text-end',
+        align: 'right',
         sortable: true,
     }
 ];
 
 const OpenOrdersList = () => {
     const dispatch = useAppDispatch();
+    const customerKey = useAppSelector(selectOpenOrdersCustomerKey);
     const currentCustomer = useSelector(selectCurrentCustomer);
     const shipToCode = useAppSelector(selectCustomerShipToCode);
     const orders = useSelector(selectOpenOrdersList);
@@ -64,18 +66,18 @@ const OpenOrdersList = () => {
     const [list,  setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
 
     useEffect(() => {
-        if (loading === 'idle' && !loaded && !!currentCustomer) {
-            dispatch(loadOpenOrders(currentCustomer));
+        if (loading === 'idle' && !loaded && !!customerKey) {
+            dispatch(loadOpenOrders(customerKey));
         }
-    }, [loading, loaded, currentCustomer]);
+    }, [loading, loaded, customerKey]);
 
     useEffect(() => {
         setList(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
-    }, [shipToCode]);
+    }, [orders, shipToCode]);
 
     const reloadHandler = () => {
-        if (currentCustomer) {
-            dispatch(loadOpenOrders(currentCustomer));
+        if (customerKey) {
+            dispatch(loadOpenOrders(customerKey));
         }
     }
 

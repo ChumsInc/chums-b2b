@@ -1,16 +1,17 @@
 import React from 'react';
-import {selectLoggedIn} from "../ducks/user/selectors";
+import {selectLoggedIn} from "@ducks/user/selectors";
 import {useSelector} from "react-redux";
-import AppUpdateLocalLogin from "../components/AppUpdateLocalLogin";
-import AlertList from "../ducks/alerts/AlertList";
-import {Outlet} from "react-router-dom";
+import AppUpdateLocalLogin from "@components/AppUpdateLocalLogin";
+import AlertList from "@ducks/alerts/AlertList";
+import {Outlet} from "react-router";
 import ErrorBoundary from "../common-components/ErrorBoundary";
 import Header from "./Header";
 import Footer from "./Footer";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import SiteMessages from "../ducks/messages/SiteMessages";
-import GoogleSignInOneTap from "../ducks/user/components/GoogleSignInOneTap";
+import SiteMessages from "@ducks/messages/SiteMessages";
+import GoogleSignInOneTap from "@ducks/user/components/GoogleSignInOneTap";
+import CartMessageSnackbar from "@ducks/carts/components/CartMessageSnackbar";
 
 
 const MainOutlet = () => {
@@ -29,6 +30,7 @@ const MainOutlet = () => {
                         <Outlet/>
                     </ErrorBoundary>
                 </Container>
+                <CartMessageSnackbar />
             </Box>
             <Footer/>
         </>

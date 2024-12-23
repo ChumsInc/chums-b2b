@@ -1,12 +1,11 @@
 import React from 'react';
-import {Link as RoutedLink} from "react-router-dom";
+import {Link as RoutedLink, useLocation} from "react-router";
 import Alert from "@mui/material/Alert";
 import Link from '@mui/material/Link';
 import {useSelector} from "react-redux";
 import {selectCustomerLoading} from "../selectors";
-import {selectCurrentAccess, selectCurrentCustomer} from "../../user/selectors";
+import {selectCurrentAccess, selectCurrentCustomer} from "@ducks/user/selectors";
 import {useTheme} from "@mui/material/styles";
-import {useLocation} from "react-router";
 
 const SelectCustomerAlert = () => {
     const loading = useSelector(selectCustomerLoading);

@@ -11,7 +11,7 @@ import Stack from "@mui/material/Stack";
 import NavDrawer from "./NavDrawer";
 import HomeLink from "./HomeLink";
 import {navItems} from './NavItems'
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {useSelector} from "react-redux";
 import {loadProductMenu, selectLoaded, selectLoading, toggleMenuDrawer} from "../index";
 import Container from "@mui/material/Container";

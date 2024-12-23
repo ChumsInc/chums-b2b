@@ -1,6 +1,6 @@
 import {OrderType} from "../types/salesorder";
 import {BasicCustomer} from "b2b-types";
-import {generatePath} from "react-router-dom";
+import {generatePath} from "react-router";
 import {customerSlug} from "./customer";
 
 

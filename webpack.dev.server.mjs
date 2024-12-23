@@ -8,7 +8,7 @@ const serverConfig = {
     mode: 'development',
     name: 'server',
     entry: {
-        server: './src/server/index.tsx'
+        server: './src/server/index.ts'
     },
     devtool: 'inline-source-map',
     output: {

@@ -1,9 +1,9 @@
 import React, {StrictMode, useEffect} from 'react';
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router';
 import Login from "../ducks/user/components/LoginPage";
 import {useSelector} from 'react-redux';
-import {loadProfile} from '../ducks/user/actions';
-import {loadCustomer} from '../ducks/customer/actions';
+import {loadProfile} from '@ducks/user/actions';
+import {loadCustomer} from '@ducks/customer/actions';
 import ProfilePage from "../ducks/user/components/ProfilePage";
 import AccountPage from "../ducks/customer/components/AccountPage";
 import SalesOrderPage from "../ducks/open-orders/components/SalesOrderPage";
@@ -12,8 +12,8 @@ import Logout from "../components/Logout";
 import ResetPassword from "../ducks/user/components/ResetPassword";
 import ContentPage from "../ducks/page/ContentPage";
 import InvoicePage from "../ducks/invoices/components/InvoicePage";
-import {selectCurrentCustomer, selectLoggedIn} from "../ducks/user/selectors";
-import {selectCustomerLoaded, selectCustomerLoading} from "../ducks/customer/selectors";
+import {selectCurrentCustomer, selectLoggedIn} from "@ducks/user/selectors";
+import {selectCustomerLoaded, selectCustomerLoading} from "@ducks/customer/selectors";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import AccountListContainer from "../ducks/customers/components/AccountListContainer";
@@ -26,7 +26,6 @@ import CustomerUsers from "../ducks/customer/components/CustomerUsers";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ContentPage404 from "../components/ContentPage404";
-import CartsList from "../ducks/open-orders/components/CartsList";
 import OpenOrdersList from "../ducks/open-orders/components/OpenOrdersList";
 import InvoicesList from "../ducks/invoices/components/InvoicesList";
 import ShipToList from "../ducks/customer/components/ShipToList";
@@ -34,17 +33,19 @@ import theme from "./theme";
 import Home from "../components/Home";
 import ClosedSalesOrderPage from "../ducks/open-orders/components/ClosedSalesOrderPage";
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import {GOOGLE_CLIENT_ID} from "../constants/app";
+import {GOOGLE_CLIENT_ID} from "@constants/app";
 import RequestPasswordResetForm from "../ducks/user/components/RequestPasswordResetForm";
 import ChangePasswordPage from "../ducks/user/components/ChangePasswordPage";
-import {useIsSSR} from "../hooks/is-server-side";
+import {useIsSSR} from "@hooks/is-server-side";
 import LocalStore from "../utils/LocalStore";
-import {isTokenExpired} from "../utils/jwtHelper";
-import {auth} from "../api/IntranetAuthService";
+import {isTokenExpired} from "@utils/jwtHelper";
+import {auth} from "@api/IntranetAuthService";
 import {useLocation} from "react-router";
-import {sendGtagEvent} from "../api/gtag";
-import {selectAppNonce} from "../ducks/app/selectors";
+import {sendGtagEvent} from "@api/gtag";
+import {selectAppNonce} from "@ducks/app/selectors";
 import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
+import CartsPage from "@ducks/carts/components/CartsPage";
+import CartPage from "@ducks/carts/components/CartPage";
 
 
 const App = () => {
@@ -122,8 +123,9 @@ const App = () => {
                                                 <Route path="users" element={<CustomerUsers/>}>
                                                     <Route path=":id?" element={<EditAccountUserForm/>}/>
                                                 </Route>
-                                                <Route path="carts" element={<CartsList/>}/>
-                                                <Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>
+                                                <Route path="carts" element={<CartsPage/>}/>
+                                                <Route path="carts/:cartId" element={<CartPage/>}/>
+                                                {/*<Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>*/}
                                                 <Route path="orders" element={<OpenOrdersList/>}/>
                                                 <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>
                                                 <Route path="closed/:salesOrderNo" element={<ClosedSalesOrderPage/>}/>

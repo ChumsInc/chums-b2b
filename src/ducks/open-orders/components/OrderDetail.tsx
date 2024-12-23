@@ -4,7 +4,6 @@ import SalesOrderTotal from "./SalesOrderTotal";
 import {CartProduct, SalesOrderDetailLine} from "b2b-types";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "../../sales-order/utils";
-import AddToCartForm from "../../cart/components/AddToCartForm";
 import {selectSalesOrder, selectSalesOrderDetail, selectSalesOrderIsCart} from "../selectors";
 import {useAppSelector} from "../../../app/configureStore";
 import {sendGtagEvent} from "../../../api/gtag";
@@ -19,6 +18,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
 
 export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;
@@ -84,8 +84,7 @@ export default function OrderDetail({salesOrderNo}: {
 
                 <TableBody>
                     {detail.map(line => (
-                        <OrderDetailLine key={line.LineSeqNo} salesOrderNo={salesOrderNo} line={line}
-                                         readOnly={!isCart}
+                        <OrderDetailLine key={line.LineSeqNo} line={line}
                                          onAddToCart={addToCartHandler}/>
                     ))}
                 </TableBody>
@@ -98,7 +97,6 @@ export default function OrderDetail({salesOrderNo}: {
                         <AddToCartForm cartItem={cartItem}
                                        unitOfMeasure={unitOfMeasure}
                                        quantity={cartItem?.quantity ?? 1} onChangeQuantity={quantityChangeHandler}
-                                       excludeSalesOrder={salesOrderNo}
                                        onDone={() => setCartItem(null)}
                         />
                     )}

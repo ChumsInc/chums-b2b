@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import StateSelect from './StateSelect';
 import CountrySelect from './CountrySelect';
 import {CustomerAddress} from "b2b-types";
-import {isCanada, isUSA} from "../utils/customer";
+import {isCanada, isUSA} from "@utils/customer";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 

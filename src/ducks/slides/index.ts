@@ -27,14 +27,14 @@ export const slideSorter = (a:Slide, b:Slide) => {
         : (a.priority > b.priority ? 1 : -1);
 }
 
-export const loadSlides = createAsyncThunk<Slide[]>(
+export const loadSlides = createAsyncThunk<Slide[], void, {state: RootState}>(
     'slides/load',
     async () => {
         return await fetchSlides();
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() as RootState;
+            const state = getState() ;
             return !selectSlidesLoading(state);
         }
     }

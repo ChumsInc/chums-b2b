@@ -1,7 +1,7 @@
 import {Keyword} from "b2b-types";
 import {DeprecatedKeywordsAction} from "../../types/actions";
 import {UnknownAction} from "@reduxjs/toolkit";
-import {FETCH_KEYWORDS} from "../../constants/actions";
+
 
 export const keywordsSorter = (a: Keyword, b: Keyword) => {
     return a.keyword.toLowerCase() > b.keyword.toLowerCase() ? 1 : -1;

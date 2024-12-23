@@ -1,10 +1,10 @@
 import {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "b2b-types";
 import {SortProps} from "../../types/generic";
-import {generatePath} from "react-router-dom";
+import {generatePath} from "react-router";
 import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "../../constants/paths";
-import {shortCustomerKey} from "../../utils/customer";
+import {customerSlug, shortCustomerKey} from "../../utils/customer";
 import {isRejected, UnknownAction} from "@reduxjs/toolkit";
-import {DeprecatedUserAction, DeprecatedUserProfileAction} from "./types";
+import {DeprecatedUserAction, DeprecatedUserProfileAction, UserType} from "./types";
 import {ExtendedUserProfile} from "../../types/user";
 import {Action} from "redux";
 
@@ -59,7 +59,12 @@ export const salespersonPath = (rep: CustomerSalesperson | null) => {
 export const customerPath = (customer: CustomerKey) => `${customer.ARDivisionNo}-${customer.CustomerNo}`;
 
 export const customerURL = (customer: CustomerKey) => `/account/${encodeURIComponent(customerPath(customer))}`;
-export const customerCartURL = (customer: CustomerKey, salesOrderNo?: string | null) => `/account/${encodeURIComponent(customerPath(customer))}/carts/${encodeURIComponent(salesOrderNo ?? '')}`;
+export const customerCartURL = (customer: CustomerKey, cartId?: number) => {
+    return generatePath('/account/:customerSlug/carts/:cartId', {
+        customerSlug: customerSlug(customer),
+        cartId: `${cartId}`
+    });
+};
 export const repAccountListURL = (rep: CustomerSalesperson) => `/profile/rep/${encodeURIComponent(salespersonPath(rep))}`;
 
 export const accessListURL = (access: UserCustomerAccess) => {
@@ -99,4 +104,18 @@ export const isUserAction = (action: Action | UnknownAction): boolean => {
 
 export const is401Action = (action: Action | UnknownAction): boolean => {
     return isRejected(action) && action.error.name === AUTH_ERROR;
+}
+
+export const getUserType = (profile: UserProfile | null): UserType | null => {
+    if (!isUserProfile(profile)) {
+        return null;
+    }
+    switch (profile.accountType) {
+        case 1:
+            return 'EMPLOYEE';
+        case 2:
+            return 'REP';
+        case 4:
+            return 'CUSTOMER';
+    }
 }

@@ -3,6 +3,7 @@ import {createSelector} from "@reduxjs/toolkit";
 import {detailSequenceSorter, isEditableSalesOrder, salesOrderSorter} from "../sales-order/utils";
 import {selectSalesOrderHeader} from "../sales-order/selectors";
 
+export const selectOpenOrdersCustomerKey = (state:RootState) => state.openOrders.customerKey;
 export const selectOpenOrders = (state: RootState) => state.openOrders.list;
 export const selectOpenOrdersLoading = (state: RootState) => state.openOrders.loading ?? 'idle';
 export const selectOpenOrdersLoaded = (state: RootState) => state.openOrders.loaded ?? false;
@@ -15,10 +16,19 @@ export const selectSendEmailStatus = (state: RootState) => state.openOrders.send
 export const selectSendEmailError = (state: RootState) => state.openOrders.sendEmail.error;
 
 export const selectActionStatus = (state: RootState) => state.openOrders.actionStatus;
+export const selectSalesOrderNoHelper = (state:RootState, salesOrderNo: string) => salesOrderNo;
 
 export const selectSalesOrder = createSelector(
-    [selectOpenOrders, selectSalesOrderHeader, (state: RootState, salesOrderNo: string) => salesOrderNo],
-    (list, header, salesOrderNo) => list[salesOrderNo] ?? (header?.SalesOrderNo === salesOrderNo ? header : null)
+    [selectOpenOrders, selectSalesOrderHeader, selectSalesOrderNoHelper],
+    (list, header, salesOrderNo) => {
+        if (list[salesOrderNo]) {
+            return list[salesOrderNo];
+        }
+        if (header?.SalesOrderNo === salesOrderNo) {
+            return header;
+        }
+        return null;
+    }
 )
 
 export const selectOpenOrdersLength = createSelector(

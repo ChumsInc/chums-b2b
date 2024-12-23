@@ -351,7 +351,10 @@ export const isSameCustomer = (a:CustomerKey|null, b:CustomerKey|null):boolean =
     return a.ARDivisionNo === b.ARDivisionNo && a.CustomerNo === b.CustomerNo;
 }
 
-export const billToCustomerSlug = (customer: CustomerKey | string | null | undefined): string | null => {
+export function billToCustomerSlug(customer:CustomerKey):string;
+export function billToCustomerSlug(customer:CustomerKey|null):string|null;
+export function billToCustomerSlug(customer:string|null|undefined):string|null;
+export function billToCustomerSlug(customer: CustomerKey | string | null | undefined): string | null {
     if (!customer) {
         return null;
     }

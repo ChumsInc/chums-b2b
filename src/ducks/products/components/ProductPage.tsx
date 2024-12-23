@@ -1,16 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {loadProduct, setCartItemQuantity, setCurrentVariant} from '../actions';
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet";
-import AddToCartForm from "../../cart/components/AddToCartForm";
+import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
 import Alert from "@mui/material/Alert";
 import CartItemDetail from "./CartItemDetail";
-import {noop} from '../../../utils/general';
-import {redirect} from "react-router-dom";
+import {redirect, useLocation} from "react-router";
 import MissingTaxScheduleAlert from "../../customer/components/MissingTaxScheduleAlert";
-import RequireLogin from "../../../components/RequireLogin";
-import {useAppDispatch} from "../../../app/configureStore";
+import RequireLogin from "@components/RequireLogin";
+import {useAppDispatch} from "@app/configureStore";
 import {selectLoggedIn} from "../../user/selectors";
 import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
@@ -18,16 +17,15 @@ import ProductPageImage from "./ProductPageImage";
 import ProductPageTitle from "./ProductPageTitle";
 import ProductPageInfo from "./ProductPageInfo";
 import {isCartProduct, isProduct, isSellAsVariants} from "../utils";
-import {useLocation} from "react-router";
-import {isBillToCustomer} from "../../../utils/typeguards";
+import {isBillToCustomer} from "@utils/typeguards";
 import ProductPreSeasonAlert from "./ProductPreSeasonAlert";
 import SelectCustomerAlert from "../../customer/components/SelectCustomerAlert";
 import Box from "@mui/material/Box";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
-import {useIsSSR} from "../../../hooks/is-server-side";
-import {sendGtagEvent} from "../../../api/gtag";
+import {useIsSSR} from "@hooks/is-server-side";
+import {sendGtagEvent} from "@api/gtag";
 
 
 const ProductPage = ({keyword}: {
@@ -44,6 +42,12 @@ const ProductPage = ({keyword}: {
     const location = useLocation();
     const [cartMessage, setCartMessage] = useState<string | null>(null);
     const timerHandle = useRef<number>(0);
+    const onChangeQuantity = useCallback((quantity: number) => {
+        if (cartItem && quantity !== cartItem.quantity) {
+            dispatch(setCartItemQuantity(quantity));
+        }
+    }, [cartItem])
+
 
     useEffect(() => {
         dispatch(loadProduct(keyword));
@@ -92,9 +96,6 @@ const ProductPage = ({keyword}: {
     }, [location?.state?.variant]);
 
 
-    const onChangeQuantity = (quantity: number) => {
-        dispatch(setCartItemQuantity(quantity));
-    }
 
 
     return (
@@ -113,7 +114,9 @@ const ProductPage = ({keyword}: {
                         </Box>
 
                         <ProductPageInfo/>
-                        <VariantButtons/>
+                        {isSellAsVariants(product) && (
+                            <VariantButtons/>
+                        )}
 
                         <SwatchSet/>
                         {(!isCartProduct(cartItem) || !cartItem.itemCode) && !loading && (
@@ -144,9 +147,9 @@ const ProductPage = ({keyword}: {
                                 {isProduct(selectedProduct) && isCartProduct(cartItem)
                                     && isBillToCustomer(customerAccount) && selectedProduct.availableForSale && (
                                         <AddToCartForm quantity={cartItem?.quantity ?? 1} cartItem={cartItem}
-                                                       setGlobalCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
+                                                       setActiveCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
                                                        disabled={!customerAccount?.TaxSchedule}
-                                                       onChangeQuantity={onChangeQuantity} onDone={noop} comment=""
+                                                       onChangeQuantity={onChangeQuantity} comment=""
                                                        afterAddToCart={setCartMessage}/>
                                     )}
                                 <Collapse in={!!cartMessage}>

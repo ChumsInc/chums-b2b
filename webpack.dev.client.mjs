@@ -2,9 +2,10 @@ import {merge} from 'webpack-merge';
 import common from './webpack.common.mjs';
 import path from 'node:path';
 import process from 'node:process'
+import webpack from 'webpack';
 
 const localProxy = {
-    target: 'http://localhost:80',
+    target: 'http://localhost',
     changeOrigin: true,
     secure: false,
 };
@@ -50,6 +51,9 @@ const clientConfig = {
         watchFiles: 'src/**/*',
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        }),
     ],
     stats: {
         errorDetails: true,

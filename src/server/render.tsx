@@ -2,18 +2,18 @@ import 'dotenv/config';
 import Debug from 'debug';
 import fs from "node:fs/promises";
 import {NextFunction, Request, Response} from "express";
-import {rootReducer} from "../app/configureStore";
+import {rootReducer} from "@app/configureStore";
 import {renderToString} from "react-dom/server";
 import {Provider} from "react-redux";
-import App from "../app/App";
+import App from "@app/App";
 import React from "react";
-import prepState from "../app/preloaded-state";
+import prepState from "@app/preloaded-state";
 import {API_PORT} from "./config";
 import {loadJSON, loadKeywords} from "./utils";
 import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
 import {HelmetData, HelmetProvider} from "react-helmet-async";
-import {StaticRouter} from "react-router-dom/server";
+import {StaticRouter} from "react-router";
 import {configureStore} from "@reduxjs/toolkit";
 import {PreloadedState} from "../types/preload";
 
@@ -55,7 +55,7 @@ export async function renderApp(req: Request, res: Response, next: NextFunction)
             next();
             return;
         }
-        const nonce:string = res.locals.cspNonce!;
+        const nonce: string = res.locals.cspNonce!;
         // debug('renderApp()', 'loading manifest');
         const manifestFiles = await loadManifest();
         // debug('renderApp()', 'loading preloaded state');
@@ -169,10 +169,11 @@ export async function renderAppProductPage(req: Request, res: Response, next: Ne
         );
         const {mtimeMs: swatchMTime} = await fs.stat("./public/b2b-swatches/swatches.css");
         const css = await loadMainCSS();
-        const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()} cspNonce={res.locals.cspNonce}
-                                             manifestFiles={manifestFiles}
-                                             swatchTimestamp={swatchMTime.toString(36)}
-                                             helmet={helmetData.context.helmet}/>);
+        const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()}
+                                              cspNonce={res.locals.cspNonce}
+                                              manifestFiles={manifestFiles}
+                                              swatchTimestamp={swatchMTime.toString(36)}
+                                              helmet={helmetData.context.helmet}/>);
         const html = `<!DOCTYPE html>
                     ${_html}
                     `;
@@ -223,10 +224,11 @@ export async function renderAppContentPage(req: Request, res: Response, next: Ne
         );
         const {mtimeMs: swatchMTime} = await fs.stat("./public/b2b-swatches/swatches.css");
         const css = await loadMainCSS();
-        const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()} cspNonce={res.locals.cspNonce}
-                                             manifestFiles={manifestFiles}
-                                             swatchTimestamp={swatchMTime.toString(36)}
-                                             helmet={helmetData.context.helmet}/>);
+        const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()}
+                                              cspNonce={res.locals.cspNonce}
+                                              manifestFiles={manifestFiles}
+                                              swatchTimestamp={swatchMTime.toString(36)}
+                                              helmet={helmetData.context.helmet}/>);
         const html = `<!DOCTYPE html>
                     ${_html}
                     `;

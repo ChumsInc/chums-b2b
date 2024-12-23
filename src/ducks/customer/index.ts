@@ -2,9 +2,10 @@ import {
     companyCode,
     customerShipToSorter,
     customerSlug,
-    customerUserSorter, defaultCustomerUserSort,
+    customerUserSorter,
+    defaultCustomerUserSort,
     defaultShipToSort,
-    emptyCustomer, shortCustomerKey
+    emptyCustomer
 } from "../../utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {
@@ -18,19 +19,21 @@ import {
 } from "b2b-types";
 import {
     loadCustomer,
-    loadCustomerPermissions, loadCustomerUsers,
+    loadCustomerPermissions,
+    loadCustomerUsers,
     removeUser,
     saveBillingAddress,
     saveShipToAddress,
     saveUser,
     setCustomerAccount,
     setDefaultShipTo,
-    setReturnToPath, setShipToCode
+    setReturnToPath,
+    setShipToCode
 } from "./actions";
 import {loadCustomerList} from '../customers/actions'
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {LoadStatus, Selectable} from "../../types/generic";
-import {CustomerPermissions} from "../../types/customer";
+import {LoadStatus, Selectable} from "@typeDefs/generic";
+import {CustomerPermissions} from "@typeDefs/customer";
 import {dismissContextAlert} from "../alerts/actions";
 import {customerResponseToState} from "./utils";
 

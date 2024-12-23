@@ -78,3 +78,5 @@ export interface SetNewPasswordProps {
 }
 
 export type SignUpProfile = Pick<UserProfile, 'id' | 'email' | 'name' | 'accountType'>;
+
+export type UserType = 'EMPLOYEE'|'REP'|'CUSTOMER'|'BUYER';

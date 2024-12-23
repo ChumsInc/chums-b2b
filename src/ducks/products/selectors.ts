@@ -1,6 +1,6 @@
 import {createSelector} from "@reduxjs/toolkit";
-import {RootState} from "../../app/configureStore";
-import {isCartProduct, isProduct} from "./utils";
+import {RootState} from "@app/configureStore";
+import {isCartProduct, isProduct, isSellAsVariants} from "./utils";
 
 export const selectCurrentProduct = (state: RootState) => state.products.product;
 export const selectProductLoading = (state: RootState) => state.products.loading;
@@ -15,6 +15,15 @@ export const selectCustomerPricing = (state:RootState) => state.products.pricing
 export const selectProductCustomerKey = (state:RootState) => state.products.customerKey;
 export const selectProductImage = (state:RootState) => state.products.image;
 
+export const selectCurrentVariantProduct = createSelector(
+    [selectCurrentProduct],
+    (product) => {
+        if (isSellAsVariants(product)) {
+            return product;
+        }
+        return null;
+    }
+)
 export const selectProductAltImages = createSelector(
     [selectCurrentProduct],
     (product) => {

@@ -27,7 +27,6 @@ import {customerSlug} from "../../utils/customer";
 import {Appendable, LoadStatus} from "../../types/generic";
 import {OrderType} from "../../types/salesorder";
 import {closeEmailResponse, sendOrderEmail} from "./actions";
-import {promoteCart, removeCart, saveCart, saveNewCart} from "../cart/actions";
 import localStore from "../../utils/LocalStore";
 import {STORE_CURRENT_CART, STORE_CUSTOMER} from "../../constants/stores";
 import {loadOpenOrders, loadSalesOrder} from "../open-orders/actions";
@@ -157,52 +156,6 @@ const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
             state.sendEmail.response = null;
             state.sendEmail.error = null;
         })
-        .addCase(saveCart.pending, (state) => {
-            state.processing = 'pending';
-        })
-        .addCase(saveCart.fulfilled, (state, action) => {
-            state.processing = 'idle';
-            if (action.payload) {
-                const {detail, invoices, payment, ...header} = action.payload
-                state.header = header;
-                state.detail = [...detail].sort(defaultDetailSorter);
-                state.invoices = invoices ?? [];
-                state.payment = payment ?? [];
-                state.orderType = calcOrderType(action.payload);
-                state.readOnly = !isCartOrder(action.payload);
-                state.loaded = true;
-            }
-        })
-        .addCase(saveCart.rejected, (state) => {
-            state.processing = 'idle';
-        })
-        .addCase(promoteCart.pending, (state) => {
-            state.processing = 'pending';
-        })
-        .addCase(promoteCart.fulfilled, (state, action) => {
-            state.processing = 'idle';
-            if (action.payload) {
-                const {detail, invoices, payment, ...header} = action.payload
-                state.header = header;
-                state.detail = [...detail].sort(defaultDetailSorter);
-                state.invoices = invoices ?? [];
-                state.payment = payment ?? [];
-                state.orderType = calcOrderType(action.payload);
-                state.readOnly = !isCartOrder(action.payload);
-                state.loaded = true;
-            } else {
-                state.header = null;
-                state.detail = [];
-                state.invoices = [];
-                state.payment = [];
-                state.orderType = null;
-                state.readOnly = true;
-                state.loaded = false;
-            }
-        })
-        .addCase(promoteCart.rejected, (state) => {
-            state.processing = 'idle';
-        })
         .addCase(loadOpenOrders.fulfilled, (state, action) => {
             const [so] = action.payload.filter(so => so.SalesOrderNo === state.salesOrderNo);
             state.header = so ?? null;
@@ -213,34 +166,6 @@ const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
                 state.invoices = [];
                 state.payment = [];
             }
-        })
-        .addCase(saveNewCart.fulfilled, (state, action) => {
-            if (action.payload) {
-                const {detail, invoices, payment, ...header} = action.payload;
-                state.customerKey = customerSlug(action.payload);
-                state.header = header;
-                state.detail = [...detail].sort(defaultDetailSorter);
-                state.invoices = invoices ?? [];
-                state.payment = payment ?? [];
-                state.orderType = calcOrderType(action.payload);
-                state.readOnly = !isCartOrder(action.payload);
-                state.loaded = true;
-            }
-        })
-        .addCase(removeCart.pending, (state) => {
-            state.processing = 'pending';
-        })
-        .addCase(removeCart.fulfilled, (state) => {
-            state.processing = 'idle';
-            state.header = null;
-            state.orderType = null;
-            state.readOnly = true;
-            state.detail = [];
-            state.invoices = [];
-            state.payment = [];
-        })
-        .addCase(removeCart.rejected, (state) => {
-            state.processing = 'idle';
         })
         .addCase(loadSalesOrder.pending, (state) => {
             state.processing = 'pending';

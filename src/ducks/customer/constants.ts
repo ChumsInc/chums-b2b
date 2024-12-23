@@ -1,9 +1,9 @@
 import {BillToCustomer, Customer, CustomerAddress, CustomerKey, CustomerSalesperson} from "b2b-types";
 
-export const customerBasePath = '/account/:account/:section';
-export const customerDocPath = '/account/:account/:section/:document';
+// export const customerBasePath = '/account/:account/?:section';
+// export const customerDocPath = '/account/:account/:section/:document';
 
-export const customerTableId = 'customers:list';
+// export const customerTableId = 'customers:list';
 
 export const defaultCustomerKey: CustomerKey = {
     ARDivisionNo: '',

@@ -6,7 +6,6 @@ import userReducer from "../ducks/user";
 import productsReducer from "../ducks/products";
 import categoryReducer from "../ducks/category";
 import customerReducer from "../ducks/customer";
-import cartReducer from "../ducks/cart";
 import openOrdersReducer from "../ducks/open-orders";
 import promoCodeReducer from "../ducks/promo-code";
 import invoicesReducer from "../ducks/invoices";
@@ -25,13 +24,14 @@ import repsReducer from "../ducks/reps";
 import itemLookupReducer from "../ducks/item-lookup";
 import bannersReducer from "../ducks/banners";
 import signUpReducer from "../ducks/sign-up";
+import cartsReducer from "@ducks/carts";
 
 
 export const rootReducer = combineReducers({
     alerts: alertsReducer,
     app: appReducer,
     banners: bannersReducer,
-    cart: cartReducer,
+    carts: cartsReducer,
     category: categoryReducer,
     customer: customerReducer,
     customers: customersReducer,

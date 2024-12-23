@@ -13,7 +13,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import {CustomerAddress} from "b2b-types";
 import Alert from "@mui/material/Alert";
-import {Link as RoutedLink} from 'react-router-dom'
+import {Link as RoutedLink} from 'react-router'
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";

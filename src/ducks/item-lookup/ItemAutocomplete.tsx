@@ -1,5 +1,5 @@
-import React, {ChangeEvent, SyntheticEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "../../app/configureStore";
+import React, {ChangeEvent, SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {
     ItemSearchResult,
     loadItemLookup,
@@ -7,17 +7,18 @@ import {
     selectSearchLoading,
     selectSearchResults
 } from "./index";
-import {CONTENT_PATH_SEARCH_IMAGE} from "../../constants/paths";
+import {CONTENT_PATH_SEARCH_IMAGE} from "@constants/paths";
 import {useDebounceValue} from 'usehooks-ts'
 import Stack from "@mui/material/Stack";
-import {addToCart} from "../cart/actions";
-import AddToCartButton from "../cart/components/AddToCartButton";
-import {selectSalesOrderActionStatus} from "../open-orders/selectors";
+import {addToCart} from "@ducks/carts/actions";
 import CircularProgress from "@mui/material/CircularProgress";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import {styled} from "@mui/material/styles";
+import {selectCartStatusById} from "@ducks/carts/selectors";
+import {selectCustomerKey} from "@ducks/customer/selectors";
+import AddToCartButton from "@ducks/carts/components/add-to-cart/AddToCartButton";
 
 
 const NumericTextField = styled(TextField)`
@@ -27,14 +28,15 @@ const NumericTextField = styled(TextField)`
         margin: 0;
     }
 `;
-export default function ItemAutocomplete({salesOrderNo}: {
-    salesOrderNo: string;
+export default function ItemAutocomplete({cartId}: {
+    cartId: number;
 }) {
     const dispatch = useAppDispatch();
+    const customerKey = useAppSelector(selectCustomerKey);
     const results = useAppSelector(selectSearchResults);
     const loading = useAppSelector(selectSearchLoading);
     const fulfilled = useAppSelector(selectSearchFulfilled);
-    const actionStatus = useAppSelector((state) => selectSalesOrderActionStatus(state, salesOrderNo));
+    const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId));
 
     const [quantity, setQuantity] = useState(1);
     const [value, setValue] = useState<ItemSearchResult | null>(null);
@@ -43,6 +45,27 @@ export default function ItemAutocomplete({salesOrderNo}: {
 
     const [options, setOptions] = useState(results ?? []);
 
+    const addToCartHandler = useCallback(async () => {
+        if (!value || !customerKey || !quantity) {
+            return;
+        }
+        if (global?.window?.gtag) {
+            global.window.gtag('event', 'add_to_cart', {
+                items: [{item_id: value.ItemCode, item_name: value.ItemCodeDesc ?? value.ItemCode, quantity: quantity}]
+            })
+        }
+        await dispatch(addToCart({
+            cartId,
+            customerKey,
+            item: {
+                itemCode: value.ItemCode,
+                itemType: '1',
+                unitOfMeasure: value.SalesUnitOfMeasure,
+                quantityOrdered: quantity,
+                commentText: '',
+            },
+        }));
+    }, [value, customerKey, quantity])
     useEffect(() => {
         setOptions(results ?? []);
     }, [results]);
@@ -68,21 +91,7 @@ export default function ItemAutocomplete({salesOrderNo}: {
         setQuantity(Math.max(qty, 1));
     }
 
-    const addToCartHandler = async () => {
-        if (!value) {
-            return;
-        }
-        if (global?.window?.gtag) {
-            global.window.gtag('event', 'add_to_cart', {
-                items: [{item_id: value.ItemCode, item_name: value.ItemCodeDesc ?? value.ItemCode, quantity: quantity}]
-            })
-        }
-        await dispatch(addToCart({
-            salesOrderNo: salesOrderNo,
-            itemCode: value.ItemCode,
-            quantity: quantity,
-        }));
-    }
+
 
     return (
         <Stack direction="row" spacing={1}>
@@ -145,7 +154,7 @@ export default function ItemAutocomplete({salesOrderNo}: {
                                   )
                               }}
             />
-            <AddToCartButton disabled={!quantity || !value || actionStatus !== 'idle'}
+            <AddToCartButton disabled={!quantity || !value || cartStatus !== 'idle'}
                              type="button" size="small" color="primary" fullWidth={false}
                              onClick={addToCartHandler}/>
             <div/>

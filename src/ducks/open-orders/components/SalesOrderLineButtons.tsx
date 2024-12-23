@@ -1,6 +1,4 @@
 import React from 'react';
-import ClearIcon from '@mui/icons-material/Clear';
-import AddCommentIcon from '@mui/icons-material/AddComment';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
@@ -15,17 +13,9 @@ export interface SpeedDialActions {
 }
 
 const SalesOrderLineButtons = ({
-                                   onDelete,
-                                   deleteDisabled,
-                                   onAddComment,
-                                   addCommentDisabled,
                                    onCopyToCart,
                                    copyToCartDisabled
                                }: {
-    onDelete?: () => void;
-    deleteDisabled?: boolean;
-    onAddComment?: () => void;
-    addCommentDisabled?: boolean;
     onCopyToCart?: () => void;
     copyToCartDisabled?: boolean;
 }) => {
@@ -35,18 +25,6 @@ const SalesOrderLineButtons = ({
             name: 'Add to Cart',
             disabled: !onCopyToCart || copyToCartDisabled,
             onClick: onCopyToCart
-        },
-        {
-            icon: <AddCommentIcon/>,
-            name: 'Add Comment',
-            disabled: !onAddComment || addCommentDisabled,
-            onClick: onAddComment
-        },
-        {
-            icon: <ClearIcon color="error"/>,
-            name: 'Remove From Cart',
-            disabled: !onDelete || deleteDisabled,
-            onClick: onDelete
         },
     ]
     return (

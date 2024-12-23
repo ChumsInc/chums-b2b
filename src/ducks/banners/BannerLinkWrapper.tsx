@@ -1,6 +1,6 @@
 import React from 'react';
 import {Banner} from "b2b-types";
-import {Link as NavLink} from "react-router-dom";
+import {Link as NavLink} from "react-router";
 import Link, {LinkProps} from '@mui/material/Link'
 
 
@@ -9,7 +9,8 @@ const isOutsideLink = /([a-z]+:)*\/\//;
 export interface BannerLinkWrapperProps extends LinkProps {
     banner: Banner;
 }
-export default function BannerLinkWrapper({banner, children, ...rest}:BannerLinkWrapperProps) {
+
+export default function BannerLinkWrapper({banner, children, ...rest}: BannerLinkWrapperProps) {
     if (!banner.url) {
         return children;
     }
