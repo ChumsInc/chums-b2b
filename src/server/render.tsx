@@ -16,7 +16,6 @@ import {HelmetData, HelmetProvider} from "react-helmet-async";
 import {StaticRouter} from "react-router";
 import {configureStore} from "@reduxjs/toolkit";
 import {PreloadedState} from "../types/preload";
-import {Keyword} from "b2b-types";
 
 const debug = Debug('chums:server:render');
 
@@ -112,7 +111,7 @@ export async function renderApp(req: Request, res: Response, next: NextFunction)
     }
 }
 
-export async function renderAppProductPage(req: Request, res: Response, next: NextFunction) {
+export async function renderAppProductPage(req: Request, res: Response) {
     try {
         const manifestFiles = await loadManifest();
         const searchParams = new URLSearchParams();
