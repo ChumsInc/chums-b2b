@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from "classnames";
-import {noop} from "../../utils/general";
+import {noop} from "@utils/general";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import {DataTableRowProps} from "./types";
-import {KeyedObject} from "../../types/generic";
+import {KeyedObject} from "@typeDefs/generic";
 
 export const DataTableRow = <T = KeyedObject>({
                           className,

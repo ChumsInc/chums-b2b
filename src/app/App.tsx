@@ -1,5 +1,5 @@
 import React, {StrictMode, useEffect} from 'react';
-import {Route, Routes} from 'react-router';
+import {Route, Routes, useLocation} from 'react-router';
 import Login from "../ducks/user/components/LoginPage";
 import {useSelector} from 'react-redux';
 import {loadProfile} from '@ducks/user/actions';
@@ -40,12 +40,11 @@ import {useIsSSR} from "@hooks/is-server-side";
 import LocalStore from "../utils/LocalStore";
 import {isTokenExpired} from "@utils/jwtHelper";
 import {auth} from "@api/IntranetAuthService";
-import {useLocation} from "react-router";
-import {sendGtagEvent} from "@api/gtag";
 import {selectAppNonce} from "@ducks/app/selectors";
 import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
 import CartsPage from "@ducks/carts/components/CartsPage";
 import CartPage from "@ducks/carts/components/CartPage";
+import {ga4PageView} from "@src/ga4/generic";
 
 
 const App = () => {
@@ -59,7 +58,7 @@ const App = () => {
     const location = useLocation();
 
     useEffect(() => {
-        sendGtagEvent('page_view');
+        ga4PageView()
     }, [location]);
 
     useEffect(() => {

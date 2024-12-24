@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {RootState} from "../../app/configureStore";
+import {RootState} from "@app/configureStore";
 import {
     selectProductCartItem,
     selectProductColorCode,
@@ -8,12 +8,12 @@ import {
     selectSelectedProduct
 } from "./selectors";
 import {CartProduct, Product, ProductVariant, SellAsVariantsProduct} from "b2b-types";
-import {fetchProduct} from "../../api/product";
+import {fetchProduct} from "@api/product";
 import {selectCustomerAccount, selectCustomerPricing} from "../customer/selectors";
-import {defaultCartItem, defaultVariant, getMSRP, getPrices, getSalesUM, hasVariants} from "../../utils/products";
+import {defaultCartItem, defaultVariant, getMSRP, getPrices, getSalesUM, hasVariants} from "@utils/products";
 import {selectLoggedIn} from "../user/selectors";
 import {isSellAsColors, isSellAsMix, updateCartProductPricing} from "./utils";
-import {parseImageFilename} from "../../common/image";
+import {parseImageFilename} from "@src/common/image";
 
 export interface LoadProductResponse {
     product: Product | null;

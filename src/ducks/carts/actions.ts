@@ -23,7 +23,7 @@ import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {CustomerShippingAccount} from "@typeDefs/customer";
 import {CartProgress} from "@typeDefs/cart/cart-utils";
 import localStore from "@utils/LocalStore";
-import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
+import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
 import {Dayjs} from "dayjs";
 import {nextShipDate} from "@utils/orders";
 import {selectUserType} from "@ducks/user/selectors";
@@ -36,7 +36,12 @@ export const clearCartMessages = createAction("carts/clearMessages");
 export const loadCarts = createAsyncThunk<B2BCart[], string | null, { state: RootState }>(
     'carts/loadCarts',
     async (arg) => {
-        return await fetchCarts(arg!);
+        const carts = await fetchCarts(arg!);
+        const _cartId = localStore.getItem<number | null>(STORE_CURRENT_CART, null);
+        if (_cartId && !carts.filter(c => c.header.id === _cartId).length) {
+            localStore.removeItem(STORE_CURRENT_CART);
+        }
+        return carts;
     },
     {
         condition: (arg, {getState}) => {
@@ -50,7 +55,11 @@ export const loadCarts = createAsyncThunk<B2BCart[], string | null, { state: Roo
 export const loadCart = createAsyncThunk<B2BCart | null, CartActionProps, { state: RootState }>(
     'carts/loadCart',
     async (arg) => {
-        return await fetchCart(arg);
+        const cart = await fetchCart(arg);
+        if (cart && arg.setActiveCart) {
+            localStore.setItem<number>(STORE_CURRENT_CART, cart.header.id);
+        }
+        return cart;
     },
     {
         condition: (arg, {getState}) => {
@@ -179,7 +188,7 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
             comment.push('SWR');
         }
 
-        const FOB = [`SLC`, userType?.toUpperCase()?.slice(0,1) ?? '']
+        const FOB = [`SLC`, userType?.toUpperCase()?.slice(0, 1) ?? '']
             .filter(str => !!str)
             .join('-');
         const body: PromoteCartBody = {

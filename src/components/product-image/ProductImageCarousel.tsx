@@ -70,7 +70,7 @@ export default function ProductImageCarousel(props: ProductImageProps) {
         setCarouselImages([mainImage, ...filterCurrentImages(props)]);
     }, [props]);
 
-    if (!carouselImages.length) {
+    if (carouselImages.length < 2) {
         return (
             <ResponsiveProductImage filename={currentImage.image.replace(/\s/g, '%20')} alt={currentImage.altText}
                                     loading="eager"

@@ -1,5 +1,5 @@
 import React from 'react';
-import {parseColor} from '../../../utils/products';
+import {parseColor} from '@utils/products';
 import {ProductColor} from "b2b-types";
 import {styled} from "@mui/material/styles";
 import Button from "@mui/material/Button"

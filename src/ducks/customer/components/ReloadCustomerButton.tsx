@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {selectCurrentCustomer} from "../../user/selectors";
 import {useSelector} from "react-redux";
 import {loadCustomer} from "../actions";

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigate, useParams} from "react-router";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {selectSignUpProfile, selectSignUpStatus} from "../../sign-up/selectors";
 import {loadSignUpProfile} from "../../sign-up/actions";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -12,8 +12,8 @@ import PasswordForm from "./PasswordForm";
 import {setNewPassword} from "../actions";
 import {ChangePasswordResponse, SetNewPasswordProps} from "../types";
 import Alert from "@mui/material/Alert";
-import {isErrorResponse} from "../../../utils/typeguards";
-import {useIsSSR} from "../../../hooks/is-server-side";
+import {isErrorResponse} from "@utils/typeguards";
+import {useIsSSR} from "@hooks/is-server-side";
 
 const ResetPassword = () => {
     const dispatch = useAppDispatch();

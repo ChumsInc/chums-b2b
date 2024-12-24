@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import LoginLocal from "./LoginLocal";
-import {documentTitles, PATH_PROFILE} from "../../../constants/paths";
+import {documentTitles, PATH_PROFILE} from "@constants/paths";
 import Alert from '@mui/material/Alert';
 import GoogleSignInButton from "./GoogleSignInButton";
 import DocumentTitle from "../../../components/DocumentTitle";

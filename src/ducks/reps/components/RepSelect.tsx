@@ -1,10 +1,10 @@
 import React, {useEffect, useId} from 'react';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {longRepNo} from "../../../utils/customer";
+import {longRepNo} from "@utils/customer";
 import {useSelector} from "react-redux";
 import {selectCurrentUserAccount} from "../../user/selectors";
 import {loadRepList} from "../actions";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {selectRepsList, selectRepsLoaded, selectRepsLoading} from "../selectors";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";

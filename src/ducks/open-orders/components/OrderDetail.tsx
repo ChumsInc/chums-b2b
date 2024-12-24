@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import OrderDetailLine from "./OrderDetailLine";
 import SalesOrderTotal from "./SalesOrderTotal";
 import {CartProduct, SalesOrderDetailLine} from "b2b-types";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "../../sales-order/utils";
-import {selectSalesOrder, selectSalesOrderDetail, selectSalesOrderIsCart} from "../selectors";
-import {useAppSelector} from "../../../app/configureStore";
-import {sendGtagEvent} from "../../../api/gtag";
-import Decimal from "decimal.js";
+import {selectSalesOrderDetail} from "../selectors";
+import {useAppSelector} from "@app/configureStore";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from "@mui/material/TableHead";
@@ -24,25 +22,8 @@ export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;
 }) {
     const detail = useAppSelector((state) => selectSalesOrderDetail(state, salesOrderNo ?? ''));
-    const isCart = useAppSelector((state) => selectSalesOrderIsCart(state, salesOrderNo ?? ''));
-    const salesOrderHeader = useAppSelector((state) => selectSalesOrder(state, salesOrderNo ?? ''));
     const [cartItem, setCartItem] = useState<CartProduct | null>(null)
     const [unitOfMeasure, setUnitOfMeasure] = useState<string>('EA');
-
-    useEffect(() => {
-        if (salesOrderHeader && isCart && detail.length) {
-            sendGtagEvent('view_cart', {
-                currency: 'USD',
-                value: new Decimal(salesOrderHeader.TaxableAmt).add(salesOrderHeader.NonTaxableAmt).sub(salesOrderHeader.DiscountAmt).toNumber(),
-                items: detail.map(item => ({
-                    item_id: item.ItemCode,
-                    item_name: item.ItemCodeDesc,
-                    quantity: +item.QuantityOrdered,
-                    price: new Decimal(item.ExtensionAmt).toNumber()
-                }))
-            })
-        }
-    }, [salesOrderHeader, isCart, detail]);
 
     const addToCartHandler = (line: SalesOrderDetailLine) => {
         setUnitOfMeasure(line.UnitOfMeasure);

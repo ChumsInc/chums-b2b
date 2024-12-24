@@ -9,11 +9,11 @@ import {
 import React, {useEffect} from "react";
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
-import {billToCustomerSlug, customerNo, customerSlug, parseCustomerSlug} from "../../../utils/customer";
+import {billToCustomerSlug, customerNo, customerSlug, parseCustomerSlug} from "@utils/customer";
 import Typography from "@mui/material/Typography";
 import {useParams} from "react-router";
 import {loadCustomer} from "../actions";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 
 export default function CustomerIndicator() {
     const dispatch = useAppDispatch();

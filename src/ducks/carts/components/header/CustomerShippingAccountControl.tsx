@@ -17,7 +17,7 @@ const CustomerShippingAccountControl = ({readOnly = false}:{
     const dispatch = useAppDispatch();
     const shippingAccount = useSelector(selectCartShippingAccount);
     const id = useId();
-    const ref = useRef<HTMLInputElement>()
+    const ref = useRef<HTMLInputElement|null>(null)
 
     const clickHandler = () => {
         if (readOnly) {

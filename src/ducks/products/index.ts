@@ -1,25 +1,18 @@
-import {CLEAR_PRODUCT, SELECT_COLOR, SELECT_VARIANT} from "../../constants/actions";
-import {getDefaultColor, getMSRP, getPrices} from "../../utils/products";
-import {customerPriceRecordSorter, customerSlug,} from "../../utils/customer";
+import {getMSRP, getPrices} from "@utils/products";
+import {customerPriceRecordSorter, customerSlug,} from "@utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
-import {
-    getImageItemCode,
-    isCartProduct,
-    isDeprecatedSelectColorAction,
-    isDeprecatedVariantAction,
-    updateCartProductPricing
-} from "./utils";
+import {getImageItemCode, isCartProduct, updateCartProductPricing} from "./utils";
 import {loadCustomer} from "../customer/actions";
 import {CartProduct, CustomerPriceRecord, Product} from "b2b-types";
 import {loadProduct, setCartItemQuantity, setColorCode, setCurrentVariant} from "./actions";
 import {setLoggedIn} from "../user/actions";
-import {parsePossiblyMissingFilename} from "../../common/image";
-import {ProductImage} from "../../types/product";
-import {PreloadedState} from "../../types/preload";
+import {parsePossiblyMissingFilename} from "@src/common/image";
+import {ProductImage} from "@typeDefs/product";
+import {PreloadedState} from "@typeDefs/preload";
 
 
 export interface ProductsState {
-    keyword: string|null;
+    keyword: string | null;
     product: Product | null;
     selectedProduct: Product | null;
     selectedItemCode: string | null;
@@ -128,30 +121,6 @@ const productsReducer = createReducer(initialProductsState, (builder) => {
             state.cartItem = action.payload.cartItem;
             state.image.filename = action.payload.cartItem?.image ?? null;
             state.image.itemCode = getImageItemCode(state);
-        })
-        .addDefaultCase((state, action) => {
-
-            switch (action.type) {
-                case CLEAR_PRODUCT:
-                    state.product = null;
-                    return;
-                case SELECT_VARIANT:
-                    if (isDeprecatedVariantAction(action)) {
-                        state.selectedProduct = action.variant?.product ?? null;
-                        state.colorCode = getDefaultColor(action.variant?.product ?? null, state.colorCode);
-                        state.variantId = action.variant?.id ?? null;
-                        state.msrp = action.msrp ?? [];
-                        state.salesUM = action.salesUM ?? null;
-                        state.cartItem = action.cartItem ?? null;
-                    }
-                    return;
-                case SELECT_COLOR:
-                    if (isDeprecatedSelectColorAction(action)) {
-                        state.colorCode = action.colorCode;
-                        state.cartItem = action.cartItem ?? null;
-                    }
-                    return;
-            }
         })
 })
 

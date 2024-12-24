@@ -2,22 +2,9 @@ import React from 'react';
 import AddressFormFields from "../../../components/AddressFormFields";
 import {CustomerAddress, ShipToAddress, ShipToCustomer} from "b2b-types";
 
-type ShipToFieldMapper = {
-    [key in keyof ShipToAddress]: keyof CustomerAddress;
-};
+
 type CustomerFieldMapper = {
     [key in keyof CustomerAddress]: keyof ShipToAddress;
-};
-
-const fieldMapper:ShipToFieldMapper = {
-    ShipToName: 'CustomerName',
-    ShipToAddress1: 'AddressLine1',
-    ShipToAddress2: 'AddressLine2',
-    ShipToAddress3: 'AddressLine3',
-    ShipToCity: 'City',
-    ShipToState: 'State',
-    ShipToCountryCode: 'CountryCode',
-    ShipToZipCode: 'ZipCode',
 };
 
 const fieldReMapper:CustomerFieldMapper = {

@@ -1,7 +1,7 @@
 import React, {FormEvent, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {loginUser, resetPassword} from "../actions";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {selectUserLoading} from "../selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
@@ -13,7 +13,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import Stack from "@mui/material/Stack";
 import PasswordTextField from "./PasswordTextField";
 import {Link as NavLink} from 'react-router'
-import {isErrorResponse} from "../../../utils/typeguards";
+import {isErrorResponse} from "@utils/typeguards";
 import Alert from "@mui/material/Alert";
 
 

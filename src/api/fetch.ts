@@ -7,12 +7,12 @@ import localStore from "../utils/LocalStore";
 import {STORE_VERSION} from "@constants/stores";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
-import {sendGtagEvent} from "./gtag";
 import global from '@app/global-window';
 import {isLocalHost} from "@utils/dev";
+import {ga4Exception} from "@src/ga4/generic";
 
 
-function getCredentials():string|null {
+function getCredentials(): string | null {
     const token = auth.getToken();
     if (token) {
         return `Bearer ${token}`;
@@ -20,7 +20,7 @@ function getCredentials():string|null {
     return null
 }
 
-async function handleJSONResponse<T = unknown>(res:Response, args?: unknown):Promise<T> {
+async function handleJSONResponse<T = unknown>(res: Response, args?: unknown): Promise<T> {
     const componentStack = JSON.stringify({
         url: res.url,
         args: args ?? null
@@ -41,7 +41,7 @@ async function handleJSONResponse<T = unknown>(res:Response, args?: unknown):Pro
             return Promise.reject(new B2BError(json.error, res.url));
         }
         return json;
-    } catch(err:unknown) {
+    } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("handleJSONResponse()", err.message);
             return Promise.reject(err);
@@ -51,10 +51,10 @@ async function handleJSONResponse<T = unknown>(res:Response, args?: unknown):Pro
     }
 }
 
-export async function allowErrorResponseHandler<T = unknown>(res:Response):Promise<T> {
+export async function allowErrorResponseHandler<T = unknown>(res: Response): Promise<T> {
     try {
         return await res.json() as T;
-    } catch(err:unknown) {
+    } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("allowErrorResponseHandler()", err.message);
             return Promise.reject(err);
@@ -65,11 +65,15 @@ export async function allowErrorResponseHandler<T = unknown>(res:Response):Promi
 }
 
 
-export type ResponseHandler = <T = unknown>(res:Response) => Promise<T>;
+export type ResponseHandler = <T = unknown>(res: Response) => Promise<T>;
 
-export async function fetchJSON<T = unknown>(url:string, {headers, body, ...requestInit}:RequestInit = {}, responseHandler?:ResponseHandler):Promise<T> {
+export async function fetchJSON<T = unknown>(url: string, {
+    headers,
+    body,
+    ...requestInit
+}: RequestInit = {}, responseHandler?: ResponseHandler): Promise<T> {
     try {
-        const options:RequestInit = {...requestInit};
+        const options: RequestInit = {...requestInit};
 
         if (!options.method) {
             options.method = 'GET';
@@ -97,7 +101,7 @@ export async function fetchJSON<T = unknown>(url:string, {headers, body, ...requ
             return responseHandler(res);
         }
         return await handleJSONResponse<T>(res, options.body);
-    } catch(err:unknown) {
+    } catch (err: unknown) {
         if (err instanceof Error) {
             console.log("fetchJSON()", err.message);
             return Promise.reject(err);
@@ -110,7 +114,7 @@ export async function fetchJSON<T = unknown>(url:string, {headers, body, ...requ
     }
 }
 
-export async function fetchHTML(url:string, options: RequestInit = {}):Promise<string|undefined> {
+export async function fetchHTML(url: string, options: RequestInit = {}): Promise<string | undefined> {
     try {
         options.headers = new Headers(options?.headers);
         if (!options.method) {
@@ -126,7 +130,7 @@ export async function fetchHTML(url:string, options: RequestInit = {}):Promise<s
             return Promise.reject(new Error(text));
         }
         return await res.text();
-    } catch(err:unknown) {
+    } catch (err: unknown) {
         if (err instanceof Error) {
             console.log("fetchHTML()", err.message);
             return Promise.reject(err);
@@ -146,7 +150,7 @@ export interface PostErrorsArg {
     fatal?: boolean;
 }
 
-export async function postErrors({message, componentStack, userId, fatal}:PostErrorsArg): Promise<void> {
+export async function postErrors({message, componentStack, userId, fatal}: PostErrorsArg): Promise<void> {
     try {
         if (isLocalHost()) {
             return;
@@ -160,8 +164,8 @@ export async function postErrors({message, componentStack, userId, fatal}:PostEr
             version,
         });
         await fetchJSON('/api/error-reporting', {method: 'POST', body}, allowErrorResponseHandler);
-        sendGtagEvent('exception', {description: message, fatal});
-    } catch(err:unknown) {
+        ga4Exception(message, fatal ?? false);
+    } catch (err: unknown) {
         if (err instanceof Error) {
             console.log("postErrors()", err.message);
             return Promise.reject(err);

@@ -1,12 +1,12 @@
 import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import {useSelector} from "react-redux";
 import {selectCustomersFilter} from "../selectors";
 import {setCustomersFilter} from "../actions";
-import {useIsSSR} from "../../../hooks/is-server-side";
+import {useIsSSR} from "@hooks/is-server-side";
 
 const AccountListCustomerFilter = () => {
     const isSSR = useIsSSR();

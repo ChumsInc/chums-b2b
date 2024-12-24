@@ -5,7 +5,7 @@ import MenuItemRouterLink from "./MenuItemRouterLink";
 import Box from "@mui/material/Box";
 import {customerURL} from "../../user/utils";
 import {selectRecentCustomers} from "../../customers/selectors";
-import {customerNo, shortCustomerKey} from "../../../utils/customer";
+import {customerNo, shortCustomerKey} from "@utils/customer";
 import MenuLinkProfile from "./MenuLinkProfile";
 import MenuItem from "@mui/material/MenuItem";
 

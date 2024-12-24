@@ -1,7 +1,7 @@
 import React from 'react';
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {useSelector} from "react-redux";
 import {selectIsDrawerOpen, toggleMenuDrawer} from "../index";
 

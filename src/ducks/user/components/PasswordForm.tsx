@@ -1,5 +1,5 @@
 import React, {FormEvent, useEffect, useState} from "react";
-import {useIsSSR} from "../../../hooks/is-server-side";
+import {useIsSSR} from "@hooks/is-server-side";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";

@@ -1,6 +1,4 @@
 import {Keyword} from "b2b-types";
-import {DeprecatedKeywordsAction} from "../../types/actions";
-import {UnknownAction} from "@reduxjs/toolkit";
 
 
 export const keywordsSorter = (a: Keyword, b: Keyword) => {
@@ -9,6 +7,3 @@ export const keywordsSorter = (a: Keyword, b: Keyword) => {
 
 export const pageKeywordsFilter = (kw: Keyword) => kw.pagetype === 'page';
 
-export const isDeprecatedKeywordsAction = (action: UnknownAction | DeprecatedKeywordsAction): action is DeprecatedKeywordsAction => {
-    return !!action.status && action.type === 'FETCH_KEYWORDS';
-}

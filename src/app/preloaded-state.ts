@@ -1,22 +1,21 @@
 import './global-window';
-import {initialProductsState} from "../ducks/products";
-import {initialCustomerState} from "../ducks/customer";
-import {initialMessagesState} from "../ducks/messages";
-import {initialUserState} from '../ducks/user';
-import {initialAppState} from '../ducks/app';
-import {initialSlidesState} from '../ducks/slides'
-import {initialMenuState} from "../ducks/menu";
-import {initialKeywordsState} from "../ducks/keywords";
-import {initialCategoryState} from "../ducks/category";
-import {initialInvoicesState} from "../ducks/invoices";
-import {initialOpenOrderState} from "../ducks/open-orders";
-import {initialPageState} from "../ducks/page";
-import {initialPromoCodeState} from "../ducks/promo-code";
-import {initialSalesOrderState} from "../ducks/sales-order";
-import {initialSearchState} from "../ducks/search";
-import {initialVersionState} from "../ducks/version";
+import {initialProductsState} from "@ducks/products";
+import {initialCustomerState} from "@ducks/customer";
+import {initialMessagesState} from "@ducks/messages";
+import {initialUserState} from '@ducks/user';
+import {initialAppState} from '@ducks/app';
+import {initialMenuState} from "@ducks/menu";
+import {initialKeywordsState} from "@ducks/keywords";
+import {initialCategoryState} from "@ducks/category";
+import {initialInvoicesState} from "@ducks/invoices";
+import {initialOpenOrderState} from "@ducks/open-orders";
+import {initialPageState} from "@ducks/page";
+import {initialPromoCodeState} from "@ducks/promo-code";
+import {initialSalesOrderState} from "@ducks/sales-order";
+import {initialSearchState} from "@ducks/search";
+import {initialVersionState} from "@ducks/version";
 import {PreloadedState} from "../types/preload";
-import {initialBannersState} from "../ducks/banners";
+import {initialBannersState} from "@ducks/banners";
 
 export default function prepState(preload: PreloadedState = typeof window === 'undefined' ? {} : window.__PRELOADED_STATE__ ?? {}) {
     return {
@@ -34,7 +33,6 @@ export default function prepState(preload: PreloadedState = typeof window === 'u
         promo_code: initialPromoCodeState(preload),
         salesOrder: initialSalesOrderState(),
         search: initialSearchState(),
-        slides: initialSlidesState(preload),
         user: initialUserState(),
         version: initialVersionState(preload),
     }

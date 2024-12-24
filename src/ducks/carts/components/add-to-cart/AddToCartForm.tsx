@@ -18,11 +18,10 @@ import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import CartSelect from "@ducks/carts/components/add-to-cart/CartSelect";
 import CartQuantityInput from "@components/CartQuantityInput";
 import {CartProduct} from "b2b-types";
-import Decimal from "decimal.js";
-import {sendGtagEvent} from "@api/gtag";
 import Box from "@mui/material/Box";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {selectActiveCartHeader, selectCartHeaders, selectCartStatusById} from "@ducks/carts/selectors";
+import {ga4AddToCart} from "@src/ga4/cart";
 
 export interface AddToCartFormProps {
     cartItem: CartProduct;
@@ -58,7 +57,6 @@ export default function AddToCartForm({
     const currentShipToCode = useSelector(selectCustomerShipToCode);
 
     const [cartId, setCartId] = useState<number | null>(activeCart?.id ?? null);
-    // const [cart, setCart] = useState<B2BCartHeader | null>(activeCart);
     const [cartComment, setCartComment] = useState<string>(comment ?? '');
     const [cartName, setCartName] = useState<string>(activeCart?.customerPONo ?? '');
     const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? null);
@@ -69,13 +67,7 @@ export default function AddToCartForm({
         if (disabled || !customerKey || !cartName) {
             return;
         }
-        const price = cartItem.price ? new Decimal(cartItem.price).toNumber() : 0;
-        const value = cartItem.price ? new Decimal(cartItem.price).times(quantity).toNumber() : 0;
-        sendGtagEvent('add_to_cart', {
-            currency: 'USD',
-            value: value,
-            items: [{item_id: cartItem.itemCode, item_name: cartItem.name, price: price, quantity}]
-        })
+        ga4AddToCart(cartItem, quantity);
         if (!cartId) {
             await dispatch(addToCart({
                 cartId: null,
@@ -174,7 +166,7 @@ export default function AddToCartForm({
     return (
         <form onSubmit={submitHandler} className="add-to-cart" method="post">
             <Stack spacing={2} direction="column">
-                <CartSelect cartId={cartId} onChange={cartChangeHandler}
+                <CartSelect cartId={cartId === excludeCartId ? 0 : cartId} onChange={cartChangeHandler} required
                             excludeCartId={excludeCartId}/>
                 {(!cartId) && (
                     <Stack spacing={2} direction={{xs: "column", md: "row"}}>

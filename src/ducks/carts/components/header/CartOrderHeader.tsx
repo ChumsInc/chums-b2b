@@ -26,8 +26,6 @@ import AlertList from "@ducks/alerts/AlertList";
 import SendEmailButton from "@ducks/carts/components/header/SendEmailButton";
 import ItemAutocomplete from "@ducks/item-lookup/ItemAutocomplete";
 import Divider from "@mui/material/Divider";
-import Decimal from "decimal.js";
-import {sendGtagEvent} from "@api/gtag";
 import {selectSOLoading} from "@ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
@@ -52,6 +50,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@src/ga4/cart";
 
 
 export default function CartOrderHeader() {
@@ -65,7 +64,7 @@ export default function CartOrderHeader() {
     const shipDateRef = useRef<HTMLInputElement | null>(null);
     const shipMethodRef = useRef<HTMLDivElement | null>(null);
     const paymentMethodRef = useRef<HTMLDivElement | null>(null);
-    const customerPORef = useRef<HTMLInputElement>();
+    const customerPORef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
     const detailChanged = useAppSelector((state) => selectCartHasChanges(state, currentCartId));
     const shippingAccount = useSelector(selectCartShippingAccount);
@@ -217,44 +216,23 @@ export default function CartOrderHeader() {
         if (!cartHeader) {
             return;
         }
-        const gtagValue = new Decimal(cartHeader.subTotalAmt).toNumber();
         if (cartProgress < cartProgress_Confirm) {
             const next = validateForm(cartProgress);
-            const gtagItems = detail.map(item => ({
-                item_id: item.itemCode,
-                item_name: item.itemCodeDesc ?? item.itemCode
-            }));
             switch (next) {
                 case cartProgress_Delivery:
-                    sendGtagEvent(
-                        'begin_checkout',
-                        {currency: "USD", value: gtagValue, items: gtagItems});
+                    ga4BeginCheckout(header, detail);
                     break;
                 case cartProgress_Payment:
-                    sendGtagEvent(
-                        'add_shipping_info',
-                        {currency: "USD", value: gtagValue, shipping_tier: cartHeader.shipVia, items: gtagItems})
+                    ga4AddShippingInfo(header, detail);
                     break;
                 case cartProgress_Confirm:
-                    sendGtagEvent(
-                        'add_payment_info',
-                        {currency: "USD", value: gtagValue, payment_type: cartHeader.PaymentType, items: gtagItems})
+                    ga4AddPaymentInfo(header, detail);
                     break;
             }
             setCartProgress(next);
             return;
         }
-        sendGtagEvent('purchase', {
-            currency: "USD",
-            value: gtagValue,
-            transaction_id: cartHeader.salesOrderNo ?? cartHeader.id.toString(),
-            items: detail.filter(item => item.itemType !== '4').map(item => ({
-                item_id: item.itemCode,
-                item_name: item.itemCodeDesc ?? item.itemCode,
-                price: +item.unitPrice,
-                quantity: +item.quantityOrdered,
-            }))
-        })
+        ga4Purchase(header, detail)
         await promoteCart();
     }
 
@@ -296,7 +274,7 @@ export default function CartOrderHeader() {
                 <Grid xs={12} lg={6}>
                     <Collapse in={cartProgress >= cartProgress_Delivery} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
-                            <Stack spacing={2}  direction={{xs: 'column', md: 'row'}}>
+                            <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
                                 <ShipDateInput value={cartHeader?.shipExpireDate ?? ''}
                                                disabled={loadingStatus !== 'idle'}
                                                error={!cartHeader?.shipExpireDate || !dayjs(cartHeader.shipExpireDate).isValid() || dayjs(cartHeader?.shipExpireDate).isBefore(nextShipDate())}
@@ -305,8 +283,8 @@ export default function CartOrderHeader() {
                                 <FormControl variant="filled" fullWidth>
                                     <FormControlLabel control={
                                         <Checkbox checked={cartHeader?.CancelReasonCode === 'HOLD'}
-                                                  onChange={changeHandler('CancelReasonCode')} />
-                                    } label="Hold for Ship Date" />
+                                                  onChange={changeHandler('CancelReasonCode')}/>
+                                    } label="Hold for Ship Date"/>
                                 </FormControl>
                             </Stack>
                             <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>

@@ -1,4 +1,4 @@
-import {PRICE_METHODS} from "../constants/account";
+import {PRICE_METHODS} from "@constants/account";
 import Decimal from "decimal.js";
 import {
     BasicCustomer,
@@ -124,7 +124,7 @@ export const isValidCustomerNo = (CustomerNo: string = ''): boolean => {
     return /^[A-Z0-9]+$/i.test(CustomerNo ?? '')
 };
 
-export const isValidCustomer = (arg:CustomerKey|null):arg is CustomerKey => {
+export const isValidCustomer = (arg: CustomerKey | null): arg is CustomerKey => {
     if (!arg) {
         return false;
     }
@@ -262,8 +262,8 @@ export const customerListSorter = ({field, ascending}: SortProps<Customer>) => (
         case 'CountryCode':
             return (
                 ((a[field] ?? '').toLowerCase() === (b[field] ?? '').toLowerCase())
-                ? (longCustomerNo(a) > longCustomerNo(b) ? 1 : -1)
-                : ((a[field] ?? '').toLowerCase() > (b[field] ?? '').toLowerCase() ? 1 : -1)
+                    ? (longCustomerNo(a) > longCustomerNo(b) ? 1 : -1)
+                    : ((a[field] ?? '').toLowerCase() > (b[field] ?? '').toLowerCase() ? 1 : -1)
             ) * sortMod;
         default:
             return (longCustomerNo(a) > longCustomerNo(b) ? 1 : -1) * sortMod
@@ -315,9 +315,12 @@ export const customerPaymentCardSorter = (a: CustomerPaymentCard, b: CustomerPay
     return a.CreditCardGUID > b.CreditCardGUID ? 1 : -1;
 }
 
-export const defaultCustomerUserSort:SortProps<CustomerUser> = {field: 'id', ascending: true};
+export const defaultCustomerUserSort: SortProps<CustomerUser> = {field: 'id', ascending: true};
 
-export const customerUserSorter = ({field, ascending}:SortProps<CustomerUser>) => (a: CustomerUser, b: CustomerUser) => {
+export const customerUserSorter = ({
+                                       field,
+                                       ascending
+                                   }: SortProps<CustomerUser>) => (a: CustomerUser, b: CustomerUser) => {
     const sortMod = ascending ? 1 : -1;
     switch (field) {
         case 'name':
@@ -335,7 +338,7 @@ export const customerUserSorter = ({field, ascending}:SortProps<CustomerUser>) =
     }
 }
 
-export const customerSlug = (customer: CustomerKey | null): string | null => {
+export function customerSlug(customer: CustomerKey | null): string | null {
     if (!customer) {
         return null;
     }
@@ -344,16 +347,16 @@ export const customerSlug = (customer: CustomerKey | null): string | null => {
         : billToCustomerSlug(customer);
 }
 
-export const isSameCustomer = (a:CustomerKey|null, b:CustomerKey|null):boolean => {
+export const isSameCustomer = (a: CustomerKey | null, b: CustomerKey | null): boolean => {
     if (!a || !b) {
         return false;
     }
     return a.ARDivisionNo === b.ARDivisionNo && a.CustomerNo === b.CustomerNo;
 }
 
-export function billToCustomerSlug(customer:CustomerKey):string;
-export function billToCustomerSlug(customer:CustomerKey|null):string|null;
-export function billToCustomerSlug(customer:string|null|undefined):string|null;
+export function billToCustomerSlug(customer: CustomerKey): string;
+export function billToCustomerSlug(customer: CustomerKey | null): string | null;
+export function billToCustomerSlug(customer: string | null | undefined): string | null;
 export function billToCustomerSlug(customer: CustomerKey | string | null | undefined): string | null {
     if (!customer) {
         return null;
@@ -368,7 +371,10 @@ export function billToCustomerSlug(customer: CustomerKey | string | null | undef
     return `${customer.ARDivisionNo}-${customer.CustomerNo}`;
 }
 
-export const shipToCustomerSlug = (customer: CustomerKey | string | null | undefined): string | null => {
+export function shipToCustomerSlug(customer: null | undefined): null;
+export function shipToCustomerSlug(customer: string): string | null;
+export function shipToCustomerSlug(customer: CustomerKey): string;
+export function shipToCustomerSlug(customer: CustomerKey | string | null | undefined): string | null {
     if (!customer) {
         return null;
     }
@@ -414,17 +420,42 @@ export const buildRecentCustomers = (recentAccounts: RecentCustomer[] = [], cust
 export const emptyCustomer: BillToCustomer = {
     ARDivisionNo: "",
     AddressLine1: null,
-    AddressLine2: null, AddressLine3: null, City: null, ContactCode: "", CountryCode: null, CreditHold: 'N',
-    CustomerName: "", CustomerNo: "", CustomerStatus: "",
-    CustomerType: null, DateEstablished: "",
-    DefaultPaymentType: null, EmailAddress: "", InternetReseller: null, PriceLevel: null, PrimaryShipToCode: null,
-    Reseller: null, ResidentialAddress: 'N', SalespersonDivisionNo: "", SalespersonNo: "", ShipMethod: null, State: null,
-    TaxSchedule: null, TelephoneExt: null, TelephoneNo: null, TermsCode: null, URLAddress: null, ZipCode: null
+    AddressLine2: null,
+    AddressLine3: null,
+    City: null,
+    ContactCode: "",
+    CountryCode: null,
+    CreditHold: 'N',
+    CustomerName: "",
+    CustomerNo: "",
+    CustomerStatus: "",
+    CustomerType: null,
+    DateEstablished: "",
+    DefaultPaymentType: null,
+    EmailAddress: "",
+    InternetReseller: null,
+    PriceLevel: null,
+    PrimaryShipToCode: null,
+    Reseller: null,
+    ResidentialAddress: 'N',
+    SalespersonDivisionNo: "",
+    SalespersonNo: "",
+    ShipMethod: null,
+    State: null,
+    TaxSchedule: null,
+    TelephoneExt: null,
+    TelephoneNo: null,
+    TermsCode: null,
+    URLAddress: null,
+    ZipCode: null
 
 }
 
 export const defaultShipToSort: SortProps<ShipToCustomer> = {field: "ShipToCode", ascending: true};
-export const customerShipToSorter = ({field, ascending}: SortProps<ShipToCustomer>) => (a: ShipToCustomer, b: ShipToCustomer) => {
+export const customerShipToSorter = ({
+                                         field,
+                                         ascending
+                                     }: SortProps<ShipToCustomer>) => (a: ShipToCustomer, b: ShipToCustomer) => {
     const sortMod = ascending ? 1 : -1;
     switch (field) {
         case 'ShipToName':

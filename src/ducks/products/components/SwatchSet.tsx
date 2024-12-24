@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {SELL_AS_COLOR, SELL_AS_MIX} from "../../../constants/actions";
+import {SELL_AS_COLORS, SELL_AS_MIX} from "@constants/product";
 import Swatch from "./Swatch";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {useSelector} from "react-redux";
 import {selectProductCartItem, selectProductColorCode, selectSelectedProduct} from "../selectors";
 import {setColorCode} from "../actions";
@@ -10,7 +10,7 @@ import {isSellAsColors, isSellAsMix} from "../utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {styled} from "@mui/material/styles";
-import {sendGtagEvent} from "../../../api/gtag";
+import {ga4SelectColorItem} from "@src/ga4/generic";
 
 const SwatchContainer = styled(Box)`
     display: flex;
@@ -44,21 +44,8 @@ const SwatchSet = () => {
     }, [selectedProduct])
 
     useEffect(() => {
-        if (cartItem) {
-            if (isSellAsColors(selectedProduct) && cartItem.colorCode !== selectedProduct.defaultColor) {
-                sendGtagEvent('select_item', {
-                    item_list_id: selectedProduct.itemCode,
-                    item_list_name: selectedProduct.description,
-                    items: [{
-                        item_id: cartItem.itemCode,
-                        item_name: cartItem.colorName ?? cartItem.colorCode ?? '',
-                        price: cartItem.price ? +cartItem.price : undefined,
-                        quantity: cartItem.quantity
-                    }]
-                })
-            }
-        }
-    }, [cartItem]);
+        ga4SelectColorItem(selectedProduct, cartItem);
+    }, [selectedProduct, cartItem]);
 
     const clickHandler = (colorCode: string | null) => {
         if (colorCode) {
@@ -75,7 +62,7 @@ const SwatchSet = () => {
             <Box>
                 <Typography variant="body1" sx={{mr: 3, display: 'inline-block'}}>
                     {selectedProduct.sellAs === SELL_AS_MIX && (<span>Selected Color:</span>)}
-                    {selectedProduct.sellAs === SELL_AS_COLOR && (<span>Color:</span>)}
+                    {selectedProduct.sellAs === SELL_AS_COLORS && (<span>Color:</span>)}
                 </Typography>
                 <Typography variant="body1"
                             sx={{fontWeight: 700, display: 'inline-block'}}>{cartItem?.colorName}</Typography>

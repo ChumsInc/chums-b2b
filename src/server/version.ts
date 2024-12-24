@@ -4,12 +4,14 @@ import {Request, Response} from "express";
 import path from "node:path";
 const debug = Debug('chums:server:version');
 
+interface PackageConfig {
+    version?:string;
+}
 export async function loadVersion():Promise<{versionNo: string}> {
     try {
         const packageJSON = await fs.readFile(path.join(process.cwd(), 'package.json'));
 
-        let packageConfig:{version?: string} = {};
-        packageConfig = JSON.parse(Buffer.from(packageJSON).toString() ?? '{}');
+        const packageConfig:PackageConfig = JSON.parse(Buffer.from(packageJSON).toString() ?? '{}');
         return {versionNo: packageConfig.version ?? ''};
     } catch(err:unknown) {
         if (err instanceof Error) {

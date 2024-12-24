@@ -30,9 +30,6 @@ export interface Selectable {
     selected?: boolean;
 }
 
-export interface EmptyObject {
-}
-
 export type LoadStatus = 'pending' | 'rejected' | 'idle';
 export type OrderActionStatus = LoadStatus | 'saving' | 'promoting' | 'deleting';
 export type EmailActionStatus = LoadStatus | 'fulfilled'

@@ -1,9 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import {useSelector} from "react-redux";
 import {selectActiveMessages, selectMessagesLoaded} from "./selectors";
-import {useAppDispatch} from "../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {loadMessages} from "./actions";
-import {useIsSSR} from "../../hooks/is-server-side";
+import {useIsSSR} from "@hooks/is-server-side";
 import Stack from "@mui/material/Stack";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import WebIcon from '@mui/icons-material/Web';

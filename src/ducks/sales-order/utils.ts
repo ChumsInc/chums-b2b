@@ -1,9 +1,7 @@
-import {CartItem, CustomerAddress, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
-import {SortProps} from "../../types/generic";
+import {CartItem, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
+import {SortProps} from "@typeDefs/generic";
 import dayjs from "dayjs";
 import {EditableSalesOrder} from "../open-orders/types";
-import {DeprecatedUpdateCartItemAction} from "../../types/actions";
-import {UnknownAction} from "@reduxjs/toolkit";
 
 export const defaultDetailSorter = (a: SalesOrderDetailLine, b: SalesOrderDetailLine) => {
     return +a.LineKey - +b.LineKey;
@@ -99,7 +97,7 @@ export const detailToCartItem = (line: SalesOrderDetailLine): CartItem | null =>
     }
 }
 
-export const isCancelledSalesOrder = (so:SalesOrderHeader|null) => {
+export const isCancelledSalesOrder = (so: SalesOrderHeader | null) => {
     if (!so) {
         return false;
     }
@@ -130,6 +128,3 @@ export const detailSequenceSorter = (a: SalesOrderDetailLine, b: SalesOrderDetai
         : +a.LineSeqNo - +b.LineSeqNo;
 }
 
-export function isDeprecatedUpdateCartItemAction(action: UnknownAction | DeprecatedUpdateCartItemAction): action is DeprecatedUpdateCartItemAction {
-    return action.type === 'UPDATE_CART_ITEM';
-}

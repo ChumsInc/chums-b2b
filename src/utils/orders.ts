@@ -1,12 +1,10 @@
-import {ORDER_TYPE} from "../constants/orders";
+import {ORDER_TYPE} from "@constants/orders";
 import dayjs, {Dayjs} from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone'
 import {OrderType} from "../types/salesorder";
 import {SalesOrderHeader} from "b2b-types";
 import {isSalesOrderHeader} from "./typeguards";
-import {UnknownAction} from "@reduxjs/toolkit";
-import {DeprecatedFetchSalesOrderAction} from "../types/actions";
 
 
 export const calcOrderType = (salesOrder: SalesOrderHeader | null): OrderType | null => {
@@ -14,9 +12,6 @@ export const calcOrderType = (salesOrder: SalesOrderHeader | null): OrderType | 
         return null;
     }
     switch (salesOrder.OrderType) {
-        case 'Q':
-            return ORDER_TYPE.cart;
-        case 'B':
         case 'S':
             return ORDER_TYPE.open;
         case 'M':
@@ -33,7 +28,6 @@ export const calcOrderType = (salesOrder: SalesOrderHeader | null): OrderType | 
     return null;
 };
 
-export const isCartOrder = (header: SalesOrderHeader | null) => calcOrderType(header) === ORDER_TYPE.cart;
 export const isOpenOrder = (header: SalesOrderHeader | null) => calcOrderType(header) === ORDER_TYPE.open;
 export const isPastOrder = (header: SalesOrderHeader | null) => calcOrderType(header) === ORDER_TYPE.past;
 
@@ -102,8 +96,3 @@ export const nextShipDate = (shipDate?: Date | number | string | Dayjs | undefin
     }
     return min;
 };
-
-
-export function isDeprecatedFetchSalesOrderAction(action: UnknownAction | DeprecatedFetchSalesOrderAction): action is DeprecatedFetchSalesOrderAction {
-    return action.type === 'FETCH_SALES_ORDER';
-}

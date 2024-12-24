@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ListItemLink from "../../../components/ListItemLink";
-import {NavItemProps} from "../../../types/ui-features";
+import {NavItemProps} from "@typeDefs/ui-features";
 import ProductMenu from "./ProductMenu";
 import Collapse from "@mui/material/Collapse";
 import ListItemButton from "@mui/material/ListItemButton";

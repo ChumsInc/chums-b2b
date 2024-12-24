@@ -25,7 +25,7 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
 import {useIsSSR} from "@hooks/is-server-side";
-import {sendGtagEvent} from "@api/gtag";
+import {ga4ViewItem} from "@src/ga4/generic";
 
 
 const ProductPage = ({keyword}: {
@@ -54,14 +54,7 @@ const ProductPage = ({keyword}: {
     }, [keyword]);
 
     useEffect(() => {
-        if (product) {
-            sendGtagEvent('view_item', {
-                items: [{
-                    item_id: product.itemCode,
-                    item_name: product.name,
-                }]
-            })
-        }
+        ga4ViewItem(product)
     }, [product])
 
     useEffect(() => {
@@ -94,8 +87,6 @@ const ProductPage = ({keyword}: {
             redirect(location.pathname);
         }
     }, [location?.state?.variant]);
-
-
 
 
     return (

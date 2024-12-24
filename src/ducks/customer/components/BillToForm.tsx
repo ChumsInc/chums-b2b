@@ -3,9 +3,9 @@
  */
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import AddressFormFields from '../../../components/AddressFormFields';
-import {filteredTermsCode} from '../../../constants/account';
+import {filteredTermsCode} from '@constants/account';
 import {useSelector} from "react-redux";
-import {longCustomerNo} from "../../../utils/customer";
+import {longCustomerNo} from "@utils/customer";
 import {saveBillingAddress} from '../actions';
 import Alert from "@mui/material/Alert";
 import MissingTaxScheduleAlert from "./MissingTaxScheduleAlert";
@@ -13,9 +13,9 @@ import {selectCustomerAccount, selectCustomerLoading, selectCustomerPermissions}
 import {selectCanEdit} from "../../user/selectors";
 import StoreMapToggle from "../../../components/StoreMapToggle";
 import ErrorBoundary from "../../../common-components/ErrorBoundary";
-import {isBillToCustomer} from "../../../utils/typeguards";
+import {isBillToCustomer} from "@utils/typeguards";
 import Address from "../../../components/Address/Address";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {BillToCustomer, Editable} from "b2b-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "./ReloadCustomerButton";

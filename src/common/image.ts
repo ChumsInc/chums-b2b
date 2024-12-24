@@ -1,24 +1,27 @@
 /**
  * Created by steve on 1/10/2017.
  */
-import {parseColor} from "../utils/products";
-import {sendGtagEvent} from "../api/gtag";
+import {parseColor} from "@utils/products";
+import {ga4Exception} from "@src/ga4/generic";
 
-export const parseImageFilename2 = ({image, colorCode}:{image:string; colorCode?: string|null;}) => parseColor(image, colorCode ?? '');
+export const parseImageFilename2 = ({image, colorCode}: {
+    image: string;
+    colorCode?: string | null;
+}) => parseColor(image, colorCode ?? '');
 
-export function parsePossiblyMissingFilename(productImage: string|null, colorCode?: string|null):string|null {
+export function parsePossiblyMissingFilename(productImage: string | null, colorCode?: string | null): string | null {
     if (!productImage) {
         return null;
     }
     return parseImageFilename(productImage, colorCode);
 }
 
-export function parseImageFilename(productImage:string, colorCode?:string|null):string {
+export function parseImageFilename(productImage: string, colorCode?: string | null): string {
     if (!productImage.trim()) {
-        sendGtagEvent('exception', {description: 'Invalid product image', fatal: false})
+        ga4Exception('Invalid product image', false);
         return 'missing-placeholder2.jpg';
     }
-    let image:string = productImage.replace(/\?/, colorCode ?? '');
+    let image: string = productImage.replace(/\?/, colorCode ?? '');
     if (colorCode) {
         colorCode.split('').map(code => {
             image = image!.replace(/\*/, code);

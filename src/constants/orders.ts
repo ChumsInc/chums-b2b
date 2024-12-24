@@ -1,45 +1,6 @@
-import {CartProgress} from "@typeDefs/cart/cart-utils";
 import {OrderType} from "../types/salesorder";
 import {KeyedObject} from "../types/generic";
 
-export const cartProcess = ['cart', 'delivery', 'payment', 'confirm'];
-
-export type CartProgressKey = 'cart'|'delivery'|'payment'|'confirm';
-export interface CartProgressList {
-    [key:string]: CartProgress
-}
-export interface CartProgressNames {
-    [key:string]: string;
-}
-export interface CartProgressState {
-    state: CartProgress;
-    name: string;
-}
-
-export interface CartProgressStates {
-    [key:string]:CartProgressState;
-}
-
-export const CART_PROGRESS_STATES:CartProgressList = {
-    cart: 0,
-    delivery: 1,
-    payment: 2,
-    confirm: 3
-};
-
-export const CART_PROGRESS_NAMES:CartProgressNames = {
-    cart: 'Cart',
-    delivery: 'Shipping & Delivery',
-    payment: 'Payment',
-    confirm: 'Confirm',
-};
-
-export const cartProgressStates:CartProgressStates = {
-    cart: {state: CART_PROGRESS_STATES.cart, name: CART_PROGRESS_NAMES.cart},
-    delivery: {state: CART_PROGRESS_STATES.delivery, name: CART_PROGRESS_NAMES.delivery},
-    payment: {state: CART_PROGRESS_STATES.payment, name: CART_PROGRESS_NAMES.payment},
-    confirm: {state: CART_PROGRESS_STATES.confirm, name: CART_PROGRESS_NAMES.confirm},
-};
 
 export interface OrderTypeList {
     cart: OrderType
@@ -48,7 +9,8 @@ export interface OrderTypeList {
     master: OrderType
     invoice: OrderType
 }
-export const ORDER_TYPE:OrderTypeList = {
+
+export const ORDER_TYPE: OrderTypeList = {
     cart: 'cart',
     open: 'open',
     past: 'past',
@@ -56,17 +18,7 @@ export const ORDER_TYPE:OrderTypeList = {
     invoice: 'invoice',
 };
 
-export const ORDER_TYPE_NAMES = {
-    cart: 'Carts',
-    open: 'Open Orders',
-    past: 'Previous Orders',
-    master: 'Master Orders',
-    invoice: 'Invoices',
-};
-
-export const NEW_CART = 'new';
-
-export const PRICE_LEVELS:KeyedObject<string> = {
+export const PRICE_LEVELS: KeyedObject<string> = {
     1: 'Wholesale 100 Pc',
     2: 'Wholesale 200 Pc',
     5: 'Wholesale 500 Pc',

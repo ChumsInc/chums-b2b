@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import React, {ChangeEvent} from "react";
@@ -11,7 +11,6 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import InputAdornment from '@mui/material/InputAdornment'
 import Grid2 from "@mui/material/Unstable_Grid2";
-import CloseIcon from '@mui/icons-material/Close';
 
 const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
     const dispatch = useAppDispatch();
@@ -45,7 +44,8 @@ const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
                            placeholder={'Invoice or PO #'}/>
             </Grid2>
             <Grid2 sx={{flex: '1 1 auto'}}>
-                <ShipToSelect value={shipTo ?? allLocationsValue} onChange={shipToChangeHandler} variant="standard" allowAllLocations/>
+                <ShipToSelect value={shipTo ?? allLocationsValue} onChange={shipToChangeHandler} variant="standard"
+                              allowAllLocations/>
             </Grid2>
             <Grid2 sx={{flex: '1 1 auto'}}>
                 <FormGroup>

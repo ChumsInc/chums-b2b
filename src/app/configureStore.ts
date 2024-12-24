@@ -16,7 +16,6 @@ import versionReducer from "../ducks/version";
 import messagesReducer from "../ducks/messages";
 import searchReducer from "../ducks/search";
 import menuReducer from "../ducks/menu";
-import slidesReducer from "../ducks/slides";
 import keywordsReducer from "../ducks/keywords";
 import pageReducer from "../ducks/page";
 import customersReducer from "../ducks/customers";
@@ -48,7 +47,6 @@ export const rootReducer = combineReducers({
     salesOrder: salesOrderReducer,
     search: searchReducer,
     signUp: signUpReducer,
-    slides: slidesReducer,
     user: userReducer,
     version: versionReducer
 });

@@ -13,30 +13,26 @@ import {
     SellAsSelfProduct,
     SellAsVariantsProduct
 } from "b2b-types";
-import {EmptyObject} from "../../types/generic";
-import {priceRecord} from "../../utils/customer";
-import {getItemPrice} from "../../utils/products";
-import {SELL_AS_COLORS, SELL_AS_MIX, SELL_AS_SELF, SELL_AS_VARIANTS} from "../../constants/product";
-import {PRICE_FIELDS} from "../../constants/actions";
-import {UnknownAction} from "@reduxjs/toolkit";
-import {DeprecatedSelectColorAction, DeprecatedSelectVariantAction} from "../../types/actions";
+import {priceRecord} from "@utils/customer";
+import {getItemPrice} from "@utils/products";
+import {PRICE_FIELDS, SELL_AS_COLORS, SELL_AS_MIX, SELL_AS_SELF, SELL_AS_VARIANTS} from "@constants/product";
 import {ProductsState} from "./index";
 
-export const isCartItem = (item: CartItem | EmptyObject | null): item is CartItem => {
+export const isCartItem = (item: CartItem | null): item is CartItem => {
     if (!item) {
         return false;
     }
     return (item as CartItem).itemCode !== undefined;
 }
 
-export const isCartProduct = (item: CartProduct | CartItem | EmptyObject | null): item is CartProduct => {
+export const isCartProduct = (item: CartProduct | CartItem | null): item is CartProduct => {
     if (!item) {
         return false;
     }
     return isCartItem(item) && (item as CartProduct).productId !== undefined;
 }
 
-export const isProduct = (product: Product | EmptyObject | null): product is Product => {
+export const isProduct = (product: Product | null): product is Product => {
     if (!product) {
         return false;
     }
@@ -97,13 +93,6 @@ export function isSellAsColors(product: Product | null): product is SellAsColors
     return !!product && (product as SellAsColorsProduct).sellAs === SELL_AS_COLORS;
 }
 
-export function isDeprecatedVariantAction(action: UnknownAction | DeprecatedSelectVariantAction): action is DeprecatedSelectVariantAction {
-    return action.type === 'SELECT_VARIANT';
-}
-
-export function isDeprecatedSelectColorAction(action: UnknownAction | DeprecatedSelectColorAction): action is DeprecatedSelectColorAction {
-    return action.type === 'SELECT_COLOR';
-}
 
 export function getImageItemCode(state: ProductsState): string | null {
     if (isSellAsSelf(state.selectedProduct)) {

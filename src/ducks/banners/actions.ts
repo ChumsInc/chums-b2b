@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchBanners} from "./api";
-import {RootState} from "../../app/configureStore";
+import {RootState} from "@app/configureStore";
 import {LoadBannersResponse} from "./index";
 import {selectBannersLoading} from "./selectors";
 

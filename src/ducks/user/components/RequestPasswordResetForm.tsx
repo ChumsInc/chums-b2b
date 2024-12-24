@@ -7,7 +7,7 @@ import Alert, {AlertColor} from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
 import React, {FormEvent, useState} from "react";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {useSelector} from "react-redux";
 import {selectResettingPassword} from "../selectors";
 import {resetPassword} from "../actions";

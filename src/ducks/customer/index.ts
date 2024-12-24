@@ -6,7 +6,7 @@ import {
     defaultCustomerUserSort,
     defaultShipToSort,
     emptyCustomer
-} from "../../utils/customer";
+} from "@utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {
     BillToCustomer,

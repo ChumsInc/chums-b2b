@@ -4,9 +4,11 @@ import {SortProps} from "b2b-types";
 import {cartDetailSorter, cartsSorter, defaultCartDetailSort, defaultCartsSort} from "./utils";
 import {
     addToCart,
-    clearCartMessages, duplicateSalesOrder,
+    clearCartMessages,
+    duplicateSalesOrder,
     loadCart,
-    loadCarts, processCart,
+    loadCarts,
+    processCart,
     saveCart,
     saveCartItem,
     setActiveCartId,
@@ -26,16 +28,15 @@ import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {CustomerShippingAccount} from "@typeDefs/customer";
 import {nextShipDate} from "@utils/orders";
 import localStore from "@utils/LocalStore";
-import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
+import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
 import {cartProgress_Cart} from "@utils/cart";
-import {CART_PROGRESS_STATES} from "@constants/orders";
 
 
 export interface CartsState {
     customerKey: string | null;
     indexes: number[];
     list: B2BCartList;
-    cartStatus:CartStatusList;
+    cartStatus: CartStatusList;
     status: 'idle' | 'loading' | 'rejected';
     search: string;
     sort: SortProps<B2BCartHeader>;
@@ -64,7 +65,7 @@ const initialCartsState = (): CartsState => {
         sort: {...defaultCartsSort},
         messages: [],
         activeCart: {
-            cartId: null,
+            cartId: localStore.getItem<number | null>(STORE_CURRENT_CART, null),
             promoCode: null,
             sort: {field: 'lineSeqNo', ascending: true},
             progress: cartProgress_Cart,
@@ -273,7 +274,7 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
             state.activeCart.cartId = action.payload;
         })
         .addCase(setCartCheckoutProgress, (state, action) => {
-            state.activeCart.progress = action.payload ?? CART_PROGRESS_STATES.cart;
+            state.activeCart.progress = action.payload ?? 0;
         })
         .addCase(setCartDetailSort, (state, action) => {
             state.activeCart.sort = action.payload;

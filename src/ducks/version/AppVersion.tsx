@@ -1,38 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {minCheckInterval, selectShouldAlertVersion, selectVersion} from "./index";
 import {ignoreVersion, loadVersion} from "./actions";
-import {useAppDispatch} from "../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import {useIsSSR} from "../../hooks/is-server-side";
+import {useIsSSR} from "@hooks/is-server-side";
 
 
-const AppVersion = () => {
+export default function AppVersion() {
     const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
     const version = useSelector(selectVersion);
     const shouldAlert = useSelector(selectShouldAlertVersion);
-    const [intervalId, setIntervalId] = useState(0)
-
-
-    const onUpdateVersion = (force = false) => {
-        dispatch(loadVersion(force));
-    }
-
-    const visibilityChangeHandler = () => {
-        onUpdateVersion()
-    }
-
-    const onDismissUpdate = (ev:React.SyntheticEvent) => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        dispatch(ignoreVersion());
-    }
-
-    const onUpdate = () => {
-        window.location.reload();
-    }
+    const intervalRef = useRef<number>(0);
 
     useEffect(() => {
         if (isSSR) {
@@ -42,24 +23,38 @@ const AppVersion = () => {
         if (!version) {
             onUpdateVersion();
         }
-        const intervalId = window.setInterval(onUpdateVersion, minCheckInterval);
-        setIntervalId(intervalId);
+        intervalRef.current = window.setInterval(onUpdateVersion, minCheckInterval);
         return () => {
             if (isSSR) {
                 return;
             }
-            window.clearInterval(intervalId);
+            window.clearInterval(intervalRef.current);
             window.removeEventListener('visibilityChange', visibilityChangeHandler)
         }
-    }, [])
+    }, [isSSR, version]);
+
+    const onUpdateVersion = (force = false) => {
+        dispatch(loadVersion(force));
+    }
+
+    const visibilityChangeHandler = () => {
+        onUpdateVersion()
+    }
+
+    const onDismissUpdate = (ev: React.SyntheticEvent) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        dispatch(ignoreVersion());
+    }
+
+    const onUpdate = () => {
+        window.location.reload();
+    }
+
 
     if (isSSR) {
         return;
     }
-
-    // if (!isSSR && global.document) {
-    //     document?.addEventListener('visibilitychange', visibilityChangeHandler);
-    // }
 
     return (
         <div>
@@ -72,5 +67,3 @@ const AppVersion = () => {
         </div>
     );
 }
-
-export default AppVersion;
