@@ -315,7 +315,7 @@ export default function CartOrderHeader() {
                                                       error={!cartHeader?.shipVia}
                                                       ref={shipMethodRef}
                                                       onChange={valueChangeHandler('shipVia')}/>
-                                <CustomerShippingAccountControl/>
+                                <CustomerShippingAccountControl shipVia={cartHeader?.shipVia} />
                             </Stack>
                         </Stack>
                     </Collapse>

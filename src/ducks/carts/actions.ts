@@ -181,7 +181,7 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
 
         const FOB = [`SLC`, userType?.toUpperCase()?.slice(0,1) ?? '']
             .filter(str => !!str)
-            .join('-');
+            .join('~');
         const body: PromoteCartBody = {
             action: 'promote',
             cartId: arg.id,
