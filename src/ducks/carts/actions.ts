@@ -58,6 +58,11 @@ export const loadCart = createAsyncThunk<B2BCart | null, CartActionProps, { stat
         const cart = await fetchCart(arg);
         if (cart && arg.setActiveCart) {
             localStore.setItem<number>(STORE_CURRENT_CART, cart.header.id);
+        } else if (!cart) {
+            const currentCart = localStore.getItem<number|null>(STORE_CURRENT_CART, null);
+            if (currentCart === arg.cartId) {
+                localStore.removeItem(STORE_CURRENT_CART);
+            }
         }
         return cart;
     },
