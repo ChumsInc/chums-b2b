@@ -9,7 +9,7 @@ import {
 } from "@constants/paths";
 import {generatePath, Link} from 'react-router';
 import {SearchResult} from "b2b-types";
-import {useDebounceValue} from 'usehooks-ts'
+import {useDebounceValue} from '@hooks/use-debounce'
 import {useNavigate} from "react-router";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";

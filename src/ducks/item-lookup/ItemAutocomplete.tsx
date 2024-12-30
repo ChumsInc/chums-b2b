@@ -8,7 +8,7 @@ import {
     selectSearchResults
 } from "./index";
 import {CONTENT_PATH_SEARCH_IMAGE} from "@constants/paths";
-import {useDebounceValue} from 'usehooks-ts'
+import {useDebounceValue} from '@hooks/use-debounce'
 import Stack from "@mui/material/Stack";
 import {addToCart} from "@ducks/carts/actions";
 import CircularProgress from "@mui/material/CircularProgress";

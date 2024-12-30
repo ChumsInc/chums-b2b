@@ -46,14 +46,12 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^5.0.0",
-    "react-helmet-async": "^2.0.4",
     "react-redux": "^9.1.0",
     "react-router": "^7.0.2",
     "react-virtuoso": "^4.6.3",
     "redux": "^5.0.1",
     "serve-favicon": "^2.5.0",
     "ssr-window": "^4.0.2",
-    "usehooks-ts": "^3.0.1",
     "validator": "^13.11.0",
     "whatwg-fetch": "^3.5.0"
   },
@@ -111,6 +109,6 @@
     ]
   },
   "overrides": {
-    "eslint": "^9.6.0",
+    "eslint": "^9.6.0"
   }
 }

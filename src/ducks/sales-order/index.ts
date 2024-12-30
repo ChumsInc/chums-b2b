@@ -9,7 +9,7 @@ import {Appendable, LoadStatus} from "@typeDefs/generic";
 import {OrderType} from "@typeDefs/salesorder";
 import {closeEmailResponse, sendOrderEmail} from "./actions";
 import localStore from "../../utils/LocalStore";
-import {STORE_CURRENT_CART, STORE_CUSTOMER} from "@constants/stores";
+import {STORE_CUSTOMER} from "@constants/stores";
 import {loadOpenOrders, loadSalesOrder} from "../open-orders/actions";
 
 export interface SalesOrderState {
@@ -34,7 +34,7 @@ export interface SalesOrderState {
 
 export const initialSalesOrderState = (): SalesOrderState => ({
     customerKey: customerSlug(localStore.getItem<BillToCustomer | null>(STORE_CUSTOMER, null)),
-    salesOrderNo: localStore.getItem<string>(STORE_CURRENT_CART, ''),
+    salesOrderNo: '',
     header: null,
     detail: [],
     invoices: [],

@@ -12,7 +12,6 @@ import {API_PORT} from "./config";
 import {loadJSON, loadKeywords} from "./utils";
 import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
-import {HelmetData, HelmetProvider} from "react-helmet-async";
 import {StaticRouter} from "react-router";
 import {configureStore} from "@reduxjs/toolkit";
 import {PreloadedState} from "../types/preload";
@@ -66,15 +65,12 @@ export async function renderApp(req: Request, res: Response, next: NextFunction)
         const initialState = prepState(preload ?? {});
         initialState.app.nonce = nonce;
         const store = configureStore({reducer: rootReducer, preloadedState: initialState});
-        const helmetData = new HelmetData({});
 
         const app = renderToString(
             <Provider store={store}>
-                <HelmetProvider context={helmetData.context}>
-                    <StaticRouter location={req.url}>
-                        <App/>
-                    </StaticRouter>
-                </HelmetProvider>
+                <StaticRouter location={req.url}>
+                    <App/>
+                </StaticRouter>
             </Provider>
         );
         let swatchMTime = 0;
@@ -89,7 +85,7 @@ export async function renderApp(req: Request, res: Response, next: NextFunction)
 
         const css = await loadMainCSS();
         const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()} cspNonce={nonce}
-                                              manifestFiles={manifestFiles} helmet={helmetData.context.helmet}
+                                              manifestFiles={manifestFiles}
                                               swatchTimestamp={swatchMTime.toString(36)}/>);
         const html = `<!DOCTYPE html>
                     ${_html}
@@ -153,14 +149,11 @@ export async function renderAppProductPage(req: Request, res: Response) {
 
         const initialState = prepState(preload ?? {});
         const store = configureStore({reducer: rootReducer, preloadedState: initialState});
-        const helmetData = new HelmetData({});
         const app = renderToString(
             <Provider store={store}>
-                <HelmetProvider context={helmetData.context}>
-                    <StaticRouter location={req.url}>
-                        <App/>
-                    </StaticRouter>
-                </HelmetProvider>
+                <StaticRouter location={req.url}>
+                    <App/>
+                </StaticRouter>
             </Provider>
         );
         const {mtimeMs: swatchMTime} = await fs.stat("./public/b2b-swatches/swatches.css");
@@ -168,8 +161,7 @@ export async function renderAppProductPage(req: Request, res: Response) {
         const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()}
                                               cspNonce={res.locals.cspNonce}
                                               manifestFiles={manifestFiles}
-                                              swatchTimestamp={swatchMTime.toString(36)}
-                                              helmet={helmetData.context.helmet}/>);
+                                              swatchTimestamp={swatchMTime.toString(36)}/>);
         const html = `<!DOCTYPE html>
                     ${_html}
                     `;
@@ -208,14 +200,11 @@ export async function renderAppContentPage(req: Request, res: Response, next: Ne
         const preload = await loadJSON(`http://localhost:${API_PORT}/preload/state.json?${searchParams.toString()}`);
         const initialState = prepState(preload ?? {});
         const store = configureStore({reducer: rootReducer, preloadedState: initialState});
-        const helmetData = new HelmetData({});
         const app = renderToString(
             <Provider store={store}>
-                <HelmetProvider context={helmetData.context}>
-                    <StaticRouter location={req.url}>
-                        <App/>
-                    </StaticRouter>
-                </HelmetProvider>
+                <StaticRouter location={req.url}>
+                    <App/>
+                </StaticRouter>
             </Provider>
         );
         const {mtimeMs: swatchMTime} = await fs.stat("./public/b2b-swatches/swatches.css");
@@ -223,8 +212,7 @@ export async function renderAppContentPage(req: Request, res: Response, next: Ne
         const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()}
                                               cspNonce={res.locals.cspNonce}
                                               manifestFiles={manifestFiles}
-                                              swatchTimestamp={swatchMTime.toString(36)}
-                                              helmet={helmetData.context.helmet}/>);
+                                              swatchTimestamp={swatchMTime.toString(36)}/>);
         const html = `<!DOCTYPE html>
                     ${_html}
                     `;

@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import {visuallyHidden} from "@mui/utils";
 import {styled} from "@mui/material/styles";
-import {useDebounceValue} from "usehooks-ts";
+import {useDebounceValue} from "@hooks/use-debounce";
 
 const NumericInput = styled(FilledInput)`
     input[type=number]::-webkit-inner-spin-button,
