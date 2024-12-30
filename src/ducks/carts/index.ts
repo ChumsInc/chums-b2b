@@ -158,6 +158,9 @@ export const cartsReducer = createReducer(initialCartsState, builder => {
             } else {
                 state.cartStatus[action.meta.arg.cartId] = 'idle';
             }
+            if (action.meta.arg.cartId === state.activeCart.cartId) {
+                state.activeCart.cartId = null;
+            }
         })
         .addCase(loadCarts.pending, (state, action) => {
             state.status = 'loading';
