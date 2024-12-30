@@ -1,16 +1,15 @@
-import {CustomerKey, EmailResponse, SalesOrder, SalesOrderHeader} from 'b2b-types'
+import {CustomerKey, EmailResponse, SalesOrder} from 'b2b-types'
 import {fetchJSON} from "./fetch";
 import {ApplyPromoCodeBody} from "../types/cart";
 import {LoadSalesOrderProps, LoadSalesOrdersProps} from "@typeDefs/salesorder";
 import {shortCustomerKey} from "@utils/customer";
 
 
-
 export async function fetchSalesOrder({customerKey, salesOrderNo}: LoadSalesOrderProps): Promise<SalesOrder | null> {
     try {
         const url = '/api/sales/b2b/orders/:customerKey/open/:salesOrderNo.json'
-                .replace(':customerKey', encodeURIComponent(customerKey))
-                .replace(':salesOrderNo', encodeURIComponent(salesOrderNo));
+            .replace(':customerKey', encodeURIComponent(customerKey))
+            .replace(':salesOrderNo', encodeURIComponent(salesOrderNo));
         const response = await fetchJSON<{ salesOrder: SalesOrder }>(url, {cache: 'no-cache'});
         return response.salesOrder ?? null;
     } catch (err) {
@@ -70,7 +69,7 @@ export async function postApplyPromoCode(customer: CustomerKey, body: ApplyPromo
         params.set('account', `${customer.ARDivisionNo}-${customer.CustomerNo}`);
         const url = `/sage/b2b/cart-quote.php?${params.toString()}`
         await fetchJSON(url, {body: JSON.stringify(body), method: 'POST'});
-        const soArg:LoadSalesOrderProps = {
+        const soArg: LoadSalesOrderProps = {
             customerKey: shortCustomerKey(customer),
             salesOrderNo: body.SalesOrderNo,
         }

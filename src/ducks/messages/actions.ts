@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {fetchMessages} from "../../api/messages";
-import {RootState} from "../../app/configureStore";
+import {fetchMessages} from "@api/messages";
+import {RootState} from "@app/configureStore";
 import {selectMessagesLoading} from "./selectors";
 import {LoadMessagesResponse} from "./index";
 

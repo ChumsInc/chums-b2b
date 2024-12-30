@@ -1,7 +1,7 @@
 /**
  * Created by steve on 5/18/2017.
  */
-import {deprecatedStorageKeys} from "../constants/stores";
+import {deprecatedStorageKeys} from "@constants/stores";
 
 export default class LocalStore {
     static getItem<T = unknown>(key: string, defaultValue: T): T {
@@ -14,6 +14,7 @@ export default class LocalStore {
         }
         try {
             return JSON.parse(data) ?? defaultValue;
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             return defaultValue;
         }

@@ -1,10 +1,7 @@
-import {CUSTOMER_TABS, SUB_NAV_TYPES} from "../../constants/app";
 import localStore from "../../utils/LocalStore";
-import {STORE_USER_PREFS} from "../../constants/stores";
+import {STORE_USER_PREFS} from "@constants/stores";
 import {createReducer} from "@reduxjs/toolkit";
-import {setCustomerTab, setLifestyle, setRowsPerPage, setSubNavBar, toggleXSNavBar} from "./actions";
-import {setCustomerAccount} from "../customer/actions";
-import {PreloadedState} from "../../types/preload";
+import {PreloadedState} from "@typeDefs/preload";
 
 import {Keyword, Menu} from "b2b-types";
 
@@ -26,7 +23,7 @@ export const initialAppState = (preload?: PreloadedState): AppState => ({
     showNavBar: false,
     subNav: '',
     rowsPerPage: localStore.getItem(STORE_USER_PREFS, {rowsPerPage: 10}).rowsPerPage,
-    customerTab: CUSTOMER_TABS[0].id,
+    customerTab: 0,
     documentTitle: 'Home',
     keywords: preload?.keywords?.list ?? [],
     lifestyle: '',
@@ -35,28 +32,7 @@ export const initialAppState = (preload?: PreloadedState): AppState => ({
 })
 
 const appReducer = createReducer(initialAppState, (builder) => {
-    builder
-        .addCase(setCustomerAccount.fulfilled, (state) => {
-            state.customerTab = CUSTOMER_TABS[0].id;
-        })
-        .addCase(toggleXSNavBar, (state) => {
-            state.showNavBar = !state.showNavBar;
-        })
-        .addCase(setSubNavBar, (state, action) => {
-            state.subNav = action.payload;
-            if (action.payload === SUB_NAV_TYPES.none) {
-                state.showNavBar = false;
-            }
-        })
-        .addCase(setRowsPerPage, (state, action) => {
-            state.rowsPerPage = action.payload;
-        })
-        .addCase(setLifestyle, (state, action) => {
-            state.lifestyle = action.payload ?? '';
-        })
-        .addCase(setCustomerTab, (state, action) => {
-            state.customerTab = action.payload;
-        })
+    // @TODO: Remove app reducer
 })
 
 export default appReducer;

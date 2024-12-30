@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {useSelector} from "react-redux";
 import {
     selectOpenOrdersCustomerKey,
@@ -11,9 +11,9 @@ import {
 import {selectCurrentCustomer} from "../../user/selectors";
 import OrdersList from "./OrdersList";
 import OrderLink from "../../../components/OrderLink";
-import {DateString} from "../../../components/DateString";
+import {DateString} from "@components/DateString";
 import numeral from "numeral";
-import {SortableTableField} from "../../../common-components/DataTable";
+import {SortableTableField} from "@src/common-components/DataTable";
 import Decimal from "decimal.js";
 import {SalesOrderHeader} from "b2b-types";
 import {loadOpenOrders, setOpenOrdersFilter} from "../actions";

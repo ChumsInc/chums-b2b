@@ -1,3 +1,4 @@
+import {ReactNode} from 'react'
 import {SxProps} from "@mui/system";
 import {ContentPage} from "b2b-types";
 
@@ -8,7 +9,7 @@ export interface NavItemProps {
 export interface NavItem {
     id: string;
     title?: string;
-    render?: ({inDrawer}: NavItemProps) => React.ReactNode;
+    render?: ({inDrawer}: NavItemProps) => ReactNode;
 }
 
 export interface BannerImage {
@@ -38,6 +39,3 @@ export interface Banner {
     sxProps?: SxProps|null;
 }
 
-export interface CachedContentPage extends ContentPage {
-    lastUsed?: number;
-}

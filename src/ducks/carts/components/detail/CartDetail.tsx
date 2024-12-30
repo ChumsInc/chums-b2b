@@ -1,24 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import CartDetailLine from "./CartDetailLine";
 import CartTotal from "./CartTotal";
-import {CartProduct, SalesOrderDetailLine} from "b2b-types";
-import Dialog from "@mui/material/Dialog";
-import {detailToCartItem} from "@ducks/sales-order/utils";
+import {CartProduct} from "b2b-types";
 import {useAppSelector} from "@app/configureStore";
-import {sendGtagEvent} from "@api/gtag";
-import Decimal from "decimal.js";
+import {ga4ViewCart} from "@src/ga4/cart";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
 import {selectCartDetailById, selectCartHeaderById} from "@ducks/carts/selectors";
-import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
+import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
+import {cartDetailToCartProduct} from "@ducks/carts/utils";
+import AddToCartDialog from "@ducks/carts/components/add-to-cart/AddToCartDialog";
 
 export default function CartDetail({cartId}: {
     cartId: number;
@@ -29,40 +24,22 @@ export default function CartDetail({cartId}: {
     const [unitOfMeasure, setUnitOfMeasure] = useState<string>('EA');
 
     useEffect(() => {
-        if (header && detail.length) {
-            sendGtagEvent('view_cart', {
-                currency: 'USD',
-                value: new Decimal(header.subTotalAmt).sub(header.DiscountAmt ?? 0).toNumber(),
-                items: detail
-                    .filter(item => !(item.lineStatus === 'U' && item.quantityOrdered === 0))
-                    .map(item => ({
-                    item_id: item.itemCode,
-                    item_name: item.itemCodeDesc ?? item.itemCode,
-                    quantity: +item.quantityOrdered,
-                    price: new Decimal(item.extensionAmt).toNumber()
-                }))
-            })
-        }
+        ga4ViewCart(header, detail);
     }, [header, detail]);
 
-    const addToCartHandler = (line: SalesOrderDetailLine) => {
-        setUnitOfMeasure(line.UnitOfMeasure);
-        const item = detailToCartItem(line);
+    const addToCartHandler = (line: B2BCartDetail) => {
+        setUnitOfMeasure(line.unitOfMeasure ?? 'EA');
+        const item = cartDetailToCartProduct(line);
         if (!item) {
             setCartItem(null);
             return;
         }
-        setCartItem({...item, name: line.ItemCodeDesc, productId: 0, image: ''});
+        setCartItem(item);
     }
 
-    const quantityChangeHandler = (quantity: number) => {
-        if (!cartItem) {
-            return;
-        }
-        setCartItem({...cartItem, quantity});
+    const dialogCloseHandler = () => {
+        setCartItem(null);
     }
-
-    const open = !!cartItem;
 
     return (
         <TableContainer sx={{mt: 3}}>
@@ -85,28 +62,15 @@ export default function CartDetail({cartId}: {
                     {detail
                         .filter(item => !(item.lineStatus === 'U' && item.quantityOrdered === 0))
                         .map(line => (
-                        <CartDetailLine key={line.id} line={line}
-                                        onAddToCart={addToCartHandler}/>
-                    ))}
+                            <CartDetailLine key={line.id} line={line}
+                                            onAddToCart={addToCartHandler}/>
+                        ))}
                 </TableBody>
                 <CartTotal cartId={cartId}/>
             </Table>
-            <Dialog open={open} onClose={() => setCartItem(null)}>
-                <DialogTitle>Add {cartItem?.itemCode} To Cart</DialogTitle>
-                <DialogContent>
-                    {!!cartItem && (
-                        <AddToCartForm cartItem={cartItem}
-                                       unitOfMeasure={unitOfMeasure}
-                                       quantity={cartItem?.quantity ?? 1} onChangeQuantity={quantityChangeHandler}
-                                       excludeCartId={cartId}
-                                       onDone={() => setCartItem(null)}
-                        />
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={() => setCartItem(null)}>Cancel</Button>
-                </DialogActions>
-            </Dialog>
+            <AddToCartDialog item={cartItem} unitOfMeasure={unitOfMeasure}
+                             open={!!cartItem} onClose={dialogCloseHandler}
+                             onDone={dialogCloseHandler} onCancel={dialogCloseHandler}/>
         </TableContainer>
     )
 }

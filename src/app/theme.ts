@@ -1,18 +1,19 @@
+import {CSSProperties} from 'react'
 import {createTheme} from '@mui/material/styles'
 import {alpha} from "@mui/material";
 
 declare module '@mui/material/styles' {
     interface TypographyVariants {
-        variantButtonText: React.CSSProperties;
-        variantButtonPrice: React.CSSProperties;
-        bodyMono: React.CSSProperties;
+        variantButtonText: CSSProperties;
+        variantButtonPrice: CSSProperties;
+        bodyMono: CSSProperties;
     }
 
     // allow configuration using `createTheme`
     interface TypographyVariantsOptions {
-        variantButtonText?: React.CSSProperties;
-        variantButtonPrice?: React.CSSProperties;
-        bodyMono?: React.CSSProperties;
+        variantButtonText?: CSSProperties;
+        variantButtonPrice?: CSSProperties;
+        bodyMono?: CSSProperties;
     }
 
     interface Palette {

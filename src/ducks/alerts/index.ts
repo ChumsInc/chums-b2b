@@ -1,6 +1,4 @@
 import {createReducer, isFulfilled, isRejected, PayloadAction} from "@reduxjs/toolkit";
-import {SET_ALERT} from "../../constants/actions";
-import {isDeprecatedSetAlertAction} from "../../types/actions";
 import {AlertColor} from "@mui/material/Alert";
 import {setLoggedIn} from '../user/actions'
 import {alertSorter} from "./utils";
@@ -94,32 +92,6 @@ const alertsReducer = createReducer(initialAlertState, (builder) => {
                 const context = action.type.replace('/fulfilled', '');
                 state.list = state.list.filter(alert => alert.context !== context).sort(alertSorter);
             })
-        .addDefaultCase((state, action) => {
-            switch (action.type) {
-                case SET_ALERT:
-                    if (isDeprecatedSetAlertAction(action)) {
-                        state.index += 1;
-                        const [alert] = state.list.filter(alert => alert.context === (action.props.context ?? 'N/A'));
-                        if (alert) {
-                            state.list = [
-                                ...state.list.filter(a => a.alertId !== alert.alertId),
-                                {...alert, count: (alert.count ?? 0) + 1},
-                            ].sort(alertSorter);
-                        } else {
-                            const newAlert: B2BContextAlert = {
-                                severity: 'warning', ...action.props,
-                                alertId: state.index,
-                                count: 1
-                            };
-                            state.list = [
-                                ...state.list,
-                                newAlert
-                            ].sort(alertSorter);
-                        }
-                    }
-                    return;
-            }
-        })
 });
 
 export default alertsReducer;

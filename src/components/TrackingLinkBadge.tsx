@@ -1,5 +1,5 @@
 import React from 'react';
-import {SHIPPING_METHODS} from "../constants/account";
+import {SHIPPING_METHODS} from "@constants/account";
 import Chip from "@mui/material/Chip";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Link from "@mui/material/Link";

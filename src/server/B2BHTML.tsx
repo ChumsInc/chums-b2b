@@ -1,5 +1,4 @@
 import React from 'react';
-import {HelmetServerState} from "react-helmet-async";
 import {ManifestFiles} from "./manifest";
 import * as process from "node:process";
 
@@ -20,23 +19,18 @@ export interface B2BHtmlProps {
     html: string;
     css: string;
     state: unknown;
-    helmet?: HelmetServerState,
     manifestFiles: ManifestFiles;
     swatchTimestamp?: string;
     cspNonce: string;
 }
 
-export default function B2BHtml({html, css, state, helmet, manifestFiles, swatchTimestamp, cspNonce}: B2BHtmlProps) {
+export default function B2BHtml({html, css, state, manifestFiles, swatchTimestamp, cspNonce}: B2BHtmlProps) {
     const preloadedState = JSON.stringify(state || {}).replace(/</g, '\\u003c');
     return (
         <html lang="en-us" dir="ltr">
         <head>
             <meta charSet="utf-8"/>
             <meta httpEquiv="x-ua-compatible" content="ie-edge"/>
-            {!helmet && <title>CHUMS B2B</title>}
-            {helmet?.title && (
-                <React.Fragment>{helmet.title.toComponent() as unknown as React.ReactNode}</React.Fragment>
-            )}
             <meta name="description" content="Chums B2B"/>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
@@ -44,9 +38,6 @@ export default function B2BHtml({html, css, state, helmet, manifestFiles, swatch
             <meta property="og:image:alt" content="Chums Logo"/>
             <meta property="og:type" content="website"/>
             <meta property="og:url" content="https://b2b.chums.com/"/>
-            {helmet?.meta && (
-                <React.Fragment>{helmet.meta.toComponent() as unknown as React.ReactNode}</React.Fragment>
-            )}
             <link rel="apple-touch-icon" sizes="57x57" href="/images/icons/apple-touch-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="/images/icons/apple-touch-icon-60x60.png"/>
             <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/apple-touch-icon-72x72.png"/>
@@ -58,8 +49,9 @@ export default function B2BHtml({html, css, state, helmet, manifestFiles, swatch
             <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon-180x180.png"/>
 
             <style dangerouslySetInnerHTML={{__html: css}} nonce={cspNonce}/>
-            <link rel="stylesheet" href={`https://b2b.chums.com/b2b-swatches/swatches.css?version=${swatchTimestamp}`}  nonce={cspNonce}/>
-            <link rel="stylesheet" href="/css/has-bootstrap.css"  nonce={cspNonce}/>
+            <link rel="stylesheet" href={`https://b2b.chums.com/b2b-swatches/swatches.css?version=${swatchTimestamp}`}
+                  nonce={cspNonce}/>
+            <link rel="stylesheet" href="/css/has-bootstrap.css" nonce={cspNonce}/>
             <link rel="preconnect" href="https://fonts.googleapis.com"/>
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
             <link
@@ -67,8 +59,10 @@ export default function B2BHtml({html, css, state, helmet, manifestFiles, swatch
                 nonce={cspNonce}
                 rel="stylesheet"/>
             <script src="https://accounts.google.com/gsi/client" async defer nonce={cspNonce}/>
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}  nonce={cspNonce}/>
-            <script dangerouslySetInnerHTML={{__html: InlineJSHeadContent(manifestFiles.version ?? '')}}  nonce={cspNonce}/>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}
+                    nonce={cspNonce}/>
+            <script dangerouslySetInnerHTML={{__html: InlineJSHeadContent(manifestFiles.version ?? '')}}
+                    nonce={cspNonce}/>
             <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
         </head>
         <body>

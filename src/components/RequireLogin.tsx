@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import {selectLoggedIn} from "../ducks/user/selectors";
+import {selectLoggedIn} from "@ducks/user/selectors";
 import ErrorBoundary from "../common-components/ErrorBoundary";
 
 const RequireLogin = ({children}:{

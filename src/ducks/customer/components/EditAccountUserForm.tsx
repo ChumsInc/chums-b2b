@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent, useEffect, useId, useRef, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect, useRef, useState} from 'react';
 import Alert from "@mui/material/Alert";
 import {useSelector} from "react-redux";
 import {selectCustomerUsers} from "../selectors";
@@ -11,17 +11,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import NotesIcon from '@mui/icons-material/Notes';
 import ShipToSelect from "./ShipToSelect";
 import {generatePath, useMatch, useNavigate} from "react-router";
-import {customerUserPath} from "../../../utils/path-utils";
+import {customerUserPath} from "@utils/path-utils";
 import {removeUser, saveUser} from "../actions";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {selectIsEmployee, selectIsRep} from "../../user/selectors";
-import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
 import AccountUserNewButton from "./AccountUserNewButton";
+import ConfirmationDialog from "@ducks/customer/components/ConfirmationDialog";
 
 const newUser: CustomerUser = {id: 0, accessId: 0, name: '', email: '', accountType: 4};
 
@@ -37,13 +34,8 @@ const EditAccountUserForm = () => {
     const [canEdit, setCanEdit] = useState(false);
     const [addShipTo, setAddShipTo] = useState(false);
     const [disabledShipTo, setDisabledShipTo] = useState<string[]>([]);
-    const [confirmation, setConfirmation] = useState<string|null>(null);
-    const confirmHandler = useRef<(() => void)|null>();
-    const dialogDescriptionId = useId();
-
-    const dialogCancelHandler = () => {
-        setConfirmation(null);
-    }
+    const [confirmation, setConfirmation] = useState<string | null>(null);
+    const confirmActionHandler = useRef<(() => void) | null>(null);
 
     useEffect(() => {
         setAddShipTo(false);
@@ -66,6 +58,10 @@ const EditAccountUserForm = () => {
         setCanEdit((isEmployee || isRep) && (user?.accountType === 4 || !user))
     }, [isEmployee, isRep, user]);
 
+    const dialogCancelHandler = () => {
+        setConfirmation(null);
+    }
+
     const changeHandler = (field: keyof CustomerUser) => (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (!user) {
             return;
@@ -83,7 +79,7 @@ const EditAccountUserForm = () => {
         }
     }
 
-    const onSetShipToLocation = (shipToCode: string|null) => {
+    const onSetShipToLocation = (shipToCode: string | null) => {
         if (!user) {
             return;
         }
@@ -113,7 +109,7 @@ const EditAccountUserForm = () => {
 
     const onNewUser = () => {
         if (user?.changed) {
-            confirmHandler.current = newUserHandler;
+            confirmActionHandler.current = newUserHandler;
             setConfirmation('Do you want to cancel your changes?');
             return;
         }
@@ -131,7 +127,7 @@ const EditAccountUserForm = () => {
 
     const onCancel = () => {
         if (user?.changed) {
-            confirmHandler.current = cancelHandler;
+            confirmActionHandler.current = cancelHandler;
             setConfirmation('Do you want to cancel your changes?');
             return;
         }
@@ -155,13 +151,13 @@ const EditAccountUserForm = () => {
         if (!user) {
             return;
         }
-        confirmHandler.current = deleteHandler;
+        confirmActionHandler.current = deleteHandler;
         setConfirmation(`Are you sure you want to remove ${user?.email}?`);
     }
 
     if (!user) {
         return (
-            <AccountUserNewButton onClick={newUserHandler} disabled={!(isEmployee || isRep)} />
+            <AccountUserNewButton onClick={newUserHandler} disabled={!(isEmployee || isRep)}/>
         )
     }
 
@@ -222,7 +218,7 @@ const EditAccountUserForm = () => {
                             onClick={onNewUser}>
                         New User
                     </Button>
-                    {!!user.id && user.accountType === 4 &&(
+                    {!!user.id && user.accountType === 4 && (
                         <Button variant="text" type="button"
                                 disabled={!(isEmployee || isRep) || user?.id === 0 || user.billTo}
                                 onClick={() => setAddShipTo(true)}>
@@ -235,15 +231,11 @@ const EditAccountUserForm = () => {
                     </Button>
                 </Stack>
             </Stack>
-            <Dialog open={!!confirmation} onClose={dialogCancelHandler} aria-describedby={dialogDescriptionId}>
-                <DialogContent>
-                    <DialogContentText id={dialogDescriptionId}>{confirmation}</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={dialogCancelHandler}>Cancel</Button>
-                    <Button onClick={confirmHandler.current ?? dialogCancelHandler}>Agree</Button>
-                </DialogActions>
-            </Dialog>
+            <ConfirmationDialog open={!!confirmation}
+                                onConfirm={confirmActionHandler.current}
+                                onCancel={dialogCancelHandler}>
+                {confirmation}
+            </ConfirmationDialog>
         </form>
     )
 }

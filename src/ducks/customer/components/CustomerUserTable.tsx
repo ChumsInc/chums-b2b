@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import UserIcon from "./UserIcon";
-import {customerUserSorter} from "../../../utils/customer";
+import {customerUserSorter} from "@utils/customer";
 import BusinessIcon from '@mui/icons-material/Business';
 import {useSelector} from "react-redux";
 import {selectIsEmployee} from "../../user/selectors";
@@ -16,7 +16,7 @@ import TableCell from "@mui/material/TableCell";
 import Tooltip from "@mui/material/Tooltip";
 import {generatePath, useMatch, useNavigate} from "react-router";
 import {selectPermittedCustomerUsers} from "../selectors";
-import {customerUserPath} from "../../../utils/path-utils";
+import {customerUserPath} from "@utils/path-utils";
 import Chip, {ChipProps} from "@mui/material/Chip";
 import StoreIcon from '@mui/icons-material/Store';
 import {UserAccessType} from "b2b-types/src/user";

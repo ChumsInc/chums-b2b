@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import AccountButtons from "./AccountButtons";
 import UserProfile from "./UserProfile";
-import {documentTitles} from '../../../constants/paths';
+import {documentTitles} from '@constants/paths';
 import DocumentTitle from "../../../components/DocumentTitle";
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {
     selectAccessListLoading,
     selectCurrentAccess,

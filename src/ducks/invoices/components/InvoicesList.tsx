@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {useSelector} from "react-redux";
 import {selectCurrentCustomer} from "../../user/selectors";
 import {
@@ -14,18 +14,18 @@ import {
 } from "../selectors";
 import {loadInvoices, setInvoicesSort} from "../actions";
 import {InvoiceLink} from "./InvoiceLink";
-import {DateString} from "../../../components/DateString";
+import {DateString} from "@components/DateString";
 import OrderLink from "../../../components/OrderLink";
 import numeral from "numeral";
 import DataTable, {SortableTableField} from "../../../common-components/DataTable";
 import {InvoiceHistoryHeader} from "b2b-types";
 import Decimal from "decimal.js";
-import {SortProps} from "../../../types/generic";
+import {SortProps} from "@typeDefs/generic";
 import LinearProgress from "@mui/material/LinearProgress";
 import TablePagination from "@mui/material/TablePagination";
 import {invoiceKey} from "../utils";
 import localStore from "../../../utils/LocalStore";
-import {STORE_INVOICES_ROWS_PER_PAGE} from "../../../constants/stores";
+import {STORE_INVOICES_ROWS_PER_PAGE} from "@constants/stores";
 import Button from "@mui/material/Button";
 import InvoiceListFilter from "./InvoiceListFilter";
 import Box from "@mui/material/Box";

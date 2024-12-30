@@ -1,4 +1,4 @@
-import {PRICE_FIELDS, PriceField, SELL_AS_MIX, SELL_AS_SELF} from "../constants/actions";
+import {PRICE_FIELDS, SELL_AS_MIX, SELL_AS_SELF} from "@constants/product";
 import {calcPrice, priceRecord} from "./customer";
 import {
     BasicProduct,
@@ -11,8 +11,8 @@ import {
     SellAsVariantsProduct
 } from "b2b-types";
 import Decimal from "decimal.js";
-import {CartItemColorProps} from "../types/product";
-import {isSellAsColors, isSellAsMix, isSellAsSelf, isSellAsVariants} from "../ducks/products/utils";
+import {CartItemColorProps, PriceField} from "../types/product";
+import {isSellAsColors, isSellAsMix, isSellAsSelf, isSellAsVariants} from "@ducks/products/utils";
 import {parseImageFilename2} from "../common/image";
 
 export const hasVariants = (product: Product | null): boolean => isSellAsVariants(product) && product.variants.filter(v => v.status).length > 0;

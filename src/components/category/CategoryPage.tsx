@@ -9,9 +9,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {sendGtagEvent} from "@api/gtag";
-import {isCategoryChildProduct} from "@ducks/products/utils";
-import {CategoryChildProduct} from "b2b-types";
+import {ga4ViewItemList} from "@src/ga4/generic";
 
 const CategoryPage = ({keyword}: {
     keyword: string;
@@ -26,15 +24,7 @@ const CategoryPage = ({keyword}: {
 
     useEffect(() => {
         if (category) {
-            sendGtagEvent('view_item_list', {
-                item_list_id: category.keyword,
-                item_list_name: category.title ?? category.keyword,
-                items: category.children.filter(child => isCategoryChildProduct(child))
-                    .map(child => ({
-                        item_id: (child as CategoryChildProduct).product.itemCode,
-                        item_name: (child as CategoryChildProduct).product.name,
-                    }))
-            })
+            ga4ViewItemList(category);
         }
     }, [category]);
 
@@ -51,11 +41,11 @@ const CategoryPage = ({keyword}: {
     return (
         <Box>
             <DocumentTitle documentTitle={title}/>
-            {!!lifestyle && <Box component="img" src={lifestyle} sx={{width: '100%'}} />}
+            {!!lifestyle && <Box component="img" src={lifestyle} sx={{width: '100%'}}/>}
             <Typography component="h1" variant="h1" sx={{textAlign: 'center', mb: 3}}>{title}</Typography>
             {loading && <LinearProgress variant="indeterminate"/>}
             {!!pageText && <Box dangerouslySetInnerHTML={{__html: pageText}}/>}
-            <Grid2 container spacing={3} justifyContent={children.length < 4 ? 'center' : 'start'} sx={{mt: 3}} >
+            <Grid2 container spacing={3} justifyContent={children.length < 4 ? 'center' : 'start'} sx={{mt: 3}}>
                 {children
                     .filter(child => !!child.status)
                     .sort((a, b) => a.priority - b.priority)

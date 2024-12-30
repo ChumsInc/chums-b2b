@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import DocumentTitle from "../../components/DocumentTitle";
-import {useAppDispatch} from "../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {selectPageContent, selectPageLoaded, selectPageLoadingStatus} from "./selectors";
 import {useParams} from "react-router";
 import {loadPage} from "./actions";

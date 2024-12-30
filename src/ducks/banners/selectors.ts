@@ -1,4 +1,4 @@
-import {RootState} from "../../app/configureStore";
+import {RootState} from "@app/configureStore";
 
 export const selectBannersList = (state:RootState) => state.banners.list;
 export const selectBannersLoaded = (state: RootState) => state.banners.loaded;

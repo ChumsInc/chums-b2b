@@ -1,26 +1,15 @@
-import {CartProduct} from "b2b-types";
-
-export interface ItemAvailability {
-    ItemCode: string;
-    ItemCodeDesc: string;
-    PriceCode: string;
-    SalesUnitOfMeasure: string;
-    StandardUnitOfMeasure: string;
-    StandardUnitPrice: number | string;
-    SuggestedRetailPrice: string;
-    SalesUMConvFactor: number;
-    QuantityAvailable: number;
-}
-
-export type CartItemDetailProps = Pick<CartProduct, 'itemCode' | 'quantity' | 'salesUM' | 'stdUM' | 'salesUMFactor'
-    | 'msrp' | 'priceLevel' | 'quantityAvailable'>
-
 export interface CartItemColorProps {
     colorCode?: string;
     itemCode?: string;
 }
 
 export interface ProductImage {
-    filename: string|null;
-    itemCode: string|null;
+    filename: string | null;
+    itemCode: string | null;
+}
+
+export type PriceField = 'stdPrice' | 'msrp';
+
+export interface PriceFieldsList {
+    [key: string]: PriceField;
 }

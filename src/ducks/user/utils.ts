@@ -1,11 +1,10 @@
 import {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "b2b-types";
-import {SortProps} from "../../types/generic";
+import {SortProps} from "@typeDefs/generic";
 import {generatePath} from "react-router";
-import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "../../constants/paths";
-import {customerSlug, shortCustomerKey} from "../../utils/customer";
+import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "@constants/paths";
+import {customerSlug, shortCustomerKey} from "@utils/customer";
 import {isRejected, UnknownAction} from "@reduxjs/toolkit";
-import {DeprecatedUserAction, DeprecatedUserProfileAction, UserType} from "./types";
-import {ExtendedUserProfile} from "../../types/user";
+import {UserType} from "./types";
 import {Action} from "redux";
 
 export const AUTH_ERROR = 'AUTH_ERROR';
@@ -89,14 +88,6 @@ export const repAccessCode = (row: UserCustomerAccess): string => {
     }
     return `${row.SalespersonDivisionNo}-${row.SalespersonNo}`;
 };
-
-export const isUserProfileAction = (action: UnknownAction | DeprecatedUserAction | DeprecatedUserProfileAction): action is DeprecatedUserProfileAction => {
-    if (!action.props) {
-        return false;
-    }
-    const props = action.props as ExtendedUserProfile;
-    return props.email !== undefined;
-}
 
 export const isUserAction = (action: Action | UnknownAction): boolean => {
     return action.type.startsWith('user/')

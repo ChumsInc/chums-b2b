@@ -6,18 +6,17 @@ import {
     selectPermittedBillToAddress,
     selectPermittedShipToAddresses
 } from "../selectors";
-import {InputBaseComponentProps} from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl, {FormControlProps} from '@mui/material/FormControl'
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import {ShipToAddress} from "b2b-types";
-import {shipToAddressFromBillingAddress} from "../../../utils/customer";
+import {shipToAddressFromBillingAddress} from "@utils/customer";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import {useAppSelector} from "../../../app/configureStore";
+import {useAppSelector} from "@app/configureStore";
 
 export interface ShipToSelectProps extends Omit<FormControlProps, 'value' | 'onChange'> {
     value: string | null;
@@ -34,7 +33,6 @@ export const allLocationsValue = '__ALL';
 
 export default function ShipToSelect({
                                          value,
-                                         defaultName, // @TODO: not sure if this is needed?
                                          label,
                                          disabledShipToLocations,
                                          allowAllLocations,
@@ -110,7 +108,6 @@ export default function ShipToSelect({
         || !!shipToAddresses.filter(st => st.ShipToCode === value).length;
 
 
-
     return (
         <FormControl fullWidth variant="filled" size="small" {...formControlProps}>
             <InputLabel id={id} shrink>{label ?? 'Ship-To Location'}</InputLabel>
@@ -127,10 +124,12 @@ export default function ShipToSelect({
                         <MenuItem key={shipTo.ShipToCode} value={shipTo.ShipToCode}
                                   disabled={disabledShipToLocations?.includes(shipTo.ShipToCode)}>
                             <Stack direction="row" key={shipTo.ShipToCode} spacing={2} sx={{width: '100%'}}>
-                                <Chip label={shipTo.ShipToCode} size="small" sx={{flex: '0 0 20%'}} />
+                                <Chip label={shipTo.ShipToCode} size="small" sx={{flex: '0 0 20%'}}/>
                                 <Box sx={{width: '80%'}}>
-                                    <Typography variant="body1" sx={{whiteSpace: 'wrap'}}>{shipTo.ShipToName}</Typography>
-                                    <Typography variant="body1" sx={{fontSize: '80%'}}>{shipTo.ShipToCity}, {shipTo.ShipToState}</Typography>
+                                    <Typography variant="body1"
+                                                sx={{whiteSpace: 'wrap'}}>{shipTo.ShipToName}</Typography>
+                                    <Typography variant="body1"
+                                                sx={{fontSize: '80%'}}>{shipTo.ShipToCity}, {shipTo.ShipToState}</Typography>
                                 </Box>
                             </Stack>
                         </MenuItem>

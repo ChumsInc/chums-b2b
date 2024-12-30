@@ -1,5 +1,5 @@
 import {CustomerKey, ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
-import {SortProps} from "../../types/generic";
+import {SortProps} from "@typeDefs/generic";
 
 export interface InvoicesState {
     customerKey: string | null;
@@ -23,7 +23,7 @@ export interface InvoicesState {
 
 
 export type FetchInvoiceArg = Pick<InvoiceHistoryHeader, 'InvoiceNo' | 'InvoiceType'>;
-export type FetchInvoicesArg = CustomerKey;
+
 
 export interface LoadInvoicesProps {
     key: CustomerKey|null;

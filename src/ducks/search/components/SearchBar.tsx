@@ -1,15 +1,15 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {getSearchResults, selectSearchResults} from "../index";
 import {
     CONTENT_PATH_SEARCH_IMAGE,
     PATH_PAGE,
     PATH_PRODUCT,
     PATH_PRODUCT_WITHOUT_PARENT
-} from "../../../constants/paths";
+} from "@constants/paths";
 import {generatePath, Link} from 'react-router';
 import {SearchResult} from "b2b-types";
-import {useDebounceValue} from 'usehooks-ts'
+import {useDebounceValue} from '@hooks/use-debounce'
 import {useNavigate} from "react-router";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";

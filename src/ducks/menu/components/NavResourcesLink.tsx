@@ -1,4 +1,4 @@
-import {NavItemProps} from "../../../types/ui-features";
+import {NavItemProps} from "@typeDefs/ui-features";
 import ListItemLink from "../../../components/ListItemLink";
 import React from "react";
 import ResourcesMenu from "./ResourcesMenu";

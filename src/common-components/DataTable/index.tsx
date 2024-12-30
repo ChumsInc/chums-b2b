@@ -1,4 +1,3 @@
-import {KeyedObject} from "../../types/generic";
 import Table from "@mui/material/Table";
 import React from "react";
 import {SortableTableProps} from "./types";
@@ -9,21 +8,21 @@ export type {
     SortableTableField,
 } from './types'
 
-export const DataTable = <T = KeyedObject>({
-                                               fields,
-                                               data,
-                                               currentSort,
-                                               onChangeSort,
-                                               keyField,
-                                               rowClassName,
-                                               renderRow,
-                                               onSelectRow,
-                                               selected = null,
-                                               className = '',
-                                               tfoot,
-                                               children,
-                                               ...rest
-                                           }: SortableTableProps<T>) => {
+export const DataTable = <T = unknown>({
+                                           fields,
+                                           data,
+                                           currentSort,
+                                           onChangeSort,
+                                           keyField,
+                                           rowClassName,
+                                           renderRow,
+                                           onSelectRow,
+                                           selected = null,
+                                           className = '',
+                                           tfoot,
+                                           children,
+                                           ...rest
+                                       }: SortableTableProps<T>) => {
 
     return (
         <Table className={className} {...rest}>

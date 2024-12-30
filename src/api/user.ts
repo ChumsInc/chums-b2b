@@ -5,19 +5,20 @@ import {
     FunkyUserProfileResponse,
     SetNewPasswordProps,
     UserProfileResponse
-} from "../ducks/user/types";
+} from "@ducks/user/types";
 import {allowErrorResponseHandler, fetchJSON} from "./fetch";
 import {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "../types/user";
 import {auth} from './IntranetAuthService';
-import {getSignInProfile, isTokenExpired} from "../utils/jwtHelper";
+import {getSignInProfile, isTokenExpired} from "@utils/jwtHelper";
 import localStore from "../utils/LocalStore";
-import {STORE_AUTHTYPE} from "../constants/stores";
-import {AUTH_GOOGLE} from "../constants/app";
-import {isErrorResponse, isUserRole} from "../utils/typeguards";
+import {STORE_AUTHTYPE} from "@constants/stores";
+import {AUTH_GOOGLE} from "@constants/app";
+import {isErrorResponse, isUserRole} from "@utils/typeguards";
 import {jwtDecode} from 'jwt-decode';
-import {LoadProfileProps, SignUpProfile} from "../ducks/sign-up/types";
+import {LoadProfileProps, SignUpProfile} from "@ducks/sign-up/types";
 import {APIErrorResponse} from "../types/generic";
-import {configGtag, sendGtagEvent} from "./gtag";
+import {configGtag} from "@src/ga4/api";
+import {ga4Login, ga4SignUp} from "@src/ga4/generic";
 
 
 export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorResponse> {
@@ -31,7 +32,7 @@ export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorR
         if (isErrorResponse(res)) {
             return res;
         }
-        sendGtagEvent('login', {method: 'credentials'})
+        ga4Login('credentials')
         return res.token;
     } catch (err) {
         if (err instanceof Error) {
@@ -163,7 +164,7 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
                     }
                 }
             }
-            sendGtagEvent('login', {method: 'google'});
+            ga4Login('google');
             auth.setProfile(storedProfile);
             localStore.setItem<string>(STORE_AUTHTYPE, AUTH_GOOGLE);
         }
@@ -219,14 +220,14 @@ export async function fetchSignUpProfile(arg: LoadProfileProps): Promise<SignUpP
     }
 }
 
-export async function postSignUpUser(arg: SignUpUser): Promise<SignUpResponse|null> {
+export async function postSignUpUser(arg: SignUpUser): Promise<SignUpResponse | null> {
     try {
         const email = arg.email;
         const url = '/api/user/v2/b2b/signup.json'
             .replace(':email', encodeURIComponent(email));
         const body = JSON.stringify(arg);
         const res = await fetchJSON<SignUpResponse>(url, {method: 'POST', body});
-        sendGtagEvent('sign_up');
+        ga4SignUp();
         return res;
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -242,7 +243,8 @@ export async function postPasswordChange(arg: ChangePasswordProps): Promise<Chan
     try {
         const url = '/api/user/v2/b2b/password.json';
         const body = JSON.stringify(arg);
-        return await fetchJSON<ChangePasswordResponse>(url, {method: 'POST',
+        return await fetchJSON<ChangePasswordResponse>(url, {
+            method: 'POST',
             body,
         }, allowErrorResponseHandler);
     } catch (err: unknown) {

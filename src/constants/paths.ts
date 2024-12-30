@@ -1,13 +1,4 @@
-/*
-For any paths that use a query string, the question mark needs to be escaped for the parameters in the
-query string to be replaced:
-For Example - the following url will compile as below:
-    FROM: '/sage/b2b/billto.php\\?co=:Company&account=:ARDivisionNo-:CustomerNo'
-    TO: '/sage/b2b/billto.php?co=CHI&account=01-TEST'
- */
-export const PATH_CATEGORY = '/products/:category';
 export const PATH_CUSTOMER_ACCOUNT = '/account/:customerSlug';
-export const PATH_CUSTOMER_DELIVERY_LIST = '/account/:customerSlug/delivery';
 export const PATH_CUSTOMER_DELIVERY = '/account/:customerSlug/delivery/:code';
 export const PATH_HOME = '/home';
 export const PATH_LOGIN = '/login';

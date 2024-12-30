@@ -7,7 +7,7 @@ import {ProductVariant} from "b2b-types";
 import {isSellAsMix} from "../utils";
 import VariantButton from "./VariantButton";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {sendGtagEvent} from "@api/gtag";
+import {ga4SelectMixItem, ga4SelectVariantItem} from "@src/ga4/generic";
 
 
 const activeVariants = (variants: ProductVariant[]): ProductVariant[] => {
@@ -20,24 +20,14 @@ export default function VariantButtons() {
     const product = useSelector(selectCurrentVariantProduct);
     const [variants, setVariants] = useState(activeVariants(product?.variants ?? []));
 
-    const selectHandler = useCallback((variant:ProductVariant) => {
+    const selectHandler = useCallback((variant: ProductVariant) => {
         if (!variant || !variant.id || !product) {
             return;
         }
         if (variant.product && isSellAsMix(variant.product)) {
-            sendGtagEvent('select_item', {
-                item_list_id: product.itemCode,
-                item_list_name: [product.name, product.additionalData?.subtitle].filter(val => !!val).join(' / '),
-                items: [{
-                    item_id: variant.product.itemCode,
-                    item_name: `${variant.product.name}${variant.product.additionalData?.subtitle ? ' / ' + variant.product.additionalData?.subtitle : ''}`
-                }]
-            });
+            ga4SelectMixItem(product, variant.product);
         } else {
-            sendGtagEvent('select_content', {
-                content_type: 'variant',
-                content_id: variant.product?.itemCode ?? variant.id.toString()
-            });
+            ga4SelectVariantItem(variant.product?.itemCode ?? variant.id.toString())
         }
         dispatch(setCurrentVariant(variant))
     }, [product])

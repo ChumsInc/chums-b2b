@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
@@ -6,13 +6,13 @@ import Alert from "@mui/material/Alert";
 import PasswordForm from "./PasswordForm";
 import Container from "@mui/material/Container";
 import React, {useState} from "react";
-import {documentTitles} from "../../../constants/paths";
+import {documentTitles} from "@constants/paths";
 import DocumentTitle from "../../../components/DocumentTitle";
 import {selectUserActionStatus, selectUserProfile} from "../selectors";
 import {ChangePasswordProps} from "../types";
 import {useNavigate} from 'react-router';
 import {changePassword} from "../actions";
-import {isErrorResponse} from "../../../utils/typeguards";
+import {isErrorResponse} from "@utils/typeguards";
 
 const ChangePasswordPage = () => {
     const dispatch = useAppDispatch();

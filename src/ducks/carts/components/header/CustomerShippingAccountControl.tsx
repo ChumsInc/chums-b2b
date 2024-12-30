@@ -21,7 +21,7 @@ const CustomerShippingAccountControl = ({readOnly = false, shipVia}:{
     const [shippingMethod, setShippingMethod] = useState<ShippingMethod|null>(null);
     const shippingAccount = useSelector(selectCartShippingAccount);
     const id = useId();
-    const ref = useRef<HTMLInputElement>()
+    const ref = useRef<HTMLInputElement|null>(null)
 
     useEffect(() => {
         if (shipVia) {

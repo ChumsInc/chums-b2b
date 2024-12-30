@@ -1,5 +1,5 @@
 import React, {useId} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../app/configureStore";
+import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {selectCustomersStateFilter, selectCustomerStates} from "../selectors";
 import StateSelect from "../../../components/StateSelect";
 import {setCustomersStateFilter} from "../actions";

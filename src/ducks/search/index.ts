@@ -1,8 +1,8 @@
 import {createAction, createAsyncThunk, createReducer} from "@reduxjs/toolkit";
-import {RootState} from "../../app/configureStore";
+import {RootState} from "@app/configureStore";
 import {SearchResult} from "b2b-types";
-import {fetchSearchResults} from "../../api/search";
-import {sendGtagEvent} from "../../api/gtag";
+import {fetchSearchResults} from "@api/search";
+import {ga4Search} from "@src/ga4/generic";
 
 export interface SearchState {
     term: string;
@@ -27,15 +27,15 @@ export const selectShowSearch = (state: RootState) => state.search.show;
 export const setSearchTerm = createAction<string>('search/setTerm');
 export const showSearch = createAction<boolean | undefined>('search/show');
 
-export const getSearchResults = createAsyncThunk<SearchResult[], string, {state: RootState}>(
+export const getSearchResults = createAsyncThunk<SearchResult[], string, { state: RootState }>(
     'search/load',
     async (arg) => {
-        sendGtagEvent('search', {search_term: arg});
+        ga4Search(arg);
         return await fetchSearchResults(arg);
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() ;
+            const state = getState();
             return arg.trim().length > 2 && !selectSearchLoading(state);
         }
     }

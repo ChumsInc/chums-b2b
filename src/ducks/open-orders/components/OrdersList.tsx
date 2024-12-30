@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import DataTable, {SortableTableField} from "../../../common-components/DataTable";
 import {SalesOrderHeader} from "b2b-types";
-import {SortProps} from "../../../types/generic";
+import {SortProps} from "@typeDefs/generic";
 import TablePagination from "@mui/material/TablePagination";
-import {useAppDispatch} from "../../../app/configureStore";
+import {useAppDispatch} from "@app/configureStore";
 import {setSalesOrderSort} from "../actions";
 import {selectOpenOrdersSort} from "../selectors";
 import {useSelector} from "react-redux";

@@ -2,7 +2,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {setLoggedIn} from "../user/actions";
 import {SignUpProfile} from "./types";
 import {loadSignUpProfile, signUpUser} from "./actions";
-import {isErrorResponse} from "../../utils/typeguards";
+import {isErrorResponse} from "@utils/typeguards";
 
 export interface SignUpState {
     email: string;

@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import CartCommentLine from "./CartCommentLine";
-import {Editable, SalesOrderDetailLine} from "b2b-types";
+import {Editable} from "b2b-types";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {saveCartItem, setCartItem} from "@ducks/carts/actions";
 import CartItemLine from "./CartItemLine";
@@ -23,7 +23,7 @@ export default function CartDetailLine({
     line: B2BCartDetail & Editable;
     readOnly?: boolean;
     customerPriceLevel?: string;
-    onAddToCart?: (line: SalesOrderDetailLine) => void;
+    onAddToCart?: (line: B2BCartDetail) => void;
 }) {
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectCustomerKey);
@@ -50,18 +50,18 @@ export default function CartDetailLine({
 
     const addToCartHandler = () => {
         if (onAddToCart) {
-            // onAddToCart(line);
+            onAddToCart(line);
         }
     }
 
     if (line.soDetail.itemType === '4') {
         return (
             <>
-                <CartCommentLine cartId={line.cartHeaderId} lineId={line.id} ref={commentRef} />
+                <CartCommentLine cartId={line.cartHeaderId} lineId={line.id} ref={commentRef}/>
                 {cartItemStatus !== 'idle' && (
                     <TableRow>
                         <TableCell colSpan={9}>
-                            <LinearProgress variant="indeterminate" />
+                            <LinearProgress variant="indeterminate"/>
                         </TableCell>
                     </TableRow>
 
@@ -95,7 +95,7 @@ export default function CartDetailLine({
             {cartItemStatus !== 'idle' && (
                 <TableRow>
                     <TableCell colSpan={9}>
-                        <LinearProgress variant="indeterminate" />
+                        <LinearProgress variant="indeterminate"/>
                     </TableCell>
                 </TableRow>
 

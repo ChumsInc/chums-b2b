@@ -1,10 +1,10 @@
 import React from 'react';
-import {customerSlug, longCustomerNo, longRepNo, sortUserAccounts} from '../../../utils/customer';
+import {customerSlug, longCustomerNo, longRepNo, sortUserAccounts} from '@utils/customer';
 import {UserCustomerAccess} from "b2b-types";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
 import {generatePath, Link as RoutedLink} from "react-router";
-import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "../../../constants/paths";
+import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "@constants/paths";
 
 const UserAccountButton = ({access, selected = 0}: {
     access: UserCustomerAccess;

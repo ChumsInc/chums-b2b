@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {useAppDispatch} from "../app/configureStore";
-import {loadPage} from "../ducks/page/actions";
+import {useAppDispatch} from "@app/configureStore";
+import {loadPage} from "@ducks/page/actions";
 import {useSelector} from "react-redux";
-import {selectPageContent} from "../ducks/page/selectors";
+import {selectPageContent} from "@ducks/page/selectors";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";

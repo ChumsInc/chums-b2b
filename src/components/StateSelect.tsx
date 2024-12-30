@@ -3,7 +3,7 @@
  */
 
 import React, {useEffect, useId, useState} from 'react';
-import {STATES_USA, StateTerritory, TERRITORIES_CANADA} from '../constants/states';
+import {STATES_USA, StateTerritory, TERRITORIES_CANADA} from '@constants/states';
 import MenuItem from "@mui/material/MenuItem";
 import TextField, {TextFieldProps} from "@mui/material/TextField";
 
