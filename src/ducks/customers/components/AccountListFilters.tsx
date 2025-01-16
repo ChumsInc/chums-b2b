@@ -1,4 +1,4 @@
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import React from "react";
 import {loadCustomerList} from "../actions";
 import {useSelector} from "react-redux";
@@ -21,24 +21,24 @@ const AccountListFilters = () => {
     }
 
     return (
-        <Grid2 container spacing={2} alignContent="center" sx={{mt: 5, mb: 1}} justifyContent="space-between">
-            <Grid2 sx={{flex: '1 1 auto'}}>
+        <Grid container spacing={2} alignContent="center" sx={{mt: 5, mb: 1}} justifyContent="space-between">
+            <Grid sx={{flex: '1 1 auto'}}>
                 <AccountListCustomerFilter/>
-            </Grid2>
+            </Grid>
             {allowSelectReps && (
-                <Grid2 sx={{flex: '1 1 auto'}}>
+                <Grid sx={{flex: '1 1 auto'}}>
                     <AccountListRepFilter/>
-                </Grid2>
+                </Grid>
             )}
             {statesList.length > 1 && (
-                <Grid2 sx={{flex: '1 1 auto'}}>
+                <Grid sx={{flex: '1 1 auto'}}>
                     <AccountListStateFilter/>
-                </Grid2>
+                </Grid>
             )}
-            <Grid2 xs="auto">
+            <Grid size="auto">
                 <Button variant="contained" onClick={reloadHandler}>Refresh List</Button>
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     )
 }
 

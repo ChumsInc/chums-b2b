@@ -12,7 +12,7 @@ import {generatePath, useNavigate, useParams} from "react-router";
 import DeliveryAddress from "@components/Address/DeliveryAddress";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "./ReloadCustomerButton";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import EmailAddressEditor from "@components/EmailAddressEditor";
@@ -90,28 +90,32 @@ const ShipToForm = () => {
             {loading && <LinearProgress variant="indeterminate"/>}
             {shipTo && (
                 <form onSubmit={submitHandler}>
-                    <Grid2 container spacing={2} alignItems="center">
-                        <Grid2 xs={12} md={6}>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid size={{xs: 12, sm: 6}}>
                             <TextField variant="filled" label="Location Name" fullWidth size="small"
                                        type="text" value={shipTo.ShipToName ?? ''}
                                        onChange={fieldChangeHandler('ShipToName')}
-                                       inputProps={{readOnly: readOnly}}/>
-                        </Grid2>
-                        <Grid2 xs={12} md={6}
+                                       slotProps={{
+                                           htmlInput: {readOnly}
+                                       }}/>
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}
                                style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <TextField variant="filled" label="Location Code" size="small"
                                        type="text" value={shipTo.ShipToCode ?? ''}
                                        onChange={fieldChangeHandler('ShipToCode')}
-                                       inputProps={{readOnly: true}}/>
+                                       slotProps={{
+                                           htmlInput: {readOnly: true}
+                                       }}/>
                             <PrimaryShipToButton shipTo={shipTo} disabled={readOnly || !billTo}/>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                     <hr/>
-                    <Grid2 container spacing={2}>
-                        <Grid2 xs={12} md={6}>
+                    <Grid container spacing={2}>
+                        <Grid size={{xs: 12, sm: 6}}>
                             <ShipToAddressFormFields address={shipTo} readOnly={readOnly} onChange={changeHandler}/>
-                        </Grid2>
-                        <Grid2 xs={12} md={6}>
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
                             <Stack direction="column" spacing={2}>
                                 <StoreMapToggle checked={shipTo.Reseller === 'Y'}
                                                 onChange={fieldChangeHandler('Reseller')}
@@ -134,8 +138,8 @@ const ShipToForm = () => {
                                     Save
                                 </Button>
                             </Stack>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 </form>
             )}
         </div>

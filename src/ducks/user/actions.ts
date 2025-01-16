@@ -3,7 +3,7 @@ import {
     STORE_AUTHTYPE,
     STORE_CURRENT_CART,
     STORE_CUSTOMER,
-    STORE_CUSTOMER_SHIPPING_ACCOUNT,
+    STORE_CUSTOMER_SHIPPING_ACCOUNT, STORE_RECENT_ACCOUNTS,
     STORE_USER_ACCESS
 } from '@constants/stores';
 import {auth} from '@api/IntranetAuthService';
@@ -38,7 +38,7 @@ import {
     UserProfileResponse
 } from "./types";
 import {RootState} from "@app/configureStore";
-import {BasicCustomer, UserCustomerAccess, UserProfile} from "b2b-types";
+import {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "b2b-types";
 import {isCustomerAccess} from "./utils";
 import {StoredProfile} from "@typeDefs/user";
 import {loadCustomerList} from "../customers/actions";
@@ -63,11 +63,13 @@ export const loginUser = createAsyncThunk<string | APIErrorResponse, LoginUserPr
             localStore.setItem(STORE_AUTHTYPE, AUTH_LOCAL);
             auth.setProfile(getProfile(token));
             const expires = getTokenExpiry(token);
-            dispatch(setLoggedIn({loggedIn: true, authType: AUTH_LOCAL, token, expires}));
+            const recentCustomers = localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, []);
+            dispatch(setLoggedIn({loggedIn: true, authType: AUTH_LOCAL, token, expires, recentCustomers}));
             const profileResponse = await dispatch(loadProfile());
             if (isFulfilled(profileResponse) && profileResponse.payload.accounts?.length === 1) {
                 dispatch(loadCustomerList(profileResponse.payload.accounts[0]))
             }
+
         }
         return res;
     },
@@ -130,6 +132,7 @@ export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string, { 
             }
             response.picture = getSignInProfile(arg)?.imageUrl ?? null;
             auth.setProfile(storedProfile);
+            response.recentCustomers = localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, []);
         }
         return response;
     },

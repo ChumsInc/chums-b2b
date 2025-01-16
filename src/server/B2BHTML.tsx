@@ -49,7 +49,7 @@ export default function B2BHtml({html, css, state, manifestFiles, swatchTimestam
             <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon-180x180.png"/>
 
             <style dangerouslySetInnerHTML={{__html: css}} nonce={cspNonce}/>
-            <link rel="stylesheet" href={`https://b2b.chums.com/b2b-swatches/swatches.css?version=${swatchTimestamp}`}
+            <link rel="stylesheet" href={`/b2b-swatches/swatches.css?version=${swatchTimestamp}`}
                   nonce={cspNonce}/>
             <link rel="stylesheet" href="/css/has-bootstrap.css" nonce={cspNonce}/>
             <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -68,6 +68,8 @@ export default function B2BHtml({html, css, state, manifestFiles, swatchTimestam
         <body>
         <div id="app" dangerouslySetInnerHTML={{__html: html}}/>
         <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedState}`}}  nonce={cspNonce}/>
+        {manifestFiles['vendors-react.js'] && (<script src={manifestFiles['vendors-react.js']}  nonce={cspNonce}/>)}
+        {manifestFiles['vendors-mui.js'] && (<script src={manifestFiles['vendors-mui.js']}  nonce={cspNonce}/>)}
         {manifestFiles['vendors.js'] && (<script src={manifestFiles['vendors.js']}  nonce={cspNonce}/>)}
         {manifestFiles['chums.js'] && (<script src={manifestFiles['chums.js']}  nonce={cspNonce}/>)}
         {manifestFiles['main.js'] && (<script src={manifestFiles['main.js']}  nonce={cspNonce}/>)}

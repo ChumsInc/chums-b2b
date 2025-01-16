@@ -6,9 +6,11 @@ import path from "node:path";
 const debug = Debug('chums:server:manifest');
 
 export interface ManifestFiles {
-    'main.js'?: string;
-    'chums.js'?: string;
+    'vendors-react.js'?: string;
+    'vendors-mui.js'?: string;
     'vendors.js'?: string;
+    'chums.js'?: string;
+    'main.js'?: string;
     version?: string;
 }
 export async function loadManifest():Promise<ManifestFiles> {

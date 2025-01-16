@@ -18,7 +18,7 @@ import ShipDateInput from "./ShipDateInput";
 import {minShipDate, nextShipDate} from "@utils/orders";
 import ShippingMethodSelect from "@ducks/carts/components/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid2';
 import ShipToSelect from "@ducks/customer/components/ShipToSelect";
 import Alert from "@mui/material/Alert";
 import {generatePath, useNavigate} from "react-router";
@@ -83,7 +83,11 @@ export default function CartOrderHeader() {
                 customerSlug: customerKey,
                 salesOrderNo: response.payload,
             }), {replace: true});
+            return;
         }
+        navigate(generatePath('/account/:customerSlug/carts', {
+            customerSlug: customerKey,
+        }), {replace: true});
     }, [dispatch, cartHeader, shippingAccount, customerKey, navigate])
 
     useEffect(() => {
@@ -238,27 +242,36 @@ export default function CartOrderHeader() {
 
     return (
         <Box component="div">
-            <Grid container spacing={2}>
-                <Grid xs={12} lg={6}>
+            <Grid container spacing={2} sx={{mb: 1}}>
+                <Grid size={{xs: 12, sm: 6}}>
                     <Stack spacing={2} direction="column">
                         <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
                             <TextField label="Cart Created" type="date" fullWidth variant="filled" size="small"
                                        value={orderDate} placeholder=""
-                                       inputProps={{readOnly: true}}/>
+                                       slotProps={{
+                                           htmlInput: {readOnly: true}
+                                       }}/>
                             <TextField label="Cart Expires" type="date" size="small" variant="filled" fullWidth
                                        value={dayjs(header?.shipExpireDate).format('YYYY-MM-DD')}
-                                       inputProps={{readOnly: true}}/>
+                                       slotProps={{
+                                           htmlInput: {readOnly: true}
+                                       }}/>
                         </Stack>
                         <TextField label="Cart Name" type="text" fullWidth variant="filled" size="small"
                                    value={cartHeader?.customerPONo ?? ''} required
                                    onChange={changeHandler("customerPONo")}
-                                   inputProps={{ref: customerPORef, maxLength: 30}}/>
-                        <TextField label="Promo Code" type="text" fullWidth inputProps={{maxLength: 30}}
+                                   slotProps={{
+                                       htmlInput: {ref: customerPORef, maxLength: 30}
+                                   }}/>
+                        <TextField label="Promo Code" type="text" fullWidth
+                                   slotProps={{
+                                       htmlInput: {maxLength: 30}
+                                   }}
                                    value={cartHeader?.promoCode ?? ''} onChange={changeHandler('promoCode')}
                                    variant="filled" size="small"/>
                     </Stack>
                 </Grid>
-                <Grid xs={12} lg={6}>
+                <Grid size={{xs: 12, sm: 6}}>
                     <Stack spacing={2} direction="column">
                         <ShipToSelect value={cartHeader?.shipToCode ?? ''}
                                       disabled={loadingStatus !== 'idle'}
@@ -266,12 +279,14 @@ export default function CartOrderHeader() {
                                       onChange={shipToChangeHandler}/>
                         <TextField label="Delivery Address" type="text" multiline variant="filled" size="small"
                                    value={multiLineAddress(addressFromShipToAddress(cartHeader), true).join('\n')}
-                                   inputProps={{readOnly: true}}/>
+                                   slotProps={{
+                                       htmlInput: {readOnly: true},
+                                   }}/>
                     </Stack>
                 </Grid>
             </Grid>
-            <Grid container spacing={2}>
-                <Grid xs={12} lg={6}>
+            <Grid container spacing={2} sx={{mb: 1}}>
+                <Grid size={{xs: 12, sm: 6}}>
                     <Collapse in={cartProgress >= cartProgress_Delivery} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
                             <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
@@ -298,7 +313,7 @@ export default function CartOrderHeader() {
                         </Stack>
                     </Collapse>
                 </Grid>
-                <Grid xs={12} lg={6}>
+                <Grid size={{xs: 12, sm: 6}}>
                     <Collapse in={cartProgress >= cartProgress_Payment} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
                             <CartPaymentSelect value={cartHeader?.PaymentType ?? ''} error={!cartHeader?.PaymentType}
@@ -306,10 +321,13 @@ export default function CartOrderHeader() {
                                                disabled={loadingStatus !== 'idle'}
                                                onChange={valueChangeHandler('PaymentType')}/>
                             <TextField label="Purchase Order No" type="text" fullWidth variant="filled" size="small"
-                                       inputProps={{maxLength: 30}} onChange={changeHandler('customerPONo')}
+                                       value={cartHeader?.customerPONo ?? ''} onChange={changeHandler('customerPONo')}
+                                       slotProps={{
+                                           htmlInput: {maxLength: 30}
+                                       }}
                                        disabled={loadingStatus !== 'idle'}
                                        error={!cartHeader.customerPONo}
-                                       value={cartHeader?.customerPONo ?? ''} required/>
+                                        required/>
                         </Stack>
                     </Collapse>
                 </Grid>

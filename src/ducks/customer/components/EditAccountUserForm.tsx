@@ -176,9 +176,11 @@ const EditAccountUserForm = () => {
                 <TextField type="text" fullWidth label="User Name"
                            value={user.name} onChange={changeHandler('name')}
                            variant="filled"
-                           inputProps={{maxLength: 45}}
-                           InputProps={{
-                               startAdornment: (<InputAdornment position="start"><PersonIcon/></InputAdornment>)
+                           slotProps={{
+                               htmlInput: {maxLength: 45},
+                               input: {
+                                   startAdornment: (<InputAdornment position="start"><PersonIcon/></InputAdornment>)
+                               }
                            }}
                            disabled={user.accountType !== 4} required
                            helperText="Please enter the users full name"/>
@@ -186,9 +188,11 @@ const EditAccountUserForm = () => {
                 <TextField type="email" fullWidth label="Email Address"
                            value={user.email} onChange={changeHandler('email')}
                            variant="filled"
-                           inputProps={{maxLength: 255}}
-                           InputProps={{
-                               startAdornment: (<InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>)
+                           slotProps={{
+                               htmlInput: {maxLength: 255},
+                               input: {
+                                   startAdornment: (<InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>)
+                               }
                            }}
                            disabled={user.accountType !== 4} required/>
                 {(user.id === 0 || addShipTo) && (
@@ -199,8 +203,10 @@ const EditAccountUserForm = () => {
                     <TextField multiline fullWidth label="Welcome Message"
                                value={user.notes} onChange={changeHandler('notes')}
                                variant="filled"
-                               InputProps={{
-                                   startAdornment: (<InputAdornment position="start"><NotesIcon/></InputAdornment>)
+                               slotProps={{
+                                   input: {
+                                       startAdornment: (<InputAdornment position="start"><NotesIcon/></InputAdornment>)
+                                   }
                                }}
                                disabled={user.accountType !== 4} required
                                helperText="Please enter a welcome message to the new user."/>

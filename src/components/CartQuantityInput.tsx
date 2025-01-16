@@ -8,7 +8,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import {visuallyHidden} from "@mui/utils";
-import {styled} from "@mui/material/styles";
+import {styled, useTheme} from "@mui/material/styles";
 import {useDebounceValue} from "@hooks/use-debounce";
 
 const NumericInput = styled(FilledInput)`
@@ -26,6 +26,7 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
     disabled?: boolean;
     required?: boolean;
 }) => {
+    const theme = useTheme();
     const id = useId();
     const [qty, setQty] = useState<number>(quantity);
     const [value, setValue] = useDebounceValue<number>(qty, 350);
@@ -96,7 +97,7 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
                                               disabled={disabled}>
                                       <AddIcon/>
                                   </IconButton>
-                                  <Box sx={{ml: 1}}>{unitOfMeasure ?? 'EA'}</Box>
+                                  <Box sx={{ml: 1}} color={theme.palette.chumsGrey.dark}>{unitOfMeasure ?? 'EA'}</Box>
                               </InputAdornment>
                           }
             />

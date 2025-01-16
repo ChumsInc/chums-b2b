@@ -28,8 +28,8 @@ const AccountUserPermissions = () => {
             <Table className="table table-sm" size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell/>
-                        <TableCell>Ship To Code</TableCell>
+                        <TableCell>Type</TableCell>
+                        <TableCell align="center">Ship To Code</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>Location</TableCell>
                     </TableRow>
@@ -37,7 +37,7 @@ const AccountUserPermissions = () => {
                 <TableBody>
                     {user.shipToCode?.length === 0 && (
                         <TableRow>
-                            <TableCell><BusinessIcon/></TableCell>
+                            <TableCell><BusinessIcon aria-label="billing locatoin"/></TableCell>
                             <TableCell colSpan={3}>All Locations</TableCell>
                         </TableRow>
                     )}
@@ -45,8 +45,8 @@ const AccountUserPermissions = () => {
                         .filter(st => user.shipToCode?.includes(st.ShipToCode))
                         .map(shipTo => (
                             <TableRow key={shipTo.ShipToCode}>
-                                <TableCell><StoreIcon/></TableCell>
-                                <TableCell>{shipTo.ShipToCode}</TableCell>
+                                <TableCell><StoreIcon aria-label="delivery location"/></TableCell>
+                                <TableCell align="center">{shipTo.ShipToCode}</TableCell>
                                 <TableCell>{shipTo.ShipToName}</TableCell>
                                 <TableCell>{shipTo.ShipToCity}, {shipTo.ShipToState} {shipTo.ShipToCountryCode}</TableCell>
                             </TableRow>

@@ -45,25 +45,44 @@ const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: Pa
                 {isPasswordReset ? 'Set your password' : 'Update your password'}
             </Typography>
             <Stack direction="column" spacing={2} component="form" onSubmit={submitHandler} name="username">
-                <TextField variant="filled" value={email ?? ''} label="Email" inputProps={{readOnly: true}}
-                           InputProps={{autoComplete: 'username'}}/>
+                <TextField variant="filled" value={email ?? ''} label="Email"
+                           slotProps={{
+                               htmlInput: {readOnly: true, autoComplete: 'username'},
+                           }}/>
                 {!isPasswordReset && (
                     <PasswordTextField type="password" label="Old Password" variant="filled"
-                                       inputProps={{maxLength: maxPasswordLength, minLength: minPasswordLength}}
-                                       fullWidth required InputProps={{autoComplete: 'current-password'}}
                                        value={oldPassword} onChange={(ev) => setOldPassword(ev.target.value)}
+                                       slotProps={{
+                                           htmlInput: {
+                                               maxLength: maxPasswordLength,
+                                               minLength: minPasswordLength,
+                                               autoComplete: 'current-password'
+                                           }
+                                       }}
+                                       fullWidth required
                     />
                 )}
                 <PasswordTextField type="password" label="New Password" variant="filled"
                                    fullWidth required
                                    value={password1} onChange={(ev) => setPassword1(ev.target.value)}
-                                   InputProps={{autoComplete: 'new-password'}}
-                                   inputProps={{maxLength: maxPasswordLength, minLength: minPasswordLength}}
-                                   FormHelperTextProps={{component: 'div'}}/>
+                                   slotProps={{
+                                       htmlInput: {
+                                           maxLength: maxPasswordLength,
+                                           minLength: minPasswordLength,
+                                           autoComplete: 'new-password'
+                                       },
+                                       formHelperText: {component: 'div'}
+                                   }}/>
                 <PasswordTextField type="password" label="Confirm New Password" variant="filled"
-                                   fullWidth required InputProps={{autoComplete: 'new-password'}}
+                                   fullWidth required
                                    value={password2} onChange={(ev) => setPassword2(ev.target.value)}
-                                   inputProps={{maxLength: maxPasswordLength, minLength: minPasswordLength}}
+                                   slotProps={{
+                                       htmlInput: {
+                                           maxLength: maxPasswordLength,
+                                           minLength: minPasswordLength,
+                                           autoComplete: 'new-password'
+                                       }
+                                   }}
                                    helperText={password2 !== password1 ? 'Your new passwords do not match' : ''}/>
                 <Stack direction="row" justifyContent="flex-end" spacing={2}>
                     <Button type="button" variant="text" onClick={onCancel}>Cancel</Button>

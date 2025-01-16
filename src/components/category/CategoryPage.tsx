@@ -8,7 +8,7 @@ import {selectCategory, selectCategoryLoading} from "@ducks/category/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import {ga4ViewItemList} from "@src/ga4/generic";
 
 const CategoryPage = ({keyword}: {
@@ -45,14 +45,14 @@ const CategoryPage = ({keyword}: {
             <Typography component="h1" variant="h1" sx={{textAlign: 'center', mb: 3}}>{title}</Typography>
             {loading && <LinearProgress variant="indeterminate"/>}
             {!!pageText && <Box dangerouslySetInnerHTML={{__html: pageText}}/>}
-            <Grid2 container spacing={3} justifyContent={children.length < 4 ? 'center' : 'start'} sx={{mt: 3}}>
+            <Grid container spacing={3} justifyContent={children.length < 4 ? 'center' : 'start'} sx={{mt: 3}}>
                 {children
                     .filter(child => !!child.status)
                     .sort((a, b) => a.priority - b.priority)
                     .map(child => (
                         <CategoryPageElement key={child.id} item={child}/>
                     ))}
-            </Grid2>
+            </Grid>
         </Box>
     )
 }

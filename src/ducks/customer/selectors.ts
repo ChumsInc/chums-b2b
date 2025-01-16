@@ -2,7 +2,7 @@ import {createSelector} from "@reduxjs/toolkit";
 import {isBillToCustomer} from "@utils/typeguards";
 import {RootState} from "@app/configureStore";
 import {ShipToCustomer} from "b2b-types";
-import {customerShipToSorter} from "@utils/customer";
+import {customerShipToSorter, customerUserSorter} from "@utils/customer";
 import {selectCurrentUserAccount} from "../user/selectors";
 import {filterShipToByUserAccount, hasBillToAccess} from "./utils";
 
@@ -17,6 +17,7 @@ export const selectCustomerLoadStatus = (state:RootState) => state.customer.load
 export const selectCustomerSaving = (state:RootState) => state.customer.saving ?? false;
 export const selectCustomerLoaded = (state:RootState) => state.customer.loaded ?? false;
 export const selectCustomerUsers = (state:RootState) => state.customer.users ?? [];
+export const selectCustomerUserSort = (state:RootState) => state.customer.userSort;
 export const selectCustomerShipToAddresses = (state:RootState) => state.customer.shipToAddresses ?? [];
 export const selectCustomerPaymentCards = (state:RootState) => state.customer.paymentCards;
 
@@ -71,9 +72,11 @@ export const selectPrimaryShipToCode = createSelector(
     }
 )
 export const selectPermittedCustomerUsers = createSelector(
-    [selectCustomerUsers, selectPermittedBillToAddress, selectPermittedShipToAddresses],
-    (users, billTo, shipToAddresses) => {
-        return users.filter(user => billTo || shipToAddresses.filter(addr => user.shipToCode?.includes(addr.ShipToCode)).length > 0);
+    [selectCustomerUsers, selectPermittedBillToAddress, selectPermittedShipToAddresses, selectCustomerUserSort],
+    (users, billTo, shipToAddresses, sort) => {
+        return users
+            .filter(user => billTo || shipToAddresses.filter(addr => user.shipToCode?.includes(addr.ShipToCode)).length > 0)
+            .sort(customerUserSorter(sort));
     }
 )
 

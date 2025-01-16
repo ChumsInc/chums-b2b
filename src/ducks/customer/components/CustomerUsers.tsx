@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import CustomerUserTable from "./CustomerUserTable";
 import {selectCustomerKey, selectCustomerLoading} from "../selectors";
 import LinearProgress from "@mui/material/LinearProgress";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -23,8 +23,8 @@ export default function CustomerUsers() {
     }
 
     return (
-        <Grid2 container spacing={2} sx={{mt: '2'}}>
-            <Grid2 xs={12} sm={6}>
+        <Grid container spacing={2} sx={{mt: '2'}}>
+            <Grid size={{xs: 12, sm: 6}}>
                 <Stack direction="row" spacing={2} justifyContent="space-between">
                     <Typography variant="h3" component="h3">
                         User List
@@ -35,12 +35,12 @@ export default function CustomerUsers() {
                 </Stack>
                 {loading && <LinearProgress variant={"indeterminate"} sx={{my: 1}}/>}
                 <CustomerUserTable/>
-            </Grid2>
-            <Grid2 xs={12} sm={6}>
+            </Grid>
+            <Grid size={{xs: 12, sm: 6}}>
                 <Outlet/>
                 <Divider sx={{my: 3}}/>
                 <AccountUserPermissions/>
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     )
 }

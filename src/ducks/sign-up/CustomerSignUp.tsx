@@ -95,7 +95,7 @@ const CustomerSignUp = () => {
                                                     can be found in a recent order or invoice."/>
                     )}
                     {!user.hasAccount && (
-                        <AddressFormFields onChange={addressChangeHandler} address={user.address ?? newAddress}/>
+                        <AddressFormFields onChange={addressChangeHandler} address={user.address ?? newAddress} addressType="billing"/>
                     )}
                     <TextField label="Your Telephone #" type="tel"  variant="filled"
                                autoComplete="tel" required={!user.hasAccount}

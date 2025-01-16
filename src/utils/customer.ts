@@ -317,22 +317,18 @@ export const customerPaymentCardSorter = (a: CustomerPaymentCard, b: CustomerPay
 
 export const defaultCustomerUserSort: SortProps<CustomerUser> = {field: 'id', ascending: true};
 
-export const customerUserSorter = ({
-                                       field,
-                                       ascending
-                                   }: SortProps<CustomerUser>) => (a: CustomerUser, b: CustomerUser) => {
+export const customerUserSorter = (sort:SortProps<CustomerUser>) => (a:CustomerUser, b:CustomerUser):number => {
+    const {field, ascending} = sort;
     const sortMod = ascending ? 1 : -1;
     switch (field) {
         case 'name':
-            return (
-                a[field].toLowerCase() === b[field].toLowerCase()
-                    ? (a.email.toLowerCase() > b.email.toLowerCase() ? 1 : -1)
-                    : (a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1)
-            ) * sortMod;
-
         case 'email':
-            // email is a unique field for users
-            return (a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1) * sortMod;
+            return (
+                a[field].toLowerCase().localeCompare(b[field].toLowerCase()) === 0
+                    ? a.id - b.id
+                    : a[field].toLowerCase().localeCompare(b[field].toLowerCase())
+            ) * sortMod;
+        case 'id':
         default:
             return (a.id - b.id) * sortMod;
     }

@@ -1,48 +1,35 @@
-import React, {useState} from 'react';
-import ListItemLink from "../../../components/ListItemLink";
+import React, {useEffect, useState} from 'react';
 import {NavItemProps} from "@typeDefs/ui-features";
-import ProductMenu from "./ProductMenu";
-import Collapse from "@mui/material/Collapse";
-import ListItemButton from "@mui/material/ListItemButton";
 import {useSelector} from "react-redux";
 import {selectProductMenu} from "../index";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import List from "@mui/material/List";
+import DrawerMenu from "@ducks/menu/components/DrawerMenu";
+import {MinimalMenuItem} from "@ducks/menu/types";
+import BasicMenu from "@ducks/menu/components/BasicMenu";
 
 const productUrl = (url: string) => `/products${url}`;
 
 export default function NavProductsLink({inDrawer}: NavItemProps) {
-    const [show, setShow] = useState(false);
     const productMenu = useSelector(selectProductMenu);
+    const [items, setItems] = useState<MinimalMenuItem[]>([]);
 
-    const clickHandler = (ev: React.MouseEvent) => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        setShow(!show);
-    }
+    useEffect(() => {
+        setItems(productMenu?.items ?? [])
+    }, [productMenu]);
+
     if (inDrawer) {
         return (
-            <>
-                <ListItemButton onClick={clickHandler}>
-                    <ListItemText primary="Products"/>
-                    {show ? <ExpandLess/> : <ExpandMore/>}
-                </ListItemButton>
-                <Collapse in={show}>
-                    <List component="div" disablePadding>
-                        {productMenu?.items?.map(item => (
-                            <ListItemLink sx={{pl: 4}} key={item.id} primary={item.title} to={productUrl(item.url)}/>
-                        ))}
-                    </List>
-                </Collapse>
-                {show && <Divider sx={{my: '0.5rem'}}/>}
-            </>
-
+            <DrawerMenu title="Products" items={items}/>
         )
     }
+
     return (
-        <ProductMenu/>
+        <BasicMenu title="Products" urlFormat={productUrl}
+                   items={items}
+                   sx={{
+                       '& .MuiMenu-list': {
+                           flexDirection: 'row',
+                       },
+                   }}
+        />
     )
 }

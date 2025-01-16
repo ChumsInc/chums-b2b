@@ -17,7 +17,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from "@mui/material/Typography";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import ChumsLogo from "./ChumsLogo";
 
@@ -109,8 +109,8 @@ const SignUpModal = () => {
                     <CloseIcon/>
                 </IconButton>
                 <DialogContent>
-                    <Grid2 container spacing={2}>
-                        <Grid2 xs={12} sm={6}>
+                    <Grid container spacing={2}>
+                        <Grid size={{xs: 12, sm: 6}}>
                             <Stack direction="column" spacing={2}
                                    sx={{alignItems: 'center', justifyContent: 'center', height: '100%'}}>
                                 <ChumsLogo sx={{maxWidth: '75%'}}/>
@@ -118,14 +118,14 @@ const SignUpModal = () => {
                                     Open your B2B account today for easy ordering and world-class customer service.
                                 </Typography>
                             </Stack>
-                        </Grid2>
-                        <Grid2 xs={12} sm={6}>
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
                             <Box component="img" src={imagePathPortrait} width="361px" height="542px" loading="lazy"
                                  sx={{width: '100%', height: 'auto', display: {xs: 'inline', sm: 'none'}}}/>
                             <Box component="img" src={imagePathLandscape} width="722px" height="542px" loading="lazy"
                                  sx={{width: '100%', height: 'auto', display: {xs: 'none', sm: 'inline'}}}/>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button variant="text" onClick={handleClose}>No Thanks</Button>

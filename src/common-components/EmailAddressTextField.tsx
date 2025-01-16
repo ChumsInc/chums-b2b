@@ -18,10 +18,13 @@ const EmailAddressTextField = ({
     return (
         <>
             <TextField label={label} variant="filled" fullWidth size="small" type="email"
-                       InputProps={{
-                           startAdornment: <InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>,
-                       }}
-                       value={value} onChange={onChange} inputProps={inputProps}/>
+                       value={value} onChange={onChange}
+                       slotProps={{
+                           input: {
+                               startAdornment: <InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>
+                           },
+                           htmlInput: {...inputProps}
+                       }}/>
         </>
     )
 };

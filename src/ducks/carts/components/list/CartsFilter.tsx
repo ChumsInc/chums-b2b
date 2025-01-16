@@ -28,10 +28,12 @@ export default function CartsFilter() {
         <Stack direction="row" spacing={2} justifyContent="space-between">
             <TextField type="search" value={search} onChange={changeHandler} variant="standard" size="small" id={id}
                        fullWidth
-                       InputProps={{
-                           startAdornment: (
-                               <InputAdornment position="start"><SearchIcon/></InputAdornment>
-                           )
+                       slotProps={{
+                           input: {
+                               startAdornment: (
+                                   <InputAdornment position="start"><SearchIcon/></InputAdornment>
+                               )
+                           }
                        }}
                        placeholder={'Order or PO #'}/>
             <Button variant="text" onClick={reloadHandler}>

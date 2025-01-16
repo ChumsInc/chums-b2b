@@ -7,7 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 
 export interface ListItemLinkProps extends ListItemProps {
     icon?: React.ReactElement;
-    primary: string;
+    primary: React.ReactNode;
     to: string;
 }
 

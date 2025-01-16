@@ -1,6 +1,5 @@
 import {ReactNode} from 'react'
 import {SxProps} from "@mui/system";
-import {ContentPage} from "b2b-types";
 
 export interface NavItemProps {
     inDrawer?: boolean;
@@ -22,7 +21,7 @@ export interface BannerImage {
 export interface Banner {
     id: number;
     title: string;
-    priority: number|null;
+    priority: number | null;
     url: string | null;
     startDate: string | null;
     endDate: string | null;
@@ -35,7 +34,7 @@ export interface Banner {
         sxProps?: SxProps;
         innerText: string;
     }
-    src?: string|null;
-    sxProps?: SxProps|null;
+    src?: string | null;
+    sxProps?: SxProps | null;
 }
 

@@ -1,16 +1,10 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {getSearchResults, selectSearchResults} from "../index";
-import {
-    CONTENT_PATH_SEARCH_IMAGE,
-    PATH_PAGE,
-    PATH_PRODUCT,
-    PATH_PRODUCT_WITHOUT_PARENT
-} from "@constants/paths";
-import {generatePath, Link} from 'react-router';
+import {CONTENT_PATH_SEARCH_IMAGE, PATH_PAGE, PATH_PRODUCT, PATH_PRODUCT_WITHOUT_PARENT} from "@constants/paths";
+import {generatePath, Link, useNavigate} from 'react-router';
 import {SearchResult} from "b2b-types";
 import {useDebounceValue} from '@hooks/use-debounce'
-import {useNavigate} from "react-router";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 
@@ -72,7 +66,10 @@ export default function SearchBar() {
         <Autocomplete
             sx={{width: 300, display: 'inline-block'}}
             renderInput={({inputProps, ...params}) => (
-                <TextField {...params} inputProps={{...inputProps, maxLength: 30}}
+                <TextField {...params}
+                           slotProps={{
+                               htmlInput: {...inputProps, maxLength: 30}
+                           }}
                            variant="outlined" size="small" label="Search" fullWidth/>
             )}
             inputValue={inputValue}

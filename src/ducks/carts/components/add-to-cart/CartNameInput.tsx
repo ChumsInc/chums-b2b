@@ -13,7 +13,10 @@ const CartNameInput = ({value, onChange, ...rest}: CartNameInputProps) => {
     }
 
     return (
-        <TextField id={id} label="Cart Name" value={value} onChange={changeHandler} inputProps={{maxLength: 30}}
+        <TextField id={id} label="Cart Name" value={value} onChange={changeHandler}
+                   slotProps={{
+                       htmlInput: {maxLength: 30}
+                   }}
                    size="small" variant="filled" {...rest} />
     )
 }

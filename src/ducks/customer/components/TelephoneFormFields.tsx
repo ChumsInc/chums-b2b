@@ -15,10 +15,16 @@ const TelephoneFormFields = ({account, readOnly, onChange}: {
         <Stack direction="row" spacing={2}>
             <TextField label="Telephone" variant="filled" fullWidth size="small" type="telephone"
                        onChange={changeHandler('TelephoneNo')}
-                       value={account.TelephoneNo ?? ''} inputProps={{maxLength: 17, autoComplete: 'tel', readOnly}}/>
+                       value={account.TelephoneNo ?? ''}
+                       slotProps={{
+                           htmlInput: {maxLength: 17, autoComplete: 'tel', readOnly}
+                       }}/>
             <TextField label="Extension" variant="filled" fullWidth size="small" type="telephone"
                        onChange={changeHandler('TelephoneExt')}
-                       value={account.TelephoneExt ?? ''} inputProps={{maxLength: 17, autoComplete: 'tel-extension', readOnly}}/>
+                       value={account.TelephoneExt ?? ''}
+                       slotProps={{
+                           htmlInput: {maxLength: 17, autoComplete: 'tel-extension', readOnly}
+                       }}/>
         </Stack>
     )
 }

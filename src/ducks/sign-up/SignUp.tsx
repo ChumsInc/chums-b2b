@@ -9,7 +9,7 @@ import {selectLoggedIn} from "../user/selectors";
 import {useNavigate} from "react-router";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import {useIsSSR} from "@hooks/is-server-side";
 
 const SignUp = () => {
@@ -41,17 +41,17 @@ const SignUp = () => {
             <DocumentTitle documentTitle={documentTitles.signUp}/>
             <Typography variant="h1" component="h1" sx={{my: 3}}>Chums B2B Portal</Typography>
             <Typography component="h2" variant="h2" gutterBottom>Sign Up</Typography>
-            <Grid2 container spacing={2}>
-                <Grid2 xs={12} md={6}>
+            <Grid container spacing={2}>
+                <Grid size={{xs: 12, sm: 6}}>
                     <Stack direction="column" spacing={2}>
                         <UsagePolicy/>
                         <MAPPolicy/>
                     </Stack>
-                </Grid2>
-                <Grid2 xs={12} md={6}>
+                </Grid>
+                <Grid size={{xs: 12, sm: 6}}>
                     <CustomerSignUp/>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </div>
     );
 }

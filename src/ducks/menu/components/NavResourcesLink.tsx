@@ -1,15 +1,28 @@
 import {NavItemProps} from "@typeDefs/ui-features";
-import ListItemLink from "../../../components/ListItemLink";
 import React from "react";
-import ResourcesMenu from "./ResourcesMenu";
+import {useSelector} from "react-redux";
+import {selectResourcesMenu} from "@ducks/menu";
+import DrawerMenu from "@ducks/menu/components/DrawerMenu";
+import BasicMenu from "@ducks/menu/components/BasicMenu";
 
 export default function NavResourcesLink({inDrawer}: NavItemProps) {
-    const url = '/resources';
+    const menu = useSelector(selectResourcesMenu);
+
     if (inDrawer) {
-        return (<ListItemLink to={url} primary="Resources"/>)
+        return (
+            <DrawerMenu title="Resources" to="/resources" items={menu?.items ?? []}/>
+        )
     }
+
     return (
-        <ResourcesMenu/>
+        <BasicMenu title="Resources"
+                   items={menu?.items ?? []}
+                   sx={{
+                       '& .MuiMenu-list': {
+                           flexDirection: 'column',
+                       },
+                   }}
+        />
     )
 }
 

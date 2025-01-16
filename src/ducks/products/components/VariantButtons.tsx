@@ -6,7 +6,7 @@ import {setCurrentVariant} from "../actions";
 import {ProductVariant} from "b2b-types";
 import {isSellAsMix} from "../utils";
 import VariantButton from "./VariantButton";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import {ga4SelectMixItem, ga4SelectVariantItem} from "@src/ga4/generic";
 
 
@@ -42,19 +42,19 @@ export default function VariantButtons() {
     }
 
     return (
-        <Grid2 container spacing={1} className="variant-buttons-container"
+        <Grid container spacing={1} className="variant-buttons-container"
                direction={{xs: variants.length > 2 ? 'row' : 'column', sm: 'row'}}
                justifyContent={variants.length === 2 ? 'center' : 'flex-start'}>
             {variants
                 .map(variant => (
-                    <Grid2 key={variant.id} xs={variants.length > 2 ? 4 : 12} sm={3} md={4}>
+                    <Grid key={variant.id} size={{xs: variants.length > 2 ? 4 : 12, sm: 3, md: 4}}>
                         <VariantButton onClick={selectHandler} variant={variant}
                                        direction={{xs: variants.length > 2 ? 'column' : 'row', sm: 'column'}}
                                        spacing={{xs: variants.length <= 2 ? 2 : 0, sm: 0}}
                                        selected={variant.id === selectedVariantId}/>
-                    </Grid2>
+                    </Grid>
                 ))
             }
-        </Grid2>
+        </Grid>
     );
 }

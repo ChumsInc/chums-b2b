@@ -63,14 +63,14 @@ export default React.forwardRef(function CartCommentLine({
                                ref={ref}
                                label="Item Comment"
                                sx={{flex: '1 1 auto'}}
-                               inputProps={{readOnly, maxLength: 2048}}
                                multiline maxRows={4} minRows={1}
                                onChange={changeHandler}
-                               InputProps={{
-                                   endAdornment: <IconButton size="small" onClick={deleteCommentHandler}><ClearIcon/></IconButton>,
-                               }}
-
-                    />
+                               slotProps={{
+                                  htmlInput: {readOnly, maxLength: 2048},
+                                  input: {
+                                      endAdornment: <IconButton size="small" onClick={deleteCommentHandler} aria-label="remove comment"><ClearIcon /></IconButton>
+                                  }
+                               }}/>
                 </Box>
             </TableCell>
             <TableCell colSpan={4}>&nbsp;</TableCell>

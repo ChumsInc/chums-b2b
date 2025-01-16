@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from '@mui/material/Link'
@@ -8,16 +8,16 @@ import Container from "@mui/material/Container";
 
 
 const Content404Component = ({children}: { children: React.ReactNode }) => (
-    <Grid2 xs={12} sm={6}
+    <Grid size={{xs: 12, sm: 6}}
            sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         {children}
-    </Grid2>
+    </Grid>
 );
 const ContentPage404 = () => {
 
     return (
         <Container maxWidth="md">
-            <Grid2 container>
+            <Grid container>
                 <Content404Component>
                     <Typography variant="body1" sx={{fontSize: '2rem', textAlign: 'center', mb: 2}}>
                         It looks like the page you were looking for can&#39;t be found.
@@ -33,7 +33,7 @@ const ContentPage404 = () => {
                          sx={{maxWidth: "100%", height: "auto", maxHeight: '50vh'}}
                          alt="Page not found"/>
                 </Content404Component>
-            </Grid2>
+            </Grid>
         </Container>
     )
 }

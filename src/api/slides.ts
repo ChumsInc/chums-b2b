@@ -1,6 +1,8 @@
 import {Slide} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
+
+//reserved for future use?
 export async function fetchSlides(): Promise<Slide[]> {
     try {
         const res = await fetchJSON<{ slides: Slide[] }>('/api/features/slides/active', {cache: 'no-cache'});

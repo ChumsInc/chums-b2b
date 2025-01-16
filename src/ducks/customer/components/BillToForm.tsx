@@ -19,7 +19,7 @@ import {useAppDispatch} from "@app/configureStore";
 import {BillToCustomer, Editable} from "b2b-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "./ReloadCustomerButton";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import TelephoneFormFields from "./TelephoneFormFields";
@@ -123,31 +123,36 @@ const BillToForm = () => {
         <ErrorBoundary>
             <div>
                 {loading && <LinearProgress variant="indeterminate"/>}
-                <Grid2 container spacing={2}>
-                    <Grid2 xs={12} sm={6}>
+                <Grid container spacing={2}>
+                    <Grid size={{xs: 12, sm: 6}}>
                         <TextField variant="filled" label="Account Number" fullWidth size="small"
                                    type="text" value={longCustomerNo(customer) || ''}
-                                   inputProps={{readOnly: true}}/>
-                    </Grid2>
-                    <Grid2 xs={12} sm={6}>
+                                   slotProps={{
+                                       htmlInput: {readOnly: true}
+                                   }}/>
+                    </Grid>
+                    <Grid size={{xs: 12, sm: 6}}>
                         <TextField variant="filled" label="Payment Terms" fullWidth size="small"
                                    type="text" value={filteredTermsCode(customer.TermsCode)?.description ?? ''}
-                                   inputProps={{readOnly: true}}/>
-                    </Grid2>
-                </Grid2>
+                                   slotProps={{
+                                       htmlInput: {readOnly: true}
+                                   }}
+                        />
+                    </Grid>
+                </Grid>
 
                 {!customer.TaxSchedule && (<MissingTaxScheduleAlert/>)}
                 <hr/>
                 <Typography variant="h3" component="h3">Billing Contact &amp; Address</Typography>
 
                 <form onSubmit={submitHandler}>
-                    <Grid2 container spacing={2}>
-                        <Grid2 xs={12} sm={6}>
-                            <AddressFormFields address={customer}
+                    <Grid container spacing={2}>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <AddressFormFields address={customer} addressType="billing"
                                                readOnly={!canEdit}
                                                onChange={changeHandler}/>
-                        </Grid2>
-                        <Grid2 xs={12} sm={6}>
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
                             <Stack direction="column" spacing={1}>
                                 <StoreMapToggle checked={customer.Reseller === 'Y'}
                                                 onChange={fieldChangeHandler('Reseller')}
@@ -155,31 +160,34 @@ const BillToForm = () => {
                                 {emailAddresses.map((email, index) => (
                                     <TextField key={index} variant="filled" label="Email Address" fullWidth size="small"
                                                type="email" value={email} onChange={emailChangeHandler(index)}
-                                               inputProps={{
-                                                   readOnly: !canEdit,
-                                                   maxLength: 250 - emailAddresses.join(';').length
-                                               }}
-                                               InputProps={{
-                                                   endAdornment: (
-                                                       <InputAdornment position="end">
-                                                           <IconButton aria-label="Add a new email address"
-                                                                       disabled={!email || emailAddresses.join(';').length > 240}
-                                                                       onClick={() => addEmailAddressHandler(index)}>
-                                                               <AddIcon/>
-                                                           </IconButton>
-                                                           <IconButton aria-label="Add a new email address"
-                                                                       onClick={() => removeEmailAddressHandler(index)}
-                                                                       disabled={index === 0}>
-                                                               <RemoveIcon/>
-                                                           </IconButton>
-                                                       </InputAdornment>
-                                                   )
+                                               slotProps={{
+                                                   htmlInput: {
+                                                       readOnly: !canEdit,
+                                                       maxLength: 250 - emailAddresses.join(';').length
+                                                   },
+                                                   input: {
+                                                       endAdornment: (
+                                                           <InputAdornment position="end">
+                                                               <IconButton aria-label="Add a new email address"
+                                                                           disabled={!email || emailAddresses.join(';').length > 240}
+                                                                           onClick={() => addEmailAddressHandler(index)}>
+                                                                   <AddIcon/>
+                                                               </IconButton>
+                                                               <IconButton aria-label="Add a new email address"
+                                                                           onClick={() => removeEmailAddressHandler(index)}
+                                                                           disabled={index === 0}>
+                                                                   <RemoveIcon/>
+                                                               </IconButton>
+                                                           </InputAdornment>
+                                                       )
+                                                   }
                                                }}
                                     />
                                 ))}
                                 <TelephoneFormFields account={customer} onChange={changeHandler} readOnly={!canEdit}/>
                                 {customer.changed &&
-                                    <Alert severity="warning" title="Hey!">Don&#39;t forget to save your changes.</Alert>
+                                    <Alert severity="warning" title="Hey!">Don&#39;t forget to save your
+                                        changes.</Alert>
                                 }
                                 <Stack direction="row" spacing={2} sx={{my: 3}} justifyContent="flex-end">
                                     <ReloadCustomerButton/>
@@ -189,8 +197,8 @@ const BillToForm = () => {
                                 </Stack>
 
                             </Stack>
-                        </Grid2>
-                    </Grid2>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         </ErrorBoundary>

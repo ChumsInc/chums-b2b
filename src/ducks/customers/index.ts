@@ -1,6 +1,6 @@
 import {Customer, RecentCustomer} from "b2b-types";
 import {createReducer} from "@reduxjs/toolkit";
-import {setLoggedIn, setUserAccess} from "../user/actions";
+import {setLoggedIn, setUserAccess, signInWithGoogle} from "../user/actions";
 
 import {customerListSorter} from "@utils/customer";
 import {SortProps} from "@typeDefs/generic";
@@ -64,6 +64,13 @@ export const customersReducer = createReducer(initialUserState, builder => {
                 state.filters.rep = '';
                 state.sort = {field: 'CustomerName', ascending: true};
                 state.loaded = false;
+            } else if (action.payload.recentCustomers) {
+                state.recent = action.payload.recentCustomers;
+            }
+        })
+        .addCase(signInWithGoogle.fulfilled, (state, action) => {
+            if (action.payload.recentCustomers) {
+                state.recent = action.payload.recentCustomers;
             }
         })
         .addCase(loadCustomerList.pending, (state) => {

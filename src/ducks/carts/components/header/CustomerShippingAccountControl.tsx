@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useEffect, useId, useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {useSelector} from "react-redux";
 import FilledInput from '@mui/material/FilledInput'
 import IconButton from "@mui/material/IconButton";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -13,15 +12,15 @@ import {setCartShippingAccount} from "@ducks/carts/actions";
 import {ShippingMethod} from "@typeDefs/customer";
 import {ShippingMethods} from "@utils/general";
 
-const CustomerShippingAccountControl = ({readOnly = false, shipVia}:{
+const CustomerShippingAccountControl = ({readOnly = false, shipVia}: {
     readOnly?: boolean;
-    shipVia?: string|null;
+    shipVia?: string | null;
 }) => {
     const dispatch = useAppDispatch();
-    const [shippingMethod, setShippingMethod] = useState<ShippingMethod|null>(null);
-    const shippingAccount = useSelector(selectCartShippingAccount);
+    const [shippingMethod, setShippingMethod] = useState<ShippingMethod | null>(null);
+    const shippingAccount = useAppSelector(selectCartShippingAccount);
     const id = useId();
-    const ref = useRef<HTMLInputElement|null>(null)
+    const ref = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
         if (shipVia) {
@@ -54,15 +53,16 @@ const CustomerShippingAccountControl = ({readOnly = false, shipVia}:{
                      disabled={!shippingMethod?.allowCustomerAccount || !shippingAccount.enabled}>
             <InputLabel htmlFor={id}>Use your shipping account</InputLabel>
             <FilledInput type="text" value={shippingAccount.enabled ? shippingAccount.value : ''}
-                   onChange={changeHandler} inputProps={{readOnly, id, ref, maxLength: 9}}
-                   startAdornment={
-                       <InputAdornment position="start">
-                           <IconButton aria-label="toggle use your shipping account" disabled={!shippingMethod?.allowCustomerAccount}
-                                       onClick={clickHandler} onMouseDown={(ev) => ev.preventDefault()}>
-                               {shippingAccount.enabled ? <CheckBoxIcon/> : <CheckBoxOutlineBlankIcon/>}
-                           </IconButton>
-                       </InputAdornment>
-                   }/>
+                         onChange={changeHandler} inputProps={{readOnly, id, ref, maxLength: 9}}
+                         startAdornment={
+                             <InputAdornment position="start">
+                                 <IconButton aria-label="toggle use your shipping account"
+                                             disabled={!shippingMethod?.allowCustomerAccount}
+                                             onClick={clickHandler} onMouseDown={(ev) => ev.preventDefault()}>
+                                     {shippingAccount.enabled ? <CheckBoxIcon/> : <CheckBoxOutlineBlankIcon/>}
+                                 </IconButton>
+                             </InputAdornment>
+                         }/>
         </FormControl>
     )
 };

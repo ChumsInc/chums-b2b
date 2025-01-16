@@ -111,7 +111,7 @@ export default function ShipToSelect({
     return (
         <FormControl fullWidth variant="filled" size="small" {...formControlProps}>
             <InputLabel id={id} shrink>{label ?? 'Ship-To Location'}</InputLabel>
-            <Select onChange={changeHandler} variant={formControlProps.variant ?? 'filled'}
+            <Select onChange={changeHandler} variant={formControlProps.variant ?? 'filled'} id={id}
                     value={isValidValue ? (value ?? (allowAllLocations ? allLocationsValue : '')) : ''}
                     displayEmpty
                     renderValue={renderValueHandler}

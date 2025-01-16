@@ -5,6 +5,7 @@ import process from 'node:process'
 import webpack from 'webpack';
 import {WebpackManifestPlugin} from "webpack-manifest-plugin";
 import TerserPlugin from 'terser-webpack-plugin';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 const clientConfig = {
     target: 'web',
@@ -41,6 +42,7 @@ const clientConfig = {
             append: `\n //# sourceMappingURL=/build/[url]`
         }),
         new WebpackManifestPlugin({}),
+        new BundleAnalyzerPlugin({}),
     ]
 }
 

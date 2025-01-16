@@ -12,7 +12,7 @@ const PasswordTextField = React.forwardRef<HTMLInputElement, PasswordInputProps>
     function PasswordInput(props: PasswordInputProps, ref) {
         const [showPassword, setShowPassword] = useState<boolean>(false);
         const {
-            InputProps,
+            slotProps,
             ...rest
         } = props;
 
@@ -35,13 +35,17 @@ const PasswordTextField = React.forwardRef<HTMLInputElement, PasswordInputProps>
         )
 
         return (
-            <TextField InputProps={{
-                ...InputProps,
-                ref: ref,
-                type: showPassword ? 'text' : 'password',
-                endAdornment: renderInputAdornment()
-            }}
-                       {...rest}/>
+            <TextField
+                slotProps={{
+                    ...slotProps,
+                    input: {
+                        ...slotProps?.input,
+                        ref: ref,
+                        type: showPassword ? 'text' : 'password',
+                        endAdornment: renderInputAdornment()
+                    }
+                }}
+                {...rest}/>
         )
     });
 

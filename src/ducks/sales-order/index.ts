@@ -1,4 +1,4 @@
-import {createReducer} from "@reduxjs/toolkit";
+import {createReducer, isAnyOf} from "@reduxjs/toolkit";
 import {defaultDetailSorter, isClosedSalesOrder} from "./utils";
 import {calcOrderType} from "@utils/orders";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
@@ -52,22 +52,9 @@ export const initialSalesOrderState = (): SalesOrderState => ({
     loaded: false,
 })
 
+
 const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
     builder
-        .addCase(setCustomerAccount.fulfilled, (state, action) => {
-            const customerKey = customerSlug(action.meta.arg);
-            if (state.customerKey !== customerKey) {
-                state.customerKey = customerKey;
-                state.salesOrderNo = '';
-                state.header = null;
-                state.detail = [];
-                state.invoices = [];
-                state.payment = [];
-                state.orderType = 'past';
-                state.attempts = 0;
-                state.loaded = false;
-            }
-        })
         .addCase(setLoggedIn, (state, action) => {
             if (!action.payload?.loggedIn) {
                 state.salesOrderNo = '';
@@ -90,20 +77,6 @@ const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
             if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== customerSlug(state.header)) {
                 state.header = null;
                 state.salesOrderNo = '';
-                state.detail = [];
-                state.invoices = [];
-                state.payment = [];
-                state.orderType = 'past';
-                state.attempts = 0;
-                state.loaded = false;
-            }
-        })
-        .addCase(loadCustomer.pending, (state, action) => {
-            const customerKey = customerSlug(action.meta.arg);
-            if (state.customerKey !== customerKey) {
-                state.customerKey = customerKey;
-                state.salesOrderNo = '';
-                state.header = null;
                 state.detail = [];
                 state.invoices = [];
                 state.payment = [];
@@ -167,6 +140,20 @@ const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
         })
         .addCase(loadSalesOrder.rejected, (state) => {
             state.processing = 'idle';
+        })
+        .addMatcher(isAnyOf(setCustomerAccount.fulfilled, loadCustomer.pending), (state, action) => {
+            const customerKey = customerSlug(action.meta.arg);
+            if (state.customerKey !== customerKey) {
+                state.customerKey = customerKey;
+                state.salesOrderNo = '';
+                state.header = null;
+                state.detail = [];
+                state.invoices = [];
+                state.payment = [];
+                state.orderType = 'past';
+                state.attempts = 0;
+                state.loaded = false;
+            }
         })
 })
 

@@ -11,11 +11,6 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import Stack from "@mui/material/Stack";
 import SignUpModal from "../components/SignUpModal";
 
-const SiteFooter = styled(Box)(() => ({
-    width: '100%',
-    maxWidth: '100%',
-}));
-
 const ContactsContainer = styled(Stack)(() => ({
     backgroundColor: '#000000',
     color: '#FFFFFF',
@@ -78,7 +73,7 @@ const Footer = () => {
     const date = new Date();
     return (
 
-        <SiteFooter component="footer">
+        <Box component="footer" sx={{width: '100%', maxWidth: '100%'}}>
             <ContactsContainer spacing={1} direction={{xs: 'column', sm: 'row'}}>
                 <AddressBox>
                     <div><strong>CONTACT US</strong></div>
@@ -123,7 +118,7 @@ const Footer = () => {
                 </Box>
             </BottomLinksContainer>
 
-        </SiteFooter>
+        </Box>
     )
 };
 

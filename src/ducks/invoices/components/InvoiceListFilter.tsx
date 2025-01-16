@@ -10,7 +10,7 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import InputAdornment from '@mui/material/InputAdornment'
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 
 const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
     const dispatch = useAppDispatch();
@@ -31,34 +31,36 @@ const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
     }
 
     return (
-        <Grid2 container direction="row" spacing={2}>
-            <Grid2 sx={{flex: '1 1 auto'}}>
+        <Grid container direction="row" spacing={2}>
+            <Grid sx={{flex: '1 1 auto'}}>
                 <TextField type="search" value={search} onChange={searchChangeHandler} variant="standard" size="small"
                            label="Search" fullWidth
-                           inputProps={{maxLength: 30}}
-                           InputProps={{
-                               startAdornment: (
-                                   <InputAdornment position="start"><SearchIcon/></InputAdornment>
-                               ),
+                           slotProps={{
+                               htmlInput: {maxLength: 30},
+                               input: {
+                                   startAdornment: (
+                                       <InputAdornment position="start"><SearchIcon/></InputAdornment>
+                                   ),
+                               }
                            }}
                            placeholder={'Invoice or PO #'}/>
-            </Grid2>
-            <Grid2 sx={{flex: '1 1 auto'}}>
+            </Grid>
+            <Grid sx={{flex: '1 1 auto'}}>
                 <ShipToSelect value={shipTo ?? allLocationsValue} onChange={shipToChangeHandler} variant="standard"
                               allowAllLocations/>
-            </Grid2>
-            <Grid2 sx={{flex: '1 1 auto'}}>
+            </Grid>
+            <Grid sx={{flex: '1 1 auto'}}>
                 <FormGroup>
                     <FormControlLabel control={<Checkbox checked={showPaid} onChange={prepaidChangeHandler}/>}
                                       label="Show paid invoices?"/>
                 </FormGroup>
-            </Grid2>
-            <Grid2>
+            </Grid>
+            <Grid>
                 <Button type="button" variant="text" onClick={onReload}>
                     Reload
                 </Button>
-            </Grid2>
-        </Grid2>
+            </Grid>
+        </Grid>
     )
 }
 

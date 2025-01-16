@@ -1,4 +1,3 @@
-import {ShipToAddress} from "b2b-types";
 import {B2BCartDetail} from "./cart-detail.d.ts";
 import {B2BCartHeader} from "./cart-header.d.ts";
 
@@ -19,7 +18,7 @@ export type CartAction =
     | 'update';
 
 
-export interface CartActionProps extends Partial<Pick<B2BCartHeader, 'shipToCode'|'salesOrderNo'>> {
+export interface CartActionProps extends Partial<Pick<B2BCartHeader, 'shipToCode' | 'salesOrderNo'>> {
     cartId: number;
     customerKey: string;
     setActiveCart?: boolean;
@@ -63,11 +62,11 @@ export interface AddToCartBody extends Pick<B2BCartDetail, 'itemCode' | 'unitOfM
     priceLevel?: string | null;
     itemType?: string;
     customerPONo?: string;
-    shipToCode?: string|null;
+    shipToCode?: string | null;
 }
 
-export interface AddToCartProps extends Omit<CartItemActionProps, 'cartId'|'cartItemId'> {
-    cartId: number|null;
+export interface AddToCartProps extends Omit<CartItemActionProps, 'cartId' | 'cartItemId'> {
+    cartId: number | null;
     cartName?: string;
     item: AddToCartBody;
 }
@@ -75,7 +74,8 @@ export interface AddToCartProps extends Omit<CartItemActionProps, 'cartId'|'cart
 export interface UpdateCartProps extends CartActionProps {
     body: UpdateCartHeaderBody;
 }
-export type UpdateCartItemBody = Pick<B2BCartDetail, 'quantityOrdered'|'commentText'|'itemType'>;
+
+export type UpdateCartItemBody = Pick<B2BCartDetail, 'quantityOrdered' | 'commentText' | 'itemType'>;
 
 export type UpdateCartHeaderBody = Partial<Pick<B2BCartHeader, 'shipToCode' | 'promoCode' | 'customerPONo' | 'comment'>>;
 
@@ -85,14 +85,14 @@ export interface UpdateCartItemProps extends CartItemActionProps {
 
 export interface UpdateCartItemsProps extends CartActionProps {
     header?: UpdateCartHeaderBody;
-    items: Pick<B2BCartDetail, 'id'|'itemType'|'quantityOrdered'|'commentText'>[];
+    items: Pick<B2BCartDetail, 'id' | 'itemType' | 'quantityOrdered' | 'commentText'>[];
 }
 
 export interface DeleteCartItemProps extends CartActionProps {
     cartItemId: number | string;
 }
 
-export interface DuplicateCartProps extends Pick<CartActionProps, 'customerKey'|'shipToCode'> {
+export interface DuplicateCartProps extends Pick<CartActionProps, 'customerKey' | 'shipToCode'> {
     cartName: string;
     salesOrderNo: string;
 }

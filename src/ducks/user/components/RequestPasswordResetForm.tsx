@@ -58,9 +58,11 @@ const RequestPasswordResetForm = () => {
                         <AccountCircle sx={{color: 'action.active', mr: 1}}/>
                         <TextField type="email" fullWidth
                                    variant="filled" label="Email"
-                                   onChange={ev => setEmail(ev.target.value)} value={email}
+                                   value={email} onChange={ev => setEmail(ev.target.value)}
                                    autoComplete="username"
-                                   InputLabelProps={{shrink: true}}
+                                   slotProps={{
+                                       inputLabel: {shrink: true}
+                                   }}
                                    required/>
                     </Box>
                     <Stack direction="row" spacing={2} useFlexGap justifyContent="flex-end">

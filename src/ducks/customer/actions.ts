@@ -19,7 +19,15 @@ import {
     postDefaultShipToCode,
     postShipToAddress
 } from "@api/customer";
-import {BasicCustomer, BillToCustomer, CustomerKey, CustomerUser, RecentCustomer, ShipToCustomer} from "b2b-types";
+import {
+    BasicCustomer,
+    BillToCustomer,
+    CustomerKey,
+    CustomerUser,
+    RecentCustomer,
+    ShipToCustomer,
+    SortProps
+} from "b2b-types";
 import {RootState} from "@app/configureStore";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {FetchCustomerResponse} from "./types";
@@ -30,6 +38,7 @@ import {loadCarts} from "@ducks/carts/actions";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');
+export const setCustomerUserSort = createAction<SortProps<CustomerUser>>('customer/setCustomerUserSort');
 
 export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, { state: RootState }>(
     'customer/saveUser',

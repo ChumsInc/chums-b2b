@@ -22,7 +22,11 @@ const CountrySelect = ({value, onChange, id, ...rest}: CountrySelectProps) => {
 
 
     return (
-        <TextField select label="Country" InputProps={{id: _id}} InputLabelProps={{htmlFor: _id}}
+        <TextField select label="Country"
+                   slotProps={{
+                       input: {id: _id},
+                       inputLabel: {htmlFor: _id}
+                   }}
                    {...rest}
                    onChange={changeHandler} value={value ?? ''} fullWidth>
             <MenuItem>Select One</MenuItem>

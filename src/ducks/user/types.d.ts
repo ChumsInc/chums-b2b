@@ -1,4 +1,4 @@
-import {Salesperson, UserCustomerAccess, UserProfile, UserRole} from "b2b-types";
+import {RecentCustomer, Salesperson, UserCustomerAccess, UserProfile, UserRole} from "b2b-types";
 
 
 
@@ -24,6 +24,7 @@ export interface SetLoggedInProps {
     authType?: string;
     token?: string;
     expires?: number;
+    recentCustomers?: RecentCustomer[];
 }
 
 export interface UserProfileResponse {
@@ -34,6 +35,7 @@ export interface UserProfileResponse {
     picture?: string | null;
     expires?: number;
     token?: string;
+    recentCustomers?: RecentCustomer[];
 }
 
 export interface FunkyUserProfileResponse extends UserProfileResponse {

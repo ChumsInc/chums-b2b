@@ -19,6 +19,8 @@ import {
 } from "@utils/customer";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 
+
+
 export const addressFromShipToAddress = (address: B2BCartHeader | ShipToAddress | null): CustomerAddress => {
     return {
         CustomerName: address?.ShipToName ?? '',
@@ -100,7 +102,7 @@ export const filterShipToByUserAccount = (access: UserCustomerAccess | null) => 
         && [address.SalespersonNo, '%'].includes(access.SalespersonNo)
 }
 
-export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccount: BillToCustomer|null) => {
+export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccount: BillToCustomer | null) => {
     if (!access || !customerAccount) {
         return false;
     }
@@ -111,3 +113,4 @@ export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccou
     return access.ARDivisionNo === customerAccount.ARDivisionNo
         && access.CustomerNo === customerAccount.CustomerNo;
 }
+

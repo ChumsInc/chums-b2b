@@ -15,7 +15,7 @@ import {
     CustomerPriceRecord,
     CustomerUser,
     Editable,
-    ShipToCustomer
+    ShipToCustomer, SortProps
 } from "b2b-types";
 import {
     loadCustomer,
@@ -28,7 +28,7 @@ import {
     setCustomerAccount,
     setDefaultShipTo,
     setReturnToPath,
-    setShipToCode
+    setShipToCode, setCustomerUserSort
 } from "./actions";
 import {loadCustomerList} from '../customers/actions'
 import {setLoggedIn, setUserAccess} from "../user/actions";
@@ -60,6 +60,7 @@ export interface CustomerState {
     saving: boolean;
     loaded: boolean;
     users: (CustomerUser & Selectable & Editable)[];
+    userSort: SortProps<CustomerUser>;
     returnToPath: string | null;
 }
 
@@ -83,6 +84,7 @@ export const initialCustomerState = (): CustomerState => ({
     loaded: false,
     saving: false,
     users: [],
+    userSort: {field: 'name', ascending: true},
     returnToPath: null,
 });
 
@@ -160,7 +162,7 @@ const customerReducer = createReducer(initialCustomerState, builder => {
             state.pricing = pricing ?? [];
             state.shipToAddresses = (shipToAddresses ?? []).sort(customerShipToSorter(defaultShipToSort));
             state.paymentCards = paymentCards ?? [];
-            state.users = users ?? [];
+            state.users = (users ?? []).sort(customerUserSorter(defaultCustomerUserSort));
             state.loaded = true;
         })
         .addCase(saveBillingAddress.rejected, (state) => {
@@ -191,7 +193,7 @@ const customerReducer = createReducer(initialCustomerState, builder => {
             state.pricing = pricing ?? [];
             state.shipToAddresses = (shipToAddresses ?? []).sort(customerShipToSorter(defaultShipToSort));
             state.paymentCards = paymentCards ?? [];
-            state.users = users ?? [];
+            state.users = (users ?? []).sort(customerUserSorter(defaultCustomerUserSort));
             state.loaded = true;
 
         })
@@ -243,7 +245,7 @@ const customerReducer = createReducer(initialCustomerState, builder => {
             state.pricing = pricing ?? [];
             state.shipToAddresses = (shipToAddresses ?? []).sort(customerShipToSorter(defaultShipToSort));
             state.paymentCards = paymentCards ?? [];
-            state.users = users ?? [];
+            state.users = (users ?? []).sort(customerUserSorter(defaultCustomerUserSort));
             state.loaded = true;
         })
         .addCase(loadCustomer.rejected, (state) => {
@@ -307,13 +309,16 @@ const customerReducer = createReducer(initialCustomerState, builder => {
         })
         .addCase(loadCustomerUsers.fulfilled, (state, action) => {
             state.loading = false;
-            state.users = action.payload.sort()
+            state.users = action.payload.sort(customerUserSorter(defaultCustomerUserSort))
         })
         .addCase(loadCustomerUsers.rejected, (state) => {
             state.loading = false;
         })
         .addCase(setShipToCode, (state, action) => {
             state.shipToCode = action.payload;
+        })
+        .addCase(setCustomerUserSort, (state, action) => {
+            state.userSort = action.payload;
         })
 })
 

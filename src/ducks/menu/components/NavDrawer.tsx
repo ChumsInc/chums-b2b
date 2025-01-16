@@ -21,7 +21,7 @@ const NavDrawer = ({children}:NavDrawerProps) => {
         return null;
     }
     return (
-        <Box component="nav">
+        <Box component="nav" aria-label="mobile app menu">
             <Drawer container={window?.document?.body} variant="temporary" open={isOpen}
                     anchor="top"
                     onClose={closeHandler}

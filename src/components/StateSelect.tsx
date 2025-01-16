@@ -38,7 +38,11 @@ const StateSelect = ({countryCode, value, filterList, allowAllStates, onChange, 
     }
 
     return (
-        <TextField select label="State / Territory" InputProps={{id: _id}} InputLabelProps={{htmlFor: _id}}
+        <TextField select label="State / Territory"
+                   slotProps={{
+                       input: {id: _id},
+                       inputLabel: {htmlFor: _id}
+                   }}
                    {...rest}
                    value={value ?? ''} onChange={changeHandler} fullWidth>
             {!allowAllStates && (<MenuItem>Select One</MenuItem>)}

@@ -9,7 +9,7 @@ import {
     isCategoryChildProduct,
     isCategoryChildSection
 } from "@ducks/products/utils";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import Link from "@mui/material/Link";
 import CategoryGridItem from "./CategoryGridItem";
 import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
@@ -70,10 +70,10 @@ const CategoryPageElement = ({item}: {
     }
     if (isCategoryChildSection(item)) {
         return (
-            <Grid2 xs={12}>
+            <Grid size={12}>
                 <Typography variant="h3" component="h3" sx={{textAlign: 'center'}}>{item.sectionTitle}</Typography>
                 <Typography variant="subtitle1" sx={{textAlign: 'center'}}>{item.sectionDescription}</Typography>
-            </Grid2>
+            </Grid>
         )
     }
     return null;

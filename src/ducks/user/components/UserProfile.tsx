@@ -8,7 +8,7 @@ import {Editable} from "b2b-types";
 import {ExtendedUserProfile} from "@typeDefs/user";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import LinearProgress from "@mui/material/LinearProgress";
 import Avatar from "@mui/material/Avatar";
 import Alert from "@mui/material/Alert";
@@ -75,24 +75,29 @@ const UserProfile = () => {
     return (
         <Container maxWidth="xl">
             <Typography variant="h1" component="h1" sx={{mb: 5}}>Login Profile</Typography>
-            <Grid2 container spacing={3} alignItems="start">
-                <Grid2 xs={3} sm={2} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Grid container spacing={3} alignItems="start">
+                <Grid size={{xs: 3, sm: 2}} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <Avatar alt={user?.name} src={profilePic ?? undefined} sx={{width: 80, height: 80}}
                             slotProps={{img: {referrerPolicy: 'no-referrer'}}}
                             variant="rounded"/>
-                </Grid2>
-                <Grid2 xs={9} sm={10}>
+                </Grid>
+                <Grid size={{xs: 9, sm: 10}}>
                     <form onSubmit={submitHandler}>
                         {loading && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
                         <Stack spacing={2} direction={{xs: "column", lg: "row"}}>
                             <TextField label="Name" type="text" fullWidth variant="filled" size="small"
-                                       inputProps={{maxLength: 45}}
-                                       value={user?.name ?? ''} onChange={changeHandler('name')}/>
+                                       value={user?.name ?? ''} onChange={changeHandler('name')}
+                                       slotProps={{
+                                           htmlInput:{maxLength: 45}
+                                       }}/>
                             <TextField label="Email Address" type="email" fullWidth variant="filled" size="small"
-                                       inputProps={{readOnly: authType !== AUTH_LOCAL, maxLength: 255}}
-                                       InputProps={{endAdornment: renderEmailLockIcon() }}
+                                       value={user?.email ?? ''} onChange={changeHandler('email')}
+                                       slotProps={{
+                                           htmlInput: {readOnly: authType !== AUTH_LOCAL, maxLength: 255},
+                                           input: {endAdornment: renderEmailLockIcon()}
+                                       }}
                                        helperText={authType === AUTH_GOOGLE ? 'Please contact CHUMS customer service if you need to change your email address' : undefined}
-                                       value={user?.email ?? ''} onChange={changeHandler('email')}/>
+                                       />
                         </Stack>
                         <Stack direction="row" spacing={2} sx={{mt: 5}} useFlexGap justifyContent="flex-end">
                             <Button type="button" variant="text" onClick={logoutHandler} color="error">Logout</Button>
@@ -105,8 +110,8 @@ const UserProfile = () => {
                         </Stack>
                         {user?.changed && (<Alert severity="warning">Don&apos;t forget to save your changes.</Alert>)}
                     </form>
-                </Grid2>
-            </Grid2>
+                </Grid>
+            </Grid>
         </Container>
     );
 }

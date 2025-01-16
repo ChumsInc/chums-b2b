@@ -47,7 +47,7 @@ declare module '@mui/material/Button' {
 
 let theme = createTheme({});
 
-theme = createTheme({
+theme = createTheme(theme, {
     palette: {
         mode: 'light',
         primary: {
@@ -72,7 +72,7 @@ theme = createTheme({
     },
 });
 
-theme = createTheme({
+theme = createTheme(theme, {
     components: {
         MuiCssBaseline: {
             styleOverrides: {
@@ -150,6 +150,13 @@ theme = createTheme({
                     }
                 }
             }
+        },
+        MuiInputAdornment: {
+            styleOverrides: {
+                root: {
+
+                }
+            }
         }
     },
     typography: {
@@ -198,7 +205,7 @@ theme = createTheme({
         bodyMono: {
             fontWeight: 500,
             fontFamily: ['Roboto Mono', 'Monaco', 'Consolas', 'monospace'].join(',')
-        }
+        },
     }
 })
 

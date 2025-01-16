@@ -21,7 +21,7 @@ import {isBillToCustomer} from "@utils/typeguards";
 import ProductPreSeasonAlert from "./ProductPreSeasonAlert";
 import SelectCustomerAlert from "../../customer/components/SelectCustomerAlert";
 import Box from "@mui/material/Box";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
 import {useIsSSR} from "@hooks/is-server-side";
@@ -92,14 +92,14 @@ const ProductPage = ({keyword}: {
     return (
         <Box className={classNames('product-page', {loading})}>
             <div className="product-panel">
-                <Grid2 container spacing={5}>
-                    <Grid2 xs={12} sx={{display: {xs: 'block', md: 'none'}}}>
+                <Grid container spacing={5}>
+                    <Grid size={12} sx={{display: {xs: 'block', md: 'none'}}}>
                         <ProductPageTitle/>
-                    </Grid2>
-                    <Grid2 xs={12} md={6} lg={7}>
+                    </Grid>
+                    <Grid size={{xs: 12, md: 6, lg: 7}}>
                         <ProductPageImage/>
-                    </Grid2>
-                    <Grid2 xs={12} md={6} lg={5}>
+                    </Grid>
+                    <Grid size={{xs: 12, md: 6, lg: 5}}>
                         <Box sx={{display: {xs: 'none', md: 'block'}}}>
                             <ProductPageTitle/>
                         </Box>
@@ -165,8 +165,8 @@ const ProductPage = ({keyword}: {
                             </div>
                         )}
 
-                    </Grid2>
-                </Grid2>
+                    </Grid>
+                </Grid>
             </div>
         </Box>
     );

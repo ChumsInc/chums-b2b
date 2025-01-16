@@ -14,7 +14,7 @@ import classNames from "classnames";
 import Box from "@mui/material/Box";
 import PrimaryShipToIcon from "./PrimaryShipToIcon";
 import Link, {LinkProps} from "@mui/material/Link";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid2";
 import ReloadCustomerButton from "./ReloadCustomerButton";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
@@ -76,14 +76,14 @@ const ShipToList = () => {
             <DataTable data={data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
                        rowClassName={rowClassName}
                        currentSort={sort} onChangeSort={setSort} fields={fields} keyField="ShipToCode"/>
-            <Grid2 container spacing={2} justifyContent="end">
+            <Grid container spacing={2} justifyContent="end">
                 <TablePagination component="div" count={data.length}
                                  page={page} onPageChange={(ev, page) => setPage(page)}
                                  rowsPerPage={rowsPerPage}
                                  onRowsPerPageChange={(ev) => setRowsPerPage(+ev.target.value)}
                                  showFirstButton showLastButton/>
                 <ReloadCustomerButton/>
-            </Grid2>
+            </Grid>
         </div>
     )
 }

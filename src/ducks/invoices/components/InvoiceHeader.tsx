@@ -8,7 +8,7 @@ import {selectCurrentInvoice} from "../selectors";
 import {useAppDispatch} from "@app/configureStore";
 import dayjs from "dayjs";
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid2';
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
@@ -44,71 +44,93 @@ const InvoiceHeader = () => {
     return (
         <div className="mb-1">
             <Grid container spacing={2}>
-                <Grid xs={12} lg={6}>
+                <Grid size={{xs: 12, sm: 6}}>
                     <Stack spacing={2} direction="column">
                         <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
                             <TextField label="Sales Order" type="text" fullWidth variant="filled" size="small"
                                        value={invoice.SalesOrderNo ?? 'Direct Invoice'} placeholder=""
-                                       inputProps={{readOnly: true}}/>
+                                       slotProps={{
+                                           htmlInput: {readOnly: true}
+                                       }}/>
                             <TextField label="Purchase Order #" type="text" fullWidth variant="filled" size="small"
                                        value={invoice.CustomerPONo} placeholder=""
-                                       inputProps={{readOnly: true}}/>
+                                       slotProps={{
+                                           htmlInput: {readOnly: true}
+                                       }}/>
                         </Stack>
                         <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
                             {!!invoice.OrderDate && !!invoice.SalesOrderNo && (
                                 <TextField label="Order Date" type="date" fullWidth variant="filled" size="small"
                                            value={dayjs(invoice.OrderDate).format('YYYY-MM-DD')} placeholder=""
-                                           inputProps={{readOnly: true}}/>
+                                           slotProps={{
+                                               htmlInput: {readOnly: true}
+                                           }}/>
                             )}
                             {!!invoice.ShipDate && (
                                 <TextField label="Req. Ship Date" type="date" fullWidth variant="filled" size="small"
                                            value={dayjs(invoice.ShipDate).format('YYYY-MM-DD')} placeholder=""
-                                           inputProps={{readOnly: true}}/>
+                                           slotProps={{
+                                               htmlInput: {readOnly: true}
+                                           }}/>
                             )}
                             {!cancelHidden && (
                                 <TextField label="Cancel Date" type="date" fullWidth variant="filled" size="small"
                                            value={dayjs(invoice.UDF_CANCEL_DATE).format('YYYY-MM-DD')}
                                            placeholder=""
-                                           inputProps={{readOnly: true}}/>
+                                           slotProps={{
+                                               htmlInput: {readOnly: true}
+                                           }}/>
                             )}
                         </Stack>
                         <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
                             <TextField label="Invoice Date" type="date" fullWidth variant="filled" size="small"
                                        value={dayjs(invoice.InvoiceDate).format('YYYY-MM-DD')} placeholder=""
-                                       inputProps={{readOnly: true}}/>
+                                       slotProps={{
+                                           htmlInput: {readOnly: true}
+                                       }}/>
                             {!!invoice.InvoiceDueDate && (
                                 <TextField label="Invoice Due Date" type="date" fullWidth variant="filled" size="small"
                                            value={dayjs(invoice.InvoiceDueDate).format('YYYY-MM-DD')} placeholder=""
-                                           inputProps={{readOnly: true}}/>
+                                           slotProps={{
+                                               htmlInput: {readOnly: true}
+                                           }}/>
                             )}
                             {permissions?.billTo && (
                                 <TextField label="Balance Due" type="text" fullWidth variant="filled" size="small"
                                            value={numeral(new Decimal(invoice.Balance ?? '0')).format('$ 0,0.00')}
                                            placeholder=""
-                                           inputProps={{readOnly: true}}/>)}
+                                           slotProps={{
+                                               htmlInput: {readOnly: true}
+                                           }}/>)}
                         </Stack>
                         <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
                             {!!invoice.UDF_PROMO_DEAL && (
                                 <TextField label="Promo Code" type="text" fullWidth variant="filled" size="small"
                                            value={invoice.UDF_PROMO_DEAL} placeholder=""
-                                           inputProps={{readOnly: true}}/>
+                                           slotProps={{
+                                               htmlInput: {readOnly: true}
+                                           }}/>
                             )}
                         </Stack>
                     </Stack>
                 </Grid>
-                <Grid xs={12} lg={6}>
+                <Grid size={{xs: 12, sm: 6}}>
                     <Stack spacing={2} direction="column">
                         <ShipToSelect value={invoice.ShipToCode} onChange={() => {
                         }} readOnly/>
                         <TextField label="Delivery Address" type="text" multiline variant="filled" size="small"
                                    value={multiLineAddress(addressFromShipToAddress(invoice), true).join('\n')}
-                                   inputProps={{readOnly: true}}/>
+                                   slotProps={{
+                                       htmlInput: {readOnly: true}
+                                   }}/>
                         <Stack spacing={2} direction="row" useFlexGap>
                             <div>
                                 <TextField label="Ship Method" type="text" fullWidth variant="filled" size="small"
                                            value={ShippingMethods[invoice.ShipVia ?? '-']?.description ?? 'Unknown'}
                                            placeholder=""
-                                           inputProps={{readOnly: true}}/>
+                                           slotProps={{
+                                               htmlInput: {readOnly: true}
+                                           }}/>
                             </div>
                             <div>
                                 {!invoice.Track?.length &&

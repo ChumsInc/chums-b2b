@@ -1,4 +1,7 @@
-import {MenuItem} from "b2b-types";
+import {BillToCustomer, MenuItem} from "b2b-types";
+import {MenuElement, MinimalMenuItem, NavMenuItem} from "@ducks/menu/types";
+import {customerPath} from "@ducks/user/utils";
+import {generatePath} from "react-router";
 
 export const defaultFormatter = (val: string) => val;
 
@@ -21,4 +24,43 @@ export const defaultMenuItem:MenuItem = {
     parentId: 0,
     priority: 0,
     status: true,
+}
+
+export function buildCustomerMenuItems(account:BillToCustomer):MinimalMenuItem[] {
+    const customerSlug = customerPath(account);
+    return [
+        {
+            id: 'account',
+            title: 'Billing Address',
+            url: generatePath('/account/:customerSlug', {customerSlug})
+        },
+        {
+            id: 'delivery',
+            title: 'Delivery Addresses',
+            url: generatePath('/account/:customerSlug/delivery', {customerSlug}),
+        },
+        {
+            id: 'carts',
+            title: 'Carts',
+            url: generatePath('/account/:customerSlug/carts', {customerSlug}),
+        },
+        {
+            id: 'orders',
+            title: 'Open Orders',
+            url: generatePath('/account/:customerSlug/orders', {customerSlug}),
+        },
+        {
+            id: 'invoices',
+            title: 'Invoices',
+            url: generatePath('/account/:customerSlug/invoices', {customerSlug}),
+        }
+    ]
+}
+
+export function isNavMenuElement(item:NavMenuItem|MinimalMenuItem|MenuElement):item is MenuElement {
+    return (item as MenuElement).element !== undefined;
+}
+
+export function isNavMenuItem(item:NavMenuItem|MinimalMenuItem|MenuElement):item is MinimalMenuItem {
+    return !isNavMenuElement(item);
 }

@@ -48,17 +48,37 @@ export default {
     },
     optimization: {
         splitChunks: {
+            chunks: 'async',
+            minSize: 20000,
+            minRemainingSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 30,
+            maxInitialRequests: 30,
+            enforceSizeThreshold: 50000,
             cacheGroups: {
+                react: {
+                    test: /[\\/]node_modules[\\/](react|react-dom|react-router)[\\/]/,
+                    name: 'vendors-react',
+                    chunks: 'all',
+                    priority: 10,
+                },
+                mui: {
+                    test: /[\\/]node_modules[\\/]@mui[\\/]/,
+                    name: 'vendors-mui',
+                    chunks: 'all',
+                    priority: 5,
+                },
                 defaultVendors: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendors',
                     chunks: 'all',
+                    priority: 0,
                 },
-                chums: {
-                    test: /[\\/]common-components[\\/]/,
-                    name: 'chums',
-                    chunks: 'all',
-                },
+                default: {
+                    minChunks: 2,
+                    priority: -10,
+                    reuseExistingChunk: true,
+                }
             }
         }
     },

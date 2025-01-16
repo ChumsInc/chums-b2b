@@ -17,7 +17,7 @@ const Breadcrumb = ({paths}: {
 }) => {
     const location = useLocation();
     return (
-        <Breadcrumbs sx={{mb: 2}}>
+        <Breadcrumbs sx={{mb: 2}} aria-label="Breadcrumb">
             {paths.map((path, index) => (
                 <BreadcrumbItem key={index} {...path} active={path.pathname === location.pathname}/>
             ))}

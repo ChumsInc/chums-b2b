@@ -50,7 +50,7 @@ const ShipToAddressFormFields = ({address, onChange, readOnly}:ShipToAddressForm
         onChange(change);
     }
     return (
-        <AddressFormFields address={toCustomerAddress(address)}
+        <AddressFormFields address={toCustomerAddress(address)} addressType="shipping"
                            onChange={changeHandler}
                            readOnly={readOnly}/>
     );

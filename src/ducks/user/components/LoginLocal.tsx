@@ -52,8 +52,10 @@ const LoginLocal = () => {
                                variant="filled" label="Email"
                                onChange={ev => setEmail(ev.target.value)} value={email}
                                autoComplete="username"
-                               inputProps={{maxLength: 255}}
-                               InputLabelProps={{shrink: true}}
+                               slotProps={{
+                                   htmlInput: {maxLength: 255},
+                                   inputLabel: {shrink: true}
+                               }}
                                required/>
                 </Box>
                 <Box sx={{display: 'flex', alignItems: 'center', mb: 1}}>
@@ -62,8 +64,10 @@ const LoginLocal = () => {
                                        label="Password"
                                        onChange={ev => setPassword(ev.target.value)} value={password}
                                        autoComplete="current-password"
-                                       inputProps={{maxLength: 128}}
-                                       InputLabelProps={{shrink: true}}
+                                       slotProps={{
+                                           htmlInput: {maxLength: 128},
+                                           inputLabel: {shrink: true}
+                                       }}
                                        required/>
                 </Box>
                 <Stack direction="row" spacing={2} useFlexGap justifyContent="flex-end">
