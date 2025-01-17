@@ -11,10 +11,10 @@ export async function fetchCategory(keyword: string): Promise<ProductCategory | 
         return response?.categories?.[0] ?? null;
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchCategory()", err.message);
+            console.debug(fetchCategory.name, err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchCategory()", err);
+        console.debug(fetchCategory.name, err);
         return Promise.reject(new Error('Error in fetchCategory()'));
     }
 }

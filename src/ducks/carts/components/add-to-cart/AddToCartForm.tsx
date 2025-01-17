@@ -20,7 +20,12 @@ import CartQuantityInput from "@components/CartQuantityInput";
 import {CartProduct} from "b2b-types";
 import Box from "@mui/material/Box";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {selectActiveCartHeader, selectCartHeaders, selectCartStatusById} from "@ducks/carts/selectors";
+import {
+    selectActiveCartHeader,
+    selectCartHeaders,
+    selectCartsStatus,
+    selectCartStatusById
+} from "@ducks/carts/selectors";
 import {ga4AddToCart} from "@src/ga4/cart";
 
 export interface AddToCartFormProps {
@@ -55,6 +60,7 @@ export default function AddToCartForm({
     const permissions = useSelector(selectCustomerPermissions);
     const permissionsLoading = useSelector(selectCustomerPermissionsLoading);
     const currentShipToCode = useSelector(selectCustomerShipToCode);
+    const cartsStatus = useAppSelector(selectCartsStatus);
 
     const [cartId, setCartId] = useState<number | null>(activeCart?.id ?? null);
     const [cartComment, setCartComment] = useState<string>(comment ?? '');
@@ -159,7 +165,6 @@ export default function AddToCartForm({
     }
 
     const shipToCodeChangeHandler = (code: string | null) => {
-        console.debug('shipToCodeChangeHandler()', {code});
         setShipToCode(code)
     }
 
@@ -168,7 +173,10 @@ export default function AddToCartForm({
             <Stack spacing={2} direction="column">
                 <CartSelect cartId={cartId === excludeCartId ? 0 : cartId} onChange={cartChangeHandler} required
                             excludeCartId={excludeCartId}/>
-                {(!cartId) && (
+                {!cartId && cartsStatus === 'loading' && (
+                    <LinearProgress variant="indeterminate" aria-label="Loading Carts" />
+                )}
+                {(!cartId && cartsStatus === 'idle') && (
                     <Stack spacing={2} direction={{xs: "column", md: "row"}}>
                         <Box sx={{width: '50%'}}>
                             <CartNameInput value={cartName} onChange={onChangeCartName} required

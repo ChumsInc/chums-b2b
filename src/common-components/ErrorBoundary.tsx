@@ -10,7 +10,7 @@ function ErrorFallback({error}: FallbackProps) {
     return (
         <Alert severity="error">
             <strong>Sorry! Something went wrong.</strong>
-            <div className="text-danger" style={{whiteSpace: 'pre-wrap'}}>{error.message}</div>
+            <div style={{whiteSpace: 'pre-wrap'}}>{error.message}</div>
         </Alert>
     )
 }

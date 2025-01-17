@@ -1,29 +1,15 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {getSearchResults, selectSearchResults} from "../index";
-import {CONTENT_PATH_SEARCH_IMAGE, PATH_PAGE, PATH_PRODUCT, PATH_PRODUCT_WITHOUT_PARENT} from "@constants/paths";
-import {generatePath, Link, useNavigate} from 'react-router';
+import {useNavigate} from 'react-router';
 import {SearchResult} from "b2b-types";
 import {useDebounceValue} from '@hooks/use-debounce'
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import SearchBarResult from "@ducks/search/components/SearchBarResult";
+import {searchItemLink} from "@ducks/search/utils";
 
-export const PATH_CATEGORY = '/products/:category';
 
-
-const itemLink = (result: SearchResult) => {
-    switch (result.pagetype) {
-        case 'category':
-            return generatePath(PATH_CATEGORY, {category: result.keyword});
-        case 'page':
-            return generatePath(PATH_PAGE, {keyword: result.keyword});
-        default:
-            if (result.parent) {
-                return generatePath(PATH_PRODUCT, {category: result.parent, product: result.keyword})
-            }
-            return generatePath(PATH_PRODUCT_WITHOUT_PARENT, {product: result.keyword})
-    }
-}
 
 
 export default function SearchBar() {
@@ -39,7 +25,7 @@ export default function SearchBar() {
         setSearchTerm(inputValue);
     }, [inputValue]);
 
-    const [options, setOptions] = useState(results ?? []);
+    const [options, setOptions] = useState<SearchResult[]>(results ?? []);
 
     useEffect(() => {
         setOptions(results ?? []);
@@ -53,7 +39,7 @@ export default function SearchBar() {
         setValue(null);
         setInputValue('');
         if (newValue) {
-            const path = itemLink(newValue);
+            const path = searchItemLink(newValue);
             navigate(path);
         }
     }
@@ -75,29 +61,14 @@ export default function SearchBar() {
             inputValue={inputValue}
             onInputChange={inputChangeHandler}
             options={options}
-            noOptionsText={null}
+            noOptionsText={"No results found."}
             blurOnSelect
             getOptionLabel={(option) => option.title}
             filterOptions={(x) => x}
             onChange={changeHandler}
             renderOption={(props, option) => {
-                const src = CONTENT_PATH_SEARCH_IMAGE
-                    .replace(':image', encodeURIComponent(option.image ?? 'missing.png'));
-                const link = itemLink(option);
                 return (
-                    <li {...props} key={option.keyword}>
-                        <Link to={link} className="search-result row g-3">
-                            <div className="col-auto">
-                                {!!option.image && <img src={src} alt={option.keyword} className="img-fluid"/>}
-                            </div>
-                            <div className="col">
-                                <div>{option.title}</div>
-                                {!!option.additional_data?.subtitle &&
-                                    <div className="text-muted small">{option.additional_data.subtitle}</div>}
-                                {option.pagetype !== 'product' && (<small>{option.pagetype}</small>)}
-                            </div>
-                        </Link>
-                    </li>
+                    <SearchBarResult option={option} {...props} />
                 )
             }}
             value={value}/>

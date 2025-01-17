@@ -18,11 +18,11 @@ export async function fetchCustomerAccount({ARDivisionNo, CustomerNo}: CustomerK
         return response.result;
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchCustomerAccount()", err.message);
+            console.debug(fetchCustomerAccount.name, err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchCustomerAccount()", err);
-        return Promise.reject(new Error('Error in fetchCustomerAccount()'));
+        console.debug(fetchCustomerAccount.name, err);
+        return Promise.reject(new Error(`Error in ${fetchCustomerAccount.name}`));
     }
 }
 
@@ -34,11 +34,11 @@ export async function fetchCustomerUsers(customerKey:string):Promise<CustomerUse
         return response?.users ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("fetchCustomerUsers()", err.message);
+            console.debug(fetchCustomerUsers.name, err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchCustomerUsers()", err);
-        return Promise.reject(new Error('Error in fetchCustomerUsers()'));
+        console.debug(fetchCustomerUsers.name, err);
+        return Promise.reject(new Error(`Error in ${fetchCustomerUsers.name}`));
     }
 }
 

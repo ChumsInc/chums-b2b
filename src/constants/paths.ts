@@ -28,6 +28,7 @@ export const PATH_SALES_ORDER_BREADCRUMB = '/orders/:orderType?/:Company?/:Sales
 export const PATH_INVOICE_BREADCRUMB = '/orders/:orderType?/:Company?/:SalesOrderNo?';
 export const PATH_SIGNUP = '/signup';
 export const PATH_SET_PASSWORD = '/set-password';
+export const PATH_CATEGORY = '/products/:category';
 
 
 export const CONTENT_PATH_SEARCH_IMAGE = '/images/products/80/:image';

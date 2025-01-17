@@ -215,7 +215,7 @@ const EditAccountUserForm = () => {
                     <Button type="submit" variant="contained" disabled={!canEdit}>
                         Save
                     </Button>
-                    <Button type="button" variant="text" className="btn btn-sm btn-outline-secondary"
+                    <Button type="button" variant="text"
                             onClick={onCancel}>
                         Cancel
                     </Button>

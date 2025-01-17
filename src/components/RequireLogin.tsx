@@ -3,12 +3,13 @@ import {useSelector} from "react-redux";
 import {selectLoggedIn} from "@ducks/user/selectors";
 import ErrorBoundary from "../common-components/ErrorBoundary";
 
-const RequireLogin = ({children}:{
+const RequireLogin = ({fallback, children}:{
+    fallback?: React.ReactNode;
     children: React.ReactNode
 }) => {
     const loggedIn = useSelector(selectLoggedIn);
     if (!loggedIn || !children) {
-        return null;
+        return fallback ?? null;
     }
     return (
         <ErrorBoundary>

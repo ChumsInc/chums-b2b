@@ -4,10 +4,11 @@ import {selectCurrentVariantProduct, selectProductVariantId} from "../selectors"
 import {useAppDispatch} from "@app/configureStore";
 import {setCurrentVariant} from "../actions";
 import {ProductVariant} from "b2b-types";
-import {isSellAsMix} from "../utils";
+import {isSellAsColors, isSellAsMix} from "../utils";
 import VariantButton from "./VariantButton";
 import Grid from "@mui/material/Grid2";
 import {ga4SelectMixItem, ga4SelectVariantItem} from "@src/ga4/generic";
+import {useSearchParams} from "react-router";
 
 
 const activeVariants = (variants: ProductVariant[]): ProductVariant[] => {
@@ -19,6 +20,26 @@ export default function VariantButtons() {
     const selectedVariantId = useSelector(selectProductVariantId);
     const product = useSelector(selectCurrentVariantProduct);
     const [variants, setVariants] = useState(activeVariants(product?.variants ?? []));
+    const [params, setParams] = useSearchParams();
+
+    useEffect(() => {
+        const sku = params.get('sku');
+        if (!!sku && product && product.itemCode !== sku) {
+            let variant:ProductVariant;
+            const matching = variants.filter(v => v.product?.itemCode === sku
+                || (v.product && isSellAsColors(v.product) && v.product.items.filter(i => i.itemCode === sku).length > 0)
+            );
+            if (matching.length > 1) {
+                [variant] = matching.filter(v => v.id === selectedVariantId);
+            } else {
+                variant = matching[0];
+            }
+            if (variant) {
+                dispatch(setCurrentVariant({...variant, preferredItem: sku}));
+                return;
+            }
+        }
+    }, [params, product, variants]);
 
     const selectHandler = useCallback((variant: ProductVariant) => {
         if (!variant || !variant.id || !product) {
@@ -29,6 +50,13 @@ export default function VariantButtons() {
         } else {
             ga4SelectVariantItem(variant.product?.itemCode ?? variant.id.toString())
         }
+        const _params = new URLSearchParams(params)
+        if (variant.product?.itemCode) {
+            _params.set('sku', variant.product?.itemCode)
+        } else {
+            _params.delete('sku')
+        }
+        setParams(_params, {replace: true});
         dispatch(setCurrentVariant(variant))
     }, [product])
 
@@ -43,8 +71,8 @@ export default function VariantButtons() {
 
     return (
         <Grid container spacing={1} className="variant-buttons-container"
-               direction={{xs: variants.length > 2 ? 'row' : 'column', sm: 'row'}}
-               justifyContent={variants.length === 2 ? 'center' : 'flex-start'}>
+              direction={{xs: variants.length > 2 ? 'row' : 'column', sm: 'row'}}
+              justifyContent={variants.length === 2 ? 'center' : 'flex-start'}>
             {variants
                 .map(variant => (
                     <Grid key={variant.id} size={{xs: variants.length > 2 ? 4 : 12, sm: 3, md: 4}}>

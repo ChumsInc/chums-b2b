@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {styled} from "@mui/material/styles";
 import {ga4SelectColorItem} from "@src/ga4/generic";
+import {useSearchParams} from "react-router";
 
 const SwatchContainer = styled(Box)`
     display: flex;
@@ -25,9 +26,21 @@ const SwatchSet = () => {
     const selectedProduct = useSelector(selectSelectedProduct);
     const cartItem = useSelector(selectProductCartItem);
     const colorCode = useSelector(selectProductColorCode);
+    const [params, setParams] = useSearchParams();
     const [items, setItems] = useState<(ProductSwatchBase[])>([]);
     const [swatchFormat, setSwatchFormat] = useState(selectedProduct?.additionalData?.swatch_format || '?')
 
+    useEffect(() => {
+        const sku = params.get('sku');
+        if (sku && isSellAsColors(selectedProduct) && cartItem?.itemCode !== sku) {
+            if (cartItem && sku !== cartItem.itemCode) {
+                setParams((prev) => {
+                    prev.set('sku', cartItem.itemCode)
+                    return prev;
+                }, {replace: true});
+            }
+        }
+    }, [params, selectedProduct, cartItem]);
 
     useEffect(() => {
         if (!selectedProduct) {

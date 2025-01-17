@@ -51,19 +51,26 @@ theme = createTheme(theme, {
     palette: {
         mode: 'light',
         primary: {
+            light: '#5c6bc0',
             main: '#3F51B5',
+            dark:'#303f9f'
         },
         secondary: {
+            light: '#f8376f',
             main: '#f50057',
+            dark: '#cf0051',
         },
         chumsRed: theme.palette.augmentColor({
             color: {
-                main: chumsRedBase,
+                light: '#fe3439',
+                main: '#d0112a',
+                dark: '#c2001e',
             },
             name: 'chumsRed'
         }),
         chumsGrey: theme.palette.augmentColor({
             color: {
+                light: '#78787b',
                 main: '#454547',
                 dark: '#232324'
             },

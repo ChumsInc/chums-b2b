@@ -114,7 +114,11 @@ export interface SetVariantResponse {
     colorCode?: string;
 }
 
-export const setCurrentVariant = createAsyncThunk<SetVariantResponse, ProductVariant, {state: RootState}>(
+export interface ProductVariantWithOptions extends ProductVariant {
+    preferredItem?: string;
+}
+
+export const setCurrentVariant = createAsyncThunk<SetVariantResponse, ProductVariantWithOptions, {state: RootState}>(
     'products/setVariant',
     (arg, {getState}) => {
         const state = getState() ;
@@ -126,7 +130,7 @@ export const setCurrentVariant = createAsyncThunk<SetVariantResponse, ProductVar
         const customerPrice = loggedIn ? getPrices(arg.product, priceCodes) : [...msrp];
         const salesUM = getSalesUM(arg.product);
         const colorCode = selectProductColorCode(state);
-        let cartItem = defaultCartItem(arg.product ?? null, {colorCode});
+        let cartItem = defaultCartItem(arg.product ?? null, {itemCode: arg.preferredItem, colorCode});
         if (customerKey) {
             cartItem = updateCartProductPricing(cartItem, priceCodes);
             if (cartItem) {

@@ -48,10 +48,11 @@ const ProductRouter = () => {
         if (keyword.redirect_to_parent > 0) {
             const [kw] = keywords.filter(kw => kw.pagetype === 'product')
                 .filter(kw => kw.id === keyword.redirect_to_parent);
+            console.debug(keyword, kw);
             if (kw) {
                 const path = generatePath(PATH_PRODUCT, {
                     category: kw.parent ? kw.parent : kw.keyword,
-                    product: kw.parent ? kw.parent : ''
+                    product: kw.parent ? kw.keyword : ''
                 })
                 const state = {variant: keyword.keyword};
                 navigate(path, {state, replace: true})

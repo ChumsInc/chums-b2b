@@ -49,7 +49,7 @@ async function loadVersionNo(): Promise<string | null> {
 
 export async function renderApp(req: Request, res: Response, next: NextFunction) {
     try {
-        if (!/^\/($|home|login|logout|signup|pages|profile|account|orders|invoices|set-password)/.test(req.path)) {
+        if (!/^\/($|home|login|logout|signup|pages|profile|account|orders|invoices|set-password|reset-password)/.test(req.path)) {
             debug('handleRender() invalid path => 404', req.path);
             next();
             return;

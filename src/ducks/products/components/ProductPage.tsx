@@ -33,7 +33,6 @@ const ProductPage = ({keyword}: {
 }) => {
     const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
-    const loggedIn = useSelector(selectLoggedIn);
     const product = useSelector(selectCurrentProduct);
     const selectedProduct = useSelector(selectSelectedProduct);
     const loading = useSelector(selectProductLoading);
@@ -77,16 +76,20 @@ const ProductPage = ({keyword}: {
 
 
     useEffect(() => {
+        console.debug(location, selectedProduct?.keyword, product?.keyword);
         if (location?.state?.variant
+            && product
             && isSellAsVariants(product)
             && selectedProduct?.keyword !== location.state.variant) {
             const [_variant] = product.variants.filter(v => v.product?.keyword === location.state.variant);
+            console.debug(location.state.variant, _variant.product?.keyword);
             if (_variant) {
                 dispatch(setCurrentVariant(_variant));
             }
+            delete location.state.variant;
             redirect(location.pathname);
         }
-    }, [location?.state?.variant]);
+    }, [location, selectedProduct, product]);
 
 
     return (
@@ -123,31 +126,29 @@ const ProductPage = ({keyword}: {
                         {!selectedProduct?.season && !!selectedProduct?.dateAvailable && (
                             <Alert severity="warning">{selectedProduct.dateAvailable}</Alert>
                         )}
-                        <RequireLogin>
+                        <RequireLogin
+                            fallback={(
+                                <Alert severity="warning" title="">
+                                    Please log in to see prices and availability
+                                </Alert>
+                            )}>
                             <SelectCustomerAlert/>
                         </RequireLogin>
-                        {!loggedIn && (
-                            <Alert severity="warning" title="">
-                                Please log in to see prices and availability
-                            </Alert>
-                        )}
                         <ProductPreSeasonAlert/>
-                        <MissingTaxScheduleAlert/>
                         <RequireLogin>
-                            <>
-                                {isProduct(selectedProduct) && isCartProduct(cartItem)
-                                    && isBillToCustomer(customerAccount) && selectedProduct.availableForSale && (
-                                        <AddToCartForm quantity={cartItem?.quantity ?? 1} cartItem={cartItem}
-                                                       setActiveCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
-                                                       disabled={!customerAccount?.TaxSchedule}
-                                                       onChangeQuantity={onChangeQuantity} comment=""
-                                                       afterAddToCart={setCartMessage}/>
-                                    )}
-                                <Collapse in={!!cartMessage}>
-                                    <Alert severity="info" onClose={() => setCartMessage(null)}>{cartMessage}</Alert>
-                                </Collapse>
-                                <CartItemDetail cartItem={cartItem} msrp={[selectedProduct?.msrp]}/>
-                            </>
+                            <MissingTaxScheduleAlert/>
+                            {isProduct(selectedProduct) && isCartProduct(cartItem)
+                                && isBillToCustomer(customerAccount) && selectedProduct.availableForSale && (
+                                    <AddToCartForm quantity={cartItem?.quantity ?? 1} cartItem={cartItem}
+                                                   setActiveCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
+                                                   disabled={!customerAccount?.TaxSchedule}
+                                                   onChangeQuantity={onChangeQuantity} comment=""
+                                                   afterAddToCart={setCartMessage}/>
+                                )}
+                            <Collapse in={!!cartMessage}>
+                                <Alert severity="info" onClose={() => setCartMessage(null)}>{cartMessage}</Alert>
+                            </Collapse>
+                            <CartItemDetail cartItem={cartItem} msrp={[selectedProduct?.msrp]}/>
                         </RequireLogin>
 
                         <hr/>
