@@ -38,8 +38,9 @@ app.get('/chums.css.map', (req, res) => {
 app.use('/css', express.static('./public/css', {fallthrough: false}));
 app.use('/js', express.static('./public/js', {fallthrough: false}));
 app.use('/build', express.static('./public/build', {fallthrough: false}));
-app.use('/images', express.static('./public/images', {fallthrough: false}));
-app.use(logUsage);
+app.get('/images', express.static('./public/images', {fallthrough: false}));
+app.get('/files', express.static('./files', {fallthrough: false}));
+app.get('/pdf', express.static('./pdf', {fallthrough: false}));
 app.get('/manifest.json', getManifest);
 app.get('/version.js', getVersionJS);
 app.get('/version.json', getVersion);
@@ -47,6 +48,7 @@ app.get('/version', getVersion);
 app.get('/api', getAPIRequest);
 
 app.use(handleInvalidURL);
+app.use(logUsage);
 
 app.get('/products/:category?/:product?/:sku?', renderAppProductPage);
 app.get('/pages/:keyword', renderAppContentPage);

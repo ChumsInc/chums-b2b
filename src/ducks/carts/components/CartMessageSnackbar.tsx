@@ -5,7 +5,6 @@ import {clearCartMessages} from "@ducks/carts/actions";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import {SnackbarCloseReason} from "@mui/base";
 import {CartMessage} from "@typeDefs/cart/cart-utils";
 
 export default function CartMessageSnackbar() {
@@ -29,7 +28,7 @@ export default function CartMessageSnackbar() {
         }
     }, [snacks, message, open]);
 
-    const handleClose = (ev: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+    const handleClose = (ev: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }

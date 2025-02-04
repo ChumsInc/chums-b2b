@@ -36,6 +36,7 @@ export const helmetOptions:Readonly<HelmetOptions> = {
                 "accounts.google.com",
                 "https://accounts.google.com/gsi/",
                 "https://www.youtube.com/",
+                "https://youtu.be/",
                 "'unsafe-inline'",
             ],
             "style-src": [
