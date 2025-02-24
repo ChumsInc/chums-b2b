@@ -5,6 +5,7 @@ import {setLoggedIn, setUserAccess, signInWithGoogle} from "../user/actions";
 import {customerListSorter} from "@utils/customer";
 import {SortProps} from "@typeDefs/generic";
 import {
+    clearRecentCustomers,
     loadCustomerList,
     setCustomersFilter,
     setCustomersRepFilter,
@@ -120,6 +121,9 @@ export const customersReducer = createReducer(initialUserState, builder => {
         })
         .addCase(setCustomersSort, (state, action) => {
             state.sort = action.payload;
+        })
+        .addCase(clearRecentCustomers, (state) => {
+            state.recent = [];
         })
 
 

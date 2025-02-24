@@ -27,6 +27,7 @@ import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/st
 import {Dayjs} from "dayjs";
 import {nextShipDate} from "@utils/orders";
 import {selectUserType} from "@ducks/user/selectors";
+import LocalStore from "@utils/LocalStore";
 
 export const setCartsSearch = createAction<string>("carts/setSearch");
 export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");
@@ -159,7 +160,17 @@ export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionPr
     }
 )
 
-export const setActiveCartId = createAction<number | null>('activeCart/setActiveCartId')
+export const setActiveCartId = createAction('activeCart/setActiveCartId', (arg:number|null) => {
+    if (arg) {
+        localStore.setItem(STORE_CURRENT_CART, arg)
+    } else {
+        localStore.removeItem(STORE_CURRENT_CART);
+    }
+    return {
+        payload: arg
+    }
+})
+
 export const setCartShippingAccount = createAction('activeCart/setCartShippingAccount', (arg: CustomerShippingAccount | null) => {
     localStore.setItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, arg);
     return {

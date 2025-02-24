@@ -181,13 +181,6 @@ const userReducer = createReducer(initialUserState, (builder) => {
         .addCase(loadCustomer.fulfilled, (state, action) => {
             if (action.payload?.customer) {
                 const {ARDivisionNo, CustomerNo, CustomerName, ShipToCode} = action.payload.customer;
-                localStore.setItem<BasicCustomer>(STORE_CUSTOMER, {
-                    ...state.currentCustomer,
-                    ARDivisionNo,
-                    CustomerNo,
-                    CustomerName,
-                    ShipToCode
-                });
                 state.currentCustomer = {ARDivisionNo, CustomerNo, CustomerName, ShipToCode};
             }
         })

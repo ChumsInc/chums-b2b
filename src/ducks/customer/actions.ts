@@ -1,7 +1,7 @@
 import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@utils/customer";
 import localStore from "../../utils/LocalStore";
-import {STORE_RECENT_ACCOUNTS} from "@constants/stores";
-import {selectLoggedIn} from "../user/selectors";
+import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@constants/stores";
+import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
 import {
     selectCustomerAccount,
     selectCustomerKey,
@@ -100,6 +100,15 @@ export const loadCustomer = createAsyncThunk<FetchCustomerResponse | null, Custo
         const state = getState();
         response.recent = buildRecentCustomers(selectRecentCustomers(state), response.customer);
         localStore.setItem(STORE_RECENT_ACCOUNTS, response.recent);
+        const {ARDivisionNo, CustomerNo, CustomerName, ShipToCode} = response.customer;
+        const currentCustomer = selectCurrentCustomer(state);
+        localStore.setItem<BasicCustomer>(STORE_CUSTOMER, {
+            ...(currentCustomer ?? {}),
+            ARDivisionNo,
+            CustomerNo,
+            CustomerName,
+            ShipToCode
+        });
         return response;
     }, {
         condition: (arg, {getState}) => {

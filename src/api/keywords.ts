@@ -3,7 +3,7 @@ import {fetchJSON} from "./fetch";
 
 export async function fetchKeywords():Promise<Keyword[]> {
     try {
-        const url = '/api/keywords';
+        const url = '/api/keywords.json';
         const res = await fetchJSON<{result: Keyword[]}>(url, {cache: 'no-cache'});
         return res.result ?? [];
     } catch(err:unknown) {

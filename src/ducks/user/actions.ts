@@ -1,6 +1,6 @@
 import localStore from '../../utils/LocalStore';
 import {
-    STORE_AUTHTYPE,
+    STORE_AUTHTYPE, STORE_AVATAR,
     STORE_CURRENT_CART,
     STORE_CUSTOMER,
     STORE_CUSTOMER_SHIPPING_ACCOUNT, STORE_RECENT_ACCOUNTS,
@@ -44,6 +44,7 @@ import {StoredProfile} from "@typeDefs/user";
 import {loadCustomerList} from "../customers/actions";
 import {isErrorResponse} from "@utils/typeguards";
 import {APIErrorResponse} from "@typeDefs/generic";
+import LocalStore from "../../utils/LocalStore";
 
 export const setLoggedIn = createAction<SetLoggedInProps>('user/setLoggedIn');
 
@@ -276,3 +277,14 @@ export const saveUserProfile = createAsyncThunk<UserProfileResponse, Pick<UserPr
         }
     }
 )
+
+export const setAvatar = createAction('user/setAvatar', (arg: string|null) => {
+    if (arg) {
+        LocalStore.setItem<string>(STORE_AVATAR, arg);
+    } else {
+        LocalStore.removeItem(STORE_AVATAR);
+    }
+    return {
+        payload: arg
+    }
+});

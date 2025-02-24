@@ -1,4 +1,4 @@
-import React, {useId} from 'react';
+import React, {useEffect, useId} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {selectCustomersStateFilter, selectCustomerStates} from "../selectors";
 import StateSelect from "../../../components/StateSelect";
@@ -9,6 +9,16 @@ const AccountListStateFilter = () => {
     const states = useAppSelector(selectCustomerStates);
     const stateFilter = useAppSelector(selectCustomersStateFilter);
     const id = useId();
+    const [list, setList] = React.useState<string[]>([]);
+
+    useEffect(() => {
+        if (stateFilter && !states.includes(stateFilter)) {
+            setList([...states, stateFilter]);
+        } else {
+            setList(states);
+        }
+    }, [states, stateFilter]);
+
 
     const changeHandler = (state:string) => {
         dispatch(setCustomersStateFilter(state));
@@ -18,7 +28,7 @@ const AccountListStateFilter = () => {
         return null;
     }
     return (
-        <StateSelect countryCode="USA" value={stateFilter} filterList={states} allowAllStates id={id}
+        <StateSelect countryCode="USA" value={stateFilter} filterList={list} allowAllStates id={id}
                      variant="standard" onChange={changeHandler} />
     )
 }

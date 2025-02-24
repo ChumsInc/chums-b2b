@@ -8,7 +8,7 @@ import {selectCustomersLoading} from "./selectors";
 import {isTokenExpired} from "@utils/jwtHelper";
 import {auth} from "@api/IntranetAuthService";
 import localStore from "../../utils/LocalStore";
-import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@constants/stores";
+import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "@constants/stores";
 
 export const setCustomersFilter = createAction<string>('customers/setFilter');
 export const setCustomersRepFilter = createAction('customers/setRepFilter', (arg:string|null) => {
@@ -24,6 +24,11 @@ export const setCustomersStateFilter = createAction('customers/setStateFilter', 
     }
 });
 export const setCustomersSort = createAction<SortProps<Customer>>('customers/setSort');
+
+export const clearRecentCustomers = createAction('customers/clearRecentCustomers', () => {
+    localStore.removeItem(STORE_RECENT_ACCOUNTS);
+    return {payload: null}
+});
 
 export const loadCustomerList = createAsyncThunk<Customer[], UserCustomerAccess | null, {state: RootState}>(
     'customers/list/load',

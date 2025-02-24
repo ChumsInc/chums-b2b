@@ -62,8 +62,13 @@ const UserProfile = () => {
     const refreshHandler = () => {
         dispatch(loadProfile());
     }
+
     const logoutHandler = () => {
         dispatch(logoutUser());
+    }
+
+    const clearSettingsHandler = () => {
+
     }
 
     const renderEmailLockIcon = () => {
@@ -106,6 +111,7 @@ const UserProfile = () => {
                                     component={NavLink} to="/profile/set-password">
                                 Change Password
                             </Button>
+                            <Button type="button" variant="text" onClick={clearSettingsHandler}>Clear All Settings</Button>
                             <Button type="submit" variant="contained" disabled={!user?.changed}>Save Changes</Button>
                         </Stack>
                         {user?.changed && (<Alert severity="warning">Don&apos;t forget to save your changes.</Alert>)}
