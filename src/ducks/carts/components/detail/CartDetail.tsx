@@ -10,10 +10,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
-import {selectCartDetailById, selectCartHeaderById} from "@ducks/carts/selectors";
+import {selectCartHeaderById} from "@ducks/carts/cartHeadersSlice";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {cartDetailToCartProduct} from "@ducks/carts/utils";
 import AddToCartDialog from "@ducks/carts/components/add-to-cart/AddToCartDialog";
+import {selectCartDetailById} from "@ducks/carts/cartDetailSlice";
 
 export default function CartDetail({cartId}: {
     cartId: number;

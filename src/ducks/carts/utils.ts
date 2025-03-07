@@ -15,6 +15,7 @@ export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a:
         case 'customerPONo':
         case 'dateCreated':
         case 'shipToName':
+            case 'ShipToName':
             return (
                 (a[field] ?? '').toLowerCase() === (b[field] ?? '').toLowerCase()
                     ? (a.id - b.id)
@@ -23,6 +24,12 @@ export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a:
                             ? 1
                             : -1
                     )
+            ) * sortMod;
+        case 'ShipToCity':
+            return (
+                shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase()) === 0
+                ? (a.id - b.id)
+                : shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase())
             ) * sortMod;
         case 'subTotalAmt':
             return (
@@ -89,4 +96,17 @@ export const cartDetailToCartProduct = (row: B2BCartDetail): CartProduct | null 
         image: row.cartProduct.image ?? '',
         name: row.itemCodeDesc,
     }
+}
+
+export function calcCartQty(detail:B2BCartDetail[]) {
+    return detail
+        .filter(line => line.itemType === '1')
+        .map(line => new Decimal(line.quantityOrdered).times(line.unitOfMeasureConvFactor))
+        .reduce((pv, cv) => cv.add(pv), new Decimal(0))
+        .toNumber();
+}
+
+
+export function shipToLocation(cart:B2BCartHeader) {
+    return `${cart.ShipToCity ?? ''}, ${cart.ShipToState ?? ''} ${cart.ShipToZipCode ?? ''}`.trim();
 }

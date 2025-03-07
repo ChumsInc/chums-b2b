@@ -24,6 +24,11 @@ import itemLookupReducer from "../ducks/item-lookup";
 import bannersReducer from "../ducks/banners";
 import signUpReducer from "../ducks/sign-up";
 import cartsReducer from "@ducks/carts";
+import cartMessagesSlice from "@ducks/carts/cartMessagesSlice";
+import cartStatusSlice from "@ducks/carts/cartStatusSlice";
+import activeCartSlice from "@ducks/carts/activeCartSlice";
+import cartDetailSlice from "@ducks/carts/cartDetailSlice";
+import cartHeadersSlice from "@ducks/carts/cartHeadersSlice";
 
 
 export const rootReducer = combineReducers({
@@ -31,6 +36,11 @@ export const rootReducer = combineReducers({
     app: appReducer,
     banners: bannersReducer,
     carts: cartsReducer,
+    [cartHeadersSlice.reducerPath]: cartHeadersSlice.reducer,
+    [cartDetailSlice.reducerPath]: cartDetailSlice.reducer,
+    [cartMessagesSlice.reducerPath]: cartMessagesSlice.reducer,
+    [cartStatusSlice.reducerPath]: cartStatusSlice.reducer,
+    [activeCartSlice.reducerPath]: activeCartSlice.reducer,
     category: categoryReducer,
     customer: customerReducer,
     customers: customersReducer,

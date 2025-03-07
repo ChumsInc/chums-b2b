@@ -14,9 +14,8 @@ import {selectCanViewAvailable} from "@ducks/user/selectors";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import {selectCartItemById} from "@ducks/carts/selectors";
-import {setCartItem} from "@ducks/carts/actions";
 import ProductLink from "@components/product";
+import {selectCartItemById, setCartItem} from "@ducks/carts/cartDetailSlice";
 
 export default function CartItemLine({
                                          cartId,
@@ -34,7 +33,7 @@ export default function CartItemLine({
     onAddToCart?: () => void;
 }) {
     const dispatch = useAppDispatch();
-    const line = useAppSelector((state) => selectCartItemById(state, cartId, lineId));
+    const line = useAppSelector((state) => selectCartItemById(state, lineId));
     const commentRef = React.createRef<HTMLInputElement>();
     const canViewAvailable = useAppSelector(selectCanViewAvailable);
     const [showCommentInput, setShowCommentInput] = useState<boolean>(!!line.commentText);

@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
-import {selectCartHeaderById} from "@ducks/carts/selectors";
+import {selectCartHeaderById} from "@ducks/carts/cartHeadersSlice";
 
 export interface DeleteCartButtonProps extends ButtonProps {
     customerKey: string | null;

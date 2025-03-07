@@ -5,7 +5,7 @@ import Select, {SelectChangeEvent, SelectProps} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import {useSelector} from "react-redux";
 import Box from "@mui/material/Box";
-import {selectCartHeaders} from "@ducks/carts/selectors";
+import {selectCartHeaders} from "@ducks/carts/cartHeadersSlice";
 import localStore from "@utils/LocalStore";
 import {STORE_CURRENT_CART} from "@constants/stores";
 

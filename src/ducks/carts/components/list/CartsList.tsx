@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {selectCartsSort, selectFilteredCarts} from "@ducks/carts/selectors";
+import {selectCartsSort, selectFilteredCarts, setCartsSort} from "@ducks/carts/cartHeadersSlice";
 import {SortProps} from "b2b-types";
 import DataTable, {SortableTableField} from "../../../../common-components/DataTable";
 import TablePagination from "@mui/material/TablePagination";
@@ -10,7 +10,7 @@ import numeral from "numeral";
 import Decimal from "decimal.js";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import CartLink from "@ducks/carts/components/list/CartLink";
-import {setCartsSort} from "@ducks/carts/actions";
+import {shipToLocation} from "@ducks/carts/utils";
 
 
 const cartFields: SortableTableField<B2BCartHeader>[] = [
@@ -29,19 +29,19 @@ const cartFields: SortableTableField<B2BCartHeader>[] = [
         sortable: true
     },
     {
-        field: 'ShipToName', title: 'Ship To', sortable: true, 
+        field: 'shipToName', title: 'Ship To', sortable: true,
         render: (cart) => (
-            <span>{!!cart.shipToCode && (<span>[{cart.shipToCode}]</span>)} {cart.ShipToName}</span>
+            <span>{!!cart.shipToCode && (<span>[{cart.shipToCode}]</span>)} {cart.shipToName}</span>
         )
     },
     {
         field: 'ShipToCity',
         title: 'Location',
-        render: (cart) => `${cart.ShipToCity}, ${cart.ShipToState} ${cart.ShipToZipCode}`,
+        render: (cart) => shipToLocation(cart),
         sortable: true
     },
     {
-        field: 'NonTaxableAmt',
+        field: 'subTotalAmt',
         title: 'Total',
         render: (so) => numeral(new Decimal(so.subTotalAmt)).format('0,0.00'),
         align: 'right',

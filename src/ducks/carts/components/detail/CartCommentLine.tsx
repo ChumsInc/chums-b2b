@@ -8,9 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
 import TextField from "@mui/material/TextField";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {selectCartItemById} from "@ducks/carts/selectors";
 import {useDebounceValue} from "@hooks/use-debounce";
-import {setCartItem} from "@ducks/carts/actions";
+import {selectCartItemById, setCartItem} from "@ducks/carts/cartDetailSlice";
 
 
 export interface CartCommentLineProps {
@@ -20,13 +19,13 @@ export interface CartCommentLineProps {
 }
 
 export default React.forwardRef(function CartCommentLine({
-                                                                   cartId,
-                                                                   lineId,
-                                                                   readOnly,
-                                                               }: CartCommentLineProps,
+                                                             cartId,
+                                                             lineId,
+                                                             readOnly,
+                                                         }: CartCommentLineProps,
                                                          ref: React.Ref<HTMLInputElement>) {
     const dispatch = useAppDispatch();
-    const line = useAppSelector((state) => selectCartItemById(state, cartId, lineId));
+    const line = useAppSelector((state) => selectCartItemById(state, lineId));
     const [value, setValue] = useState<string>(line.commentText);
     const [commentText, setCommentText] = useDebounceValue<string>(line.commentText, 500);
 
@@ -66,10 +65,11 @@ export default React.forwardRef(function CartCommentLine({
                                multiline maxRows={4} minRows={1}
                                onChange={changeHandler}
                                slotProps={{
-                                  htmlInput: {readOnly, maxLength: 2048},
-                                  input: {
-                                      endAdornment: <IconButton size="small" onClick={deleteCommentHandler} aria-label="remove comment"><ClearIcon /></IconButton>
-                                  }
+                                   htmlInput: {readOnly, maxLength: 2048},
+                                   input: {
+                                       endAdornment: <IconButton size="small" onClick={deleteCommentHandler}
+                                                                 aria-label="remove comment"><ClearIcon/></IconButton>
+                                   }
                                }}/>
                 </Box>
             </TableCell>

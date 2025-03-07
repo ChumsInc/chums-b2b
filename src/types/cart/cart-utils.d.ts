@@ -19,3 +19,8 @@ export interface CartMessage {
 export interface CartStatusList {
     [key: number]: 'idle'|'loading'|'saving'|'deleting'|'not-found';
 }
+
+export interface CartStatus {
+    key: number;
+    status: 'idle'|'loading'|'saving'|'deleting'|'not-found';
+}

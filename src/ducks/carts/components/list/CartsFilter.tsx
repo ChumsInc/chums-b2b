@@ -4,11 +4,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import Stack from "@mui/material/Stack";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {selectCartsSearch} from "@ducks/carts/selectors";
-import {loadCarts, setCartsSearch} from "@ducks/carts/actions";
+import {loadCarts} from "@ducks/carts/actions";
 import Button from "@mui/material/Button";
 import {useSelector} from "react-redux";
 import {selectCustomerKey} from "@ducks/customer/selectors";
+import {selectCartsSearch, setCartSearch} from "@ducks/carts/cartHeadersSlice";
 
 export default function CartsFilter() {
     const dispatch = useAppDispatch();
@@ -17,7 +17,7 @@ export default function CartsFilter() {
     const id = useId();
 
     const changeHandler = (evt: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setCartsSearch(evt.target.value));
+        dispatch(setCartSearch(evt.target.value));
     }
 
     const reloadHandler = () => {
