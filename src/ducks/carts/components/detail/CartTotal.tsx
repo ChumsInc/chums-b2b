@@ -7,7 +7,8 @@ import {useAppSelector} from "@app/configureStore";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import {selectCartHeaderById, selectCartShippingAccount} from "@ducks/carts/selectors";
+import {selectCartHeaderById} from "@ducks/carts/cartHeadersSlice";
+import {selectCartShippingAccount} from "@ducks/carts/activeCartSlice";
 
 export default function CartTotal({cartId}: {
     cartId: number;
@@ -22,7 +23,7 @@ export default function CartTotal({cartId}: {
     const total = subTotal.add(header.FreightAmt ?? 0).add(header.SalesTaxAmt ?? 0).sub(header.DepositAmt ?? 0).sub(header.DiscountAmt ?? 0);
 
     const isFreightTBD = () => {
-        return !(getShippingMethod(header.shipVia)?.allowCustomerAccount && shippingAccount.enabled)
+        return !(getShippingMethod(header.shipVia)?.allowCustomerAccount && shippingAccount?.enabled)
     }
 
     return (

@@ -30,14 +30,8 @@ import {selectSOLoading} from "@ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
-import {
-    selectActiveCartId,
-    selectCartDetailById,
-    selectCartHasChanges,
-    selectCartHeaderById,
-    selectCartShippingAccount,
-    selectCartStatusById
-} from "@ducks/carts/selectors";
+import {selectCartHeaderById,} from "@ducks/carts/cartHeadersSlice";
+import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {loadCart, processCart, saveCart} from "@ducks/carts/actions";
 import CartPaymentSelect from "@ducks/carts/components/header/CartPaymentSelect";
@@ -51,6 +45,8 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@src/ga4/cart";
+import {selectActiveCartId, selectCartShippingAccount} from "@ducks/carts/activeCartSlice";
+import {selectCartDetailById, selectCartHasChanges} from "@ducks/carts/cartDetailSlice";
 
 
 export default function CartOrderHeader() {
@@ -308,7 +304,7 @@ export default function CartOrderHeader() {
                                                       error={!cartHeader?.shipVia}
                                                       ref={shipMethodRef}
                                                       onChange={valueChangeHandler('shipVia')}/>
-                                <CustomerShippingAccountControl shipVia={cartHeader?.shipVia} />
+                                <CustomerShippingAccountControl shipVia={cartHeader?.shipVia}/>
                             </Stack>
                         </Stack>
                     </Collapse>
@@ -327,7 +323,7 @@ export default function CartOrderHeader() {
                                        }}
                                        disabled={loadingStatus !== 'idle'}
                                        error={!cartHeader.customerPONo}
-                                        required/>
+                                       required/>
                         </Stack>
                     </Collapse>
                 </Grid>

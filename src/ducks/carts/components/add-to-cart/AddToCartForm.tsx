@@ -20,13 +20,10 @@ import CartQuantityInput from "@components/CartQuantityInput";
 import {CartProduct} from "b2b-types";
 import Box from "@mui/material/Box";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {
-    selectActiveCartHeader,
-    selectCartHeaders,
-    selectCartsStatus,
-    selectCartStatusById
-} from "@ducks/carts/selectors";
+import {selectCartHeaders,} from "@ducks/carts/cartHeadersSlice";
+import {selectCartsStatus, selectCartStatusById} from "@ducks/carts/cartStatusSlice";
 import {ga4AddToCart} from "@src/ga4/cart";
+import {selectActiveCartHeader} from "@ducks/carts/activeCartSlice";
 
 export interface AddToCartFormProps {
     cartItem: CartProduct;
@@ -66,7 +63,7 @@ export default function AddToCartForm({
     const [cartComment, setCartComment] = useState<string>(comment ?? '');
     const [cartName, setCartName] = useState<string>(activeCart?.customerPONo ?? '');
     const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? null);
-    const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId));
+    const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId ?? 0));
 
     const submitHandler = useCallback(async (ev: FormEvent) => {
         ev.preventDefault();
@@ -174,7 +171,7 @@ export default function AddToCartForm({
                 <CartSelect cartId={cartId === excludeCartId ? 0 : cartId} onChange={cartChangeHandler} required
                             excludeCartId={excludeCartId}/>
                 {!cartId && cartsStatus === 'loading' && (
-                    <LinearProgress variant="indeterminate" aria-label="Loading Carts" />
+                    <LinearProgress variant="indeterminate" aria-label="Loading Carts"/>
                 )}
                 {(!cartId && cartsStatus === 'idle') && (
                     <Stack spacing={2} direction={{xs: "column", md: "row"}}>

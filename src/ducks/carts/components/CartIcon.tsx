@@ -4,34 +4,20 @@ import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CircularProgress from "@mui/material/CircularProgress";
 import numeral from "numeral";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Tooltip from "@mui/material/Tooltip";
-import {selectActiveCart, selectActiveCartLoading} from "@ducks/carts/selectors";
 import {useAppSelector} from "@app/configureStore";
-import Decimal from "decimal.js";
-import {B2BCart} from "@typeDefs/cart/cart";
-
-function calcCartQty(cart: B2BCart | null): number {
-    if (!cart) {
-        return 0;
-    }
-    return cart.detail
-        .filter(line => line.itemType === '1')
-        .map(line => new Decimal(line.quantityOrdered).times(line.unitOfMeasureConvFactor))
-        .reduce((pv, cv) => cv.add(pv), new Decimal(0))
-        .toNumber();
-}
+import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
+import {selectActiveCartId, selectActiveCartTotal} from "@ducks/carts/activeCartSlice";
+import {selectCartQtyByCartId} from "@ducks/carts/cartDetailSlice";
 
 export default function CartIcon() {
-    const cart = useAppSelector(selectActiveCart);
-    const [cartQty, setCartQty] = useState<number>(calcCartQty(cart));
-    const cartStatus = useAppSelector(selectActiveCartLoading);
+    const cartId = useAppSelector(selectActiveCartId);
+    const cartQty = useAppSelector((state) => selectCartQtyByCartId(state, cartId));
+    const cartTotal = useAppSelector(selectActiveCartTotal);
+    const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId ?? 0));
 
-    useEffect(() => {
-        setCartQty(calcCartQty(cart));
-    }, [cart]);
-
-    if (!cart || (cart.header.id === 0 && cartQty === 0)) {
+    if (!cartId) {
         return (
             <ShoppingCartOutlinedIcon fontSize="medium"/>
         )
@@ -39,7 +25,7 @@ export default function CartIcon() {
 
     return (
         <>
-            <Tooltip title={`Cart #${cart.header.id}`}>
+            <Tooltip title={`Cart #${cartId}`}>
                 <Box sx={{m: 1, position: 'relative'}}>
                     <Badge badgeContent={cartQty} color="primary" max={99999}
                            anchorOrigin={{vertical: "bottom", horizontal: 'right'}}>
@@ -50,7 +36,7 @@ export default function CartIcon() {
                     )}
                 </Box>
             </Tooltip>
-            <Box sx={{ml: 2}}>{numeral(cart.header.subTotalAmt).format('$0,0')}</Box>
+            <Box sx={{ml: 2}}>{numeral(cartTotal).format('$0,0')}</Box>
         </>
     )
 }

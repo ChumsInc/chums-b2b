@@ -17,7 +17,7 @@ import {generatePath, useNavigate} from "react-router";
 import {customerSlug, parseCustomerSlug} from "@utils/customer";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
 import {selectCustomerKey} from "@ducks/customer/selectors";
-import {selectCartStatusById} from "@ducks/carts/selectors";
+import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
 
 const DuplicateCartDialog = ({open, salesOrderNo, shipToCode, onClose}: {
     open: boolean;

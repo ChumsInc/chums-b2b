@@ -1,14 +1,8 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {EmailResponse, SortProps} from "b2b-types";
+import {EmailResponse} from "b2b-types";
 import {fetchCarts, postCartEmail, postDuplicateSalesOrder, postProcessCart, putUpdateCartItems} from "./api";
 import {RootState} from "@app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@ducks/carts/api";
-import {
-    selectCartDetailById,
-    selectCartShippingAccount,
-    selectCartsStatus,
-    selectCartStatusById
-} from "@ducks/carts/selectors";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
 import {B2BCart} from "@typeDefs/cart/cart";
 import {
@@ -19,20 +13,13 @@ import {
     UpdateCartItemProps,
     UpdateCartProps
 } from "@typeDefs/cart/cart-action-props";
-import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {CustomerShippingAccount} from "@typeDefs/customer";
-import {CartProgress} from "@typeDefs/cart/cart-utils";
 import localStore from "@utils/LocalStore";
 import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
-import {Dayjs} from "dayjs";
-import {nextShipDate} from "@utils/orders";
 import {selectUserType} from "@ducks/user/selectors";
-import LocalStore from "@utils/LocalStore";
-
-export const setCartsSearch = createAction<string>("carts/setSearch");
-export const setCartsSort = createAction<SortProps<B2BCartHeader>>("carts/setSort");
-export const setCartItem = createAction<Partial<B2BCartDetail> & Pick<B2BCartDetail, 'id' | 'cartHeaderId'>>('carts/setCartItem');
-export const clearCartMessages = createAction("carts/clearMessages");
+import {selectCartsStatus, selectCartStatusById} from "@ducks/carts/cartStatusSlice";
+import {selectCartDetailById} from "@ducks/carts/cartDetailSlice";
+import {selectCartShippingAccount} from "@ducks/carts/activeCartSlice";
 
 export const loadCarts = createAsyncThunk<B2BCart[], string | null, { state: RootState }>(
     'carts/loadCarts',
@@ -60,7 +47,7 @@ export const loadCart = createAsyncThunk<B2BCart | null, CartActionProps, { stat
         if (cart && arg.setActiveCart) {
             localStore.setItem<number>(STORE_CURRENT_CART, cart.header.id);
         } else if (!cart) {
-            const currentCart = localStore.getItem<number|null>(STORE_CURRENT_CART, null);
+            const currentCart = localStore.getItem<number | null>(STORE_CURRENT_CART, null);
             if (currentCart === arg.cartId) {
                 localStore.removeItem(STORE_CURRENT_CART);
             }
@@ -160,7 +147,7 @@ export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionPr
     }
 )
 
-export const setActiveCartId = createAction('activeCart/setActiveCartId', (arg:number|null) => {
+export const setActiveCartId = createAction('activeCart/setActiveCartId', (arg: number | null) => {
     if (arg) {
         localStore.setItem(STORE_CURRENT_CART, arg)
     } else {
@@ -177,14 +164,6 @@ export const setCartShippingAccount = createAction('activeCart/setCartShippingAc
         payload: arg
     }
 });
-export const setCartCheckoutProgress = createAction<CartProgress>('activeCart/setCartCheckoutProgress');
-export const setCartShipDate = createAction('activeCart/setShipDate', (arg: Date | string | number | Dayjs) => {
-    const shipDate = nextShipDate(arg);
-    return {
-        payload: shipDate,
-    }
-});
-export const setCartDetailSort = createAction<SortProps<B2BCartDetail>>('activeCart/setCartDetailSort');
 
 export const processCart = createAsyncThunk<string | null, B2BCartHeader, { state: RootState }>(
     'processCart',
@@ -193,7 +172,7 @@ export const processCart = createAsyncThunk<string | null, B2BCartHeader, { stat
         const shippingAccount = selectCartShippingAccount(state);
         const userType = selectUserType(state);
         const comment: string[] = [];
-        if (shippingAccount.enabled) {
+        if (shippingAccount?.enabled) {
             comment.push('RCP')
             comment.push(`${shippingAccount.value.trim()}`);
         }

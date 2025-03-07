@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import CartCommentLine from "./CartCommentLine";
 import {Editable} from "b2b-types";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {saveCartItem, setCartItem} from "@ducks/carts/actions";
+import {saveCartItem,} from "@ducks/carts/actions";
 import CartItemLine from "./CartItemLine";
 import CartKitComponentLine from "./CartKitComponentLine";
 import TableRow from '@mui/material/TableRow';
@@ -11,7 +11,7 @@ import {selectCustomerKey} from "@ducks/customer/selectors";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {UpdateCartItemBody} from "@typeDefs/cart/cart-action-props";
 import LinearProgress from "@mui/material/LinearProgress";
-import {selectCartHasChanges, selectCartItemStatus} from "@ducks/carts/selectors";
+import {selectCartHasChanges, selectCartItemStatus, setCartItem} from "@ducks/carts/cartDetailSlice";
 
 
 export default function CartDetailLine({
@@ -27,7 +27,7 @@ export default function CartDetailLine({
 }) {
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectCustomerKey);
-    const cartItemStatus = useAppSelector(state => selectCartItemStatus(state, line.cartHeaderId, line.id));
+    const cartItemStatus = useAppSelector(state => selectCartItemStatus(state, line.id));
     const hasChanges = useAppSelector((state) => selectCartHasChanges(state, line.cartHeaderId));
     const commentRef = React.createRef<HTMLInputElement>();
 

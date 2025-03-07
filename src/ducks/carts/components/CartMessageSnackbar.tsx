@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {selectCartMessages} from "@ducks/carts/selectors";
-import {clearCartMessages} from "@ducks/carts/actions";
+import {selectCartMessages} from "@ducks/carts/cartMessagesSlice";
+import {clearCartMessages} from "@ducks/carts/cartMessagesSlice";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";

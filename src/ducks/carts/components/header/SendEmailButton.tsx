@@ -5,7 +5,7 @@ import {selectSendEmailStatus} from "@ducks/open-orders/selectors";
 import SendEmailModal from "./SendEmailModal";
 import {sendCartEmail} from "@ducks/carts/actions";
 import {selectCustomerKey} from "@ducks/customer/selectors";
-import {selectCartStatusById} from "@ducks/carts/selectors";
+import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
 
 export interface SendEmailButtonProps extends ButtonProps {
     cartId: number;
