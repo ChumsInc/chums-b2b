@@ -33,7 +33,6 @@ import Alert from "@mui/material/Alert";
 import {clearRecentCustomers, setCustomersRepFilter, setCustomersStateFilter} from "@ducks/customers/actions";
 import {loadProfile, setAvatar, setUserAccess} from "@ducks/user/actions";
 import {setCartShippingAccount} from "@ducks/carts/actions";
-import {jwtDecode} from "jwt-decode";
 import {getTokenExpirationDate, isTokenExpired} from "@utils/jwtHelper";
 
 export type StoredSettings = Record<string, string>;

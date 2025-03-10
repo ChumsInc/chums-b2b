@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {loadProduct, setCartItemQuantity, setCurrentVariant} from '../actions';
+import {loadProduct, setCurrentVariant} from '../actions';
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet";
 import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
