@@ -74,7 +74,7 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
                               readOnly: disabled,
                               min: 1,
                               maxLength: 4,
-                              sx: {textAlign: 'center'},
+                              sx: {textAlign: 'center', minWidth: '4rem', flex: '1 0 4rem'},
                               id: id,
                               autoCorrect: 'off',
                               autoComplete: 'off'

@@ -41,7 +41,7 @@ export default function CartIcon() {
         <>
             <Tooltip title={`Cart #${cart.header.id}`}>
                 <Box sx={{m: 1, position: 'relative'}}>
-                    <Badge badgeContent={cartQty} color="primary"
+                    <Badge badgeContent={cartQty} color="primary" max={99999}
                            anchorOrigin={{vertical: "bottom", horizontal: 'right'}}>
                         <ShoppingCartIcon fontSize="medium"/>
                     </Badge>
