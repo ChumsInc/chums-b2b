@@ -13,7 +13,6 @@ const detailAdapter = createEntityAdapter<B2BCartDetail, number>({
 
 const adapterSelectors = detailAdapter.getSelectors();
 
-
 export interface CartDetailExtraState {
     customerKey: string | null;
     sort: SortProps<B2BCartDetail>;

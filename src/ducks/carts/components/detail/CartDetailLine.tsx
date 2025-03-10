@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import CartCommentLine from "./CartCommentLine";
 import {Editable} from "b2b-types";
 import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {saveCartItem,} from "@ducks/carts/actions";
+import {saveCartItem, setCartItem} from "@ducks/carts/actions";
 import CartItemLine from "./CartItemLine";
 import CartKitComponentLine from "./CartKitComponentLine";
 import TableRow from '@mui/material/TableRow';

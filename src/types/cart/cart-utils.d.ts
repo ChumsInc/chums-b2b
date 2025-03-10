@@ -32,3 +32,8 @@ export interface CartDetailStatus {
     cartId: number;
     status: CartStatusValue;
 }
+
+export interface CartStatus {
+    key: number;
+    status: 'idle'|'loading'|'saving'|'deleting'|'not-found';
+}
