@@ -20,10 +20,10 @@ import CartQuantityInput from "@components/CartQuantityInput";
 import {CartProduct} from "b2b-types";
 import Box from "@mui/material/Box";
 import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {selectCartHeaders,} from "@ducks/carts/cartHeadersSlice";
+import {selectCartHeaderById, selectCartHeaders,} from "@ducks/carts/cartHeadersSlice";
 import {selectCartsStatus, selectCartStatusById} from "@ducks/carts/cartStatusSlice";
 import {ga4AddToCart} from "@src/ga4/cart";
-import {selectActiveCartHeader} from "@ducks/carts/activeCartSlice";
+import {selectActiveCartId} from "@ducks/carts/activeCartSlice";
 
 export interface AddToCartFormProps {
     cartItem: CartProduct;
@@ -52,7 +52,8 @@ export default function AddToCartForm({
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectCustomerKey);
     const carts = useAppSelector(selectCartHeaders);
-    const activeCart = useAppSelector(selectActiveCartHeader);
+    const activeCartId = useAppSelector(selectActiveCartId);
+    const activeCart = useAppSelector((state) => selectCartHeaderById(state, activeCartId));
     const customer = useSelector(selectCustomerAccount);
     const permissions = useSelector(selectCustomerPermissions);
     const permissionsLoading = useSelector(selectCustomerPermissionsLoading);
@@ -106,7 +107,7 @@ export default function AddToCartForm({
         if (onDone) {
             onDone();
         }
-    }, [cartId, customerKey, cartName, shipToCode, cartItem, cartComment, setActiveCart, onDone]);
+    }, [cartId, quantity, customerKey, cartName, shipToCode, cartItem, cartComment, setActiveCart, onDone]);
 
     const setCartState = useCallback((cart: B2BCartHeader | null) => {
         setCartId(cart?.id ?? 0);
@@ -157,10 +158,6 @@ export default function AddToCartForm({
         setCartName(value)
     }
 
-    const quantityChangeHandler = (quantity: number) => {
-        onChangeQuantity(quantity);
-    }
-
     const shipToCodeChangeHandler = (code: string | null) => {
         setShipToCode(code)
     }
@@ -189,7 +186,7 @@ export default function AddToCartForm({
                     </Stack>
                 )}
                 <Stack direction="row" spacing={2} justifyContent="flex-end">
-                    <CartQuantityInput quantity={quantity} onChange={quantityChangeHandler}
+                    <CartQuantityInput quantity={quantity} onChange={onChangeQuantity}
                                        unitOfMeasure={unitOfMeasure ?? cartItem.salesUM ?? 'EA'}
                                        disabled={disabled} required/>
                     <AddToCartButton disabled={disabled || !quantity || cartStatus !== 'idle'}/>

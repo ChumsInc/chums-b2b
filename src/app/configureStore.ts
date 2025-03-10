@@ -23,7 +23,6 @@ import repsReducer from "../ducks/reps";
 import itemLookupReducer from "../ducks/item-lookup";
 import bannersReducer from "../ducks/banners";
 import signUpReducer from "../ducks/sign-up";
-import cartsReducer from "@ducks/carts";
 import cartMessagesSlice from "@ducks/carts/cartMessagesSlice";
 import cartStatusSlice from "@ducks/carts/cartStatusSlice";
 import activeCartSlice from "@ducks/carts/activeCartSlice";
@@ -36,7 +35,6 @@ export const rootReducer = combineReducers({
     alerts: alertsReducer,
     app: appReducer,
     banners: bannersReducer,
-    carts: cartsReducer,
     [cartHeadersSlice.reducerPath]: cartHeadersSlice.reducer,
     [cartDetailSlice.reducerPath]: cartDetailSlice.reducer,
     [cartDetailStatusSlice.reducerPath]: cartDetailStatusSlice.reducer,

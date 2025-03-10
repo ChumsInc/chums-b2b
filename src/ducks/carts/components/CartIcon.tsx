@@ -8,13 +8,14 @@ import React from "react";
 import Tooltip from "@mui/material/Tooltip";
 import {useAppSelector} from "@app/configureStore";
 import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
-import {selectActiveCartId, selectActiveCartTotal} from "@ducks/carts/activeCartSlice";
+import {selectActiveCartId} from "@ducks/carts/activeCartSlice";
 import {selectCartQtyByCartId} from "@ducks/carts/cartDetailSlice";
+import {selectCartTotalById} from "@ducks/carts/cartHeadersSlice";
 
 export default function CartIcon() {
     const cartId = useAppSelector(selectActiveCartId);
     const cartQty = useAppSelector((state) => selectCartQtyByCartId(state, cartId));
-    const cartTotal = useAppSelector(selectActiveCartTotal);
+    const cartTotal = useAppSelector((state) => selectCartTotalById(state, cartId));
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId ?? 0));
 
     if (!cartId) {

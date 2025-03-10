@@ -28,28 +28,13 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
 }) => {
     const theme = useTheme();
     const id = useId();
-    const [qty, setQty] = useState<number>(quantity);
-    const [value, setValue] = useDebounceValue<number>(qty, 350);
-
-    useEffect(() => {
-        setValue(quantity);
-        setQty(quantity);
-    }, [quantity]);
-
-    useEffect(() => {
-        onChange(value);
-    }, [value]);
 
     const incrementHandler = () => {
-        const value = qty + 1;
-        setQty(value);
-        setValue(value);
+        onChange(quantity + 1);
     }
 
     const decrementHandler = () => {
-        const value = Math.max(min, qty - 1);
-        setQty(value);
-        setValue(value);
+        onChange(Math.max(min, quantity - 1));
     }
 
     const changeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -58,14 +43,13 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
             return;
         }
         const value = Math.max(_value, 0);
-        setQty(value);
-        setValue(value);
+        onChange(value);
     }
 
     return (
         <FormControl fullWidth>
             <InputLabel htmlFor={id} sx={{...visuallyHidden}}>Quantity</InputLabel>
-            <NumericInput value={qty || ''} size="small"
+            <NumericInput value={quantity ?? ''} size="small"
                           onChange={changeHandler}
                           type="number"
                           inputProps={{

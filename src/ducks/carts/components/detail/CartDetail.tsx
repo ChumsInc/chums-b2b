@@ -61,7 +61,7 @@ export default function CartDetail({cartId}: {
 
                 <TableBody>
                     {detail
-                        .filter(item => !(item.lineStatus === 'U' && item.quantityOrdered === 0))
+                        // .filter(item => item.lineStatus !== 'U')
                         .map(line => (
                             <CartDetailLine key={line.id} line={line}
                                             onAddToCart={addToCartHandler}/>

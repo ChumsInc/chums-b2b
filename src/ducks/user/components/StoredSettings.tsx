@@ -33,6 +33,8 @@ import Alert from "@mui/material/Alert";
 import {clearRecentCustomers, setCustomersRepFilter, setCustomersStateFilter} from "@ducks/customers/actions";
 import {loadProfile, setAvatar, setUserAccess} from "@ducks/user/actions";
 import {setCartShippingAccount} from "@ducks/carts/actions";
+import {jwtDecode} from "jwt-decode";
+import {getTokenExpirationDate, isTokenExpired} from "@utils/jwtHelper";
 
 export type StoredSettings = Record<string, string>;
 
@@ -180,7 +182,10 @@ function getSettings(): StoredSettings {
                     settings[key] = parseRecentAccounts(value)
                     break;
                 case STORE_TOKEN:
-                    settings[key] = (value as string).slice(0, 24) + '...';
+                    settings[key] = JSON.stringify({
+                        getTokenExpirationDate: getTokenExpirationDate(value),
+                        isTokenExpired: isTokenExpired(value),
+                    }, undefined, 2);
                     break;
                 case STORE_USER_ACCESS:
                     settings[key] = parseUserAccess(value);

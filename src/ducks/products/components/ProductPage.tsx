@@ -10,7 +10,6 @@ import {redirect, useLocation} from "react-router";
 import MissingTaxScheduleAlert from "../../customer/components/MissingTaxScheduleAlert";
 import RequireLogin from "@components/RequireLogin";
 import {useAppDispatch} from "@app/configureStore";
-import {selectLoggedIn} from "../../user/selectors";
 import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
 import ProductPageImage from "./ProductPageImage";
@@ -41,11 +40,7 @@ const ProductPage = ({keyword}: {
     const location = useLocation();
     const [cartMessage, setCartMessage] = useState<string | null>(null);
     const timerHandle = useRef<number>(0);
-    const onChangeQuantity = useCallback((quantity: number) => {
-        if (cartItem && quantity !== cartItem.quantity) {
-            dispatch(setCartItemQuantity(quantity));
-        }
-    }, [cartItem])
+    const [quantity, setQuantity] = useState<number>(1);
 
 
     useEffect(() => {
@@ -53,8 +48,13 @@ const ProductPage = ({keyword}: {
     }, [keyword]);
 
     useEffect(() => {
+        setQuantity(1);
         ga4ViewItem(product)
     }, [product])
+
+    useEffect(() => {
+        setQuantity(1);
+    }, [selectedProduct?.salesUM]);
 
     useEffect(() => {
         setCartMessage(null);
@@ -139,10 +139,10 @@ const ProductPage = ({keyword}: {
                             <MissingTaxScheduleAlert/>
                             {isProduct(selectedProduct) && isCartProduct(cartItem)
                                 && isBillToCustomer(customerAccount) && selectedProduct.availableForSale && (
-                                    <AddToCartForm quantity={cartItem?.quantity ?? 1} cartItem={cartItem}
+                                    <AddToCartForm quantity={quantity} cartItem={cartItem}
                                                    setActiveCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
                                                    disabled={!customerAccount?.TaxSchedule}
-                                                   onChangeQuantity={onChangeQuantity} comment=""
+                                                   onChangeQuantity={setQuantity} comment=""
                                                    afterAddToCart={setCartMessage}/>
                                 )}
                             <Collapse in={!!cartMessage}>

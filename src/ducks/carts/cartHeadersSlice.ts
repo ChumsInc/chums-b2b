@@ -115,6 +115,13 @@ export const {
     selectCartsLength
 } = cartHeadersSlice.selectors;
 
+export const selectCartTotalById = createSelector(
+    [selectCartHeaderById],
+    (cart) => {
+        return cart?.subTotalAmt ?? null
+    }
+)
+
 export const selectFilteredCarts = createSelector(
     [selectCartHeaders, selectCartsSearch, selectCartsSort],
     (list, search, sort) => {

@@ -1,33 +1,32 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {loadCategory} from "./actions";
-import {categoryKeywordSorter} from "./utils";
 import {CategoryState} from "./types";
 
-export const initialCategoryState = (preload = typeof window === 'undefined' ? {} : window?.__PRELOADED_STATE__ ?? {}):CategoryState => ({
+export const initialCategoryState = (preload = typeof window === 'undefined' ? {} : window?.__PRELOADED_STATE__ ?? {}): CategoryState => ({
     keyword: null,
-    list: preload?.category?.keywords?.filter(kw => kw.pagetype === 'category')?.sort(categoryKeywordSorter) ?? [],
     category: preload?.category?.content ?? null,
     content: preload?.category?.content ?? null,
-    loading: false,
+    status: 'idle',
 })
 
 const categoryReducer = createReducer(initialCategoryState, (builder) => {
     builder
         .addCase(loadCategory.pending, (state, action) => {
+            state.status = 'loading';
             if (action.meta.arg !== state.keyword) {
                 state.keyword = action.meta.arg ?? null;
                 state.category = null;
                 state.content = null;
             }
-            state.loading = true;
         })
         .addCase(loadCategory.fulfilled, (state, action) => {
-            state.loading = false;
+            state.status = 'idle';
+            state.keyword = action.payload?.keyword ?? null;
             state.category = action.payload ?? null;
             state.content = action.payload ?? null;
         })
         .addCase(loadCategory.rejected, (state) => {
-            state.loading = false;
+            state.status = 'rejected';
         })
 })
 

@@ -1,9 +1,8 @@
-import {Keyword, ProductCategory} from "b2b-types";
+import {ProductCategory} from "b2b-types";
 
 export interface CategoryState {
-    keyword: string|null;
-    list: Keyword[];
+    keyword: string | null;
     category: ProductCategory | null;
     content: ProductCategory | null;
-    loading: boolean;
+    status: 'idle' | 'loading' | 'rejected';
 }

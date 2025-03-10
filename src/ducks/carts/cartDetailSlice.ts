@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {SortProps} from "b2b-types";
-import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart} from "@ducks/carts/actions";
+import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart, saveCartItem} from "@ducks/carts/actions";
 import {loadCustomer} from "@ducks/customer/actions";
 import {customerSlug} from "@utils/customer";
 import {calcCartQty, cartDetailSorter} from "@ducks/carts/utils";
@@ -88,6 +88,15 @@ const cartDetailSlice = createSlice({
                 }
             })
             .addCase(saveCart.fulfilled, (state, action) => {
+                if (action.payload) {
+                    const existing = adapterSelectors.selectAll(state)
+                        .filter(row => row.cartHeaderId === action.payload!.header.id)
+                        .map(row => row.id);
+                    detailAdapter.removeMany(state, existing);
+                    detailAdapter.addMany(state, action.payload.detail);
+                }
+            })
+            .addCase(saveCartItem.fulfilled, (state, action) => {
                 if (action.payload) {
                     const existing = adapterSelectors.selectAll(state)
                         .filter(row => row.cartHeaderId === action.payload!.header.id)
