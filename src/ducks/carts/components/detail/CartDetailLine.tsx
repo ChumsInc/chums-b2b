@@ -12,6 +12,7 @@ import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {UpdateCartItemBody} from "@typeDefs/cart/cart-action-props";
 import LinearProgress from "@mui/material/LinearProgress";
 import {selectCartHasChanges, selectCartItemStatus, setCartItem} from "@ducks/carts/cartDetailSlice";
+import {selectCartItemStatusById} from "@ducks/carts/cartDetailStatusSlice";
 
 
 export default function CartDetailLine({
@@ -27,7 +28,7 @@ export default function CartDetailLine({
 }) {
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectCustomerKey);
-    const cartItemStatus = useAppSelector(state => selectCartItemStatus(state, line.id));
+    const cartItemStatus = useAppSelector(state => selectCartItemStatusById(state, line.id));
     const hasChanges = useAppSelector((state) => selectCartHasChanges(state, line.cartHeaderId));
     const commentRef = React.createRef<HTMLInputElement>();
 
@@ -58,7 +59,7 @@ export default function CartDetailLine({
         return (
             <>
                 <CartCommentLine cartId={line.cartHeaderId} lineId={line.id} ref={commentRef}/>
-                {cartItemStatus !== 'idle' && (
+                {!!cartItemStatus && cartItemStatus !== 'idle' && (
                     <TableRow>
                         <TableCell colSpan={9}>
                             <LinearProgress variant="indeterminate"/>

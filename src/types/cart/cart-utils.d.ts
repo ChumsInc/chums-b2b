@@ -16,11 +16,19 @@ export interface CartMessage {
     key: string;
 }
 
+type CartStatusValue = 'idle'|'loading'|'saving'|'deleting'|'not-found';
+
 export interface CartStatusList {
-    [key: number]: 'idle'|'loading'|'saving'|'deleting'|'not-found';
+    [key: number]: CartStatusValue;
 }
 
 export interface CartStatus {
     key: number;
-    status: 'idle'|'loading'|'saving'|'deleting'|'not-found';
+    status: CartStatusValue;
+}
+
+export interface CartDetailStatus {
+    id: number;
+    cartId: number;
+    status: CartStatusValue;
 }

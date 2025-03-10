@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
 import {SortProps} from "b2b-types";
-import {addToCart, duplicateSalesOrder, loadCart, loadCarts} from "@ducks/carts/actions";
+import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart} from "@ducks/carts/actions";
 import {loadCustomer} from "@ducks/customer/actions";
 import {customerSlug} from "@utils/customer";
 import {calcCartQty, cartDetailSorter} from "@ducks/carts/utils";
@@ -12,6 +12,7 @@ const detailAdapter = createEntityAdapter<B2BCartDetail, number>({
 });
 
 const adapterSelectors = detailAdapter.getSelectors();
+
 
 export interface CartDetailExtraState {
     customerKey: string | null;
@@ -87,15 +88,19 @@ const cartDetailSlice = createSlice({
                     detailAdapter.addMany(state, action.payload.detail);
                 }
             })
+            .addCase(saveCart.fulfilled, (state, action) => {
+                if (action.payload) {
+                    const existing = adapterSelectors.selectAll(state)
+                        .filter(row => row.cartHeaderId === action.payload!.header.id)
+                        .map(row => row.id);
+                    detailAdapter.removeMany(state, existing);
+                    detailAdapter.addMany(state, action.payload.detail);
+                }
+            })
     },
     selectors: {
         selectAll: (state) => adapterSelectors.selectAll(state),
         selectCartItemById: (state, id: number) => adapterSelectors.selectById(state, id),
-        selectByCartId: (state, cartId: number) => adapterSelectors.selectAll(state)
-            .filter(row => row.cartHeaderId === cartId),
-        selectCartDetailById: (state, cartId: number) => adapterSelectors.selectAll(state)
-            .filter(row => row.cartHeaderId === cartId)
-            .sort(cartDetailSorter(state.sort)),
         selectCartDetailSort: (state) => state.sort,
         selectCartItemStatus: (state, id: number) => adapterSelectors.selectById(state, id).lineStatus ?? 'idle',
     }
@@ -104,14 +109,19 @@ const cartDetailSlice = createSlice({
 export const {
     selectCartDetailSort,
     selectAll,
-    selectByCartId,
-    selectCartDetailById,
     selectCartItemById,
     selectCartItemStatus,
 } = cartDetailSlice.selectors;
 
+export const selectByCartId = createSelector(
+    [selectAll, (state, cartId) => cartId],
+    (rows, cartId) => {
+        return rows.filter(row => row.cartHeaderId === cartId);
+    }
+)
+
 export const selectCartQtyByCartId = createSelector(
-    [selectCartDetailById],
+    [selectByCartId],
     (detail) => {
         return calcCartQty(detail);
     }
@@ -121,6 +131,13 @@ export const selectCartHasChanges = createSelector(
     [selectByCartId],
     (detail) => {
         return detail.reduce((pv, cv) => (cv.changed ?? false) || pv, false)
+    }
+)
+
+export const selectCartDetailById = createSelector(
+    [selectByCartId,  selectCartDetailSort],
+    (rows, sort) => {
+        return [...rows].sort(cartDetailSorter(sort));
     }
 )
 

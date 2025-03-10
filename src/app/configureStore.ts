@@ -29,6 +29,7 @@ import cartStatusSlice from "@ducks/carts/cartStatusSlice";
 import activeCartSlice from "@ducks/carts/activeCartSlice";
 import cartDetailSlice from "@ducks/carts/cartDetailSlice";
 import cartHeadersSlice from "@ducks/carts/cartHeadersSlice";
+import cartDetailStatusSlice from "@ducks/carts/cartDetailStatusSlice";
 
 
 export const rootReducer = combineReducers({
@@ -38,6 +39,7 @@ export const rootReducer = combineReducers({
     carts: cartsReducer,
     [cartHeadersSlice.reducerPath]: cartHeadersSlice.reducer,
     [cartDetailSlice.reducerPath]: cartDetailSlice.reducer,
+    [cartDetailStatusSlice.reducerPath]: cartDetailStatusSlice.reducer,
     [cartMessagesSlice.reducerPath]: cartMessagesSlice.reducer,
     [cartStatusSlice.reducerPath]: cartStatusSlice.reducer,
     [activeCartSlice.reducerPath]: activeCartSlice.reducer,
