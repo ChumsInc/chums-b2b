@@ -18,7 +18,7 @@ export default function NavProductsLink({inDrawer}: NavItemProps) {
 
     if (inDrawer) {
         return (
-            <DrawerMenu title="Products" items={items}/>
+            <DrawerMenu title="Products" items={items.map(item => ({...item, url: `/products${item.url}`}))}/>
         )
     }
 
