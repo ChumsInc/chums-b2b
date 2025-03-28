@@ -5,11 +5,11 @@ import {
     STORE_CUSTOMER,
     STORE_CUSTOMER_SHIPPING_ACCOUNT, STORE_RECENT_ACCOUNTS,
     STORE_USER_ACCESS
-} from '@constants/stores';
-import {auth} from '@api/IntranetAuthService';
-import {getProfile, getSignInProfile, getTokenExpiry} from "@utils/jwtHelper";
+} from '@/constants/stores';
+import {auth} from '@/api/IntranetAuthService';
+import {getProfile, getSignInProfile, getTokenExpiry} from "@/utils/jwtHelper";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
-import {AUTH_LOCAL} from "@constants/app";
+import {AUTH_LOCAL} from "@/constants/app";
 import {
     selectCurrentUserAccount,
     selectLoggedIn,
@@ -28,7 +28,7 @@ import {
     postPasswordChange,
     postResetPassword,
     postUserProfile
-} from "@api/user";
+} from "@/api/user";
 import {createAction, createAsyncThunk, isFulfilled} from "@reduxjs/toolkit";
 import {
     ChangePasswordProps,
@@ -37,13 +37,13 @@ import {
     SetNewPasswordProps,
     UserProfileResponse
 } from "./types";
-import {RootState} from "@app/configureStore";
+import {RootState} from "@/app/configureStore";
 import {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "b2b-types";
 import {isCustomerAccess} from "./utils";
-import {StoredProfile} from "@typeDefs/user";
+import {StoredProfile} from "@/types/user";
 import {loadCustomerList} from "../customers/actions";
-import {isErrorResponse} from "@utils/typeguards";
-import {APIErrorResponse} from "@typeDefs/generic";
+import {isErrorResponse} from "@/utils/typeguards";
+import {APIErrorResponse} from "@/types/generic";
 import LocalStore from "../../utils/LocalStore";
 
 export const setLoggedIn = createAction<SetLoggedInProps>('user/setLoggedIn');

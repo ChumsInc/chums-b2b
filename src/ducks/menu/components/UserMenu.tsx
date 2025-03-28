@@ -1,10 +1,10 @@
 import React, {useEffect, useId} from 'react';
 import {useSelector} from "react-redux";
-import {selectCurrentAccess, selectLoggedIn} from "@ducks/user/selectors";
+import {selectCurrentAccess, selectLoggedIn} from "@/ducks/user/selectors";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItemRouterLink from "./MenuItemRouterLink";
-import UserAvatar from "@ducks/user/components/UserAvatar";
+import UserAvatar from "@/ducks/user/components/UserAvatar";
 import {generatePath} from "react-router";
 
 

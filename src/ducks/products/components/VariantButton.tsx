@@ -1,5 +1,5 @@
 import React from 'react';
-import {getMSRP, getPrices, getSalesUM} from "@utils/products";
+import {getMSRP, getPrices, getSalesUM} from "@/utils/products";
 import numeral from 'numeral';
 import {useSelector} from "react-redux";
 import {selectLoggedIn} from "../../user/selectors";

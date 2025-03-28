@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {loadCustomerList} from '../actions';
-import {longAccountNumber} from "@utils/customer";
+import {longAccountNumber} from "@/utils/customer";
 import ErrorBoundary from "../../../common-components/ErrorBoundary";
 import {selectCurrentUserAccount,} from "../../user/selectors";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
-import {documentTitles, PATH_PROFILE} from "@constants/paths";
+import {documentTitles, PATH_PROFILE} from "@/constants/paths";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Breadcrumb from "../../../components/Breadcrumb";
 import {useLocation, useMatch} from "react-router";

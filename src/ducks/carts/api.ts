@@ -1,4 +1,4 @@
-import {allowErrorResponseHandler, fetchJSON} from "@api/fetch";
+import {allowErrorResponseHandler, fetchJSON} from "@/api/fetch";
 import {
     AddToCartBody,
     AddToCartProps,
@@ -9,9 +9,9 @@ import {
     UpdateCartItemProps,
     UpdateCartItemsProps,
     UpdateCartProps
-} from "@typeDefs/cart/cart-action-props";
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {B2BCart} from "@typeDefs/cart/cart";
+} from "@/types/cart/cart-action-props";
+import {B2BCartHeader} from "@/types/cart/cart-header";
+import {B2BCart} from "@/types/cart/cart";
 import {EmailResponse} from "b2b-types";
 
 export async function fetchCarts(arg: string): Promise<B2BCart[]> {

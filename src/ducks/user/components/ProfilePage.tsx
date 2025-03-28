@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import AccountButtons from "./AccountButtons";
 import UserProfile from "./UserProfile";
-import {documentTitles} from '@constants/paths';
+import {documentTitles} from '@/constants/paths';
 import DocumentTitle from "../../../components/DocumentTitle";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {
     selectAccessListLoading,
     selectCurrentAccess,
@@ -14,7 +14,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
 import {useLocation} from "react-router";
 import {setReturnToPath} from "../../customer/actions";
-import StoredSettings from "@ducks/user/components/StoredSettings";
+import StoredSettings from "@/ducks/user/components/StoredSettings";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 

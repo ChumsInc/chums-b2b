@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import DataTable, {SortableTableField} from "../../../common-components/DataTable";
 import {ShipToCustomer} from "b2b-types";
-import {billToCustomerSlug, customerShipToSorter, stateCountry} from "@utils/customer";
+import {billToCustomerSlug, customerShipToSorter, stateCountry} from "@/utils/customer";
 import {useSelector} from "react-redux";
 import {selectCustomerLoading, selectPermittedShipToAddresses, selectPrimaryShipTo} from "../selectors";
-import {SortProps} from "@typeDefs/generic";
+import {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
 import LinearProgress from "@mui/material/LinearProgress";
 import {generatePath, NavLink} from "react-router";
-import {PATH_CUSTOMER_DELIVERY} from "@constants/paths";
+import {PATH_CUSTOMER_DELIVERY} from "@/constants/paths";
 import classNames from "classnames";
 
 import Box from "@mui/material/Box";

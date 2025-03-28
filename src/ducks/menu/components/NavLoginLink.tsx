@@ -1,8 +1,8 @@
-import {NavItemProps} from "@typeDefs/ui-features";
+import {NavItemProps} from "@/types/ui-features";
 import {useSelector} from "react-redux";
 import {selectLoggedIn} from "../../user/selectors";
 import ListItemLink from "../../../components/ListItemLink";
-import {PATH_LOGIN} from "@constants/paths";
+import {PATH_LOGIN} from "@/constants/paths";
 import React from "react";
 import NavItemButtonLink from "./NavItemButtonLink";
 

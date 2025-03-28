@@ -9,14 +9,14 @@ import {
     selectShipToByCode
 } from "../selectors";
 import {generatePath, Outlet, useNavigate, useParams} from "react-router";
-import DocumentTitle from "@components/DocumentTitle";
+import DocumentTitle from "@/components/DocumentTitle";
 import AccountTabs from "./AccountTabs";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {customerSlug, isSameCustomer, parseCustomerSlug} from "@utils/customer";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {customerSlug, isSameCustomer, parseCustomerSlug} from "@/utils/customer";
 import ReturnToAlert from "./ReturnToAlert";
-import {selectCurrentUserAccount} from "@ducks/user/selectors";
-import CustomerTitle from "@ducks/customer/components/CustomerTitle";
-import {ga4SelectCustomer} from "@src/ga4/generic";
+import {selectCurrentUserAccount} from "@/ducks/user/selectors";
+import CustomerTitle from "@/ducks/customer/components/CustomerTitle";
+import {ga4SelectCustomer} from "@/src/ga4/generic";
 
 const AccountPage = () => {
     const dispatch = useAppDispatch();

@@ -4,9 +4,9 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import {NavLink} from "react-router";
 import Stack from "@mui/material/Stack";
-import {searchItemLink} from "@ducks/search/utils";
-import SearchResultIcon from "@ducks/search/components/SearchResultIcon";
-import SearchResultTitle from "@ducks/search/components/SearchResultTitle";
+import {searchItemLink} from "@/ducks/search/utils";
+import SearchResultIcon from "@/ducks/search/components/SearchResultIcon";
+import SearchResultTitle from "@/ducks/search/components/SearchResultTitle";
 
 export interface SearchResultProps extends HTMLAttributes<HTMLLIElement> {
     option: SearchResult;

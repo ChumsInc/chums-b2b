@@ -1,6 +1,6 @@
 import {ReactElement, ReactNode, Ref, TableHTMLAttributes} from "react";
 import classNames from "classnames";
-import {SortProps} from "@typeDefs/generic";
+import {SortProps} from "@/types/generic";
 
 export type TableSelected<T = unknown> = string | number | null | boolean | ((row: T) => boolean);
 

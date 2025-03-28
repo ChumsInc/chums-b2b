@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import AccountUserPermissions from "./AccountUserPermissions";
 import {Outlet} from "react-router";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadCustomerUsers} from "../actions";
 import Button from "@mui/material/Button";
 

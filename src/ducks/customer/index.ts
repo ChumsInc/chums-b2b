@@ -6,7 +6,7 @@ import {
     defaultCustomerUserSort,
     defaultShipToSort,
     emptyCustomer
-} from "@utils/customer";
+} from "@/utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {
     BillToCustomer,
@@ -32,8 +32,8 @@ import {
 } from "./actions";
 import {loadCustomerList} from '../customers/actions'
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {LoadStatus, Selectable} from "@typeDefs/generic";
-import {CustomerPermissions} from "@typeDefs/customer";
+import {LoadStatus, Selectable} from "@/types/generic";
+import {CustomerPermissions} from "@/types/customer";
 import {dismissContextAlert} from "../alerts/actions";
 import {customerResponseToState} from "./utils";
 

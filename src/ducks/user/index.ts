@@ -1,8 +1,8 @@
-import {auth} from '@api/IntranetAuthService';
+import {auth} from '@/api/IntranetAuthService';
 import localStore from "../../utils/LocalStore";
 import LocalStore from "../../utils/LocalStore";
-import {STORE_AUTHTYPE, STORE_AVATAR, STORE_CUSTOMER, STORE_USER_ACCESS} from "@constants/stores";
-import {getFirstCustomer,} from "@utils/customer";
+import {STORE_AUTHTYPE, STORE_AVATAR, STORE_CUSTOMER, STORE_USER_ACCESS} from "@/constants/stores";
+import {getFirstCustomer,} from "@/utils/customer";
 import {jwtDecode, JwtPayload} from "jwt-decode";
 import {createReducer, isRejected} from "@reduxjs/toolkit";
 import {
@@ -22,7 +22,7 @@ import {getPrimaryAccount, getUserType, is401Action, isCustomerAccess, isUserAct
 import {UserPasswordState, UserSignupState, UserType} from "./types";
 import {BasicCustomer, Editable, UserCustomerAccess, UserProfile} from "b2b-types";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
-import {LoadStatus} from "@typeDefs/generic";
+import {LoadStatus} from "@/types/generic";
 
 
 export interface UserState {

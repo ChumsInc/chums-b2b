@@ -2,8 +2,8 @@ import {Customer, RecentCustomer} from "b2b-types";
 import {createReducer} from "@reduxjs/toolkit";
 import {setLoggedIn, setUserAccess, signInWithGoogle} from "../user/actions";
 
-import {customerListSorter} from "@utils/customer";
-import {SortProps} from "@typeDefs/generic";
+import {customerListSorter} from "@/utils/customer";
+import {SortProps} from "@/types/generic";
 import {
     clearRecentCustomers,
     loadCustomerList,
@@ -12,9 +12,9 @@ import {
     setCustomersSort,
     setCustomersStateFilter
 } from "./actions";
-import {auth} from "@api/IntranetAuthService";
+import {auth} from "@/api/IntranetAuthService";
 import localStore from "../../utils/LocalStore";
-import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "@constants/stores";
+import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {dismissContextAlert} from "../alerts/actions";
 

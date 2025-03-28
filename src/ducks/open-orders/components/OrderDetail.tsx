@@ -5,7 +5,7 @@ import {CartProduct, SalesOrderDetailLine} from "b2b-types";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "../../sales-order/utils";
 import {selectSalesOrderDetail} from "../selectors";
-import {useAppSelector} from "@app/configureStore";
+import {useAppSelector} from "@/app/configureStore";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from "@mui/material/TableHead";
@@ -16,7 +16,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
+import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
 
 export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;

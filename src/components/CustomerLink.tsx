@@ -1,7 +1,7 @@
 import React from 'react';
 import {generatePath, Link as RoutedLink} from 'react-router';
-import {PATH_CUSTOMER_ACCOUNT, PATH_CUSTOMER_DELIVERY} from "@constants/paths";
-import {billToCustomerSlug, customerSlug, longCustomerNo} from "@utils/customer";
+import {PATH_CUSTOMER_ACCOUNT, PATH_CUSTOMER_DELIVERY} from "@/constants/paths";
+import {billToCustomerSlug, customerSlug, longCustomerNo} from "@/utils/customer";
 import {BasicCustomer} from "b2b-types";
 import Link from "@mui/material/Link";
 

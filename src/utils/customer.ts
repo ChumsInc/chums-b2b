@@ -1,4 +1,4 @@
-import {PRICE_METHODS} from "@constants/account";
+import {PRICE_METHODS} from "@/constants/account";
 import Decimal from "decimal.js";
 import {
     BasicCustomer,

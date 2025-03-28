@@ -1,8 +1,8 @@
 import {createAction, createAsyncThunk, createReducer, createSelector} from "@reduxjs/toolkit";
 import {Menu, MenuItem} from "b2b-types";
-import {PreloadedState} from "@typeDefs/preload";
-import {RootState} from "@app/configureStore";
-import {fetchMenu} from "@api/menu";
+import {PreloadedState} from "@/types/preload";
+import {RootState} from "@/app/configureStore";
+import {fetchMenu} from "@/api/menu";
 import {selectCustomerAccessList, selectRepAccessList} from "../user/selectors";
 import {defaultMenuItem} from "./utils";
 import {accessListURL} from "../user/utils";

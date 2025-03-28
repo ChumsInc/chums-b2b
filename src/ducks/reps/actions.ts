@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {fetchRepList} from "@api/user";
-import {RootState} from "@app/configureStore";
+import {fetchRepList} from "@/api/user";
+import {RootState} from "@/app/configureStore";
 import {selectIsEmployee, selectIsRep, selectLoggedIn} from "../user/selectors";
 import {selectRepsLoading} from "./selectors";
 import {Salesperson} from "b2b-types";

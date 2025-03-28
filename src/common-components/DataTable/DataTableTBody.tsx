@@ -1,6 +1,6 @@
 import React from 'react';
 import DataTableRow from "./DataTableRow";
-import {noop} from "@utils/general";
+import {noop} from "@/utils/general";
 import TableBody from "@mui/material/TableBody";
 import {DataTableTBodyProps} from "./types";
 

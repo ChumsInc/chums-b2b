@@ -8,13 +8,13 @@ import {
     setInvoicesSort,
     setShowPaidInvoices
 } from "./actions";
-import {customerSlug} from "@utils/customer";
+import {customerSlug} from "@/utils/customer";
 import {loadCustomer, setCustomerAccount, setShipToCode} from "../customer/actions";
 import {setLoggedIn, setUserAccess} from "../user/actions";
 import {InvoicesState} from "./types";
-import {SortProps} from "@typeDefs/generic";
+import {SortProps} from "@/types/generic";
 import {InvoiceHistoryHeader} from "b2b-types";
-import {STORE_INVOICES_SORT} from "@constants/stores";
+import {STORE_INVOICES_SORT} from "@/constants/stores";
 import localStore from "../../utils/LocalStore";
 
 export const defaultSort: SortProps<InvoiceHistoryHeader> = {

@@ -1,7 +1,7 @@
 import {defaultSort} from "./index";
 import Decimal from "decimal.js";
 import {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
-import {SortProps} from "@typeDefs/generic";
+import {SortProps} from "@/types/generic";
 
 export const invoiceTotal = (invoice: InvoiceHistoryHeader): Decimal => {
     return new Decimal(invoice.TaxableSalesAmt ?? 0).add(invoice.NonTaxableSalesAmt ?? 0).sub(invoice.DiscountAmt ?? 0);

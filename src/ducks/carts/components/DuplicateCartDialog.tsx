@@ -10,14 +10,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import {DuplicateCartProps} from "@typeDefs/cart/cart-action-props";
-import {duplicateSalesOrder} from "@ducks/carts/actions";
-import {B2BCart} from "@typeDefs/cart/cart";
+import {DuplicateCartProps} from "@/types/cart/cart-action-props";
+import {duplicateSalesOrder} from "@/ducks/carts/actions";
+import {B2BCart} from "@/types/cart/cart";
 import {generatePath, useNavigate} from "react-router";
-import {customerSlug, parseCustomerSlug} from "@utils/customer";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {selectCustomerKey} from "@ducks/customer/selectors";
-import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
+import {customerSlug, parseCustomerSlug} from "@/utils/customer";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 
 const DuplicateCartDialog = ({open, salesOrderNo, shipToCode, onClose}: {
     open: boolean;

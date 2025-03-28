@@ -16,7 +16,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
+import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
 
 const InvoicePageDetail = () => {
     const invoice = useSelector(selectCurrentInvoice);

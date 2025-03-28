@@ -1,5 +1,5 @@
 import {Banner} from "b2b-types";
-import {PreloadedState} from "@typeDefs/preload";
+import {PreloadedState} from "@/types/preload";
 import {createReducer} from "@reduxjs/toolkit";
 import {bannerSorter} from "./utils";
 import {loadBanners} from "./actions";

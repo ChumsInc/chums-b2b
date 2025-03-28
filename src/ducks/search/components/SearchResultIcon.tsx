@@ -3,7 +3,7 @@ import {SearchResult} from "b2b-types";
 import FolderIcon from "@mui/icons-material/Folder";
 import DescriptionIcon from "@mui/icons-material/Description";
 import {styled} from "@mui/material/styles";
-import {CONTENT_PATH_SEARCH_IMAGE} from "@constants/paths";
+import {CONTENT_PATH_SEARCH_IMAGE} from "@/constants/paths";
 
 const SearchResultType = styled('div')`
     flex: 0 0 25%;

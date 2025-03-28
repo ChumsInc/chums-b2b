@@ -1,6 +1,6 @@
 import React from 'react';
 import numeral from 'numeral';
-import {PRICE_LEVELS} from '@constants/account';
+import {PRICE_LEVELS} from '@/constants/account';
 import {CustomerPriceRecord} from "b2b-types";
 import {styled} from "@mui/material/styles";
 

@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {loadCategory} from '@ducks/category/actions';
+import {loadCategory} from '@/ducks/category/actions';
 import CategoryPageElement from "./CategoryPageElement";
 import DocumentTitle from "../DocumentTitle";
-import {useAppDispatch} from "@app/configureStore";
-import {selectCategory, selectCategoryLoading} from "@ducks/category/selectors";
+import {useAppDispatch} from "@/app/configureStore";
+import {selectCategory, selectCategoryLoading} from "@/ducks/category/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid2";
-import {ga4ViewItemList} from "@src/ga4/generic";
+import {ga4ViewItemList} from "@/src/ga4/generic";
 
 const CategoryPage = ({keyword}: {
     keyword: string;

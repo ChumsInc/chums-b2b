@@ -1,14 +1,14 @@
-import {getMSRP, getPrices} from "@utils/products";
-import {customerPriceRecordSorter, customerSlug,} from "@utils/customer";
+import {getMSRP, getPrices} from "@/utils/products";
+import {customerPriceRecordSorter, customerSlug,} from "@/utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {getImageItemCode, isCartProduct, updateCartProductPricing} from "./utils";
 import {loadCustomer} from "../customer/actions";
 import {CartProduct, CustomerPriceRecord, Product} from "b2b-types";
 import {loadProduct, setCartItemQuantity, setColorCode, setCurrentVariant} from "./actions";
 import {setLoggedIn} from "../user/actions";
-import {parsePossiblyMissingFilename} from "@src/common/image";
-import {ProductImage} from "@typeDefs/product";
-import {PreloadedState} from "@typeDefs/preload";
+import {parsePossiblyMissingFilename} from "@/src/common/image";
+import {ProductImage} from "@/types/product";
+import {PreloadedState} from "@/types/preload";
 
 
 export interface ProductsState {

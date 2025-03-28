@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import numeral from "numeral";
 import Decimal from "decimal.js";
-import {useAppSelector} from "@app/configureStore";
+import {useAppSelector} from "@/app/configureStore";
 import {selectSalesOrder} from "../selectors";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {generatePath, useNavigate, useParams} from 'react-router';
-import CategoryPage2 from "@components/category/CategoryPage";
+import CategoryPage2 from "@/components/category/CategoryPage";
 import ProductPage from "./ProductPage";
-import {PATH_PRODUCT} from "@constants/paths";
+import {PATH_PRODUCT} from "@/constants/paths";
 import ErrorBoundary from "../../../common-components/ErrorBoundary";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {Keyword} from "b2b-types";
 import Box from "@mui/material/Box";
 import {loadKeywords} from "../../keywords/actions";

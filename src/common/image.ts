@@ -1,8 +1,8 @@
 /**
  * Created by steve on 1/10/2017.
  */
-import {parseColor} from "@utils/products";
-import {ga4Exception} from "@src/ga4/generic";
+import {parseColor} from "@/utils/products";
+import {ga4Exception} from "@/src/ga4/generic";
 
 export const parseImageFilename2 = ({image, colorCode}: {
     image: string;

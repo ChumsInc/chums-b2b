@@ -4,12 +4,12 @@
 import {auth} from "./IntranetAuthService";
 import B2BError from "../types/generic";
 import localStore from "../utils/LocalStore";
-import {STORE_VERSION} from "@constants/stores";
+import {STORE_VERSION} from "@/constants/stores";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
-import global from '@app/global-window';
-import {isLocalHost} from "@utils/dev";
-import {ga4Exception} from "@src/ga4/generic";
+import global from '@/app/global-window';
+import {isLocalHost} from "@/utils/dev";
+import {ga4Exception} from "@/src/ga4/generic";
 
 
 function getCredentials(): string | null {

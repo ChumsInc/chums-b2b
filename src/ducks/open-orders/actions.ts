@@ -1,12 +1,12 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {EmailResponse, SalesOrder, SalesOrderHeader} from "b2b-types";
-import {fetchOpenSalesOrders, fetchSalesOrder, postOrderEmail} from "@api/sales-order";
-import {RootState} from "@app/configureStore";
+import {fetchOpenSalesOrders, fetchSalesOrder, postOrderEmail} from "@/api/sales-order";
+import {RootState} from "@/app/configureStore";
 import {selectActionStatus, selectOpenOrdersLoading, selectSalesOrder, selectSendEmailStatus} from "./selectors";
-import {SortProps} from "@typeDefs/generic";
-import {DetailLineChangeProps} from "@typeDefs/salesorder";
+import {SortProps} from "@/types/generic";
+import {DetailLineChangeProps} from "@/types/salesorder";
 import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
-import {billToCustomerSlug} from "@utils/customer";
+import {billToCustomerSlug} from "@/utils/customer";
 
 export const loadOpenOrders = createAsyncThunk<SalesOrder[], string, { state: RootState }>(
     'open-orders/load',

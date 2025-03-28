@@ -3,7 +3,7 @@
  */
 
 import React, {useId} from 'react';
-import {COUNTRIES} from '@constants/countries';
+import {COUNTRIES} from '@/constants/countries';
 import MenuItem from "@mui/material/MenuItem";
 import TextField, {TextFieldProps} from "@mui/material/TextField";
 

@@ -1,5 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {PreloadedState} from "@typeDefs/preload";
+import {PreloadedState} from "@/types/preload";
 import {PromoCode} from "b2b-types";
 import {loadPromoCode, loadPromoCodes} from "./actions";
 import {promoCodeSorter} from "./utils";

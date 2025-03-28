@@ -1,12 +1,12 @@
 import React from "react";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import {selectActiveCartId} from "@ducks/carts/activeCartSlice";
-import {loadCart} from "@ducks/carts/actions";
-import {selectCustomerKey} from "@ducks/customer/selectors";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
+import {loadCart} from "@/ducks/carts/actions";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
 
 /**
  * @TODO: Refactor for using cartId instead of salesOrderNo

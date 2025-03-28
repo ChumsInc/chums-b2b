@@ -5,7 +5,7 @@ import OrderDetail from "./OrderDetail";
 import DocumentTitle from "../../../components/DocumentTitle";
 import {selectCustomerAccount, selectCustomerLoading} from "../../customer/selectors";
 import {selectSalesOrderHeader, selectSOLoading} from "../../sales-order/selectors";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
 import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
 import SalesOrderSkeleton from "./SalesOrderSkeleton";

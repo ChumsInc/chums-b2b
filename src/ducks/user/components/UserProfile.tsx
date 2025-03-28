@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {loadProfile, logoutUser, saveUserProfile} from "../actions";
-import {AUTH_GOOGLE, AUTH_LOCAL} from "@constants/app";
-import {useAppDispatch} from "@app/configureStore";
+import {AUTH_GOOGLE, AUTH_LOCAL} from "@/constants/app";
+import {useAppDispatch} from "@/app/configureStore";
 import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "../selectors";
 import {Editable} from "b2b-types";
-import {ExtendedUserProfile} from "@typeDefs/user";
+import {ExtendedUserProfile} from "@/types/user";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid2";

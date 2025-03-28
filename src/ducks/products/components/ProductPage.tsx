@@ -3,28 +3,28 @@ import {useSelector} from 'react-redux';
 import {loadProduct, setCurrentVariant} from '../actions';
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet";
-import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
+import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
 import Alert from "@mui/material/Alert";
 import CartItemDetail from "./CartItemDetail";
 import {redirect, useLocation} from "react-router";
 import MissingTaxScheduleAlert from "../../customer/components/MissingTaxScheduleAlert";
-import RequireLogin from "@components/RequireLogin";
-import {useAppDispatch} from "@app/configureStore";
+import RequireLogin from "@/components/RequireLogin";
+import {useAppDispatch} from "@/app/configureStore";
 import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
 import ProductPageImage from "./ProductPageImage";
 import ProductPageTitle from "./ProductPageTitle";
 import ProductPageInfo from "./ProductPageInfo";
 import {isCartProduct, isProduct, isSellAsVariants} from "../utils";
-import {isBillToCustomer} from "@utils/typeguards";
+import {isBillToCustomer} from "@/utils/typeguards";
 import ProductPreSeasonAlert from "./ProductPreSeasonAlert";
 import SelectCustomerAlert from "../../customer/components/SelectCustomerAlert";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
-import {useIsSSR} from "@hooks/is-server-side";
-import {ga4ViewItem} from "@src/ga4/generic";
+import {useIsSSR} from "@/hooks/is-server-side";
+import {ga4ViewItem} from "@/src/ga4/generic";
 
 
 const ProductPage = ({keyword}: {

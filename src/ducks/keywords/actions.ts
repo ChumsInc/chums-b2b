@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {fetchKeywords} from '@api/keywords'
-import {RootState} from "@app/configureStore";
+import {fetchKeywords} from '@/api/keywords'
+import {RootState} from "@/app/configureStore";
 import {selectKeywordsLoading} from "./selectors";
 import {Keyword} from "b2b-types";
 

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {selectCartMessages} from "@ducks/carts/cartMessagesSlice";
-import {clearCartMessages} from "@ducks/carts/cartMessagesSlice";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectCartMessages} from "@/ducks/carts/cartMessagesSlice";
+import {clearCartMessages} from "@/ducks/carts/cartMessagesSlice";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import {CartMessage} from "@typeDefs/cart/cart-utils";
+import {CartMessage} from "@/types/cart/cart-utils";
 
 export default function CartMessageSnackbar() {
     const dispatch = useAppDispatch();

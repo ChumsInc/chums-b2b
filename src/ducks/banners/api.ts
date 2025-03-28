@@ -1,5 +1,5 @@
 import {Banner} from "b2b-types";
-import {fetchJSON} from "@api/fetch";
+import {fetchJSON} from "@/api/fetch";
 
 export async function fetchBanners():Promise<Banner[]> {
     try {

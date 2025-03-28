@@ -1,14 +1,14 @@
-import {isValidCustomer} from "@utils/customer";
+import {isValidCustomer} from "@/utils/customer";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {STORE_INVOICES_ROWS_PER_PAGE, STORE_INVOICES_SORT} from "@constants/stores";
+import {STORE_INVOICES_ROWS_PER_PAGE, STORE_INVOICES_SORT} from "@/constants/stores";
 import localStore from "../../utils/LocalStore";
-import {fetchInvoice, fetchInvoices} from "@api/invoices";
+import {fetchInvoice, fetchInvoices} from "@/api/invoices";
 import {selectCurrentInvoiceLoading, selectInvoicesLoading} from "./selectors";
-import {RootState} from "@app/configureStore";
+import {RootState} from "@/app/configureStore";
 import {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
 import {selectLoggedIn} from "../user/selectors";
 import {FetchInvoiceArg, LoadInvoicesProps} from "./types";
-import {SortProps} from "@typeDefs/generic";
+import {SortProps} from "@/types/generic";
 
 
 export const setInvoicesPage = createAction('invoices/setPage');

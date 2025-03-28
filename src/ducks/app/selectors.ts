@@ -1,3 +1,3 @@
-import {RootState} from "@app/configureStore";
+import {RootState} from "@/app/configureStore";
 
 export const selectAppNonce = (state:RootState) => state.app.nonce;

@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import {CartDetailStatus, CartStatusValue} from "@typeDefs/cart/cart-utils";
+import {CartDetailStatus, CartStatusValue} from "@/types/cart/cart-utils";
 import {
     addToCart,
     duplicateSalesOrder,
@@ -8,9 +8,9 @@ import {
     processCart,
     saveCart,
     saveCartItem
-} from "@ducks/carts/actions";
-import {dismissContextAlert} from "@ducks/alerts/actions";
-import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
+} from "@/ducks/carts/actions";
+import {dismissContextAlert} from "@/ducks/alerts/actions";
+import {B2BCartDetail} from "@/types/cart/cart-detail";
 
 const statusAdapter = createEntityAdapter<CartDetailStatus, number>({
     selectId: (arg) => arg.id,

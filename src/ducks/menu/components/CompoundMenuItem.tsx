@@ -1,10 +1,10 @@
 import React from 'react';
 import Box, {BoxProps} from "@mui/material/Box";
-import MenuItemRouterLink from "@ducks/menu/components/MenuItemRouterLink";
-import BasicMenuItem from "@ducks/menu/components/BasicMenuItem";
+import MenuItemRouterLink from "@/ducks/menu/components/MenuItemRouterLink";
+import BasicMenuItem from "@/ducks/menu/components/BasicMenuItem";
 import {MenuItemProps} from "@mui/material/MenuItem";
-import {NavMenuItem} from "@ducks/menu/types";
-import {isNavMenuItem} from "@ducks/menu/utils";
+import {NavMenuItem} from "@/ducks/menu/types";
+import {isNavMenuItem} from "@/ducks/menu/utils";
 
 export interface CompoundMenuItemProps extends BoxProps {
     item: NavMenuItem;

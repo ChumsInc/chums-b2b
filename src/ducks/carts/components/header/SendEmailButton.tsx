@@ -1,11 +1,11 @@
 import React from 'react';
 import Button, {ButtonProps} from "@mui/material/Button";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {selectSendEmailStatus} from "@ducks/open-orders/selectors";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectSendEmailStatus} from "@/ducks/open-orders/selectors";
 import SendEmailModal from "./SendEmailModal";
-import {sendCartEmail} from "@ducks/carts/actions";
-import {selectCustomerKey} from "@ducks/customer/selectors";
-import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
+import {sendCartEmail} from "@/ducks/carts/actions";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 
 export interface SendEmailButtonProps extends ButtonProps {
     cartId: number;

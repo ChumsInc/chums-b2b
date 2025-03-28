@@ -1,15 +1,16 @@
 
 import {BillToCustomer, CustomerKey, CustomerUser, ShipToCustomer} from "b2b-types";
-import {FetchCustomerResponse} from "@ducks/customer/types";
+import {FetchCustomerResponse} from "@/ducks/customer/types";
 import {fetchJSON} from "./fetch";
-import {sageCompanyCode} from "@utils/customer";
+import {customerSlug, sageCompanyCode} from "@/utils/customer";
 import {CustomerPermissions} from "../types/customer";
 
 
 
 export async function fetchCustomerAccount({ARDivisionNo, CustomerNo}: CustomerKey): Promise<FetchCustomerResponse> {
     try {
-        const url = `/api/sales/b2b/account/chums/${encodeURIComponent(ARDivisionNo)}-${encodeURIComponent(CustomerNo)}`
+        const url = '/api/sales/b2b/account/:customerSlug/customer.json'
+            .replace(':customerSlug', customerSlug({ARDivisionNo, CustomerNo})!)
         const response = await fetchJSON<{ result: FetchCustomerResponse }>(url, {cache: 'no-cache'});
         if (!response.result || !response.result.customer || !response.result.customer.CustomerNo) {
             return Promise.reject(new Error('Invalid response when loading customer account'));

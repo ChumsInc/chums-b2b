@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {Message} from "b2b-types";
-import {PreloadedState} from "@typeDefs/preload";
+import {PreloadedState} from "@/types/preload";
 import {loadMessages} from "./actions";
 
 export interface LoadMessagesResponse {

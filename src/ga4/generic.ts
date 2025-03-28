@@ -1,5 +1,5 @@
 import {sendGtagEvent} from "./api";
-import {isCategoryChildProduct, isSellAsColors, isSellAsMix} from "@ducks/products/utils";
+import {isCategoryChildProduct, isSellAsColors, isSellAsMix} from "@/ducks/products/utils";
 import {CartProduct, CategoryChildProduct, Product, ProductCategory} from "b2b-types";
 
 export function ga4Exception(description: string, fatal: boolean) {

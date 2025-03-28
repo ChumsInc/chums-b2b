@@ -1,4 +1,4 @@
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
+import {B2BCartHeader} from "@/types/cart/cart-header";
 import {createEntityAdapter, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {SortProps} from "b2b-types";
 import {
@@ -9,10 +9,10 @@ import {
     processCart,
     saveCart,
     saveCartItem
-} from "@ducks/carts/actions";
-import {loadCustomer} from "@ducks/customer/actions";
-import {customerSlug} from "@utils/customer";
-import {cartsSorter} from "@ducks/carts/utils";
+} from "@/ducks/carts/actions";
+import {loadCustomer} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
+import {cartsSorter} from "@/ducks/carts/utils";
 
 export const cartsAdapter = createEntityAdapter<B2BCartHeader, number>({
     selectId: (arg) => arg.id,

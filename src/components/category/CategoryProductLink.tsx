@@ -2,10 +2,10 @@ import React from 'react';
 import SeasonTeaser from "../SeasonTeaser";
 import {BasicProduct} from "b2b-types";
 import CategoryGridItem from "./CategoryGridItem";
-import ProductAttributeStack from "@ducks/products/components/ProductAttrbuteStack";
-import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
-import {parseImageFilename} from "@src/common/image";
-import ProductLink from "@components/product";
+import ProductAttributeStack from "@/ducks/products/components/ProductAttrbuteStack";
+import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
+import {parseImageFilename} from "@/src/common/image";
+import ProductLink from "@/components/product";
 
 const CategoryProductLink = ({title, description, product, imageUrl, className = ''}: {
     title: string;

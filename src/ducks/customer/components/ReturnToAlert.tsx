@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector} from "react-redux";
 import {selectCustomerReturnToPath} from "../selectors";
 import Alert from "@mui/material/Alert";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {setReturnToPath} from "../actions";
 import {Link as NavLink} from 'react-router'
 import Link from "@mui/material/Link";

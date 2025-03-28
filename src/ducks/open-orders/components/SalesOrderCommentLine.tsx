@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from "classnames";
 import {Editable, SalesOrderDetailLine} from "b2b-types";
-import {Appendable} from "@typeDefs/generic";
+import {Appendable} from "@/types/generic";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";

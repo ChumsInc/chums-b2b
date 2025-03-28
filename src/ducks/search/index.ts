@@ -1,8 +1,8 @@
 import {createAction, createAsyncThunk, createReducer} from "@reduxjs/toolkit";
-import {RootState} from "@app/configureStore";
+import {RootState} from "@/app/configureStore";
 import {SearchResult} from "b2b-types";
-import {fetchSearchResults} from "@api/search";
-import {ga4Search} from "@src/ga4/generic";
+import {fetchSearchResults} from "@/api/search";
+import {ga4Search} from "@/src/ga4/generic";
 
 export interface SearchState {
     term: string;

@@ -1,8 +1,8 @@
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
+import {B2BCartHeader} from "@/types/cart/cart-header";
+import {B2BCartDetail} from "@/types/cart/cart-detail";
 import Decimal from "decimal.js";
-import {sendGtagEvent} from "@src/ga4/api";
-import {GtagItem} from "@src/ga4/types";
+import {sendGtagEvent} from "@/src/ga4/api";
+import {GtagItem} from "@/src/ga4/types";
 import {CartProduct} from "b2b-types";
 
 function cartItems(detail: B2BCartDetail[]): GtagItem[] {

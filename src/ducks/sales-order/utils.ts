@@ -1,5 +1,5 @@
 import {CartItem, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
-import {SortProps} from "@typeDefs/generic";
+import {SortProps} from "@/types/generic";
 import dayjs from "dayjs";
 import {EditableSalesOrder} from "../open-orders/types";
 

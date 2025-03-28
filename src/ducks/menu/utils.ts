@@ -1,6 +1,6 @@
 import {BillToCustomer, MenuItem} from "b2b-types";
-import {MenuElement, MinimalMenuItem, NavMenuItem} from "@ducks/menu/types";
-import {customerPath} from "@ducks/user/utils";
+import {MenuElement, MinimalMenuItem, NavMenuItem} from "@/ducks/menu/types";
+import {customerPath} from "@/ducks/user/utils";
 import {generatePath} from "react-router";
 
 export const defaultFormatter = (val: string) => val;

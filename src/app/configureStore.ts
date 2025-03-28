@@ -23,12 +23,12 @@ import repsReducer from "../ducks/reps";
 import itemLookupReducer from "../ducks/item-lookup";
 import bannersReducer from "../ducks/banners";
 import signUpReducer from "../ducks/sign-up";
-import cartMessagesSlice from "@ducks/carts/cartMessagesSlice";
-import cartStatusSlice from "@ducks/carts/cartStatusSlice";
-import activeCartSlice from "@ducks/carts/activeCartSlice";
-import cartDetailSlice from "@ducks/carts/cartDetailSlice";
-import cartHeadersSlice from "@ducks/carts/cartHeadersSlice";
-import cartDetailStatusSlice from "@ducks/carts/cartDetailStatusSlice";
+import cartMessagesSlice from "@/ducks/carts/cartMessagesSlice";
+import cartStatusSlice from "@/ducks/carts/cartStatusSlice";
+import activeCartSlice from "@/ducks/carts/activeCartSlice";
+import cartDetailSlice from "@/ducks/carts/cartDetailSlice";
+import cartHeadersSlice from "@/ducks/carts/cartHeadersSlice";
+import cartDetailStatusSlice from "@/ducks/carts/cartDetailStatusSlice";
 
 
 export const rootReducer = combineReducers({

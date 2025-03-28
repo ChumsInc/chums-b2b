@@ -1,5 +1,5 @@
 import React, {ChangeEvent, SyntheticEvent, useCallback, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {
     ItemSearchResult,
     loadItemLookup,
@@ -7,18 +7,18 @@ import {
     selectSearchLoading,
     selectSearchResults
 } from "./index";
-import {CONTENT_PATH_SEARCH_IMAGE} from "@constants/paths";
-import {useDebounceValue} from '@hooks/use-debounce'
+import {CONTENT_PATH_SEARCH_IMAGE} from "@/constants/paths";
+import {useDebounceValue} from '@/hooks/use-debounce'
 import Stack from "@mui/material/Stack";
-import {addToCart} from "@ducks/carts/actions";
+import {addToCart} from "@/ducks/carts/actions";
 import CircularProgress from "@mui/material/CircularProgress";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import {styled} from "@mui/material/styles";
-import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
-import {selectCustomerKey} from "@ducks/customer/selectors";
-import AddToCartButton from "@ducks/carts/components/add-to-cart/AddToCartButton";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import AddToCartButton from "@/ducks/carts/components/add-to-cart/AddToCartButton";
 
 
 const NumericTextField = styled(TextField)`

@@ -3,7 +3,7 @@ import Dialog, {DialogProps} from "@mui/material/Dialog";
 import {CartProduct} from "b2b-types";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import AddToCartForm from "@ducks/carts/components/add-to-cart/AddToCartForm";
+import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 

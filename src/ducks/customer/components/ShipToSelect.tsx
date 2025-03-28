@@ -11,12 +11,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl, {FormControlProps} from '@mui/material/FormControl'
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import {ShipToAddress} from "b2b-types";
-import {shipToAddressFromBillingAddress} from "@utils/customer";
+import {shipToAddressFromBillingAddress} from "@/utils/customer";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import {useAppSelector} from "@app/configureStore";
+import {useAppSelector} from "@/app/configureStore";
 
 export interface ShipToSelectProps extends Omit<FormControlProps, 'value' | 'onChange'> {
     value: string | null;

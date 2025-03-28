@@ -1,6 +1,6 @@
 import {PreloadedState} from "../types/preload";
 import {Theme} from "@mui/material/styles";
-import {GtagFn} from "@src/ga4/types";
+import {GtagFn} from "@/src/ga4/types";
 
 
 declare global {

@@ -1,6 +1,6 @@
 import {CartProgress} from "../types/cart/cart-utils";
 import {SalesOrderDetailLine} from "b2b-types";
-import {ChangeDetailLine, NewCommentLine} from "@typeDefs/cart";
+import {ChangeDetailLine, NewCommentLine} from "@/types/cart";
 
 export const changedDetailLine = (line: SalesOrderDetailLine): ChangeDetailLine => {
     const {LineKey, ItemCode, QuantityOrdered, CommentText} = line;

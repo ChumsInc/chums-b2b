@@ -4,11 +4,11 @@
 
 import React, {useCallback, useEffect, useState} from 'react';
 import {ProductAlternateImage} from "b2b-types";
-import {parseImageFilename} from "@src/common/image";
-import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
-import {sizesQuery} from "@components/product-image/utils";
-import ProductCurrentImage from "@components/product-image/ProductCurrentImage";
-import ProductAlternateImageList from "@components/product-image/ProductAlternateImageList";
+import {parseImageFilename} from "@/src/common/image";
+import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
+import {sizesQuery} from "@/components/product-image/utils";
+import ProductCurrentImage from "@/components/product-image/ProductCurrentImage";
+import ProductAlternateImageList from "@/components/product-image/ProductAlternateImageList";
 import Stack from "@mui/material/Stack";
 
 export type ToMainImageProps = Pick<ProductImageProps, 'image' | 'colorCode' | 'altText'>;

@@ -1,13 +1,13 @@
 import React, {useEffect, useId, useRef, useState} from 'react';
-import {useIsSSR} from "@hooks/is-server-side";
+import {useIsSSR} from "@/hooks/is-server-side";
 import {useLocation} from "react-router";
-import {useAppSelector} from "@app/configureStore";
-import {selectLoggedIn} from "@ducks/user/selectors";
+import {useAppSelector} from "@/app/configureStore";
+import {selectLoggedIn} from "@/ducks/user/selectors";
 import {TransitionProps} from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import Dialog from "@mui/material/Dialog";
 import LocalStore from "../utils/LocalStore";
-import {STORE_SHOW_SIGNUP_POPUP} from "@constants/stores";
+import {STORE_SHOW_SIGNUP_POPUP} from "@/constants/stores";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";

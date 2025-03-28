@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {selectCurrentVariantProduct, selectProductVariantId} from "../selectors";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {setCurrentVariant} from "../actions";
 import {ProductVariant} from "b2b-types";
 import {isSellAsColors, isSellAsMix} from "../utils";
 import VariantButton from "./VariantButton";
 import Grid from "@mui/material/Grid2";
-import {ga4SelectMixItem, ga4SelectVariantItem} from "@src/ga4/generic";
+import {ga4SelectMixItem, ga4SelectVariantItem} from "@/src/ga4/generic";
 import {useSearchParams} from "react-router";
 
 

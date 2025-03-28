@@ -1,4 +1,4 @@
-import {RootState} from "@app/configureStore";
+import {RootState} from "@/app/configureStore";
 import {createSelector} from "@reduxjs/toolkit";
 import {detailSequenceSorter, isEditableSalesOrder, salesOrderSorter} from "../sales-order/utils";
 import {selectSalesOrderHeader} from "../sales-order/selectors";

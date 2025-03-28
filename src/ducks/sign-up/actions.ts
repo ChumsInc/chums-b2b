@@ -1,11 +1,11 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {SignUpResponse, SignUpUser} from "@typeDefs/user";
-import {fetchSignUpProfile, postSignUpUser} from "@api/user";
-import {RootState} from "@app/configureStore";
+import {SignUpResponse, SignUpUser} from "@/types/user";
+import {fetchSignUpProfile, postSignUpUser} from "@/api/user";
+import {RootState} from "@/app/configureStore";
 import isEmail from "validator/lib/isEmail";
 import {selectSignUpStatus} from "./selectors";
 import {LoadProfileProps, SignUpProfile} from "./types";
-import {APIErrorResponse} from "@typeDefs/generic";
+import {APIErrorResponse} from "@/types/generic";
 
 export const signUpUser = createAsyncThunk<SignUpResponse|null, SignUpUser, {state: RootState}>(
     'sign-up/signUpUser',

@@ -1,14 +1,14 @@
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
+import {B2BCartHeader} from "@/types/cart/cart-header";
 import {createReducer} from "@reduxjs/toolkit";
 import {SortProps} from "b2b-types";
 import {defaultCartsSort} from "./utils";
-import {B2BCartList, CartProgress} from "@typeDefs/cart/cart-utils";
-import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
-import {CustomerShippingAccount} from "@typeDefs/customer";
-import {nextShipDate} from "@utils/orders";
-import localStore from "@utils/LocalStore";
-import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
-import {cartProgress_Cart} from "@utils/cart";
+import {B2BCartList, CartProgress} from "@/types/cart/cart-utils";
+import {B2BCartDetail} from "@/types/cart/cart-detail";
+import {CustomerShippingAccount} from "@/types/customer";
+import {nextShipDate} from "@/utils/orders";
+import localStore from "@/utils/LocalStore";
+import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import {cartProgress_Cart} from "@/utils/cart";
 
 
 export interface CartsState {

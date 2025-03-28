@@ -16,8 +16,8 @@ import {
     customerUserSorter,
     defaultCustomerUserSort,
     defaultShipToSort,
-} from "@utils/customer";
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
+} from "@/utils/customer";
+import {B2BCartHeader} from "@/types/cart/cart-header";
 
 
 

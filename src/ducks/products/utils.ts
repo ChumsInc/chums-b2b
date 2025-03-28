@@ -13,9 +13,9 @@ import {
     SellAsSelfProduct,
     SellAsVariantsProduct
 } from "b2b-types";
-import {priceRecord} from "@utils/customer";
-import {getItemPrice} from "@utils/products";
-import {PRICE_FIELDS, SELL_AS_COLORS, SELL_AS_MIX, SELL_AS_SELF, SELL_AS_VARIANTS} from "@constants/product";
+import {priceRecord} from "@/utils/customer";
+import {getItemPrice} from "@/utils/products";
+import {PRICE_FIELDS, SELL_AS_COLORS, SELL_AS_MIX, SELL_AS_SELF, SELL_AS_VARIANTS} from "@/constants/product";
 import {ProductsState} from "./index";
 
 export const isCartItem = (item: CartItem | null): item is CartItem => {

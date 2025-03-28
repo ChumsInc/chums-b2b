@@ -1,6 +1,6 @@
-import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@utils/customer";
+import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@/utils/customer";
 import localStore from "../../utils/LocalStore";
-import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@constants/stores";
+import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
 import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
 import {
     selectCustomerAccount,
@@ -18,7 +18,7 @@ import {
     postCustomerUser,
     postDefaultShipToCode,
     postShipToAddress
-} from "@api/customer";
+} from "@/api/customer";
 import {
     BasicCustomer,
     BillToCustomer,
@@ -28,13 +28,13 @@ import {
     ShipToCustomer,
     SortProps
 } from "b2b-types";
-import {RootState} from "@app/configureStore";
+import {RootState} from "@/app/configureStore";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {FetchCustomerResponse} from "./types";
 import {loadOpenOrders} from "../open-orders/actions";
-import {CustomerPermissions} from "@typeDefs/customer";
+import {CustomerPermissions} from "@/types/customer";
 import {selectRecentCustomers} from "../customers/selectors";
-import {loadCarts} from "@ducks/carts/actions";
+import {loadCarts} from "@/ducks/carts/actions";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');

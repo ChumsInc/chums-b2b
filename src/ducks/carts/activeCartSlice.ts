@@ -1,8 +1,8 @@
 import {CaseReducer, createSlice} from "@reduxjs/toolkit";
 import {BasicCustomer} from "b2b-types";
-import {CustomerShippingAccount} from "@typeDefs/customer";
-import localStore from "@utils/LocalStore";
-import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
+import {CustomerShippingAccount} from "@/types/customer";
+import localStore from "@/utils/LocalStore";
+import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
 import {
     addToCart,
     duplicateSalesOrder,
@@ -11,9 +11,9 @@ import {
     processCart,
     setActiveCartId,
     setCartShippingAccount
-} from "@ducks/carts/actions";
-import {loadCustomer} from "@ducks/customer/actions";
-import {customerSlug} from "@utils/customer";
+} from "@/ducks/carts/actions";
+import {loadCustomer} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
 
 
 export interface ActiveCartExtraState {

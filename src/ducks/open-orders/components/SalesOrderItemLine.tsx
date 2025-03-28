@@ -10,7 +10,7 @@ import FormattedUPC from "../../../components/FormattedUPC";
 import Typography from "@mui/material/Typography";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import {calcItemPrice, calcUnitPrice} from "@ducks/open-orders/utils";
+import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils";
 
 export default function SalesOrderItemLine({
                                                line,

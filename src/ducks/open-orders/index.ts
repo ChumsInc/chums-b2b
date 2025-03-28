@@ -12,9 +12,9 @@ import {
     updateDetailLine
 } from "./actions";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
-import {customerSlug} from "@utils/customer";
+import {customerSlug} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {LoadStatus, SortProps} from "@typeDefs/generic";
+import {LoadStatus, SortProps} from "@/types/generic";
 import {ActionStatusList, OpenOrderDetailList, OpenOrderList} from "./types";
 import {dismissContextAlert} from "../alerts/actions";
 

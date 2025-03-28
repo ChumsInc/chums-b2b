@@ -1,7 +1,7 @@
 /**
  * Created by steve on 5/18/2017.
  */
-import {deprecatedStorageKeys} from "@constants/stores";
+import {deprecatedStorageKeys} from "@/constants/stores";
 
 export default class LocalStore {
     static getItem<T = unknown>(key: string, defaultValue: T): T {

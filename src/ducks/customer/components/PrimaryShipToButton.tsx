@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import PrimaryShipToIcon from "./PrimaryShipToIcon";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {useSelector} from "react-redux";
 import {selectCustomerPermissions, selectPrimaryShipTo} from "../selectors";
 import {Editable, ShipToCustomer} from "b2b-types";

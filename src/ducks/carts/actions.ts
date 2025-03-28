@@ -1,10 +1,10 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {EmailResponse} from "b2b-types";
 import {fetchCarts, postCartEmail, postDuplicateSalesOrder, postProcessCart, putUpdateCartItems} from "./api";
-import {RootState} from "@app/configureStore";
-import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@ducks/carts/api";
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {B2BCart} from "@typeDefs/cart/cart";
+import {RootState} from "@/app/configureStore";
+import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@/ducks/carts/api";
+import {B2BCartHeader} from "@/types/cart/cart-header";
+import {B2BCart} from "@/types/cart/cart";
 import {
     AddToCartProps,
     CartActionProps,
@@ -12,14 +12,14 @@ import {
     PromoteCartBody,
     UpdateCartItemProps,
     UpdateCartProps
-} from "@typeDefs/cart/cart-action-props";
-import {CustomerShippingAccount} from "@typeDefs/customer";
-import localStore from "@utils/LocalStore";
-import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@constants/stores";
-import {selectUserType} from "@ducks/user/selectors";
-import {selectCartsStatus, selectCartStatusById} from "@ducks/carts/cartStatusSlice";
-import {selectCartDetailById} from "@ducks/carts/cartDetailSlice";
-import {selectCartShippingAccount} from "@ducks/carts/activeCartSlice";
+} from "@/types/cart/cart-action-props";
+import {CustomerShippingAccount} from "@/types/customer";
+import localStore from "@/utils/LocalStore";
+import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import {selectUserType} from "@/ducks/user/selectors";
+import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice";
+import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
 
 export const loadCarts = createAsyncThunk<B2BCart[], string | null, { state: RootState }>(
     'carts/loadCarts',

@@ -2,13 +2,13 @@ import React from 'react';
 import numeral from "numeral";
 import {useSelector} from "react-redux";
 import Decimal from "decimal.js";
-import {getShippingMethod} from "@constants/account";
-import {useAppSelector} from "@app/configureStore";
+import {getShippingMethod} from "@/constants/account";
+import {useAppSelector} from "@/app/configureStore";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import {selectCartHeaderById} from "@ducks/carts/cartHeadersSlice";
-import {selectCartShippingAccount} from "@ducks/carts/activeCartSlice";
+import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice";
+import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
 
 export default function CartTotal({cartId}: {
     cartId: number;

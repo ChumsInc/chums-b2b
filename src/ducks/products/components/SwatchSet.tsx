@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {SELL_AS_COLORS, SELL_AS_MIX} from "@constants/product";
+import {SELL_AS_COLORS, SELL_AS_MIX} from "@/constants/product";
 import Swatch from "./Swatch";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {useSelector} from "react-redux";
 import {selectProductCartItem, selectProductColorCode, selectSelectedProduct} from "../selectors";
 import {setColorCode} from "../actions";
@@ -10,7 +10,7 @@ import {isSellAsColors, isSellAsMix} from "../utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {styled} from "@mui/material/styles";
-import {ga4SelectColorItem} from "@src/ga4/generic";
+import {ga4SelectColorItem} from "@/src/ga4/generic";
 import {useSearchParams} from "react-router";
 
 const SwatchContainer = styled(Box)`

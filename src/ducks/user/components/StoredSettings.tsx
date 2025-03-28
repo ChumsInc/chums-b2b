@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {
     STORE_AUTHTYPE,
     STORE_AVATAR,
@@ -16,24 +16,24 @@ import {
     STORE_TOKEN,
     STORE_USER_ACCESS,
     STORE_VERSION
-} from "@constants/stores";
-import LocalStore from "@utils/LocalStore";
+} from "@/constants/stores";
+import LocalStore from "@/utils/LocalStore";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import {StoredProfile} from "@typeDefs/user";
+import {StoredProfile} from "@/types/user";
 import {RecentCustomer, UserCustomerAccess} from "b2b-types";
-import {shortCustomerKey} from "@utils/customer";
+import {shortCustomerKey} from "@/utils/customer";
 import Typography from "@mui/material/Typography";
 import Box, {BoxProps} from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
-import {clearRecentCustomers, setCustomersRepFilter, setCustomersStateFilter} from "@ducks/customers/actions";
-import {loadProfile, setAvatar, setUserAccess} from "@ducks/user/actions";
-import {setCartShippingAccount} from "@ducks/carts/actions";
-import {getTokenExpirationDate, isTokenExpired} from "@utils/jwtHelper";
+import {clearRecentCustomers, setCustomersRepFilter, setCustomersStateFilter} from "@/ducks/customers/actions";
+import {loadProfile, setAvatar, setUserAccess} from "@/ducks/user/actions";
+import {setCartShippingAccount} from "@/ducks/carts/actions";
+import {getTokenExpirationDate, isTokenExpired} from "@/utils/jwtHelper";
 
 export type StoredSettings = Record<string, string>;
 

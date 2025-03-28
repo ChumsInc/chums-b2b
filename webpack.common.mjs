@@ -30,15 +30,15 @@ export default {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
-            '@src': path.resolve(process.cwd(), 'src'),
-            '@api': path.resolve(process.cwd(), 'src/api'),
-            '@app': path.resolve(process.cwd(), 'src/app'),
-            '@components': path.resolve(process.cwd(), 'src/components'),
-            '@constants': path.resolve(process.cwd(), 'src/constants'),
-            '@ducks': path.resolve(process.cwd(), 'src/ducks'),
-            '@hooks': path.resolve(process.cwd(), 'src/hooks'),
-            '@typeDefs': path.resolve(process.cwd(), 'src/types'),
-            '@utils': path.resolve(process.cwd(), 'src/utils'),
+            '@/src': path.resolve(process.cwd(), 'src'),
+            '@/api': path.resolve(process.cwd(), 'src/api'),
+            '@/app': path.resolve(process.cwd(), 'src/app'),
+            '@/components': path.resolve(process.cwd(), 'src/components'),
+            '@/constants': path.resolve(process.cwd(), 'src/constants'),
+            '@/ducks': path.resolve(process.cwd(), 'src/ducks'),
+            '@/hooks': path.resolve(process.cwd(), 'src/hooks'),
+            '@/types': path.resolve(process.cwd(), 'src/types'),
+            '@/utils': path.resolve(process.cwd(), 'src/utils'),
         },
         plugins: [
             new TsconfigPathsPlugin({

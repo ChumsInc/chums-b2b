@@ -1,5 +1,5 @@
 import {ProductSellAsColors, ProductSellAsMix, ProductSellAsSelf, ProductSellAsVariants} from "b2b-types";
-import {PriceFieldsList} from "@typeDefs/product";
+import {PriceFieldsList} from "@/types/product";
 
 export const SELL_AS_VARIANTS: ProductSellAsVariants = 0;
 export const SELL_AS_SELF: ProductSellAsSelf = 1;

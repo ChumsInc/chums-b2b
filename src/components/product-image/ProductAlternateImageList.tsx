@@ -2,7 +2,7 @@ import {ProductAlternateImage} from "b2b-types";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
+import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import React from "react";
 
 export default function ProductAlternateImageList({currentImage, images, onSelectImage}: {

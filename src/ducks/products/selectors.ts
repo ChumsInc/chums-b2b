@@ -1,5 +1,5 @@
 import {createSelector} from "@reduxjs/toolkit";
-import {RootState} from "@app/configureStore";
+import {RootState} from "@/app/configureStore";
 import {isCartProduct, isProduct, isSellAsVariants} from "./utils";
 
 export const selectCurrentProduct = (state: RootState) => state.products.product;

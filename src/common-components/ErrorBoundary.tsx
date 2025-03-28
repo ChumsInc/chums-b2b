@@ -1,8 +1,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {selectUserProfile} from "@ducks/user/selectors";
+import {selectUserProfile} from "@/ducks/user/selectors";
 import {ErrorBoundary as ReactErrorBoundary, FallbackProps} from 'react-error-boundary';
-import {postErrors} from "@api/fetch";
+import {postErrors} from "@/api/fetch";
 import Alert from "@mui/material/Alert";
 
 function ErrorFallback({error}: FallbackProps) {

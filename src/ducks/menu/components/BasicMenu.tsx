@@ -1,15 +1,15 @@
 import React, {useEffect, useId} from 'react';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Menu, {MenuProps} from "@mui/material/Menu";
-import NavItemButton from "@ducks/menu/components/NavItemButton";
+import NavItemButton from "@/ducks/menu/components/NavItemButton";
 import {deepmerge} from '@mui/utils'
 import {SxProps} from "@mui/system";
 import {Theme} from "@mui/material/styles";
-import CompoundMenuItem from "@ducks/menu/components/CompoundMenuItem";
-import {NavMenuItem} from "@ducks/menu/types";
+import CompoundMenuItem from "@/ducks/menu/components/CompoundMenuItem";
+import {NavMenuItem} from "@/ducks/menu/types";
 import {useLocation} from "react-router";
-import {useAppSelector} from "@app/configureStore";
-import {selectLoggedIn} from "@ducks/user/selectors";
+import {useAppSelector} from "@/app/configureStore";
+import {selectLoggedIn} from "@/ducks/user/selectors";
 
 const itemStyle: SxProps<Theme> = {
     textTransform: 'uppercase',

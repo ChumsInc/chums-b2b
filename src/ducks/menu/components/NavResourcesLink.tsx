@@ -1,9 +1,9 @@
-import {NavItemProps} from "@typeDefs/ui-features";
+import {NavItemProps} from "@/types/ui-features";
 import React from "react";
 import {useSelector} from "react-redux";
-import {selectResourcesMenu} from "@ducks/menu";
-import DrawerMenu from "@ducks/menu/components/DrawerMenu";
-import BasicMenu from "@ducks/menu/components/BasicMenu";
+import {selectResourcesMenu} from "@/ducks/menu";
+import DrawerMenu from "@/ducks/menu/components/DrawerMenu";
+import BasicMenu from "@/ducks/menu/components/BasicMenu";
 
 export default function NavResourcesLink({inDrawer}: NavItemProps) {
     const menu = useSelector(selectResourcesMenu);

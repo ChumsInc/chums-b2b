@@ -1,5 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {PreloadedState} from "@typeDefs/preload";
+import {PreloadedState} from "@/types/preload";
 
 export interface AppState {
     nonce: string | null;

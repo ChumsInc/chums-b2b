@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import Link from "@mui/material/Link";
 import FormGroup from "@mui/material/FormGroup";
-import {PATH_LOGIN} from "@constants/paths";
-import {USER_EXISTS} from "@constants/app";
+import {PATH_LOGIN} from "@/constants/paths";
+import {USER_EXISTS} from "@/constants/app";
 import AddressFormFields from "../../components/AddressFormFields";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {SignUpUser} from "@typeDefs/user";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {SignUpUser} from "@/types/user";
 import {signUpUser} from "./actions";
 import {selectSignUpError, selectSignUpStatus} from "./selectors";
 import LinearProgress from "@mui/material/LinearProgress";

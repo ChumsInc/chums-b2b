@@ -3,16 +3,16 @@ import {useSelector} from 'react-redux';
 import {redirect, useMatch, useParams} from 'react-router';
 import OrderDetail from "./OrderDetail";
 import Alert from "@mui/material/Alert";
-import DocumentTitle from "@components/DocumentTitle";
+import DocumentTitle from "@/components/DocumentTitle";
 import {selectCustomerAccount, selectCustomerLoading} from "../../customer/selectors";
 import {selectSOLoading} from "../../sales-order/selectors";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
 import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
 import SalesOrderSkeleton from "./SalesOrderSkeleton";
 import {selectSalesOrder} from "../selectors";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
-import {selectCurrentUserAccount} from "@ducks/user/selectors";
+import {selectCurrentUserAccount} from "@/ducks/user/selectors";
 import Typography from "@mui/material/Typography";
 
 /**

@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
-import {isTokenExpired} from '@utils/jwtHelper'
+import {isTokenExpired} from '@/utils/jwtHelper'
 import LocalStore from '../utils/LocalStore';
-import {STORE_PROFILE, STORE_AVATAR, STORE_TOKEN, STORE_USER} from '@constants/stores';
+import {STORE_PROFILE, STORE_AVATAR, STORE_TOKEN, STORE_USER} from '@/constants/stores';
 import {StoredProfile} from "../types/user";
 
 export class AuthService extends EventEmitter {

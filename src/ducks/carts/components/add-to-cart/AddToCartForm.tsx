@@ -1,29 +1,29 @@
 import React, {FormEvent, useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {addToCart} from "@ducks/carts/actions";
+import {addToCart} from "@/ducks/carts/actions";
 import {
     selectCustomerAccount,
     selectCustomerKey,
     selectCustomerPermissions,
     selectCustomerPermissionsLoading,
     selectCustomerShipToCode
-} from "@ducks/customer/selectors";
-import ShipToSelect from "@ducks/customer/components/ShipToSelect";
-import {loadCustomerPermissions} from "@ducks/customer/actions";
+} from "@/ducks/customer/selectors";
+import ShipToSelect from "@/ducks/customer/components/ShipToSelect";
+import {loadCustomerPermissions} from "@/ducks/customer/actions";
 import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartNameInput from "./CartNameInput";
 import AddToCartButton from "./AddToCartButton";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import CartSelect from "@ducks/carts/components/add-to-cart/CartSelect";
-import CartQuantityInput from "@components/CartQuantityInput";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import CartSelect from "@/ducks/carts/components/add-to-cart/CartSelect";
+import CartQuantityInput from "@/components/CartQuantityInput";
 import {CartProduct} from "b2b-types";
 import Box from "@mui/material/Box";
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
-import {selectCartHeaderById, selectCartHeaders,} from "@ducks/carts/cartHeadersSlice";
-import {selectCartsStatus, selectCartStatusById} from "@ducks/carts/cartStatusSlice";
-import {ga4AddToCart} from "@src/ga4/cart";
-import {selectActiveCartId} from "@ducks/carts/activeCartSlice";
+import {B2BCartHeader} from "@/types/cart/cart-header";
+import {selectCartHeaderById, selectCartHeaders,} from "@/ducks/carts/cartHeadersSlice";
+import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import {ga4AddToCart} from "@/src/ga4/cart";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
 
 export interface AddToCartFormProps {
     cartItem: CartProduct;

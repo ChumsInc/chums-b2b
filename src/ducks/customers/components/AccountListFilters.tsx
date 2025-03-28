@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid2";
 import React from "react";
 import {loadCustomerList} from "../actions";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {selectCanFilterReps, selectCurrentUserAccount} from "../../user/selectors";
 import Button from "@mui/material/Button";
 import AccountListCustomerFilter from "./AccountListCustomerFilter";

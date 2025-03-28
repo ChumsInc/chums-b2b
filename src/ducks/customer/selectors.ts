@@ -1,8 +1,8 @@
 import {createSelector} from "@reduxjs/toolkit";
-import {isBillToCustomer} from "@utils/typeguards";
-import {RootState} from "@app/configureStore";
+import {isBillToCustomer} from "@/utils/typeguards";
+import {RootState} from "@/app/configureStore";
 import {ShipToCustomer} from "b2b-types";
-import {customerShipToSorter, customerUserSorter} from "@utils/customer";
+import {customerShipToSorter, customerUserSorter} from "@/utils/customer";
 import {selectCurrentUserAccount} from "../user/selectors";
 import {filterShipToByUserAccount, hasBillToAccess} from "./utils";
 

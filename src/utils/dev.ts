@@ -1,4 +1,4 @@
-import global from '@app/global-window';
+import global from '@/app/global-window';
 
 export const isLocalHost = () => {
     const host = global.window?.location?.host;

@@ -2,19 +2,19 @@ import React, {useEffect, useState} from 'react';
 import CartDetailLine from "./CartDetailLine";
 import CartTotal from "./CartTotal";
 import {CartProduct} from "b2b-types";
-import {useAppSelector} from "@app/configureStore";
-import {ga4ViewCart} from "@src/ga4/cart";
+import {useAppSelector} from "@/app/configureStore";
+import {ga4ViewCart} from "@/src/ga4/cart";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
-import {selectCartHeaderById} from "@ducks/carts/cartHeadersSlice";
-import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
-import {cartDetailToCartProduct} from "@ducks/carts/utils";
-import AddToCartDialog from "@ducks/carts/components/add-to-cart/AddToCartDialog";
-import {selectCartDetailById} from "@ducks/carts/cartDetailSlice";
+import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice";
+import {B2BCartDetail} from "@/types/cart/cart-detail";
+import {cartDetailToCartProduct} from "@/ducks/carts/utils";
+import AddToCartDialog from "@/ducks/carts/components/add-to-cart/AddToCartDialog";
+import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice";
 
 export default function CartDetail({cartId}: {
     cartId: number;

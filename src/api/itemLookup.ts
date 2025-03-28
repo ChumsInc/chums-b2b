@@ -1,4 +1,4 @@
-import {ItemSearchResult} from "@ducks/item-lookup";
+import {ItemSearchResult} from "@/ducks/item-lookup";
 import {fetchJSON} from "./fetch";
 
 export async function fetchItemLookup(arg:string):Promise<ItemSearchResult[]> {

@@ -1,15 +1,15 @@
 import {createReducer, isAnyOf} from "@reduxjs/toolkit";
 import {defaultDetailSorter, isClosedSalesOrder} from "./utils";
-import {calcOrderType} from "@utils/orders";
+import {calcOrderType} from "@/utils/orders";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {setLoggedIn, setUserAccess} from "../user/actions";
 import {BillToCustomer, Editable, EmailResponse, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
-import {customerSlug} from "@utils/customer";
-import {Appendable, LoadStatus} from "@typeDefs/generic";
-import {OrderType} from "@typeDefs/salesorder";
+import {customerSlug} from "@/utils/customer";
+import {Appendable, LoadStatus} from "@/types/generic";
+import {OrderType} from "@/types/salesorder";
 import {closeEmailResponse, sendOrderEmail} from "./actions";
 import localStore from "../../utils/LocalStore";
-import {STORE_CUSTOMER} from "@constants/stores";
+import {STORE_CUSTOMER} from "@/constants/stores";
 import {loadOpenOrders, loadSalesOrder} from "../open-orders/actions";
 
 export interface SalesOrderState {

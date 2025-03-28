@@ -7,7 +7,7 @@ import {selectCustomerAccount} from "../../customer/selectors";
 import {customerCartURL} from "../../user/utils";
 import CustomerIndicator from "../../customer/components/CustomerIndicator";
 import CartIcon from "../../carts/components/CartIcon";
-import {selectActiveCartId} from "@ducks/carts/activeCartSlice";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
 
 
 const CartMenu = () => {

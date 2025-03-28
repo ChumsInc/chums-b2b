@@ -11,14 +11,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import NotesIcon from '@mui/icons-material/Notes';
 import ShipToSelect from "./ShipToSelect";
 import {generatePath, useMatch, useNavigate} from "react-router";
-import {customerUserPath} from "@utils/path-utils";
+import {customerUserPath} from "@/utils/path-utils";
 import {removeUser, saveUser} from "../actions";
-import {useAppDispatch} from "@app/configureStore";
+import {useAppDispatch} from "@/app/configureStore";
 import {selectIsEmployee, selectIsRep} from "../../user/selectors";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountUserNewButton from "./AccountUserNewButton";
-import ConfirmationDialog from "@ducks/customer/components/ConfirmationDialog";
+import ConfirmationDialog from "@/ducks/customer/components/ConfirmationDialog";
 
 const newUser: CustomerUser = {id: 0, accessId: 0, name: '', email: '', accountType: 4};
 

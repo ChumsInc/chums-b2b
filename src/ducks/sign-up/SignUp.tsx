@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import CustomerSignUp from "./CustomerSignUp";
-import {documentTitles, PATH_SET_PASSWORD} from "@constants/paths";
+import {documentTitles, PATH_SET_PASSWORD} from "@/constants/paths";
 import MAPPolicy from "../../components/MAPPolicy";
 import UsagePolicy from "../../components/UsagePolicy";
 import DocumentTitle from "../../components/DocumentTitle";
@@ -10,7 +10,7 @@ import {useNavigate} from "react-router";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid2";
-import {useIsSSR} from "@hooks/is-server-side";
+import {useIsSSR} from "@/hooks/is-server-side";
 
 const SignUp = () => {
     const isSSR = useIsSSR();

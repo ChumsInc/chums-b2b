@@ -1,6 +1,6 @@
 import React from 'react';
-import {CartProgress,} from "@typeDefs/cart/cart-utils";
-import {cartProgress_Cart, cartProgress_Confirm, cartProgress_Delivery, cartProgress_Payment} from "@utils/cart";
+import {CartProgress,} from "@/types/cart/cart-utils";
+import {cartProgress_Cart, cartProgress_Confirm, cartProgress_Delivery, cartProgress_Payment} from "@/utils/cart";
 import Button, {ButtonProps} from "@mui/material/Button";
 
 export interface CheckoutButtonProps extends ButtonProps {

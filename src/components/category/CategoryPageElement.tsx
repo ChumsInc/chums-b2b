@@ -8,11 +8,11 @@ import {
     isCategoryChildLink,
     isCategoryChildProduct,
     isCategoryChildSection
-} from "@ducks/products/utils";
+} from "@/ducks/products/utils";
 import Grid from "@mui/material/Grid2";
 import Link from "@mui/material/Link";
 import CategoryGridItem from "./CategoryGridItem";
-import ResponsiveProductImage from "@components/product-image/ResponsiveProductImage";
+import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import Typography from "@mui/material/Typography";
 
 

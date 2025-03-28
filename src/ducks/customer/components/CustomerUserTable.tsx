@@ -15,12 +15,12 @@ import TableCell from "@mui/material/TableCell";
 import Tooltip from "@mui/material/Tooltip";
 import {generatePath, useMatch, useNavigate} from "react-router";
 import {selectCustomerUserSort, selectPermittedCustomerUsers} from "../selectors";
-import {customerUserPath} from "@utils/path-utils";
+import {customerUserPath} from "@/utils/path-utils";
 import Chip, {ChipProps} from "@mui/material/Chip";
 import StoreIcon from '@mui/icons-material/Store';
 import {UserAccessType} from "b2b-types/src/user";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {setCustomerUserSort} from "@ducks/customer/actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {setCustomerUserSort} from "@/ducks/customer/actions";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
 

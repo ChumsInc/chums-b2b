@@ -1,7 +1,7 @@
 import {CartProduct, SortProps} from "b2b-types";
-import {B2BCartHeader} from "@typeDefs/cart/cart-header";
+import {B2BCartHeader} from "@/types/cart/cart-header";
 import Decimal from "decimal.js";
-import {B2BCartDetail} from "@typeDefs/cart/cart-detail";
+import {B2BCartDetail} from "@/types/cart/cart-detail";
 
 export const defaultCartsSort: SortProps<B2BCartHeader> = {
     field: 'id',

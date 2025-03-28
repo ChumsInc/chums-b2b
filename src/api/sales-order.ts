@@ -1,13 +1,13 @@
 import {CustomerKey, EmailResponse, SalesOrder} from 'b2b-types'
 import {fetchJSON} from "./fetch";
 import {ApplyPromoCodeBody} from "../types/cart";
-import {LoadSalesOrderProps, LoadSalesOrdersProps} from "@typeDefs/salesorder";
-import {shortCustomerKey} from "@utils/customer";
+import {LoadSalesOrderProps, LoadSalesOrdersProps} from "@/types/salesorder";
+import {shortCustomerKey} from "@/utils/customer";
 
 
 export async function fetchSalesOrder({customerKey, salesOrderNo}: LoadSalesOrderProps): Promise<SalesOrder | null> {
     try {
-        const url = '/api/sales/b2b/orders/:customerKey/open/:salesOrderNo.json'
+        const url = '/api/sales/b2b/account/:customerKey/orders/open/:salesOrderNo.json'
             .replace(':customerKey', encodeURIComponent(customerKey))
             .replace(':salesOrderNo', encodeURIComponent(salesOrderNo));
         const response = await fetchJSON<{ salesOrder: SalesOrder }>(url, {cache: 'no-cache'});
@@ -25,7 +25,7 @@ export async function fetchSalesOrder({customerKey, salesOrderNo}: LoadSalesOrde
 
 export async function fetchOpenSalesOrders({customerKey}: LoadSalesOrdersProps): Promise<SalesOrder[]> {
     try {
-        const url = '/api/sales/b2b/orders/:customerKey/open.json'
+        const url = '/api/sales/b2b/account/:customerKey/orders/open.json'
             .replace(':customerKey', encodeURIComponent(customerKey));
         const res = await fetchJSON<{ list: SalesOrder[] }>(url, {cache: 'no-cache'});
         return res?.list ?? [];

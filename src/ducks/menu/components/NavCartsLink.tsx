@@ -1,12 +1,12 @@
-import {NavItemProps} from "@typeDefs/ui-features";
+import {NavItemProps} from "@/types/ui-features";
 import {useSelector} from "react-redux";
 import {selectLoggedIn} from "../../user/selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
 import React, {useEffect} from "react";
-import {MinimalMenuItem} from "@ducks/menu/types";
-import {buildCustomerMenuItems} from "@ducks/menu/utils";
-import DrawerMenu from "@ducks/menu/components/DrawerMenu";
-import BasicMenu from "@ducks/menu/components/BasicMenu";
+import {MinimalMenuItem} from "@/ducks/menu/types";
+import {buildCustomerMenuItems} from "@/ducks/menu/utils";
+import DrawerMenu from "@/ducks/menu/components/DrawerMenu";
+import BasicMenu from "@/ducks/menu/components/BasicMenu";
 
 export default function NavCartsLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useSelector(selectLoggedIn);

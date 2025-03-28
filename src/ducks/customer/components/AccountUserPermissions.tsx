@@ -4,7 +4,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import {useSelector} from "react-redux";
 import {selectCustomerUsers, selectPermittedShipToAddresses} from "../selectors";
 import {useMatch} from "react-router";
-import {customerUserPath} from "@utils/path-utils";
+import {customerUserPath} from "@/utils/path-utils";
 import TableHead from "@mui/material/TableHead";
 import Table from '@mui/material/Table';
 import TableRow from "@mui/material/TableRow";

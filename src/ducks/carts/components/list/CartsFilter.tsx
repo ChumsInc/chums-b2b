@@ -3,12 +3,12 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import Stack from "@mui/material/Stack";
-import {useAppDispatch, useAppSelector} from "@app/configureStore";
-import {loadCarts} from "@ducks/carts/actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {loadCarts} from "@/ducks/carts/actions";
 import Button from "@mui/material/Button";
 import {useSelector} from "react-redux";
-import {selectCustomerKey} from "@ducks/customer/selectors";
-import {selectCartsSearch, setCartSearch} from "@ducks/carts/cartHeadersSlice";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCartsSearch, setCartSearch} from "@/ducks/carts/cartHeadersSlice";
 
 export default function CartsFilter() {
     const dispatch = useAppDispatch();

@@ -1,4 +1,4 @@
-import {FetchInvoiceArg, LoadInvoicesProps} from "@ducks/invoices/types";
+import {FetchInvoiceArg, LoadInvoicesProps} from "@/ducks/invoices/types";
 import {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
@@ -36,7 +36,7 @@ export async function fetchInvoices(arg: LoadInvoicesProps): Promise<InvoiceHist
         const params = new URLSearchParams();
         params.set('start', String(arg.start ?? 0));
         params.set('limit', String(arg.limit ?? 500));
-        const url = `/api/sales/b2b/invoices/chums/:ARDivisionNo-:CustomerNo?${params.toString()}`
+        const url = `/api/sales/b2b/account/:ARDivisionNo-:CustomerNo/invoices.json?${params.toString()}`
             .replace(':ARDivisionNo', encodeURIComponent(arg.key.ARDivisionNo))
             .replace(':CustomerNo', encodeURIComponent(arg.key.CustomerNo));
         const response = await fetchJSON<{ list?: InvoiceHistoryHeader[] }>(url, {cache: 'no-cache'});

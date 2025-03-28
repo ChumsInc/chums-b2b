@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {updateLocalAuth} from "@ducks/user/actions";
+import {updateLocalAuth} from "@/ducks/user/actions";
 import {useSelector} from 'react-redux';
-import {useAppDispatch} from "@app/configureStore";
-import {selectLoggedIn, selectLoginExpiry} from "@ducks/user/selectors";
-import {useIsSSR} from "@hooks/is-server-side";
+import {useAppDispatch} from "@/app/configureStore";
+import {selectLoggedIn, selectLoginExpiry} from "@/ducks/user/selectors";
+import {useIsSSR} from "@/hooks/is-server-side";
 
 const oneMinute = 60 * 1000;
 const fiveMinutes = 5 * oneMinute;

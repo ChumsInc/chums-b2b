@@ -6,11 +6,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import numeral from "numeral";
 import React from "react";
 import Tooltip from "@mui/material/Tooltip";
-import {useAppSelector} from "@app/configureStore";
-import {selectCartStatusById} from "@ducks/carts/cartStatusSlice";
-import {selectActiveCartId} from "@ducks/carts/activeCartSlice";
-import {selectCartQtyByCartId} from "@ducks/carts/cartDetailSlice";
-import {selectCartTotalById} from "@ducks/carts/cartHeadersSlice";
+import {useAppSelector} from "@/app/configureStore";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
+import {selectCartQtyByCartId} from "@/ducks/carts/cartDetailSlice";
+import {selectCartTotalById} from "@/ducks/carts/cartHeadersSlice";
 
 export default function CartIcon() {
     const cartId = useAppSelector(selectActiveCartId);
