@@ -38,8 +38,8 @@ export default function CartItemLine({
     const canViewAvailable = useAppSelector(selectCanViewAvailable);
     const [showCommentInput, setShowCommentInput] = useState<boolean>(!!line.commentText);
 
-    const unitPrice = new Decimal(1).sub(new Decimal(line.lineDiscountPercent).div(100)).times(new Decimal(line.unitPrice).div(line.unitOfMeasureConvFactor ?? 1));
-    const itemPrice = new Decimal(1).sub(new Decimal(line.lineDiscountPercent).div(100)).times(line.unitPrice);
+    const unitPrice = new Decimal(1).sub(new Decimal(line.lineDiscountPercent ?? 0).div(100)).times(new Decimal(line.unitPrice ?? 0).div(line.unitOfMeasureConvFactor ?? 1));
+    const itemPrice = new Decimal(1).sub(new Decimal(line.lineDiscountPercent ?? 0).div(100)).times(line.unitPrice ?? 0);
 
     const quantityChangeHandler = (quantityOrdered: number) => {
         if (readOnly || quantityOrdered === line.quantityOrdered) {
@@ -81,7 +81,7 @@ export default function CartItemLine({
                         <Typography variant="body1">{line.itemCodeDesc}</Typography>
                     </ProductLink>
                     {!!line.cartProduct.upc && <FormattedUPC value={line.cartProduct.upc}/>}
-                    {!readOnly && canViewAvailable && (
+                    {!readOnly && canViewAvailable && line.itemType === '1' && (
                         <AvailabilityAlert quantityOrdered={line.quantityOrdered}
                                            quantityAvailable={line.cartProduct.available} season={line.season}/>
                     )}
@@ -98,7 +98,7 @@ export default function CartItemLine({
                 </TableCell>
                 <TableCell align="right">
                     <div>{numeral(unitPrice).format('0,0.00')}</div>
-                    {!!line.lineDiscountPercent && new Decimal(line.lineDiscountPercent).gt(0) && (
+                    {!!line.lineDiscountPercent && new Decimal(line.lineDiscountPercent ?? 0).gt(0) && (
                         <div className="sale">{line.lineDiscountPercent}% Off</div>)}
                     {!!line.pricing.priceLevel && line.pricing.priceLevel !== customerPriceLevel && (
                         <PriceLevelNotice priceLevel={line.pricing.priceLevel}/>)}
@@ -106,7 +106,7 @@ export default function CartItemLine({
                 <TableCell align="right">{numeral(line.pricing.suggestedRetailPrice).format('0,0.00')}</TableCell>
                 <TableCell align="right">{numeral(itemPrice).format('0,0.00')}</TableCell>
                 <TableCell align="right">
-                    {numeral(new Decimal(line.quantityOrdered).times(itemPrice)).format('0,0.00')}
+                    {numeral(new Decimal(line.quantityOrdered ?? 0).times(itemPrice)).format('0,0.00')}
                 </TableCell>
                 <TableCell rowSpan={showCommentInput ? 2 : 1}>
                     <CartLineButtons onDelete={onDelete} deleteDisabled={readOnly}
