@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
-import {useSelector} from "react-redux";
-import {selectLoggedIn, selectUserProfile, selectProfilePicture} from "../selectors";
-import Box,{BoxProps} from "@mui/material/Box";
-
+import {selectLoggedIn, selectProfilePicture, selectUserProfile} from "../selectors";
+import Box, {BoxProps} from "@mui/material/Box";
+import {useAppSelector} from "@/app/configureStore";
 
 
 function stringToColor(string: string) {
@@ -38,20 +37,20 @@ function stringAvatar(name: string) {
     };
 }
 
-const UserAvatar = (props:BoxProps) => {
-    const isLoggedIn = useSelector(selectLoggedIn);
-    const profile = useSelector(selectUserProfile);
-    const profilePic = useSelector(selectProfilePicture);
+const UserAvatar = (props: BoxProps) => {
+    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const profile = useAppSelector(selectUserProfile);
+    const profilePic = useAppSelector(selectProfilePicture);
 
     return (
         <Box {...props}>
             {(!isLoggedIn || !profile) && (
                 <Avatar>
-                    <AccountCircleIcon />
+                    <AccountCircleIcon/>
                 </Avatar>
             )}
             {isLoggedIn && profile && profilePic && (
-                <Avatar alt={profile.name} src={profilePic} slotProps={{img: {referrerPolicy: 'no-referrer'}}} />
+                <Avatar alt={profile.name} src={profilePic} slotProps={{img: {referrerPolicy: 'no-referrer'}}}/>
             )}
             {isLoggedIn && profile && !profilePic && (
                 <Avatar {...stringAvatar(profile.name)} />

@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import {addressFromShipToAddress, multiLineAddress} from "../../customer/utils";
@@ -10,11 +9,11 @@ import {selectCurrentCustomer} from "../../user/selectors";
 import {getShippingMethod} from "@/constants/account";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
-import Grid from '@mui/material/Grid2';
+import Grid from "@mui/material/Grid";
 import {selectSalesOrder, selectSalesOrderInvoices} from "../selectors";
 import DuplicateCartDialog from "../../carts/components/DuplicateCartDialog";
 import {isClosedSalesOrder} from "../../sales-order/utils";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 
@@ -32,7 +31,7 @@ function toDateString(date: string | null | undefined): string {
 const SalesOrderHeaderElement = () => {
     const dispatch = useAppDispatch();
     const params = useParams<{ salesOrderNo: string }>();
-    const customer = useSelector(selectCurrentCustomer);
+    const customer = useAppSelector(selectCurrentCustomer);
     const header = useAppSelector((state) => selectSalesOrder(state, params?.salesOrderNo ?? ''));
     const invoices = useAppSelector((state) => selectSalesOrderInvoices(state, params?.salesOrderNo ?? ''));
     const [showDuplicateCart, setShowDuplicateCart] = useState(false);

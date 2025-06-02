@@ -1,7 +1,7 @@
-import React, {ChangeEvent, InputHTMLAttributes} from 'react';
+import React, {ChangeEvent, InputHTMLAttributes} from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 
 const EmailAddressTextField = ({
                                    value,

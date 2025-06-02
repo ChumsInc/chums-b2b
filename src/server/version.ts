@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import Debug from 'debug';
+import Debug from "debug";
 import {Request, Response} from "express";
 import path from "node:path";
 const debug = Debug('chums:server:version');
@@ -22,20 +22,21 @@ export async function loadVersion():Promise<{versionNo: string}> {
     }
 }
 
-export const getVersion = async (req:Request, res:Response) => {
+export const getVersion = async (req:Request, res:Response):Promise<void> => {
     try {
         const version = await loadVersion();
         res.json({version});
     } catch(err:unknown) {
         if (err instanceof Error) {
             debug("getVersion()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return
         }
         res.json({error: 'unknown error in getVersion'});
     }
 }
 
-export const getVersionJS = async (req:Request, res:Response) => {
+export const getVersionJS = async (req:Request, res:Response):Promise<void> => {
     try {
         const {versionNo} = await loadVersion();
         const js = 'CHUMS.version = ' + JSON.stringify(versionNo);
@@ -44,7 +45,8 @@ export const getVersionJS = async (req:Request, res:Response) => {
     } catch(err:unknown) {
         if (err instanceof Error) {
             debug("getVersionJS()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return;
         }
         res.json({error: 'unknown error in getVersionJS'});
     }

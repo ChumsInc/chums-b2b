@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import dayjs, {Dayjs} from "dayjs";
 
 export const DateString = ({date = new Date(), format = "MM/DD/YYYY"}: {

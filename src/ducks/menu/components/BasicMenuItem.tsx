@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Box, {BoxProps} from "@mui/material/Box";
 import MenuItemRouterLink from "@/ducks/menu/components/MenuItemRouterLink";
 import {MenuItemProps} from "@mui/material/MenuItem";

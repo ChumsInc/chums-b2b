@@ -9,11 +9,12 @@ import {
 } from "./selectors";
 import {CartProduct, Product, ProductVariant, SellAsVariantsProduct} from "b2b-types";
 import {fetchProduct} from "@/api/product";
-import {selectCustomerAccount, selectCustomerPricing} from "../customer/selectors";
+import {selectCustomerAccount} from "../customer/selectors";
 import {defaultCartItem, defaultVariant, getMSRP, getPrices, getSalesUM, hasVariants} from "@/utils/products";
 import {selectLoggedIn} from "../user/selectors";
 import {isSellAsColors, isSellAsMix, updateCartProductPricing} from "./utils";
 import {parseImageFilename} from "@/src/common/image";
+import {selectCustomerPricing} from "@/ducks/customer-pricing";
 
 export interface LoadProductResponse {
     product: Product | null;
@@ -119,8 +120,9 @@ export interface ProductVariantWithOptions extends ProductVariant {
 }
 
 export const setCurrentVariant = createAsyncThunk<SetVariantResponse, ProductVariantWithOptions, {state: RootState}>(
-    'products/setVariant',
+    'products/setCurrentVariant',
     (arg, {getState}) => {
+        console.trace('setCurrentVariant', arg);
         const state = getState() ;
         const loggedIn = selectLoggedIn(state);
         const customerKey = selectProductCustomerKey(state);

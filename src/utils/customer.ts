@@ -153,6 +153,8 @@ export const calcPrice = ({stdPrice, PricingMethod = null, DiscountMarkup1 = 0, 
     return stdPrice ?? 0;
 };
 
+export const priceKey = (pricing: CustomerPriceRecord): string => `${pricing.PriceCode}/${pricing.ItemCode}`;
+
 export const priceRecord = ({pricing = [], itemCode, priceCode}: {
     pricing: CustomerPriceRecord[];
     itemCode: string;
@@ -307,7 +309,7 @@ export const customerContactSorter = (a: CustomerContact, b: CustomerContact) =>
 }
 
 export const customerPriceRecordSorter = (a: CustomerPriceRecord, b: CustomerPriceRecord) => {
-    return `${a.PriceCode}/${a.ItemCode}` > `${b.PriceCode}/${b.ItemCode}` ? 1 : -1;
+    return priceKey(a) > priceKey(b) ? 1 : -1;
 }
 
 

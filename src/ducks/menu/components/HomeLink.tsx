@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import RoutedLink from "./RoutedLink";
 import ChumsLogo from "../../../components/ChumsLogo";
 import Typography from "@mui/material/Typography";

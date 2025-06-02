@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import {Banner} from "b2b-types";
 import {Link as NavLink} from "react-router";
-import Link, {LinkProps} from '@mui/material/Link'
+import Link, {LinkProps} from "@mui/material/Link"
 
 
 const isOutsideLink = /([a-z]+:)*\/\//;

@@ -10,7 +10,7 @@ import {documentTitles} from "@/constants/paths";
 import DocumentTitle from "../../../components/DocumentTitle";
 import {selectUserActionStatus, selectUserProfile} from "../selectors";
 import {ChangePasswordProps} from "../types";
-import {useNavigate} from 'react-router';
+import {useNavigate} from "react-router";
 import {changePassword} from "../actions";
 import {isErrorResponse} from "@/utils/typeguards";
 

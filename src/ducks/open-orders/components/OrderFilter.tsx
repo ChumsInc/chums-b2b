@@ -1,7 +1,7 @@
-import React, {InputHTMLAttributes, useId} from 'react';
+import React, {InputHTMLAttributes, useId} from "react";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 
 export interface OrderFilterProps extends InputHTMLAttributes<HTMLInputElement> {

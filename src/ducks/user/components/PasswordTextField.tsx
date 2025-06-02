@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import TextField, {FilledTextFieldProps} from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 
 export type PasswordInputProps = FilledTextFieldProps;

@@ -6,7 +6,7 @@ import DataTableTBody from "./DataTableTBody";
 
 export type {
     SortableTableField,
-} from './types'
+} from "./types"
 
 export const DataTable = <T = unknown>({
                                            fields,

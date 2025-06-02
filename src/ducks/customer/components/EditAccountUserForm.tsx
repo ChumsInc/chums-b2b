@@ -1,19 +1,18 @@
-import React, {ChangeEvent, FormEvent, useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect, useRef, useState} from "react";
 import Alert from "@mui/material/Alert";
-import {useSelector} from "react-redux";
 import {selectCustomerUsers} from "../selectors";
 import {CustomerUser, Editable} from "b2b-types";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import PersonIcon from '@mui/icons-material/Person';
-import NotesIcon from '@mui/icons-material/Notes';
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import PersonIcon from "@mui/icons-material/Person";
+import NotesIcon from "@mui/icons-material/Notes";
 import ShipToSelect from "./ShipToSelect";
 import {generatePath, useMatch, useNavigate} from "react-router";
 import {customerUserPath} from "@/utils/path-utils";
 import {removeUser, saveUser} from "../actions";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectIsEmployee, selectIsRep} from "../../user/selectors";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -24,9 +23,9 @@ const newUser: CustomerUser = {id: 0, accessId: 0, name: '', email: '', accountT
 
 const EditAccountUserForm = () => {
     const dispatch = useAppDispatch();
-    const users = useSelector(selectCustomerUsers);
-    const isEmployee = useSelector(selectIsEmployee);
-    const isRep = useSelector(selectIsRep);
+    const users = useAppSelector(selectCustomerUsers);
+    const isEmployee = useAppSelector(selectIsEmployee);
+    const isRep = useAppSelector(selectIsRep);
 
     const match = useMatch(customerUserPath);
     const navigate = useNavigate();
@@ -191,7 +190,8 @@ const EditAccountUserForm = () => {
                            slotProps={{
                                htmlInput: {maxLength: 255},
                                input: {
-                                   startAdornment: (<InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>)
+                                   startAdornment: (
+                                       <InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>)
                                }
                            }}
                            disabled={user.accountType !== 4} required/>

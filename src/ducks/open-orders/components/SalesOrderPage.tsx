@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {redirect, useMatch, useParams} from 'react-router';
+import React, {useEffect} from "react";
+import {redirect, useMatch, useParams} from "react-router";
 import OrderDetail from "./OrderDetail";
 import Alert from "@mui/material/Alert";
 import DocumentTitle from "@/components/DocumentTitle";
@@ -20,15 +19,15 @@ import Typography from "@mui/material/Typography";
  * @TODO: Handle S/O not found, might require an update to orderStatus like cartStatus
  */
 
-const SalesOrderPage = () => {
+export default function SalesOrderPage() {
     const dispatch = useAppDispatch();
-    const userAccount = useSelector(selectCurrentUserAccount);
     const params = useParams<{ customerSlug: string; salesOrderNo: string }>();
-    const match = useMatch('/account/:customerSlug/:orderType/:salesOrderNo');
-    const customer = useSelector(selectCustomerAccount);
+    const userAccount = useAppSelector(selectCurrentUserAccount);
+    const customer = useAppSelector(selectCustomerAccount);
     const salesOrderHeader = useAppSelector((state) => selectSalesOrder(state, params?.salesOrderNo ?? ''));
-    const loading = useSelector(selectSOLoading);
-    const customerLoading = useSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectSOLoading);
+    const customerLoading = useAppSelector(selectCustomerLoading);
+    const match = useMatch('/account/:customerSlug/:orderType/:salesOrderNo');
 
     useEffect(() => {
         if (loading || customerLoading) {
@@ -87,5 +86,3 @@ const SalesOrderPage = () => {
         </div>
     )
 }
-
-export default SalesOrderPage;

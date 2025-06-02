@@ -1,19 +1,19 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React from "react";
 import {selectLoggedIn} from "../../user/selectors";
 import NavItemButtonLink from "./NavItemButtonLink";
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {selectCustomerAccount} from "../../customer/selectors";
 import {customerCartURL} from "../../user/utils";
 import CustomerIndicator from "../../customer/components/CustomerIndicator";
 import CartIcon from "../../carts/components/CartIcon";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
+import {useAppSelector} from "@/app/configureStore";
 
 
 const CartMenu = () => {
-    const isLoggedIn = useSelector(selectLoggedIn);
-    const currentCustomer = useSelector(selectCustomerAccount);
-    const currentCart = useSelector(selectActiveCartId);
+    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const currentCustomer = useAppSelector(selectCustomerAccount);
+    const currentCart = useAppSelector(selectActiveCartId);
 
     if (!isLoggedIn) {
         return null;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {SalesOrderHeader} from "b2b-types";
 import CustomerLink from "@/components/CustomerLink";
 import {selectCurrentCustomer} from "@/ducks/user/selectors";

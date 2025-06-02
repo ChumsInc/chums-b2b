@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCartMessages} from "@/ducks/carts/cartMessagesSlice";
 import {clearCartMessages} from "@/ducks/carts/cartMessagesSlice";
@@ -43,7 +43,12 @@ export default function CartMessageSnackbar() {
 
     return (
         <Snackbar open={open} autoHideDuration={5000}
-                  onClose={handleClose} TransitionProps={{onExited: handleExited}}
+                  onClose={handleClose}
+                  slotProps={{
+                      transition: {
+                          onExited: handleExited
+                      }
+                  }}
                   message={message?.message ?? null}
                   action={(
                       <IconButton aria-label="close" color="inherit" sx={{p: 0.5}} onClick={handleClose}>

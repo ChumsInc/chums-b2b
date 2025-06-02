@@ -1,7 +1,6 @@
-import React, {FormEvent, useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {FormEvent, useState} from "react";
 import {loginUser, resetPassword} from "../actions";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectUserLoading} from "../selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
@@ -9,17 +8,17 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
-import KeyIcon from '@mui/icons-material/Key';
+import KeyIcon from "@mui/icons-material/Key";
 import Stack from "@mui/material/Stack";
 import PasswordTextField from "./PasswordTextField";
-import {Link as NavLink} from 'react-router'
+import {Link as NavLink} from "react-router"
 import {isErrorResponse} from "@/utils/typeguards";
 import Alert from "@mui/material/Alert";
 
 
 const LoginLocal = () => {
     const dispatch = useAppDispatch();
-    const loading = useSelector(selectUserLoading);
+    const loading = useAppSelector(selectUserLoading);
     const [forgotPassword, setForgotPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

@@ -1,4 +1,4 @@
-import React, {useId} from 'react';
+import React, {useId} from "react";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";

@@ -1,6 +1,6 @@
 import {SortableTableField} from "@/src/common-components/DataTable";
 import {Customer} from "b2b-types";
-import {SxProps} from "@mui/system";
+import {SxProps} from "@mui/material/styles";
 import CustomerLink from "../../../components/CustomerLink";
 import CustomerNameField from "./CustomerNameField";
 import {stateCountry} from "@/utils/customer";

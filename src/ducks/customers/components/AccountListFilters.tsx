@@ -1,8 +1,7 @@
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import React from "react";
 import {loadCustomerList} from "../actions";
-import {useSelector} from "react-redux";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCanFilterReps, selectCurrentUserAccount} from "../../user/selectors";
 import Button from "@mui/material/Button";
 import AccountListCustomerFilter from "./AccountListCustomerFilter";
@@ -12,9 +11,9 @@ import {selectCustomerStates} from "../selectors";
 
 const AccountListFilters = () => {
     const dispatch = useAppDispatch();
-    const userAccount = useSelector(selectCurrentUserAccount);
-    const allowSelectReps = useSelector(selectCanFilterReps);
-    const statesList = useSelector(selectCustomerStates);
+    const userAccount = useAppSelector(selectCurrentUserAccount);
+    const allowSelectReps = useAppSelector(selectCanFilterReps);
+    const statesList = useAppSelector(selectCustomerStates);
 
     const reloadHandler = () => {
         dispatch(loadCustomerList(userAccount));

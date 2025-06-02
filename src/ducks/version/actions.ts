@@ -2,7 +2,7 @@ import {LoadVersionResponse, selectShouldCheckVersion, selectVersionLoading} fro
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchVersion} from "@/api/version";
 import {RootState} from "@/app/configureStore";
-import localStore from '../../utils/LocalStore';
+import localStore from "../../utils/LocalStore";
 import {STORE_VERSION} from "@/constants/stores";
 
 

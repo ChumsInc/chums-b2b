@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {useSelector} from "react-redux";
 import {
     selectOpenOrdersCustomerKey,
     selectOpenOrdersFilter,
@@ -25,14 +24,13 @@ import {selectCustomerShipToCode} from "../../customer/selectors";
 import ShipToCustomerLink from "@/components/ShipToCustomerLink";
 
 
-
 const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
     {
         field: 'SalesOrderNo', title: 'Order #',
         render: (so) => <OrderLink salesOrderNo={so.SalesOrderNo} orderType="open"/>,
         sortable: true,
     },
-    {field: 'ShipToCode', title: 'Ship To Code', sortable: true, render: (so) => <ShipToCustomerLink salesOrder={so} />},
+    {field: 'ShipToCode', title: 'Ship To Code', sortable: true, render: (so) => <ShipToCustomerLink salesOrder={so}/>},
     {field: 'ShipToName', title: 'Ship To', sortable: true},
     {
         field: 'ShipToCity', title: 'Location', sortable: true,
@@ -59,13 +57,13 @@ const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
 const OpenOrdersList = () => {
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectOpenOrdersCustomerKey);
-    const currentCustomer = useSelector(selectCurrentCustomer);
+    const currentCustomer = useAppSelector(selectCurrentCustomer);
     const shipToCode = useAppSelector(selectCustomerShipToCode);
-    const orders = useSelector(selectOpenOrdersList);
-    const loading = useSelector(selectOpenOrdersLoading);
-    const loaded = useSelector(selectOpenOrdersLoaded);
-    const filter = useSelector(selectOpenOrdersFilter);
-    const [list,  setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
+    const orders = useAppSelector(selectOpenOrdersList);
+    const loading = useAppSelector(selectOpenOrdersLoading);
+    const loaded = useAppSelector(selectOpenOrdersLoaded);
+    const filter = useAppSelector(selectOpenOrdersFilter);
+    const [list, setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
 
     useEffect(() => {
         if (loading === 'idle' && !loaded && !!customerKey) {
@@ -89,7 +87,8 @@ const OpenOrdersList = () => {
 
     return (
         <>
-            <OrderFilter value={filter} onChange={(ev) => dispatch(setOpenOrdersFilter(ev.target.value))} maxLength={30}>
+            <OrderFilter value={filter} onChange={(ev) => dispatch(setOpenOrdersFilter(ev.target.value))}
+                         maxLength={30}>
                 <Button type="button" variant="text" onClick={reloadHandler}>
                     Reload
                 </Button>

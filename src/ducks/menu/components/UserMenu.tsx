@@ -1,16 +1,16 @@
-import React, {useEffect, useId} from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect, useId} from "react";
 import {selectCurrentAccess, selectLoggedIn} from "@/ducks/user/selectors";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItemRouterLink from "./MenuItemRouterLink";
 import UserAvatar from "@/ducks/user/components/UserAvatar";
 import {generatePath} from "react-router";
+import {useAppSelector} from "@/app/configureStore";
 
 
 const UserMenu = () => {
-    const isLoggedIn = useSelector(selectLoggedIn);
-    const currentAccess = useSelector(selectCurrentAccess);
+    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const currentAccess = useAppSelector(selectCurrentAccess);
     const buttonId = useId();
     const menuId = useId();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -37,7 +37,11 @@ const UserMenu = () => {
                     <UserAvatar/>
                 </IconButton>
                 <Menu id={menuId} open={open} onClose={handleClose} anchorEl={anchorEl}
-                      MenuListProps={{'aria-labelledby': buttonId}}>
+                      slotProps={{
+                          list: {
+                              'aria-labelledby': buttonId
+                          }
+                      }}>
                     <MenuItemRouterLink to="/login">Login</MenuItemRouterLink>
                     {/*<GoogleSignInOneTap onDone={handleClose}/>*/}
                 </Menu>
@@ -51,7 +55,9 @@ const UserMenu = () => {
                 <UserAvatar/>
             </IconButton>
             <Menu id={menuId} open={open} onClose={handleClose} anchorEl={anchorEl}
-                  MenuListProps={{'aria-labelledby': buttonId}}>
+                  slotProps={{
+                      list: {'aria-labelledby': buttonId}
+                  }}>
                 <MenuItemRouterLink to="/profile">Profile</MenuItemRouterLink>
                 {currentAccess && (
                     <MenuItemRouterLink to={generatePath('/profile/:id', {id: `${currentAccess.id}`})}>

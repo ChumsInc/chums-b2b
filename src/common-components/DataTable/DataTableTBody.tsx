@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import DataTableRow from "./DataTableRow";
 import {noop} from "@/utils/general";
 import TableBody from "@mui/material/TableBody";

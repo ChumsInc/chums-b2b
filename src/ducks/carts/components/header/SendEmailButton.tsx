@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Button, {ButtonProps} from "@mui/material/Button";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectSendEmailStatus} from "@/ducks/open-orders/selectors";

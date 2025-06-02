@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from "react";
 
 function simpleIsEqual<T = unknown>(a: T, b: T): boolean {
     return a === b;

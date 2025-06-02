@@ -11,6 +11,8 @@ import {GtagEventArgs, GtagAddPaymentInfoArgs,
     GtagSelectContentArgs, GtagSelectItemArgs, GtagViewCartArgs, GtagViewItemArgs, GtagViewItemListArgs
 } from "@/src/ga4/types";
 
+import '@/app/global-window';
+
 export function sendGtagEvent(eventName: 'add_payment_info', options: GtagAddPaymentInfoArgs): void;
 export function sendGtagEvent(eventName: 'add_shipping_info', options: GtagAddShippingInfoArgs): void;
 export function sendGtagEvent(eventName: 'add_to_cart', options: GtagAddToCartArgs): void;
@@ -28,16 +30,16 @@ export function sendGtagEvent(eventName: 'view_cart', options?: GtagViewCartArgs
 export function sendGtagEvent(eventName: 'view_item', options?: GtagViewItemArgs): void;
 export function sendGtagEvent(eventName: 'view_item_list', options?: GtagViewItemListArgs): void;
 export function sendGtagEvent(eventName: GtagEventName, options?: GtagEventArgs) {
-    if (typeof global.window !== 'undefined' && typeof global.window.gtag !== 'undefined') {
+    if (typeof globalThis.window !== 'undefined' && typeof globalThis.window.gtag !== 'undefined') {
         if (!options) {
             options = {};
         }
-        global.window.gtag('event', eventName, options);
+        globalThis.window.gtag('event', eventName, options);
     }
 }
 
 export function configGtag(options?: GtagConfigArgs) {
-    if (typeof global.window === 'undefined') {
+    if (typeof globalThis.window === 'undefined') {
         return;
     }
     const gtag = window.gtag;

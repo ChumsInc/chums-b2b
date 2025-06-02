@@ -4,21 +4,21 @@ import Stack from "@mui/material/Stack";
 import PrimaryShipToIcon from "./PrimaryShipToIcon";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import {useAppDispatch} from "@/app/configureStore";
-import {useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCustomerPermissions, selectPrimaryShipTo} from "../selectors";
 import {Editable, ShipToCustomer} from "b2b-types";
 import {loadCustomer, setDefaultShipTo} from "../actions";
 
 
 export interface PrimaryShipToButtonProps {
-    shipTo: (ShipToCustomer & Editable)|null;
+    shipTo: (ShipToCustomer & Editable) | null;
     disabled?: boolean;
 }
-const PrimaryShipToButton = ({shipTo, disabled}:PrimaryShipToButtonProps) => {
+
+const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
     const dispatch = useAppDispatch();
-    const primaryShipTo = useSelector(selectPrimaryShipTo);
-    const permissions = useSelector(selectCustomerPermissions);
+    const primaryShipTo = useAppSelector(selectPrimaryShipTo);
+    const permissions = useAppSelector(selectCustomerPermissions);
 
     const onSetDefaultShipTo = async () => {
         if (permissions?.canSetDefaultShipTo && shipTo && shipTo.ShipToCode !== primaryShipTo?.ShipToCode) {

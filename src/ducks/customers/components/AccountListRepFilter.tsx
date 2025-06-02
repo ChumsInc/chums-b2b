@@ -1,6 +1,5 @@
-import React from 'react';
-import {useAppDispatch} from "@/app/configureStore";
-import {useSelector} from "react-redux";
+import React from "react";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCustomersRepFilter} from "../selectors";
 import {setCustomersRepFilter} from "../actions";
 import RepSelect from "../../reps/components/RepSelect";
@@ -8,8 +7,8 @@ import {selectCanFilterReps} from "../../user/selectors";
 
 const AccountListRepFilter = () => {
     const dispatch = useAppDispatch();
-    const repFilter = useSelector(selectCustomersRepFilter);
-    const allowSelectReps = useSelector(selectCanFilterReps);
+    const repFilter = useAppSelector(selectCustomersRepFilter);
+    const allowSelectReps = useAppSelector(selectCanFilterReps);
 
     const repChangeHandler = (value: string | null) => {
         dispatch(setCustomersRepFilter(value));

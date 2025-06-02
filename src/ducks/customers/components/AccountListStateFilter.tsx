@@ -1,4 +1,4 @@
-import React, {useEffect, useId} from 'react';
+import React, {useEffect, useId} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCustomersStateFilter, selectCustomerStates} from "../selectors";
 import StateSelect from "../../../components/StateSelect";

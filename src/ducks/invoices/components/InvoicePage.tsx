@@ -3,13 +3,12 @@
  */
 
 
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {loadInvoice} from '../actions';
+import React, {useEffect} from "react";
+import {loadInvoice} from "../actions";
 import InvoiceHeader from "./InvoiceHeader";
 import InvoicePageDetail from "./InvoicePageDetail";
 import DocumentTitle from "../../../components/DocumentTitle";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {redirect, useMatch} from "react-router";
 import {selectCurrentInvoice, selectCurrentInvoiceLoading} from "../selectors";
 import {selectCurrentCustomer} from "../../user/selectors";
@@ -40,9 +39,9 @@ const invoiceTypeDescription = (invoiceType: InvoiceType): string => {
 const InvoicePage = () => {
     const dispatch = useAppDispatch();
     const match = useMatch('/account/:customerSlug/invoices/:invoiceType/:invoiceNo');
-    const invoice = useSelector(selectCurrentInvoice);
-    const loading = useSelector(selectCurrentInvoiceLoading);
-    const customer = useSelector(selectCurrentCustomer);
+    const invoice = useAppSelector(selectCurrentInvoice);
+    const loading = useAppSelector(selectCurrentInvoiceLoading);
+    const customer = useAppSelector(selectCurrentCustomer);
 
     useEffect(() => {
         if (!!customer && billToCustomerSlug(customer) !== match?.params?.customerSlug) {

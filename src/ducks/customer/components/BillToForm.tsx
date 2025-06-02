@@ -1,31 +1,30 @@
 /**
  * Created by steve on 9/6/2016.
  */
-import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import AddressFormFields from '../../../components/AddressFormFields';
-import {filteredTermsCode} from '@/constants/account';
-import {useSelector} from "react-redux";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
+import AddressFormFields from "../../../components/AddressFormFields";
+import {filteredTermsCode} from "@/constants/account";
 import {longCustomerNo} from "@/utils/customer";
-import {saveBillingAddress} from '../actions';
+import {saveBillingAddress} from "../actions";
 import Alert from "@mui/material/Alert";
 import MissingTaxScheduleAlert from "./MissingTaxScheduleAlert";
 import {selectCustomerAccount, selectCustomerLoading, selectCustomerPermissions} from "../selectors";
 import {selectCanEdit} from "../../user/selectors";
 import StoreMapToggle from "../../../components/StoreMapToggle";
-import ErrorBoundary from "../../../common-components/ErrorBoundary";
+import AppErrorBoundary from "../../../common-components/AppErrorBoundary";
 import {isBillToCustomer} from "@/utils/typeguards";
 import Address from "../../../components/Address/Address";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {BillToCustomer, Editable} from "b2b-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "./ReloadCustomerButton";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import TelephoneFormFields from "./TelephoneFormFields";
 import IconButton from "@mui/material/IconButton";
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
@@ -33,10 +32,10 @@ import Box from "@mui/material/Box";
 
 const BillToForm = () => {
     const dispatch = useAppDispatch();
-    const current = useSelector(selectCustomerAccount);
-    const loading = useSelector(selectCustomerLoading);
-    const canEdit = useSelector(selectCanEdit);
-    const permissions = useSelector(selectCustomerPermissions);
+    const current = useAppSelector(selectCustomerAccount);
+    const loading = useAppSelector(selectCustomerLoading);
+    const canEdit = useAppSelector(selectCanEdit);
+    const permissions = useAppSelector(selectCustomerPermissions);
     const [customer, setCustomer] = useState<(BillToCustomer & Editable) | null>(current ?? null);
     const [emailAddresses, setEmailAddresses] = useState<string[]>(current?.EmailAddress?.split(';')?.map(email => email.trim()) ?? [''])
 
@@ -121,7 +120,7 @@ const BillToForm = () => {
     }
 
     return (
-        <ErrorBoundary>
+        <AppErrorBoundary>
             <div>
                 {loading && <LinearProgress variant="indeterminate"/>}
                 <Grid container spacing={2}>
@@ -134,25 +133,31 @@ const BillToForm = () => {
                     </Grid>
                     <Grid size={{xs: 12, sm: 6}}>
                         {customer.ParentCustomerNo && (
-                        <>
-                            <Typography variant="subtitle1" component="h3">
-                                Billing Customer
-                            </Typography>
-                            <Box sx={{mb: 1}}>
-                                <Typography variant="h5" sx={{display: 'inline', mr: 3}}>{customer.ParentDivisionNo}-{customer.ParentCustomerNo}</Typography>
-                                <Typography variant="h5" sx={{display: 'inline', fontWeight: 300}}>{customer.ParentCustomerName}</Typography>
-                            </Box>
-                            <Address address={{
-                                CustomerName: '',
-                                AddressLine1: customer.ParentAddressLine1 ?? '',
-                                AddressLine2: customer.ParentAddressLine2 ?? '',
-                                AddressLine3: customer.ParentAddressLine3 ?? '',
-                                City: customer.ParentCity ?? '',
-                                State: customer.ParentState ?? '',
-                                ZipCode: customer.ParentZipCode ?? '',
-                                CountryCode: customer.ParentCountryCode ?? '',
-                            }}/>
-                        </>
+                            <>
+                                <Typography variant="subtitle1" component="h3">
+                                    Billing Customer
+                                </Typography>
+                                <Box sx={{mb: 1}}>
+                                    <Typography variant="h5" sx={{
+                                        display: 'inline',
+                                        mr: 3
+                                    }}>{customer.ParentDivisionNo}-{customer.ParentCustomerNo}</Typography>
+                                    <Typography variant="h5" sx={{
+                                        display: 'inline',
+                                        fontWeight: 300
+                                    }}>{customer.ParentCustomerName}</Typography>
+                                </Box>
+                                <Address address={{
+                                    CustomerName: '',
+                                    AddressLine1: customer.ParentAddressLine1 ?? '',
+                                    AddressLine2: customer.ParentAddressLine2 ?? '',
+                                    AddressLine3: customer.ParentAddressLine3 ?? '',
+                                    City: customer.ParentCity ?? '',
+                                    State: customer.ParentState ?? '',
+                                    ZipCode: customer.ParentZipCode ?? '',
+                                    CountryCode: customer.ParentCountryCode ?? '',
+                                }}/>
+                            </>
                         )}
                         {!customer.ParentCustomerNo && (
                             <TextField variant="filled" label="Payment Terms" fullWidth size="small"
@@ -232,7 +237,7 @@ const BillToForm = () => {
                     </Grid>
                 </form>
             </div>
-        </ErrorBoundary>
+        </AppErrorBoundary>
 
     )
 }

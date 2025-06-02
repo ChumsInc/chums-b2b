@@ -11,7 +11,6 @@ export const selectProductSalesUM = (state: RootState) => state.products.salesUM
 export const selectProductCustomerPrice = (state: RootState) => state.products.customerPrice;
 export const selectProductVariantId = (state: RootState) => state.products.variantId;
 export const selectProductCartItem = (state: RootState) => state.products.cartItem;
-export const selectCustomerPricing = (state:RootState) => state.products.pricing;
 export const selectProductCustomerKey = (state:RootState) => state.products.customerKey;
 export const selectProductImage = (state:RootState) => state.products.image;
 

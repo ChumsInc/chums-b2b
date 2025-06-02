@@ -1,4 +1,3 @@
-import {useSelector} from "react-redux";
 import {
     selectCustomerAccount,
     selectCustomerLoaded,
@@ -13,16 +12,16 @@ import {billToCustomerSlug, customerNo, customerSlug, parseCustomerSlug} from "@
 import Typography from "@mui/material/Typography";
 import {useParams} from "react-router";
 import {loadCustomer} from "../actions";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 
 export default function CustomerIndicator() {
     const dispatch = useAppDispatch();
-    const customer = useSelector(selectCustomerAccount);
-    const currentShipTo = useSelector(selectCustomerShipTo);
+    const customer = useAppSelector(selectCustomerAccount);
+    const currentShipTo = useAppSelector(selectCustomerShipTo);
+    const loadStatus = useAppSelector(selectCustomerLoadStatus);
+    const loading = useAppSelector(selectCustomerLoading);
+    const loaded = useAppSelector(selectCustomerLoaded);
     const params = useParams<{ customerSlug: string }>();
-    const loadStatus = useSelector(selectCustomerLoadStatus);
-    const loading = useSelector(selectCustomerLoading);
-    const loaded = useSelector(selectCustomerLoaded);
 
     useEffect(() => {
         const nextCustomer = billToCustomerSlug(params.customerSlug ?? '');

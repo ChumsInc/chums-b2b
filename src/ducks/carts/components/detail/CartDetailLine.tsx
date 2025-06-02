@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import CartCommentLine from "./CartCommentLine";
 import {Editable} from "b2b-types";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {saveCartItem} from "@/ducks/carts/actions";
 import CartItemLine from "./CartItemLine";
 import CartKitComponentLine from "./CartKitComponentLine";
-import TableRow from '@mui/material/TableRow';
+import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import {selectCustomerKey} from "@/ducks/customer/selectors";
 import {B2BCartDetail} from "@/types/cart/cart-detail";

@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import DataTable, {SortableTableField} from "../../../common-components/DataTable";
 import {ShipToCustomer} from "b2b-types";
 import {billToCustomerSlug, customerShipToSorter, stateCountry} from "@/utils/customer";
-import {useSelector} from "react-redux";
 import {selectCustomerLoading, selectPermittedShipToAddresses, selectPrimaryShipTo} from "../selectors";
 import {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
@@ -10,12 +9,12 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {generatePath, NavLink} from "react-router";
 import {PATH_CUSTOMER_DELIVERY} from "@/constants/paths";
 import classNames from "classnames";
-
 import Box from "@mui/material/Box";
 import PrimaryShipToIcon from "./PrimaryShipToIcon";
 import Link, {LinkProps} from "@mui/material/Link";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import ReloadCustomerButton from "./ReloadCustomerButton";
+import {useAppSelector} from "@/app/configureStore";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
     shipTo: ShipToCustomer;
@@ -55,9 +54,9 @@ const fields: SortableTableField<ShipToCustomer>[] = [
     }
 ]
 const ShipToList = () => {
-    const list = useSelector(selectPermittedShipToAddresses);
-    const loading = useSelector(selectCustomerLoading);
-    const primaryShipTo = useSelector(selectPrimaryShipTo);
+    const list = useAppSelector(selectPermittedShipToAddresses);
+    const loading = useAppSelector(selectCustomerLoading);
+    const primaryShipTo = useAppSelector(selectPrimaryShipTo);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sort, setSort] = useState<SortProps<ShipToCustomer>>({field: 'ShipToCode', ascending: true});

@@ -1,6 +1,6 @@
-import {CustomerKey, EmailResponse, SalesOrder} from 'b2b-types'
+import {CustomerKey, EmailResponse, SalesOrder} from "b2b-types"
 import {fetchJSON} from "./fetch";
-import {ApplyPromoCodeBody} from "../types/cart";
+import {ApplyPromoCodeBody} from "@/types/cart";
 import {LoadSalesOrderProps, LoadSalesOrdersProps} from "@/types/salesorder";
 import {shortCustomerKey} from "@/utils/customer";
 

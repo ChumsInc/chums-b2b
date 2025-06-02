@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import Debug from 'debug';
+import Debug from "debug";
 import {loadVersion} from "./version";
 import {Request, Response} from "express";
 import path from "node:path";
@@ -37,14 +37,15 @@ export async function loadManifest():Promise<ManifestFiles> {
     }
 }
 
-export const getManifest = async (req:Request, res: Response) => {
+export const getManifest = async (req:Request, res: Response):Promise<void> => {
     try {
         const manifest = await loadManifest();
         res.json(manifest);
     } catch(err:unknown) {
         if (err instanceof Error) {
             debug("getManifest()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return;
         }
         res.json({error: 'unknown error in getManifest'});
     }

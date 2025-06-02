@@ -1,9 +1,9 @@
-import React, {useEffect, useId} from 'react';
+import React, {useEffect, useId} from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Menu, {MenuProps} from "@mui/material/Menu";
 import NavItemButton from "@/ducks/menu/components/NavItemButton";
-import {deepmerge} from '@mui/utils'
-import {SxProps} from "@mui/system";
+import deepmerge from "@mui/utils/deepmerge"
+import {SxProps} from "@mui/material/styles";
 import {Theme} from "@mui/material/styles";
 import CompoundMenuItem from "@/ducks/menu/components/CompoundMenuItem";
 import {NavMenuItem} from "@/ducks/menu/types";
@@ -61,7 +61,6 @@ export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, chil
                   {...rest}
                   open={open} onClose={handleClose}
                   anchorEl={anchorEl}
-                  MenuListProps={{'aria-labelledby': buttonId}}
                   sx={deepmerge({
                       '& .MuiMenu-list': {
                           display: 'flex',
@@ -72,6 +71,9 @@ export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, chil
                       },
                   }, sx)}
                   slotProps={{
+                      list: {
+                          'aria-labelledby': buttonId,
+                      },
                       paper: {
                           style: {
                               maxHeight: '75vh',
@@ -84,7 +86,11 @@ export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, chil
                 {items.map(item => (
                     <CompoundMenuItem key={item.id} item={item} urlFormat={urlFormat}
                                       slotProps={{
-                                          link: {onClick: handleClose, sx: itemStyle, disabled: item.requireLogin && !isLoggedIn},
+                                          link: {
+                                              onClick: handleClose,
+                                              sx: itemStyle,
+                                              disabled: item.requireLogin && !isLoggedIn
+                                          },
                                           subLink: {onClick: handleClose},
                                       }}/>
                 ))}

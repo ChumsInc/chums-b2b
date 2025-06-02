@@ -1,14 +1,14 @@
-import React, {useId} from 'react';
+import React, {useId} from "react";
 import {PaymentType} from "@/types/customer";
 import InputLabel from "@mui/material/InputLabel";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl, {FormControlProps} from "@mui/material/FormControl";
 import {InputBaseComponentProps} from "@mui/material/InputBase";
-import {useSelector} from "react-redux";
 import {selectCustomerPaymentCards} from "@/ducks/customer/selectors";
 import {PAYMENT_TYPES} from "@/constants/account";
 import FormHelperText from "@mui/material/FormHelperText";
+import {useAppSelector} from "@/app/configureStore";
 
 export interface CartPaymentSelectProps extends Omit<FormControlProps, 'onChange'> {
     value: string;
@@ -28,7 +28,7 @@ export default React.forwardRef(function CartPaymentSelect({
                                                            }: CartPaymentSelectProps,
                                                            ref: React.Ref<HTMLDivElement>) {
     const id = useId();
-    const paymentCards = useSelector(selectCustomerPaymentCards);
+    const paymentCards = useAppSelector(selectCustomerPaymentCards);
 
     const customerPaymentCardTypes: PaymentType[] = paymentCards
         .filter(cc => PAYMENT_TYPES[cc.PaymentType]?.allowCC && !PAYMENT_TYPES[cc.PaymentType].disabled)
@@ -50,11 +50,10 @@ export default React.forwardRef(function CartPaymentSelect({
     return (
         <FormControl fullWidth variant="filled" size="small" {...formControlProps} required={required}>
             <InputLabel id={id}>Payment Method</InputLabel>
-            <Select onChange={changeHandler} value={value ?? ''}  ref={ref}
+            <Select onChange={changeHandler} value={value ?? ''} ref={ref}
                     labelId={id}
                     readOnly={readOnly} required={required}
                     inputProps={inputProps} variant="filled">
-                <MenuItem value=""></MenuItem>
                 {customerPaymentCardTypes.map(pt => (
                     <MenuItem key={pt.code} value={pt.code}>
                         {pt.description} [{pt.customerValue}]

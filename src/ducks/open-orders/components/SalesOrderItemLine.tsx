@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {SalesOrderDetailLine} from "b2b-types";
 import OrderItemImage from "../../../components/OrderItemImage";
 import numeral from "numeral";
@@ -8,7 +8,7 @@ import SalesOrderLineButtons from "./SalesOrderLineButtons";
 import SalesOrderCommentLine from "./SalesOrderCommentLine";
 import FormattedUPC from "../../../components/FormattedUPC";
 import Typography from "@mui/material/Typography";
-import TableCell from '@mui/material/TableCell';
+import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils";
 

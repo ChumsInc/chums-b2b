@@ -1,4 +1,4 @@
-import {createReducer} from "@reduxjs/toolkit";
+import {CaseReducer, createReducer, PayloadAction} from "@reduxjs/toolkit";
 import {invoiceKey, invoicesSorter, isInvoice} from "./utils";
 import {
     loadInvoice,
@@ -46,6 +46,16 @@ export const initialInvoicesState = (): InvoicesState => ({
     },
     sort: localStore.getItem<SortProps<InvoiceHistoryHeader>>(STORE_INVOICES_SORT, defaultUserSort),
 })
+
+const resetInvoices:CaseReducer<InvoicesState, PayloadAction<unknown>> = (state) => {
+    state.list.offset = 0;
+    state.list.limitReached = false;
+    state.list.invoices = [];
+    state.loaded = false;
+    state.invoice = null;
+    state.filters.shipToCode = null;
+    state.filters.search = '';
+}
 
 const invoicesReducer = createReducer(initialInvoicesState, builder => {
     builder
@@ -112,34 +122,18 @@ const invoicesReducer = createReducer(initialInvoicesState, builder => {
         .addCase(loadInvoice.rejected, (state) => {
             state.invoiceLoading = false;
         })
-        .addCase(setCustomerAccount.fulfilled, (state) => {
-            state.list.offset = 0;
-            state.list.limitReached = false;
-            state.list.invoices = [];
-            state.loaded = false;
-            state.invoice = null;
-            state.filters.shipToCode = null;
-            state.filters.search = '';
+        .addCase(setCustomerAccount.fulfilled, (state, action) => {
+            resetInvoices(state, action);
         })
         .addCase(loadCustomer.pending, (state, action) => {
             if (state.customerKey !== customerSlug(action.meta.arg)) {
+                resetInvoices(state, action);
                 state.list.offset = 0;
-                state.list.limitReached = false;
-                state.list.invoices = [];
-                state.loaded = false;
-                state.invoice = null;
-                state.filters.shipToCode = null;
-                state.filters.search = '';
             }
         })
         .addCase(setLoggedIn, (state, action) => {
             if (!action.payload?.loggedIn) {
-                state.list.offset = 0;
-                state.list.limitReached = false;
-                state.list.invoices = [];
-                state.invoice = null;
-                state.filters.search = '';
-                state.filters.shipToCode = null;
+                resetInvoices(state, action);
                 state.customerKey = null;
             }
         })
@@ -149,13 +143,7 @@ const invoicesReducer = createReducer(initialInvoicesState, builder => {
             } else {
                 state.customerKey = null;
             }
-            state.list.offset = 0;
-            state.list.limitReached = false;
-            state.list.invoices = [];
-            state.loaded = false;
-            state.invoice = null;
-            state.filters.shipToCode = null;
-            state.filters.search = '';
+            resetInvoices(state, action);
         })
         .addCase(setShowPaidInvoices, (state, action) => {
             state.filters.showPaidInvoices = action.payload ?? !state.filters.showPaidInvoices;

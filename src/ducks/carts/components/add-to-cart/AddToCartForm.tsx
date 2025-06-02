@@ -1,5 +1,4 @@
-import React, {FormEvent, useCallback, useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {FormEvent, useCallback, useEffect, useState} from "react";
 import {addToCart} from "@/ducks/carts/actions";
 import {
     selectCustomerAccount,
@@ -54,10 +53,10 @@ export default function AddToCartForm({
     const carts = useAppSelector(selectCartHeaders);
     const activeCartId = useAppSelector(selectActiveCartId);
     const activeCart = useAppSelector((state) => selectCartHeaderById(state, activeCartId));
-    const customer = useSelector(selectCustomerAccount);
-    const permissions = useSelector(selectCustomerPermissions);
-    const permissionsLoading = useSelector(selectCustomerPermissionsLoading);
-    const currentShipToCode = useSelector(selectCustomerShipToCode);
+    const customer = useAppSelector(selectCustomerAccount);
+    const permissions = useAppSelector(selectCustomerPermissions);
+    const permissionsLoading = useAppSelector(selectCustomerPermissionsLoading);
+    const currentShipToCode = useAppSelector(selectCustomerShipToCode);
     const cartsStatus = useAppSelector(selectCartsStatus);
 
     const [cartId, setCartId] = useState<number | null>(activeCart?.id ?? null);

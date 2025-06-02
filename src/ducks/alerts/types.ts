@@ -1,4 +1,4 @@
-import {AlertProps} from '@mui/material/Alert'
+import {AlertProps} from "@mui/material/Alert"
 
 export interface B2BContextAlert extends AlertProps{
     alertId: number;

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import {Banner} from "b2b-types";
 import BannerLinkWrapper from "./BannerLinkWrapper";
 import Box from "@mui/material/Box";
-import {SxProps} from "@mui/system";
+import {SxProps} from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 
 const bannerImagePath = (filename: string) => `/images/chums/homepage/${filename.replace(/^\//, '')}`;

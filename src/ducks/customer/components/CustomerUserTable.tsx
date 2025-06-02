@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import UserIcon from "./UserIcon";
-import BusinessIcon from '@mui/icons-material/Business';
-import {useSelector} from "react-redux";
+import BusinessIcon from "@mui/icons-material/Business";
 import {selectIsEmployee} from "../../user/selectors";
 import {CustomerUser} from "b2b-types";
 import TablePagination from "@mui/material/TablePagination";
@@ -17,7 +16,7 @@ import {generatePath, useMatch, useNavigate} from "react-router";
 import {selectCustomerUserSort, selectPermittedCustomerUsers} from "../selectors";
 import {customerUserPath} from "@/utils/path-utils";
 import Chip, {ChipProps} from "@mui/material/Chip";
-import StoreIcon from '@mui/icons-material/Store';
+import StoreIcon from "@mui/icons-material/Store";
 import {UserAccessType} from "b2b-types/src/user";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {setCustomerUserSort} from "@/ducks/customer/actions";
@@ -93,12 +92,12 @@ const CustomerUserRow = ({
 
 const CustomerUserTable = () => {
     const dispatch = useAppDispatch();
-    const users = useSelector(selectPermittedCustomerUsers);
+    const users = useAppSelector(selectPermittedCustomerUsers);
+    const isEmployee = useAppSelector(selectIsEmployee);
+    const sort = useAppSelector(selectCustomerUserSort);
     const [page, setPage] = useState(0);
-    const isEmployee = useSelector(selectIsEmployee);
     const match = useMatch(customerUserPath);
     const navigate = useNavigate();
-    const sort = useAppSelector(selectCustomerUserSort);
 
     const userSelectHandler = (user: CustomerUser) => {
         if (match?.params?.customerSlug) {

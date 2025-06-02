@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import classNames from "classnames";
 import {CustomerAddress} from "b2b-types";
 

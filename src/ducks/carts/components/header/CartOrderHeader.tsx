@@ -1,5 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
-import {useSelector} from "react-redux";
+import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils";
@@ -18,7 +17,7 @@ import ShipDateInput from "./ShipDateInput";
 import {minShipDate, nextShipDate} from "@/utils/orders";
 import ShippingMethodSelect from "@/ducks/carts/components/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
-import Grid from '@mui/material/Grid2';
+import Grid from "@mui/material/Grid";
 import ShipToSelect from "@/ducks/customer/components/ShipToSelect";
 import Alert from "@mui/material/Alert";
 import {generatePath, useNavigate} from "react-router";
@@ -28,7 +27,7 @@ import ItemAutocomplete from "@/ducks/item-lookup/ItemAutocomplete";
 import Divider from "@mui/material/Divider";
 import {selectSOLoading} from "@/ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
-import Collapse from '@mui/material/Collapse';
+import Collapse from "@mui/material/Collapse";
 import Button from "@mui/material/Button";
 import {selectCartHeaderById,} from "@/ducks/carts/cartHeadersSlice";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
@@ -51,7 +50,7 @@ import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDeta
 
 export default function CartOrderHeader() {
     const dispatch = useAppDispatch();
-    const customerKey = useSelector(selectCustomerKey);
+    const customerKey = useAppSelector(selectCustomerKey);
     const currentCartId = useAppSelector(selectActiveCartId);
     const header = useAppSelector((state) => selectCartHeaderById(state, currentCartId));
     const detail = useAppSelector((state) => selectCartDetailById(state, currentCartId));
@@ -63,7 +62,7 @@ export default function CartOrderHeader() {
     const customerPORef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
     const detailChanged = useAppSelector((state) => selectCartHasChanges(state, currentCartId));
-    const shippingAccount = useSelector(selectCartShippingAccount);
+    const shippingAccount = useAppSelector(selectCartShippingAccount);
 
     const [cartHeader, setCartHeader] = useState<(B2BCartHeader & Editable) | null>(header);
     const [cartProgress, setCartProgress] = useState<CartProgress>(cartProgress_Cart);

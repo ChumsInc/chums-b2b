@@ -1,34 +1,33 @@
-import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {loadProfile, logoutUser, saveUserProfile} from "../actions";
 import {AUTH_GOOGLE, AUTH_LOCAL} from "@/constants/app";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "../selectors";
 import {Editable} from "b2b-types";
 import {ExtendedUserProfile} from "@/types/user";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import Avatar from "@mui/material/Avatar";
 import Alert from "@mui/material/Alert";
-import {Link as NavLink} from 'react-router';
+import {Link as NavLink} from "react-router";
 import Container from "@mui/material/Container";
-import LockPersonIcon from '@mui/icons-material/LockPerson';
+import LockPersonIcon from "@mui/icons-material/LockPerson";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 
 type EditableUserProfile = Pick<ExtendedUserProfile, 'name' | 'email'> & Editable;
 
-const defaultProfilePic = (email?: string):string|null => email?.endsWith('@chums.com') ? '/images/chums/Chums_Logo_Booby.png' : null;
+const defaultProfilePic = (email?: string): string | null => email?.endsWith('@chums.com') ? '/images/chums/Chums_Logo_Booby.png' : null;
 
 const UserProfile = () => {
     const dispatch = useAppDispatch();
-    const imageUrl = useSelector(selectProfilePicture);
-    const profile = useSelector(selectUserProfile);
-    const authType = useSelector(selectAuthType);
-    const loading = useSelector(selectUserLoading);
+    const imageUrl = useAppSelector(selectProfilePicture);
+    const profile = useAppSelector(selectUserProfile);
+    const authType = useAppSelector(selectAuthType);
+    const loading = useAppSelector(selectUserLoading);
 
     const [user, setUser] = useState<EditableUserProfile | null>(profile);
     const [profilePic, setProfilePic] = useState<string | null>(imageUrl ?? defaultProfilePic(profile?.email));
@@ -73,7 +72,8 @@ const UserProfile = () => {
 
     const renderEmailLockIcon = () => {
         return authType === AUTH_GOOGLE
-            ? (<InputAdornment position="end" title="Logged in with Google" sx={{cursor: 'not-allowed'}}><LockPersonIcon /></InputAdornment>)
+            ? (<InputAdornment position="end" title="Logged in with Google"
+                               sx={{cursor: 'not-allowed'}}><LockPersonIcon/></InputAdornment>)
             : null;
     }
 
@@ -93,7 +93,7 @@ const UserProfile = () => {
                             <TextField label="Name" type="text" fullWidth variant="filled" size="small"
                                        value={user?.name ?? ''} onChange={changeHandler('name')}
                                        slotProps={{
-                                           htmlInput:{maxLength: 45}
+                                           htmlInput: {maxLength: 45}
                                        }}/>
                             <TextField label="Email Address" type="email" fullWidth variant="filled" size="small"
                                        value={user?.email ?? ''} onChange={changeHandler('email')}
@@ -102,7 +102,7 @@ const UserProfile = () => {
                                            input: {endAdornment: renderEmailLockIcon()}
                                        }}
                                        helperText={authType === AUTH_GOOGLE ? 'Please contact CHUMS customer service if you need to change your email address' : undefined}
-                                       />
+                            />
                         </Stack>
                         <Stack direction="row" spacing={2} sx={{mt: 5}} useFlexGap justifyContent="flex-end">
                             <Button type="button" variant="text" onClick={logoutHandler} color="error">Logout</Button>
@@ -111,7 +111,8 @@ const UserProfile = () => {
                                     component={NavLink} to="/profile/set-password">
                                 Change Password
                             </Button>
-                            <Button type="button" variant="text" onClick={clearSettingsHandler}>Clear All Settings</Button>
+                            <Button type="button" variant="text" onClick={clearSettingsHandler}>Clear All
+                                Settings</Button>
                             <Button type="submit" variant="contained" disabled={!user?.changed}>Save Changes</Button>
                         </Stack>
                         {user?.changed && (<Alert severity="warning">Don&apos;t forget to save your changes.</Alert>)}

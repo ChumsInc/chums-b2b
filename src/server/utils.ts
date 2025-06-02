@@ -1,13 +1,13 @@
-import 'dotenv/config';
-import Debug from 'debug';
+import "dotenv/config";
+import Debug from "debug";
 import {NextFunction, Request, Response} from "express";
-import fetch from 'isomorphic-fetch';
+import fetch from "isomorphic-fetch";
 import {Keyword} from "b2b-types";
 import {API_PORT} from "./config";
 
 const debug = Debug('chums:server:utils');
 
-export const handleInvalidURL = (req:Request, res:Response, next: NextFunction) => {
+export const handleInvalidURL = (req:Request, res:Response, next: NextFunction):void => {
     try {
         decodeURI(req.url);
         next();
@@ -20,14 +20,14 @@ export const handleInvalidURL = (req:Request, res:Response, next: NextFunction) 
     }
 }
 
-export const getAPIRequest = async (req:Request, res:Response) => {
+export const getAPIRequest = async (req:Request, res:Response):Promise<void> => {
     try {
         const result = await loadJSON(`http://localhost:${process.env.API_PORT}` + req.path);
         res.json(result);
     } catch(err:unknown) {
         if (err instanceof Error) {
             debug("getAPIRequest()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
         }
         res.json({error: 'unknown error in getAPIRequest'});
     }

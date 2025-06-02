@@ -1,6 +1,5 @@
-import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
-import {saveShipToAddress, setShipToCode} from '../actions';
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
+import {saveShipToAddress, setShipToCode} from "../actions";
 import Alert from "@mui/material/Alert";
 import ShipToAddressFormFields from "./ShipToAddressFormFields";
 import {selectCanEdit} from "@/ducks/user/selectors";
@@ -12,7 +11,7 @@ import {generatePath, useNavigate, useParams} from "react-router";
 import DeliveryAddress from "@/components/Address/DeliveryAddress";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "./ReloadCustomerButton";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import EmailAddressEditor from "@/components/EmailAddressEditor";
@@ -23,9 +22,9 @@ import TextField from "@mui/material/TextField";
 
 const ShipToForm = () => {
     const dispatch = useAppDispatch();
-    const shipToAddresses = useSelector(selectPermittedShipToAddresses);
-    const loading = useSelector(selectCustomerLoading);
-    const canEdit = useSelector(selectCanEdit);
+    const shipToAddresses = useAppSelector(selectPermittedShipToAddresses);
+    const loading = useAppSelector(selectCustomerLoading);
+    const canEdit = useAppSelector(selectCanEdit);
     const billTo = useAppSelector(selectPermittedBillToAddress);
     const params = useParams<'shipToCode'>();
     const [shipTo, setShipTo] = useState<ShipToCustomer & Editable | null>(null);
@@ -100,7 +99,7 @@ const ShipToForm = () => {
                                        }}/>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}
-                               style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                              style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                             <TextField variant="filled" label="Location Code" size="small"
                                        type="text" value={shipTo.ShipToCode ?? ''}
                                        onChange={fieldChangeHandler('ShipToCode')}

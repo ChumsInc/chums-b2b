@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {documentTitles} from "@/constants/paths";
 import DocumentTitle from "./DocumentTitle";
 import BannersList from "../ducks/banners/BannersList";

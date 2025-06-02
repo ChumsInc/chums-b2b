@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {Banner} from "b2b-types";
 import TextBanner from "./TextBanner";
 import ImageBanner from "./ImageBanner";

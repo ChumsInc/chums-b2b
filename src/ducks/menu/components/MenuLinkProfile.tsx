@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Typography from "@mui/material/Typography";
 
 export default function MenuLinkProfile({linkCode, linkName}: {

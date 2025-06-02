@@ -1,5 +1,6 @@
-import React from 'react';
+import React from "react";
 import {parseImageFilename2} from "@/src/common/image";
+
 export const API_PATH_CART_IMAGE = '/api/images/products/find/80/:ItemCode';
 
 

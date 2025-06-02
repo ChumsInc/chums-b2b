@@ -1,6 +1,6 @@
 import {createReducer, isFulfilled, isRejected, PayloadAction} from "@reduxjs/toolkit";
 import {AlertColor} from "@mui/material/Alert";
-import {setLoggedIn} from '../user/actions'
+import {setLoggedIn} from "../user/actions"
 import {alertSorter} from "./utils";
 import {dismissAlert, dismissContextAlert, setAlert} from "./actions";
 

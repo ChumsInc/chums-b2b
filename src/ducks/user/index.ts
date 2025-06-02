@@ -1,10 +1,10 @@
-import {auth} from '@/api/IntranetAuthService';
+import {auth} from "@/api/IntranetAuthService";
 import localStore from "../../utils/LocalStore";
 import LocalStore from "../../utils/LocalStore";
 import {STORE_AUTHTYPE, STORE_AVATAR, STORE_CUSTOMER, STORE_USER_ACCESS} from "@/constants/stores";
 import {getFirstCustomer,} from "@/utils/customer";
 import {jwtDecode, JwtPayload} from "jwt-decode";
-import {createReducer, isRejected} from "@reduxjs/toolkit";
+import {createReducer, isRejected, PayloadAction} from "@reduxjs/toolkit";
 import {
     changePassword,
     loadProfile,
@@ -19,7 +19,7 @@ import {
     updateLocalAuth
 } from "./actions";
 import {getPrimaryAccount, getUserType, is401Action, isCustomerAccess, isUserAction, userAccountSort} from "./utils";
-import {UserPasswordState, UserSignupState, UserType} from "./types";
+import {UserPasswordState, UserProfileResponse, UserSignupState, UserType} from "./types";
 import {BasicCustomer, Editable, UserCustomerAccess, UserProfile} from "b2b-types";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {LoadStatus} from "@/types/generic";
@@ -101,6 +101,23 @@ export const initialUserState = (): UserState => {
     }
 }
 
+const receiveUserProfile = (state: UserState, action: PayloadAction<UserProfileResponse>) => {
+    state.actionStatus = 'idle';
+    state.profile = action.payload.user ?? null;
+    state.userType = getUserType(state.profile);
+    state.roles = (action.payload.roles ?? []).sort();
+    state.accounts = (action.payload.accounts ?? []).sort(userAccountSort);
+    state.access.list = (action.payload.accounts ?? []).sort(userAccountSort);
+    state.access.loaded = true;
+    if (isCustomerAccess(state.access.current) && !!state.access.current.id) {
+        const [acct] = state.accounts.filter(acct => isCustomerAccess(state.access.current) && acct.id === state.access.current.id);
+        state.access.current = acct ?? null;
+    }
+    if (!isCustomerAccess(state.access.current) || !state.access.current?.id && state.accounts.length > 0) {
+        state.access.current = getPrimaryAccount(state.accounts) ?? null;
+    }
+}
+
 const userReducer = createReducer(initialUserState, (builder) => {
     builder
         .addCase(loginUser.pending, (state) => {
@@ -157,20 +174,7 @@ const userReducer = createReducer(initialUserState, (builder) => {
             state.actionStatus = 'pending';
         })
         .addCase(loadProfile.fulfilled, (state, action) => {
-            state.actionStatus = 'idle';
-            state.profile = action.payload.user ?? null;
-            state.userType = getUserType(state.profile);
-            state.roles = (action.payload.roles ?? []).sort();
-            state.accounts = (action.payload.accounts ?? []).sort(userAccountSort);
-            state.access.list = (action.payload.accounts ?? []).sort(userAccountSort);
-            state.access.loaded = true;
-            if (isCustomerAccess(state.access.current) && !!state.access.current.id) {
-                const [acct] = state.accounts.filter(acct => isCustomerAccess(state.access.current) && acct.id === state.access.current.id);
-                state.access.current = acct ?? null;
-            }
-            if (!isCustomerAccess(state.access.current) || !state.access.current?.id && state.accounts.length > 0) {
-                state.access.current = getPrimaryAccount(state.accounts) ?? null;
-            }
+            receiveUserProfile(state, action);
         })
         .addCase(loadProfile.rejected, (state) => {
             state.actionStatus = 'idle';
@@ -220,20 +224,7 @@ const userReducer = createReducer(initialUserState, (builder) => {
             state.actionStatus = 'saving-profile';
         })
         .addCase(saveUserProfile.fulfilled, (state, action) => {
-            state.actionStatus = 'idle';
-            state.profile = action.payload.user ?? null;
-            state.userType = getUserType(state.profile);
-            state.roles = (action.payload.roles ?? []).sort();
-            state.accounts = (action.payload.accounts ?? []).sort(userAccountSort);
-            state.access.list = (action.payload.accounts ?? []).sort(userAccountSort);
-            state.access.loaded = true;
-            if (isCustomerAccess(state.access.current) && !!state.access.current.id) {
-                const [acct] = state.accounts.filter(acct => isCustomerAccess(state.access.current) && acct.id === state.access.current.id);
-                state.access.current = acct ?? null;
-            }
-            if (!isCustomerAccess(state.access.current) || !state.access.current?.id && state.accounts.length > 0) {
-                state.access.current = getPrimaryAccount(state.accounts) ?? null;
-            }
+            receiveUserProfile(state, action);
         })
         .addCase(saveUserProfile.rejected, (state) => {
             state.actionStatus = 'idle';

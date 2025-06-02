@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from "react";
 import {useAppDispatch} from "@/app/configureStore";
 import {logoutUser} from "@/ducks/user/actions";
 import {useNavigate} from "react-router";

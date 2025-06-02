@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import classNames from "classnames";
 import {noop} from "@/utils/general";
 import TableCell from "@mui/material/TableCell";
@@ -7,15 +7,15 @@ import {DataTableRowProps} from "./types";
 import {KeyedObject} from "@/types/generic";
 
 export const DataTableRow = <T = KeyedObject>({
-                          className,
-                          rowClassName,
-                          selected,
-                          fields,
-                          row,
-                          trRef,
-                          onClick = noop,
-                          ...rest
-                      }: DataTableRowProps<T>) => {
+                                                  className,
+                                                  rowClassName,
+                                                  selected,
+                                                  fields,
+                                                  row,
+                                                  trRef,
+                                                  onClick = noop,
+                                                  ...rest
+                                              }: DataTableRowProps<T>) => {
     const clickHandler = () => {
         return onClick ? onClick() : noop();
     }
@@ -35,7 +35,7 @@ export const DataTableRow = <T = KeyedObject>({
                 }
                 return (
                     <TableCell key={index} align={field.align} className={classNames(fieldClassName)}
-                                   colSpan={field.colSpan}>
+                               colSpan={field.colSpan}>
                         {String(row[field.field] ?? '')}
                     </TableCell>
                 );

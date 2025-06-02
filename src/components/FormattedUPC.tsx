@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Typography, {TypographyProps} from "@mui/material/Typography";
 import UPCA from "../common/upc-a";
 

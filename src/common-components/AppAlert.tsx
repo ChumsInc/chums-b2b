@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import Alert, {AlertProps} from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 
 function AppAlertCloseButton({canClose, onClick}:{

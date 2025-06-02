@@ -1,6 +1,6 @@
-import {CSSProperties} from 'react'
-import {createTheme} from '@mui/material/styles'
-import {alpha} from "@mui/material";
+import {CSSProperties} from "react"
+import {createTheme} from "@mui/material/styles"
+import '@/app/global-window';
 
 declare module '@mui/material/styles' {
     interface TypographyVariants {
@@ -28,7 +28,7 @@ declare module '@mui/material/styles' {
 }
 
 export const chumsRedBase = '#d0112b';
-export const chumsRedMain = alpha(chumsRedBase, 0.7);
+// export const chumsRedMain = alpha(chumsRedBase, 0.7);
 
 // Update the Typography's variant prop options
 declare module '@mui/material/Typography' {
@@ -215,10 +215,5 @@ theme = createTheme(theme, {
         },
     }
 })
-
-if (global.window) {
-    window.theme = theme;
-}
-
 
 export default theme;

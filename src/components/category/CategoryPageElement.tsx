@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import CategoryLink from "./CategoryLink";
 import CategoryProductLink from "./CategoryProductLink";
 import {Link as RoutedLink} from "react-router";
@@ -9,7 +9,7 @@ import {
     isCategoryChildProduct,
     isCategoryChildSection
 } from "@/ducks/products/utils";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import CategoryGridItem from "./CategoryGridItem";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";

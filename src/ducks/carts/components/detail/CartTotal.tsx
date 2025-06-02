@@ -1,6 +1,5 @@
-import React from 'react';
+import React from "react";
 import numeral from "numeral";
-import {useSelector} from "react-redux";
 import Decimal from "decimal.js";
 import {getShippingMethod} from "@/constants/account";
 import {useAppSelector} from "@/app/configureStore";
@@ -14,7 +13,7 @@ export default function CartTotal({cartId}: {
     cartId: number;
 }) {
     const header = useAppSelector((state) => selectCartHeaderById(state, cartId));
-    const shippingAccount = useSelector(selectCartShippingAccount);
+    const shippingAccount = useAppSelector(selectCartShippingAccount);
     if (!header) {
         return null;
     }

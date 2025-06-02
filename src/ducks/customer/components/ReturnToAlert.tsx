@@ -1,10 +1,9 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React from "react";
 import {selectCustomerReturnToPath} from "../selectors";
 import Alert from "@mui/material/Alert";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {setReturnToPath} from "../actions";
-import {Link as NavLink} from 'react-router'
+import {Link as NavLink} from "react-router"
 import Link from "@mui/material/Link";
 
 
@@ -17,7 +16,7 @@ const returnPathText = (path: string): string => {
 
 const ReturnToAlert = () => {
     const dispatch = useAppDispatch();
-    const returnToPath = useSelector(selectCustomerReturnToPath);
+    const returnToPath = useAppSelector(selectCustomerReturnToPath);
 
     if (!returnToPath) {
         return null;

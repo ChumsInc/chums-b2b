@@ -1,4 +1,4 @@
-import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
+import {CaseReducer, createEntityAdapter, createSlice, EntityState, PayloadAction} from "@reduxjs/toolkit";
 import {CartDetailStatus, CartStatusValue} from "@/types/cart/cart-utils";
 import {
     addToCart,
@@ -9,8 +9,8 @@ import {
     saveCart,
     saveCartItem
 } from "@/ducks/carts/actions";
-import {dismissContextAlert} from "@/ducks/alerts/actions";
 import {B2BCartDetail} from "@/types/cart/cart-detail";
+import {B2BCart} from "@/types/cart/cart";
 
 const statusAdapter = createEntityAdapter<CartDetailStatus, number>({
     selectId: (arg) => arg.id,
@@ -21,6 +21,14 @@ const adapterSelectors = statusAdapter.getSelectors();
 
 function mapItemStatus(detail: B2BCartDetail[], status: CartStatusValue): CartDetailStatus[] {
     return detail.map(row => ({id: row.id, cartId: row.cartHeaderId, status: status}));
+}
+
+const receiveCartCaseReducer: CaseReducer<EntityState<CartDetailStatus, number>, PayloadAction<B2BCart | null>> = (state, action) => {
+    if (action.payload) {
+        const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
+        statusAdapter.removeMany(state, oldItems);
+        statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'));
+    }
 }
 
 const cartStatusSlice = createSlice({
@@ -44,11 +52,7 @@ const cartStatusSlice = createSlice({
                 statusAdapter.removeOne(state, 0)
             })
             .addCase(loadCart.fulfilled, (state, action) => {
-                if (action.payload) {
-                    const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
-                    statusAdapter.removeMany(state, oldItems);
-                    statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'));
-                }
+                receiveCartCaseReducer(state, action);
             })
             .addCase(loadCarts.fulfilled, (state, action) => {
                 statusAdapter.removeAll(state);
@@ -59,20 +63,28 @@ const cartStatusSlice = createSlice({
                 statusAdapter.setMany(state, newItems);
             })
             .addCase(saveCart.fulfilled, (state, action) => {
-                if (action.payload) {
-                    const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
-                    statusAdapter.removeMany(state, oldItems);
-                    statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'))
-                }
+                receiveCartCaseReducer(state, action);
             })
             .addCase(saveCartItem.pending, (state, action) => {
-                statusAdapter.setOne(state, {id: action.meta.arg.cartItemId, cartId: action.meta.arg.cartId, status: 'saving'});
+                statusAdapter.setOne(state, {
+                    id: action.meta.arg.cartItemId,
+                    cartId: action.meta.arg.cartId,
+                    status: 'saving'
+                });
             })
             .addCase(saveCartItem.fulfilled, (state, action) => {
-                statusAdapter.setOne(state, {id: action.meta.arg.cartItemId, cartId: action.meta.arg.cartId, status: 'idle'});
+                statusAdapter.setOne(state, {
+                    id: action.meta.arg.cartItemId,
+                    cartId: action.meta.arg.cartId,
+                    status: 'idle'
+                });
             })
             .addCase(saveCartItem.rejected, (state, action) => {
-                statusAdapter.setOne(state, {id: action.meta.arg.cartItemId, cartId: action.meta.arg.cartId, status: 'idle'});
+                statusAdapter.setOne(state, {
+                    id: action.meta.arg.cartItemId,
+                    cartId: action.meta.arg.cartId,
+                    status: 'idle'
+                });
             })
             .addCase(processCart.fulfilled, (state, action) => {
                 const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.meta.arg.id).map(s => s.id);

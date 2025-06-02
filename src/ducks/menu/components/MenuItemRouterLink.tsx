@@ -1,5 +1,5 @@
-import React from 'react';
-import {Link as RouterLink} from 'react-router';
+import React from "react";
+import {Link as RouterLink} from "react-router";
 import MenuItem, {MenuItemProps} from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
 import {styled} from "@mui/material/styles";

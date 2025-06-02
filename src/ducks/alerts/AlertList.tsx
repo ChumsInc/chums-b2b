@@ -1,12 +1,11 @@
-import React from 'react';
+import React from "react";
 import AppAlert from "../../common-components/AppAlert";
-import {useDispatch} from 'react-redux';
 import {dismissAlert, dismissContextAlert} from "./actions";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectContextAlerts} from "./selectors";
 
 const AlertList = ({context}: { context?: string }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const alerts = useAppSelector((state) => selectContextAlerts(state, context));
 
     const dismissHandler = (id: number) => {
@@ -15,6 +14,11 @@ const AlertList = ({context}: { context?: string }) => {
     const contextDismissHandler = (context: string) => {
         dispatch(dismissContextAlert(context))
     }
+
+    if (!alerts?.length) {
+        return null;
+    }
+
     return (
         <>
             {alerts.map((alert) => <AppAlert key={alert.alertId}

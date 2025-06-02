@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
-import {useAppDispatch} from "@/app/configureStore";
+import React, {useEffect, useState} from "react";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectSendEmailError, selectSendEmailResponse, selectSendEmailStatus} from "@/ducks/open-orders/selectors";
 import {closeEmailResponse} from "@/ducks/open-orders/actions";
 import Dialog from "@mui/material/Dialog";
@@ -13,9 +12,9 @@ import Button from "@mui/material/Button";
 
 export default function SendEmailModal() {
     const dispatch = useAppDispatch();
-    const status = useSelector(selectSendEmailStatus);
-    const error = useSelector(selectSendEmailError);
-    const response = useSelector(selectSendEmailResponse);
+    const status = useAppSelector(selectSendEmailStatus);
+    const error = useAppSelector(selectSendEmailError);
+    const response = useAppSelector(selectSendEmailResponse);
     const [open, setOpen] = useState<boolean>(status !== 'idle');
 
     useEffect(() => {

@@ -1,5 +1,5 @@
-import {ReactNode} from 'react'
-import {SxProps} from "@mui/system";
+import {ReactNode} from "react"
+import {SxProps} from "@mui/material/styles";
 
 export interface NavItemProps {
     inDrawer?: boolean;

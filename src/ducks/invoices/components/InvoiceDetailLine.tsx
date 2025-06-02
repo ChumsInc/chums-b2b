@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment} from "react";
 import classNames from "classnames";
 import numeral from "numeral";
 import OrderItemImage from "../../../components/OrderItemImage";
@@ -9,7 +9,7 @@ import Decimal from "decimal.js";
 import SalesOrderLineButtons from "../../open-orders/components/SalesOrderLineButtons";
 import FormattedUPC from "../../../components/FormattedUPC";
 import Typography from "@mui/material/Typography";
-import TableRow from '@mui/material/TableRow';
+import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
 

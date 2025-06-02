@@ -1,4 +1,4 @@
-import {PreloadedState} from "../types/preload";
+import {PreloadedState} from "@/types/preload";
 import {Theme} from "@mui/material/styles";
 import {GtagFn} from "@/src/ga4/types";
 
@@ -15,12 +15,3 @@ declare global {
         }
     }
 }
-
-if (typeof global.window !== 'undefined') {
-    if (!global.window?.__PRELOADED_STATE__) {
-        console.log('initiating global window preloaded state');
-        global.window.__PRELOADED_STATE__ = {};
-    }
-}
-
-export default global;

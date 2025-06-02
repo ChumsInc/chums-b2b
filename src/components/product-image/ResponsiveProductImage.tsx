@@ -1,4 +1,4 @@
-import React, {ImgHTMLAttributes} from 'react';
+import React, {ImgHTMLAttributes} from "react";
 import {styled} from "@mui/material/styles";
 
 const imageSizes: number[] = [80, 250, 400, 800, 2048];

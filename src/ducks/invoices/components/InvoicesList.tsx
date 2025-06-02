@@ -1,6 +1,5 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {useSelector} from "react-redux";
 import {selectCurrentCustomer} from "../../user/selectors";
 import {
     selectCurrentInvoiceNo,
@@ -80,15 +79,15 @@ const invoiceFields: SortableTableField<InvoiceHistoryHeader>[] = [
 
 const InvoicesList = () => {
     const dispatch = useAppDispatch();
-    const list = useSelector(selectFilteredInvoicesList);
+    const list = useAppSelector(selectFilteredInvoicesList);
     const limit = useAppSelector(selectInvoicesListLimit);
     const limitReached = useAppSelector(selectInvoicesListLimitReached);
     const offset = useAppSelector(selectInvoicesListOffset);
-    const invoiceNo = useSelector(selectCurrentInvoiceNo);
-    const loading = useSelector(selectInvoicesLoading);
-    const loaded = useSelector(selectInvoicesLoaded);
-    const currentCustomer = useSelector(selectCurrentCustomer);
-    const sort = useSelector(selectInvoicesSort);
+    const invoiceNo = useAppSelector(selectCurrentInvoiceNo);
+    const loading = useAppSelector(selectInvoicesLoading);
+    const loaded = useAppSelector(selectInvoicesLoaded);
+    const currentCustomer = useAppSelector(selectCurrentCustomer);
+    const sort = useAppSelector(selectInvoicesSort);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(localStore.getItem<number>(STORE_INVOICES_ROWS_PER_PAGE, 10) ?? 10);
 
@@ -133,7 +132,8 @@ const InvoicesList = () => {
     }
 
     return (
-        <ErrorBoundary fallback={undefined} FallbackComponent={() => <Alert severity="error">Sorry, an error occurred</Alert> }>
+        <ErrorBoundary fallback={undefined}
+                       FallbackComponent={() => <Alert severity="error">Sorry, an error occurred</Alert>}>
             <Box>
                 <InvoiceListFilter onReload={reloadHandler}/>
                 {loading && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}

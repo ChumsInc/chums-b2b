@@ -1,4 +1,4 @@
-import {Salesperson, UserProfile} from 'b2b-types'
+import {Salesperson, UserProfile} from "b2b-types"
 import {
     ChangePasswordProps,
     ChangePasswordResponse,
@@ -7,16 +7,16 @@ import {
     UserProfileResponse
 } from "@/ducks/user/types";
 import {allowErrorResponseHandler, fetchJSON} from "./fetch";
-import {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "../types/user";
-import {auth} from './IntranetAuthService';
+import {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "@/types/user";
+import {auth} from "./IntranetAuthService";
 import {getSignInProfile, isTokenExpired} from "@/utils/jwtHelper";
 import localStore from "../utils/LocalStore";
 import {STORE_AUTHTYPE} from "@/constants/stores";
 import {AUTH_GOOGLE} from "@/constants/app";
 import {isErrorResponse, isUserRole} from "@/utils/typeguards";
-import {jwtDecode} from 'jwt-decode';
+import {jwtDecode} from "jwt-decode";
 import {LoadProfileProps, SignUpProfile} from "@/ducks/sign-up/types";
-import {APIErrorResponse} from "../types/generic";
+import {APIErrorResponse} from "@/types/generic";
 import {configGtag} from "@/src/ga4/api";
 import {ga4Login, ga4SignUp} from "@/src/ga4/generic";
 

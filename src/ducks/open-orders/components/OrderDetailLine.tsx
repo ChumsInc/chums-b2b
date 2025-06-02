@@ -1,9 +1,9 @@
-import React, {Fragment} from 'react';
+import React, {Fragment} from "react";
 import SalesOrderCommentLine from "./SalesOrderCommentLine";
 import {SalesOrderDetailLine} from "b2b-types";
 import SalesOrderItemLine from "./SalesOrderItemLine";
 import SalesOrderKitComponentLine from "./SalesOrderKitComponentLine";
-import TableRow from '@mui/material/TableRow';
+import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
 
@@ -16,8 +16,6 @@ export default function OrderDetailLine({
     customerPriceLevel?: string;
     onAddToCart?: (line: SalesOrderDetailLine) => void;
 }) {
-
-
     const addToCartHandler = () => {
         if (onAddToCart) {
             onAddToCart(line);

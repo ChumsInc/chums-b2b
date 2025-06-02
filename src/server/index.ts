@@ -1,5 +1,5 @@
-import 'dotenv/config';
-import Debug from 'debug';
+import "dotenv/config";
+import Debug from "debug";
 import express, {NextFunction, Request, Response} from "express";
 import favicon from "serve-favicon";
 import path from "node:path";
@@ -13,7 +13,7 @@ import {helmetOptions} from "./helmetOptions";
 
 const debug = Debug('chums:server:index');
 
-const logUsage = (req:Request, res:Response, next:NextFunction) => {
+const logUsage = (req:Request, res:Response, next:NextFunction):void => {
     debug(req.ip, req.method, req.url);
     next();
 }
@@ -50,7 +50,10 @@ app.get('/api', getAPIRequest);
 app.use(handleInvalidURL);
 app.use(logUsage);
 
-app.get('/products/:category?/:product?/:sku?', renderAppProductPage);
+app.get('/products/:category/:product/:sku', renderAppProductPage);
+app.get('/products/:category/:product', renderAppProductPage);
+app.get('/products/:category', renderAppProductPage);
+app.get('/products', renderAppProductPage);
 app.get('/pages/:keyword', renderAppContentPage);
 app.get('/*.*', (req, res) => {
     res.status(404).json({error: 'Not Found', status: 404});

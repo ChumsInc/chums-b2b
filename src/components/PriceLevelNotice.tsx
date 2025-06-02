@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {PRICE_LEVELS} from "@/constants/orders";
 import Typography from "@mui/material/Typography";
 

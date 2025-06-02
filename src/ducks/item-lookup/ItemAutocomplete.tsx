@@ -1,4 +1,4 @@
-import React, {ChangeEvent, SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, SyntheticEvent, useCallback, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {
     ItemSearchResult,
@@ -8,11 +8,11 @@ import {
     selectSearchResults
 } from "./index";
 import {CONTENT_PATH_SEARCH_IMAGE} from "@/constants/paths";
-import {useDebounceValue} from '@/hooks/use-debounce'
+import {useDebounceValue} from "@/hooks/use-debounce"
 import Stack from "@mui/material/Stack";
 import {addToCart} from "@/ducks/carts/actions";
 import CircularProgress from "@mui/material/CircularProgress";
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import {styled} from "@mui/material/styles";
@@ -49,8 +49,8 @@ export default function ItemAutocomplete({cartId}: {
         if (!value || !customerKey || !quantity) {
             return;
         }
-        if (global?.window?.gtag) {
-            global.window.gtag('event', 'add_to_cart', {
+        if (globalThis?.window?.gtag) {
+            globalThis.window.gtag('event', 'add_to_cart', {
                 items: [{item_id: value.ItemCode, item_name: value.ItemCodeDesc ?? value.ItemCode, quantity: quantity}]
             })
         }

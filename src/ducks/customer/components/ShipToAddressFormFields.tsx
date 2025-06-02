@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import AddressFormFields from "../../../components/AddressFormFields";
 import {CustomerAddress, ShipToAddress, ShipToCustomer} from "b2b-types";
 

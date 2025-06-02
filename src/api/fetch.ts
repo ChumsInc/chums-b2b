@@ -7,7 +7,6 @@ import localStore from "../utils/LocalStore";
 import {STORE_VERSION} from "@/constants/stores";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
-import global from '@/app/global-window';
 import {isLocalHost} from "@/utils/dev";
 import {ga4Exception} from "@/src/ga4/generic";
 
@@ -155,9 +154,12 @@ export async function postErrors({message, componentStack, userId, fatal}: PostE
         if (isLocalHost()) {
             return;
         }
+        if (typeof globalThis.window === 'undefined') {
+            return;
+        }
         const version = localStore.getItem(STORE_VERSION, '-');
         const body = JSON.stringify({
-            url: global.window.location.pathname,
+            url: globalThis.window.location.pathname,
             message,
             componentStack: componentStack ?? '',
             user_id: userId ?? 0,

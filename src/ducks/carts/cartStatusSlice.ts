@@ -19,11 +19,11 @@ const statusAdapter = createEntityAdapter<CartStatus, number>({
 const adapterSelectors = statusAdapter.getSelectors();
 
 export interface ExtraStatusState {
-    global: 'idle' | 'loading' | 'rejected';
+    status: 'idle' | 'loading' | 'rejected';
 }
 
 const initialState: ExtraStatusState = {
-    global: 'idle',
+    status: 'idle',
 }
 
 const cartStatusSlice = createSlice({
@@ -62,14 +62,14 @@ const cartStatusSlice = createSlice({
                 statusAdapter.setOne(state, {key: action.meta.arg.cartId, status: 'idle'})
             })
             .addCase(loadCarts.pending, (state) => {
-                state.global = 'loading';
+                state.status = 'loading';
             })
             .addCase(loadCarts.fulfilled, (state, action) => {
-                state.global = 'idle';
+                state.status = 'idle';
                 statusAdapter.setAll(state, action.payload.map(cart => ({key: cart.header.id, status: 'idle'})))
             })
             .addCase(loadCarts.rejected, (state) => {
-                state.global = 'rejected';
+                state.status = 'rejected';
             })
             .addCase(saveCart.pending, (state, action) => {
                 statusAdapter.setOne(state, {key: action.meta.arg.cartId, status: 'saving'});
@@ -114,12 +114,12 @@ const cartStatusSlice = createSlice({
             .addCase(dismissContextAlert, (state, action) => {
                 switch (action.payload) {
                     case loadCarts.typePrefix:
-                        state.global = 'idle';
+                        state.status = 'idle';
                 }
             })
     },
     selectors: {
-        selectCartsStatus: (state) => state.global,
+        selectCartsStatus: (state) => state.status,
         selectCartStatusById: (state, cartId: number) => adapterSelectors.selectById(state, cartId)?.status ?? 'idle'
     }
 });

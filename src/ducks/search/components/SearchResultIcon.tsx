@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {SearchResult} from "b2b-types";
 import FolderIcon from "@mui/icons-material/Folder";
 import DescriptionIcon from "@mui/icons-material/Description";

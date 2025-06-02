@@ -1,9 +1,9 @@
-import React, {SyntheticEvent, useEffect, useState} from 'react';
+import React, {SyntheticEvent, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {getSearchResults, selectSearchResults} from "../index";
-import {useNavigate} from 'react-router';
+import {useNavigate} from "react-router";
 import {SearchResult} from "b2b-types";
-import {useDebounceValue} from '@/hooks/use-debounce'
+import {useDebounceValue} from "@/hooks/use-debounce"
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import SearchBarResult from "@/ducks/search/components/SearchBarResult";

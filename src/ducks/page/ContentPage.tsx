@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from "react";
 import DocumentTitle from "../../components/DocumentTitle";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectPageContent, selectPageLoaded, selectPageLoadingStatus} from "./selectors";
 import {useParams} from "react-router";
 import {loadPage} from "./actions";
@@ -14,10 +13,10 @@ import Alert from "@mui/material/Alert";
 
 const ContentPage = () => {
     const dispatch = useAppDispatch();
-    const isLoggedIn = useSelector(selectLoggedIn);
-    const content = useSelector(selectPageContent);
-    const loading = useSelector(selectPageLoadingStatus);
-    const loaded = useSelector(selectPageLoaded);
+    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const content = useAppSelector(selectPageContent);
+    const loading = useAppSelector(selectPageLoadingStatus);
+    const loaded = useAppSelector(selectPageLoaded);
     const params = useParams<{ keyword: string }>();
 
     useEffect(() => {

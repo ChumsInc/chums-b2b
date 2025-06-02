@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {redirect, useMatch} from 'react-router';
+import React, {useEffect} from "react";
+import {redirect, useMatch} from "react-router";
 import OrderDetail from "./OrderDetail";
 import DocumentTitle from "../../../components/DocumentTitle";
 import {selectCustomerAccount, selectCustomerLoading} from "../../customer/selectors";
@@ -14,10 +13,10 @@ import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 const ClosedSalesOrderPage = () => {
     const dispatch = useAppDispatch();
     const match = useMatch('/account/:customerSlug/:parentType/:salesOrderNo');
-    const customer = useSelector(selectCustomerAccount);
+    const customer = useAppSelector(selectCustomerAccount);
     const salesOrderHeader = useAppSelector(selectSalesOrderHeader);
-    const loading = useSelector(selectSOLoading);
-    const customerLoading = useSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectSOLoading);
+    const customerLoading = useAppSelector(selectCustomerLoading);
 
     useEffect(() => {
         if (customer && !!customer.CustomerNo) {

@@ -1,4 +1,4 @@
-import React, {HTMLAttributes} from 'react';
+import React, {HTMLAttributes} from "react";
 import {SearchResult} from "b2b-types";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";

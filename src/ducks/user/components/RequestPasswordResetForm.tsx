@@ -7,18 +7,16 @@ import Alert, {AlertColor} from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
 import React, {FormEvent, useState} from "react";
-import {useAppDispatch} from "@/app/configureStore";
-import {useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectResettingPassword} from "../selectors";
 import {resetPassword} from "../actions";
 import AccessWarningAlert from "./AccessWarningAlert";
-import {useNavigate} from "react-router";
+import {Link as NavLink, useNavigate} from "react-router";
 import Container from "@mui/material/Container";
-import {Link as NavLink} from 'react-router'
 
 const RequestPasswordResetForm = () => {
     const dispatch = useAppDispatch();
-    const isResettingPassword = useSelector(selectResettingPassword);
+    const isResettingPassword = useAppSelector(selectResettingPassword);
     const [email, setEmail] = useState('');
     const [response, setResponse] = useState('');
     const [responseType, setResponseType] = useState<AlertColor | null>(null)

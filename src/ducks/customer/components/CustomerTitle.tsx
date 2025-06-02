@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {BillToCustomer, ShipToCustomer} from "b2b-types";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";

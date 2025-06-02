@@ -1,6 +1,5 @@
 import {NavItemProps} from "@/types/ui-features";
 import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
 import {selectCurrentAccess, selectLoggedIn, selectRepAccessList} from "../../user/selectors";
 import {accessListURL, customerURL, repAccessCode} from "../../user/utils";
 import UserAvatar from "../../user/components/UserAvatar";
@@ -35,10 +34,10 @@ const defaultItems: MinimalMenuItem[] = [
 ]
 
 export default function NavAccountsLink({inDrawer}: NavItemProps) {
-    const isLoggedIn = useSelector(selectLoggedIn);
-    const accessList = useSelector(selectRepAccessList);
+    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const accessList = useAppSelector(selectRepAccessList);
     const access = useAppSelector(selectCurrentAccess);
-    const recentCustomers = useSelector(selectRecentCustomers);
+    const recentCustomers = useAppSelector(selectRecentCustomers);
     const [drawerItems, setDrawerItems] = useState<MinimalMenuItem[]>([]);
     const [items, setItems] = useState<MinimalMenuItem[]>([]);
 

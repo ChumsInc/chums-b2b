@@ -1,6 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
-import {loadProduct, setCurrentVariant} from '../actions';
+import React, {useEffect, useRef, useState} from "react";
+import {loadProduct, setCurrentVariant} from "../actions";
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet";
 import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
@@ -9,7 +8,7 @@ import CartItemDetail from "./CartItemDetail";
 import {redirect, useLocation} from "react-router";
 import MissingTaxScheduleAlert from "../../customer/components/MissingTaxScheduleAlert";
 import RequireLogin from "@/components/RequireLogin";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
 import ProductPageImage from "./ProductPageImage";
@@ -20,7 +19,7 @@ import {isBillToCustomer} from "@/utils/typeguards";
 import ProductPreSeasonAlert from "./ProductPreSeasonAlert";
 import SelectCustomerAlert from "../../customer/components/SelectCustomerAlert";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
 import {useIsSSR} from "@/hooks/is-server-side";
@@ -32,11 +31,11 @@ const ProductPage = ({keyword}: {
 }) => {
     const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
-    const product = useSelector(selectCurrentProduct);
-    const selectedProduct = useSelector(selectSelectedProduct);
-    const loading = useSelector(selectProductLoading);
-    const cartItem = useSelector(selectProductCartItem);
-    const customerAccount = useSelector(selectCustomerAccount);
+    const product = useAppSelector(selectCurrentProduct);
+    const selectedProduct = useAppSelector(selectSelectedProduct);
+    const loading = useAppSelector(selectProductLoading);
+    const cartItem = useAppSelector(selectProductCartItem);
+    const customerAccount = useAppSelector(selectCustomerAccount);
     const location = useLocation();
     const [cartMessage, setCartMessage] = useState<string | null>(null);
     const timerHandle = useRef<number>(0);
@@ -76,13 +75,11 @@ const ProductPage = ({keyword}: {
 
 
     useEffect(() => {
-        console.debug(location, selectedProduct?.keyword, product?.keyword);
         if (location?.state?.variant
             && product
             && isSellAsVariants(product)
             && selectedProduct?.keyword !== location.state.variant) {
             const [_variant] = product.variants.filter(v => v.product?.keyword === location.state.variant);
-            console.debug(location.state.variant, _variant.product?.keyword);
             if (_variant) {
                 dispatch(setCurrentVariant(_variant));
             }

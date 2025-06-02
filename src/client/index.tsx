@@ -1,11 +1,13 @@
-import React from 'react';
-import {BrowserRouter} from 'react-router';
-import {Provider} from 'react-redux';
+import React from "react";
+import {BrowserRouter} from "react-router";
+import {Provider} from "react-redux";
 import App from "../app/App";
 import {createRoot} from "react-dom/client";
-import store from '../app/configureStore';
+import store from "../app/configureStore";
 
+console.warn(document.documentElement);
 const container = document?.getElementById('app');
+console.log('container', container);
 if (container) {
     const root = createRoot(container);
     root.render(

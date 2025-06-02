@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {signInWithGoogle} from "../actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {CredentialResponse, GoogleLogin} from "@react-oauth/google";

@@ -1,5 +1,4 @@
-import React, {useId} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useId} from "react";
 import {
     selectCustomerAccount,
     selectCustomerPermissions,
@@ -8,7 +7,7 @@ import {
 } from "../selectors";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl, {FormControlProps} from '@mui/material/FormControl'
+import FormControl, {FormControlProps} from "@mui/material/FormControl"
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import {ShipToAddress} from "b2b-types";
 import {shipToAddressFromBillingAddress} from "@/utils/customer";
@@ -41,10 +40,10 @@ export default function ShipToSelect({
                                          required,
                                          ...formControlProps
                                      }: ShipToSelectProps) {
-    const customer = useSelector(selectCustomerAccount);
-    const shipToAddresses = useSelector(selectPermittedShipToAddresses);
+    const customer = useAppSelector(selectCustomerAccount);
+    const shipToAddresses = useAppSelector(selectPermittedShipToAddresses);
     const hasBillToPermissions = useAppSelector(selectPermittedBillToAddress);
-    const permissions = useSelector(selectCustomerPermissions);
+    const permissions = useAppSelector(selectCustomerPermissions);
     const id = useId();
 
 

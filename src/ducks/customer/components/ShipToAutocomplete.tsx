@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from "react"
 import {ShipToAddress, ShipToCustomer} from "b2b-types";
-import {useSelector} from "react-redux";
 import {selectCustomerAccount, selectPermittedShipToAddresses} from "../selectors";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -8,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
+import {useAppSelector} from "@/app/configureStore";
 
 
 /**
@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
  @Author: Steve Montgomery, 2024.07.10
  @BUG: this will repeatedly send onChange if the current value is null (or '') and there is a default ship-to,
   not sure what logic to explore here - it may go deeper than I've got time for right now, so I'm reverting back
- to using ShipToSelect with a sorted list.
+  to using ShipToSelect with a sorted list.
  */
 
 export interface ShipToAutocompleteProps {
@@ -36,8 +36,8 @@ const ShipToAutocomplete = ({
                                 readOnly,
                                 required,
                             }: ShipToAutocompleteProps) => {
-    const customer = useSelector(selectCustomerAccount);
-    const shipToAddresses = useSelector(selectPermittedShipToAddresses);
+    const customer = useAppSelector(selectCustomerAccount);
+    const shipToAddresses = useAppSelector(selectPermittedShipToAddresses);
 
     const [inputValue, setInputValue] = useState<string>(shipToCode ?? '');
     const [value, setValue] = useState<ShipToCustomer | null>(null);

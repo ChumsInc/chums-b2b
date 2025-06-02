@@ -1,6 +1,6 @@
-import React, {useEffect, useId, useRef, useState} from 'react';
+import React, {useEffect, useId, useRef, useState} from "react";
 import {useIsSSR} from "@/hooks/is-server-side";
-import {useLocation} from "react-router";
+import {NavLink, useLocation} from "react-router";
 import {useAppSelector} from "@/app/configureStore";
 import {selectLoggedIn} from "@/ducks/user/selectors";
 import {TransitionProps} from "@mui/material/transitions";
@@ -11,13 +11,12 @@ import {STORE_SHOW_SIGNUP_POPUP} from "@/constants/stores";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";
-import {NavLink} from 'react-router'
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import ChumsLogo from "./ChumsLogo";
 
@@ -92,7 +91,11 @@ const SignUpModal = () => {
     return (
         <>
             {/*<Button variant="text" onClick={() => setShowModal(true)}>Test Dialog</Button>*/}
-            <Dialog open={showModal} TransitionComponent={Transition} keepMounted onClose={handleClose}
+            <Dialog open={showModal}
+                    slots={{
+                        transition: Transition,
+                    }}
+                    keepMounted onClose={handleClose}
                     aria-describedby={id} maxWidth="sm">
                 <DialogTitle id={id}>
                     <Typography sx={{textTransform: 'uppercase'}}>Are you a member?</Typography>

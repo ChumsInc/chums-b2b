@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from "react";
 import EmailAddressTextField from "../common-components/EmailAddressTextField";
 import FormHelperText from "@mui/material/FormHelperText";
 import {BillToCustomer, ShipToCustomer} from "b2b-types";

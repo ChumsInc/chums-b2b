@@ -1,9 +1,9 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React from "react";
 import {selectUserProfile} from "@/ducks/user/selectors";
-import {ErrorBoundary as ReactErrorBoundary, FallbackProps} from 'react-error-boundary';
+import {ErrorBoundary as ReactErrorBoundary, FallbackProps} from "react-error-boundary";
 import {postErrors} from "@/api/fetch";
 import Alert from "@mui/material/Alert";
+import {useAppSelector} from "@/app/configureStore";
 
 function ErrorFallback({error}: FallbackProps) {
     // resetErrorBoundary();
@@ -15,11 +15,11 @@ function ErrorFallback({error}: FallbackProps) {
     )
 }
 
-export default function ErrorBoundary({reportErrors, children}: {
-    reportErrors?: boolean|undefined;
+export default function AppErrorBoundary({reportErrors, children}: {
+    reportErrors?: boolean | undefined;
     children: React.ReactNode;
 }) {
-    const userProfile = useSelector(selectUserProfile);
+    const userProfile = useAppSelector(selectUserProfile);
 
     const logError = (error: Error, info: React.ErrorInfo) => {
         if (reportErrors === false) {

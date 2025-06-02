@@ -1,7 +1,6 @@
 import React, {forwardRef} from "react";
 import Box from "@mui/material/Box";
 import {TableComponents, TableVirtuoso} from "react-virtuoso";
-import {useSelector} from "react-redux";
 import {selectCustomerSort, selectFilteredCustomerList} from "../selectors";
 import {Customer} from "b2b-types";
 import Table from "@mui/material/Table";
@@ -11,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {setCustomersSort} from "../actions";
 import {accountListColumns} from "./AccountListColumns";
 
@@ -32,7 +31,7 @@ const VirtuosoTableComponents: TableComponents<Customer> = {
 
 
 const AccountListTable = () => {
-    const customers = useSelector(selectFilteredCustomerList);
+    const customers = useAppSelector(selectFilteredCustomerList);
     return (
         <Box sx={{height: 600, maxHeight: '75vh', width: '100%', mb: 3}}>
             <TableVirtuoso data={customers} components={VirtuosoTableComponents}
@@ -45,7 +44,7 @@ export default AccountListTable;
 
 function fixedHeaderContent() {
     const dispatch = useAppDispatch();
-    const sort = useSelector(selectCustomerSort);
+    const sort = useAppSelector(selectCustomerSort);
     const sortDirection = sort.ascending ? 'asc' : 'desc';
     const sortHandler = (field: keyof Customer) => () => {
         if (field === sort.field) {

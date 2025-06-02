@@ -1,14 +1,14 @@
 import {NavItemProps} from "@/types/ui-features";
-import {useSelector} from "react-redux";
 import {selectLoggedIn} from "../../user/selectors";
 import ListItemLink from "../../../components/ListItemLink";
 import {PATH_LOGIN} from "@/constants/paths";
 import React from "react";
 import NavItemButtonLink from "./NavItemButtonLink";
+import {useAppSelector} from "@/app/configureStore";
 
 
 export default function NavLoginLink({inDrawer}: NavItemProps) {
-    const isLoggedIn = useSelector(selectLoggedIn);
+    const isLoggedIn = useAppSelector(selectLoggedIn);
     if (isLoggedIn) {
         return null;
     }

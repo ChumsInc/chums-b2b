@@ -69,7 +69,6 @@ export const customerResponseToState = (payload: FetchCustomerResponse | null, s
         loaded: true,
     };
     nextState.contacts = [...(payload?.contacts ?? [])].sort(customerContactSorter);
-    nextState.pricing = [...(payload?.pricing ?? [])].sort(customerPriceRecordSorter);
     nextState.shipToAddresses = [...(payload?.shipTo ?? [])].sort(customerShipToSorter(defaultShipToSort));
     const [shipTo] = nextState.shipToAddresses.filter(st => st.ShipToCode === state.shipToCode);
     if (shipTo && nextState.permissions?.values?.billTo) {

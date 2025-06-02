@@ -1,10 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchBanners} from "./api";
 import {RootState} from "@/app/configureStore";
-import {LoadBannersResponse} from "./index";
-import {selectBannersLoading} from "./selectors";
+import {LoadBannersResponse, selectBannersLoading} from "./index";
 
-export const loadBanners = createAsyncThunk<LoadBannersResponse, void, {state:RootState}>(
+export const loadBanners = createAsyncThunk<LoadBannersResponse, void, { state: RootState }>(
     'banners/load',
     async () => {
         const banners = await fetchBanners();

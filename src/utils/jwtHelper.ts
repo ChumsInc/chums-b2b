@@ -1,5 +1,5 @@
-import {jwtDecode, JwtPayload} from 'jwt-decode';
-import {GoogleProfile, StoredProfile} from "../types/user";
+import {jwtDecode, JwtPayload} from "jwt-decode";
+import {GoogleProfile, StoredProfile} from "@/types/user";
 import {UserProfile, UserRole} from "b2b-types";
 import {UserCustomerAccess} from "b2b-types/src/user";
 

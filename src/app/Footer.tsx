@@ -1,13 +1,13 @@
-import React from 'react';
-import AppVersion from "../ducks/version/AppVersion";
+import React from "react";
+import AppVersion from "@/ducks/version/AppVersion";
 import Box from "@mui/material/Box";
 import {styled} from "@mui/material/styles";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
-import {visuallyHidden} from '@mui/utils'
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import {default as visuallyHidden} from "@mui/utils/visuallyHidden"
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import Stack from "@mui/material/Stack";
 import SignUpModal from "../components/SignUpModal";
 

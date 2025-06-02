@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState} from "react";
 import Button, {ButtonProps} from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";

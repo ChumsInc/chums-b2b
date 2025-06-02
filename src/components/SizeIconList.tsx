@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import {visuallyHidden} from '@mui/utils'
+import {default as visuallyHidden} from "@mui/utils/visuallyHidden"
 
 export type SizeCode = 'S'|'M'|'L';
 

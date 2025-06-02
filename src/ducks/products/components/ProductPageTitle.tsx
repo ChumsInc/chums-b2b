@@ -1,21 +1,40 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect} from "react";
 import {selectCurrentProduct, selectSelectedProduct} from "../selectors";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Typography from "@mui/material/Typography";
 import ProductAttributeStack from "./ProductAttrbuteStack";
+import {useAppSelector} from "@/app/configureStore";
+import {Product} from "b2b-types";
 
-const ProductPageTitle = () => {
-    const product = useSelector(selectCurrentProduct);
-    const selectedProduct = useSelector(selectSelectedProduct);
 
-    const isNew = (!!product?.season?.product_teaser && product?.season?.active)
+function getProductTitle(product: Product|null):string {
+    if (!product) {
+        return '';
+    }
+
+    return product.name + (product.additionalData?.subtitle ? ` - ${product.additionalData.subtitle}` : '')
+}
+
+function getIsNew(product:Product|null, selectedProduct:Product|null):boolean {
+    return (!!product?.season?.product_teaser && product?.season?.active)
         || (!!selectedProduct?.season?.product_teaser && selectedProduct?.season?.active)
+}
+const ProductPageTitle = () => {
+    const product = useAppSelector(selectCurrentProduct);
+    const selectedProduct = useAppSelector(selectSelectedProduct);
+    const [documentTitle, setDocumentTitle] = React.useState<string>(getProductTitle(product));
+    const [isNew, setIsNew] = React.useState<boolean>(getIsNew(product, selectedProduct));
+
+    useEffect(() => {
+        setDocumentTitle(getProductTitle(product));
+        setIsNew(getIsNew(product, selectedProduct));
+    }, [product, selectedProduct]);
+
 
     if (!product) {
         return null;
     }
-    const documentTitle = product?.name + (product?.additionalData?.subtitle ? ` - ${product.additionalData.subtitle}` : '');
+
     return (
         <>
             <DocumentTitle documentTitle={documentTitle}/>

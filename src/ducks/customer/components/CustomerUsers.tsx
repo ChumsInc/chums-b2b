@@ -1,9 +1,8 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React from "react";
 import CustomerUserTable from "./CustomerUserTable";
 import {selectCustomerKey, selectCustomerLoading} from "../selectors";
 import LinearProgress from "@mui/material/LinearProgress";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -15,7 +14,7 @@ import Button from "@mui/material/Button";
 
 export default function CustomerUsers() {
     const dispatch = useAppDispatch();
-    const loading = useSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectCustomerLoading);
     const customerKey = useAppSelector(selectCustomerKey)
 
     const reloadHandler = () => {

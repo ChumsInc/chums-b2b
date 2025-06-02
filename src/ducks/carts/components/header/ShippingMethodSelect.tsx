@@ -1,9 +1,9 @@
-import React, {useId} from 'react';
+import React, {useId} from "react";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import {InputBaseComponentProps} from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl, {FormControlProps} from '@mui/material/FormControl'
+import FormControl, {FormControlProps} from "@mui/material/FormControl"
 import {ShippingMethods} from "@/utils/general";
 
 export interface ShippingMethodSelectProps extends Omit<FormControlProps, 'onChange'> {

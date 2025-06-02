@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {Editable, SalesOrderDetailLine} from "b2b-types";
 import {Appendable} from "@/types/generic";
 import classNames from "classnames";
@@ -7,10 +7,10 @@ import UPCA from "../../../common/upc-a";
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import SalesOrderLineButtons from "./SalesOrderLineButtons";
-import TableCell from '@mui/material/TableCell';
+import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Stack from "@mui/material/Stack";
 
 

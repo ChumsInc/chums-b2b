@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import SeasonTeaser from "../SeasonTeaser";
 import {BasicProduct} from "b2b-types";
 import CategoryGridItem from "./CategoryGridItem";

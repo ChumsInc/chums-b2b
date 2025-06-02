@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {NavItemProps} from "@/types/ui-features";
-import {useSelector} from "react-redux";
 import {selectProductMenu} from "../index";
 import DrawerMenu from "@/ducks/menu/components/DrawerMenu";
 import {MinimalMenuItem} from "@/ducks/menu/types";
 import BasicMenu from "@/ducks/menu/components/BasicMenu";
+import {useAppSelector} from "@/app/configureStore";
 
 const productUrl = (url: string) => `/products${url}`;
 
 export default function NavProductsLink({inDrawer}: NavItemProps) {
-    const productMenu = useSelector(selectProductMenu);
+    const productMenu = useAppSelector(selectProductMenu);
     const [items, setItems] = useState<MinimalMenuItem[]>([]);
 
     useEffect(() => {

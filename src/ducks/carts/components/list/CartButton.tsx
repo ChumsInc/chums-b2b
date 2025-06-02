@@ -1,22 +1,18 @@
 import React from "react";
-import {useSelector} from "react-redux";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import IconButton from "@mui/material/IconButton";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
 import {loadCart} from "@/ducks/carts/actions";
 import {selectCustomerKey} from "@/ducks/customer/selectors";
 
-/**
- * @TODO: Refactor for using cartId instead of salesOrderNo
- */
 export const CartButton = ({cartId}: {
     cartId: number;
 }) => {
     const dispatch = useAppDispatch();
-    const customerKey = useSelector(selectCustomerKey);
-    const activeCartId = useSelector(selectActiveCartId);
+    const customerKey = useAppSelector(selectCustomerKey);
+    const activeCartId = useAppSelector(selectActiveCartId);
 
     const clickHandler = () => {
         if (customerKey && cartId) {

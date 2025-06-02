@@ -1,6 +1,7 @@
-import React from 'react';
+import React from "react";
 import Box from "@mui/material/Box";
-import {SxProps} from "@mui/system";
+import {SxProps} from "@mui/material/styles";
+
 
 export default function ChumsLogo({sx}:{
     sx?: SxProps

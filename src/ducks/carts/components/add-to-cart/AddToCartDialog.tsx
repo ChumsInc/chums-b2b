@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import Dialog, {DialogProps} from "@mui/material/Dialog";
 import {CartProduct} from "b2b-types";
 import DialogTitle from "@mui/material/DialogTitle";

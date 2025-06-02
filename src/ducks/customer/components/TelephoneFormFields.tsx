@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent} from "react";
 import {BillToCustomer, ShipToCustomer} from "b2b-types";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";

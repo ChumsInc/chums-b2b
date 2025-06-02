@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useId} from 'react';
+import React, {ChangeEvent, useId} from "react";
 import TextField, {TextFieldProps} from "@mui/material/TextField";
 
 export interface CartNameInputProps extends Omit<TextFieldProps, 'value' | 'onChange'> {

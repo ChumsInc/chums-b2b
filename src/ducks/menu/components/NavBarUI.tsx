@@ -1,29 +1,29 @@
 import React, {Fragment, useEffect,} from "react";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 import HideOnScroll from "../../../components/HideOnScroll";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
 import NavDrawer from "./NavDrawer";
 import HomeLink from "./HomeLink";
-import {navItems} from './NavItems'
-import {useAppDispatch} from "@/app/configureStore";
-import {useSelector} from "react-redux";
+import {navItems} from "./NavItems"
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadProductMenu, selectLoaded, selectLoading, toggleMenuDrawer} from "../index";
 import Container from "@mui/material/Container";
 import UserMenu from "./UserMenu";
 import CartMenu from "./CartMenu";
 import SearchBar from "../../search/components/SearchBar";
+import NavBarItems from "@/ducks/menu/components/NavBarItems";
 
 
 const NavBarUI = () => {
     const dispatch = useAppDispatch();
-    const loading = useSelector(selectLoading);
-    const loaded = useSelector(selectLoaded);
+    const loading = useAppSelector(selectLoading);
+    const loaded = useAppSelector(selectLoaded);
 
     useEffect(() => {
         if (!loaded && !loading) {
@@ -61,18 +61,7 @@ const NavBarUI = () => {
                                 <MenuIcon/>
                             </IconButton>
                             <HomeLink/>
-                            <Box sx={{
-                                display: {xs: 'none', md: 'flex'},
-                                flex: '1 1 auto',
-                                flexDirection: 'row',
-                                alignItems: 'center'
-                            }}>
-                                {navItems.map((item) => (
-                                    <Fragment key={item.id}>
-                                        {item.title ?? (item.render ? item.render({}) : null)}
-                                    </Fragment>
-                                ))}
-                            </Box>
+                            <NavBarItems />
                             <Box sx={{display: {xs: 'none', md: 'flex'}, flex: '1 1 auto'}}>
                                 <SearchBar/>
                             </Box>

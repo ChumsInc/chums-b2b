@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectSignUpProfile, selectSignUpStatus} from "../../sign-up/selectors";
 import {loadSignUpProfile} from "../../sign-up/actions";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -22,8 +21,8 @@ const ResetPassword = () => {
     const [hash, setHash] = useState(params.hash ?? '')
     const [key, setKey] = useState(params.key ?? '');
     const [alert, setAlert] = useState<string | null>(null);
-    const profile = useSelector(selectSignUpProfile);
-    const loading = useSelector(selectSignUpStatus);
+    const profile = useAppSelector(selectSignUpProfile);
+    const loading = useAppSelector(selectSignUpStatus);
     const navigate = useNavigate();
 
     useEffect(() => {

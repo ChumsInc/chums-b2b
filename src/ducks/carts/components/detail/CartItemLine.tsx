@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import classNames from "classnames";
 import OrderItemImage from "@/components/OrderItemImage";
 import AvailabilityAlert from "@/components/AvailabilityAlert";
@@ -12,7 +12,7 @@ import FormattedUPC from "@/components/FormattedUPC";
 import Typography from "@mui/material/Typography";
 import {selectCanViewAvailable} from "@/ducks/user/selectors";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import TableCell from '@mui/material/TableCell';
+import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import ProductLink from "@/components/product";
 import {selectCartItemById, setCartItem} from "@/ducks/carts/cartDetailSlice";

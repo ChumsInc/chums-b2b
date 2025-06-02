@@ -53,36 +53,32 @@ export const initialSalesOrderState = (): SalesOrderState => ({
 })
 
 
+const resetSalesOrderState = (state: SalesOrderState) => {
+    state.salesOrderNo = '';
+    state.header = null;
+    state.detail = [];
+    state.invoices = [];
+    state.payment = [];
+    state.orderType = 'past';
+    state.attempts = 0;
+    state.loaded = false;
+    state.customerKey = null;
+    state.sendEmail = {
+        error: null,
+        status: 'idle',
+        response: null,
+    };
+}
 const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
     builder
         .addCase(setLoggedIn, (state, action) => {
             if (!action.payload?.loggedIn) {
-                state.salesOrderNo = '';
-                state.header = null;
-                state.detail = [];
-                state.invoices = [];
-                state.payment = [];
-                state.orderType = 'past';
-                state.attempts = 0;
-                state.loaded = false;
-                state.customerKey = null;
-                state.sendEmail = {
-                    error: null,
-                    status: 'idle',
-                    response: null,
-                };
+                resetSalesOrderState(state);
             }
         })
         .addCase(setUserAccess.pending, (state, action) => {
             if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== customerSlug(state.header)) {
-                state.header = null;
-                state.salesOrderNo = '';
-                state.detail = [];
-                state.invoices = [];
-                state.payment = [];
-                state.orderType = 'past';
-                state.attempts = 0;
-                state.loaded = false;
+                resetSalesOrderState(state);
             }
         })
         .addCase(sendOrderEmail.pending, (state) => {
@@ -144,15 +140,8 @@ const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
         .addMatcher(isAnyOf(setCustomerAccount.fulfilled, loadCustomer.pending), (state, action) => {
             const customerKey = customerSlug(action.meta.arg);
             if (state.customerKey !== customerKey) {
+                resetSalesOrderState(state);
                 state.customerKey = customerKey;
-                state.salesOrderNo = '';
-                state.header = null;
-                state.detail = [];
-                state.invoices = [];
-                state.payment = [];
-                state.orderType = 'past';
-                state.attempts = 0;
-                state.loaded = false;
             }
         })
 })

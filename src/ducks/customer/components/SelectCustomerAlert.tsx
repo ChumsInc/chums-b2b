@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 import {Link as RoutedLink, useLocation} from "react-router";
 import Alert from "@mui/material/Alert";
-import Link from '@mui/material/Link';
-import {useSelector} from "react-redux";
+import Link from "@mui/material/Link";
 import {selectCustomerLoading} from "../selectors";
 import {selectCurrentAccess, selectCurrentCustomer} from "@/ducks/user/selectors";
 import {useTheme} from "@mui/material/styles";
+import {useAppSelector} from "@/app/configureStore";
 
 const SelectCustomerAlert = () => {
-    const loading = useSelector(selectCustomerLoading);
-    const currentCustomer = useSelector(selectCurrentCustomer);
-    const currentAccess = useSelector(selectCurrentAccess);
+    const loading = useAppSelector(selectCustomerLoading);
+    const currentCustomer = useAppSelector(selectCurrentCustomer);
+    const currentAccess = useAppSelector(selectCurrentAccess);
     const theme = useTheme();
     const location = useLocation()
 

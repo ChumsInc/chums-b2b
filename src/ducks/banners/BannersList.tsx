@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {useEffect} from "react";
 import HomeBanner from "./HomeBanner";
 import Stack from "@mui/material/Stack";
-import {selectBannersList, selectBannersLoaded, selectBannersUpdated} from "./selectors";
+import {selectBannersList, selectBannersLoaded, selectBannersUpdated} from "./index";
 import {loadBanners} from "./actions";
 
 const bannersMaxAge = 1000 * 60 * 30;
@@ -33,7 +32,7 @@ const BannersList = () => {
 
     return (
         <Stack direction="column" spacing={2} sx={{mb: 2}}>
-            {banners.map(banner => (<HomeBanner key={banner.id} banner={banner} />))}
+            {banners.map(banner => (<HomeBanner key={banner.id} banner={banner}/>))}
         </Stack>
     )
 }

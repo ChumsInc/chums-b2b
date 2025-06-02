@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCartsSort, selectFilteredCarts, setCartsSort} from "@/ducks/carts/cartHeadersSlice";
 import {SortProps} from "b2b-types";

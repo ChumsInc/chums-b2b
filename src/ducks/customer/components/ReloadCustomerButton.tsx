@@ -1,13 +1,12 @@
-import React from 'react';
-import {useAppDispatch} from "@/app/configureStore";
+import React from "react";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCurrentCustomer} from "../../user/selectors";
-import {useSelector} from "react-redux";
 import {loadCustomer} from "../actions";
 import Button, {ButtonProps} from "@mui/material/Button";
 
 const ReloadCustomerButton = ({type, onClick, disabled, ...rest}: ButtonProps) => {
     const dispatch = useAppDispatch();
-    const currentCustomer = useSelector(selectCurrentCustomer);
+    const currentCustomer = useAppSelector(selectCurrentCustomer);
 
     const clickHandler = () => {
         dispatch(loadCustomer(currentCustomer));

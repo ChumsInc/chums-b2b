@@ -1,14 +1,14 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React from "react";
 import Alert from "@mui/material/Alert";
 import {selectCustomerAccount, selectCustomerLoaded, selectCustomerLoading} from "../selectors";
 import {selectLoggedIn} from "../../user/selectors";
+import {useAppSelector} from "@/app/configureStore";
 
 const MissingTaxScheduleAlert = () => {
-    const customer = useSelector(selectCustomerAccount);
-    const loading = useSelector(selectCustomerLoading);
-    const loaded = useSelector(selectCustomerLoaded);
-    const loggedIn = useSelector(selectLoggedIn);
+    const customer = useAppSelector(selectCustomerAccount);
+    const loading = useAppSelector(selectCustomerLoading);
+    const loaded = useAppSelector(selectCustomerLoaded);
+    const loggedIn = useAppSelector(selectLoggedIn);
 
     if (!customer) {
         return null;

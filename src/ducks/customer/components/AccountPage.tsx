@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {useSelector} from "react-redux";
-import {loadCustomer, setReturnToPath} from '../actions';
+import React, {useEffect} from "react";
+import {loadCustomer, setReturnToPath} from "../actions";
 import AccountBreadcrumbs from "./AccountBreadcrumbs";
 import {
     selectCustomerAccount,
@@ -21,10 +20,10 @@ import {ga4SelectCustomer} from "@/src/ga4/generic";
 const AccountPage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const customer = useSelector(selectCustomerAccount);
-    const userAccount = useSelector(selectCurrentUserAccount);
+    const customer = useAppSelector(selectCustomerAccount);
+    const userAccount = useAppSelector(selectCurrentUserAccount);
     const params = useParams<{ customerSlug: string }>();
-    const loadStatus = useSelector(selectCustomerLoadStatus);
+    const loadStatus = useAppSelector(selectCustomerLoadStatus);
     const shipToCode = useAppSelector(selectCustomerShipToCode);
     const shipTo = useAppSelector((state) => selectShipToByCode(state, shipToCode));
 

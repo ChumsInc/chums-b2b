@@ -1,12 +1,12 @@
-import React from 'react';
-import {generatePath, Link as RoutedLink} from 'react-router';
-import {OrderType} from "../types/salesorder";
-import {useSelector} from "react-redux";
+import React from "react";
+import {generatePath, Link as RoutedLink} from "react-router";
+import {OrderType} from "@/types/salesorder";
 import {selectCurrentCustomer} from "@/ducks/user/selectors";
 import {customerSlug} from "@/utils/customer";
 import Link from "@mui/material/Link";
+import {useAppSelector} from "@/app/configureStore";
 
-const getSalesOrderPath = (orderType:OrderType|null):string => {
+const getSalesOrderPath = (orderType: OrderType | null): string => {
     switch (orderType) {
         case 'cart':
             return '/account/:customerSlug/carts/:salesOrderNo';
@@ -22,7 +22,7 @@ export const OrderLink = ({salesOrderNo, orderType}: {
     salesOrderNo: string | null;
     orderType: OrderType | null;
 }) => {
-    const customer = useSelector(selectCurrentCustomer);
+    const customer = useAppSelector(selectCurrentCustomer);
     if (!customer || !salesOrderNo) {
         return null;
     }

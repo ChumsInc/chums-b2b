@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {ManifestFiles} from "./manifest";
 import * as process from "node:process";
 

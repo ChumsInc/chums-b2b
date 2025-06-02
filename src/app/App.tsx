@@ -1,59 +1,60 @@
-import React, {StrictMode, useEffect} from 'react';
-import {Route, Routes, useLocation} from 'react-router';
-import Login from "../ducks/user/components/LoginPage";
-import {useSelector} from 'react-redux';
-import {loadProfile} from '@/ducks/user/actions';
-import {loadCustomer} from '@/ducks/customer/actions';
-import ProfilePage from "../ducks/user/components/ProfilePage";
-import AccountPage from "../ducks/customer/components/AccountPage";
-import SalesOrderPage from "../ducks/open-orders/components/SalesOrderPage";
-import SignUp from "../ducks/sign-up/SignUp";
+import React, {StrictMode, useEffect} from "react";
+import {Route, Routes, useLocation} from "react-router";
+import Login from "@/ducks/user/components/LoginPage";
+import {loadProfile} from "@/ducks/user/actions";
+import {loadCustomer} from "@/ducks/customer/actions";
+import ProfilePage from "@/ducks/user/components/ProfilePage";
+import AccountPage from "@/ducks/customer/components/AccountPage";
+import SalesOrderPage from "@/ducks/open-orders/components/SalesOrderPage";
+import SignUp from "@/ducks/sign-up/SignUp";
 import Logout from "../components/Logout";
-import ResetPassword from "../ducks/user/components/ResetPassword";
-import ContentPage from "../ducks/page/ContentPage";
-import InvoicePage from "../ducks/invoices/components/InvoicePage";
+import ResetPassword from "@/ducks/user/components/ResetPassword";
+import ContentPage from "@/ducks/page/ContentPage";
+import InvoicePage from "@/ducks/invoices/components/InvoicePage";
 import {selectCurrentCustomer, selectLoggedIn} from "@/ducks/user/selectors";
 import {selectCustomerLoaded, selectCustomerLoading} from "@/ducks/customer/selectors";
-import {LocalizationProvider} from "@mui/x-date-pickers";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import AccountListContainer from "../ducks/customers/components/AccountListContainer";
+import AccountListContainer from "@/ducks/customers/components/AccountListContainer";
 import {useAppDispatch, useAppSelector} from "./configureStore";
 import MainOutlet from "./MainOutlet";
-import ProductRouter from "../ducks/products/components/ProductRouter";
-import BillToForm from "../ducks/customer/components/BillToForm";
-import ShipToForm from "../ducks/customer/components/ShipToForm";
-import CustomerUsers from "../ducks/customer/components/CustomerUsers";
+import ProductRouter from "@/ducks/products/components/ProductRouter";
+import BillToForm from "@/ducks/customer/components/BillToForm";
+import ShipToForm from "@/ducks/customer/components/ShipToForm";
+import CustomerUsers from "@/ducks/customer/components/CustomerUsers";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ContentPage404 from "../components/ContentPage404";
-import OpenOrdersList from "../ducks/open-orders/components/OpenOrdersList";
-import InvoicesList from "../ducks/invoices/components/InvoicesList";
-import ShipToList from "../ducks/customer/components/ShipToList";
+import OpenOrdersList from "@/ducks/open-orders/components/OpenOrdersList";
+import InvoicesList from "@/ducks/invoices/components/InvoicesList";
+import ShipToList from "@/ducks/customer/components/ShipToList";
 import theme from "./theme";
 import Home from "../components/Home";
-import ClosedSalesOrderPage from "../ducks/open-orders/components/ClosedSalesOrderPage";
+import ClosedSalesOrderPage from "@/ducks/open-orders/components/ClosedSalesOrderPage";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {GOOGLE_CLIENT_ID} from "@/constants/app";
-import RequestPasswordResetForm from "../ducks/user/components/RequestPasswordResetForm";
-import ChangePasswordPage from "../ducks/user/components/ChangePasswordPage";
+import RequestPasswordResetForm from "@/ducks/user/components/RequestPasswordResetForm";
+import ChangePasswordPage from "@/ducks/user/components/ChangePasswordPage";
 import {useIsSSR} from "@/hooks/is-server-side";
 import LocalStore from "../utils/LocalStore";
 import {isTokenExpired} from "@/utils/jwtHelper";
 import {auth} from "@/api/IntranetAuthService";
 import {selectAppNonce} from "@/ducks/app/selectors";
-import EditAccountUserForm from "../ducks/customer/components/EditAccountUserForm";
+import EditAccountUserForm from "@/ducks/customer/components/EditAccountUserForm";
 import CartsPage from "@/ducks/carts/components/CartsPage";
 import CartPage from "@/ducks/carts/components/CartPage";
 import {ga4PageView} from "@/src/ga4/generic";
+import CategoryListContainer from "@/ducks/category/CategoryListContainer";
+import ProductContainer from "@/ducks/products/components/ProductContainer";
 
 
 const App = () => {
     const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
-    const isLoggedIn = useSelector(selectLoggedIn);
-    const currentCustomer = useSelector(selectCurrentCustomer);
-    const customerLoading = useSelector(selectCustomerLoading);
-    const customerLoaded = useSelector(selectCustomerLoaded);
+    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const currentCustomer = useAppSelector(selectCurrentCustomer);
+    const customerLoading = useAppSelector(selectCustomerLoading);
+    const customerLoaded = useAppSelector(selectCustomerLoaded);
     const nonce = useAppSelector(selectAppNonce);
     const location = useLocation();
 
@@ -93,9 +94,9 @@ const App = () => {
                                     <Route index element={<Home/>}/>
                                     <Route path="/home" element={<Home/>}/>
                                     <Route path="/products" element={<ProductRouter/>}/>
-                                    <Route path="/products/:category" element={<ProductRouter/>}/>
-                                    <Route path="/products/:category/:product" element={<ProductRouter/>}/>
-                                    <Route path="/products/:category/:product/:sku" element={<ProductRouter/>}/>
+                                    <Route path="/products/:category" element={<CategoryListContainer/>}/>
+                                    <Route path="/products/:category/:product" element={<ProductContainer/>}/>
+                                    <Route path="/products/:category/:product/:sku" element={<ProductContainer/>}/>
                                     <Route path="/pages/:keyword" element={<ContentPage/>}/>
                                     {!isLoggedIn && (
                                         <>
@@ -120,7 +121,7 @@ const App = () => {
                                                 <Route path="delivery" element={<ShipToList/>}/>
                                                 <Route path="delivery/:shipToCode" element={<ShipToForm/>}/>
                                                 <Route path="users" element={<CustomerUsers/>}>
-                                                    <Route path=":id?" element={<EditAccountUserForm/>}/>
+                                                    <Route path=":id" element={<EditAccountUserForm/>}/>
                                                 </Route>
                                                 <Route path="carts" element={<CartsPage/>}/>
                                                 <Route path="carts/:cartId" element={<CartPage/>}/>

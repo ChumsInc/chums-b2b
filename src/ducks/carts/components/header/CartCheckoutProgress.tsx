@@ -1,17 +1,10 @@
-import React, {useId} from 'react';
-import {
-    CartProgress,
-} from "@/types/cart/cart-utils";
-import {
-    cartProgress_Cart,
-    cartProgress_Confirm,
-    cartProgress_Delivery,
-    cartProgress_Payment
-} from "@/utils/cart";
+import React, {useId} from "react";
+import {CartProgress,} from "@/types/cart/cart-utils";
+import {cartProgress_Cart, cartProgress_Confirm, cartProgress_Delivery, cartProgress_Payment} from "@/utils/cart";
 import Box from "@mui/material/Box";
-import LinearProgress from '@mui/material/LinearProgress'
-import Grid from '@mui/material/Grid2'
-import Button from '@mui/material/Button'
+import LinearProgress from "@mui/material/LinearProgress"
+import Grid from "@mui/material/Grid"
+import Button from "@mui/material/Button"
 
 
 const cartProgressLabels = ['Cart', 'Shipping & Delivery', 'Payment', 'Confirm Checkout'];
@@ -31,7 +24,7 @@ export default function CartCheckoutProgress({current, disabled, onChange}: {
         }
     }
     return (
-        <Box sx={{width: '100%', mb: 1, mt: 2}} >
+        <Box sx={{width: '100%', mb: 1, mt: 2}}>
             <Box aria-label={`Checkout Progress: ${cartProgressLabels[progress]}`} id={id}>
                 <LinearProgress variant="determinate" value={value} aria-labelledby={id}/>
             </Box>

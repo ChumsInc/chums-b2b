@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
 import AppAlert from "../common-components/AppAlert";
 import Decimal from "decimal.js";
 import {B2BCartSeason} from "@/types/cart/cart-detail";
 import Alert from "@mui/material/Alert";
-
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import {selectCanViewAvailable} from "@/ducks/user/selectors";
 import {useAppSelector} from "@/app/configureStore";
 

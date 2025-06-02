@@ -1,9 +1,9 @@
-import React from 'react';
-import Grid from "@mui/material/Grid2";
+import React from "react";
+import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Link from '@mui/material/Link'
-import {Link as NavLink} from 'react-router'
+import Link from "@mui/material/Link"
+import {Link as NavLink} from "react-router"
 import Container from "@mui/material/Container";
 
 

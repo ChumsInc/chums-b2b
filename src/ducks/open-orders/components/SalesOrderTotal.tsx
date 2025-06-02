@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect} from "react";
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import {useAppSelector} from "@/app/configureStore";

@@ -1,5 +1,5 @@
-import 'dotenv/config';
-import Debug from 'debug';
+import "dotenv/config";
+import Debug from "debug";
 import fs from "node:fs/promises";
 import {NextFunction, Request, Response} from "express";
 import {rootReducer} from "@/app/configureStore";
@@ -14,7 +14,8 @@ import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
 import {StaticRouter} from "react-router";
 import {configureStore} from "@reduxjs/toolkit";
-import {PreloadedState} from "../types/preload";
+import {PreloadedState} from "@/types/preload";
+import {Keyword} from "b2b-types";
 
 const debug = Debug('chums:server:render');
 
@@ -47,63 +48,36 @@ async function loadVersionNo(): Promise<string | null> {
     }
 }
 
-export async function renderApp(req: Request, res: Response, next: NextFunction) {
+const redirectToParent = (res: Response, found: Keyword, keywords: Keyword[]): void => {
+    const [parent] = keywords.filter(kw => kw.status).filter(kw => kw.id === found.redirect_to_parent);
+    if (!parent || !parent.status) {
+        res.redirect('/products/all');
+        return;
+    }
+    res.redirect(`/products/${parent.keyword}`);
+}
+
+export async function renderApp(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
         if (!/^\/($|home|login|logout|signup|pages|profile|account|orders|invoices|set-password|reset-password)/.test(req.path)) {
             debug('handleRender() invalid path => 404', req.path);
             next();
             return;
         }
-        const nonce: string = res.locals.cspNonce!;
-        const manifestFiles = await loadManifest();
-        const preload = await loadJSON<PreloadedState>(`http://localhost:${API_PORT}/preload/state.json`);
-        if (!preload.version) {
-            const versionNo = await loadVersionNo();
-            preload.version = {versionNo}
-        }
-
-        const initialState = prepState(preload ?? {});
-        initialState.app.nonce = nonce;
-        const store = configureStore({reducer: rootReducer, preloadedState: initialState});
-
-        const app = renderToString(
-            <Provider store={store}>
-                <StaticRouter location={req.url}>
-                    <App/>
-                </StaticRouter>
-            </Provider>
-        );
-        let swatchMTime = 0;
-
-        try {
-            const stat = await fs.stat("./public/b2b-swatches/swatches.css");
-            swatchMTime = stat.mtimeMs ?? 0;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (err: unknown) {
-            //Do nothing here
-        }
-
-        const css = await loadMainCSS();
-        const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()} cspNonce={nonce}
-                                              manifestFiles={manifestFiles}
-                                              swatchTimestamp={swatchMTime.toString(36)}/>);
-        const html = `<!DOCTYPE html>
-                    ${_html}
-                    `;
-        res.send(html);
+        await renderHandler(req, res);
     } catch (err: unknown) {
         if (err instanceof Error) {
             debug("renderApp()", err.message);
             console.trace(err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return;
         }
         res.json({error: 'unknown error in renderApp'});
     }
 }
 
-export async function renderAppProductPage(req: Request, res: Response) {
+export async function renderAppProductPage(req: Request, res: Response): Promise<void> {
     try {
-        const manifestFiles = await loadManifest();
         const searchParams = new URLSearchParams();
         const keywords = await loadKeywords();
         if (req.params.product) {
@@ -114,12 +88,7 @@ export async function renderAppProductPage(req: Request, res: Response) {
                 return;
             }
             if (found?.redirect_to_parent) {
-                const [parent] = keywords.filter(kw => kw.status).filter(kw => kw.id === found.redirect_to_parent);
-                if (!parent || !parent.status) {
-                    res.redirect('/products/all');
-                    return;
-                }
-                res.redirect(`/products/${parent.keyword}`);
+                redirectToParent(res, found, keywords);
                 return;
             }
             searchParams.set('product', found.keyword);
@@ -131,53 +100,24 @@ export async function renderAppProductPage(req: Request, res: Response) {
                 return;
             }
             if (found?.redirect_to_parent) {
-                const [parent] = keywords.filter(kw => kw.status).filter(kw => kw.id === found.redirect_to_parent);
-                if (!parent || !parent.status) {
-                    res.redirect('/products/all');
-                    return;
-                }
-                res.redirect(`/products/${parent.keyword}`);
+                redirectToParent(res, found, keywords);
                 return;
             }
             searchParams.set('category', found.keyword);
         }
-        const preload = await loadJSON<PreloadedState>(`http://localhost:${API_PORT}/preload/state.json?${searchParams.toString()}`);
-        if (!preload.version) {
-            const versionNo = await loadVersionNo();
-            preload.version = {versionNo}
-        }
-
-        const initialState = prepState(preload ?? {});
-        const store = configureStore({reducer: rootReducer, preloadedState: initialState});
-        const app = renderToString(
-            <Provider store={store}>
-                <StaticRouter location={req.url}>
-                    <App/>
-                </StaticRouter>
-            </Provider>
-        );
-        const {mtimeMs: swatchMTime} = await fs.stat("./public/b2b-swatches/swatches.css");
-        const css = await loadMainCSS();
-        const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()}
-                                              cspNonce={res.locals.cspNonce}
-                                              manifestFiles={manifestFiles}
-                                              swatchTimestamp={swatchMTime.toString(36)}/>);
-        const html = `<!DOCTYPE html>
-                    ${_html}
-                    `;
-        res.send(html);
+        await renderHandler(req, res, searchParams);
     } catch (err: unknown) {
         if (err instanceof Error) {
             debug("renderAppProductPage()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return;
         }
         res.json({error: 'unknown error in renderAppProductPage'});
     }
 }
 
-export async function renderAppContentPage(req: Request, res: Response, next: NextFunction) {
+export async function renderAppContentPage(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const manifestFiles = await loadManifest();
         const searchParams = new URLSearchParams();
         const keywords = await loadKeywords();
         if (req.params.keyword) {
@@ -197,8 +137,30 @@ export async function renderAppContentPage(req: Request, res: Response, next: Ne
             }
             searchParams.set('page', found.keyword);
         }
-        const preload = await loadJSON(`http://localhost:${API_PORT}/preload/state.json?${searchParams.toString()}`);
+        await renderHandler(req, res, searchParams);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            debug("renderAppContentPage()", err.message);
+            res.json({error: err.message, name: err.name});
+            return;
+        }
+        res.json({error: 'unknown error in renderAppContentPage'});
+    }
+}
+
+
+async function renderHandler(req: Request, res: Response, searchParams?: URLSearchParams | undefined): Promise<void> {
+    try {
+        const nonce: string = res.locals.cspNonce!;
+        const manifestFiles = await loadManifest();
+        const preload = await loadJSON<PreloadedState>(`http://localhost:${API_PORT}/preload/state.json?${searchParams?.toString()}`);
+        if (!preload.version) {
+            const versionNo = await loadVersionNo();
+            preload.version = {versionNo}
+        }
+
         const initialState = prepState(preload ?? {});
+        initialState.app.nonce = nonce;
         const store = configureStore({reducer: rootReducer, preloadedState: initialState});
         const app = renderToString(
             <Provider store={store}>
@@ -207,7 +169,16 @@ export async function renderAppContentPage(req: Request, res: Response, next: Ne
                 </StaticRouter>
             </Provider>
         );
-        const {mtimeMs: swatchMTime} = await fs.stat("./public/b2b-swatches/swatches.css");
+
+        let swatchMTime = 0;
+        try {
+            const stat = await fs.stat("./public/b2b-swatches/swatches.css");
+            swatchMTime = stat.mtimeMs ?? 0;
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err: unknown) {
+            //Do nothing here
+        }
+
         const css = await loadMainCSS();
         const _html = renderToString(<B2BHtml html={app} css={css} state={store.getState()}
                                               cspNonce={res.locals.cspNonce}
@@ -219,9 +190,10 @@ export async function renderAppContentPage(req: Request, res: Response, next: Ne
         res.send(html);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            debug("renderAppContentPage()", err.message);
-            return res.json({error: err.message, name: err.name});
+            debug("render()", err.message);
+            res.json({error: err.message, name: err.name});
+            return;
         }
-        res.json({error: 'unknown error in renderAppContentPage'});
+        res.json({error: 'unknown error in render'});
     }
 }

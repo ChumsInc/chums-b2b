@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import Link, {LinkProps} from "@mui/material/Link";
-import {Link as RouterLink} from 'react-router';
+import {Link as RouterLink} from "react-router";
 
 
 interface RoutedLinkProps extends LinkProps {

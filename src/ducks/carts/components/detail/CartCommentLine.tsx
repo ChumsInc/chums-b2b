@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from "react";
 import classNames from "classnames";
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import Box from "@mui/material/Box";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
-import TableRow from '@mui/material/TableRow';
+import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TextField from "@mui/material/TextField";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";

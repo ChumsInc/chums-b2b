@@ -1,16 +1,16 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React from "react";
 import {selectProductCartItem, selectProductMSRP, selectProductSalesUM, selectSelectedProduct} from "../selectors";
 import numeral from "numeral";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import {useAppSelector} from "@/app/configureStore";
 
 const ProductPageInfo = () => {
-    const msrp = useSelector(selectProductMSRP);
-    const salesUM = useSelector(selectProductSalesUM);
-    const cartItem = useSelector(selectProductCartItem);
-    const selectedProduct = useSelector(selectSelectedProduct);
+    const msrp = useAppSelector(selectProductMSRP);
+    const salesUM = useAppSelector(selectProductSalesUM);
+    const cartItem = useAppSelector(selectProductCartItem);
+    const selectedProduct = useAppSelector(selectSelectedProduct);
     const itemCode = cartItem?.itemCode ?? selectedProduct?.itemCode ?? null;
 
     return (

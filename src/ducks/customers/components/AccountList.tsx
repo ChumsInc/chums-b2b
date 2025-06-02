@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import {loadCustomerList} from '../actions';
+import React, {useEffect} from "react";
+import {loadCustomerList} from "../actions";
 import {longAccountNumber} from "@/utils/customer";
-import ErrorBoundary from "../../../common-components/ErrorBoundary";
+import AppErrorBoundary from "../../../common-components/AppErrorBoundary";
 import {selectCurrentUserAccount,} from "../../user/selectors";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import Alert from "@mui/material/Alert";
@@ -21,9 +20,9 @@ const AccountList = () => {
     const dispatch = useAppDispatch();
     const match = useMatch('/profile/:id');
     const location = useLocation();
-    const userAccount = useSelector(selectCurrentUserAccount);
-    const loading = useSelector(selectCustomersLoading);
-    const loaded = useSelector(selectCustomersLoaded);
+    const userAccount = useAppSelector(selectCurrentUserAccount);
+    const loading = useAppSelector(selectCustomersLoading);
+    const loaded = useAppSelector(selectCustomersLoaded);
     const error = useAppSelector(selectCustomersLoadError);
 
 
@@ -52,7 +51,7 @@ const AccountList = () => {
     ];
 
     return (
-        <ErrorBoundary>
+        <AppErrorBoundary>
             <DocumentTitle documentTitle={documentTitle}/>
             <Breadcrumb paths={paths}/>
             <Typography variant="h1" component="h1">Account List</Typography>
@@ -66,7 +65,7 @@ const AccountList = () => {
             {loading === 'loading' && <LinearProgress variant="indeterminate" sx={{my: 1}}/>}
 
             <AccountListTable/>
-        </ErrorBoundary>
+        </AppErrorBoundary>
     );
 }
 

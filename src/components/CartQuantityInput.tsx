@@ -1,13 +1,13 @@
-import React, {ChangeEvent, useId} from 'react';
-import FormControl from '@mui/material/FormControl';
+import React, {ChangeEvent, useId} from "react";
+import FormControl from "@mui/material/FormControl";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
-import {visuallyHidden} from "@mui/utils";
+import {default as visuallyHidden} from "@mui/utils/visuallyHidden";
 import {styled, useTheme} from "@mui/material/styles";
 
 const NumericInput = styled(FilledInput)`

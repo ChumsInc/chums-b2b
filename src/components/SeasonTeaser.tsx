@@ -1,5 +1,5 @@
-import React from 'react';
-import ProductAttributeChip from "../ducks/products/components/ProductAttributeChip";
+import React from "react";
+import ProductAttributeChip from "@/ducks/products/components/ProductAttributeChip";
 import Stack, {StackProps} from "@mui/material/Stack";
 
 export interface SeasonTeaserProps extends StackProps {
