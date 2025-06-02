@@ -12,7 +12,7 @@ export interface BannersState {
 const extraState: BannersState = {
     loading: false,
     loaded: false,
-    updated: globalThis.window.__PRELOADED_STATE__?.banners?.list?.length ? new Date().valueOf() : 0,
+    updated: 0,
 }
 
 const adapter = createEntityAdapter<Banner, number>({
