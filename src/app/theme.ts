@@ -167,19 +167,19 @@ theme = createTheme(theme, {
         }
     },
     typography: {
-        fontFamily: [
-            "Roboto Condensed",
-            '-apple-system',
-            'BlinkMacSystemFont',
-            "Segoe UI",
-            'Roboto',
-            "Helvetica Neue",
-            'Arial',
-            'sans-serif',
-            "Apple Color Emoji",
-            "Segoe UI Emoji",
-            "Segoe UI Symbol"
-        ].join(','),
+        // fontFamily: [
+        //     "Roboto Condensed",
+        //     '-apple-system',
+        //     'BlinkMacSystemFont',
+        //     "Segoe UI",
+        //     'Roboto',
+        //     "Helvetica Neue",
+        //     'Arial',
+        //     'sans-serif',
+        //     "Apple Color Emoji",
+        //     "Segoe UI Emoji",
+        //     "Segoe UI Symbol"
+        // ].join(','),
         fontSize: 16,
         h1: {
             textTransform: 'uppercase',

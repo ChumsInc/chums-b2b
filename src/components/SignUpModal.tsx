@@ -20,6 +20,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import ChumsLogo from "./ChumsLogo";
+import styled from '@emotion/styled';
 
 const imagePathLandscape = "/images/chums/homepage/2024/06/B2BPopUpImage-landscape.jpg";
 const imagePathPortrait = "/images/chums/homepage/2024/06/B2BPopUpImage-portrait.jpg";
@@ -35,6 +36,11 @@ const Transition = React.forwardRef(function Transition(
 })
 
 const excludedPaths = /^\/(login|signup|set-password|reset-password)/;
+
+const StyledImage = styled.img`
+    width: 100%;
+    height: auto;
+`
 
 const SignUpModal = () => {
     const id = useId();
@@ -120,10 +126,12 @@ const SignUpModal = () => {
                             </Stack>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Box component="img" src={imagePathPortrait} width="361px" height="542px" loading="lazy"
-                                 sx={{width: '100%', height: 'auto', display: {xs: 'inline', sm: 'none'}}}/>
-                            <Box component="img" src={imagePathLandscape} width="722px" height="542px" loading="lazy"
-                                 sx={{width: '100%', height: 'auto', display: {xs: 'none', sm: 'inline'}}}/>
+                            <Box sx={{display: {xs: 'inline', sm: 'none'}}}>
+                                <StyledImage src={imagePathPortrait} width="361" height="542" loading="lazy" alt="" role="presentation"/>
+                            </Box>
+                            <Box sx={{display: {xs: 'none', sm: 'inline'}}}>
+                                <StyledImage src={imagePathPortrait} width="722" height="542" loading="lazy" alt="" role="presentation"/>
+                            </Box>
                         </Grid>
                     </Grid>
                 </DialogContent>

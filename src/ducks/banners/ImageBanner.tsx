@@ -4,8 +4,13 @@ import BannerLinkWrapper from "./BannerLinkWrapper";
 import Box from "@mui/material/Box";
 import {SxProps} from "@mui/system";
 import Typography from "@mui/material/Typography";
+import styled from "@emotion/styled";
 
 const bannerImagePath = (filename: string) => `/images/chums/homepage/${filename.replace(/^\//, '')}`;
+const StyledImg = styled.img`
+    width: 100%;
+    height: auto;
+`
 
 export default function ImageBanner({banner}: { banner: Banner }) {
     if (!banner.image || (!banner.image.desktop?.filename && !banner.image.mobile?.filename)) {
@@ -33,17 +38,15 @@ export default function ImageBanner({banner}: { banner: Banner }) {
                 <picture>
                     {banner.image.mobile?.filename && (
                         <source media={`(max-width: ${banner.image.mobile?.width || 480}px)`}
+                                width={banner.image.mobile?.width || 480}
+                                height={banner.image.mobile?.height || 680}
                                 srcSet={bannerImagePath(banner.image.mobile.filename)}/>)}
                     {banner.image.desktop?.filename && (
                         <source media={`(min-width: ${(banner.image.mobile?.width || 480) + 1}px)`}
+                                width={banner.image.desktop?.width || 1600}
+                                height={banner.image.desktop?.height || 500}
                                 srcSet={bannerImagePath(banner.image.desktop.filename)}/>)}
-                    <Box component="img"
-                         width={{xs: banner.image.mobile?.width || 480, sm: banner.image.desktop?.width || 1600}}
-                         height={{xs: banner.image.mobile?.height || 600, sm: banner.image.desktop?.height || 500 }}
-                         src={src}
-                         alt={banner.image.desktop?.altText ?? banner.image.mobile?.altText ?? ''}
-                         sx={{maxWidth: '100%', height: 'auto'}}
-                    />
+                    <StyledImg src={src} alt={banner.image.desktop?.altText ?? banner.image.mobile?.altText ?? ''} />
                 </picture>
                 <Typography variant="body1"
                             sx={overlaySxProps}>{banner.image.desktop?.overlay ?? banner.image.mobile?.overlay}</Typography>

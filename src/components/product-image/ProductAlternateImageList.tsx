@@ -18,7 +18,7 @@ export default function ProductAlternateImageList({currentImage, images, onSelec
                     <Paper key={img.id} elevation={currentImage.image === img.image ? 1 : 0}>
                         <Box sx={{width: '80px'}} onClick={() => onSelectImage(img)}>
                             <ResponsiveProductImage filename={img.image} preferredSize={80}
-                                                    alt={img.altText}
+                                                    alt={img.altText} width={80} height={80}
                                                     loading="lazy"/>
                         </Box>
                     </Paper>

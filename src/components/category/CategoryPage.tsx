@@ -41,7 +41,9 @@ const CategoryPage = ({keyword}: {
     return (
         <Box>
             <DocumentTitle documentTitle={title}/>
-            {!!lifestyle && <Box component="img" src={lifestyle} sx={{width: '100%'}}/>}
+            {!!lifestyle && (
+                <img src={lifestyle} alt="lifestyle image" aria-hidden="true" style={{ width: '100%' }} />
+            )}
             <Typography component="h1" variant="h1" sx={{textAlign: 'center', mb: 3}}>{title}</Typography>
             {loading && <LinearProgress variant="indeterminate"/>}
             {!!pageText && <Box dangerouslySetInnerHTML={{__html: pageText}}/>}

@@ -1,18 +1,24 @@
 import React from 'react';
 import Grid from "@mui/material/Grid2";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from '@mui/material/Link'
 import {Link as NavLink} from 'react-router'
 import Container from "@mui/material/Container";
+import styled from "@emotion/styled";
 
 
 const Content404Component = ({children}: { children: React.ReactNode }) => (
     <Grid size={{xs: 12, sm: 6}}
-           sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+          sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         {children}
     </Grid>
 );
+const StyledImg = styled.img`
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+`
 const ContentPage404 = () => {
 
     return (
@@ -28,10 +34,7 @@ const ContentPage404 = () => {
                     </Typography>
                 </Content404Component>
                 <Content404Component>
-                    <Box component="img"
-                         src="/images/chums/404-Booby.gif"
-                         sx={{maxWidth: "100%", height: "auto", maxHeight: '50vh'}}
-                         alt="Page not found"/>
+                    <StyledImg src="/images/chums/404-Booby.gif" alt="Page not found"/>
                 </Content404Component>
             </Grid>
         </Container>
