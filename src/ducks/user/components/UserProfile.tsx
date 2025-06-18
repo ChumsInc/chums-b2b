@@ -8,7 +8,7 @@ import {Editable} from "b2b-types";
 import {ExtendedUserProfile} from "@/types/user";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import Avatar from "@mui/material/Avatar";
 import Alert from "@mui/material/Alert";

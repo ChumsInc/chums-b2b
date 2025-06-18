@@ -12,7 +12,7 @@ import {generatePath, useNavigate, useParams} from "react-router";
 import DeliveryAddress from "@/components/Address/DeliveryAddress";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "./ReloadCustomerButton";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import EmailAddressEditor from "@/components/EmailAddressEditor";

@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack'
 import Skeleton from '@mui/material/Skeleton';
 

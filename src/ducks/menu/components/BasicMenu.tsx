@@ -61,7 +61,6 @@ export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, chil
                   {...rest}
                   open={open} onClose={handleClose}
                   anchorEl={anchorEl}
-                  MenuListProps={{'aria-labelledby': buttonId}}
                   sx={deepmerge({
                       '& .MuiMenu-list': {
                           display: 'flex',
@@ -72,6 +71,7 @@ export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, chil
                       },
                   }, sx)}
                   slotProps={{
+                      list: {'aria-labelledby': buttonId},
                       paper: {
                           style: {
                               maxHeight: '75vh',

@@ -14,7 +14,7 @@ import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
 import {StaticRouter} from "react-router";
 import {configureStore} from "@reduxjs/toolkit";
-import {PreloadedState} from "../types/preload";
+import {PreloadedState} from "@/types/preload";
 
 const debug = Debug('chums:server:render');
 

@@ -17,7 +17,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import ChumsLogo from "./ChumsLogo";
 import styled from '@emotion/styled';
@@ -98,7 +98,7 @@ const SignUpModal = () => {
     return (
         <>
             {/*<Button variant="text" onClick={() => setShowModal(true)}>Test Dialog</Button>*/}
-            <Dialog open={showModal} TransitionComponent={Transition} keepMounted onClose={handleClose}
+            <Dialog open={showModal} slots={{transition: Transition}} keepMounted onClose={handleClose}
                     aria-describedby={id} maxWidth="sm">
                 <DialogTitle id={id}>
                     <Typography sx={{textTransform: 'uppercase'}}>Are you a member?</Typography>
@@ -130,7 +130,7 @@ const SignUpModal = () => {
                                 <StyledImage src={imagePathPortrait} width="361" height="542" loading="lazy" alt="" role="presentation"/>
                             </Box>
                             <Box sx={{display: {xs: 'none', sm: 'inline'}}}>
-                                <StyledImage src={imagePathPortrait} width="722" height="542" loading="lazy" alt="" role="presentation"/>
+                                <StyledImage src={imagePathLandscape} width="722" height="542" loading="lazy" alt="" role="presentation"/>
                             </Box>
                         </Grid>
                     </Grid>

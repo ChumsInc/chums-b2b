@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link as RouterLink, useLocation} from 'react-router';
-import {BreadcrumbPath} from "../types/breadcrumbs";
+import {BreadcrumbPath} from "@/types/breadcrumbs";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import Link from '@mui/material/Link'

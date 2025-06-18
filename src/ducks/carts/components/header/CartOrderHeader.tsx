@@ -18,7 +18,7 @@ import ShipDateInput from "./ShipDateInput";
 import {minShipDate, nextShipDate} from "@/utils/orders";
 import ShippingMethodSelect from "@/ducks/carts/components/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import ShipToSelect from "@/ducks/customer/components/ShipToSelect";
 import Alert from "@mui/material/Alert";
 import {generatePath, useNavigate} from "react-router";

@@ -10,7 +10,7 @@ import {selectCurrentCustomer} from "../../user/selectors";
 import {getShippingMethod} from "@/constants/account";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import {selectSalesOrder, selectSalesOrderInvoices} from "../selectors";
 import DuplicateCartDialog from "../../carts/components/DuplicateCartDialog";
 import {isClosedSalesOrder} from "../../sales-order/utils";

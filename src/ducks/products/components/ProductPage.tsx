@@ -20,7 +20,7 @@ import {isBillToCustomer} from "@/utils/typeguards";
 import ProductPreSeasonAlert from "./ProductPreSeasonAlert";
 import SelectCustomerAlert from "../../customer/components/SelectCustomerAlert";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
 import {useIsSSR} from "@/hooks/is-server-side";

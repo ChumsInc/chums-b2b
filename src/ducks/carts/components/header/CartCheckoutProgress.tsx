@@ -10,7 +10,7 @@ import {
 } from "@/utils/cart";
 import Box from "@mui/material/Box";
 import LinearProgress from '@mui/material/LinearProgress'
-import Grid from '@mui/material/Grid2'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
 

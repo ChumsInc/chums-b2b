@@ -9,7 +9,6 @@ import {
     saveCart,
     saveCartItem
 } from "@/ducks/carts/actions";
-import {dismissContextAlert} from "@/ducks/alerts/actions";
 import {B2BCartDetail} from "@/types/cart/cart-detail";
 
 const statusAdapter = createEntityAdapter<CartDetailStatus, number>({
@@ -66,13 +65,25 @@ const cartStatusSlice = createSlice({
                 }
             })
             .addCase(saveCartItem.pending, (state, action) => {
-                statusAdapter.setOne(state, {id: action.meta.arg.cartItemId, cartId: action.meta.arg.cartId, status: 'saving'});
+                statusAdapter.setOne(state, {
+                    id: action.meta.arg.cartItemId,
+                    cartId: action.meta.arg.cartId,
+                    status: 'saving'
+                });
             })
             .addCase(saveCartItem.fulfilled, (state, action) => {
-                statusAdapter.setOne(state, {id: action.meta.arg.cartItemId, cartId: action.meta.arg.cartId, status: 'idle'});
+                statusAdapter.setOne(state, {
+                    id: action.meta.arg.cartItemId,
+                    cartId: action.meta.arg.cartId,
+                    status: 'idle'
+                });
             })
             .addCase(saveCartItem.rejected, (state, action) => {
-                statusAdapter.setOne(state, {id: action.meta.arg.cartItemId, cartId: action.meta.arg.cartId, status: 'idle'});
+                statusAdapter.setOne(state, {
+                    id: action.meta.arg.cartItemId,
+                    cartId: action.meta.arg.cartId,
+                    status: 'idle'
+                });
             })
             .addCase(processCart.fulfilled, (state, action) => {
                 const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.meta.arg.id).map(s => s.id);

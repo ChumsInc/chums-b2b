@@ -19,7 +19,7 @@ import {useAppDispatch} from "@/app/configureStore";
 import {BillToCustomer, Editable} from "b2b-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "./ReloadCustomerButton";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import TelephoneFormFields from "./TelephoneFormFields";

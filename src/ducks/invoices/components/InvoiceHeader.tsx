@@ -8,7 +8,7 @@ import {selectCurrentInvoice} from "../selectors";
 import {useAppDispatch} from "@/app/configureStore";
 import dayjs from "dayjs";
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";

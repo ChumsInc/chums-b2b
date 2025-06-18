@@ -14,7 +14,7 @@ import classNames from "classnames";
 import Box from "@mui/material/Box";
 import PrimaryShipToIcon from "./PrimaryShipToIcon";
 import Link, {LinkProps} from "@mui/material/Link";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import ReloadCustomerButton from "./ReloadCustomerButton";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {

@@ -19,7 +19,7 @@ const StoreMapToggle = ({checked, onChange, readOnly}: StoreMapToggleProps) => {
     return (
         <FormGroup>
             <FormControlLabel
-                control={<Checkbox checked={checked ?? false} onChange={onChange} inputProps={{readOnly}}/>}
+                control={<Checkbox checked={checked ?? false} onChange={onChange} slotProps={{input: {readOnly}}}/>}
                 label="Show on CHUMS.COM Store Map?"/>
         </FormGroup>
     )

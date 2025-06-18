@@ -8,7 +8,7 @@
     "dev": "vite",
     "start": "webpack serve --config webpack.dev.client.mjs --progress",
     "build": "npm run build-all",
-    "compile": "tsc --project tsconfig.prod.json && tsc-alias -p tsconfig.prod.json",
+    "compile": "tsc --project tsconfig.prod.json && npm run tsc-alias",
     "start-ssr": "npm run compile && nodemon dist/server/index.js",
     "build-all": "npm run build-server && npm run build-client",
     "start-dev-client": "webpack serve --config webpack.dev.client.mjs --progress",
@@ -17,6 +17,7 @@
     "build-server": "npm run clean && npm run compile",
     "clean": "rimraf ./dist --preserve-root && mkdir dist",
     "start-server": "nodemon ./dist/server/index.js",
+    "tsc-alias": "tsc-alias -p tsconfig.prod.json",
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "author": "Steve Montgomery, Chums Inc",
@@ -24,9 +25,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@mui/icons-material": "^6.4.0",
-    "@mui/material": "^6.4.0",
-    "@mui/x-date-pickers": "^7.5.1",
+    "@mui/icons-material": "^7.1.1",
+    "@mui/material": "^7.1.1",
+    "@mui/x-date-pickers": "^8.5.2",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.0.1",
     "@types/validator": "^13.11.9",
@@ -58,7 +59,7 @@
   },
   "devDependencies": {
     "@eslint/compat": "^1.1.0",
-    "@eslint/js": "^9.6.0",
+    "@eslint/js": "^9.29.0",
     "@types/compression": "^1.7.5",
     "@types/debug": "^4.1.8",
     "@types/google.accounts": "^0.0.17",
@@ -72,9 +73,9 @@
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.2",
     "css-loader": "^7.1.2",
-    "eslint": "^9.6.0",
-    "eslint-plugin-react": "^7.34.3",
-    "globals": "^16.0.0",
+    "eslint": "^9.29.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.2.0",
     "html-webpack-plugin": "^5.6.0",
     "nodemon": "^3.0.1",
     "rimraf": "^6.0.0",
@@ -86,7 +87,7 @@
     "tsc-alias": "^1.8.10",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.0.4",
-    "typescript-eslint": "^8.0.1",
+    "typescript-eslint": "^8.34.1",
     "webpack": "^5.83.0",
     "webpack-bundle-analyzer": "^4.3.0",
     "webpack-chunk-hash": "^0.6.0",
@@ -108,8 +109,5 @@
     "watch": [
       "./dist"
     ]
-  },
-  "overrides": {
-    "eslint": "^9.6.0"
   }
 }

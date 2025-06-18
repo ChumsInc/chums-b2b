@@ -37,7 +37,7 @@ const UserMenu = () => {
                     <UserAvatar/>
                 </IconButton>
                 <Menu id={menuId} open={open} onClose={handleClose} anchorEl={anchorEl}
-                      MenuListProps={{'aria-labelledby': buttonId}}>
+                      slotProps={{list: {'aria-labelledby': buttonId}}} >
                     <MenuItemRouterLink to="/login">Login</MenuItemRouterLink>
                     {/*<GoogleSignInOneTap onDone={handleClose}/>*/}
                 </Menu>
@@ -51,7 +51,7 @@ const UserMenu = () => {
                 <UserAvatar/>
             </IconButton>
             <Menu id={menuId} open={open} onClose={handleClose} anchorEl={anchorEl}
-                  MenuListProps={{'aria-labelledby': buttonId}}>
+                  slotProps={{list: {'aria-labelledby': buttonId}}}>
                 <MenuItemRouterLink to="/profile">Profile</MenuItemRouterLink>
                 {currentAccess && (
                     <MenuItemRouterLink to={generatePath('/profile/:id', {id: `${currentAccess.id}`})}>

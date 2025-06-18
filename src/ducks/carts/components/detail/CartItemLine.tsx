@@ -14,7 +14,7 @@ import {selectCanViewAvailable} from "@/ducks/user/selectors";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import ProductLink from "@/components/product";
+import ProductLink from "@/components/ProductLink";
 import {selectCartItemById, setCartItem} from "@/ducks/carts/cartDetailSlice";
 
 export default function CartItemLine({

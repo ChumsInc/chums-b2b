@@ -33,7 +33,8 @@ const SalesOrderLineButtons = ({
                        direction="left"
                        sx={{position: "absolute", bottom: 8, right: 0}}>
                 {actions.filter(action => !action.disabled).map(action => (
-                    <SpeedDialAction key={action.name} icon={action.icon} tooltipTitle={action.name}
+                    <SpeedDialAction key={action.name} icon={action.icon}
+                                     slotProps={{tooltip: {title: action.name}}}
                                      onClick={action.onClick}/>
                 ))}
             </SpeedDial>

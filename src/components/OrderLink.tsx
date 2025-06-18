@@ -1,6 +1,6 @@
 import React from 'react';
 import {generatePath, Link as RoutedLink} from 'react-router';
-import {OrderType} from "../types/salesorder";
+import {OrderType} from "@/types/salesorder";
 import {useSelector} from "react-redux";
 import {selectCurrentCustomer} from "@/ducks/user/selectors";
 import {customerSlug} from "@/utils/customer";
