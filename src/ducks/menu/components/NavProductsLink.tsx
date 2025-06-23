@@ -4,13 +4,13 @@ import {useSelector} from "react-redux";
 import {selectProductMenu} from "../index";
 import DrawerMenu from "@/ducks/menu/components/DrawerMenu";
 import {MinimalMenuItem} from "@/ducks/menu/types";
-import BasicMenu from "@/ducks/menu/components/BasicMenu";
+import CompoundMenu from "@/ducks/menu/components/CompoundMenu";
 
 const productUrl = (url: string) => `/products${url}`;
 
 export default function NavProductsLink({inDrawer}: NavItemProps) {
     const productMenu = useSelector(selectProductMenu);
-    const [items, setItems] = useState<MinimalMenuItem[]>([]);
+    const [items, setItems] = useState<MinimalMenuItem[]>(productMenu?.items ?? []);
 
     useEffect(() => {
         setItems(productMenu?.items ?? [])
@@ -23,13 +23,6 @@ export default function NavProductsLink({inDrawer}: NavItemProps) {
     }
 
     return (
-        <BasicMenu title="Products" urlFormat={productUrl}
-                   items={items}
-                   sx={{
-                       '& .MuiMenu-list': {
-                           flexDirection: 'row',
-                       },
-                   }}
-        />
+        <CompoundMenu title="Products" items={items} urlFormat={productUrl} mediaQuery={"(min-width: 1000px)"}/>
     )
 }

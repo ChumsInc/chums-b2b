@@ -46,8 +46,8 @@ const UserAvatar = (props:BoxProps) => {
     return (
         <Box {...props}>
             {(!isLoggedIn || !profile) && (
-                <Avatar>
-                    <AccountCircleIcon />
+                <Avatar aria-label="Please log in">
+                    <AccountCircleIcon aria-hidden="true" />
                 </Avatar>
             )}
             {isLoggedIn && profile && profilePic && (

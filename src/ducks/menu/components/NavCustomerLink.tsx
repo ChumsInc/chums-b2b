@@ -8,7 +8,7 @@ import {buildCustomerMenuItems} from "@/ducks/menu/utils";
 import DrawerMenu from "@/ducks/menu/components/DrawerMenu";
 import BasicMenu from "@/ducks/menu/components/BasicMenu";
 
-export default function NavCartsLink({inDrawer}: NavItemProps) {
+export default function NavCustomerLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useSelector(selectLoggedIn);
     const account = useSelector(selectCustomerAccount);
 

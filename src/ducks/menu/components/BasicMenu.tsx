@@ -3,28 +3,21 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Menu, {MenuProps} from "@mui/material/Menu";
 import NavItemButton from "@/ducks/menu/components/NavItemButton";
 import {deepmerge} from '@mui/utils'
-import {SxProps} from "@mui/system";
-import {Theme} from "@mui/material/styles";
-import CompoundMenuItem from "@/ducks/menu/components/CompoundMenuItem";
-import {NavMenuItem} from "@/ducks/menu/types";
+import {MinimalMenuItem} from "@/ducks/menu/types";
 import {useLocation} from "react-router";
 import {useAppSelector} from "@/app/configureStore";
 import {selectLoggedIn} from "@/ducks/user/selectors";
-
-const itemStyle: SxProps<Theme> = {
-    textTransform: 'uppercase',
-    fontWeight: 700,
-}
+import MenuItemRouterLink from "@/ducks/menu/components/MenuItemRouterLink";
 
 export interface BasicMenuProps extends Omit<MenuProps, 'open' | 'onClose' | 'anchorEl' | 'title'> {
     title: string | React.ReactNode;
-    items: NavMenuItem[];
+    items: MinimalMenuItem[];
     urlFormat?: (url: string) => string;
     mediaQuery?: string;
-    children?: React.ReactNode;
+    requiresLogin?: boolean;
 }
 
-export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, children, ...rest}: BasicMenuProps) {
+export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, requiresLogin, ...rest}: BasicMenuProps) {
     const location = useLocation();
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const mediaLg = useMediaQuery(mediaQuery ?? '(min-width: 1200px)');
@@ -49,7 +42,7 @@ export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, chil
     return (
         <>
             <NavItemButton id={buttonId}
-                           disabled={!items.length}
+                           disabled={!items.length || (requiresLogin && !isLoggedIn)}
                            sx={{height: '100%'}}
                            aria-controls={open ? menuId : undefined}
                            aria-expanded={open ? 'true' : undefined}
@@ -82,13 +75,10 @@ export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, chil
                       }
                   }}>
                 {items.map(item => (
-                    <CompoundMenuItem key={item.id} item={item} urlFormat={urlFormat}
-                                      slotProps={{
-                                          link: {onClick: handleClose, sx: itemStyle, disabled: item.requireLogin && !isLoggedIn},
-                                          subLink: {onClick: handleClose},
-                                      }}/>
+                    <MenuItemRouterLink key={item.id} to={urlFormat ? urlFormat(item.url) : item.url}>
+                        {item.title}
+                    </MenuItemRouterLink>
                 ))}
-                {children}
             </Menu>
         </>
     )

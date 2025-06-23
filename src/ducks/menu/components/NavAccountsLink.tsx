@@ -4,13 +4,13 @@ import {useSelector} from "react-redux";
 import {selectCurrentAccess, selectLoggedIn, selectRepAccessList} from "../../user/selectors";
 import {accessListURL, customerURL, repAccessCode} from "../../user/utils";
 import UserAvatar from "../../user/components/UserAvatar";
-import BasicMenu from "@/ducks/menu/components/BasicMenu";
 import {MinimalMenuItem} from "@/ducks/menu/types";
 import DrawerMenu from "@/ducks/menu/components/DrawerMenu";
 import {useAppSelector} from "@/app/configureStore";
 import MenuLinkProfile from "@/ducks/menu/components/MenuLinkProfile";
 import {selectRecentCustomers} from "@/ducks/customers/selectors";
 import {customerNo, shortCustomerKey} from "@/utils/customer";
+import CompoundMenu from "@/ducks/menu/components/CompoundMenu";
 
 
 const defaultItems: MinimalMenuItem[] = [
@@ -30,7 +30,7 @@ const defaultItems: MinimalMenuItem[] = [
     {
         id: 'recent-customers',
         title: 'Recent Customers',
-        url: '#',
+        url: '/profile',
     }
 ]
 
@@ -72,7 +72,7 @@ export default function NavAccountsLink({inDrawer}: NavItemProps) {
             },
             {
                 ...defaultItems[2],
-                url: '#',
+                url: access ? accessListURL(access) : '/profile',
                 menu: {
                     items: recentCustomers.map(customer => ({
                         id: shortCustomerKey(customer),
@@ -98,13 +98,17 @@ export default function NavAccountsLink({inDrawer}: NavItemProps) {
     }
 
     return (
-        <BasicMenu title="Accounts"
-                   items={items}
-                   sx={{
-                       '& .MuiMenu-list': {
-                           flexDirection: 'row'
-                       }
-                   }}>
-        </BasicMenu>
+        <CompoundMenu title="Accounts" items={items} urlFormat={(url) => url}/>
     )
+    //
+    // return (
+    //     <BasicMenu title="Accounts"
+    //                items={items}
+    //                sx={{
+    //                    '& .MuiMenu-list': {
+    //                        flexDirection: 'row'
+    //                    }
+    //                }}>
+    //     </BasicMenu>
+    // )
 }

@@ -51,14 +51,14 @@ theme = createTheme(theme, {
     palette: {
         mode: 'light',
         primary: {
-            light: '#5c6bc0',
-            main: '#3F51B5',
-            dark:'#303f9f'
+            light: '#42a5f5',
+            main: '#1976d2',
+            dark:'#1565c0'
         },
         secondary: {
-            light: '#f8376f',
-            main: '#f50057',
-            dark: '#cf0051',
+            light: '#ba68c8',
+            main: '#9c27b0',
+            dark: '#7b1fa2',
         },
         chumsRed: theme.palette.augmentColor({
             color: {
@@ -75,7 +75,12 @@ theme = createTheme(theme, {
                 dark: '#232324'
             },
             name: 'chumsGrey',
-        })
+        }),
+        error: {
+            light: '#fe3439',
+            main: '#d0112a',
+            dark: '#c2001e',
+        }
     },
 });
 
@@ -109,7 +114,7 @@ theme = createTheme(theme, {
                         },
                     }
                 },
-            }
+            },
         },
         MuiTableFooter: {
             styleOverrides: {
@@ -164,7 +169,7 @@ theme = createTheme(theme, {
 
                 }
             }
-        }
+        },
     },
     typography: {
         // fontFamily: [
