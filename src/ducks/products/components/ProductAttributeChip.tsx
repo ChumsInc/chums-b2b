@@ -6,6 +6,8 @@ const StyledChip = styled(Chip)<ChipProps>(() => ({
     width: 'auto',
     borderRadius: 0,
     height: '16px',
+    lineHeight: '16px',
+    fontWeight: 700,
     '& .MuiChip-label': {
         fontSize: '75%'
     }
@@ -37,11 +39,11 @@ const attributeColor = (attr: ProductAttributeType | string): ProductAttributeCo
         case 'best-seller':
             return {backgroundColor: '#D71D78', color: '#FFFFFF'};
         case 'upcycled':
-            return {backgroundColor: '#9ABD60', color: '#FFFFFF'};
+            return {backgroundColor: '#9ABD60', color: '#000000'};
         case 'rfid-blocking':
             return {backgroundColor: '#37BCAB', color: '#FFFFFF'};
         case 'dome':
-            return {backgroundColor: '#808285', color: '#FFFFFF'};
+            return {backgroundColor: '#69696a', color: '#FFFFFF'};
         case 'sublimation':
             return {backgroundColor: '#365629', color: '#FFFFFF'};
         case 'heat-transfer':
