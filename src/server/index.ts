@@ -50,12 +50,17 @@ app.get('/api', getAPIRequest);
 app.use(handleInvalidURL);
 app.use(logUsage);
 
-app.get('/products/:category?/:product?/:sku?', renderAppProductPage);
+app.get('/products/:category/:product/:sku', renderAppProductPage);
+app.get('/products/:category/:product', renderAppProductPage);
+app.get('/products/:category', renderAppProductPage);
+app.get('/products', renderAppProductPage);
 app.get('/pages/:keyword', renderAppContentPage);
-app.get('/*.*', (req, res) => {
+app.get('/pages', renderApp);
+app.get('/*path.*ext', (req, res) => {
     res.status(404).json({error: 'Not Found', status: 404});
 })
-app.get('/*', renderApp);
+app.get('/*page', renderApp);
+app.get('/', renderApp);
 
 app.use((req, res) => {
     res.status(404).json({error: 'Not Found', status: 404});
