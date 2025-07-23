@@ -24,9 +24,9 @@ export const selectFilteredInvoicesList = createSelector(
         selectInvoicesSearch, selectInvoicesSort, selectPermittedBillToAddress, selectPermittedShipToAddresses],
     (list, showPaid, shipTo, search, sort, billTo, shipToList) => {
         return list
-            .filter(inv => (billTo && !inv.ShipToCode) || shipToList.map(c => c.ShipToCode).includes(inv.ShipToCode ?? ''))
+            .filter(inv => billTo || shipToList.map(c => c.ShipToCode).includes(inv.ShipToCode ?? ''))
             .filter(inv => showPaid || !new Decimal(inv.Balance ?? '0').eq(0))
-            .filter(inv => shipTo === null || inv.ShipToCode === shipTo)
+            .filter(inv => !shipTo || inv.ShipToCode === shipTo)
             .filter(inv => !search
                 || inv.CustomerPONo?.toLowerCase()?.includes(search.toLowerCase())
                 || inv.InvoiceNo.toLowerCase().includes(search.toLowerCase())
