@@ -46,6 +46,7 @@ export interface B2BCartProduct {
     available: string | number | null;
     inactiveItem: boolean;
     upc: string|null;
+    requiresCustomization?: boolean;
 }
 
 export interface B2BCartSeason {

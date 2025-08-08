@@ -149,6 +149,13 @@ export const selectCartDetailById = createSelector(
     }
 )
 
+export const selectCartHasCustomization = createSelector(
+    [selectByCartId],
+    (detail) => {
+        return detail.reduce((pv, cv) => (cv.cartProduct?.requiresCustomization ?? false) || pv, false)
+    }
+)
+
 export const {setCartDetailSort, setCartItem} = cartDetailSlice.actions;
 
 export default cartDetailSlice;

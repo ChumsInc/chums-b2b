@@ -16,6 +16,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
 import ProductLink from "@/components/ProductLink";
 import {selectCartItemById, setCartItem} from "@/ducks/carts/cartDetailSlice";
+import Alert from "@mui/material/Alert";
 
 export default function CartItemLine({
                                          cartId,
@@ -81,6 +82,9 @@ export default function CartItemLine({
                         <Typography variant="body1">{line.itemCodeDesc}</Typography>
                     </ProductLink>
                     {!!line.cartProduct.upc && <FormattedUPC value={line.cartProduct.upc}/>}
+                    {line.cartProduct.requiresCustomization && (
+                        <Alert variant="outlined" color="info">Product requires customization: UPC Sticker</Alert>
+                    )}
                     {!readOnly && canViewAvailable && line.itemType === '1' && (
                         <AvailabilityAlert quantityOrdered={line.quantityOrdered}
                                            quantityAvailable={line.cartProduct.available} season={line.season}/>

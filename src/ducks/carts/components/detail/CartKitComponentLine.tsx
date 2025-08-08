@@ -1,5 +1,5 @@
 import React from 'react';
-import {Editable} from "b2b-types";
+import type {Editable} from "b2b-types";
 import classNames from "classnames";
 import OrderItemImage from "@/components/OrderItemImage";
 import UPCA from "../../../../common/upc-a";
@@ -9,7 +9,7 @@ import Decimal from "decimal.js";
 import CartLineButtons from "./CartLineButtons";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import {B2BCartDetail} from "@/types/cart/cart-detail";
+import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Stack from "@mui/material/Stack";
 

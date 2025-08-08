@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {type ChangeEvent, useEffect, useState} from 'react';
 import classNames from "classnames";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import Box from "@mui/material/Box";

@@ -226,3 +226,18 @@ export async function postDuplicateSalesOrder(arg: DuplicateCartProps): Promise<
         return Promise.reject(new Error('Error in postDuplicateSalesOrder()'));
     }
 }
+
+export async function fetchNextShipDate():Promise<string|null> {
+    try {
+        const url = '/api/carts/next-ship-date.json';
+        const res = await fetchJSON<{ nextShipDate: string }>(url, {method: 'GET', cache: 'no-cache'});
+        return res?.nextShipDate ?? null;
+    } catch(err:unknown) {
+        if (err instanceof Error) {
+            console.debug("fetchNextShipDate()", err.message);
+            return Promise.reject(err);
+        }
+        console.debug("fetchNextShipDate()", err);
+        return Promise.reject(new Error('Error in fetchNextShipDate()'));
+    }
+}

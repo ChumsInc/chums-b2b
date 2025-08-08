@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useEffect, useId, useState} from "react";
-import {minShipDate} from "@/utils/orders";
 import {DateCalendar,} from "@mui/x-date-pickers/DateCalendar";
 import dayjs, {Dayjs} from "dayjs";
 import FilledInput from "@mui/material/FilledInput";
@@ -10,6 +9,8 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Popover from "@mui/material/Popover";
 import {InputBaseComponentProps} from "@mui/material/InputBase";
+import {useAppSelector} from "@/app/configureStore";
+import {selectNextShipDate} from "@/ducks/carts/activeCartSlice";
 
 export interface ShipDateInputProps extends Omit<FormControlProps, 'onChange'> {
     value: string | null;
@@ -17,18 +18,31 @@ export interface ShipDateInputProps extends Omit<FormControlProps, 'onChange'> {
     disabled?: boolean;
     onChange: (value: string | null) => void;
     inputProps: InputBaseComponentProps;
+    hasCustomization?: boolean;
+    ref?: React.RefObject<HTMLInputElement | null>;
 }
 
-export default React.forwardRef(function ShipDateInput({value, onChange, inputProps, readOnly, disabled, ...formControlProps}: ShipDateInputProps, ref: React.Ref<HTMLInputElement>) {
-    const [min, setMin] = useState<string>(minShipDate())
+export default function ShipDateInput({
+                                          value,
+                                          onChange,
+                                          inputProps,
+                                          readOnly,
+                                          disabled,
+                                          ref,
+                                          ...formControlProps
+                                      }: ShipDateInputProps) {
+    const nextShipDate = useAppSelector(selectNextShipDate)
+    const [min, setMin] = useState<string>(nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD'));
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
 
     const id = useId();
     const popoverId = useId();
 
     useEffect(() => {
-        setMin(minShipDate());
-    }, []);
+        setMin(nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD'));
+    }, [nextShipDate]);
+
 
     const changeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
         const value = ev.target.value;
@@ -60,7 +74,9 @@ export default React.forwardRef(function ShipDateInput({value, onChange, inputPr
 
     return (
         <FormControl variant="filled" fullWidth size="small" {...formControlProps}>
-            <InputLabel htmlFor={id}>Requested Ship Date</InputLabel>
+            <InputLabel htmlFor={id}>
+                Requested Ship Date
+            </InputLabel>
             <FilledInput type="date" value={dateValue(value)} inputRef={ref}
                          onChange={changeHandler}
                          disabled={disabled}
@@ -68,7 +84,8 @@ export default React.forwardRef(function ShipDateInput({value, onChange, inputPr
                              readOnly, id, ref,
                              min: dayjs(min).format('YYYY-MM-DD'),
                              max: dayjs(min).add(1, 'year').format('YYYY-MM-DD'),
-                             ...inputProps}}
+                             ...inputProps
+                         }}
                          startAdornment={
                              <InputAdornment position="start">
                                  <IconButton aria-label="Show available ship dates"
@@ -82,4 +99,5 @@ export default React.forwardRef(function ShipDateInput({value, onChange, inputPr
             </Popover>
         </FormControl>
     )
-})
+}
+

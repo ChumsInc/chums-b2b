@@ -1,6 +1,13 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {EmailResponse} from "b2b-types";
-import {fetchCarts, postCartEmail, postDuplicateSalesOrder, postProcessCart, putUpdateCartItems} from "./api";
+import {
+    fetchCarts,
+    fetchNextShipDate,
+    postCartEmail,
+    postDuplicateSalesOrder,
+    postProcessCart,
+    putUpdateCartItems
+} from "./api";
 import {RootState} from "@/app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@/ducks/carts/api";
 import {B2BCartHeader} from "@/types/cart/cart-header";
@@ -218,5 +225,12 @@ export const duplicateSalesOrder = createAsyncThunk<B2BCart | null, DuplicateCar
             const state = getState();
             return !!arg.salesOrderNo && selectCartStatusById(state, 0) === 'idle'
         }
+    }
+)
+
+export const loadNextShipDate = createAsyncThunk<string|null, void, {state:RootState}>(
+    'carts/loadNextShipDate',
+    async () => {
+        return await fetchNextShipDate();
     }
 )

@@ -15,7 +15,7 @@ import {
     nextCartProgress
 } from "@/utils/cart";
 import ShipDateInput from "./ShipDateInput";
-import {minShipDate, nextShipDate} from "@/utils/orders";
+import {minShipDate} from "@/utils/orders";
 import ShippingMethodSelect from "@/ducks/carts/components/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
@@ -33,7 +33,7 @@ import Button from "@mui/material/Button";
 import {selectCartHeaderById,} from "@/ducks/carts/cartHeadersSlice";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import {B2BCartHeader} from "@/types/cart/cart-header";
-import {loadCart, processCart, saveCart} from "@/ducks/carts/actions";
+import {loadCart, loadNextShipDate, processCart, saveCart} from "@/ducks/carts/actions";
 import CartPaymentSelect from "@/ducks/carts/components/header/CartPaymentSelect";
 import CartCheckoutProgress from "@/ducks/carts/components/header/CartCheckoutProgress";
 import DeleteCartButton from "@/ducks/carts/components/header/DeleteCartButton";
@@ -45,7 +45,7 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@/src/ga4/cart";
-import {selectActiveCartId, selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
+import {selectActiveCartId, selectCartShippingAccount, selectNextShipDate} from "@/ducks/carts/activeCartSlice";
 import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDetailSlice";
 
 
@@ -64,6 +64,7 @@ export default function CartOrderHeader() {
     const navigate = useNavigate();
     const detailChanged = useAppSelector((state) => selectCartHasChanges(state, currentCartId));
     const shippingAccount = useSelector(selectCartShippingAccount);
+    const nextShipDate = useAppSelector(selectNextShipDate)
 
     const [cartHeader, setCartHeader] = useState<(B2BCartHeader & Editable) | null>(header);
     const [cartProgress, setCartProgress] = useState<CartProgress>(cartProgress_Cart);
@@ -125,8 +126,8 @@ export default function CartOrderHeader() {
             setCartHeader(null);
             return;
         }
-        setCartHeader({...header, shipExpireDate: nextShipDate()});
-    }, [header]);
+        setCartHeader({...header, shipExpireDate: nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD')});
+    }, [header, nextShipDate]);
 
     if (!customerKey || !header || !cartHeader) {
         return null;
@@ -221,6 +222,7 @@ export default function CartOrderHeader() {
             switch (next) {
                 case cartProgress_Delivery:
                     ga4BeginCheckout(header, detail);
+                    dispatch(loadNextShipDate());
                     break;
                 case cartProgress_Payment:
                     ga4AddShippingInfo(header, detail);
@@ -286,9 +288,9 @@ export default function CartOrderHeader() {
                     <Collapse in={cartProgress >= cartProgress_Delivery} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
                             <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
-                                <ShipDateInput value={cartHeader?.shipExpireDate ?? ''}
+                                <ShipDateInput value={cartHeader?.shipExpireDate ?? nextShipDate}
                                                disabled={loadingStatus !== 'idle'}
-                                               error={!cartHeader?.shipExpireDate || !dayjs(cartHeader.shipExpireDate).isValid() || dayjs(cartHeader?.shipExpireDate).isBefore(nextShipDate())}
+                                               error={!cartHeader?.shipExpireDate || !dayjs(cartHeader.shipExpireDate).isValid() || dayjs(cartHeader?.shipExpireDate).isBefore(nextShipDate)}
                                                onChange={valueChangeHandler('shipExpireDate')}
                                                inputProps={{required: true}} ref={shipDateRef}/>
                                 <FormControl variant="filled" fullWidth>

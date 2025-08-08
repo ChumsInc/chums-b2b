@@ -73,20 +73,20 @@ const addWorkDays = (date: Date | string | number | Dayjs, days: number): string
     return d.toISOString();
 }
 
-export const minShipDate = (): string => {
+export const minShipDate = (hasCustomization?:boolean): string => {
     const _dayjs = dayjs;
     _dayjs.extend(utc);
     _dayjs.extend(timezone);
 
     const _printDate = _dayjs().tz('America/Denver').startOf('day');
-    return _dayjs(addWorkDays(_printDate, 6)).startOf('day').toISOString();
+    return _dayjs(addWorkDays(_printDate, hasCustomization ? 8 : 6)).startOf('day').toISOString();
 }
 
-export const nextShipDate = (shipDate?: Date | number | string | Dayjs | undefined): string => {
+export const nextShipDate = (shipDate?: Date | number | string | Dayjs | undefined, hasCustomization?: boolean|undefined): string => {
     if (!shipDate) {
         shipDate = new Date();
     }
-    const min = minShipDate();
+    const min = minShipDate(hasCustomization);
     if (!isInWorkWeek(shipDate)) {
         const isSunday = dayjs(shipDate).day() === 0;
         shipDate = dayjs(shipDate).day(isSunday ? 1 : 8).toDate().toISOString();

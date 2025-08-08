@@ -7,7 +7,7 @@ import {
     addToCart,
     duplicateSalesOrder,
     loadCart,
-    loadCarts,
+    loadCarts, loadNextShipDate,
     processCart,
     setActiveCartId,
     setCartShippingAccount
@@ -21,6 +21,7 @@ export interface ActiveCartExtraState {
     cartId: number | null;
     promoCode: string | null;
     shippingAccount: CustomerShippingAccount | null;
+    nextShipDate: string | null;
 }
 
 const initialState = (): ActiveCartExtraState => {
@@ -33,6 +34,7 @@ const initialState = (): ActiveCartExtraState => {
             enabled: shippingAccount?.enabled ?? false,
             value: shippingAccount?.value ?? '',
         },
+        nextShipDate: null,
     }
 }
 
@@ -40,6 +42,7 @@ const clearActiveCart: CaseReducer<ActiveCartExtraState> = (state) => {
     state.cartId = null;
     state.promoCode = null;
     state.shippingAccount = localStore.getItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
+    state.nextShipDate = null;
 }
 
 const activeCartSlice = createSlice({
@@ -91,12 +94,16 @@ const activeCartSlice = createSlice({
                     state.cartId = action.payload.header.id;
                 }
             })
+            .addCase(loadNextShipDate.fulfilled, (state, action) => {
+                state.nextShipDate = action.payload;
+            })
 
     },
     selectors: {
         selectActiveCartId: (state) => state.cartId ?? 0,
         selectCartPromoCode: (state) => state.promoCode,
         selectCartShippingAccount: (state) => state.shippingAccount,
+        selectNextShipDate: (state) => state.nextShipDate,
     },
 })
 
@@ -104,6 +111,7 @@ export const {
     selectActiveCartId,
     selectCartShippingAccount,
     selectCartPromoCode,
+    selectNextShipDate,
 } = activeCartSlice.selectors;
 
 export default activeCartSlice;
