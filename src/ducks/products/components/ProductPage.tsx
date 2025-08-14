@@ -76,7 +76,6 @@ const ProductPage = ({keyword}: {
 
 
     useEffect(() => {
-        console.debug(location, selectedProduct?.keyword, product?.keyword);
         if (location?.state?.variant
             && product
             && isSellAsVariants(product)

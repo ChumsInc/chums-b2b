@@ -99,7 +99,7 @@ const CartItemDetail = ({cartItem, msrp}: {
                     )}
                 </TableBody>
             </Table>
-            {new Decimal(cartItem.quantity ?? 1).gt(availableToday) && (
+            {new Decimal(cartItem.quantity ?? 1).gt(availableToday) &&  (
                 <Alert severity="warning">Product is not available for immediate delivery.</Alert>
             )}
         </Box>

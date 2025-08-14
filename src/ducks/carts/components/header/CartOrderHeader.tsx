@@ -15,7 +15,6 @@ import {
     nextCartProgress
 } from "@/utils/cart";
 import ShipDateInput from "./ShipDateInput";
-import {minShipDate} from "@/utils/orders";
 import ShippingMethodSelect from "@/ducks/carts/components/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
@@ -90,6 +89,7 @@ export default function CartOrderHeader() {
     useEffect(() => {
         if (loading) {
             setCartProgress(cartProgress_Cart);
+            dispatch(loadNextShipDate());
         }
     }, [loading]);
 
@@ -99,7 +99,7 @@ export default function CartOrderHeader() {
         }
         if (cartProgress >= cartProgress_Cart) {
             const shipExpireDate = dayjs(cartHeader.shipExpireDate);
-            if (!cartHeader.shipExpireDate || !shipExpireDate.isValid() || shipExpireDate.isBefore(minShipDate())) {
+            if (!cartHeader.shipExpireDate || !shipExpireDate.isValid() || shipExpireDate.isBefore(nextShipDate)) {
                 shipDateRef.current?.focus();
                 return cartProgress_Delivery;
             }
@@ -219,10 +219,11 @@ export default function CartOrderHeader() {
         }
         if (cartProgress < cartProgress_Confirm) {
             const next = validateForm(cartProgress);
+            console.log('submitHandler', next);
             switch (next) {
                 case cartProgress_Delivery:
                     ga4BeginCheckout(header, detail);
-                    dispatch(loadNextShipDate());
+
                     break;
                 case cartProgress_Payment:
                     ga4AddShippingInfo(header, detail);
