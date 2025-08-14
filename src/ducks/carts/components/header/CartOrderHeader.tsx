@@ -89,9 +89,13 @@ export default function CartOrderHeader() {
     useEffect(() => {
         if (loading) {
             setCartProgress(cartProgress_Cart);
-            dispatch(loadNextShipDate());
+
         }
     }, [loading]);
+
+    useEffect(() => {
+        dispatch(loadNextShipDate());
+    }, []);
 
     const validateForm = (cartProgress: CartProgress): CartProgress => {
         if (!cartHeader) {
@@ -204,6 +208,7 @@ export default function CartOrderHeader() {
             return;
         }
         dispatch(loadCart({customerKey, cartId: header?.id}));
+        dispatch(loadNextShipDate());
     }
 
     const saveCartHandler = async () => {
