@@ -21,7 +21,8 @@ export type ProductAttributeType =
     | 'heat-transfer'
     | 'sublimation'
     | 'screen-printing'
-    | 'dome';
+    | 'dome'
+    | 'new-colors';
 
 
 export interface ProductAttributeChipProps extends ChipProps {
@@ -50,6 +51,8 @@ const attributeColor = (attr: ProductAttributeType | string): ProductAttributeCo
             return {backgroundColor: '#F39D27', color: '#000000'};
         case 'screen-printing':
             return {backgroundColor: '#FAD816', color: '#000000'};
+        case 'new-colors':
+            return {backgroundColor: 'var(--chums-red)', color: '#FFFFFF'};
         case 'new':
             return {backgroundColor: 'var(--chums-red)', color: '#FFFFFF'};
     }
@@ -72,6 +75,8 @@ const attributeText = (attr: ProductAttributeType | string): string => {
             return "HEAT TRANSFER";
         case 'screen-printing':
             return "SCREEN PRINTING";
+        case 'new-colors':
+            return 'NEW COLORS';
         case 'new':
             return 'NEW';
     }

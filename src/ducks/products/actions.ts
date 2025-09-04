@@ -155,7 +155,7 @@ export const setCurrentVariant = createAsyncThunk<SetVariantResponse, ProductVar
             salesUM,
             cartItem
         }
-    })
+    });
 
 
 export const setCartItemQuantity = createAction<number>('product/cartItem/setQuantity');

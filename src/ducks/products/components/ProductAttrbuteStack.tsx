@@ -33,6 +33,7 @@ export default function ProductAttributeStack({
             {!!product.additionalData?.heatTransfer && <ProductAttributeChip feature="heat-transfer"/>}
             {!!product.additionalData?.sublimation && <ProductAttributeChip feature="sublimation"/>}
             {!!product.additionalData?.rfidBlocking && <ProductAttributeChip feature="rfid-blocking"/>}
+            {!!product.additionalData?.newColors && <ProductAttributeChip feature="new-colors"/>}
         </Stack>
     )
 }

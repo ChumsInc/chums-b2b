@@ -20,6 +20,12 @@ const sizeName:SizeIconList = {
     L: 'LARGE',
 }
 
+const sizeIconColors:SizeIconList = {
+    S: '#7BB291',
+    M: '#b85831',
+    L: '#574E1F',
+}
+
 const SizeIcon = ({size}:{size:SizeCode}) => {
     const src = iconSource[size] ?? null;
     if (!src) {
