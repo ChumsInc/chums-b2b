@@ -2,40 +2,40 @@ import React from 'react';
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import {visuallyHidden} from '@mui/utils'
+import styled from "@emotion/styled";
 
-export type SizeCode = 'S'|'M'|'L';
+export type SizeCode = 'sm'|'md'|'lg';
 
-export type SizeIconList = {
-    [key in SizeCode]: string;
-};
-const iconSource:SizeIconList = {
-    S: '/images/chums/icons/retainer_sm.png',
-    M: '/images/chums/icons/retainer_md.png',
-    L: '/images/chums/icons/retainer_lg.png',
-}
+export type SizeIconList = Record<SizeCode, string>
 
 const sizeName:SizeIconList = {
-    S: 'SMALL',
-    M: 'MEDIUM',
-    L: 'LARGE',
+    sm: 'SMALL',
+    md: 'MEDIUM',
+    lg: 'LARGE',
 }
 
-const sizeIconColors:SizeIconList = {
-    S: '#7BB291',
-    M: '#b85831',
-    L: '#574E1F',
-}
 
-const SizeIcon = ({size}:{size:SizeCode}) => {
-    const src = iconSource[size] ?? null;
-    if (!src) {
-        return null;
+
+const SizeIcon = styled.div`
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &.size--sm {
+        background-image: url('/css/size-icon-sm.svg');
     }
 
-    return (
-        <img src={src} alt={size} style={{width: '25px', height: 'auto',  maxWidth: '100%', verticalAlign: 'middle'}}/>
-    )
-}
+    &.size--md {
+        background-image: url('/css/size-icon-md.svg');
+    }
+
+    &.size--lg {
+        background-image: url('/css/size-icon-lg.svg');
+    }
+`
 
 const SizeIconDescription = ({size}:{size:SizeCode}) => {
     if (!sizeName[size]) {
@@ -49,8 +49,8 @@ const SizeIconDescription = ({size}:{size:SizeCode}) => {
 }
 const SizeIconContainer = ({size}:{size: SizeCode}) => {
     return (
-        <Box>
-            <SizeIcon size={size}/>
+        <Box style={{height: '32px', display: 'flex', alignItems: 'center'}}>
+            <SizeIcon className={`size--${size}`}/>
             <SizeIconDescription size={size}/>
         </Box>
     )
@@ -63,15 +63,15 @@ const SizeIconList = ({size, spacing}:{size: string, spacing?: number}) => {
         return null;
     }
     return (
-        <Stack direction="row" spacing={spacing ?? 1}>
+        <Stack direction="row" spacing={spacing ?? 2}>
             {(sizes.includes('s') || sizes.includes('sm')) && (
-                <SizeIconContainer size="S"/>
+                <SizeIconContainer size="sm"/>
             )}
             {(sizes.includes('m') || sizes.includes('md')) && (
-                <SizeIconContainer size="M"/>
+                <SizeIconContainer size="md"/>
             )}
             {(sizes.includes('l') || sizes.includes('lg')) && (
-                <SizeIconContainer size="L"/>
+                <SizeIconContainer size="lg"/>
             )}
         </Stack>
     )

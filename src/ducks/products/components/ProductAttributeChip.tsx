@@ -38,19 +38,19 @@ export interface ProductAttributeColor {
 const attributeColor = (attr: ProductAttributeType | string): ProductAttributeColor => {
     switch (attr) {
         case 'best-seller':
-            return {backgroundColor: '#D71D78', color: '#FFFFFF'};
+            return {backgroundColor: '#f89d67', color: '#000000'};
         case 'upcycled':
-            return {backgroundColor: '#9ABD60', color: '#000000'};
+            return {backgroundColor: '#7bb291', color: '#000000'};
         case 'rfid-blocking':
-            return {backgroundColor: '#37BCAB', color: '#FFFFFF'};
+            return {backgroundColor: '#1f4c7a', color: '#FFFFFF'};
         case 'dome':
-            return {backgroundColor: '#69696a', color: '#FFFFFF'};
+            return {backgroundColor: '#574e1f', color: '#FFFFFF'};
         case 'sublimation':
-            return {backgroundColor: '#365629', color: '#FFFFFF'};
+            return {backgroundColor: '#101b42', color: '#FFFFFF'};
         case 'heat-transfer':
-            return {backgroundColor: '#F39D27', color: '#000000'};
+            return {backgroundColor: '#b75931', color: '#FFFFFF'};
         case 'screen-printing':
-            return {backgroundColor: '#FAD816', color: '#000000'};
+            return {backgroundColor: '#dbb687', color: '#000000'};
         case 'new-colors':
             return {backgroundColor: 'var(--chums-red)', color: '#FFFFFF'};
         case 'new':

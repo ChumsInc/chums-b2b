@@ -25,9 +25,11 @@ export const ITEM_TYPES = {
 };
 
 const imageSizes = "(max-width: 600px) 168px, (max-width: 900px) 268px, 354px";
-const CategoryPageElement = ({item}: {
+
+export interface CategoryPageElementProps {
     item: ProductCategoryChild;
-}) => {
+}
+export default function CategoryPageElement({item}: CategoryPageElementProps) {
     if (isCategoryChildCategory(item)) {
         return (<CategoryLink title={item.title} description={item.description}
                               keyword={item.category.keyword} imageUrl={item.imageUrl}/>);
@@ -70,13 +72,13 @@ const CategoryPageElement = ({item}: {
     }
     if (isCategoryChildSection(item)) {
         return (
-            <Grid size={12}>
+            <Grid size={12} className={item.className}>
                 <Typography variant="h3" component="h3" sx={{textAlign: 'center'}}>{item.sectionTitle}</Typography>
-                <Typography variant="subtitle1" sx={{textAlign: 'center'}}>{item.sectionDescription}</Typography>
+                {!!item.sectionDescription && (
+                    <Typography variant="subtitle1" sx={{textAlign: 'center'}}>{item.sectionDescription}</Typography>
+                )}
             </Grid>
         )
     }
     return null;
 };
-
-export default CategoryPageElement;

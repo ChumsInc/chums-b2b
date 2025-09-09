@@ -11,9 +11,10 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import {ga4ViewItemList} from "@/src/ga4/generic";
 
-const CategoryPage = ({keyword}: {
+export interface CategoryPageProps {
     keyword: string;
-}) => {
+}
+export default function CategoryPage({keyword}: CategoryPageProps) {
     const dispatch = useAppDispatch();
     const loading = useSelector(selectCategoryLoading);
     const category = useSelector(selectCategory);
@@ -42,7 +43,7 @@ const CategoryPage = ({keyword}: {
         <Box>
             <DocumentTitle documentTitle={title}/>
             {!!lifestyle && (
-                <img src={lifestyle} alt="lifestyle image" aria-hidden="true" style={{ width: '100%' }} />
+                <img src={lifestyle} alt="lifestyle image" aria-hidden="true" style={{width: '100%'}}/>
             )}
             <Typography component="h1" variant="h1" sx={{textAlign: 'center', mb: 3}}>{title}</Typography>
             {loading && <LinearProgress variant="indeterminate"/>}
@@ -58,5 +59,3 @@ const CategoryPage = ({keyword}: {
         </Box>
     )
 }
-
-export default CategoryPage;

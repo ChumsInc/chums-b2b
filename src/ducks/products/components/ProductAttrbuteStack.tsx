@@ -24,7 +24,7 @@ export default function ProductAttributeStack({
                direction={direction ?? "row"}
                flexWrap={flexWrap ?? "wrap"}
                justifyContent={justifyContent ?? "center"} alignItems={alignItems ?? "center"} {...rest}>
-            {!!product.additionalData?.size && (<SizeIconList size={product.additionalData.size} spacing={0}/>)}
+            {!!product.additionalData?.size && (<SizeIconList size={product.additionalData.size} spacing={1}/>)}
             {isNew && <ProductAttributeChip feature="new"/>}
             {product.additionalData?.best_seller && <ProductAttributeChip feature="best-seller"/>}
             {product.canScreenPrint && <ProductAttributeChip feature="screen-printing"/>}
