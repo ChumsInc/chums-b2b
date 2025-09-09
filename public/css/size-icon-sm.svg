@@ -3,7 +3,7 @@
     <circle cx="100" cy="100" r="100" fill="#7BB291" />
     <text x="100" y="100" text-anchor="middle"
           font-family="Roboto-Condensed,Roboto,Helvetica,Arial,sans-serif"
-          font-weight="700"
+          font-weight="500"
           alignment-baseline="central"
           font-size="160" fill="white">
         S
