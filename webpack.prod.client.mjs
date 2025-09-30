@@ -42,7 +42,7 @@ const clientConfig = {
             append: `\n //# sourceMappingURL=/build/[url]`
         }),
         new WebpackManifestPlugin({}),
-        new BundleAnalyzerPlugin({}),
+        // new BundleAnalyzerPlugin({}),
     ]
 }
 

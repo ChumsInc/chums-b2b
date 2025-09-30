@@ -2,21 +2,21 @@ import {LoadVersionResponse, selectShouldCheckVersion, selectVersionLoading} fro
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchVersion} from "@/api/version";
 import {RootState} from "@/app/configureStore";
-import localStore from '../../utils/LocalStore';
 import {STORE_VERSION} from "@/constants/stores";
+import SessionStore from "@/utils/SessionStore";
 
 
-export const loadVersion = createAsyncThunk<LoadVersionResponse, boolean | undefined, {state: RootState}>(
+export const loadVersion = createAsyncThunk<LoadVersionResponse, boolean | undefined, { state: RootState }>(
     'version/load',
     async () => {
         const versionNo = await fetchVersion();
-        localStore.setItem(STORE_VERSION, versionNo);
+        SessionStore.setItem(STORE_VERSION, versionNo);
         const lastChecked = new Date().valueOf();
         return {versionNo, lastChecked};
     },
     {
         condition: (arg, {getState}) => {
-            const state = getState() ;
+            const state = getState();
             return arg === true || (!selectVersionLoading(state) && selectShouldCheckVersion(state));
         }
     }

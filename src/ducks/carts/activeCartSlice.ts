@@ -24,7 +24,7 @@ export interface ActiveCartExtraState {
     nextShipDate: string | null;
 }
 
-const initialState = (): ActiveCartExtraState => {
+export const initializeActiveCartState = (): ActiveCartExtraState => {
     const shippingAccount = localStore.getItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
     return {
         customerKey: customerSlug(localStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, null)),
@@ -47,7 +47,7 @@ const clearActiveCart: CaseReducer<ActiveCartExtraState> = (state) => {
 
 const activeCartSlice = createSlice({
     name: 'activeCart',
-    initialState: initialState(),
+    initialState: initializeActiveCartState(),
     reducers: {},
     extraReducers: (builder) => {
         builder

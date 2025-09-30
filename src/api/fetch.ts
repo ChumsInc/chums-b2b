@@ -3,13 +3,14 @@
  */
 import {auth} from "./IntranetAuthService";
 import B2BError from "../types/generic";
-import localStore from "../utils/LocalStore";
 import {STORE_VERSION} from "@/constants/stores";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
 import global from '@/app/global-window';
 import {isLocalHost} from "@/utils/dev";
 import {ga4Exception} from "@/src/ga4/generic";
+import SessionStore from "@/utils/SessionStore";
+import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
 
 
 function getCredentials(): string | null {
@@ -71,7 +72,7 @@ export async function fetchJSON<T = unknown>(url: string, {
     headers,
     body,
     ...requestInit
-}: RequestInit = {}, responseHandler?: ResponseHandler): Promise<T> {
+}: RequestInit = {}, responseHandler?: ResponseHandler): Promise<T | null> {
     try {
         const options: RequestInit = {...requestInit};
 
@@ -155,16 +156,17 @@ export async function postErrors({message, componentStack, userId, fatal}: PostE
         if (isLocalHost()) {
             return;
         }
-        const version = localStore.getItem(STORE_VERSION, '-');
+
+        const version = SessionStore.getItem(STORE_VERSION, '-');
         const body = JSON.stringify({
             url: global.window.location.pathname,
             message,
             componentStack: componentStack ?? '',
-            user_id: userId ?? 0,
+            user_id: canStoreAnalytics() ?  (userId ?? 0) : 0,
             version,
         });
         await fetchJSON('/api/error-reporting', {method: 'POST', body}, allowErrorResponseHandler);
-        ga4Exception(message, fatal ?? false);
+        ga4Exception('An error occurred', fatal ?? false);
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.log("postErrors()", err.message);

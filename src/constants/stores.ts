@@ -1,3 +1,4 @@
+export const STORE_COOKIE_CONSENT = 'chums/b2b/cookieConsent';
 export const STORE_CURRENT_CART = 'chums/b2b/current-cart';
 export const STORE_AUTHTYPE = 'chums/b2b/authtype';
 export const STORE_PROFILE = 'chums/b2b/profile';

@@ -1,6 +1,5 @@
 import {createAction, createAsyncThunk, createReducer, createSelector} from "@reduxjs/toolkit";
 import {Menu, MenuItem} from "b2b-types";
-import {PreloadedState} from "@/types/preload";
 import {RootState} from "@/app/configureStore";
 import {fetchMenu} from "@/api/menu";
 import {selectCustomerAccessList, selectRepAccessList} from "../user/selectors";
@@ -9,10 +8,9 @@ import {accessListURL} from "../user/utils";
 
 export interface MenuState {
     productMenu: Menu | null;
-    items: MenuItem[];
+    productMenuStatus: 'idle' | 'loading' | 'rejected';
     resourcesMenu: Menu | null;
-    loading: boolean;
-    loaded: boolean;
+    resourcesMenuStatus: 'idle' | 'loading' | 'rejected';
     isOpen: boolean;
 }
 
@@ -22,16 +20,13 @@ export const sortMenuPriority = (a: MenuItem, b: MenuItem) => a.priority === b.p
     : a.priority > b.priority ? 1 : -1;
 
 
-export const initialMenuState = (preload: PreloadedState | null = null): MenuState => ({
-    productMenu: preload?.menu?.productMenu ?? null,
-    items: (preload?.menu?.productMenu?.items ?? [])
-        .filter(item => !!item.status)
-        .sort(sortMenuPriority),
-    resourcesMenu: preload?.menu?.resourcesMenu ?? null,
-    loading: false,
-    loaded: preload?.menu?.loaded ?? false,
+const initialMenuState: MenuState = {
+    productMenu: null,
+    productMenuStatus: 'idle',
+    resourcesMenu: null,
+    resourcesMenuStatus: 'idle',
     isOpen: false,
-});
+}
 
 export const loadProductMenu = createAsyncThunk<Menu | null, void, { state: RootState }>(
     'menus/productMenu',
@@ -40,7 +35,7 @@ export const loadProductMenu = createAsyncThunk<Menu | null, void, { state: Root
     }, {
         condition: (arg, {getState}) => {
             const state = getState();
-            return !selectLoading(state);
+            return !selectProductsMenuLoading(state);
         }
     }
 )
@@ -52,16 +47,17 @@ export const loadResourcesMenu = createAsyncThunk<Menu | null, void, { state: Ro
     }, {
         condition: (arg, {getState}) => {
             const state = getState();
-            return !selectLoading(state);
+            return !selectResourcesMenuLoading(state);
         }
     }
 )
 
 export const selectProductMenu = (state: RootState): Menu | null => state.menu.productMenu;
 export const selectResourcesMenu = (state: RootState) => state.menu.resourcesMenu;
-export const selectMenuItems = (state: RootState) => state.menu.items ?? [];
-export const selectLoading = (state: RootState) => state.menu.loading;
-export const selectLoaded = (state: RootState) => state.menu.loaded;
+export const selectProductsMenuLoading = (state: RootState) => state.menu.productMenuStatus !== 'idle';
+export const selectResourcesMenuLoading = (state: RootState) => state.menu.resourcesMenuStatus !== 'loading';
+export const selectProductMenuLoaded = (state: RootState) => !!state.menu.productMenu;
+export const selectResourcesMenuLoaded = (state: RootState) => !!state.menu.resourcesMenu;
 export const selectIsDrawerOpen = (state: RootState) => state.menu.isOpen;
 export const selectCustomerMenuItems = createSelector(
     [selectCustomerAccessList],
@@ -79,12 +75,41 @@ export const selectRepMenuItems = createSelector(
         url: accessListURL(row)
     })));
 
+export const selectShouldLoadProductMenu = createSelector(
+    [selectProductsMenuLoading, selectProductMenuLoaded],
+    (loading, loaded) => !loading && !loaded
+)
+
+export const selectShouldLoadResourcesMenu = createSelector(
+    [selectResourcesMenuLoading, selectResourcesMenuLoaded],
+    (loading, loaded) => !loading && !loaded
+)
 export const toggleMenuDrawer = createAction<boolean | undefined>('menu/toggleDrawer');
 
 const menuReducer = createReducer(initialMenuState, (builder) => {
     builder
         .addCase(toggleMenuDrawer, (state, action) => {
             state.isOpen = action.payload ?? !state.isOpen;
+        })
+        .addCase(loadProductMenu.pending, (state) => {
+            state.productMenuStatus = 'loading';
+        })
+        .addCase(loadProductMenu.fulfilled, (state, action) => {
+            state.productMenuStatus = 'idle'
+            state.productMenu = action.payload;
+        })
+        .addCase(loadProductMenu.rejected, (state) => {
+            state.productMenuStatus = 'rejected';
+        })
+        .addCase(loadResourcesMenu.pending, (state) => {
+            state.resourcesMenuStatus = 'loading';
+        })
+        .addCase(loadResourcesMenu.fulfilled, (state, action) => {
+            state.resourcesMenuStatus = 'idle';
+            state.resourcesMenu = action.payload;
+        })
+        .addCase(loadResourcesMenu.rejected, (state) => {
+            state.resourcesMenuStatus = 'rejected'
         })
 });
 

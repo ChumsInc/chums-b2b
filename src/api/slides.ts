@@ -6,7 +6,7 @@ import {fetchJSON} from "./fetch";
 export async function fetchSlides(): Promise<Slide[]> {
     try {
         const res = await fetchJSON<{ slides: Slide[] }>('/api/features/slides/active', {cache: 'no-cache'});
-        return res.slides ?? [];
+        return res?.slides ?? [];
     } catch (err) {
         if (err instanceof Error) {
             console.debug("fetchSlides()", err.message);

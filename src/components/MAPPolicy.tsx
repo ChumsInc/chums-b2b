@@ -6,6 +6,7 @@ import {selectPageContent} from "@/ducks/page/selectors";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
+import HTMLContent from "@/src/common-components/HTMLContent";
 
 const MAPPolicy = () => {
     const dispatch = useAppDispatch();
@@ -23,8 +24,9 @@ const MAPPolicy = () => {
         <Card variant="outlined">
             <CardContent>
                 <Typography gutterBottom variant="h3" component="h3">{content.title}</Typography>
-                <Typography variant="body1" sx={{fontSize: 'small'}}
-                            dangerouslySetInnerHTML={{__html: content?.content ?? ''}}/>
+                <Typography variant="body1" sx={{fontSize: 'small'}}>
+                    <HTMLContent html={content?.content ?? ''}/>
+                </Typography>
             </CardContent>
         </Card>
     )

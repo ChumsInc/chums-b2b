@@ -25,7 +25,19 @@ import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
 import {useIsSSR} from "@/hooks/is-server-side";
 import {ga4ViewItem} from "@/src/ga4/generic";
+import HTMLContent from "@/src/common-components/HTMLContent";
+import styled from "@emotion/styled";
 
+
+const ProductPanel = styled.div`
+    iframe {
+        border: none;
+        max-width: 100%;
+        width: 100%;
+        aspect-ratio: 16/9;
+        height: auto;
+    }
+`
 
 const ProductPage = ({keyword}: {
     keyword: string;
@@ -93,7 +105,7 @@ const ProductPage = ({keyword}: {
 
     return (
         <Box className={classNames('product-page', {loading})}>
-            <div className="product-panel">
+            <ProductPanel>
                 <Grid container spacing={5}>
                     <Grid size={12} sx={{display: {xs: 'block', md: 'none'}}}>
                         <ProductPageTitle/>
@@ -154,20 +166,20 @@ const ProductPage = ({keyword}: {
 
                         {isProduct(product) && !!product.description && (
                             <div className="mt-3">
-                                <div dangerouslySetInnerHTML={{__html: product.description}}/>
+                                <HTMLContent html={product.description}/>
                             </div>
                         )}
 
                         {isProduct(product) && !!product.details && (
                             <div className="mt-3">
                                 <h3>Features</h3>
-                                <div dangerouslySetInnerHTML={{__html: product.details}}/>
+                                <HTMLContent html={product.details}/>
                             </div>
                         )}
 
                     </Grid>
                 </Grid>
-            </div>
+            </ProductPanel>
         </Box>
     );
 }

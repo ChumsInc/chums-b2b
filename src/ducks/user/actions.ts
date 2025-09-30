@@ -87,6 +87,11 @@ export const updateLocalAuth = createAsyncThunk<void, void, { state: RootState }
     async (_, {dispatch}) => {
         try {
             const token = await postLocalReauth();
+            if (!token) {
+                dispatch(setLoggedIn({loggedIn: false}));
+                auth.removeToken();
+                return;
+            }
             auth.setToken(token);
             auth.setProfile(getProfile(token));
             const expires = getTokenExpiry(token);
@@ -220,7 +225,10 @@ export const loadProfile = createAsyncThunk<UserProfileResponse, void, { state: 
 export const changePassword = createAsyncThunk<ChangePasswordResponse, ChangePasswordProps, { state: RootState }>(
     'user/changePassword',
     async (arg) => {
-        return await postPasswordChange(arg);
+        return await postPasswordChange(arg) ?? {
+            success: false,
+            error: 'Unknown error changing password.'
+        };
     },
     {
         condition: (_arg, {getState}) => {

@@ -20,7 +20,7 @@ export async function fetchCarts(arg: string): Promise<B2BCart[]> {
         const url = `/api/carts/:customerSlug.json`
             .replace(':customerSlug', encodeURIComponent(arg));
         const res = await fetchJSON<{ carts: B2BCart[] }>(url, {cache: 'no-cache'});
-        return res.carts ?? [];
+        return res?.carts ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("fetchCarts()", err.message);

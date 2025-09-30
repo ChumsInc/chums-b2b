@@ -1,6 +1,11 @@
 import React from 'react';
 import {ManifestFiles} from "./manifest";
 import * as process from "node:process";
+import {EnhancedStore} from "@reduxjs/toolkit";
+import {Provider} from "react-redux";
+import App from "@/app/App";
+import {StaticRouter} from "react-router";
+import {PreloadedState} from "b2b-types";
 
 
 const InlineJSHeadContent = (versionNo: string) => {
@@ -16,16 +21,17 @@ const InlineJSHeadContent = (versionNo: string) => {
 }
 
 export interface B2BHtmlProps {
-    html: string;
+    url: string;
     css: string;
-    state: unknown;
+    store: EnhancedStore
     manifestFiles: ManifestFiles;
     swatchTimestamp?: string;
     cspNonce: string;
 }
 
-export default function B2BHtml({html, css, state, manifestFiles, swatchTimestamp, cspNonce}: B2BHtmlProps) {
-    const preloadedState = JSON.stringify(state || {}).replace(/</g, '\\u003c');
+export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp, cspNonce}: B2BHtmlProps) {
+    const state:PreloadedState = store.getState() ?? {};
+    const preloadedStateJSON = JSON.stringify(state).replace(/</g, '\\u003c');
     return (
         <html lang="en-us" dir="ltr">
         <head>
@@ -33,7 +39,7 @@ export default function B2BHtml({html, css, state, manifestFiles, swatchTimestam
             <meta httpEquiv="x-ua-compatible" content="ie-edge"/>
             <meta name="description" content="Chums B2B"/>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
+            <title>Chums B2B</title>
             <meta property="og:image" content="https://b2b.chums.com/images/logos/Chums-Logo-Badge-Red-RGB.png"/>
             <meta property="og:image:alt" content="Chums Logo"/>
             <meta property="og:type" content="website"/>
@@ -59,15 +65,23 @@ export default function B2BHtml({html, css, state, manifestFiles, swatchTimestam
                 nonce={cspNonce}
                 rel="stylesheet"/>
             <script src="https://accounts.google.com/gsi/client" async defer nonce={cspNonce}/>
-            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}
-                    nonce={cspNonce}/>
-            <script dangerouslySetInnerHTML={{__html: InlineJSHeadContent(manifestFiles.version ?? '')}}
-                    nonce={cspNonce}/>
+            {state.cookieConsent?.record?.preferences?.analytics && (
+                <>
+                    <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}
+                            nonce={cspNonce}/>
+                    <script dangerouslySetInnerHTML={{__html: InlineJSHeadContent(manifestFiles.version ?? '')}}
+                            nonce={cspNonce}/>
+                </>
+            )}
             <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
         </head>
         <body>
-        <div id="app" dangerouslySetInnerHTML={{__html: html}}/>
-        <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedState}`}}  nonce={cspNonce}/>
+        <Provider store={store}>
+            <StaticRouter location={url}>
+                <App/>
+            </StaticRouter>
+        </Provider>
+        <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}} nonce={cspNonce}/>
         {manifestFiles['vendors-react.js'] && (<script src={manifestFiles['vendors-react.js']}  nonce={cspNonce}/>)}
         {manifestFiles['vendors-mui.js'] && (<script src={manifestFiles['vendors-mui.js']}  nonce={cspNonce}/>)}
         {manifestFiles['vendors.js'] && (<script src={manifestFiles['vendors.js']}  nonce={cspNonce}/>)}

@@ -12,7 +12,7 @@ export async function fetchCustomerAccount({ARDivisionNo, CustomerNo}: CustomerK
         const url = '/api/sales/b2b/account/:customerSlug/customer.json'
             .replace(':customerSlug', customerSlug({ARDivisionNo, CustomerNo})!)
         const response = await fetchJSON<{ result: FetchCustomerResponse }>(url, {cache: 'no-cache'});
-        if (!response.result || !response.result.customer || !response.result.customer.CustomerNo) {
+        if (!response?.result || !response.result.customer || !response.result.customer.CustomerNo) {
             return Promise.reject(new Error('Invalid response when loading customer account'));
         }
         response.result.permissions = await fetchCustomerValidation({ARDivisionNo, CustomerNo});
@@ -53,7 +53,7 @@ export async function postAddCustomerUserLocation(arg:CustomerUser, customerKey:
         const method = 'POST';
         const body = JSON.stringify(arg);
         const response = await fetchJSON<{ users: CustomerUser[] }>(url, {method, body});
-        return response.users ?? [];
+        return response?.users ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
             console.debug("postAddCustomerUserLocation()", err.message);
@@ -80,7 +80,7 @@ export async function postCustomerUser(arg: CustomerUser, customerKey: string): 
         const method = arg.id ? 'PUT' : 'POST';
         const body = JSON.stringify(arg);
         const response = await fetchJSON<{ users: CustomerUser[] }>(url, {method, body});
-        return response.users ?? [];
+        return response?.users ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("postCustomerUser()", err.message);
@@ -98,7 +98,7 @@ export async function deleteCustomerUser(arg: CustomerUser, customer: CustomerKe
             .replace(':customerKey', encodeURIComponent(customerKey))
             .replace(':id', encodeURIComponent(arg.id));
         const response = await fetchJSON<{ users: CustomerUser[] }>(url, {method: 'delete'});
-        return response.users ?? [];
+        return response?.users ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("deleteCustomerUser()", err.message);

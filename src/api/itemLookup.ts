@@ -8,7 +8,7 @@ export async function fetchItemLookup(arg:string):Promise<ItemSearchResult[]> {
         }
         const url = `/api/search/items/${encodeURIComponent(arg)}`;
         const res = await fetchJSON<{items: ItemSearchResult[]}>(url);
-        return res.items ?? [];
+        return res?.items ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
             console.debug("fetchItemLookup()", err.message);

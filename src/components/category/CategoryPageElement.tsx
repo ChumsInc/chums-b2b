@@ -14,6 +14,7 @@ import Link from "@mui/material/Link";
 import CategoryGridItem from "./CategoryGridItem";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import Typography from "@mui/material/Typography";
+import HTMLContent from "@/src/common-components/HTMLContent";
 
 
 export const ITEM_TYPES = {
@@ -50,7 +51,7 @@ export default function CategoryPageElement({item}: CategoryPageElementProps) {
                     <div className="product-title">{item.title}</div>
                 </Link>
                 <div className="description">
-                    <div dangerouslySetInnerHTML={{__html: item.description}}/>
+                    <HTMLContent html={item.description}/>
                 </div>
             </CategoryGridItem>
         );
@@ -65,7 +66,7 @@ export default function CategoryPageElement({item}: CategoryPageElementProps) {
                 )}
                 <div className="product-title">{item.title}</div>
                 <div className="description">
-                    <div dangerouslySetInnerHTML={{__html: item.description}}/>
+                    <HTMLContent html={item.description}/>
                 </div>
             </CategoryGridItem>
         );

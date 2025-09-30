@@ -35,6 +35,7 @@ import {loadOpenOrders} from "../open-orders/actions";
 import {CustomerPermissions} from "@/types/customer";
 import {selectRecentCustomers} from "../customers/selectors";
 import {loadCarts} from "@/ducks/carts/actions";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');
@@ -78,7 +79,9 @@ export const setCustomerAccount = createAsyncThunk<{
     async (arg, {getState}) => {
         const state = getState();
         const recentAccounts = buildRecentCustomers(selectRecentCustomers(state), arg);
-        localStore.setItem(STORE_RECENT_ACCOUNTS, recentAccounts);
+        if (canStorePreferences()) {
+            localStore.setItem(STORE_RECENT_ACCOUNTS, recentAccounts);
+        }
         return {customer: arg, recent: recentAccounts};
     }, {
         condition: (arg, {getState}) => {
@@ -99,7 +102,9 @@ export const loadCustomer = createAsyncThunk<FetchCustomerResponse | null, Custo
         }
         const state = getState();
         response.recent = buildRecentCustomers(selectRecentCustomers(state), response.customer);
-        localStore.setItem(STORE_RECENT_ACCOUNTS, response.recent);
+        if (canStorePreferences()) {
+            localStore.setItem(STORE_RECENT_ACCOUNTS, response.recent);
+        }
         const {ARDivisionNo, CustomerNo, CustomerName, ShipToCode} = response.customer;
         const currentCustomer = selectCurrentCustomer(state);
         localStore.setItem<BasicCustomer>(STORE_CUSTOMER, {

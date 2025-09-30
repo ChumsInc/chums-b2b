@@ -4,7 +4,7 @@ import {fetchJSON} from "@/api/fetch";
 export async function fetchBanners():Promise<Banner[]> {
     try {
         const res = await fetchJSON<{banners: Banner[]}>('/api/features/banners/active');
-        return res.banners ?? [];
+        return res?.banners ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
             console.debug("fetchBanners()", err.message);

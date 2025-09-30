@@ -1,27 +1,27 @@
 import {createReducer, createSelector} from "@reduxjs/toolkit";
 import {ignoreVersion, loadVersion} from "./actions";
 import {RootState} from "@/app/configureStore";
-import {PreloadedState} from "@/types/preload";
 
 export interface VersionState {
-    versionNo: string|null,
+    versionNo: string | null,
     loading: boolean,
     changed: boolean,
-    ignored: string|null,
+    ignored: string | null,
     lastChecked: number,
 }
+
 export interface LoadVersionResponse {
-    versionNo: string|null;
+    versionNo: string | null;
     lastChecked: number;
 }
 
 export const minCheckInterval = 15 * 60 * 1000;
 
-export const selectVersion = (state:RootState) => state.version.versionNo;
-export const selectVersionLoading = (state:RootState) => state.version.loading;
-export const selectVersionChanged = (state:RootState) => state.version.changed;
-export const selectLastChecked = (state:RootState) => state.version.lastChecked;
-export const selectVersionIgnored = (state:RootState) => state.version.ignored;
+export const selectVersion = (state: RootState) => state.version.versionNo;
+export const selectVersionLoading = (state: RootState) => state.version.loading;
+export const selectVersionChanged = (state: RootState) => state.version.changed;
+export const selectLastChecked = (state: RootState) => state.version.lastChecked;
+export const selectVersionIgnored = (state: RootState) => state.version.ignored;
 
 export const selectShouldAlertVersion = createSelector(
     [selectVersion, selectVersionChanged, selectVersionIgnored],
@@ -39,13 +39,13 @@ export const selectShouldCheckVersion = createSelector(
     }
 )
 
-export const initialVersionState = (preload:PreloadedState = {}):VersionState => ({
-    versionNo: preload?.version?.versionNo ?? null,
+export const initialVersionState: VersionState = {
+    versionNo: null,
     loading: false,
     changed: false,
     ignored: null,
     lastChecked: 0,
-})
+}
 
 const versionReducer = createReducer(initialVersionState, (builder) => {
     builder

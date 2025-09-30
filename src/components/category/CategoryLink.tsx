@@ -3,6 +3,7 @@ import {Link as RoutedLink} from 'react-router';
 import CategoryGridItem from "./CategoryGridItem";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import Link from "@mui/material/Link";
+import HTMLContent from "@/src/common-components/HTMLContent";
 
 const CategoryLink = ({title, keyword, description, imageUrl, className = ''}: {
     title: string;
@@ -19,7 +20,7 @@ const CategoryLink = ({title, keyword, description, imageUrl, className = ''}: {
                 <div className="product-title">{title}</div>
             </Link>
             <div className="description">
-                <div dangerouslySetInnerHTML={{__html: description}}/>
+                <HTMLContent html={description}/>
             </div>
         </CategoryGridItem>
     );

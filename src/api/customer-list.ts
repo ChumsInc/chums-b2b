@@ -13,7 +13,7 @@ export async function fetchCustomerList(arg:UserCustomerAccess):Promise<Customer
             .replace(':SalespersonDivisionNo', encodeURIComponent(arg.SalespersonDivisionNo))
             .replace(':SalespersonNo', encodeURIComponent(arg.SalespersonNo));
         const res = await fetchJSON<{result: Customer[]}>(url, {cache: 'no-cache'});
-        return res.result ?? [];
+        return res?.result ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
             console.debug("fetchCustomerList()", err.message);

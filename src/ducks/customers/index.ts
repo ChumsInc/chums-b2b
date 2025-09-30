@@ -33,7 +33,7 @@ export interface CustomersState {
     recent: RecentCustomer[];
 }
 
-export const initialUserState = (): CustomersState => {
+export const initialCustomersState = (): CustomersState => {
     const isLoggedIn = auth.loggedIn();
     const recentCustomers = isLoggedIn
         ? localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, [])
@@ -55,7 +55,7 @@ export const initialUserState = (): CustomersState => {
     }
 }
 
-export const customersReducer = createReducer(initialUserState, builder => {
+export const customersReducer = createReducer(initialCustomersState, builder => {
     builder
         .addCase(setLoggedIn, (state, action) => {
             if (!action.payload?.loggedIn) {

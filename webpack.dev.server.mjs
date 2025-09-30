@@ -8,7 +8,7 @@ const serverConfig = {
     mode: 'development',
     name: 'server',
     entry: {
-        server: './src/server/cartMessagesSlice.ts'
+        server: './src/server/index.ts'
     },
     devtool: 'inline-source-map',
     output: {

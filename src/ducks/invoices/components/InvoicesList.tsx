@@ -31,6 +31,7 @@ import InvoiceListFilter from "./InvoiceListFilter";
 import Box from "@mui/material/Box";
 import {ErrorBoundary} from "react-error-boundary";
 import Alert from "@mui/material/Alert";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 
 
 const invoiceFields: SortableTableField<InvoiceHistoryHeader>[] = [
@@ -105,7 +106,9 @@ const InvoicesList = () => {
 
     const rowsPerPageChangeHandler = (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const rowsPerPage = +(ev.target.value ?? 10);
-        localStore.setItem(STORE_INVOICES_ROWS_PER_PAGE, rowsPerPage);
+        if (canStorePreferences()) {
+            localStore.setItem(STORE_INVOICES_ROWS_PER_PAGE, rowsPerPage);
+        }
         setRowsPerPage(rowsPerPage);
     }
 

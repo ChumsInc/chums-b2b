@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import {ga4ViewItemList} from "@/src/ga4/generic";
+import HTMLContent from "@/src/common-components/HTMLContent";
 
 export interface CategoryPageProps {
     keyword: string;
@@ -47,7 +48,7 @@ export default function CategoryPage({keyword}: CategoryPageProps) {
             )}
             <Typography component="h1" variant="h1" sx={{textAlign: 'center', mb: 3}}>{title}</Typography>
             {loading && <LinearProgress variant="indeterminate"/>}
-            {!!pageText && <Box dangerouslySetInnerHTML={{__html: pageText}}/>}
+            {!!pageText && <HTMLContent html={pageText}/>}
             <Grid container spacing={3} justifyContent={children.length < 4 ? 'center' : 'start'} sx={{mt: 3}}>
                 {children
                     .filter(child => !!child.status)

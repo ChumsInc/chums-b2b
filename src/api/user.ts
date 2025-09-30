@@ -32,6 +32,9 @@ export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorR
         if (isErrorResponse(res)) {
             return res;
         }
+        if (!res) {
+            return Promise.reject(new Error('Login Error: unknown error'));
+        }
         ga4Login('credentials')
         return res.token;
     } catch (err) {
@@ -44,11 +47,11 @@ export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorR
     }
 }
 
-export async function postLocalReauth(): Promise<string> {
+export async function postLocalReauth(): Promise<string|null> {
     try {
         const url = '/api/user/v2/b2b/auth/renew.json';
         const res = await fetchJSON<{ token: string }>(url, {method: 'POST'});
-        return res.token;
+        return res?.token ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("postLocalReauth()", err.message);
@@ -63,6 +66,9 @@ export async function fetchUserProfile(): Promise<UserProfileResponse> {
     try {
         const url = '/api/user/v2/b2b/profile.json';
         const response = await fetchJSON<UserProfileResponse>(url, {cache: 'no-cache'});
+        if (!response) {
+            return Promise.reject(new Error('Error loading useer profile'));
+        }
         response.reps = [];
         if (response.user?.accountType === 1) {
             response.reps = await fetchRepList();
@@ -84,6 +90,9 @@ export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<U
         const url = '/api/user/v2/b2b/profile.json';
         const body = JSON.stringify(arg);
         const response = await fetchJSON<FunkyUserProfileResponse>(url, {method: 'PUT', body});
+        if (!response) {
+            return Promise.reject(new Error('Unknown error when saving user profile.'));
+        }
         response.reps = [];
         response.roles = response.roles?.map(role => isUserRole(role) ? role.role : role);
         if (response.user?.accountType === 1) {
@@ -113,7 +122,7 @@ export async function fetchRepList(): Promise<Salesperson[]> {
     try {
         const url = '/api/sales/rep/list/chums/condensed';
         const response = await fetchJSON<{ list: Salesperson[] }>(url, {cache: 'no-cache'});
-        return (response.list ?? []).filter(rep => !!rep.active);
+        return (response?.list ?? []).filter(rep => !!rep.active);
     } catch (err) {
         if (err instanceof Error) {
             console.debug("fetchRepList()", err.message);
@@ -137,7 +146,9 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
             body,
             credentials: 'omit'
         });
-
+        if (!response) {
+            return Promise.reject(new Error('Unable to load Google login'));
+        }
         response.reps = [];
         if (response.user?.accountType === 1) {
             response.reps = await fetchRepList();
@@ -208,8 +219,8 @@ export async function fetchSignUpProfile(arg: LoadProfileProps): Promise<SignUpP
         if (isErrorResponse(res)) {
             return res;
         }
-        configGtag({user_id: `${res.user?.id ?? 0}`})
-        return res.user ?? null;
+        configGtag({user_id: `${res?.user?.id ?? 0}`})
+        return res?.user ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
             console.debug("fetchSignUpProfile()", err.message);
@@ -239,7 +250,7 @@ export async function postSignUpUser(arg: SignUpUser): Promise<SignUpResponse | 
     }
 }
 
-export async function postPasswordChange(arg: ChangePasswordProps): Promise<ChangePasswordResponse> {
+export async function postPasswordChange(arg: ChangePasswordProps): Promise<ChangePasswordResponse|null> {
     try {
         const url = '/api/user/v2/b2b/password.json';
         const body = JSON.stringify(arg);

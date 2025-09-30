@@ -1,6 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {ContentPage, Keyword} from "b2b-types";
-import {keywordsSorter, pageKeywordsFilter} from "../keywords/utils";
 import {loadPage} from "./actions";
 
 export interface PageState {
@@ -9,15 +8,17 @@ export interface PageState {
     status: 'idle' | 'loading';
     loaded: boolean;
     content: ContentPage | null;
+    html: string | null;
 }
 
-export const initialPageState = (preload = typeof window === 'undefined' ? {} : window?.__PRELOADED_STATE__ ?? {}): PageState => ({
-    list: preload?.keywords?.list?.filter(pageKeywordsFilter)?.sort(keywordsSorter) ?? [],
-    keyword: preload.page?.content?.keyword ?? null,
+export const initialPageState: PageState = {
+    list: [],
+    keyword: null,
     status: 'idle',
-    loaded: !!preload?.page?.content,
-    content: preload?.page?.content ?? null,
-})
+    loaded: false,
+    content: null,
+    html: null,
+}
 
 const pageReducer = createReducer(initialPageState, (builder) => {
     builder
@@ -33,6 +34,7 @@ const pageReducer = createReducer(initialPageState, (builder) => {
             state.status = 'idle';
             state.loaded = true;
             state.content = action.payload;
+            state.html = action.payload?.content ?? null;
         })
         .addCase(loadPage.rejected, (state) => {
             state.status = 'idle';

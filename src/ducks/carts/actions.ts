@@ -27,6 +27,7 @@ import {selectUserType} from "@/ducks/user/selectors";
 import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice";
 import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 
 export const loadCarts = createAsyncThunk<B2BCart[], string | null, { state: RootState }>(
     'carts/loadCarts',
@@ -166,7 +167,9 @@ export const setActiveCartId = createAction('activeCart/setActiveCartId', (arg: 
 })
 
 export const setCartShippingAccount = createAction('activeCart/setCartShippingAccount', (arg: CustomerShippingAccount | null) => {
-    localStore.setItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, arg);
+    if (canStorePreferences()) {
+        localStore.setItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, arg);
+    }
     return {
         payload: arg
     }

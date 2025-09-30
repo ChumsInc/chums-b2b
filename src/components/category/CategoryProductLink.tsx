@@ -6,6 +6,7 @@ import ProductAttributeStack from "@/ducks/products/components/ProductAttrbuteSt
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import {parseImageFilename} from "@/src/common/image";
 import ProductLink from "@/components/ProductLink";
+import HTMLContent from "@/src/common-components/HTMLContent";
 
 const CategoryProductLink = ({title, description, product, imageUrl, className = ''}: {
     title: string;
@@ -26,7 +27,7 @@ const CategoryProductLink = ({title, description, product, imageUrl, className =
                               sx={{justifyContent: 'center'}}/>
             </ProductLink>
             <div className="description">
-                <div dangerouslySetInnerHTML={{__html: description}}/>
+                <HTMLContent html={description}/>
             </div>
         </CategoryGridItem>
     )

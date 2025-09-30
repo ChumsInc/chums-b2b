@@ -11,7 +11,7 @@ export async function fetchSalesOrder({customerKey, salesOrderNo}: LoadSalesOrde
             .replace(':customerKey', encodeURIComponent(customerKey))
             .replace(':salesOrderNo', encodeURIComponent(salesOrderNo));
         const response = await fetchJSON<{ salesOrder: SalesOrder }>(url, {cache: 'no-cache'});
-        return response.salesOrder ?? null;
+        return response?.salesOrder ?? null;
     } catch (err) {
         if (err instanceof Error) {
             console.debug("fetchSalesOrder()", err.message);

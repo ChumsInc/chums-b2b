@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect,} from "react";
+import React from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,26 +10,34 @@ import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
 import NavDrawer from "./NavDrawer";
 import HomeLink from "./HomeLink";
-import {navItems} from './NavItems'
 import {useAppDispatch} from "@/app/configureStore";
-import {useSelector} from "react-redux";
-import {loadProductMenu, selectLoaded, selectLoading, toggleMenuDrawer} from "../index";
+import {toggleMenuDrawer} from "../index";
 import Container from "@mui/material/Container";
 import UserMenu from "./UserMenu";
 import CartMenu from "./CartMenu";
 import SearchBar from "../../search/components/SearchBar";
+import NavProductsLink from "@/ducks/menu/components/NavProductsLink";
+import NavLoginLink from "@/ducks/menu/components/NavLoginLink";
+import NavSignupLink from "@/ducks/menu/components/NavSignupLink";
+import NavAccountsLink from "@/ducks/menu/components/NavAccountsLink";
+import NavCustomerLink from "@/ducks/menu/components/NavCustomerLink";
+import NavResourcesLink from "@/ducks/menu/components/NavResourcesLink";
 
+function NavMenuList({inDrawer}: { inDrawer?: boolean }) {
+    return (
+        <>
+            <NavProductsLink inDrawer={inDrawer}/>
+            <NavLoginLink inDrawer={inDrawer}/>
+            <NavSignupLink inDrawer={inDrawer}/>
+            <NavAccountsLink inDrawer={inDrawer}/>
+            <NavCustomerLink inDrawer={inDrawer}/>
+            <NavResourcesLink inDrawer={inDrawer}/>
+        </>
+    )
+}
 
 const NavBarUI = () => {
     const dispatch = useAppDispatch();
-    const loading = useSelector(selectLoading);
-    const loaded = useSelector(selectLoaded);
-
-    useEffect(() => {
-        if (!loaded && !loading) {
-            dispatch(loadProductMenu());
-        }
-    }, []);
 
     const handleDrawerToggle = () => {
         dispatch(toggleMenuDrawer());
@@ -40,11 +48,7 @@ const NavBarUI = () => {
             <HomeLink sx={{display: {xs: 'block', md: 'none'}}}/>
             <Divider/>
             <List>
-                {navItems.map((item) => (
-                    <Fragment key={item.id}>
-                        {item.title ?? (item.render ? item.render({inDrawer: true}) : null)}
-                    </Fragment>
-                ))}
+                <NavMenuList inDrawer/>
             </List>
         </Box>
     );
@@ -67,11 +71,7 @@ const NavBarUI = () => {
                                 flexDirection: 'row',
                                 alignItems: 'center'
                             }}>
-                                {navItems.map((item) => (
-                                    <Fragment key={item.id}>
-                                        {item.title ?? (item.render ? item.render({}) : null)}
-                                    </Fragment>
-                                ))}
+                                <NavMenuList/>
                             </Box>
                             <Box sx={{display: {xs: 'none', md: 'flex'}, flex: '1 1 auto'}}>
                                 <SearchBar/>

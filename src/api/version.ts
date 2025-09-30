@@ -17,7 +17,7 @@ export async function fetchVersion(): Promise<string|null> {
         const response = await fetchJSON<VersionResponse>('/version', {cache: 'no-cache'});
         return (isVersionResponse(response?.version)
             ? response.version.versionNo
-            : response.version) ?? null
+            : response?.version) ?? null
     } catch (err) {
         if (err instanceof Error) {
             console.debug("fetchVersion()", err.message);

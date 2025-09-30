@@ -9,11 +9,14 @@ import {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
 import {selectLoggedIn} from "../user/selectors";
 import {FetchInvoiceArg, LoadInvoicesProps} from "./types";
 import {SortProps} from "@/types/generic";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 
 
 export const setInvoicesPage = createAction('invoices/setPage');
 export const setInvoicesRowsPerPage = createAction('invoices/setRowsPerPage', (rowsPerPage) => {
-    localStore.setItem(STORE_INVOICES_ROWS_PER_PAGE, rowsPerPage);
+    if (canStorePreferences()) {
+        localStore.setItem(STORE_INVOICES_ROWS_PER_PAGE, rowsPerPage);
+    }
     return {
         payload: rowsPerPage
     }
@@ -50,7 +53,9 @@ export const setShowPaidInvoices = createAction<boolean | undefined>('invoices/f
 export const setInvoicesFilterShipToCode = createAction<string | null>('invoices/filter/setShipToCode');
 export const setInvoicesFilterSearch = createAction<string>('invoices/filter/setSearch');
 export const setInvoicesSort = createAction('invoices/setSort', (arg: SortProps<InvoiceHistoryHeader>) => {
-    localStore.setItem<SortProps<InvoiceHistoryHeader>>(STORE_INVOICES_SORT, arg);
+    if (canStorePreferences()) {
+        localStore.setItem<SortProps<InvoiceHistoryHeader>>(STORE_INVOICES_SORT, arg);
+    }
     return {
         payload: arg
     };

@@ -16,7 +16,7 @@ export interface ProductsState {
     product: Product | null;
     selectedProduct: Product | null;
     selectedItemCode: string | null;
-    image: ProductImage;
+    image: ProductImage|null;
     colorCode: string;
     variantId: number | null;
     loading: boolean;
@@ -28,15 +28,12 @@ export interface ProductsState {
     customerKey: string | null;
 }
 
-export const initialProductsState = (preload: PreloadedState = {}): ProductsState => ({
+export const initialProductsState: ProductsState = {
     keyword: null,
-    product: preload.products?.product ?? null,
+    product: null,
     selectedProduct: null,
     selectedItemCode: null,
-    image: {
-        filename: null,
-        itemCode: null,
-    },
+    image: null,
     colorCode: '',
     variantId: null,
     loading: false,
@@ -46,7 +43,7 @@ export const initialProductsState = (preload: PreloadedState = {}): ProductsStat
     cartItem: null,
     pricing: [],
     customerKey: null,
-});
+};
 
 const productsReducer = createReducer(initialProductsState, (builder) => {
     builder
@@ -75,8 +72,7 @@ const productsReducer = createReducer(initialProductsState, (builder) => {
             if (action.meta.arg !== state.keyword) {
                 state.keyword = action.meta.arg;
                 state.product = null;
-                state.image.filename = null;
-                state.image.itemCode = null;
+                state.image = null;
             }
         })
         .addCase(loadProduct.fulfilled, (state, action) => {
@@ -92,6 +88,10 @@ const productsReducer = createReducer(initialProductsState, (builder) => {
                 ?? action.payload?.variant?.product?.defaultColor
                 ?? action.payload?.product?.defaultColor
                 ?? '';
+            state.image = {
+                filename: parsePossiblyMissingFilename(state.cartItem?.image ?? state.selectedProduct?.image ?? null, state.colorCode),
+                itemCode: getImageItemCode(state)
+            }
             state.image.filename = parsePossiblyMissingFilename(state.cartItem?.image ?? state.selectedProduct?.image ?? null, state.colorCode);
             state.image.itemCode = getImageItemCode(state);
         })
@@ -101,8 +101,10 @@ const productsReducer = createReducer(initialProductsState, (builder) => {
         .addCase(setColorCode.fulfilled, (state, action) => {
             state.colorCode = action.meta.arg;
             state.cartItem = action.payload;
-            state.image.filename = parsePossiblyMissingFilename(state.cartItem?.image ?? state.selectedProduct?.image ?? null, state.colorCode);
-            state.image.itemCode = getImageItemCode(state);
+            state.image = {
+                filename: parsePossiblyMissingFilename(state.cartItem?.image ?? state.selectedProduct?.image ?? null, state.colorCode),
+                itemCode: getImageItemCode(state)
+            }
         })
         .addCase(setCartItemQuantity, (state, action) => {
             if (state.cartItem) {
@@ -119,8 +121,10 @@ const productsReducer = createReducer(initialProductsState, (builder) => {
             state.salesUM = action.payload.salesUM;
             state.customerPrice = action.payload.customerPrice;
             state.cartItem = action.payload.cartItem;
-            state.image.filename = action.payload.cartItem?.image ?? null;
-            state.image.itemCode = getImageItemCode(state);
+            state.image = {
+                filename: action.payload.cartItem?.image ?? null,
+                itemCode: getImageItemCode(state)
+            }
         })
 })
 

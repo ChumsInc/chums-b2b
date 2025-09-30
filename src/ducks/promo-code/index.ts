@@ -1,5 +1,4 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {PreloadedState} from "@/types/preload";
 import {PromoCode} from "b2b-types";
 import {loadPromoCode, loadPromoCodes} from "./actions";
 import {promoCodeSorter} from "./utils";
@@ -12,11 +11,11 @@ export interface PromoCodeState {
     loading: boolean;
 }
 
-export const initialPromoCodeState = (preload: PreloadedState = {}): PromoCodeState => ({
-    current: preload?.promoCodes?.current ?? null,
-    list: preload?.promoCodes?.list ?? [],
+export const initialPromoCodeState: PromoCodeState = {
+    current: null,
+    list: [],
     loading: false,
-})
+}
 
 const promoCodeReducer = createReducer(initialPromoCodeState, (builder) => {
     builder

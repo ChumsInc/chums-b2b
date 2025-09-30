@@ -1,13 +1,12 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {PreloadedState} from "@/types/preload";
 
 export interface AppState {
     nonce: string | null;
 }
 
-export const initialAppState = (preload?: PreloadedState): AppState => ({
-    nonce: preload?.app?.nonce ?? null,
-})
+export const initialAppState: AppState = {
+    nonce: null,
+}
 
 const appReducer = createReducer(initialAppState, () => {
 })

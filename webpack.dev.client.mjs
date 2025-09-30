@@ -15,7 +15,7 @@ const clientConfig = {
     mode: 'development',
     entry: {
         main: [
-            './src/client/index.tsx',
+            './src/client/dev-index.tsx',
         ],
     },
     devtool: 'source-map',
@@ -42,11 +42,11 @@ const clientConfig = {
                 ...localProxy
             },
             {
-                context: ['/images', '/pdf', '/files'],
+                context: ['/images', '/pdf', '/files', '/content'],
                 target: 'https://b2b.chums.com',
                 changeOrigin: true,
                 secure: true
-            }
+            },
         ],
         watchFiles: 'src/**/*',
     },

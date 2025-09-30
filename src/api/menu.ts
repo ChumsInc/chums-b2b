@@ -4,8 +4,9 @@ import {fetchJSON} from "./fetch";
 // generally loaded in Preloaded State, here in case we need to refresh.
 export async function fetchProductMenu():Promise<Menu|null> {
     try {
-        const {menus} = await fetchJSON<{menus: Menu[]}>('/api/menus/2', {cache: 'no-cache'});
-        return menus[0] || null;
+        const url = '/api/menus/2.json';
+        const res = await fetchJSON<{menus: Menu[]}>('/api/menus/2', {cache: 'no-cache'});
+        return res?.menus[0] || null;
     } catch(err:unknown) {
         if (err instanceof Error) {
             console.debug("loadProductMenu()", err.message);
@@ -21,9 +22,9 @@ export async function fetchMenu(id:number):Promise<Menu|null> {
         if (!id) {
             return null;
         }
-
-        const response = await fetchJSON<{menus?: Menu[]}>(`/api/menus/${encodeURIComponent(id)}`, {cache: 'no-cache'});
-        return response?.menus?.[0] ?? null;
+        const url = '/api/menus/active/:id.json'.replace(':id', encodeURIComponent(id));
+        const response = await fetchJSON<{menu: Menu}>(url, {cache: 'no-cache'});
+        return response?.menu ?? null;
     } catch(err) {
         if (err instanceof Error) {
             console.debug("loadMenu()", err.message);

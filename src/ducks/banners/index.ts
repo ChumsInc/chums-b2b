@@ -1,5 +1,4 @@
 import {Banner} from "b2b-types";
-import {PreloadedState} from "@/types/preload";
 import {createReducer} from "@reduxjs/toolkit";
 import {bannerSorter} from "./utils";
 import {loadBanners} from "./actions";
@@ -16,13 +15,11 @@ export interface LoadBannersResponse {
     updated: number,
 }
 
-export const initialBannersState = (preloadedState: PreloadedState | null = null): BannersState => {
-    return ({
-        list: preloadedState?.banners?.list ?? [],
-        loading: false,
-        loaded: !!preloadedState?.banners?.list.length,
-        updated: preloadedState?.banners?.list.length ? new Date().valueOf() : 0,
-    });
+export const initialBannersState: BannersState = {
+    list: [],
+    loading: false,
+    loaded: false,
+    updated: 0,
 }
 
 

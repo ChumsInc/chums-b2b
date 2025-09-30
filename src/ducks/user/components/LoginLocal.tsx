@@ -1,3 +1,5 @@
+"use client";
+
 import React, {FormEvent, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {loginUser, resetPassword} from "../actions";

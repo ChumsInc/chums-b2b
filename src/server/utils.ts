@@ -48,7 +48,7 @@ export async function loadJSON<T = unknown>(url:string, options?:RequestInit):Pr
 }
 export async function loadKeywords():Promise<Keyword[]> {
     try {
-        const url = `http://localhost:${API_PORT}/keywords`;
+        const url = `http://localhost:${API_PORT}/keywords.json`;
         const response = await loadJSON<{result: Keyword[]}>(url);
         return response?.result ?? [];
     } catch(err:unknown) {

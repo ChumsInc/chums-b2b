@@ -6,12 +6,13 @@ import AlertList from "@/ducks/alerts/AlertList";
 import {Outlet} from "react-router";
 import ErrorBoundary from "../common-components/ErrorBoundary";
 import Header from "./Header";
-import Footer from "./Footer";
+import Footer from "@/components/footer/Footer";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import SiteMessages from "@/ducks/messages/SiteMessages";
 import GoogleSignInOneTap from "@/ducks/user/components/GoogleSignInOneTap";
 import CartMessageSnackbar from "@/ducks/carts/components/CartMessageSnackbar";
+import CookieConsentDrawer from "@/components/cookie-consent/CookieConsentDrawer";
 
 
 const MainOutlet = () => {
@@ -33,6 +34,7 @@ const MainOutlet = () => {
                 <CartMessageSnackbar />
             </Box>
             <Footer/>
+            <CookieConsentDrawer />
         </>
     )
 }

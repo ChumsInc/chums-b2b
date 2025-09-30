@@ -11,14 +11,14 @@ export interface SignUpState {
     status: 'idle' | 'loading' | 'saving' | 'rejected' | 'success';
 }
 
-const initialState = (): SignUpState => ({
+const initialState: SignUpState = {
     email: '',
     profile: null,
     error: null,
     status: 'idle',
-});
+};
 
-const signUpReducer = createReducer(initialState(), builder => {
+const signUpReducer = createReducer(initialState, builder => {
     builder
         .addCase(signUpUser.pending, (state) => {
             state.status = 'saving';

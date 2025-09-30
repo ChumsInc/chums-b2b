@@ -10,11 +10,11 @@ export interface KeywordsState {
     loaded: boolean;
 }
 
-export const initialKeywordsState = (preload: PreloadedState = {}): KeywordsState => ({
-    list: preload?.keywords?.list ?? [],
+export const initialKeywordsState: KeywordsState = {
+    list: [],
     loading: false,
-    loaded: !!preload.keywords?.list,
-})
+    loaded: false,
+}
 
 const keywordsReducer = createReducer(initialKeywordsState, (builder) => {
     builder

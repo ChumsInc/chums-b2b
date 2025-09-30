@@ -7,16 +7,21 @@ import {selectLoggedIn} from "../user/selectors";
 import {selectCustomersLoading} from "./selectors";
 import localStore from "../../utils/LocalStore";
 import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 
 export const setCustomersFilter = createAction<string>('customers/setFilter');
 export const setCustomersRepFilter = createAction('customers/setRepFilter', (arg: string | null) => {
-    localStore.setItem<string>(STORE_CUSTOMERS_FILTER_REP, arg ?? '');
+    if (canStorePreferences()) {
+        localStore.setItem<string>(STORE_CUSTOMERS_FILTER_REP, arg ?? '');
+    }
     return {
         payload: arg
     }
 });
 export const setCustomersStateFilter = createAction('customers/setStateFilter', (arg: string | null) => {
-    localStore.setItem<string>(STORE_CUSTOMERS_FILTER_STATE, arg ?? '');
+    if (canStorePreferences()) {
+        localStore.setItem<string>(STORE_CUSTOMERS_FILTER_STATE, arg ?? '');
+    }
     return {
         payload: arg
     }

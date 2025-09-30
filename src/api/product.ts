@@ -7,7 +7,7 @@ export async function fetchProduct(arg:string):Promise<Product|null> {
         const url = '/api/products/v2/keyword/:keyword'
             .replace(':keyword', encodeURIComponent(arg));
         const res = await fetchJSON<{products: Product[]}>(url, {cache: 'no-cache'});
-        const [product] = (res.products ?? []);
+        const [product] = (res?.products ?? []);
         return product ?? null;
     } catch(err:unknown) {
         if (err instanceof Error) {

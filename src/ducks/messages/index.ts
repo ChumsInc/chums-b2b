@@ -1,6 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {Message} from "b2b-types";
-import {PreloadedState} from "@/types/preload";
 import {loadMessages} from "./actions";
 
 export interface LoadMessagesResponse {
@@ -14,11 +13,11 @@ export interface MessagesState {
     loaded: number;
 }
 
-export const initialMessagesState = (preload: PreloadedState | null = null) => ({
-    list: preload?.messages?.list ?? [],
+export const initialMessagesState: MessagesState = {
+    list: [],
     loading: false,
-    loaded: preload?.messages?.list ? new Date().valueOf() : 0,
-})
+    loaded: 0,
+}
 
 export const messagesReducer = createReducer(initialMessagesState, (builder) => {
     builder

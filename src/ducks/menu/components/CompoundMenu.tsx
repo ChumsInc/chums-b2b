@@ -61,7 +61,7 @@ export default function CompoundMenu({
     };
 
     return (
-        <>
+        <div>
             <NavItemButton id={buttonId}
                            ref={anchorRef}
                            disabled={slotProps?.anchorButton?.disabled || !items.length || (requiresLogin && !isLoggedIn)}
@@ -101,6 +101,6 @@ export default function CompoundMenu({
                     </Stack>
                 </Box>
             </Popover>
-        </>
+        </div>
     )
 }

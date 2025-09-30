@@ -3,9 +3,9 @@ import {fetchHTML, fetchJSON} from "./fetch";
 
 export async function fetchPage(arg:string):Promise<ContentPage|null> {
     try {
-        const url = `/api/pages/${encodeURIComponent(arg)}`;
-        const response = await fetchJSON<{pages: ContentPage[]}>(url, {cache: 'no-cache'});
-        return response?.pages[0] ?? null;
+        const url = `/api/pages/${encodeURIComponent(arg)}.json`;
+        const response = await fetchJSON<{page: ContentPage}>(url, {cache: 'no-cache'});
+        return response?.page ?? null;
     } catch(err:unknown) {
         if (err instanceof Error) {
             console.debug("fetchPage()", err.message);

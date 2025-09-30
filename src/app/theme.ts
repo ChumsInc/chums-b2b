@@ -42,6 +42,7 @@ declare module '@mui/material/Typography' {
 declare module '@mui/material/Button' {
     interface ButtonPropsColorOverrides {
         chumsRed: true;
+        chumsGrey: true;
     }
 }
 
