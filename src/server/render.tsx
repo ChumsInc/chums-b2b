@@ -9,7 +9,7 @@ import {loadJSON, loadKeywords} from "./utils";
 import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
 import {PreloadedState} from "b2b-types";
-import {consentCookieName} from 'cookie-consent'
+import {consentCookieName, HasUUID} from 'cookie-consent'
 import {HasNonce} from "@/types/server";
 import createServerSideStore from "@/app/server-side-store";
 
@@ -47,7 +47,7 @@ async function loadVersionNo(): Promise<string | null> {
     }
 }
 
-async function getPreloadedState(req: Request, res: Response<unknown, HasNonce>): Promise<PreloadedState> {
+async function getPreloadedState(req: Request, res: Response<unknown, HasNonce & HasUUID>): Promise<PreloadedState> {
     try {
         const params = new URLSearchParams();
         if (req.params.keyword) {
@@ -59,7 +59,7 @@ async function getPreloadedState(req: Request, res: Response<unknown, HasNonce>)
         if (req.query.sku && typeof req.query.sku === 'string') {
             params.set('sku', req.query.sku);
         }
-        const cookieConsentUUID = req.signedCookies[consentCookieName];
+        const cookieConsentUUID = req.signedCookies[consentCookieName] ?? res.locals.uuid ?? null;
         if (cookieConsentUUID) {
             params.set('uuid', cookieConsentUUID);
         }
@@ -86,7 +86,7 @@ async function getPreloadedState(req: Request, res: Response<unknown, HasNonce>)
     }
 }
 
-export async function renderApp(req: Request, res: Response<unknown, HasNonce>, next: NextFunction) {
+export async function renderApp(req: Request, res: Response<unknown, HasNonce & HasUUID>, next: NextFunction) {
     try {
         if (!validRoutes.test(req.path)) {
             debug('handleRender() invalid path => 404', req.path);
