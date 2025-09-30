@@ -1,16 +1,10 @@
 import {useEffect, useState} from "react";
 
-const testIsBrowser = () => {
-    return typeof window !== 'undefined'
-        && window?.document
-        && window?.document?.createElement
-}
-
 export const useIsSSR = () => {
-    const [isSSR, setIsSSR] = useState(!testIsBrowser());
+    const [isSSR, setIsSSR] = useState(true);
 
     useEffect(() => {
-        setIsSSR(() => false);
+        setIsSSR(false);
     }, [])
 
     return isSSR;

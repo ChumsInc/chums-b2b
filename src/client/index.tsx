@@ -5,7 +5,7 @@ import App from "../app/App";
 import {hydrateRoot} from "react-dom/client";
 import store from '../app/configureStore';
 
-hydrateRoot(document, (
+hydrateRoot(document.getElementById('root')!, (
     <Provider store={store}>
         <BrowserRouter>
             <App/>

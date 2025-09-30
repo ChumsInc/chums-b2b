@@ -2,6 +2,7 @@ import {HelmetOptions} from "helmet";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {Response} from "express";
 
+
 export const helmetOptions:Readonly<HelmetOptions> = {
     contentSecurityPolicy: {
         directives: {
@@ -36,6 +37,7 @@ export const helmetOptions:Readonly<HelmetOptions> = {
                 "accounts.google.com",
                 "https://accounts.google.com/gsi/",
                 "https://www.youtube.com/",
+                "https://www.youtube-nocookie.com/",
                 "https://youtu.be/",
                 "'unsafe-inline'",
             ],

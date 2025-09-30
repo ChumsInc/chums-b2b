@@ -76,11 +76,13 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
             <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
         </head>
         <body>
-        <Provider store={store}>
-            <StaticRouter location={url}>
-                <App/>
-            </StaticRouter>
-        </Provider>
+        <div id="root">
+            <Provider store={store}>
+                <StaticRouter location={url}>
+                    <App/>
+                </StaticRouter>
+            </Provider>
+        </div>
         <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}} nonce={cspNonce}/>
         {manifestFiles['vendors-react.js'] && (<script src={manifestFiles['vendors-react.js']}  nonce={cspNonce}/>)}
         {manifestFiles['vendors-mui.js'] && (<script src={manifestFiles['vendors-mui.js']}  nonce={cspNonce}/>)}
