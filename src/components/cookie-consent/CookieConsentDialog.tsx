@@ -47,8 +47,10 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
     const formId = useId();
 
     useEffect(() => {
-        dispatch(loadCookieConsentInfo());
-    }, [dispatch]);
+        if (open) {
+            dispatch(loadCookieConsentInfo());
+        }
+    }, [dispatch, open]);
 
     useEffect(() => {
         setPreferences(consent?.preferences ?? defaultSettings);
