@@ -34,7 +34,7 @@ const SignUp = () => {
         if (!loggedIn && !!hash && !!key) {
             navigate(PATH_SET_PASSWORD + document?.location?.search, {replace: true});
         }
-    }, [])
+    }, [isSSR])
 
     return (
         <div>

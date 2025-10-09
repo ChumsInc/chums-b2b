@@ -32,7 +32,7 @@ const AccountListCustomerFilter = () => {
                 window.clearTimeout(timer.current);
             }
         }
-    }, [value])
+    }, [isSSR, value])
 
     const filterChangeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
         setValue(ev.target.value);

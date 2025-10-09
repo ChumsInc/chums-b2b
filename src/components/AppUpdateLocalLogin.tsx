@@ -38,7 +38,7 @@ const AppUpdateLocalLogin = () => {
             console.log('dispatching updateLocalAuth()');
             dispatch(updateLocalAuth())
         }
-    }, [dispatch, isLoggedIn, expiresIn]);
+    }, [dispatch, isSSR, isLoggedIn, expiresIn]);
 
     if (!isLoggedIn) {
         return null;

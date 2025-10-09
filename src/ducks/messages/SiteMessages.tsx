@@ -36,7 +36,7 @@ const SiteMessages = () => {
             }
             window.clearInterval(timerRef.current);
         }
-    }, [messages, loaded]);
+    }, [isSSR, messages, loaded]);
 
     const refreshHandler = () => {
         dispatch(loadMessages());

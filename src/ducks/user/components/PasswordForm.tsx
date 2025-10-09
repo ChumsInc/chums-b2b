@@ -1,5 +1,4 @@
-import React, {FormEvent, useEffect, useState} from "react";
-import {useIsSSR} from "@/hooks/is-server-side";
+import React, {FormEvent, useState} from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -20,17 +19,9 @@ const maxPasswordLength = 256;
 const minPasswordLength = 8;
 
 const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: PasswordFormProps) => {
-    const isSSR = useIsSSR();
     const [oldPassword, setOldPassword] = useState<string>('');
     const [password1, setPassword1] = useState<string>('');
     const [password2, setPassword2] = useState<string>('');
-
-    useEffect(() => {
-        if (isSSR) {
-            return;
-        }
-
-    }, []);
 
 
     const submitHandler = (ev: FormEvent) => {

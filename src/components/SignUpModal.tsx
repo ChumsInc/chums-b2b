@@ -76,7 +76,7 @@ const SignUpModal = () => {
                 window.clearTimeout(timer.current);
             }
         }
-    }, [isLoggedIn, enabled, delay.current, location.pathname]);
+    }, [isLoggedIn, isSSR, enabled, delay.current, location.pathname]);
 
     const delayShowPopup = () => {
         window.clearTimeout(timer.current)

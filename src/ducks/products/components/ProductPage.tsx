@@ -84,7 +84,7 @@ const ProductPage = ({keyword}: {
         return () => {
             window.clearTimeout(timerHandle.current);
         }
-    }, [cartMessage]);
+    }, [isSSR, cartMessage]);
 
 
     useEffect(() => {
