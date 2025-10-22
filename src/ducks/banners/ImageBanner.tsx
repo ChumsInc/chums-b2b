@@ -22,12 +22,16 @@ export default function ImageBanner({banner}: { banner: Banner }) {
         height: 'fit-content',
     }
 
-    const overlaySxProps: SxProps = {
+    const desktopSxProps: SxProps = {
         position: defaultSxProps.position === 'relative' ? 'absolute' : undefined,
+        display: {xs: 'none', sm: 'block'},
+        ...(banner.image.desktop?.overlaySxProps ?? {}),
+    }
+
+    const mobileSxProps: SxProps = {
+        position: defaultSxProps.position === 'relative' ? 'absolute' : undefined,
+        display: {xs: 'block', sm: 'none'},
         ...(banner.image.mobile?.overlaySxProps ?? {}),
-        md: {
-            ...(banner.image.desktop?.overlaySxProps ?? {})
-        }
     }
 
 
@@ -46,10 +50,18 @@ export default function ImageBanner({banner}: { banner: Banner }) {
                                 width={banner.image.desktop?.width || 1600}
                                 height={banner.image.desktop?.height || 500}
                                 srcSet={bannerImagePath(banner.image.desktop.filename)}/>)}
-                    <StyledImg src={src} alt={banner.image.desktop?.altText ?? banner.image.mobile?.altText ?? ''} />
+                    <StyledImg src={src} alt={banner.image.desktop?.altText || banner.image.mobile?.altText || ''} />
                 </picture>
-                <Typography variant="body1"
-                            sx={overlaySxProps}>{banner.image.desktop?.overlay ?? banner.image.mobile?.overlay}</Typography>
+                {banner.image.desktop?.overlay && (
+                    <Typography variant="body1" sx={desktopSxProps}>
+                        {banner.image.desktop?.overlay}
+                    </Typography>
+                )}
+                {banner.image.mobile?.overlay && (
+                    <Typography variant="body1" sx={mobileSxProps}>
+                        {banner.image.mobile?.overlay}
+                    </Typography>
+                )}
             </Box>
         </BannerLinkWrapper>
     )

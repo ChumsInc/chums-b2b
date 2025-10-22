@@ -2,10 +2,13 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {SignUpResponse, SignUpUser} from "@/types/user";
 import {fetchSignUpProfile, postSignUpUser} from "@/api/user";
 import {RootState} from "@/app/configureStore";
-import isEmail from "validator/lib/isEmail";
 import {selectSignUpStatus} from "./selectors";
 import {LoadProfileProps, SignUpProfile} from "./types";
 import {APIErrorResponse} from "@/types/generic";
+
+
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const isEmail = (email: string) => emailRegex.test(email);
 
 export const signUpUser = createAsyncThunk<SignUpResponse|null, SignUpUser, {state: RootState}>(
     'sign-up/signUpUser',

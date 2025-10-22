@@ -7,7 +7,7 @@ export interface HomeBannerProps {
     banner: Banner;
 }
 const HomeBanner = ({banner}:HomeBannerProps) => {
-    if (banner.overlay) {
+    if (banner.overlay && banner.overlay.innerText) {
         return <TextBanner banner={banner} />
     }
 
