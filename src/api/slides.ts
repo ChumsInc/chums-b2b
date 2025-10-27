@@ -5,7 +5,7 @@ import {fetchJSON} from "./fetch";
 //reserved for future use?
 export async function fetchSlides(): Promise<Slide[]> {
     try {
-        const res = await fetchJSON<{ slides: Slide[] }>('/api/features/slides/active', {cache: 'no-cache'});
+        const res = await fetchJSON<{ slides: Slide[] }>('/api/features/slides/active.json', {cache: 'no-cache'});
         return res?.slides ?? [];
     } catch (err) {
         if (err instanceof Error) {

@@ -1,22 +1,6 @@
 import {Menu} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
-// generally loaded in Preloaded State, here in case we need to refresh.
-export async function fetchProductMenu():Promise<Menu|null> {
-    try {
-        const url = '/api/menus/2.json';
-        const res = await fetchJSON<{menus: Menu[]}>('/api/menus/2', {cache: 'no-cache'});
-        return res?.menus[0] || null;
-    } catch(err:unknown) {
-        if (err instanceof Error) {
-            console.debug("loadProductMenu()", err.message);
-            return Promise.reject(err);
-        }
-        console.debug("loadProductMenu()", err);
-        return Promise.reject(new Error('Error in loadProductMenu()'));
-    }
-}
-
 export async function fetchMenu(id:number):Promise<Menu|null> {
     try {
         if (!id) {
