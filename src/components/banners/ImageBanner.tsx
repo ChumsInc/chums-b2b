@@ -1,5 +1,5 @@
 import type {Banner} from "b2b-types";
-import BannerLinkWrapper from "./BannerLinkWrapper.tsx";
+import BannerLinkWrapper from "./BannerLinkWrapper";
 import Box from "@mui/material/Box";
 import {type SxProps} from "@mui/system";
 import Typography from "@mui/material/Typography";

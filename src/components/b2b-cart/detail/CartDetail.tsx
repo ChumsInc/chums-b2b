@@ -1,20 +1,20 @@
 import {useEffect, useState} from 'react';
-import CartDetailLine from "./CartDetailLine.tsx";
-import CartTotal from "./CartTotal.tsx";
+import CartDetailLine from "./CartDetailLine";
+import CartTotal from "./CartTotal";
 import type {CartProduct} from "b2b-types";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {ga4ViewCart} from "@/utils/ga4/cart.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {ga4ViewCart} from "@/utils/ga4/cart";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
-import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice.ts";
+import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
-import {cartDetailToCartProduct} from "@/ducks/carts/utils.ts";
-import AddToCartDialog from "@/components/b2b-cart/add-to-cart/AddToCartDialog.tsx";
-import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice.ts";
+import {cartDetailToCartProduct} from "@/ducks/carts/utils";
+import AddToCartDialog from "@/components/b2b-cart/add-to-cart/AddToCartDialog";
+import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice";
 
 export default function CartDetail({cartId}: {
     cartId: number;

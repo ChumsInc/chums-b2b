@@ -1,10 +1,10 @@
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import {selectActiveCartId} from "@/ducks/carts/activeCartSlice.ts";
-import {loadCart} from "@/ducks/carts/actions.ts";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
+import {loadCart} from "@/ducks/carts/actions";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
 
 /**
  * @TODO: Refactor for using cartId instead of salesOrderNo

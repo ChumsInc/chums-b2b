@@ -1,17 +1,17 @@
 import {createEntityAdapter, createSelector, createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {Customer} from "b2b-types";
-import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer.ts";
-import type {SortProps} from "@/types/generic.ts";
-import LocalStore from "@/utils/LocalStore.ts";
-import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores.ts";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.ts";
-import {loadCustomerList} from "@/ducks/customers/actions.ts";
-import {dismissContextAlert} from "@/ducks/alerts/actions.ts";
-import {STATES_USA} from "@/constants/states.ts";
+import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer";
+import type {SortProps} from "@/types/generic";
+import LocalStore from "@/utils/LocalStore";
+import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
+import {dismissContextAlert} from "@/ducks/alerts/actions";
+import {STATES_USA} from "@/constants/states";
 
 const adapter = createEntityAdapter<Customer, string>({
-    selectId: (arg) => customerSlug(arg),
-    sortComparer: (a, b) => customerSlug(a).localeCompare(customerSlug(b))
+    selectId: (arg) => customerSlug(arg)!,
+    sortComparer: (a, b) => customerSlug(a)!.localeCompare(customerSlug(b)!)
 });
 const selectors = adapter.getSelectors();
 
@@ -58,12 +58,12 @@ const customerListSlice = createSlice({
         setCustomersFilter: (state, action: PayloadAction<string>) => {
             state.filters.search = action.payload;
         },
-        setCustomersRepFilter: (state, action: PayloadAction<string>) => {
-            state.filters.rep = action.payload;
+        setCustomersRepFilter: (state, action: PayloadAction<string|null>) => {
+            state.filters.rep = action.payload ?? '';
             LocalStore.setItem(STORE_CUSTOMERS_FILTER_REP, action.payload);
         },
-        setCustomersStateFilter: (state, action: PayloadAction<string>) => {
-            state.filters.state = action.payload;
+        setCustomersStateFilter: (state, action: PayloadAction<string|null>) => {
+            state.filters.state = action.payload ?? '';
             LocalStore.setItem(STORE_CUSTOMERS_FILTER_STATE, action.payload);
         }
     },
@@ -97,7 +97,7 @@ const customerListSlice = createSlice({
             })
             .addCase(dismissContextAlert, (state, action) => {
                 if (action.payload === loadCustomerList.typePrefix) {
-                    state.loading = 'idle'
+                    state.status = 'idle'
                 }
             })
             .addCase(setUserAccess.pending, (state, action) => {

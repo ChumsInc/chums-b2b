@@ -1,16 +1,16 @@
 import Typography from "@mui/material/Typography";
 import BusinessIcon from "@mui/icons-material/Business";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 import {useMatch} from "react-router";
-import {customerUserPath} from "@/utils/path-utils.ts";
+import {customerUserPath} from "@/utils/path-utils";
 import TableHead from "@mui/material/TableHead";
 import Table from '@mui/material/Table';
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
 import StoreIcon from '@mui/icons-material/Store';
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectCustomerUsers} from "@/ducks/customer/customerUsersSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectCustomerUsers} from "@/ducks/customer/customerUsersSlice";
 
 const AccountUserPermissions = () => {
     const users = useAppSelector(selectCustomerUsers);

@@ -16,7 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 const InvoicePageDetail = () => {
     const invoice = useAppSelector(selectCurrentInvoice);

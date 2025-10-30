@@ -1,5 +1,5 @@
-import DataTableRow from "./DataTableRow.tsx";
-import {noop} from "@/utils/general.ts";
+import DataTableRow from "./DataTableRow";
+import {noop} from "@/utils/general";
 import TableBody from "@mui/material/TableBody";
 import type {DataTableTBodyProps} from "./types";
 

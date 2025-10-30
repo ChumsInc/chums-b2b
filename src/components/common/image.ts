@@ -1,5 +1,5 @@
-import {parseColor} from "@/utils/products.ts";
-import {ga4Exception} from "@/utils/ga4/generic.ts";
+import {parseColor} from "@/utils/products";
+import {ga4Exception} from "@/utils/ga4/generic";
 
 export const parseImageFilename2 = ({image, colorCode}: {
     image: string;

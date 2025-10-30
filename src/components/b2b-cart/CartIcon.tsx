@@ -5,11 +5,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CircularProgress from "@mui/material/CircularProgress";
 import numeral from "numeral";
 import Tooltip from "@mui/material/Tooltip";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
-import {selectActiveCartId} from "@/ducks/carts/activeCartSlice.ts";
-import {selectCartQtyByCartId} from "@/ducks/carts/cartDetailSlice.ts";
-import {selectCartTotalById} from "@/ducks/carts/cartHeadersSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
+import {selectCartQtyByCartId} from "@/ducks/carts/cartDetailSlice";
+import {selectCartTotalById} from "@/ducks/carts/cartHeadersSlice";
 
 export default function CartIcon() {
     const cartId = useAppSelector(selectActiveCartId);

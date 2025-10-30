@@ -15,12 +15,12 @@ import {
     saveShipToAddress,
     saveUser,
     setCustomerAccount
-} from "@/ducks/customer/actions.ts";
-import {customerSlug, customerUserSorter} from "@/utils/customer.ts";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.ts";
-import {loadCustomerList} from "@/ducks/customers/actions.ts";
-import {selectPermittedBillToAddress} from "@/ducks/customer/selectors.ts";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
+} from "@/ducks/customer/actions";
+import {customerSlug, customerUserSorter} from "@/utils/customer";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
+import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 const adapter = createEntityAdapter<CustomerUser, number>({
     selectId: (arg) => arg.id,

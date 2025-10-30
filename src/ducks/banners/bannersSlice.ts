@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {Banner} from "b2b-types";
-import {loadBanners} from "@/ducks/banners/actions.ts";
-import {bannerSorter} from "@/ducks/banners/utils.ts";
+import {loadBanners} from "@/ducks/banners/actions";
+import {bannerSorter} from "@/ducks/banners/utils";
 
 const adapter = createEntityAdapter<Banner, number>({
     selectId: (arg) => arg.id,
@@ -38,7 +38,7 @@ const bannersSlice = createSlice({
             })
             .addCase(loadBanners.fulfilled, (state, action) => {
                 state.status = 'idle'
-                adapter.setAll(action.payload.list)
+                adapter.setAll(state, action.payload.list)
                 state.updated = action.payload.updated;
             })
             .addCase(loadBanners.rejected, (state) => {

@@ -10,12 +10,12 @@ import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
 import Grid from '@mui/material/Grid';
 import {selectSalesOrder, selectSalesOrderInvoices} from "../selectors";
-import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog.tsx";
+import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog";
 import {isClosedSalesOrder} from "../../sales-order/utils";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
 
 
 function isValidDate(date: string | null | undefined): boolean {

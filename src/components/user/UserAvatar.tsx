@@ -1,9 +1,9 @@
 import React from 'react';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
-import {selectLoggedIn, selectProfilePicture, selectUserProfile} from "@/ducks/user/selectors.ts";
+import {selectLoggedIn, selectProfilePicture, selectUserProfile} from "@/ducks/user/selectors";
 import Box, {type BoxProps} from "@mui/material/Box";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 
 function stringToColor(string: string) {

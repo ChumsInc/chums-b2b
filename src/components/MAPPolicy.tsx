@@ -5,7 +5,7 @@ import {selectPageContent} from "@/ducks/page/selectors";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import HTMLContent from "@/components/common/HTMLContent.tsx";
+import HTMLContent from "@/components/common/HTMLContent";
 
 const MAPPolicy = () => {
     const dispatch = useAppDispatch();

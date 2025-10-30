@@ -1,11 +1,11 @@
 import {type MouseEvent} from "react";
 import Button, {type ButtonProps} from "@mui/material/Button";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectSendEmailStatus} from "@/ducks/open-orders/selectors.ts";
-import SendEmailModal from "./SendEmailModal.tsx";
-import {sendCartEmail} from "@/ducks/carts/actions.ts";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectSendEmailStatus} from "@/ducks/open-orders/selectors";
+import SendEmailModal from "./SendEmailModal";
+import {sendCartEmail} from "@/ducks/carts/actions";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 
 export interface SendEmailButtonProps extends ButtonProps {
     cartId: number;

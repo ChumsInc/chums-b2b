@@ -1,13 +1,13 @@
 import React, {useEffect, useId} from 'react';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Menu, {type MenuProps} from "@mui/material/Menu";
-import NavItemButton from "@/components/nav-bar/NavItemButton.tsx";
+import NavItemButton from "@/components/nav-bar/NavItemButton";
 import {deepmerge} from '@mui/utils'
 import type {MinimalMenuItem} from "@/ducks/menu/types";
 import {useLocation} from "react-router";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
-import MenuItemRouterLink from "@/components/nav-bar/MenuItemRouterLink.tsx";
+import {useAppSelector} from "@/app/configureStore";
+import {selectLoggedIn} from "@/ducks/user/selectors";
+import MenuItemRouterLink from "@/components/nav-bar/MenuItemRouterLink";
 
 export interface BasicMenuProps extends Omit<MenuProps, 'open' | 'onClose' | 'anchorEl' | 'title'> {
     title: string | React.ReactNode;

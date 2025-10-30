@@ -1,12 +1,12 @@
 import Grid from "@mui/material/Grid";
 import {loadCustomerList} from "../actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectCanFilterReps, selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
+import {selectCanFilterReps, selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import Button from "@mui/material/Button";
 import AccountListCustomerFilter from "./AccountListCustomerFilter";
 import AccountListRepFilter from "./AccountListRepFilter";
 import AccountListStateFilter from "./AccountListStateFilter";
-import {selectCustomerStates} from "../customerListSlice.ts";
+import {selectCustomerStates} from "../customerListSlice";
 
 const AccountListFilters = () => {
     const dispatch = useAppDispatch();

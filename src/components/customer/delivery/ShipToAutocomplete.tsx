@@ -1,14 +1,14 @@
 import {type SyntheticEvent, useEffect, useState} from 'react'
 import type {ShipToAddress, ShipToCustomer} from "b2b-types";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 
 /**

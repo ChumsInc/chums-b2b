@@ -1,8 +1,8 @@
 import React from 'react';
-import {signInWithGoogle} from "@/ducks/user/actions.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {signInWithGoogle} from "@/ducks/user/actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {type CredentialResponse, GoogleLogin} from "@react-oauth/google";
-import {selectAppNonce} from "@/ducks/app/selectors.ts";
+import {selectAppNonce} from "@/ducks/app/selectors";
 
 const GoogleSignInButton = () => {
     const dispatch = useAppDispatch();

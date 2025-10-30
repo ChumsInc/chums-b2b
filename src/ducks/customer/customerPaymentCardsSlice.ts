@@ -1,9 +1,9 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {CustomerPaymentCard} from "b2b-types";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions.ts";
-import {customerSlug} from "@/utils/customer.ts";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.ts";
-import {loadCustomerList} from "@/ducks/customers/actions.ts";
+import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
 import dayjs from "dayjs";
 
 const adapter = createEntityAdapter<CustomerPaymentCard, string>({

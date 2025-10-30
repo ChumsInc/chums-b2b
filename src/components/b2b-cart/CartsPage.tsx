@@ -1,12 +1,12 @@
 import {useEffect} from 'react';
-import CartsFilter from "@/components/b2b-cart/list/CartsFilter.tsx";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import CartsFilter from "@/components/b2b-cart/list/CartsFilter";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import LinearProgress from "@mui/material/LinearProgress";
-import CartsList from "@/components/b2b-cart/list/CartsList.tsx";
-import {loadCarts} from "@/ducks/carts/actions.ts";
-import NoCartsAlert from "@/components/b2b-cart/list/NoCartsAlert.tsx";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
-import {selectCartsStatus} from "@/ducks/carts/cartStatusSlice.ts";
+import CartsList from "@/components/b2b-cart/list/CartsList";
+import {loadCarts} from "@/ducks/carts/actions";
+import NoCartsAlert from "@/components/b2b-cart/list/NoCartsAlert";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCartsStatus} from "@/ducks/carts/cartStatusSlice";
 
 export default function CartsPage() {
     const dispatch = useAppDispatch();

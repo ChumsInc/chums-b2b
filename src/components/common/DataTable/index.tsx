@@ -1,7 +1,7 @@
 import Table from "@mui/material/Table";
 import type {SortableTableProps} from "./types";
-import DataTableHead from "./DataTableHead.tsx";
-import DataTableTBody from "./DataTableTBody.tsx";
+import DataTableHead from "./DataTableHead";
+import DataTableTBody from "./DataTableTBody";
 
 export type {
     SortableTableField,

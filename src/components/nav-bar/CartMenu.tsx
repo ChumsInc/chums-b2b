@@ -1,12 +1,12 @@
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
-import NavItemButtonLink from "./NavItemButtonLink.tsx";
+import {selectLoggedIn} from "@/ducks/user/selectors";
+import NavItemButtonLink from "./NavItemButtonLink";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
-import {customerCartURL} from "@/ducks/user/utils.ts";
-import CustomerIndicator from "@/components/nav-bar/CustomerIndicator.tsx";
-import CartIcon from "@/components/b2b-cart/CartIcon.tsx";
-import {selectActiveCartId} from "@/ducks/carts/activeCartSlice.ts";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import {customerCartURL} from "@/ducks/user/utils";
+import CustomerIndicator from "@/components/nav-bar/CustomerIndicator";
+import CartIcon from "@/components/b2b-cart/CartIcon";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
+import {useAppSelector} from "@/app/configureStore";
 
 
 const CartMenu = () => {

@@ -15,8 +15,8 @@ import type {
     ShipToCustomer,
     UserCustomerAccess
 } from "b2b-types";
-import type {SortProps} from "../types/generic";
-import {customerKey} from "@/ducks/customer/utils.ts";
+import type {SortProps} from "@/types/generic";
+import {customerKey} from "@/ducks/customer/utils";
 
 export const companyName = (code: string = ''): string => {
     switch (code.toLowerCase()) {
@@ -318,7 +318,7 @@ export const customerPaymentCardSorter = (a: CustomerPaymentCard, b: CustomerPay
 
 export const defaultCustomerUserSort: SortProps<CustomerUser> = {field: 'id', ascending: true};
 
-export const customerUserSorter = (sort:SortProps<CustomerUser>) => (a:CustomerUser, b:CustomerUser):number => {
+export const customerUserSorter = (sort: SortProps<CustomerUser>) => (a: CustomerUser, b: CustomerUser): number => {
     const {field, ascending} = sort;
     const sortMod = ascending ? 1 : -1;
     switch (field) {
@@ -335,9 +335,19 @@ export const customerUserSorter = (sort:SortProps<CustomerUser>) => (a:CustomerU
     }
 }
 
-export function customerSlug(customer: CustomerKey | null): string | null {
+export function customerSlug(customer: CustomerKey): string;
+export function customerSlug(customer: CustomerKey | null): string;
+export function customerSlug(customer: string | null | undefined): string | null;
+export function customerSlug(customer: CustomerKey | string | null | undefined): string | null {
     if (!customer) {
         return null;
+    }
+    if (typeof customer === "string") {
+        const parsed = parseCustomerSlug(customer)
+        if (!parsed) {
+            return null
+        }
+        customer = parsed;
     }
     return customer.ShipToCode
         ? shipToCustomerSlug(customer)
@@ -406,15 +416,15 @@ export const buildRecentCustomers = (recentAccounts: RecentCustomer[] = [], cust
         return recentAccounts;
     }
     const key = billToCustomerSlug(customer);
-    const current:RecentCustomer = {
-        ...customerKey(customer),
+    const current: RecentCustomer = {
+        ...customerKey(customer)!,
         CustomerName: customer.CustomerName,
         ts: new Date().valueOf(),
     }
     return [
         ...recentAccounts.filter(c => billToCustomerSlug(c) !== key),
         current
-        ].sort((a, b) => b.ts - a.ts)
+    ].sort((a, b) => b.ts - a.ts)
         .filter((_, index) => index < 10);
 };
 

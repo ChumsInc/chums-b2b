@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import {type ChangeEvent} from "react";
 import {setInvoicesFilterSearch, setInvoicesFilterShipToCode, setShowPaidInvoices} from "../actions";
 import {selectInvoicesSearch, selectInvoicesShipToFilter, selectInvoicesShowPaid} from "../selectors";
-import ShipToSelect, {allLocationsValue} from "@/components/customer/common/ShipToSelect.tsx";
+import ShipToSelect, {allLocationsValue} from "@/components/customer/common/ShipToSelect";
 import FormGroup from "@mui/material/FormGroup";
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'

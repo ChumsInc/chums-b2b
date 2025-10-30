@@ -11,7 +11,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import type {InvoiceType} from "b2b-types";
 import type {FetchInvoiceArg} from "../types";
 import Typography from "@mui/material/Typography";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
 
 const invoiceTypeDescription = (invoiceType: InvoiceType): string => {
     switch (invoiceType) {

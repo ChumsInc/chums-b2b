@@ -1,7 +1,7 @@
 import Alert from "@mui/material/Alert";
-import {selectCustomerAccount, selectCustomerLoaded, selectCustomerLoading} from "@/ducks/customer/selectors.ts";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {selectCustomerAccount, selectCustomerLoaded, selectCustomerLoading} from "@/ducks/customer/selectors";
+import {selectLoggedIn} from "@/ducks/user/selectors";
+import {useAppSelector} from "@/app/configureStore";
 
 const MissingTaxScheduleAlert = () => {
     const customer = useAppSelector(selectCustomerAccount);

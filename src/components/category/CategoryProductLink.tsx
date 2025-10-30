@@ -5,7 +5,7 @@ import ProductAttributeStack from "@/ducks/products/components/ProductAttrbuteSt
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import {parseImageFilename} from "@/components/common/image";
 import ProductLink from "@/components/ProductLink";
-import HTMLContent from "@/components/common/HTMLContent.tsx";
+import HTMLContent from "@/components/common/HTMLContent";
 
 const CategoryProductLink = ({title, description, product, imageUrl, className = ''}: {
     title: string;

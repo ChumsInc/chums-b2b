@@ -9,8 +9,8 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Popover from "@mui/material/Popover";
 import {type InputBaseComponentProps} from "@mui/material/InputBase";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectNextShipDate} from "@/ducks/carts/activeCartSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectNextShipDate} from "@/ducks/carts/activeCartSlice";
 
 export interface ShipDateInputProps extends Omit<FormControlProps, 'onChange'> {
     value: string | null;

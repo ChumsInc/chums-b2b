@@ -1,25 +1,25 @@
 import {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
-import {saveShipToAddress, setShipToCode} from '@/ducks/customer/actions.ts';
+import {saveShipToAddress, setShipToCode} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
-import ShipToAddressFormFields from "./ShipToAddressFormFields.tsx";
-import {selectCanEdit} from "@/ducks/user/selectors.ts";
-import {selectCustomerLoading, selectPermittedBillToAddress} from "@/ducks/customer/selectors.ts";
-import StoreMapToggle from "@/components/customer/common/StoreMapToggle.tsx";
+import ShipToAddressFormFields from "./ShipToAddressFormFields";
+import {selectCanEdit} from "@/ducks/user/selectors";
+import {selectCustomerLoading, selectPermittedBillToAddress} from "@/ducks/customer/selectors";
+import StoreMapToggle from "@/components/customer/common/StoreMapToggle";
 import type {Editable, ShipToCustomer} from "b2b-types";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {generatePath, useNavigate, useParams} from "react-router";
-import DeliveryAddress from "@/components/address/DeliveryAddress.tsx";
+import DeliveryAddress from "@/components/address/DeliveryAddress";
 import LinearProgress from "@mui/material/LinearProgress";
-import ReloadCustomerButton from "../common/ReloadCustomerButton.tsx";
+import ReloadCustomerButton from "../common/ReloadCustomerButton";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import EmailAddressEditor from "@/components/EmailAddressEditor.tsx";
-import TelephoneFormFields from "../common/TelephoneFormFields.tsx";
-import {billToCustomerSlug, customerSlug} from "@/utils/customer.ts";
-import PrimaryShipToButton from "./PrimaryShipToButton.tsx";
+import EmailAddressEditor from "@/components/EmailAddressEditor";
+import TelephoneFormFields from "../common/TelephoneFormFields";
+import {billToCustomerSlug, customerSlug} from "@/utils/customer";
+import PrimaryShipToButton from "./PrimaryShipToButton";
 import TextField from "@mui/material/TextField";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 const ShipToForm = () => {
     const dispatch = useAppDispatch();

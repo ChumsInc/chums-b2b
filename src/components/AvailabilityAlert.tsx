@@ -1,4 +1,4 @@
-import AppAlert from "./common/AppAlert.tsx";
+import AppAlert from "./common/AppAlert";
 import Decimal from "decimal.js";
 import type {B2BCartSeason} from "@/types/cart/cart-detail";
 import Alert from "@mui/material/Alert";

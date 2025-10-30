@@ -1,9 +1,9 @@
 import React from 'react';
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectIsDrawerOpen, toggleMenuDrawer} from "@/ducks/menu";
-import {useIsSSR} from "@/hooks/is-server-side.ts";
+import {useIsSSR} from "@/hooks/is-server-side";
 
 const drawerWidth = 240;
 

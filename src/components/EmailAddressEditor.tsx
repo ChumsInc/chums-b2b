@@ -1,5 +1,5 @@
 import {type ChangeEvent, useEffect, useState} from 'react';
-import EmailAddressTextField from "./common/EmailAddressTextField.tsx";
+import EmailAddressTextField from "./common/EmailAddressTextField";
 import FormHelperText from "@mui/material/FormHelperText";
 import type {BillToCustomer, ShipToCustomer} from "b2b-types";
 

@@ -1,10 +1,10 @@
 import {type ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
-import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import type {Editable, ShipToAddress} from "b2b-types";
-import CustomerShippingAccountControl from "./CustomerShippingAccountControl.tsx";
+import CustomerShippingAccountControl from "./CustomerShippingAccountControl";
 import type {CartProgress} from "@/types/cart/cart-utils";
 import {
     cartProgress_Cart,
@@ -12,39 +12,39 @@ import {
     cartProgress_Delivery,
     cartProgress_Payment,
     nextCartProgress
-} from "@/utils/cart.ts";
-import ShipDateInput from "./ShipDateInput.tsx";
-import ShippingMethodSelect from "@/components/b2b-cart/header/ShippingMethodSelect.tsx";
+} from "@/utils/cart";
+import ShipDateInput from "./ShipDateInput";
+import ShippingMethodSelect from "@/components/b2b-cart/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
-import ShipToSelect from "@/components/customer/common/ShipToSelect.tsx";
+import ShipToSelect from "@/components/customer/common/ShipToSelect";
 import Alert from "@mui/material/Alert";
 import {generatePath, useNavigate} from "react-router";
-import AlertList from "@/components/alerts/AlertList.tsx";
-import SendEmailButton from "@/components/b2b-cart/header/SendEmailButton.tsx";
-import ItemAutocomplete from "@/ducks/item-lookup/ItemAutocomplete.tsx";
+import AlertList from "@/components/alerts/AlertList";
+import SendEmailButton from "@/components/b2b-cart/header/SendEmailButton";
+import ItemAutocomplete from "@/ducks/item-lookup/ItemAutocomplete";
 import Divider from "@mui/material/Divider";
-import {selectSOLoading} from "@/ducks/sales-order/selectors.ts";
+import {selectSOLoading} from "@/ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
-import {selectCartHeaderById,} from "@/ducks/carts/cartHeadersSlice.ts";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
+import {selectCartHeaderById,} from "@/ducks/carts/cartHeadersSlice";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
-import {loadCart, loadNextShipDate, processCart, saveCart} from "@/ducks/carts/actions.ts";
-import CartPaymentSelect from "@/components/b2b-cart/header/CartPaymentSelect.tsx";
-import CartCheckoutProgress from "@/components/b2b-cart/header/CartCheckoutProgress.tsx";
-import DeleteCartButton from "@/components/b2b-cart/header/DeleteCartButton.tsx";
-import CheckoutButton from "@/components/b2b-cart/header/CheckoutButton.tsx";
-import CartCommentInput from "@/components/b2b-cart/header/CartCommentInput.tsx";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
+import {loadCart, loadNextShipDate, processCart, saveCart} from "@/ducks/carts/actions";
+import CartPaymentSelect from "@/components/b2b-cart/header/CartPaymentSelect";
+import CartCheckoutProgress from "@/components/b2b-cart/header/CartCheckoutProgress";
+import DeleteCartButton from "@/components/b2b-cart/header/DeleteCartButton";
+import CheckoutButton from "@/components/b2b-cart/header/CheckoutButton";
+import CartCommentInput from "@/components/b2b-cart/header/CartCommentInput";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@/utils/ga4/cart.ts";
-import {selectActiveCartId, selectCartShippingAccount, selectNextShipDate} from "@/ducks/carts/activeCartSlice.ts";
-import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDetailSlice.ts";
+import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@/utils/ga4/cart";
+import {selectActiveCartId, selectCartShippingAccount, selectNextShipDate} from "@/ducks/carts/activeCartSlice";
+import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDetailSlice";
 
 
 export default function CartOrderHeader() {

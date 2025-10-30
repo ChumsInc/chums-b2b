@@ -3,19 +3,19 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import HideOnScroll from "../HideOnScroll.tsx";
+import HideOnScroll from "../HideOnScroll";
 import Divider from '@mui/material/Divider';
 import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
-import NavDrawer from "./NavDrawer.tsx";
-import HomeLink from "./HomeLink.tsx";
-import {useAppDispatch} from "@/app/configureStore.ts";
+import NavDrawer from "./NavDrawer";
+import HomeLink from "./HomeLink";
+import {useAppDispatch} from "@/app/configureStore";
 import {toggleMenuDrawer} from "@/ducks/menu";
 import Container from "@mui/material/Container";
-import UserMenu from "./UserMenu.tsx";
-import CartMenu from "./CartMenu.tsx";
-import SearchBar from "@/ducks/search/components/SearchBar.tsx";
-import NavMenuList from "@/components/nav-bar/NavMenuList.tsx";
+import UserMenu from "./UserMenu";
+import CartMenu from "./CartMenu";
+import SearchBar from "@/ducks/search/components/SearchBar";
+import NavMenuList from "@/components/nav-bar/NavMenuList";
 
 
 const NavBarUI = () => {

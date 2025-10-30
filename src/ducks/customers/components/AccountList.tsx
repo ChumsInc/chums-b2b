@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {loadCustomerList} from '../actions';
 import {longAccountNumber} from "@/utils/customer";
-import ErrorBoundary from "@/components/common/ErrorBoundary.tsx";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -9,12 +9,12 @@ import {documentTitles, PATH_PROFILE} from "@/constants/paths";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Breadcrumb from "../../../components/Breadcrumb";
 import {useLocation, useMatch} from "react-router";
-import {selectCustomersStatus} from "../customerListSlice.ts";
+import {selectCustomersStatus} from "../customerListSlice";
 import Typography from "@mui/material/Typography";
 import AccountListFilters from "./AccountListFilters";
 import AccountListTable from "./AccountListTable";
 import {repAccessCode} from "../../user/utils";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 const AccountList = () => {
     const dispatch = useAppDispatch();

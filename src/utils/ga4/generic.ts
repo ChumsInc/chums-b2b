@@ -1,7 +1,7 @@
-import {sendGtagEvent} from "./api.ts";
-import {isCategoryChildProduct, isSellAsColors, isSellAsMix} from "@/ducks/products/utils.ts";
+import {sendGtagEvent} from "./api";
+import {isCategoryChildProduct, isSellAsColors, isSellAsMix} from "@/ducks/products/utils";
 import type {CartProduct, CategoryChildProduct, Product, ProductCategory} from "b2b-types";
-import {canStoreAnalytics} from "@/ducks/cookie-consent/utils.ts";
+import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
 
 export function ga4Exception(description: string, fatal: boolean) {
     if (!canStoreAnalytics()) return;

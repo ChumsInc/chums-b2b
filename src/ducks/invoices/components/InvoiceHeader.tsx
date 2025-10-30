@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {loadInvoice} from '../actions';
-import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog.tsx";
+import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog";
 import {ShippingMethods} from "@/utils/general";
 import TrackingLinkBadge from "../../../components/TrackingLinkBadge";
 import {selectCurrentInvoice} from "../selectors";
@@ -11,11 +11,11 @@ import Grid from '@mui/material/Grid';
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
-import ShipToSelect from "@/components/customer/common/ShipToSelect.tsx";
+import ShipToSelect from "@/components/customer/common/ShipToSelect";
 import {addressFromShipToAddress, multiLineAddress} from "../../customer/utils";
 import Decimal from "decimal.js";
 import numeral from "numeral";
-import {selectCustomerPermissions} from "../../customer/customerPermissionsSlice.ts";
+import {selectCustomerPermissions} from "../../customer/customerPermissionsSlice";
 
 const InvoiceHeader = () => {
     const dispatch = useAppDispatch();

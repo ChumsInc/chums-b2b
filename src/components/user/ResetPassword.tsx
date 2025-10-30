@@ -1,18 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectSignUpProfile, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice.ts";
-import {loadSignUpProfile} from "@/ducks/sign-up/actions.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectSignUpProfile, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice";
+import {loadSignUpProfile} from "@/ducks/sign-up/actions";
 import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import PasswordForm from "./PasswordForm.tsx";
-import {setNewPassword} from "@/ducks/user/actions.ts";
+import PasswordForm from "./PasswordForm";
+import {setNewPassword} from "@/ducks/user/actions";
 import type {ChangePasswordResponse, SetNewPasswordProps} from "@/ducks/user/types";
 import Alert from "@mui/material/Alert";
-import {isErrorResponse} from "@/utils/typeguards.ts";
-import {useIsSSR} from "@/hooks/is-server-side.ts";
+import {isErrorResponse} from "@/utils/typeguards";
+import {useIsSSR} from "@/hooks/is-server-side";
 
 
 const ResetPassword = () => {

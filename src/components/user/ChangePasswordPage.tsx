@@ -1,18 +1,18 @@
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
-import PasswordForm from "./PasswordForm.tsx";
+import PasswordForm from "./PasswordForm";
 import Container from "@mui/material/Container";
 import React, {useState} from "react";
-import {documentTitles} from "@/constants/paths.ts";
-import DocumentTitle from "../DocumentTitle.tsx";
-import {selectUserActionStatus, selectUserProfile} from "@/ducks/user/selectors.ts";
+import {documentTitles} from "@/constants/paths";
+import DocumentTitle from "../DocumentTitle";
+import {selectUserActionStatus, selectUserProfile} from "@/ducks/user/selectors";
 import type {ChangePasswordProps} from "@/ducks/user/types";
 import {useNavigate} from 'react-router';
-import {changePassword} from "@/ducks/user/actions.ts";
-import {isErrorResponse} from "@/utils/typeguards.ts";
+import {changePassword} from "@/ducks/user/actions";
+import {isErrorResponse} from "@/utils/typeguards";
 
 const ChangePasswordPage = () => {
     const dispatch = useAppDispatch();

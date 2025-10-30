@@ -1,11 +1,11 @@
 import type {Editable} from "b2b-types";
 import classNames from "classnames";
-import OrderItemImage from "@/components/OrderItemImage.tsx";
-import UPCA from "@/components/common/upc-a.ts";
-import AvailabilityAlert from "@/components/AvailabilityAlert.tsx";
+import OrderItemImage from "@/components/OrderItemImage";
+import UPCA from "@/components/common/upc-a";
+import AvailabilityAlert from "@/components/AvailabilityAlert";
 import numeral from "numeral";
 import Decimal from "decimal.js";
-import CartLineButtons from "./CartLineButtons.tsx";
+import CartLineButtons from "./CartLineButtons";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";

@@ -1,9 +1,9 @@
 "use client";
 
 import React, {type FormEvent, useState} from 'react';
-import {loginUser, resetPassword} from "@/ducks/user/actions.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectUserLoading} from "@/ducks/user/selectors.ts";
+import {loginUser, resetPassword} from "@/ducks/user/actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectUserLoading} from "@/ducks/user/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -12,9 +12,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Box from "@mui/material/Box";
 import KeyIcon from '@mui/icons-material/Key';
 import Stack from "@mui/material/Stack";
-import PasswordTextField from "../PasswordTextField.tsx";
+import PasswordTextField from "../PasswordTextField";
 import {Link as NavLink} from 'react-router'
-import {isErrorResponse} from "@/utils/typeguards.ts";
+import {isErrorResponse} from "@/utils/typeguards";
 import Alert from "@mui/material/Alert";
 
 

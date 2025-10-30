@@ -2,7 +2,7 @@ import React from 'react';
 import {getMSRP, getPrices, getSalesUM} from "@/utils/products";
 import numeral from 'numeral';
 import {selectLoggedIn} from "../../user/selectors";
-import {selectCustomerPricing} from "../../customer/customerPricingSlice.ts";
+import {selectCustomerPricing} from "../../customer/customerPricingSlice";
 import type {ProductVariant} from "b2b-types";
 import Button from "@mui/material/Button";
 import {styled} from '@mui/material/styles';
@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {type ResponsiveStyleValue} from "@mui/system";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 
 const VariantButtonBase = styled(Button)(() => ({

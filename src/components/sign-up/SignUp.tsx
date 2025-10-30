@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
-import CustomerSignUp from "./CustomerSignUp.tsx";
-import {documentTitles, PATH_SET_PASSWORD} from "@/constants/paths.ts";
-import MAPPolicy from "../MAPPolicy.tsx";
-import UsagePolicy from "../UsagePolicy.tsx";
-import DocumentTitle from "../DocumentTitle.tsx";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
+import CustomerSignUp from "./CustomerSignUp";
+import {documentTitles, PATH_SET_PASSWORD} from "@/constants/paths";
+import MAPPolicy from "../MAPPolicy";
+import UsagePolicy from "../UsagePolicy";
+import DocumentTitle from "../DocumentTitle";
+import {selectLoggedIn} from "@/ducks/user/selectors";
 import {useNavigate} from "react-router";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
-import {useIsSSR} from "@/hooks/is-server-side.ts";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useIsSSR} from "@/hooks/is-server-side";
+import {useAppSelector} from "@/app/configureStore";
 
 const SignUp = () => {
     const isSSR = useIsSSR();

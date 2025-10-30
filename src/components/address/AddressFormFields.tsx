@@ -1,8 +1,8 @@
 import {type ChangeEvent} from 'react';
-import StateSelect from '../StateSelect.tsx';
-import CountrySelect from '../CountrySelect.tsx';
+import StateSelect from '../StateSelect';
+import CountrySelect from '../CountrySelect';
 import type {CustomerAddress} from "b2b-types";
-import {isCanada, isUSA} from "@/utils/customer.ts";
+import {isCanada, isUSA} from "@/utils/customer";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 

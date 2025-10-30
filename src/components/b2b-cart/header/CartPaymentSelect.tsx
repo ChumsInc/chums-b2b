@@ -1,14 +1,14 @@
 import {type RefObject, useId} from 'react';
-import type {PaymentType} from "@/types/customer.ts";
+import type {PaymentType} from "@/types/customer";
 import InputLabel from "@mui/material/InputLabel";
 import Select, {type SelectChangeEvent} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl, {type FormControlProps} from "@mui/material/FormControl";
 import {type InputBaseComponentProps} from "@mui/material/InputBase";
-import {PAYMENT_TYPES} from "@/constants/account.ts";
+import {PAYMENT_TYPES} from "@/constants/account";
 import FormHelperText from "@mui/material/FormHelperText";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectActiveCustomerPaymentCards} from "@/ducks/customer/customerPaymentCardsSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectActiveCustomerPaymentCards} from "@/ducks/customer/customerPaymentCardsSlice";
 
 export interface CartPaymentSelectProps extends Omit<FormControlProps, 'onChange'> {
     value: string;

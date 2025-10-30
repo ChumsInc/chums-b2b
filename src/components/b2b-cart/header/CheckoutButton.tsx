@@ -1,5 +1,5 @@
 import type {CartProgress,} from "@/types/cart/cart-utils";
-import {cartProgress_Cart, cartProgress_Confirm, cartProgress_Delivery, cartProgress_Payment} from "@/utils/cart.ts";
+import {cartProgress_Cart, cartProgress_Confirm, cartProgress_Delivery, cartProgress_Payment} from "@/utils/cart";
 import Button, {type ButtonProps} from "@mui/material/Button";
 
 export interface CheckoutButtonProps extends ButtonProps {

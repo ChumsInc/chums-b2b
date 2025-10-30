@@ -14,7 +14,7 @@ import {defaultCartItem, defaultVariant, getMSRP, getPrices, getSalesUM, hasVari
 import {selectLoggedIn} from "../user/selectors";
 import {isSellAsColors, isSellAsMix, updateCartProductPricing} from "./utils";
 import {parseImageFilename} from "@/components/common/image";
-import {selectCustomerPricing} from "@/ducks/customer/customerPricingSlice.ts";
+import {selectCustomerPricing} from "@/ducks/customer/customerPricingSlice";
 
 export interface LoadProductResponse {
     product: Product | null;

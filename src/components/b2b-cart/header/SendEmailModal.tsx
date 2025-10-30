@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectSendEmailError, selectSendEmailResponse, selectSendEmailStatus} from "@/ducks/open-orders/selectors.ts";
-import {closeEmailResponse} from "@/ducks/open-orders/actions.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectSendEmailError, selectSendEmailResponse, selectSendEmailStatus} from "@/ducks/open-orders/selectors";
+import {closeEmailResponse} from "@/ducks/open-orders/actions";
 import Dialog from "@mui/material/Dialog";
 import LinearProgress from "@mui/material/LinearProgress";
 import Alert from "@mui/material/Alert";

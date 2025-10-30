@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
-import UserProfile from "./UserProfile.tsx";
-import {documentTitles} from '@/constants/paths.ts';
-import DocumentTitle from "../../DocumentTitle.tsx";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import UserProfile from "./UserProfile";
+import {documentTitles} from '@/constants/paths';
+import DocumentTitle from "../../DocumentTitle";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
 import {useLocation} from "react-router";
-import {setReturnToPath} from "@/ducks/customer/actions.ts";
-import StoredSettings from "@/components/user/profile/StoredSettings.tsx";
-import {selectAccessStatus} from "@/ducks/user/userAccessSlice.ts";
-import CustomerAccessList from "@/components/user/profile/CustomerAccessList.tsx";
-import RepAccessList from "@/components/user/profile/RepAccessList.tsx";
+import {setReturnToPath} from "@/ducks/customer/actions";
+import StoredSettings from "@/components/user/profile/StoredSettings";
+import {selectAccessStatus} from "@/ducks/user/userAccessSlice";
+import CustomerAccessList from "@/components/user/profile/CustomerAccessList";
+import RepAccessList from "@/components/user/profile/RepAccessList";
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch();

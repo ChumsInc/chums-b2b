@@ -1,12 +1,12 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {RecentCustomer} from "b2b-types";
-import {customerSlug} from "@/utils/customer.ts";
-import {auth} from "@/api/IntranetAuthService.ts";
-import localStore from "@/utils/LocalStore.ts";
-import LocalStore from "@/utils/LocalStore.ts";
-import {STORE_RECENT_ACCOUNTS} from "@/constants/stores.ts";
-import {setLoggedIn, signInWithGoogle} from "@/ducks/user/actions.ts";
-import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions.ts";
+import {customerSlug} from "@/utils/customer";
+import {auth} from "@/api/IntranetAuthService";
+import localStore from "@/utils/LocalStore";
+import LocalStore from "@/utils/LocalStore";
+import {STORE_RECENT_ACCOUNTS} from "@/constants/stores";
+import {setLoggedIn, signInWithGoogle} from "@/ducks/user/actions";
+import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 
 const adapter = createEntityAdapter<RecentCustomer, string>({
     selectId: (arg) => customerSlug(arg),

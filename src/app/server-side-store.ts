@@ -1,7 +1,7 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {rootReducer} from "@/app/root-reducer";
 import type {PreloadedState} from "b2b-types";
-import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice.ts";
+import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice";
 
 const createServerSideStore = (preload: PreloadedState) => configureStore({
     reducer: rootReducer,

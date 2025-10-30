@@ -1,6 +1,6 @@
 import Alert from "@mui/material/Alert";
-import {selectCartsLength} from "@/ducks/carts/cartHeadersSlice.ts";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {selectCartsLength} from "@/ducks/carts/cartHeadersSlice";
+import {useAppSelector} from "@/app/configureStore";
 
 export default function NoCartsAlert() {
     const length = useAppSelector(selectCartsLength);

@@ -7,12 +7,12 @@ import {
     type UnknownAction
 } from "@reduxjs/toolkit";
 import type {UserCustomerAccess} from "b2b-types";
-import LocalStore from "@/utils/LocalStore.ts";
-import {STORE_USER_ACCESS} from "@/constants/stores.ts";
-import {loadProfile, saveUserProfile, setLoggedIn, setUserAccess, signInWithGoogle} from "@/ducks/user/actions.ts";
-import {auth} from "@/api/IntranetAuthService.ts";
-import {getPrimaryAccount, isCustomerAccess} from "@/ducks/user/utils.ts";
-import {saveUser} from "@/ducks/customer/actions.ts";
+import LocalStore from "@/utils/LocalStore";
+import {STORE_USER_ACCESS} from "@/constants/stores";
+import {loadProfile, saveUserProfile, setLoggedIn, setUserAccess, signInWithGoogle} from "@/ducks/user/actions";
+import {auth} from "@/api/IntranetAuthService";
+import {getPrimaryAccount, isCustomerAccess} from "@/ducks/user/utils";
+import {saveUser} from "@/ducks/customer/actions";
 
 export interface UserAccessState {
     current: UserCustomerAccess | null;

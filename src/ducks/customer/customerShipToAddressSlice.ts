@@ -1,14 +1,12 @@
 import {createEntityAdapter, createSelector, createSlice, isAnyOf, type PayloadAction} from "@reduxjs/toolkit";
 import type {ShipToCustomer, SortProps} from "b2b-types";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions.ts";
-import {customerShipToSorter, customerSlug} from "@/utils/customer.ts";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.ts";
-import {loadCustomerList} from "@/ducks/customers/actions.ts";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
-import {filterShipToByUserAccount} from "@/ducks/customer/utils.ts";
-import {isBillToCustomer} from "@/utils/typeguards.ts";
-import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
+import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
+import {customerShipToSorter, customerSlug} from "@/utils/customer";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {filterShipToByUserAccount} from "@/ducks/customer/utils";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 
 const adapter = createEntityAdapter<ShipToCustomer, string>({
     selectId: (arg) => arg.ShipToCode,
@@ -43,7 +41,7 @@ const customerShipToAddressSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(setCustomerAccount.fulfilled, (state, action) => {
-                const customerKey = customerSlug(action.payload);
+                const customerKey = customerSlug(action.payload.customer);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                     adapter.removeAll(state);
@@ -86,7 +84,7 @@ const customerShipToAddressSlice = createSlice({
     },
     selectors: {
         selectCustomerShipToCode: (state) => state.shipToCode,
-        selectCustomerShipTo: (state) => selectors.selectById(state, state.shipToCode),
+        selectCustomerShipTo: (state) => selectors.selectById(state, state.shipToCode ?? ''),
         selectCustomerShipToAddresses: (state) => selectors.selectAll(state),
         selectShipToByCode: (state, code: string) => selectors.selectById(state, code) ?? null,
         selectShipToSort: (state) => state.sort,

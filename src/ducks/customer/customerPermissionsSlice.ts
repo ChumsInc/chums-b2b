@@ -1,14 +1,14 @@
-import type {CustomerPermissions} from "@/types/customer.ts";
+import type {CustomerPermissions} from "@/types/customer";
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.ts";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
 import {
     loadCustomer,
     loadCustomerPermissions,
     saveBillingAddress,
     saveShipToAddress
-} from "@/ducks/customer/actions.ts";
-import {customerSlug} from "@/utils/customer.ts";
-import {dismissContextAlert} from "@/ducks/alerts/actions.ts";
+} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
+import {dismissContextAlert} from "@/ducks/alerts/actions";
 
 export interface CustomerPermissionsState {
     customerKey: string | null;
@@ -39,20 +39,20 @@ const customerPermissionsSlice = createSlice({
                 if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
                     state.status = 'idle';
                     state.customerKey = customerSlug(action.meta.arg);
-                    state.value = null;
+                    state.values = null;
                 }
             })
             .addCase(loadCustomerPermissions.pending, (state, action) => {
                 const customerKey = customerSlug(action.meta.arg);
                 state.status = 'loading';
                 if (state.customerKey !== customerKey) {
-                    state.value = null;
+                    state.values = null;
                     state.customerKey = customerKey;
                 }
             })
             .addCase(loadCustomerPermissions.fulfilled, (state, action) => {
                 state.customerKey = customerSlug(action.meta.arg);
-                state.value = action.payload;
+                state.values = action.payload;
                 state.status = 'fulfilled';
             })
             .addCase(loadCustomerPermissions.rejected, (state, action) => {
@@ -67,12 +67,12 @@ const customerPermissionsSlice = createSlice({
                 saveBillingAddress.fulfilled,
                 saveShipToAddress.fulfilled,
                 loadCustomer.fulfilled), (state, action) => {
-                state.customerKey = customerSlug(action.payload?.customer);
-                state.value = action.payload?.permissions ?? null;
+                state.customerKey = customerSlug(action.payload?.customer ?? null);
+                state.values = action.payload?.permissions ?? null;
             })
     },
     selectors: {
-        selectCustomerPermissions: (state) => state.value,
+        selectCustomerPermissions: (state) => state.values,
         selectCustomerPermissionsStatus: (state) => state.status,
     }
 });

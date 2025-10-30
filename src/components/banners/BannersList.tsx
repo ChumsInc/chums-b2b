@@ -1,9 +1,9 @@
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {useEffect} from "react";
-import HomeBanner from "./HomeBanner.tsx";
+import HomeBanner from "./HomeBanner";
 import Stack from "@mui/material/Stack";
-import {selectBannersList, selectBannersLoaded, selectBannersUpdated} from "@/ducks/banners/bannersSlice.ts";
-import {loadBanners} from "@/ducks/banners/actions.ts";
+import {selectBannersList, selectBannersLoaded, selectBannersUpdated} from "@/ducks/banners/bannersSlice";
+import {loadBanners} from "@/ducks/banners/actions";
 
 const bannersMaxAge = 1000 * 60 * 30;
 

@@ -3,16 +3,16 @@ import {
     selectCustomerLoaded,
     selectCustomerLoading,
     selectCustomerLoadStatus,
-} from "@/ducks/customer/selectors.ts";
+} from "@/ducks/customer/selectors";
 import {useEffect} from "react";
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
-import {billToCustomerSlug, customerNo, customerSlug, parseCustomerSlug} from "@/utils/customer.ts";
+import {billToCustomerSlug, customerNo, customerSlug, parseCustomerSlug} from "@/utils/customer";
 import Typography from "@mui/material/Typography";
 import {useParams} from "react-router";
-import {loadCustomer} from "@/ducks/customer/actions.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import {loadCustomer} from "@/ducks/customer/actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice";
 
 export default function CustomerIndicator() {
     const dispatch = useAppDispatch();

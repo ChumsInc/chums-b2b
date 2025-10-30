@@ -1,10 +1,10 @@
 import React, {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
-import {loadProfile, logoutUser, saveUserProfile} from "@/ducks/user/actions.ts";
-import {AUTH_GOOGLE, AUTH_LOCAL} from "@/constants/app.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "@/ducks/user/selectors.ts";
+import {loadProfile, logoutUser, saveUserProfile} from "@/ducks/user/actions";
+import {AUTH_GOOGLE, AUTH_LOCAL} from "@/constants/app";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "@/ducks/user/selectors";
 import type {Editable} from "b2b-types";
-import type {ExtendedUserProfile} from "@/types/user.ts";
+import type {ExtendedUserProfile} from "@/types/user";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";

@@ -1,5 +1,5 @@
 import {type ChangeEvent, useEffect, useId, useRef, useState} from "react";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import FilledInput from '@mui/material/FilledInput'
 import IconButton from "@mui/material/IconButton";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -7,10 +7,10 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import {setCartShippingAccount} from "@/ducks/carts/actions.ts";
-import type {CustomerShippingAccount, ShippingMethod} from "@/types/customer.ts";
-import {ShippingMethods} from "@/utils/general.ts";
-import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice.ts";
+import {setCartShippingAccount} from "@/ducks/carts/actions";
+import type {CustomerShippingAccount, ShippingMethod} from "@/types/customer";
+import {ShippingMethods} from "@/utils/general";
+import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
 
 const emptyShippingAccount:CustomerShippingAccount = {
     value: '',

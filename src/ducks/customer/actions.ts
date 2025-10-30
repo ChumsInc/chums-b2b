@@ -19,10 +19,10 @@ import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import type {FetchCustomerResponse} from "./types";
 import {loadOpenOrders} from "../open-orders/actions";
 import type {CustomerPermissions} from "@/types/customer";
-import {selectRecentCustomers} from "../customers/recentCustomersSlice.ts";
+import {selectRecentCustomers} from "../customers/recentCustomersSlice";
 import {loadCarts} from "@/ducks/carts/actions";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils";
-import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice.ts";
+import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');

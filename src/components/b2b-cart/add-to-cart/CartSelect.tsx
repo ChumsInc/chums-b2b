@@ -4,10 +4,10 @@ import InputLabel from "@mui/material/InputLabel";
 import Select, {type SelectChangeEvent, type SelectProps} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import {selectCartHeaders} from "@/ducks/carts/cartHeadersSlice.ts";
-import localStore from "@/utils/LocalStore.ts";
-import {STORE_CURRENT_CART} from "@/constants/stores.ts";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {selectCartHeaders} from "@/ducks/carts/cartHeadersSlice";
+import localStore from "@/utils/LocalStore";
+import {STORE_CURRENT_CART} from "@/constants/stores";
+import {useAppSelector} from "@/app/configureStore";
 
 export interface CartSelectProps extends Pick<SelectProps, 'required'> {
     cartId: number | null;

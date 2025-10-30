@@ -4,7 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import type {KeyedObject} from "@/types/generic.ts";
+import type {KeyedObject} from "@/types/generic";
 
 
 export const DataTableHead = <T = KeyedObject>({

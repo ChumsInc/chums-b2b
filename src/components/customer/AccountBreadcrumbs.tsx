@@ -1,11 +1,11 @@
-import {PATH_PROFILE, PATH_PROFILE_ACCOUNT} from "@/constants/paths.ts";
-import Breadcrumb from "@/components/Breadcrumb.tsx";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
+import {PATH_PROFILE, PATH_PROFILE_ACCOUNT} from "@/constants/paths";
+import Breadcrumb from "@/components/Breadcrumb";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
 import {generatePath, useLocation} from "react-router";
-import type {BreadcrumbPath} from "@/types/breadcrumbs.ts";
-import {repAccessCode} from "@/ducks/user/utils.ts";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectCurrentAccess, selectUserAccessCount} from "@/ducks/user/userAccessSlice.ts";
+import type {BreadcrumbPath} from "@/types/breadcrumbs";
+import {repAccessCode} from "@/ducks/user/utils";
+import {useAppSelector} from "@/app/configureStore";
+import {selectCurrentAccess, selectUserAccessCount} from "@/ducks/user/userAccessSlice";
 
 const AccountBreadcrumbs = () => {
     const countUserAccounts = useAppSelector(selectUserAccessCount);

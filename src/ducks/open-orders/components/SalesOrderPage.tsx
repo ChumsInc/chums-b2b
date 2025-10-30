@@ -12,7 +12,7 @@ import SalesOrderSkeleton from "./SalesOrderSkeleton";
 import {selectSalesOrder} from "../selectors";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import Typography from "@mui/material/Typography";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 /**
  *

@@ -3,7 +3,7 @@ import {createSelector} from "@reduxjs/toolkit";
 import Decimal from "decimal.js";
 import {invoicesSorter} from "./utils";
 import {selectPermittedBillToAddress} from "../customer/selectors";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 export const selectInvoicesList = (state:RootState) => state.invoices.list.invoices ?? [];
 export const selectInvoicesListLimit = (state:RootState) => state.invoices.list.limit;

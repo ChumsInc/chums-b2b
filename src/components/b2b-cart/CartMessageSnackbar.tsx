@@ -1,7 +1,6 @@
 import {type SyntheticEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectCartMessages} from "@/ducks/carts/cartMessagesSlice.ts";
-import {clearCartMessages} from "@/ducks/carts/cartMessagesSlice.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {clearCartMessages, selectCartMessages} from "@/ducks/carts/cartMessagesSlice";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";

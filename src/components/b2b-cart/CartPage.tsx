@@ -1,18 +1,18 @@
 import {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {generatePath, useNavigate, useParams} from "react-router";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
-import {loadCart} from "@/ducks/carts/actions.ts";
-import DocumentTitle from "@/components/DocumentTitle.tsx";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {loadCart} from "@/ducks/carts/actions";
+import DocumentTitle from "@/components/DocumentTitle";
 import LinearProgress from "@mui/material/LinearProgress";
-import CartSkeleton from "@/components/b2b-cart/header/CartSkeleton.tsx";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
-import CartOrderHeader from "@/components/b2b-cart/header/CartOrderHeader.tsx";
-import {parseCartId} from "@/ducks/carts/utils.ts";
-import CartDetail from "@/components/b2b-cart/detail/CartDetail.tsx";
-import {billToCustomerSlug} from "@/utils/customer.ts";
+import CartSkeleton from "@/components/b2b-cart/header/CartSkeleton";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import CartOrderHeader from "@/components/b2b-cart/header/CartOrderHeader";
+import {parseCartId} from "@/ducks/carts/utils";
+import CartDetail from "@/components/b2b-cart/detail/CartDetail";
+import {billToCustomerSlug} from "@/utils/customer";
 import Typography from "@mui/material/Typography";
-import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice.ts";
+import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice";
 
 export default function CartPage() {
     const dispatch = useAppDispatch();

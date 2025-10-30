@@ -1,21 +1,21 @@
 import {useRef, useState} from 'react';
 import classNames from "classnames";
-import OrderItemImage from "@/components/OrderItemImage.tsx";
-import AvailabilityAlert from "@/components/AvailabilityAlert.tsx";
+import OrderItemImage from "@/components/OrderItemImage";
+import AvailabilityAlert from "@/components/AvailabilityAlert";
 import numeral from "numeral";
-import CartQuantityInput from "@/components/CartQuantityInput.tsx";
-import PriceLevelNotice from "@/components/PriceLevelNotice.tsx";
+import CartQuantityInput from "@/components/CartQuantityInput";
+import PriceLevelNotice from "@/components/PriceLevelNotice";
 import Decimal from "decimal.js";
-import CartLineButtons from "./CartLineButtons.tsx";
-import SalesOrderCommentLine from "./CartCommentLine.tsx";
-import FormattedUPC from "@/components/FormattedUPC.tsx";
+import CartLineButtons from "./CartLineButtons";
+import SalesOrderCommentLine from "./CartCommentLine";
+import FormattedUPC from "@/components/FormattedUPC";
 import Typography from "@mui/material/Typography";
-import {selectCanViewAvailable} from "@/ducks/user/selectors.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {selectCanViewAvailable} from "@/ducks/user/selectors";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import ProductLink from "@/components/ProductLink.tsx";
-import {selectCartItemById, setCartItem} from "@/ducks/carts/cartDetailSlice.ts";
+import ProductLink from "@/components/ProductLink";
+import {selectCartItemById, setCartItem} from "@/ducks/carts/cartDetailSlice";
 import Alert from "@mui/material/Alert";
 
 export default function CartItemLine({

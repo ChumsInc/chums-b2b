@@ -1,9 +1,9 @@
 import type {UserCustomerAccess} from "b2b-types";
 import {generatePath, Link as RoutedLink} from "react-router";
-import {PATH_CUSTOMER_ACCOUNT} from "@/constants/paths.ts";
+import {PATH_CUSTOMER_ACCOUNT} from "@/constants/paths";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import {customerSlug, longCustomerNo} from "@/utils/customer.ts";
+import {customerSlug, longCustomerNo} from "@/utils/customer";
 import React from "react";
 
 export interface AccessButtonProps {

@@ -25,15 +25,15 @@ import signUpSlice from "@/ducks/sign-up/signUpSlice";
 import userReducer from "@/ducks/user";
 import versionReducer from "@/ducks/version";
 import userAccessSlice from "@/ducks/user/userAccessSlice";
-import customerUsersSlice from "@/ducks/customer/customerUsersSlice.ts";
-import customerPricingSlice from "@/ducks/customer/customerPricingSlice.ts";
-import customerPaymentCardsSlice from "@/ducks/customer/customerPaymentCardsSlice.ts";
-import customerShipToAddressSlice from "@/ducks/customer/customerShipToAddressSlice.ts";
-import customerPermissionsSlice from "@/ducks/customer/customerPermissionsSlice.ts";
-import recentCustomersSlice from "@/ducks/customers/recentCustomersSlice.ts";
-import customerListSlice from "@/ducks/customers/customerListSlice.ts";
-import bannersSlice from "@/ducks/banners/bannersSlice.ts";
-import salespersonSlice from "@/ducks/reps/salespersonSlice.ts";
+import customerUsersSlice from "@/ducks/customer/customerUsersSlice";
+import customerPricingSlice from "@/ducks/customer/customerPricingSlice";
+import customerPaymentCardsSlice from "@/ducks/customer/customerPaymentCardsSlice";
+import customerShipToAddressSlice from "@/ducks/customer/customerShipToAddressSlice";
+import customerPermissionsSlice from "@/ducks/customer/customerPermissionsSlice";
+import recentCustomersSlice from "@/ducks/customers/recentCustomersSlice";
+import customerListSlice from "@/ducks/customers/customerListSlice";
+import bannersSlice from "@/ducks/banners/bannersSlice";
+import salespersonSlice from "@/ducks/reps/salespersonSlice";
 
 export const rootReducer = combineReducers({
     alerts: alertsReducer,

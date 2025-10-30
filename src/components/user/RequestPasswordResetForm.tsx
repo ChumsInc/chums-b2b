@@ -7,10 +7,10 @@ import Alert, {type AlertColor} from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
 import React, {type FormEvent, useState} from "react";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectResettingPassword} from "@/ducks/user/selectors.ts";
-import {resetPassword} from "@/ducks/user/actions.ts";
-import AccessWarningAlert from "./AccessWarningAlert.tsx";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectResettingPassword} from "@/ducks/user/selectors";
+import {resetPassword} from "@/ducks/user/actions";
+import AccessWarningAlert from "./AccessWarningAlert";
 import {Link as NavLink, useNavigate} from "react-router";
 import Container from "@mui/material/Container";
 

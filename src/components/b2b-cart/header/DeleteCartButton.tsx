@@ -1,15 +1,15 @@
 import {useCallback, useState} from 'react';
 import Button, {type ButtonProps} from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {removeCart} from "@/ducks/carts/actions.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {removeCart} from "@/ducks/carts/actions";
 import {generatePath, useNavigate} from "react-router";
 import LinearProgress from "@mui/material/LinearProgress";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
-import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice.ts";
+import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice";
 
 export interface DeleteCartButtonProps extends ButtonProps {
     customerKey: string | null;

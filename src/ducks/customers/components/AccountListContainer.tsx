@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {redirect, useLocation, useParams} from "react-router";
 import AccountList from "./AccountList";
 import {setReturnToPath} from "../../customer/actions";
-import {selectAccessList, selectAccessStatus, selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
+import {selectAccessList, selectAccessStatus, selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 const AccountListContainer = () => {
     const dispatch = useAppDispatch();

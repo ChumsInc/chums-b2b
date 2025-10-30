@@ -3,7 +3,7 @@ import type {Customer, UserCustomerAccess} from "b2b-types";
 import {fetchCustomerList} from "@/api/customer-list";
 import {type RootState} from "@/app/configureStore";
 import {selectLoggedIn} from "../user/selectors";
-import {selectCustomersStatus} from "./customerListSlice.ts";
+import {selectCustomersStatus} from "./customerListSlice";
 
 export const loadCustomerList = createAsyncThunk<Customer[], UserCustomerAccess | null, { state: RootState }>(
     'customers/list/load',

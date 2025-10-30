@@ -1,12 +1,12 @@
 import numeral from "numeral";
 import Decimal from "decimal.js";
-import {getShippingMethod} from "@/constants/account.ts";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {getShippingMethod} from "@/constants/account";
+import {useAppSelector} from "@/app/configureStore";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice.ts";
-import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice.ts";
+import {selectCartHeaderById} from "@/ducks/carts/cartHeadersSlice";
+import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
 
 export default function CartTotal({cartId}: {
     cartId: number;

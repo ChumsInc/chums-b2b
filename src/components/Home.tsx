@@ -1,6 +1,6 @@
 import {documentTitles} from "@/constants/paths";
 import DocumentTitle from "./DocumentTitle";
-import BannersList from "./banners/BannersList.tsx";
+import BannersList from "./banners/BannersList";
 import Typography from "@mui/material/Typography";
 
 const HomeV2 = () => {

@@ -15,7 +15,7 @@ import createServerSideStore from "@/app/server-side-store";
 
 const debug = Debug('chums:server:render');
 
-// Ensure these paths stay matched with /src/app/App.tsx routes
+// Ensure these paths stay matched with /src/app/App routes
 const validRoutes: RegExp = /^\/($|home|products|pages|set-password|signup|reset-password|login|logout|profile|account)/;
 
 async function loadMainCSS(): Promise<string> {

@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
-import {useAppDispatch} from "@/app/configureStore.ts";
-import {logoutUser} from "@/ducks/user/actions.ts";
+import {useAppDispatch} from "@/app/configureStore";
+import {logoutUser} from "@/ducks/user/actions";
 import {useNavigate} from "react-router";
 
 export default function Logout() {

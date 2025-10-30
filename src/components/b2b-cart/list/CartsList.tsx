@@ -1,16 +1,16 @@
 import {type ChangeEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectCartsSort, selectFilteredCarts, setCartsSort} from "@/ducks/carts/cartHeadersSlice.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectCartsSort, selectFilteredCarts, setCartsSort} from "@/ducks/carts/cartHeadersSlice";
 import type {SortProps} from "b2b-types";
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import TablePagination from "@mui/material/TablePagination";
-import CartButton from "./CartButton.tsx";
-import {DateString} from "@/components/DateString.tsx";
+import CartButton from "./CartButton";
+import {DateString} from "@/components/DateString";
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
-import CartLink from "@/components/b2b-cart/list/CartLink.tsx";
-import {shipToLocation} from "@/ducks/carts/utils.ts";
+import CartLink from "@/components/b2b-cart/list/CartLink";
+import {shipToLocation} from "@/ducks/carts/utils";
 
 
 const cartFields: SortableTableField<B2BCartHeader>[] = [

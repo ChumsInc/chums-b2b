@@ -2,7 +2,7 @@ import {createAction, createAsyncThunk, createReducer, createSelector} from "@re
 import type {Menu, MenuItem} from "b2b-types";
 import {type RootState} from "@/app/configureStore";
 import {fetchMenu} from "@/api/menu";
-import {selectCustomerAccessList, selectRepAccessList} from "../user/userAccessSlice.ts";
+import {selectCustomerAccessList, selectRepAccessList} from "../user/userAccessSlice";
 import {defaultMenuItem} from "./utils";
 import {accessListURL} from "../user/utils";
 

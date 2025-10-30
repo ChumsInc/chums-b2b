@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import UserIcon from "./UserIcon.tsx";
+import UserIcon from "./UserIcon";
 import BusinessIcon from '@mui/icons-material/Business';
-import {selectIsEmployee} from "@/ducks/user/selectors.ts";
+import {selectIsEmployee} from "@/ducks/user/selectors";
 import type {CustomerUser, UserAccessType} from "b2b-types";
 import TablePagination from "@mui/material/TablePagination";
 import Table from "@mui/material/Table";
@@ -17,11 +17,11 @@ import {
     selectCustomerUsersSort,
     selectPermittedCustomerUsers,
     setCustomerUsersSort
-} from "@/ducks/customer/customerUsersSlice.ts";
-import {customerUserPath} from "@/utils/path-utils.ts";
+} from "@/ducks/customer/customerUsersSlice";
+import {customerUserPath} from "@/utils/path-utils";
 import Chip, {type ChipProps} from "@mui/material/Chip";
 import StoreIcon from '@mui/icons-material/Store';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
 

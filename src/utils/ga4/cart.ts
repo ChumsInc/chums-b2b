@@ -1,10 +1,10 @@
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import Decimal from "decimal.js";
-import {sendGtagEvent} from "@/utils/ga4/api.ts";
-import type {GtagItem} from "@/utils/ga4/types.ts";
+import {sendGtagEvent} from "@/utils/ga4/api";
+import type {GtagItem} from "@/utils/ga4/types";
 import type {CartProduct} from "b2b-types";
-import {canStoreAnalytics} from "@/ducks/cookie-consent/utils.ts";
+import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
 
 function cartItems(detail: B2BCartDetail[]): GtagItem[] {
     return detail

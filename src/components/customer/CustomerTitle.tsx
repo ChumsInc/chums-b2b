@@ -1,7 +1,7 @@
 import type {BillToCustomer, ShipToCustomer} from "b2b-types";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {customerNo, isValidCustomer} from "@/utils/customer.ts";
+import {customerNo, isValidCustomer} from "@/utils/customer";
 
 export default function CustomerTitle({customer, shipTo, loading}:{
     customer: BillToCustomer|null;

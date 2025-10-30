@@ -5,10 +5,10 @@ import type {PreloadedState} from "b2b-types";
 import {initialInvoicesState} from "@/ducks/invoices";
 import {initialSalesOrderState} from "@/ducks/sales-order";
 import {initialUserState} from "@/ducks/user";
-import {initializeActiveCartState} from "@/ducks/carts/utils.ts";
-import {rootReducer} from "@/app/root-reducer.ts";
-import {getPreloadCustomerState} from "@/ducks/customers/customerListSlice.ts";
-import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice.ts";
+import {initializeActiveCartState} from "@/ducks/carts/utils";
+import {rootReducer} from "@/app/root-reducer";
+import {getPreloadCustomerState} from "@/ducks/customers/customerListSlice";
+import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice";
 
 
 const store = configureStore({

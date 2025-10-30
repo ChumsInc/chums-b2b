@@ -1,7 +1,7 @@
 import React from 'react';
 import {selectOpenOrdersLength} from "../selectors";
 import Alert from "@mui/material/Alert";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 export default function NoOpenOrdersAlert() {
     const length = useAppSelector(selectOpenOrdersLength);

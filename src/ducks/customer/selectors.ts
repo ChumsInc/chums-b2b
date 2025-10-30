@@ -2,10 +2,10 @@ import {createSelector} from "@reduxjs/toolkit";
 import {isBillToCustomer} from "@/utils/typeguards";
 import {type RootState} from "@/app/configureStore";
 import {hasBillToAccess} from "./utils";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
-import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 import type {ShipToCustomer} from "b2b-types";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 export const selectCustomerKey = (state: RootState) => state.customer.key;
 export const selectCustomerAccount = (state: RootState) => state.customer.account ?? null;

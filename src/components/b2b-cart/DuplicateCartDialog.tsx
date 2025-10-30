@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
-import ShipToSelect from "@/components/customer/common/ShipToSelect.tsx";
+import ShipToSelect from "@/components/customer/common/ShipToSelect";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -11,13 +11,13 @@ import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import type {DuplicateCartProps} from "@/types/cart/cart-action-props";
-import {duplicateSalesOrder} from "@/ducks/carts/actions.ts";
+import {duplicateSalesOrder} from "@/ducks/carts/actions";
 import type {B2BCart} from "@/types/cart/cart";
 import {generatePath, useNavigate} from "react-router";
-import {customerSlug, parseCustomerSlug} from "@/utils/customer.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
+import {customerSlug, parseCustomerSlug} from "@/utils/customer";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 
 const DuplicateCartDialog = ({open, salesOrderNo, shipToCode, onClose}: {
     open: boolean;

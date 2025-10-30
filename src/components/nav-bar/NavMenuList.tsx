@@ -1,9 +1,9 @@
-import NavProductsLink from "@/components/nav-bar/NavProductsLink.tsx";
-import NavLoginLink from "@/components/nav-bar/NavLoginLink.tsx";
-import NavSignupLink from "@/components/nav-bar/NavSignupLink.tsx";
-import NavAccountsLink from "@/components/nav-bar/NavAccountsLink.tsx";
-import NavCustomerLink from "@/components/nav-bar/NavCustomerLink.tsx";
-import NavResourcesLink from "@/components/nav-bar/NavResourcesLink.tsx";
+import NavProductsLink from "@/components/nav-bar/NavProductsLink";
+import NavLoginLink from "@/components/nav-bar/NavLoginLink";
+import NavSignupLink from "@/components/nav-bar/NavSignupLink";
+import NavAccountsLink from "@/components/nav-bar/NavAccountsLink";
+import NavCustomerLink from "@/components/nav-bar/NavCustomerLink";
+import NavResourcesLink from "@/components/nav-bar/NavResourcesLink";
 
 export default function NavMenuList({inDrawer}: { inDrawer?: boolean }) {
     return (

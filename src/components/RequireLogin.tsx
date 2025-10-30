@@ -1,7 +1,7 @@
 import {type ReactNode} from 'react';
 import {selectLoggedIn} from "@/ducks/user/selectors";
-import ErrorBoundary from "./common/ErrorBoundary.tsx";
-import {useAppSelector} from "@/app/configureStore.ts";
+import ErrorBoundary from "./common/ErrorBoundary";
+import {useAppSelector} from "@/app/configureStore";
 
 const RequireLogin = ({fallback, children}: {
     fallback?: ReactNode;

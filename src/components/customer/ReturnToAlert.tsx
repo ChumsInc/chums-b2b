@@ -1,7 +1,7 @@
-import {selectCustomerReturnToPath} from "@/ducks/customer/selectors.ts";
+import {selectCustomerReturnToPath} from "@/ducks/customer/selectors";
 import Alert from "@mui/material/Alert";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {setReturnToPath} from "@/ducks/customer/actions.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {setReturnToPath} from "@/ducks/customer/actions";
 import {Link as NavLink} from 'react-router'
 import Link from "@mui/material/Link";
 

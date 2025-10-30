@@ -2,7 +2,7 @@ import type {Banner} from "b2b-types";
 import Box from "@mui/material/Box";
 import {type SxProps} from "@mui/system";
 import Typography from "@mui/material/Typography";
-import BannerLinkWrapper from "./BannerLinkWrapper.tsx";
+import BannerLinkWrapper from "./BannerLinkWrapper";
 
 const defaultSxProps:SxProps = {
     backgroundColor: '#333333',

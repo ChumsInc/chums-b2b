@@ -7,7 +7,7 @@ import type {SortProps} from "@/types/generic";
 import type {DetailLineChangeProps} from "@/types/salesorder";
 import {selectLoggedIn} from "../user/selectors";
 import {billToCustomerSlug} from "@/utils/customer";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
 
 export const loadOpenOrders = createAsyncThunk<SalesOrder[], string, { state: RootState }>(
     'open-orders/load',

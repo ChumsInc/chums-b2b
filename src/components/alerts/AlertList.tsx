@@ -1,7 +1,7 @@
-import AppAlert from "@/components/common/AppAlert.tsx";
-import {dismissAlert, dismissContextAlert} from "@/ducks/alerts/actions.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectContextAlerts} from "@/ducks/alerts/selectors.ts";
+import AppAlert from "@/components/common/AppAlert";
+import {dismissAlert, dismissContextAlert} from "@/ducks/alerts/actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectContextAlerts} from "@/ducks/alerts/selectors";
 
 const AlertList = ({context}: { context?: string }) => {
     const dispatch = useAppDispatch();

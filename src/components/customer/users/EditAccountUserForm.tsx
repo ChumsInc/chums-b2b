@@ -1,6 +1,6 @@
 import {type ChangeEvent, type FormEvent, useEffect, useRef, useState} from 'react';
 import Alert from "@mui/material/Alert";
-import {selectCustomerUsers} from "@/ducks/customer/customerUsersSlice.ts";
+import {selectCustomerUsers} from "@/ducks/customer/customerUsersSlice";
 import type {CustomerUser, Editable} from "b2b-types";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -8,16 +8,16 @@ import Stack from "@mui/material/Stack";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PersonIcon from '@mui/icons-material/Person';
 import NotesIcon from '@mui/icons-material/Notes';
-import ShipToSelect from "../common/ShipToSelect.tsx";
+import ShipToSelect from "../common/ShipToSelect";
 import {generatePath, useMatch, useNavigate} from "react-router";
-import {customerUserPath} from "@/utils/path-utils.ts";
-import {removeUser, saveUser} from "@/ducks/customer/actions.ts";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectIsEmployee, selectIsRep} from "@/ducks/user/selectors.ts";
+import {customerUserPath} from "@/utils/path-utils";
+import {removeUser, saveUser} from "@/ducks/customer/actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectIsEmployee, selectIsRep} from "@/ducks/user/selectors";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
-import AccountUserNewButton from "./AccountUserNewButton.tsx";
-import ConfirmationDialog from "@/components/common/ConfirmationDialog.tsx";
+import AccountUserNewButton from "./AccountUserNewButton";
+import ConfirmationDialog from "@/components/common/ConfirmationDialog";
 
 const newUser: CustomerUser = {id: 0, accessId: 0, name: '', email: '', accountType: 4};
 

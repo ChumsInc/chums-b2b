@@ -14,7 +14,7 @@ import {
 } from "@/ducks/carts/actions";
 import {loadCustomer} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
-import {initializeActiveCartState} from "@/ducks/carts/utils.ts";
+import {initializeActiveCartState} from "@/ducks/carts/utils";
 
 
 export interface ActiveCartExtraState {

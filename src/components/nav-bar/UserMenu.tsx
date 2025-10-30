@@ -1,12 +1,12 @@
 import React, {useEffect, useId} from 'react';
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
+import {selectLoggedIn} from "@/ducks/user/selectors";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuItemRouterLink from "./MenuItemRouterLink.tsx";
-import UserAvatar from "@/components/user/UserAvatar.tsx";
+import MenuItemRouterLink from "./MenuItemRouterLink";
+import UserAvatar from "@/components/user/UserAvatar";
 import {generatePath} from "react-router";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 
 const UserMenu = () => {

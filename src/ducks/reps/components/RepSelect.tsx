@@ -3,11 +3,11 @@ import Select, {type SelectChangeEvent} from '@mui/material/Select';
 import {longRepNo} from "@/utils/customer";
 import {loadRepList} from "../actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectRepsList, selectRepsLoaded, selectRepsLoading} from "../salespersonSlice.ts";
+import {selectRepsList, selectRepsLoaded, selectRepsLoading} from "../salespersonSlice";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 
 const RepSelect = ({value = '', onChange}: {

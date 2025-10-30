@@ -1,7 +1,7 @@
 import type {SalesOrderHeader} from "b2b-types";
 import CustomerLink from "@/components/CustomerLink";
 import {useAppSelector} from "@/app/configureStore";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
 
 export interface ShipToCustomerLinkProps {
     salesOrder: SalesOrderHeader

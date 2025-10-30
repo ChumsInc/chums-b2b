@@ -19,9 +19,9 @@ import OrderFilter from "./OrderFilter";
 import LinearProgress from "@mui/material/LinearProgress";
 import NoOpenOrdersAlert from "./NoOpenOrdersAlert";
 import Button from "@mui/material/Button"
-import {selectCustomerShipToCode} from "../../customer/customerShipToAddressSlice.ts";
+import {selectCustomerShipToCode} from "../../customer/customerShipToAddressSlice";
 import ShipToCustomerLink from "@/components/ShipToCustomerLink";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
 
 
 const openOrderFields: SortableTableField<SalesOrderHeader>[] = [

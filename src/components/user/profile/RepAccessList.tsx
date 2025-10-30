@@ -1,11 +1,11 @@
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectCurrentAccess, selectRepAccessList} from "@/ducks/user/userAccessSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectCurrentAccess, selectRepAccessList} from "@/ducks/user/userAccessSlice";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import React from "react";
-import {sortUserAccounts} from "@/utils/customer.ts";
+import {sortUserAccounts} from "@/utils/customer";
 import Stack from "@mui/material/Stack";
-import RepAccessButton from "@/components/user/profile/RepAccessButton.tsx";
+import RepAccessButton from "@/components/user/profile/RepAccessButton";
 
 export default function RepAccessList() {
     const list = useAppSelector(selectRepAccessList);

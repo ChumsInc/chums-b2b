@@ -4,7 +4,7 @@ import {isCartProduct} from "../utils";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 const ProductPreSeasonAlert = () => {
     const cartItem = useAppSelector(selectProductCartItem);

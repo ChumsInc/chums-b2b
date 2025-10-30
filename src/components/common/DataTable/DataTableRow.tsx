@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import {noop} from "@/utils/general.ts";
+import {noop} from "@/utils/general";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import type {DataTableRowProps} from "./types";
-import type {KeyedObject} from "@/types/generic.ts";
+import type {KeyedObject} from "@/types/generic";
 
 export const DataTableRow = <T = KeyedObject>({
                           className,

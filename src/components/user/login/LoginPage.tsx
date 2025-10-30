@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import LoginLocal from "./LoginLocal.tsx";
-import {documentTitles, PATH_PROFILE} from "@/constants/paths.ts";
+import LoginLocal from "./LoginLocal";
+import {documentTitles, PATH_PROFILE} from "@/constants/paths";
 import Alert from '@mui/material/Alert';
-import GoogleSignInButton from "./GoogleSignInButton.tsx";
-import DocumentTitle from "../../DocumentTitle.tsx";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
+import GoogleSignInButton from "./GoogleSignInButton";
+import DocumentTitle from "../../DocumentTitle";
+import {selectLoggedIn} from "@/ducks/user/selectors";
 import Typography from "@mui/material/Typography";
 import {useLocation, useNavigate} from "react-router";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import AccessWarningAlert from "../AccessWarningAlert.tsx";
-import {useAppSelector} from "@/app/configureStore.ts";
+import AccessWarningAlert from "../AccessWarningAlert";
+import {useAppSelector} from "@/app/configureStore";
 
 const LoginPage = () => {
     const loggedIn = useAppSelector(selectLoggedIn);

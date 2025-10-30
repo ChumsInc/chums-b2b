@@ -1,9 +1,9 @@
-import type {NavItemProps} from "@/types/ui-features.ts";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
-import ListItemLink from "../ListItemLink.tsx";
-import {PATH_SIGNUP} from "@/constants/paths.ts";
-import NavItemButtonLink from "./NavItemButtonLink.tsx";
-import {useAppSelector} from "@/app/configureStore.ts";
+import type {NavItemProps} from "@/types/ui-features";
+import {selectLoggedIn} from "@/ducks/user/selectors";
+import ListItemLink from "../ListItemLink";
+import {PATH_SIGNUP} from "@/constants/paths";
+import NavItemButtonLink from "./NavItemButtonLink";
+import {useAppSelector} from "@/app/configureStore";
 
 export default function NavSignupLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useAppSelector(selectLoggedIn);

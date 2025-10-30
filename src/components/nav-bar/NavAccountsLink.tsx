@@ -1,16 +1,16 @@
-import type {NavItemProps} from "@/types/ui-features.ts";
+import type {NavItemProps} from "@/types/ui-features";
 import {useEffect, useState} from "react";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
-import {accessListURL, customerURL, repAccessCode} from "@/ducks/user/utils.ts";
-import UserAvatar from "@/components/user/UserAvatar.tsx";
+import {selectLoggedIn} from "@/ducks/user/selectors";
+import {accessListURL, customerURL, repAccessCode} from "@/ducks/user/utils";
+import UserAvatar from "@/components/user/UserAvatar";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
-import DrawerMenu from "@/components/nav-bar/DrawerMenu.tsx";
-import {useAppSelector} from "@/app/configureStore.ts";
-import MenuLinkProfile from "@/components/nav-bar/MenuLinkProfile.tsx";
-import {selectRecentCustomers} from "@/ducks/customers/recentCustomersSlice.ts";
-import {customerNo, shortCustomerKey} from "@/utils/customer.ts";
-import CompoundMenu from "@/components/nav-bar/CompoundMenu.tsx";
-import {selectCurrentAccess, selectRepAccessList} from "@/ducks/user/userAccessSlice.ts";
+import DrawerMenu from "@/components/nav-bar/DrawerMenu";
+import {useAppSelector} from "@/app/configureStore";
+import MenuLinkProfile from "@/components/nav-bar/MenuLinkProfile";
+import {selectRecentCustomers} from "@/ducks/customers/recentCustomersSlice";
+import {customerNo, shortCustomerKey} from "@/utils/customer";
+import CompoundMenu from "@/components/nav-bar/CompoundMenu";
+import {selectCurrentAccess, selectRepAccessList} from "@/ducks/user/userAccessSlice";
 
 
 const defaultItems: MinimalMenuItem[] = [

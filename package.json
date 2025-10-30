@@ -3,7 +3,6 @@
   "version": "3.9.4",
   "description": "",
   "main": "dist/server/index.js",
-  "module": "src/client/dev-index.tsx",
   "type": "module",
   "scripts": {
     "dev": "vite",

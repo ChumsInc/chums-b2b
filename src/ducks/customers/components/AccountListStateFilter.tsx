@@ -1,6 +1,6 @@
 import {useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectCustomersStateFilter, selectCustomerStates, setCustomersStateFilter} from "../customerListSlice.ts";
+import {selectCustomersStateFilter, selectCustomerStates, setCustomersStateFilter} from "../customerListSlice";
 import StateSelect from "../../../components/StateSelect";
 
 const AccountListStateFilter = () => {

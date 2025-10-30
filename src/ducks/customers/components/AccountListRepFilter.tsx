@@ -1,7 +1,7 @@
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectCustomersRepFilter, setCustomersRepFilter} from "../customerListSlice.ts";
+import {selectCustomersRepFilter, setCustomersRepFilter} from "../customerListSlice";
 import RepSelect from "../../reps/components/RepSelect";
-import {selectCanFilterReps} from "@/ducks/user/userAccessSlice.ts";
+import {selectCanFilterReps} from "@/ducks/user/userAccessSlice";
 
 const AccountListRepFilter = () => {
     const dispatch = useAppDispatch();
@@ -9,7 +9,7 @@ const AccountListRepFilter = () => {
     const allowSelectReps = useAppSelector(selectCanFilterReps);
 
     const repChangeHandler = (value: string | null) => {
-        dispatch(setCustomersRepFilter(value));
+        dispatch(setCustomersRepFilter(value ?? ''));
     }
 
     if (!allowSelectReps) {

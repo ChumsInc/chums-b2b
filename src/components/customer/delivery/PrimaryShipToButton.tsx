@@ -1,13 +1,13 @@
 import Button from "@mui/material/Button";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import Stack from "@mui/material/Stack";
-import PrimaryShipToIcon from "../common/PrimaryShipToIcon.tsx";
+import PrimaryShipToIcon from "../common/PrimaryShipToIcon";
 import Typography from "@mui/material/Typography";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 import type {Editable, ShipToCustomer} from "b2b-types";
-import {loadCustomer, setDefaultShipTo} from "@/ducks/customer/actions.ts";
-import {selectPrimaryShipTo} from "@/ducks/customer/selectors.ts";
+import {loadCustomer, setDefaultShipTo} from "@/ducks/customer/actions";
+import {selectPrimaryShipTo} from "@/ducks/customer/selectors";
 
 
 export interface PrimaryShipToButtonProps {

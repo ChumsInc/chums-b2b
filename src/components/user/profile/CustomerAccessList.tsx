@@ -1,11 +1,11 @@
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectCurrentAccess, selectCustomerAccessList} from "@/ducks/user/userAccessSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectCurrentAccess, selectCustomerAccessList} from "@/ducks/user/userAccessSlice";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import React from "react";
-import {sortUserAccounts} from "@/utils/customer.ts";
+import {sortUserAccounts} from "@/utils/customer";
 import Stack from "@mui/material/Stack";
-import CustomerAccessButton from "@/components/user/profile/CustomerAccessButton.tsx";
+import CustomerAccessButton from "@/components/user/profile/CustomerAccessButton";
 
 export default function CustomerAccessList() {
     const list = useAppSelector(selectCustomerAccessList);

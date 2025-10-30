@@ -1,16 +1,16 @@
-import CustomerUserTable from "./CustomerUserTable.tsx";
-import {selectCustomerKey, selectCustomerLoading} from "@/ducks/customer/selectors.ts";
+import CustomerUserTable from "./CustomerUserTable";
+import {selectCustomerKey, selectCustomerLoading} from "@/ducks/customer/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import AccountUserPermissions from "./AccountUserPermissions.tsx";
+import AccountUserPermissions from "./AccountUserPermissions";
 import {Outlet} from "react-router";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {loadCustomerUsers} from "@/ducks/customer/actions.ts";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {loadCustomerUsers} from "@/ducks/customer/actions";
 import Button from "@mui/material/Button";
-import {selectCustomerUsersStatus} from "@/ducks/customer/customerUsersSlice.ts";
+import {selectCustomerUsersStatus} from "@/ducks/customer/customerUsersSlice";
 
 export default function CustomerUsers() {
     const dispatch = useAppDispatch();

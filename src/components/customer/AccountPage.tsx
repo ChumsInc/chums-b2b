@@ -1,17 +1,17 @@
 import {useEffect} from 'react';
-import {loadCustomer, setReturnToPath} from '@/ducks/customer/actions.ts';
-import AccountBreadcrumbs from "./AccountBreadcrumbs.tsx";
-import {selectCustomerAccount, selectCustomerLoadStatus,} from "@/ducks/customer/selectors.ts";
+import {loadCustomer, setReturnToPath} from '@/ducks/customer/actions';
+import AccountBreadcrumbs from "./AccountBreadcrumbs";
+import {selectCustomerAccount, selectCustomerLoadStatus,} from "@/ducks/customer/selectors";
 import {generatePath, Outlet, useNavigate, useParams} from "react-router";
-import DocumentTitle from "@/components/DocumentTitle.tsx";
-import AccountTabs from "./AccountTabs.tsx";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {customerSlug, isSameCustomer, parseCustomerSlug} from "@/utils/customer.ts";
-import ReturnToAlert from "./ReturnToAlert.tsx";
-import CustomerTitle from "@/components/customer/CustomerTitle.tsx";
-import {ga4SelectCustomer} from "@/utils/ga4/generic.ts";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
-import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import DocumentTitle from "@/components/DocumentTitle";
+import AccountTabs from "./AccountTabs";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {customerSlug, isSameCustomer, parseCustomerSlug} from "@/utils/customer";
+import ReturnToAlert from "./ReturnToAlert";
+import CustomerTitle from "@/components/customer/CustomerTitle";
+import {ga4SelectCustomer} from "@/utils/ga4/generic";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice";
 
 const AccountPage = () => {
     const dispatch = useAppDispatch();

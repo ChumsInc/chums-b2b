@@ -46,7 +46,7 @@ import type {StoredProfile} from "@/types/user";
 import {loadCustomerList} from "../customers/actions";
 import {isErrorResponse} from "@/utils/typeguards";
 import type {APIErrorResponse} from "@/types/generic";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 export const setLoggedIn = createAction('user/setLoggedIn', function (arg: SetLoggedInProps) {
     if (arg.loggedIn) {
@@ -227,7 +227,7 @@ export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCus
             // if not a rep access, then the access should be treated specifically as a customer and not an access object.
             const state = getState();
             return selectLoggedIn(state)
-                && arg?.isRepAccount
+                && !!arg?.isRepAccount
                 && selectCurrentAccess(state)?.id !== arg?.id;
         }
     }

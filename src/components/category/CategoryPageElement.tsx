@@ -13,7 +13,7 @@ import Link from "@mui/material/Link";
 import CategoryGridItem from "./CategoryGridItem";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import Typography from "@mui/material/Typography";
-import HTMLContent from "@/components/common/HTMLContent.tsx";
+import HTMLContent from "@/components/common/HTMLContent";
 
 
 export const ITEM_TYPES = {

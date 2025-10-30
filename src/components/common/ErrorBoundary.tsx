@@ -1,9 +1,9 @@
 import {type ErrorInfo, type ReactNode} from 'react';
-import {selectUserProfile} from "@/ducks/user/selectors.ts";
+import {selectUserProfile} from "@/ducks/user/selectors";
 import {ErrorBoundary as ReactErrorBoundary, type FallbackProps} from 'react-error-boundary';
-import {postErrors} from "@/api/fetch.ts";
+import {postErrors} from "@/api/fetch";
 import Alert from "@mui/material/Alert";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 function ErrorFallback({error}: FallbackProps) {
     // resetErrorBoundary();

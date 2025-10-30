@@ -4,7 +4,7 @@ import numeral from "numeral";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 const ProductPageInfo = () => {
     const msrp = useAppSelector(selectProductMSRP);

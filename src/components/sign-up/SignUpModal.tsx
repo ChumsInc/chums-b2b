@@ -1,13 +1,13 @@
 import React, {type ReactElement, type RefObject, useEffect, useId, useRef, useState} from 'react';
-import {useIsSSR} from "@/hooks/is-server-side.ts";
+import {useIsSSR} from "@/hooks/is-server-side";
 import {NavLink, useLocation} from "react-router";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectLoggedIn} from "@/ducks/user/selectors";
 import {type TransitionProps} from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import Dialog from "@mui/material/Dialog";
-import LocalStore from "@/utils/LocalStore.ts";
-import {STORE_SHOW_SIGNUP_POPUP} from "@/constants/stores.ts";
+import LocalStore from "@/utils/LocalStore";
+import {STORE_SHOW_SIGNUP_POPUP} from "@/constants/stores";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";
@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import ChumsLogo from "../ChumsLogo.tsx";
+import ChumsLogo from "../ChumsLogo";
 import styled from '@emotion/styled';
 
 const imagePathLandscape = "/images/chums/homepage/2024/06/B2BPopUpImage-landscape.jpg";

@@ -1,7 +1,7 @@
 import {forwardRef} from "react";
 import Box from "@mui/material/Box";
 import {type TableComponents, TableVirtuoso} from "react-virtuoso";
-import {selectCustomersSort, selectFilteredCustomerList, setCustomersSort} from "../customerListSlice.ts";
+import {selectCustomersSort, selectFilteredCustomerList, setCustomersSort} from "../customerListSlice";
 import type {Customer} from "b2b-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

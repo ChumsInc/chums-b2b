@@ -1,26 +1,25 @@
 import {useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import type {ShipToCustomer} from "b2b-types";
-import {billToCustomerSlug, stateCountry} from "@/utils/customer.ts";
-import {selectCustomerLoading, selectPrimaryShipTo} from "@/ducks/customer/selectors.ts";
-import type {SortProps} from "@/types/generic.ts";
+import {billToCustomerSlug, stateCountry} from "@/utils/customer";
+import {selectCustomerLoading, selectPrimaryShipTo} from "@/ducks/customer/selectors";
+import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
 import LinearProgress from "@mui/material/LinearProgress";
 import {generatePath, NavLink} from "react-router";
-import {PATH_CUSTOMER_DELIVERY} from "@/constants/paths.ts";
+import {PATH_CUSTOMER_DELIVERY} from "@/constants/paths";
 import classNames from "classnames";
-
 import Box from "@mui/material/Box";
-import PrimaryShipToIcon from "../common/PrimaryShipToIcon.tsx";
+import PrimaryShipToIcon from "../common/PrimaryShipToIcon";
 import Link, {type LinkProps} from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import ReloadCustomerButton from "../common/ReloadCustomerButton.tsx";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import ReloadCustomerButton from "../common/ReloadCustomerButton";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {
     selectShipToSort,
     selectSortedShipToList,
     setShipToSort
-} from "@/ducks/customer/customerShipToAddressSlice.ts";
+} from "@/ducks/customer/customerShipToAddressSlice";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
     shipTo: ShipToCustomer;

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useAppDispatch} from "@/app/configureStore.ts";
+import {useAppDispatch} from "@/app/configureStore";
 import {
     STORE_AUTHTYPE,
     STORE_AVATAR,
@@ -16,16 +16,16 @@ import {
     STORE_TOKEN,
     STORE_USER_ACCESS,
     STORE_VERSION
-} from "@/constants/stores.ts";
-import LocalStore from "@/utils/LocalStore.ts";
+} from "@/constants/stores";
+import LocalStore from "@/utils/LocalStore";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import type {StoredProfile} from "@/types/user.ts";
+import type {StoredProfile} from "@/types/user";
 import type {RecentCustomer, UserCustomerAccess} from "b2b-types";
-import {shortCustomerKey} from "@/utils/customer.ts";
+import {shortCustomerKey} from "@/utils/customer";
 import Typography from "@mui/material/Typography";
 import Box, {type BoxProps} from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -33,11 +33,11 @@ import Alert from "@mui/material/Alert";
 import {
     setCustomersRepFilter,
     setCustomersStateFilter
-} from "@/ducks/customers/customerListSlice.ts";
-import {loadProfile, setAvatar, setUserAccess} from "@/ducks/user/actions.ts";
-import {setCartShippingAccount} from "@/ducks/carts/actions.ts";
-import {getTokenExpirationDate, isTokenExpired} from "@/utils/jwtHelper.ts";
-import {clearRecentCustomers} from "@/ducks/customers/recentCustomersSlice.ts";
+} from "@/ducks/customers/customerListSlice";
+import {loadProfile, setAvatar, setUserAccess} from "@/ducks/user/actions";
+import {setCartShippingAccount} from "@/ducks/carts/actions";
+import {getTokenExpirationDate, isTokenExpired} from "@/utils/jwtHelper";
+import {clearRecentCustomers} from "@/ducks/customers/recentCustomersSlice";
 
 export type StoredSettings = Record<string, string>;
 

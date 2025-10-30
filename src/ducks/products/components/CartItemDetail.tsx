@@ -12,7 +12,7 @@ import Collapse from "@mui/material/Collapse";
 import Table from '@mui/material/Table';
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 
 const CartItemDetailTableTHCell = styled(TableCell)`

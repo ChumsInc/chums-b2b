@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {selectLoggedIn} from "../user/selectors";
 import Alert from "@mui/material/Alert";
-import HTMLContent from "@/components/common/HTMLContent.tsx";
+import HTMLContent from "@/components/common/HTMLContent";
 
 export default function ContentPage() {
     const dispatch = useAppDispatch();

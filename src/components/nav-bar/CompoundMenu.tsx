@@ -1,5 +1,5 @@
 import {useEffect, useId, useRef, useState} from 'react';
-import NavItemButton from "@/components/nav-bar/NavItemButton.tsx";
+import NavItemButton from "@/components/nav-bar/NavItemButton";
 import Popover, {type PopoverProps} from "@mui/material/Popover";
 import Box, {type BoxProps} from "@mui/material/Box";
 import {useLocation} from "react-router";
@@ -7,12 +7,12 @@ import type {MinimalMenuItem} from "@/ducks/menu/types";
 import {type ButtonProps} from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectLoggedIn} from "@/ducks/user/selectors";
 import {type SxProps} from "@mui/system";
 import {type Theme} from "@mui/material/styles";
 import {MenuList} from "@mui/material";
-import MenuItemRouterLink from "@/components/nav-bar/MenuItemRouterLink.tsx";
+import MenuItemRouterLink from "@/components/nav-bar/MenuItemRouterLink";
 
 const itemStyle: SxProps<Theme> = {
     textTransform: 'uppercase',

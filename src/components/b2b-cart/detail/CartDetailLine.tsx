@@ -1,18 +1,18 @@
 import {useRef} from 'react';
-import CartCommentLine from "./CartCommentLine.tsx";
+import CartCommentLine from "./CartCommentLine";
 import type {Editable} from "b2b-types";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
-import {saveCartItem} from "@/ducks/carts/actions.ts";
-import CartItemLine from "./CartItemLine.tsx";
-import CartKitComponentLine from "./CartKitComponentLine.tsx";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {saveCartItem} from "@/ducks/carts/actions";
+import CartItemLine from "./CartItemLine";
+import CartKitComponentLine from "./CartKitComponentLine";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
-import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import type {UpdateCartItemBody} from "@/types/cart/cart-action-props";
 import LinearProgress from "@mui/material/LinearProgress";
-import {selectCartHasChanges, setCartItem} from "@/ducks/carts/cartDetailSlice.ts";
-import {selectCartItemStatusById} from "@/ducks/carts/cartDetailStatusSlice.ts";
+import {selectCartHasChanges, setCartItem} from "@/ducks/carts/cartDetailSlice";
+import {selectCartItemStatusById} from "@/ducks/carts/cartDetailStatusSlice";
 
 
 export default function CartDetailLine({

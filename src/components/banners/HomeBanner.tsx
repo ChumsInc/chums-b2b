@@ -1,6 +1,6 @@
 import type {Banner} from "b2b-types";
-import TextBanner from "./TextBanner.tsx";
-import ImageBanner from "./ImageBanner.tsx";
+import TextBanner from "./TextBanner";
+import ImageBanner from "./ImageBanner";
 
 export interface HomeBannerProps {
     banner: Banner;

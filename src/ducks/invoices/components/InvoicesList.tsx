@@ -30,8 +30,8 @@ import Box from "@mui/material/Box";
 import {ErrorBoundary} from "react-error-boundary";
 import Alert from "@mui/material/Alert";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
-import {customerKey} from "@/ducks/customer/utils.ts";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import {customerKey} from "@/ducks/customer/utils";
 
 
 const invoiceFields: SortableTableField<InvoiceHistoryHeader>[] = [

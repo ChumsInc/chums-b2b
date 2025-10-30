@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
-import type {NavItemProps} from "@/types/ui-features.ts";
+import type {NavItemProps} from "@/types/ui-features";
 import {loadProductMenu, selectProductMenu, selectShouldLoadProductMenu} from "@/ducks/menu";
-import DrawerMenu from "@/components/nav-bar/DrawerMenu.tsx";
+import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
-import CompoundMenu from "@/components/nav-bar/CompoundMenu.tsx";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore.ts";
+import CompoundMenu from "@/components/nav-bar/CompoundMenu";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 
 const productUrl = (url: string) => `/products${url}`;
 

@@ -2,20 +2,20 @@ import {useId} from 'react';
 import {
     selectCustomerAccount,
     selectPermittedBillToAddress,
-} from "@/ducks/customer/selectors.ts";
+} from "@/ducks/customer/selectors";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl, {type FormControlProps} from '@mui/material/FormControl'
 import Select, {type SelectChangeEvent} from "@mui/material/Select";
 import type {ShipToAddress} from "b2b-types";
-import {shipToAddressFromBillingAddress} from "@/utils/customer.ts";
+import {shipToAddressFromBillingAddress} from "@/utils/customer";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import {useAppSelector} from "@/app/configureStore.ts";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
-import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
+import {useAppSelector} from "@/app/configureStore";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 
 export interface ShipToSelectProps extends Omit<FormControlProps, 'value' | 'onChange'> {
     value: string | null;

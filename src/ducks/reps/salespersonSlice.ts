@@ -1,8 +1,8 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {Salesperson} from "b2b-types";
-import {salespersonKey, userRepListSort} from "@/ducks/user/utils.ts";
-import {setLoggedIn} from "@/ducks/user/actions.ts";
-import {loadRepList} from "@/ducks/reps/actions.ts";
+import {salespersonKey, userRepListSort} from "@/ducks/user/utils";
+import {setLoggedIn} from "@/ducks/user/actions";
+import {loadRepList} from "@/ducks/reps/actions";
 
 const adapter = createEntityAdapter<Salesperson, string>({
     selectId: (arg) => salespersonKey(arg),
@@ -18,6 +18,7 @@ export interface SalespersonState {
 
 const extraState: SalespersonState = {
     status: 'idle',
+    loaded: false,
 }
 
 const salespersonSlice = createSlice({

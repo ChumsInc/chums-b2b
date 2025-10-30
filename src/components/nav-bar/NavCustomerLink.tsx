@@ -1,12 +1,12 @@
-import type {NavItemProps} from "@/types/ui-features.ts";
-import {selectLoggedIn} from "@/ducks/user/selectors.ts";
-import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
+import type {NavItemProps} from "@/types/ui-features";
+import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectCustomerAccount} from "@/ducks/customer/selectors";
 import React, {useEffect} from "react";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
-import {buildCustomerMenuItems} from "@/ducks/menu/utils.ts";
-import DrawerMenu from "@/components/nav-bar/DrawerMenu.tsx";
-import BasicMenu from "@/components/nav-bar/BasicMenu.tsx";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {buildCustomerMenuItems} from "@/ducks/menu/utils";
+import DrawerMenu from "@/components/nav-bar/DrawerMenu";
+import BasicMenu from "@/components/nav-bar/BasicMenu";
+import {useAppSelector} from "@/app/configureStore";
 
 export default function NavCustomerLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useAppSelector(selectLoggedIn);

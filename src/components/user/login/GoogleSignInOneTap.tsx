@@ -1,6 +1,6 @@
 import React from 'react';
-import {signInWithGoogle} from "@/ducks/user/actions.ts";
-import {useAppDispatch} from "@/app/configureStore.ts";
+import {signInWithGoogle} from "@/ducks/user/actions";
+import {useAppDispatch} from "@/app/configureStore";
 import {type CredentialResponse, useGoogleOneTapLogin,} from "@react-oauth/google";
 
 export default function GoogleSignInOneTap({onDone}: { onDone?: () => void }) {

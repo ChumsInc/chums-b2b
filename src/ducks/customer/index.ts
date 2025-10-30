@@ -13,22 +13,18 @@ import {setLoggedIn, setUserAccess} from "../user/actions";
 import {dismissContextAlert} from "../alerts/actions";
 import {customerResponseToState} from "./utils";
 import type {BillToCustomer, CustomerContact, CustomerUser, Editable, ShipToCustomer, SortProps} from "b2b-types";
-import type {LoadStatus} from "@/types/generic.ts";
+import type {LoadStatus} from "@/types/generic";
 
 
 export interface CustomerState {
     company: string;
     key: string | null;
     account: (BillToCustomer & Editable) | null;
-    shipToCode: string | null;
-    shipTo: ShipToCustomer | null;
     contacts: CustomerContact[];
-    shipToAddresses: (ShipToCustomer & Editable)[];
     loadStatus: LoadStatus;
     loading: boolean;
     saving: boolean;
     loaded: boolean;
-    userSort: SortProps<CustomerUser>;
     returnToPath: string | null;
 }
 
@@ -82,12 +78,8 @@ const customerReducer = createReducer(initialCustomerState(), builder => {
         .addCase(saveBillingAddress.fulfilled, (state, action) => {
             state.loadStatus = 'idle';
             state.loading = false;
-            const {
-                account,
-                contacts,
-            } = customerResponseToState(action.payload, state);
-            state.account = account ?? null;
-            state.contacts = contacts ?? [];
+            state.account = action.payload?.customer  ?? null;
+            state.contacts = action.payload?.contacts ?? [];
             state.loaded = true;
         })
         .addCase(saveBillingAddress.rejected, (state) => {
@@ -101,12 +93,8 @@ const customerReducer = createReducer(initialCustomerState(), builder => {
         .addCase(saveShipToAddress.fulfilled, (state, action) => {
             state.loading = false;
             state.loadStatus = 'idle';
-            const {
-                account,
-                contacts,
-            } = customerResponseToState(action.payload, state);
-            state.account = account ?? null;
-            state.contacts = contacts ?? [];
+            state.account = action.payload?.customer  ?? null;
+            state.contacts = action.payload?.contacts ?? [];
             state.loaded = true;
 
         })
@@ -135,12 +123,8 @@ const customerReducer = createReducer(initialCustomerState(), builder => {
         .addCase(loadCustomer.fulfilled, (state, action) => {
             state.loadStatus = 'idle';
             state.loading = false;
-            const {
-                account,
-                contacts,
-            } = customerResponseToState(action.payload, state);
-            state.account = account ?? null;
-            state.contacts = contacts ?? [];
+            state.account = action.payload?.customer  ?? null;
+            state.contacts = action.payload?.contacts ?? [];
             state.loaded = true;
         })
         .addCase(loadCustomer.rejected, (state) => {

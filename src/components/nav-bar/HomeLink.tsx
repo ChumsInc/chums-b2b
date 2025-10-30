@@ -1,5 +1,5 @@
-import RoutedLink from "./RoutedLink.tsx";
-import ChumsLogo from "../ChumsLogo.tsx";
+import RoutedLink from "./RoutedLink";
+import ChumsLogo from "../ChumsLogo";
 import Typography from "@mui/material/Typography";
 import {type SxProps} from "@mui/material/styles";
 

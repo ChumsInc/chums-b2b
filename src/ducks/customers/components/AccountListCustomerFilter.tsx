@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import {selectCustomersSearchFilter, setCustomersFilter} from "../customerListSlice.ts";
+import {selectCustomersSearchFilter, setCustomersFilter} from "../customerListSlice";
 import {useIsSSR} from "@/hooks/is-server-side";
 
 const AccountListCustomerFilter = () => {

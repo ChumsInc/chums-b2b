@@ -2,7 +2,7 @@ import {Link as RoutedLink} from 'react-router';
 import CategoryGridItem from "./CategoryGridItem";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import Link from "@mui/material/Link";
-import HTMLContent from "@/components/common/HTMLContent.tsx";
+import HTMLContent from "@/components/common/HTMLContent";
 
 const CategoryLink = ({title, keyword, description, imageUrl, className = ''}: {
     title: string;

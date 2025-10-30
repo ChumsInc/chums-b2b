@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchBanners} from "./api";
 import {type RootState} from "@/app/configureStore";
-import {selectBannersStatus} from "@/ducks/banners/bannersSlice.ts";
+import {selectBannersStatus} from "@/ducks/banners/bannersSlice";
 import type {Banner} from "b2b-types";
 
 

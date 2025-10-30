@@ -9,7 +9,7 @@ import type {GtagEventArgs, GtagAddPaymentInfoArgs,
     GtagRemoveFromCartArgs,
     GtagSearchArgs,
     GtagSelectContentArgs, GtagSelectItemArgs, GtagViewCartArgs, GtagViewItemArgs, GtagViewItemListArgs
-} from "@/utils/ga4/types.ts";
+} from "@/utils/ga4/types";
 
 export function sendGtagEvent(eventName: 'add_payment_info', options: GtagAddPaymentInfoArgs): void;
 export function sendGtagEvent(eventName: 'add_shipping_info', options: GtagAddShippingInfoArgs): void;

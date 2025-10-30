@@ -7,7 +7,7 @@ import {
     selectProductImage,
     selectProductLoading
 } from "../selectors";
-import {useAppSelector} from "@/app/configureStore.ts";
+import {useAppSelector} from "@/app/configureStore";
 
 const ProductPageImage = () => {
     const cartItem = useAppSelector(selectProductCartItem);
