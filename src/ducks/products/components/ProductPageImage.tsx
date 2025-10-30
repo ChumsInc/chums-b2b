@@ -1,6 +1,5 @@
 import React from 'react';
 import ProductImageCarousel from "@/components/product-image/ProductImageCarousel";
-import {useSelector} from "react-redux";
 import {
     selectCurrentProduct,
     selectProductAltImages,
@@ -8,13 +7,14 @@ import {
     selectProductImage,
     selectProductLoading
 } from "../selectors";
+import {useAppSelector} from "@/app/configureStore.ts";
 
 const ProductPageImage = () => {
-    const cartItem = useSelector(selectProductCartItem);
-    const loading = useSelector(selectProductLoading);
-    const product = useSelector(selectCurrentProduct);
-    const image = useSelector(selectProductImage)
-    const altImages = useSelector(selectProductAltImages);
+    const cartItem = useAppSelector(selectProductCartItem);
+    const loading = useAppSelector(selectProductLoading);
+    const product = useAppSelector(selectCurrentProduct);
+    const image = useAppSelector(selectProductImage)
+    const altImages = useAppSelector(selectProductAltImages);
 
     if (!cartItem || !image || !image.filename) {
         return null;

@@ -1,6 +1,5 @@
-import React from 'react';
 import {getContrastRatio, styled} from '@mui/material/styles';
-import Chip, {ChipProps} from "@mui/material/Chip";
+import Chip, {type ChipProps} from "@mui/material/Chip";
 
 
 const BaseMiniChip = styled(Chip)`

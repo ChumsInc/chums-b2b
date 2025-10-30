@@ -1,10 +1,10 @@
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import React, {ChangeEvent} from "react";
+import {type ChangeEvent} from "react";
 import {setInvoicesFilterSearch, setInvoicesFilterShipToCode, setShowPaidInvoices} from "../actions";
 import {selectInvoicesSearch, selectInvoicesShipToFilter, selectInvoicesShowPaid} from "../selectors";
-import ShipToSelect, {allLocationsValue} from "../../customer/components/ShipToSelect";
+import ShipToSelect, {allLocationsValue} from "@/components/customer/common/ShipToSelect.tsx";
 import FormGroup from "@mui/material/FormGroup";
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'

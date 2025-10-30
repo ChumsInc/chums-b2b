@@ -1,9 +1,12 @@
 import localStore from '../../utils/LocalStore';
+import LocalStore from '../../utils/LocalStore';
 import {
-    STORE_AUTHTYPE, STORE_AVATAR,
+    STORE_AUTHTYPE,
+    STORE_AVATAR,
     STORE_CURRENT_CART,
     STORE_CUSTOMER,
-    STORE_CUSTOMER_SHIPPING_ACCOUNT, STORE_RECENT_ACCOUNTS,
+    STORE_CUSTOMER_SHIPPING_ACCOUNT,
+    STORE_RECENT_ACCOUNTS,
     STORE_USER_ACCESS
 } from '@/constants/stores';
 import {auth} from '@/api/IntranetAuthService';
@@ -11,7 +14,6 @@ import {getProfile, getSignInProfile, getTokenExpiry} from "@/utils/jwtHelper";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {AUTH_LOCAL} from "@/constants/app";
 import {
-    selectCurrentUserAccount,
     selectLoggedIn,
     selectLoggingIn,
     selectResettingPassword,
@@ -30,23 +32,44 @@ import {
     postUserProfile
 } from "@/api/user";
 import {createAction, createAsyncThunk, isFulfilled} from "@reduxjs/toolkit";
-import {
+import type {
     ChangePasswordProps,
     ChangePasswordResponse,
     SetLoggedInProps,
     SetNewPasswordProps,
     UserProfileResponse
 } from "./types";
-import {RootState} from "@/app/configureStore";
-import {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "b2b-types";
+import {type RootState} from "@/app/configureStore";
+import type {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "b2b-types";
 import {isCustomerAccess} from "./utils";
-import {StoredProfile} from "@/types/user";
+import type {StoredProfile} from "@/types/user";
 import {loadCustomerList} from "../customers/actions";
 import {isErrorResponse} from "@/utils/typeguards";
-import {APIErrorResponse} from "@/types/generic";
-import LocalStore from "../../utils/LocalStore";
+import type {APIErrorResponse} from "@/types/generic";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
 
-export const setLoggedIn = createAction<SetLoggedInProps>('user/setLoggedIn');
+export const setLoggedIn = createAction('user/setLoggedIn', function (arg: SetLoggedInProps) {
+    if (arg.loggedIn) {
+        const profile = auth.getProfile();
+        const accounts = profile?.chums?.user?.accounts ?? [];
+        if (!arg.accessList) {
+            arg.accessList = accounts;
+        }
+        if (!arg.access) {
+            arg.access = localStore.getItem<UserCustomerAccess | null>(
+                STORE_USER_ACCESS, (accounts.length === 1 ? accounts[0] : null)
+            )
+        }
+        if (!arg.authType) {
+            arg.authType = localStore.getItem<string | null>(STORE_AUTHTYPE, null) ?? '';
+        }
+    }
+    return {
+        payload: {
+            ...arg
+        }
+    }
+});
 
 
 export interface LoginUserProps {
@@ -154,7 +177,8 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
     'user/logoutUser',
     async (_arg, {dispatch}) => {
         try {
-            await Promise.allSettled([postLogout(), auth.logout()])
+            await postLogout()
+            auth.logout();
         } catch (err: unknown) {
             if (err instanceof Error) {
                 console.debug("()", err.message);
@@ -178,7 +202,7 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
 export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCustomerAccess | null, {
     state: RootState
 }>(
-    'user/access/set',
+    'userAccess/setCurrent',
     async (arg, {dispatch}) => {
         localStore.setItem<UserCustomerAccess | null>(STORE_USER_ACCESS, arg);
         if (isCustomerAccess(arg)) {
@@ -203,8 +227,8 @@ export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCus
             // if not a rep access, then the access should be treated specifically as a customer and not an access object.
             const state = getState();
             return selectLoggedIn(state)
-                && !!arg?.isRepAccount
-                && selectCurrentUserAccount(state)?.id !== arg?.id;
+                && arg?.isRepAccount
+                && selectCurrentAccess(state)?.id !== arg?.id;
         }
     }
 )
@@ -286,7 +310,7 @@ export const saveUserProfile = createAsyncThunk<UserProfileResponse, Pick<UserPr
     }
 )
 
-export const setAvatar = createAction('user/setAvatar', (arg: string|null) => {
+export const setAvatar = createAction('user/setAvatar', (arg: string | null) => {
     if (arg) {
         LocalStore.setItem<string>(STORE_AVATAR, arg);
     } else {

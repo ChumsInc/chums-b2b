@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
 import DocumentTitle from "../../components/DocumentTitle";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectPageContent, selectPageHTML, selectPageLoaded, selectPageLoadingStatus} from "./selectors";
@@ -11,16 +10,16 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {selectLoggedIn} from "../user/selectors";
 import Alert from "@mui/material/Alert";
-import HTMLContent from "@/src/common-components/HTMLContent";
+import HTMLContent from "@/components/common/HTMLContent.tsx";
 
 export default function ContentPage() {
     const dispatch = useAppDispatch();
-    const isLoggedIn = useSelector(selectLoggedIn);
-    const content = useSelector(selectPageContent);
-    const loading = useSelector(selectPageLoadingStatus);
-    const loaded = useSelector(selectPageLoaded);
-    const params = useParams<{ keyword: string }>();
+    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const content = useAppSelector(selectPageContent);
+    const loading = useAppSelector(selectPageLoadingStatus);
+    const loaded = useAppSelector(selectPageLoaded);
     const html = useAppSelector(selectPageHTML);
+    const params = useParams<{ keyword: string }>();
 
     useEffect(() => {
         dispatch(loadPage(params.keyword))

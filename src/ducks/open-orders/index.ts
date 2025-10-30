@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {isCancelledSalesOrder, isEditableSalesOrder} from "../sales-order/utils";
-import {EmailResponse, SalesOrderHeader} from "b2b-types";
+import type {EmailResponse, SalesOrderHeader} from "b2b-types";
 import {
     closeEmailResponse,
     loadOpenOrders,
@@ -14,8 +14,8 @@ import {
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {customerSlug} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {LoadStatus, SortProps} from "@/types/generic";
-import {ActionStatusList, OpenOrderDetailList, OpenOrderList} from "./types";
+import type {LoadStatus, SortProps} from "@/types/generic";
+import type {ActionStatusList, OpenOrderDetailList, OpenOrderList} from "./types";
 import {dismissContextAlert} from "../alerts/actions";
 
 export interface OpenOrdersState {
@@ -50,7 +50,7 @@ export const initialOpenOrderState = (): OpenOrdersState => ({
     },
 })
 
-const openOrdersReducer = createReducer(initialOpenOrderState, (builder) => {
+const openOrdersReducer = createReducer(initialOpenOrderState(), (builder) => {
     builder
         .addCase(loadCustomer.pending, (state, action) => {
             const key = customerSlug(action.meta.arg);

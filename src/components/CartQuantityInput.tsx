@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useId} from 'react';
+import {type ChangeEvent, useId} from 'react';
 import FormControl from '@mui/material/FormControl';
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";

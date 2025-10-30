@@ -3,10 +3,10 @@ import {defaultDetailSorter, isClosedSalesOrder} from "./utils";
 import {calcOrderType} from "@/utils/orders";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {BillToCustomer, Editable, EmailResponse, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
+import type {BillToCustomer, Editable, EmailResponse, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
 import {customerSlug} from "@/utils/customer";
-import {Appendable, LoadStatus} from "@/types/generic";
-import {OrderType} from "@/types/salesorder";
+import type {Appendable, LoadStatus} from "@/types/generic";
+import type {OrderType} from "@/types/salesorder";
 import {closeEmailResponse, sendOrderEmail} from "./actions";
 import localStore from "../../utils/LocalStore";
 import {STORE_CUSTOMER} from "@/constants/stores";
@@ -53,7 +53,7 @@ export const initialSalesOrderState = (): SalesOrderState => ({
 })
 
 
-const salesOrderReducer = createReducer(initialSalesOrderState, (builder) => {
+const salesOrderReducer = createReducer(initialSalesOrderState(), (builder) => {
     builder
         .addCase(setLoggedIn, (state, action) => {
             if (!action.payload?.loggedIn) {

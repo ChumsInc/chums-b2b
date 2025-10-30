@@ -3,12 +3,11 @@ import {customerPriceRecordSorter, customerSlug,} from "@/utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {getImageItemCode, isCartProduct, updateCartProductPricing} from "./utils";
 import {loadCustomer} from "../customer/actions";
-import {CartProduct, CustomerPriceRecord, Product} from "b2b-types";
+import type {CartProduct, CustomerPriceRecord, Product} from "b2b-types";
 import {loadProduct, setCartItemQuantity, setColorCode, setCurrentVariant} from "./actions";
 import {setLoggedIn} from "../user/actions";
-import {parsePossiblyMissingFilename} from "@/src/common/image";
-import {ProductImage} from "@/types/product";
-import {PreloadedState} from "@/types/preload";
+import {parsePossiblyMissingFilename} from "@/components/common/image";
+import type {ProductImage} from "@/types/product";
 
 
 export interface ProductsState {
@@ -16,7 +15,7 @@ export interface ProductsState {
     product: Product | null;
     selectedProduct: Product | null;
     selectedItemCode: string | null;
-    image: ProductImage|null;
+    image: ProductImage | null;
     colorCode: string;
     variantId: number | null;
     loading: boolean;
@@ -24,6 +23,7 @@ export interface ProductsState {
     customerPrice: (string | number)[],
     salesUM: string | null;
     cartItem: CartProduct | null;
+    // @TODO: Use pricing from customer slice
     pricing: CustomerPriceRecord[];
     customerKey: string | null;
 }

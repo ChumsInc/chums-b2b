@@ -1,5 +1,5 @@
-import {Editable, SalesOrder, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
-import {Appendable, OrderActionStatus} from "@/types/generic";
+import type {Editable, SalesOrder, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
+import type {Appendable, OrderActionStatus} from "@/types/generic";
 
 export type EditableDetailLine = SalesOrderDetailLine & Editable & Appendable;
 

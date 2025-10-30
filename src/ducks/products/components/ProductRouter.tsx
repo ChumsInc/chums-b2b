@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {generatePath, useNavigate, useParams} from 'react-router';
 import CategoryPage2 from "@/components/category/CategoryPage";
 import ProductPage from "./ProductPage";
 import {PATH_PRODUCT} from "@/constants/paths";
-import ErrorBoundary from "../../../common-components/ErrorBoundary";
-import {useAppDispatch} from "@/app/configureStore";
-import {Keyword} from "b2b-types";
+import ErrorBoundary from "@/components/common/ErrorBoundary.tsx";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import type {Keyword} from "b2b-types";
 import Box from "@mui/material/Box";
 import {loadKeywords} from "../../keywords/actions";
 import {selectKeywordsList, selectKeywordsLoading} from "../../keywords/selectors";
@@ -14,8 +13,8 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 const ProductRouter = () => {
     const dispatch = useAppDispatch();
-    const keywords = useSelector(selectKeywordsList);
-    const keywordsLoading = useSelector(selectKeywordsLoading);
+    const keywords = useAppSelector(selectKeywordsList);
+    const keywordsLoading = useAppSelector(selectKeywordsLoading);
     const {category, product} = useParams();
     const navigate = useNavigate();
     const [keyword, setKeyword] = useState<Keyword | null>(null);

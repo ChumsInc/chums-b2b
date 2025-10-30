@@ -1,11 +1,7 @@
-/**
- * Created by steve on 9/6/2016.
- */
-
-import React, {useId} from 'react';
+import {type ChangeEvent, useId} from 'react';
 import {COUNTRIES} from '@/constants/countries';
 import MenuItem from "@mui/material/MenuItem";
-import TextField, {TextFieldProps} from "@mui/material/TextField";
+import TextField, {type TextFieldProps} from "@mui/material/TextField";
 
 
 export interface CountrySelectProps extends Omit<TextFieldProps, 'value' | 'onChange'> {
@@ -16,7 +12,7 @@ export interface CountrySelectProps extends Omit<TextFieldProps, 'value' | 'onCh
 const CountrySelect = ({value, onChange, id, ...rest}: CountrySelectProps) => {
     const _id = id ?? useId();
 
-    const changeHandler = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
         onChange(ev.target.value);
     }
 

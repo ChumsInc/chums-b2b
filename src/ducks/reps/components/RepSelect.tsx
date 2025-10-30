@@ -1,14 +1,13 @@
 import React, {useEffect, useId} from 'react';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
+import Select, {type SelectChangeEvent} from '@mui/material/Select';
 import {longRepNo} from "@/utils/customer";
-import {useSelector} from "react-redux";
-import {selectCurrentUserAccount} from "../../user/selectors";
 import {loadRepList} from "../actions";
-import {useAppDispatch} from "@/app/configureStore";
-import {selectRepsList, selectRepsLoaded, selectRepsLoading} from "../selectors";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {selectRepsList, selectRepsLoaded, selectRepsLoading} from "../salespersonSlice.ts";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
 
 
 const RepSelect = ({value = '', onChange}: {
@@ -16,10 +15,10 @@ const RepSelect = ({value = '', onChange}: {
     onChange: (value: string | null) => void;
 }) => {
     const dispatch = useAppDispatch();
-    const userAccount = useSelector(selectCurrentUserAccount);
-    const reps = useSelector(selectRepsList);
-    const loading = useSelector(selectRepsLoading);
-    const loaded = useSelector(selectRepsLoaded);
+    const userAccount = useAppSelector(selectCurrentAccess);
+    const reps = useAppSelector(selectRepsList);
+    const loading = useAppSelector(selectRepsLoading);
+    const loaded = useAppSelector(selectRepsLoaded);
     const allowSelectReps = /[%_]+/.test(userAccount?.SalespersonNo ?? '');
     const labelId = useId();
     const inputId = useId();

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import Debug from 'debug';
-import express, {NextFunction, Request, Response} from "express";
+import express, {type NextFunction, type Request, type  Response} from "express";
 import favicon from "serve-favicon";
 import path from "node:path";
 import {renderApp} from "./render";

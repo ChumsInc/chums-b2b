@@ -1,16 +1,16 @@
 import React from 'react';
 import {getMSRP, getPrices, getSalesUM} from "@/utils/products";
 import numeral from 'numeral';
-import {useSelector} from "react-redux";
 import {selectLoggedIn} from "../../user/selectors";
-import {selectCustomerPricing} from "../../customer/selectors";
-import {ProductVariant} from "b2b-types";
+import {selectCustomerPricing} from "../../customer/customerPricingSlice.ts";
+import type {ProductVariant} from "b2b-types";
 import Button from "@mui/material/Button";
 import {styled} from '@mui/material/styles';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {ResponsiveStyleValue} from "@mui/system";
+import {type ResponsiveStyleValue} from "@mui/system";
+import {useAppSelector} from "@/app/configureStore.ts";
 
 
 const VariantButtonBase = styled(Button)(() => ({
@@ -25,8 +25,8 @@ const VariantButton = ({variant, selected, direction, spacing, onClick}: {
     spacing?: ResponsiveStyleValue<number | string>;
     onClick: (variant: ProductVariant) => void;
 }) => {
-    const priceCodes = useSelector(selectCustomerPricing);
-    const loggedIn = useSelector(selectLoggedIn);
+    const priceCodes = useAppSelector(selectCustomerPricing);
+    const loggedIn = useAppSelector(selectLoggedIn);
     const prices = loggedIn
         ? getPrices(variant.product, priceCodes)
         : getMSRP(variant.product);

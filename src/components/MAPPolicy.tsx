@@ -1,16 +1,15 @@
-import React, {useEffect} from 'react';
-import {useAppDispatch} from "@/app/configureStore";
+import {useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadPage} from "@/ducks/page/actions";
-import {useSelector} from "react-redux";
 import {selectPageContent} from "@/ducks/page/selectors";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import HTMLContent from "@/src/common-components/HTMLContent";
+import HTMLContent from "@/components/common/HTMLContent.tsx";
 
 const MAPPolicy = () => {
     const dispatch = useAppDispatch();
-    const content = useSelector(selectPageContent);
+    const content = useAppSelector(selectPageContent);
 
     useEffect(() => {
         dispatch(loadPage('map-policy'));

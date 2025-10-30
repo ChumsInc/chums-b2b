@@ -1,12 +1,11 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import DataTable, {SortableTableField} from "../../../common-components/DataTable";
-import {SalesOrderHeader} from "b2b-types";
-import {SortProps} from "@/types/generic";
+import React, {type ChangeEvent, useEffect, useState} from 'react';
+import DataTable, {type SortableTableField} from "@/components/common/DataTable";
+import type {SalesOrderHeader} from "b2b-types";
+import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {setSalesOrderSort} from "../actions";
 import {selectOpenOrdersSort} from "../selectors";
-import {useSelector} from "react-redux";
 
 export default function OrdersList({
                                        list,
@@ -16,7 +15,7 @@ export default function OrdersList({
     fields: SortableTableField<SalesOrderHeader>[];
 }) {
     const dispatch = useAppDispatch();
-    const sort = useSelector(selectOpenOrdersSort);
+    const sort = useAppSelector(selectOpenOrdersSort);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 

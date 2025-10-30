@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from "@mui/material/Link";
 
 const TelephoneLink = ({telephoneNo}: { telephoneNo: string | null }) => {

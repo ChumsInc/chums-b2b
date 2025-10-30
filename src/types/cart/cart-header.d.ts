@@ -1,4 +1,4 @@
-import {SalesOrderHeader, SalesOrderStatus, SalesOrderType, UserProfile} from "b2b-types";
+import type {SalesOrderHeader, SalesOrderStatus, SalesOrderType, UserProfile} from "b2b-types";
 
 export type CartType = SalesOrderType | '_';
 

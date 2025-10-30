@@ -1,4 +1,4 @@
-import {Keyword} from "b2b-types";
+import type {Keyword} from "b2b-types";
 
 
 export const keywordsSorter = (a: Keyword, b: Keyword) => {

@@ -8,7 +8,7 @@ const serverConfig = {
     mode: 'development',
     name: 'server',
     entry: {
-        server: './src/server/index.ts'
+        server: './src/server/signUpSlice.ts'
     },
     devtool: 'inline-source-map',
     output: {

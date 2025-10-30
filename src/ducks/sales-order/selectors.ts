@@ -1,4 +1,4 @@
-import {RootState} from "@/app/configureStore";
+import {type RootState} from "@/app/configureStore";
 
 export const selectSalesOrderNo = (state: RootState) => state.salesOrder.salesOrderNo;
 export const selectSalesOrderProcessing = (state: RootState) => state.salesOrder.processing;

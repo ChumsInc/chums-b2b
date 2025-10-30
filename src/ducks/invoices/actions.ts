@@ -4,11 +4,11 @@ import {STORE_INVOICES_ROWS_PER_PAGE, STORE_INVOICES_SORT} from "@/constants/sto
 import localStore from "../../utils/LocalStore";
 import {fetchInvoice, fetchInvoices} from "@/api/invoices";
 import {selectCurrentInvoiceLoading, selectInvoicesLoading} from "./selectors";
-import {RootState} from "@/app/configureStore";
-import {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
+import {type RootState} from "@/app/configureStore";
+import type {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
 import {selectLoggedIn} from "../user/selectors";
-import {FetchInvoiceArg, LoadInvoicesProps} from "./types";
-import {SortProps} from "@/types/generic";
+import type {FetchInvoiceArg, LoadInvoicesProps} from "./types";
+import type {SortProps} from "@/types/generic";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 
 
@@ -29,7 +29,7 @@ export const loadInvoice = createAsyncThunk<ExtendedInvoice | null, FetchInvoice
         return await fetchInvoice(arg);
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
             return !selectCurrentInvoiceLoading(state);
         }

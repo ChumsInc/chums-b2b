@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import FooterLink from "@/components/footer/FooterLink";
 import CookieConsentDialog from "@/components/cookie-consent/CookieConsentDialog";
 import {useAppSelector} from "@/app/configureStore";
 import {selectCookieConsentRecord} from "@/ducks/cookie-consent";
 import LocalStore from "@/utils/LocalStore";
-import {CookieConsentSettings} from "b2b-types";
+import type {CookieConsentSettings} from "b2b-types";
 import {STORE_COOKIE_CONSENT} from "@/constants/stores";
 
 export default function CookiePolicyLink() {

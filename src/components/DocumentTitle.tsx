@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 const DocumentTitle = ({documentTitle}: {
     documentTitle: string|null;
 }) => {
-    const [title, setTitle] = React.useState<string>(documentTitle ?? 'Chums B2B Dealer Website');
+    const [title, setTitle] = useState<string>(documentTitle ?? 'Chums B2B Dealer Website');
 
     useEffect(() => {
         setTitle(documentTitle ?? 'Chums B2B Dealer Website');

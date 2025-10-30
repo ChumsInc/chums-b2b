@@ -25,23 +25,12 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script>CHUMS = {}; Chums = {}</script>
-    <script src="/api/preload/state.js"></script>
-<!--    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KMH9RBEF98" ></script>-->
-<!--    <script>-->
-<!--        window.dataLayer = window.dataLayer || [];-->
-<!--        function gtag(){dataLayer.push(arguments);}-->
-<!--        gtag('js', new Date());-->
-<!--        gtag('config', 'G-KMH9RBEF98');-->
-<!--        window.Chums.gtagID = 'G-KMH9RBEF98';-->
-<!--    </script>-->
-    <script async>
-        if (window?.__PRELOADED_STATE__?.app) {
-            window.__PRELOADED_STATE__.app.version = CHUMS.version?.versionNo;
-        }
-    </script>
+    <script src="/api/preload/v2/state.js"></script>
 </head>
 <body>
-<div id="app"></div>
-<script async size="src/client/index.tsx"></script>
+<div id="root">
+    <div class="alert alert-info">App loading...</div>
+</div>
+<script type="module" src="/src/client/dev-index.tsx"></script>
 </body>
 </html>

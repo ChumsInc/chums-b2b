@@ -1,5 +1,5 @@
-import {OrderType} from "../types/salesorder";
-import {KeyedObject} from "../types/generic";
+import type {OrderType} from "../types/salesorder";
+import type {KeyedObject} from "../types/generic";
 
 
 export interface OrderTypeList {

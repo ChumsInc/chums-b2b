@@ -1,4 +1,4 @@
-import {Menu} from "b2b-types";
+import type {Menu} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
 export async function fetchMenu(id:number):Promise<Menu|null> {

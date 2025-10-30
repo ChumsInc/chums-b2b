@@ -1,9 +1,9 @@
-import React from 'react';
+import {type ReactNode} from 'react';
 import Grid from "@mui/material/Grid";
 
 export interface CategoryGridItemProps {
     className?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 const CategoryGridItem = ({className, children}:CategoryGridItemProps) => {
 

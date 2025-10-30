@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import {useSelector} from "react-redux";
+import {useState} from 'react';
 import {selectCurrentInvoice} from "../selectors";
 import InvoiceDetailLine from "./InvoiceDetailLine";
 import TableFooter from "@mui/material/TableFooter";
-import {CartProduct, InvoiceHistoryDetail} from "b2b-types";
+import type {CartProduct, InvoiceHistoryDetail} from "b2b-types";
 import InvoiceFooter from "./InvoiceFooter";
 import Dialog from "@mui/material/Dialog";
 import TableContainer from '@mui/material/TableContainer';
@@ -16,10 +15,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
+import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
+import {useAppSelector} from "@/app/configureStore.ts";
 
 const InvoicePageDetail = () => {
-    const invoice = useSelector(selectCurrentInvoice);
+    const invoice = useAppSelector(selectCurrentInvoice);
     const [cartItem, setCartItem] = useState<CartProduct | null>(null);
     const [unitOfMeasure, setUnitOfMeasure] = useState<string>('EA');
 

@@ -1,5 +1,5 @@
-import {Salesperson, UserProfile} from 'b2b-types'
-import {
+import type {Salesperson, UserProfile} from 'b2b-types'
+import type {
     ChangePasswordProps,
     ChangePasswordResponse,
     FunkyUserProfileResponse,
@@ -7,7 +7,7 @@ import {
     UserProfileResponse
 } from "@/ducks/user/types";
 import {allowErrorResponseHandler, fetchJSON} from "./fetch";
-import {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "../types/user";
+import type {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "../types/user";
 import {auth} from './IntranetAuthService';
 import {getSignInProfile, isTokenExpired} from "@/utils/jwtHelper";
 import localStore from "../utils/LocalStore";
@@ -15,10 +15,10 @@ import {STORE_AUTHTYPE} from "@/constants/stores";
 import {AUTH_GOOGLE} from "@/constants/app";
 import {isErrorResponse, isUserRole} from "@/utils/typeguards";
 import {jwtDecode} from 'jwt-decode';
-import {LoadProfileProps, SignUpProfile} from "@/ducks/sign-up/types";
-import {APIErrorResponse} from "../types/generic";
-import {configGtag} from "@/src/ga4/api";
-import {ga4Login, ga4SignUp} from "@/src/ga4/generic";
+import type {LoadProfileProps, SignUpProfile} from "@/ducks/sign-up/types";
+import type {APIErrorResponse} from "../types/generic";
+import {configGtag} from "@/utils/ga4/api";
+import {ga4Login, ga4SignUp} from "@/utils/ga4/generic";
 
 
 export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorResponse> {
@@ -67,7 +67,7 @@ export async function fetchUserProfile(): Promise<UserProfileResponse> {
         const url = '/api/user/v2/b2b/profile.json';
         const response = await fetchJSON<UserProfileResponse>(url, {cache: 'no-cache'});
         if (!response) {
-            return Promise.reject(new Error('Error loading useer profile'));
+            return Promise.reject(new Error('Error loading user profile'));
         }
         response.reps = [];
         if (response.user?.accountType === 1) {
@@ -120,7 +120,7 @@ export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<U
 
 export async function fetchRepList(): Promise<Salesperson[]> {
     try {
-        const url = '/api/sales/rep/list/chums/condensed';
+        const url = '/api/sales/b2b/salesperson/list.json';
         const response = await fetchJSON<{ list: Salesperson[] }>(url, {cache: 'no-cache'});
         return (response?.list ?? []).filter(rep => !!rep.active);
     } catch (err) {

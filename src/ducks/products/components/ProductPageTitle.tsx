@@ -1,13 +1,13 @@
 import React from 'react';
-import {useSelector} from "react-redux";
 import {selectCurrentProduct, selectSelectedProduct} from "../selectors";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Typography from "@mui/material/Typography";
 import ProductAttributeStack from "./ProductAttrbuteStack";
+import {useAppSelector} from "@/app/configureStore.ts";
 
 const ProductPageTitle = () => {
-    const product = useSelector(selectCurrentProduct);
-    const selectedProduct = useSelector(selectSelectedProduct);
+    const product = useAppSelector(selectCurrentProduct);
+    const selectedProduct = useAppSelector(selectSelectedProduct);
 
     const isNew = (!!product?.season?.product_teaser && product?.season?.active)
         || (!!selectedProduct?.season?.product_teaser && selectedProduct?.season?.active)

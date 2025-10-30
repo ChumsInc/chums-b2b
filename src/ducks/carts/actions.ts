@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {EmailResponse} from "b2b-types";
+import type {EmailResponse} from "b2b-types";
 import {
     fetchCarts,
     fetchNextShipDate,
@@ -8,11 +8,11 @@ import {
     postProcessCart,
     putUpdateCartItems
 } from "./api";
-import {RootState} from "@/app/configureStore";
+import {type RootState} from "@/app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@/ducks/carts/api";
-import {B2BCartHeader} from "@/types/cart/cart-header";
-import {B2BCart} from "@/types/cart/cart";
-import {
+import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCart} from "@/types/cart/cart";
+import type {
     AddToCartProps,
     CartActionProps,
     DuplicateCartProps,
@@ -20,7 +20,7 @@ import {
     UpdateCartItemProps,
     UpdateCartProps
 } from "@/types/cart/cart-action-props";
-import {CustomerShippingAccount} from "@/types/customer";
+import type {CustomerShippingAccount} from "@/types/customer";
 import localStore from "@/utils/LocalStore";
 import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
 import {selectUserType} from "@/ducks/user/selectors";

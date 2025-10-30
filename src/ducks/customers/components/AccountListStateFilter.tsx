@@ -1,15 +1,14 @@
-import React, {useEffect, useId} from 'react';
+import {useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectCustomersStateFilter, selectCustomerStates} from "../selectors";
+import {selectCustomersStateFilter, selectCustomerStates, setCustomersStateFilter} from "../customerListSlice.ts";
 import StateSelect from "../../../components/StateSelect";
-import {setCustomersStateFilter} from "../actions";
 
 const AccountListStateFilter = () => {
     const dispatch = useAppDispatch();
     const states = useAppSelector(selectCustomerStates);
     const stateFilter = useAppSelector(selectCustomersStateFilter);
     const id = useId();
-    const [list, setList] = React.useState<string[]>([]);
+    const [list, setList] = useState<string[]>([]);
 
     useEffect(() => {
         if (stateFilter && !states.includes(stateFilter)) {
@@ -20,7 +19,7 @@ const AccountListStateFilter = () => {
     }, [states, stateFilter]);
 
 
-    const changeHandler = (state:string) => {
+    const changeHandler = (state: string) => {
         dispatch(setCustomersStateFilter(state));
     }
 
@@ -29,7 +28,7 @@ const AccountListStateFilter = () => {
     }
     return (
         <StateSelect countryCode="USA" value={stateFilter} filterList={list} allowAllStates id={id}
-                     variant="standard" onChange={changeHandler} />
+                     variant="standard" onChange={changeHandler}/>
     )
 }
 

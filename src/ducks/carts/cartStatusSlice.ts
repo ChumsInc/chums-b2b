@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import {CartStatus} from "@/types/cart/cart-utils";
+import type {CartStatus} from "@/types/cart/cart-utils";
 import {
     addToCart,
     duplicateSalesOrder,

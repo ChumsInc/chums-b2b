@@ -1,5 +1,5 @@
-import {FetchInvoiceArg, LoadInvoicesProps} from "@/ducks/invoices/types";
-import {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
+import type {FetchInvoiceArg, LoadInvoicesProps} from "@/ducks/invoices/types";
+import type {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
 export interface FetchInvoiceResponse {

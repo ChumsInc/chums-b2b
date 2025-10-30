@@ -1,7 +1,6 @@
-import {jwtDecode, JwtPayload} from 'jwt-decode';
-import {GoogleProfile, StoredProfile} from "../types/user";
-import {UserProfile, UserRole} from "b2b-types";
-import {UserCustomerAccess} from "b2b-types/src/user";
+import {jwtDecode, type JwtPayload} from 'jwt-decode';
+import type {GoogleProfile, StoredProfile} from "../types/user";
+import type {UserCustomerAccess, UserProfile, UserRole} from "b2b-types";
 
 
 interface GoogleSignInPayload extends JwtPayload {
@@ -19,21 +18,21 @@ interface LocalSignInPayload extends JwtPayload {
     roles: UserRole[]
 }
 
-export const isGoogleToken = (token:JwtPayload|GoogleSignInPayload|null): token is GoogleSignInPayload => {
+export const isGoogleToken = (token: JwtPayload | GoogleSignInPayload | null): token is GoogleSignInPayload => {
     if (!token) {
         return false;
     }
     return (token as GoogleSignInPayload).email !== undefined;
 }
 
-export const isLocalToken = (token:JwtPayload|LocalSignInPayload|null): token is LocalSignInPayload => {
+export const isLocalToken = (token: JwtPayload | LocalSignInPayload | null): token is LocalSignInPayload => {
     if (!token) {
         return false;
     }
     return token.iss === 'chums.com';
 }
 
-export const getLocalAuthUserId = (token:string) => {
+export const getLocalAuthUserId = (token: string) => {
     const decoded = jwtDecode(token);
     if (!isLocalToken(decoded)) {
         return 0;
@@ -42,7 +41,7 @@ export const getLocalAuthUserId = (token:string) => {
 
 }
 
-export const getProfile = (token:string):StoredProfile|null => {
+export const getProfile = (token: string): StoredProfile | null => {
     const decoded = jwtDecode(token);
     if (!isLocalToken(decoded)) {
         return null;
@@ -59,12 +58,12 @@ export const getProfile = (token:string):StoredProfile|null => {
     }
 };
 
-export function getTokenExpiry(token:string):number {
+export function getTokenExpiry(token: string): number {
     const decoded = jwtDecode(token);
     return decoded.exp ?? 0;
 }
 
-export function getTokenExpirationDate(token:string):Date|null {
+export function getTokenExpirationDate(token: string): Date | null {
     const decoded = jwtDecode(token);
     if (!decoded.exp) {
         return null;
@@ -75,7 +74,7 @@ export function getTokenExpirationDate(token:string):Date|null {
     return date;
 }
 
-export function isTokenExpired(token:string|null) {
+export function isTokenExpired(token: string | null) {
     if (!token) {
         return true;
     }
@@ -86,7 +85,7 @@ export function isTokenExpired(token:string|null) {
     return !(date.valueOf() > new Date().valueOf());
 }
 
-export const getSignInProfile = (token:string):GoogleProfile|null => {
+export const getSignInProfile = (token: string): GoogleProfile | null => {
     const decoded = jwtDecode(token);
     if (!isGoogleToken(decoded)) {
         return null;

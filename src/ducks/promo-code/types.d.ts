@@ -1,4 +1,4 @@
-import {PromoCode} from "b2b-types";
+import type {PromoCode} from "b2b-types";
 
 export interface PromoCodeState {
     code: string;

@@ -1,14 +1,10 @@
-/**
- * Created by steve on 8/24/2016.
- */
 import {auth} from "./IntranetAuthService";
 import B2BError from "../types/generic";
 import {STORE_VERSION} from "@/constants/stores";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
-import global from '@/app/global-window';
 import {isLocalHost} from "@/utils/dev";
-import {ga4Exception} from "@/src/ga4/generic";
+import {ga4Exception} from "@/utils/ga4/generic";
 import SessionStore from "@/utils/SessionStore";
 import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
 
@@ -159,7 +155,7 @@ export async function postErrors({message, componentStack, userId, fatal}: PostE
 
         const version = SessionStore.getItem(STORE_VERSION, '-');
         const body = JSON.stringify({
-            url: global.window.location.pathname,
+            url: globalThis.window.location.pathname,
             message,
             componentStack: componentStack ?? '',
             user_id: canStoreAnalytics() ?  (userId ?? 0) : 0,

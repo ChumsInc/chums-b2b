@@ -1,9 +1,0 @@
-/* TEAM */
-Steve Montgomery -- Full Stack Developer
-Site: https://b2b.chums.com
-Location: Salt Lake City, Utah -- Hurricane, Utah -- Ketchum, Idaho
-
-/* SITE */
-Standards: HTML5 -- CSS3
-Components: React -- Redux -- Bootstrap -- MUI
-IDE: PHPStorm

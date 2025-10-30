@@ -1,28 +1,27 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {loadInvoice} from '../actions';
-import {useSelector} from "react-redux";
-import DuplicateCartDialog from "../../carts/components/DuplicateCartDialog";
+import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog.tsx";
 import {ShippingMethods} from "@/utils/general";
 import TrackingLinkBadge from "../../../components/TrackingLinkBadge";
 import {selectCurrentInvoice} from "../selectors";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import dayjs from "dayjs";
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
-import ShipToSelect from "../../customer/components/ShipToSelect";
+import ShipToSelect from "@/components/customer/common/ShipToSelect.tsx";
 import {addressFromShipToAddress, multiLineAddress} from "../../customer/utils";
 import Decimal from "decimal.js";
 import numeral from "numeral";
-import {selectCustomerPermissions} from "../../customer/selectors";
+import {selectCustomerPermissions} from "../../customer/customerPermissionsSlice.ts";
 
 const InvoiceHeader = () => {
     const dispatch = useAppDispatch();
-    const invoice = useSelector(selectCurrentInvoice);
+    const invoice = useAppSelector(selectCurrentInvoice);
+    const permissions = useAppSelector(selectCustomerPermissions);
     const [confirmDuplicate, setConfirmDuplicate] = useState(false);
-    const permissions = useSelector(selectCustomerPermissions);
 
     const onCancelDuplicate = () => {
         setConfirmDuplicate(false);

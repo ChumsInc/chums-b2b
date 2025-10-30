@@ -1,5 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {ContentPage, Keyword} from "b2b-types";
+import type {ContentPage, Keyword} from "b2b-types";
 import {loadPage} from "./actions";
 
 export interface PageState {

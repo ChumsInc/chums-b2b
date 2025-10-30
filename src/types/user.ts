@@ -1,4 +1,4 @@
-import {CustomerAddress, UserCustomerAccess, UserProfile} from "b2b-types";
+import type {CustomerAddress, UserCustomerAccess, UserProfile} from "b2b-types";
 
 export interface LocalAuth {
     email: string;

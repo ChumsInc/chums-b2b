@@ -1,12 +1,12 @@
 import {fetchJSON} from "./fetch";
-import {ProductCategory} from "b2b-types";
+import type {ProductCategory} from "b2b-types";
 
 export async function fetchCategory(keyword: string): Promise<ProductCategory | null> {
     try {
         if (!keyword) {
             return null;
         }
-        const url = `/api/products/category/${encodeURIComponent(keyword)}`
+        const url = `/api/products/v2/category/${encodeURIComponent(keyword)}.json`
         const response = await fetchJSON<{ categories: ProductCategory[] }>(url, {cache: 'no-cache'});
         return response?.categories?.[0] ?? null;
     } catch (err) {

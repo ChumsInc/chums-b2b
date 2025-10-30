@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchRepList} from "@/api/user";
-import {RootState} from "@/app/configureStore";
+import {type RootState} from "@/app/configureStore";
 import {selectIsEmployee, selectIsRep, selectLoggedIn} from "../user/selectors";
-import {selectRepsLoading} from "./selectors";
-import {Salesperson} from "b2b-types";
+import {selectRepsLoading} from "./salespersonSlice.ts";
+import type {Salesperson} from "b2b-types";
 
 export const loadRepList = createAsyncThunk<Salesperson[], void, {state: RootState}>(
     'reps/load',

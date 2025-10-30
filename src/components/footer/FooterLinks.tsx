@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import Box from "@mui/material/Box";
 import AppVersion from "@/ducks/version/AppVersion";
-import SignUpModal from "@/components/SignUpModal";
+import SignUpModal from "@/components/sign-up/SignUpModal.tsx";
 import Link from "@mui/material/Link";
 import {Link as NavLink} from "react-router";
 import {styled} from "@mui/material/styles";

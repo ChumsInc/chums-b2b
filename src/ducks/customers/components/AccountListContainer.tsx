@@ -2,23 +2,21 @@
  * Created by steve on 3/1/2017.
  */
 
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 import {setUserAccess} from '../../user/actions';
 import {PATH_PROFILE} from "@/constants/paths";
-import {selectAccessList, selectAccessListLoading, selectCurrentAccess} from "../../user/selectors";
-import {useAppDispatch} from "@/app/configureStore";
-import {useLocation, useParams} from "react-router";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {redirect, useLocation, useParams} from "react-router";
 import AccountList from "./AccountList";
-import {redirect} from "react-router";
 import {setReturnToPath} from "../../customer/actions";
+import {selectAccessList, selectAccessStatus, selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
 
 const AccountListContainer = () => {
     const dispatch = useAppDispatch();
     const params = useParams<'id'>();
-    const access = useSelector(selectCurrentAccess);
-    const accessList = useSelector(selectAccessList);
-    const accessListLoading = useSelector(selectAccessListLoading);
+    const access = useAppSelector(selectCurrentAccess);
+    const accessList = useAppSelector(selectAccessList);
+    const accessStatus = useAppSelector(selectAccessStatus);
     const location = useLocation();
 
     useEffect(() => {
@@ -29,7 +27,7 @@ const AccountListContainer = () => {
 
 
     useEffect(() => {
-        if (accessListLoading) {
+        if (accessStatus !== 'idle') {
             return;
         }
         const id = Number(params.id ?? 0);
@@ -41,7 +39,7 @@ const AccountListContainer = () => {
         if (nextAccess.id !== access?.id) {
             dispatch(setUserAccess(nextAccess));
         }
-    }, [params, access, accessList, accessListLoading]);
+    }, [params, access, accessList, accessStatus]);
 
     return (
         <AccountList/>

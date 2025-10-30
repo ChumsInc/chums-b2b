@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {SELL_AS_COLORS, SELL_AS_MIX} from "@/constants/product";
 import Swatch from "./Swatch";
-import {useAppDispatch} from "@/app/configureStore";
-import {useSelector} from "react-redux";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectProductCartItem, selectProductColorCode, selectSelectedProduct} from "../selectors";
 import {setColorCode} from "../actions";
-import {ProductSwatchBase} from "b2b-types";
+import type {ProductSwatchBase} from "b2b-types";
 import {isSellAsColors, isSellAsMix} from "../utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {styled} from "@mui/material/styles";
-import {ga4SelectColorItem} from "@/src/ga4/generic";
+import {ga4SelectColorItem} from "@/utils/ga4/generic";
 import {useSearchParams} from "react-router";
 
 const SwatchContainer = styled(Box)`
@@ -23,9 +22,9 @@ const SwatchContainer = styled(Box)`
 
 const SwatchSet = () => {
     const dispatch = useAppDispatch();
-    const selectedProduct = useSelector(selectSelectedProduct);
-    const cartItem = useSelector(selectProductCartItem);
-    const colorCode = useSelector(selectProductColorCode);
+    const selectedProduct = useAppSelector(selectSelectedProduct);
+    const cartItem = useAppSelector(selectProductCartItem);
+    const colorCode = useAppSelector(selectProductColorCode);
     const [params, setParams] = useSearchParams();
     const [items, setItems] = useState<(ProductSwatchBase[])>([]);
     const [swatchFormat, setSwatchFormat] = useState(selectedProduct?.additionalData?.swatch_format || '?')

@@ -1,8 +1,8 @@
 import {createAction, createAsyncThunk, createReducer, createSelector} from "@reduxjs/toolkit";
-import {Menu, MenuItem} from "b2b-types";
-import {RootState} from "@/app/configureStore";
+import type {Menu, MenuItem} from "b2b-types";
+import {type RootState} from "@/app/configureStore";
 import {fetchMenu} from "@/api/menu";
-import {selectCustomerAccessList, selectRepAccessList} from "../user/selectors";
+import {selectCustomerAccessList, selectRepAccessList} from "../user/userAccessSlice.ts";
 import {defaultMenuItem} from "./utils";
 import {accessListURL} from "../user/utils";
 
@@ -33,7 +33,7 @@ export const loadProductMenu = createAsyncThunk<Menu | null, void, { state: Root
     async () => {
         return fetchMenu(2);
     }, {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
             return !selectProductsMenuLoading(state);
         }
@@ -45,7 +45,7 @@ export const loadResourcesMenu = createAsyncThunk<Menu | null, void, { state: Ro
     async () => {
         return await fetchMenu(122);
     }, {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
             return !selectResourcesMenuLoading(state);
         }

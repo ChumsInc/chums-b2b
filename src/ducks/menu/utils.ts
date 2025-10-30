@@ -1,5 +1,5 @@
-import {BillToCustomer, MenuItem} from "b2b-types";
-import {MenuElement, MinimalMenuItem, NavMenuItem} from "@/ducks/menu/types";
+import type {BillToCustomer, MenuItem} from "b2b-types";
+import type {MenuElement, MinimalMenuItem, NavMenuItem} from "@/ducks/menu/types";
 import {customerPath} from "@/ducks/user/utils";
 import {generatePath} from "react-router";
 
@@ -31,7 +31,7 @@ export function buildCustomerMenuItems(account:BillToCustomer):MinimalMenuItem[]
     return [
         {
             id: 'account',
-            title: 'Billing Address',
+            title: 'Billing address',
             url: generatePath('/account/:customerSlug', {customerSlug})
         },
         {

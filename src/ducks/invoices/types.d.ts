@@ -1,5 +1,5 @@
-import {CustomerKey, ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
-import {SortProps} from "@/types/generic";
+import type {CustomerKey, ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
+import type {SortProps} from "@/types/generic";
 
 export interface InvoicesState {
     customerKey: string | null;

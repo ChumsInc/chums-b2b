@@ -1,10 +1,10 @@
 import React from 'react';
-import {useSelector} from "react-redux";
 import {selectOpenOrdersLength} from "../selectors";
 import Alert from "@mui/material/Alert";
+import {useAppSelector} from "@/app/configureStore.ts";
 
 export default function NoOpenOrdersAlert() {
-    const length = useSelector(selectOpenOrdersLength);
+    const length = useAppSelector(selectOpenOrdersLength);
     if (length > 0) {
         return null;
     }

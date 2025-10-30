@@ -1,11 +1,11 @@
 import React from 'react';
-import {ManifestFiles} from "./manifest";
+import {type ManifestFiles} from "./manifest";
 import * as process from "node:process";
-import {EnhancedStore} from "@reduxjs/toolkit";
+import {type EnhancedStore} from "@reduxjs/toolkit";
 import {Provider} from "react-redux";
 import App from "@/app/App";
 import {StaticRouter} from "react-router";
-import {PreloadedState} from "b2b-types";
+import type {PreloadedState} from "b2b-types";
 
 
 const InlineJSHeadContent = (versionNo: string) => {

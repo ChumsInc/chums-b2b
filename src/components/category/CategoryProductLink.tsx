@@ -1,12 +1,11 @@
-import React from 'react';
 import SeasonTeaser from "../SeasonTeaser";
-import {BasicProduct} from "b2b-types";
+import type {BasicProduct} from "b2b-types";
 import CategoryGridItem from "./CategoryGridItem";
 import ProductAttributeStack from "@/ducks/products/components/ProductAttrbuteStack";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
-import {parseImageFilename} from "@/src/common/image";
+import {parseImageFilename} from "@/components/common/image";
 import ProductLink from "@/components/ProductLink";
-import HTMLContent from "@/src/common-components/HTMLContent";
+import HTMLContent from "@/components/common/HTMLContent.tsx";
 
 const CategoryProductLink = ({title, description, product, imageUrl, className = ''}: {
     title: string;

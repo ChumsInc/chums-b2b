@@ -1,6 +1,6 @@
 import {ORDER_TYPE} from "@/constants/orders";
-import {OrderType} from "@/types/salesorder";
-import {SalesOrderHeader} from "b2b-types";
+import type {OrderType} from "@/types/salesorder";
+import type {SalesOrderHeader} from "b2b-types";
 import {isSalesOrderHeader} from "./typeguards";
 
 

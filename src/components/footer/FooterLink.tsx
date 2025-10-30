@@ -1,6 +1,5 @@
 import {styled} from "@mui/material/styles";
-import Link, {LinkProps} from "@mui/material/Link";
-import React from "react";
+import Link, {type LinkProps} from "@mui/material/Link";
 
 const BottomLink = styled(Link)(({theme}) => ({
     color: theme.palette.primary.contrastText,

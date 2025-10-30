@@ -1,16 +1,15 @@
-import React from 'react';
-import {SalesOrderHeader} from "b2b-types";
+import type {SalesOrderHeader} from "b2b-types";
 import CustomerLink from "@/components/CustomerLink";
-import {selectCurrentCustomer} from "@/ducks/user/selectors";
 import {useAppSelector} from "@/app/configureStore";
+import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
 
 export interface ShipToCustomerLinkProps {
     salesOrder: SalesOrderHeader
 }
 
 export default function ShipToCustomerLink({salesOrder}: ShipToCustomerLinkProps) {
-    const currentCustomer = useAppSelector(selectCurrentCustomer);
-    if (salesOrder.BillToDivisionNo == currentCustomer?.ARDivisionNo && salesOrder.BillToCustomerNo === currentCustomer?.CustomerNo ) {
+    const currentCustomer = useAppSelector(selectCustomerAccount);
+    if (salesOrder.BillToDivisionNo == currentCustomer?.ARDivisionNo && salesOrder.BillToCustomerNo === currentCustomer?.CustomerNo) {
         return (
             <CustomerLink customer={salesOrder}/>
         )

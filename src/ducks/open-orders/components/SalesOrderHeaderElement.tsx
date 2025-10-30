@@ -1,22 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import {addressFromShipToAddress, multiLineAddress} from "../../customer/utils";
 import Typography from "@mui/material/Typography";
 import {NavLink, useParams} from "react-router";
 import {genInvoicePath} from "@/utils/path-utils";
-import {selectCurrentCustomer} from "../../user/selectors";
 import {getShippingMethod} from "@/constants/account";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
 import Grid from '@mui/material/Grid';
 import {selectSalesOrder, selectSalesOrderInvoices} from "../selectors";
-import DuplicateCartDialog from "../../carts/components/DuplicateCartDialog";
+import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog.tsx";
 import {isClosedSalesOrder} from "../../sales-order/utils";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
+import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
 
 
 function isValidDate(date: string | null | undefined): boolean {
@@ -32,7 +31,7 @@ function toDateString(date: string | null | undefined): string {
 const SalesOrderHeaderElement = () => {
     const dispatch = useAppDispatch();
     const params = useParams<{ salesOrderNo: string }>();
-    const customer = useSelector(selectCurrentCustomer);
+    const customer = useAppSelector(selectCustomerAccount);
     const header = useAppSelector((state) => selectSalesOrder(state, params?.salesOrderNo ?? ''));
     const invoices = useAppSelector((state) => selectSalesOrderInvoices(state, params?.salesOrderNo ?? ''));
     const [showDuplicateCart, setShowDuplicateCart] = useState(false);
@@ -64,7 +63,7 @@ const SalesOrderHeaderElement = () => {
                 <Grid size={{xs: 12, lg: 6}}>
                     <Stack spacing={2} direction="column">
                         <TextField label="Ship To Code" type="text" variant="filled" size="small"
-                                   value={header?.ShipToCode ?? 'Default Address'}
+                                   value={header?.ShipToCode ?? 'Default address'}
                                    slotProps={{
                                        htmlInput: {readOnly: true}
                                    }}/>

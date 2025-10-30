@@ -1,4 +1,4 @@
-import {RootState} from "@/app/configureStore";
+import {type RootState} from "@/app/configureStore";
 
 export const selectActiveMessages = (state: RootState) => state.messages.list;
 export const selectHasMessages = (state: RootState) => state.messages.list.length > 0;

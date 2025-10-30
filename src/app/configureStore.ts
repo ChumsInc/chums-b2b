@@ -1,13 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit';
 import './global-window';
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {PreloadedState} from "b2b-types";
-import {rootReducer} from "@/app/root-reducer";
-import {initializeActiveCartState} from "@/ducks/carts/activeCartSlice";
-import {initialCustomersState} from "@/ducks/customers";
+import {type TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import type {PreloadedState} from "b2b-types";
 import {initialInvoicesState} from "@/ducks/invoices";
 import {initialSalesOrderState} from "@/ducks/sales-order";
 import {initialUserState} from "@/ducks/user";
+import {initializeActiveCartState} from "@/ducks/carts/utils.ts";
+import {rootReducer} from "@/app/root-reducer.ts";
+import {getPreloadCustomerState} from "@/ducks/customers/customerListSlice.ts";
+import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice.ts";
 
 
 const store = configureStore({
@@ -28,11 +29,12 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export default store;
 
 function getPreloadedState() {
-    const state = typeof window === 'undefined' ? {} : (window.__PRELOADED_STATE__ ?? {}) as PreloadedState;
+    const state = (typeof globalThis.window === 'undefined' ? {} : (window.__PRELOADED_STATE__ ?? {})) as PreloadedState;
     return {
         ...state,
+        banners: getPreloadedBannersState([]),
         activeCart: initializeActiveCartState(),
-        customers: initialCustomersState(),
+        customerList: getPreloadCustomerState(),
         invoices: initialInvoicesState(),
         salesOrder: initialSalesOrderState(),
         user: initialUserState(),

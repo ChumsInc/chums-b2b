@@ -1,4 +1,4 @@
-import {Slide} from "b2b-types";
+import type {Slide} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
 

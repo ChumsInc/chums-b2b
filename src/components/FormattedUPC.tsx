@@ -1,6 +1,5 @@
-import React from 'react';
-import Typography, {TypographyProps} from "@mui/material/Typography";
-import UPCA from "../common/upc-a";
+import Typography, {type TypographyProps} from "@mui/material/Typography";
+import UPCA from "@/components/common/upc-a";
 
 export interface FormattedUPCProps extends TypographyProps{
     value?: string|null;

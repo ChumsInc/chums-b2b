@@ -1,12 +1,13 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {EmailResponse, SalesOrder, SalesOrderHeader} from "b2b-types";
+import type {EmailResponse, SalesOrder, SalesOrderHeader} from "b2b-types";
 import {fetchOpenSalesOrders, fetchSalesOrder, postOrderEmail} from "@/api/sales-order";
-import {RootState} from "@/app/configureStore";
+import {type RootState} from "@/app/configureStore";
 import {selectActionStatus, selectOpenOrdersLoading, selectSalesOrder, selectSendEmailStatus} from "./selectors";
-import {SortProps} from "@/types/generic";
-import {DetailLineChangeProps} from "@/types/salesorder";
-import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
+import type {SortProps} from "@/types/generic";
+import type {DetailLineChangeProps} from "@/types/salesorder";
+import {selectLoggedIn} from "../user/selectors";
 import {billToCustomerSlug} from "@/utils/customer";
+import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
 
 export const loadOpenOrders = createAsyncThunk<SalesOrder[], string, { state: RootState }>(
     'open-orders/load',
@@ -31,14 +32,14 @@ export const loadSalesOrder = createAsyncThunk<SalesOrder | null, string, { stat
     'open-orders/loadSalesOrder',
     async (arg, {getState}) => {
         const state = getState();
-        const customer = selectCurrentCustomer(state)!;
+        const customer = selectCustomerKey(state);
         const customerKey = billToCustomerSlug(customer)!;
         return await fetchSalesOrder({customerKey, salesOrderNo: arg});
     },
     {
         condition: (arg, {getState}) => {
             const state = getState();
-            const customer = selectCurrentCustomer(state);
+            const customer = selectCustomerKey(state);
             const actionStatus = selectActionStatus(state);
             return !!arg && !!customer && (!actionStatus[arg] || actionStatus[arg] === 'idle');
         }

@@ -1,43 +1,7 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
-        "module": "CommonJS",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": false,
-        "jsx": "react-jsx",
-        "declaration": false,
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "outDir": "dist",
-        "baseUrl": "./src",
-        "newLine": "lf",
-        "paths": {
-            "@/src/*": ["./*"],
-            "@/api/*": ["./api/*"],
-            "@/app/*": ["./app/*"],
-            "@/components/*": ["./components/*"],
-            "@/constants/*": ["./constants/*"],
-            "@/ducks/*": ["./ducks/*"],
-            "@/hooks/*": ["./hooks/*"],
-            "@/types/*": ["./types/*"],
-            "@/utils/*": ["./utils/*"],
-        }
-    },
-    "include": [
-        "src/**/*"
-    ]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

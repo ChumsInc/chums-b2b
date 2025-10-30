@@ -1,4 +1,4 @@
-import {B2BCart} from "@/types/cart/cart";
+import type {B2BCart} from "@/types/cart/cart";
 
 export type CartProgress_Cart = 0;
 export type CartProgress_Delivery = 1;

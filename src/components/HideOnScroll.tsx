@@ -1,9 +1,9 @@
-import React from 'react';
+import {type ReactElement} from 'react';
 import Slide from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 export default function HideOnScroll({children}:{
-    children: React.ReactElement;
+    children: ReactElement;
 }) {
     const trigger = useScrollTrigger();
     return (

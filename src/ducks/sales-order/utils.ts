@@ -1,7 +1,7 @@
-import {CartItem, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
-import {SortProps} from "@/types/generic";
+import type {CartItem, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
+import type {SortProps} from "@/types/generic";
 import dayjs from "dayjs";
-import {EditableSalesOrder} from "../open-orders/types";
+import type {EditableSalesOrder} from "../open-orders/types";
 
 export const defaultDetailSorter = (a: SalesOrderDetailLine, b: SalesOrderDetailLine) => {
     return +a.LineKey - +b.LineKey;

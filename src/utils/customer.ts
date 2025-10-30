@@ -1,6 +1,6 @@
 import {PRICE_METHODS} from "@/constants/account";
 import Decimal from "decimal.js";
-import {
+import type {
     BasicCustomer,
     BillToCustomer,
     Customer,
@@ -15,7 +15,8 @@ import {
     ShipToCustomer,
     UserCustomerAccess
 } from "b2b-types";
-import {SortProps} from "../types/generic";
+import type {SortProps} from "../types/generic";
+import {customerKey} from "@/ducks/customer/utils.ts";
 
 export const companyName = (code: string = ''): string => {
     switch (code.toLowerCase()) {
@@ -404,12 +405,17 @@ export const buildRecentCustomers = (recentAccounts: RecentCustomer[] = [], cust
     if (!customer || !customer.ARDivisionNo || !customer.CustomerNo) {
         return recentAccounts;
     }
-    const key = shortCustomerKey(customer);
+    const key = billToCustomerSlug(customer);
+    const current:RecentCustomer = {
+        ...customerKey(customer),
+        CustomerName: customer.CustomerName,
+        ts: new Date().valueOf(),
+    }
     return [
-        ...recentAccounts.filter(_customer => shortCustomerKey(_customer) !== key),
-        {...customer, ts: new Date().valueOf()}]
-        .sort((a, b) => b.ts - a.ts)
-        .filter((_customer, index) => index < 10);
+        ...recentAccounts.filter(c => billToCustomerSlug(c) !== key),
+        current
+        ].sort((a, b) => b.ts - a.ts)
+        .filter((_, index) => index < 10);
 };
 
 
@@ -473,3 +479,5 @@ export const customerShipToSorter = ({
             return (a.ShipToCode > b.ShipToCode ? 1 : -1) * sortMod;
     }
 }
+
+export const customerPriceCodeKey = (pc: CustomerPriceRecord) => `${pc.PriceCode}/${pc.ItemCode}`;

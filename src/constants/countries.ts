@@ -13,7 +13,7 @@ export function toAlpha3(code:string|null):string {
     }
     const alpha3 = COUNTRIES
         .filter(c => c.cca2 === code)
-        .reduce((pv:string, cv:CountryCode) => cv.cca3, '');
+        .reduce((_:string, cv:CountryCode) => cv.cca3, '');
     return alpha3 ?? '';
 }
 

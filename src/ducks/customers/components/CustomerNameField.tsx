@@ -1,6 +1,5 @@
-import {Customer} from "b2b-types";
+import type {Customer} from "b2b-types";
 import Stack from "@mui/material/Stack";
-import React from "react";
 
 const CustomerNameField = ({customer}: { customer: Customer }) => {
     if (!customer.ShipToCode) {

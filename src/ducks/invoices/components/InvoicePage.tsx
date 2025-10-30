@@ -1,23 +1,17 @@
-/**
- * Created by steve on 9/9/2016.
- */
-
-
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 import {loadInvoice} from '../actions';
 import InvoiceHeader from "./InvoiceHeader";
 import InvoicePageDetail from "./InvoicePageDetail";
 import DocumentTitle from "../../../components/DocumentTitle";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {redirect, useMatch} from "react-router";
 import {selectCurrentInvoice, selectCurrentInvoiceLoading} from "../selectors";
-import {selectCurrentCustomer} from "../../user/selectors";
 import {billToCustomerSlug} from "@/utils/customer";
 import LinearProgress from "@mui/material/LinearProgress";
-import {InvoiceType} from "b2b-types";
-import {FetchInvoiceArg} from "../types";
+import type {InvoiceType} from "b2b-types";
+import type {FetchInvoiceArg} from "../types";
 import Typography from "@mui/material/Typography";
+import {selectCustomerKey} from "@/ducks/customer/selectors.ts";
 
 const invoiceTypeDescription = (invoiceType: InvoiceType): string => {
     switch (invoiceType) {
@@ -40,9 +34,9 @@ const invoiceTypeDescription = (invoiceType: InvoiceType): string => {
 const InvoicePage = () => {
     const dispatch = useAppDispatch();
     const match = useMatch('/account/:customerSlug/invoices/:invoiceType/:invoiceNo');
-    const invoice = useSelector(selectCurrentInvoice);
-    const loading = useSelector(selectCurrentInvoiceLoading);
-    const customer = useSelector(selectCurrentCustomer);
+    const invoice = useAppSelector(selectCurrentInvoice);
+    const loading = useAppSelector(selectCurrentInvoiceLoading);
+    const customer = useAppSelector(selectCustomerKey);
 
     useEffect(() => {
         if (!!customer && billToCustomerSlug(customer) !== match?.params?.customerSlug) {

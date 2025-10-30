@@ -1,22 +1,22 @@
-import React from "react";
-import {Link as RouterLink, LinkProps as RouterLinkProps,} from 'react-router';
-import ListItem, {ListItemProps} from '@mui/material/ListItem';
+import {type ReactElement, type ReactNode, type RefObject} from "react";
+import {Link as RouterLink, type LinkProps as RouterLinkProps,} from 'react-router';
+import ListItem, {type ListItemProps} from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 
 
 export interface ListItemLinkProps extends ListItemProps {
-    icon?: React.ReactElement;
-    primary: React.ReactNode;
+    icon?: ReactElement;
+    primary: ReactNode;
     to: string;
 }
+interface LinkProps extends RouterLinkProps {
+    ref: RefObject<HTMLAnchorElement>
+}
 
-const Link = React.forwardRef<HTMLAnchorElement, RouterLinkProps>(function Link(
-    itemProps,
-    ref,
-) {
+function Link({ref, ...itemProps}: LinkProps) {
     return <RouterLink ref={ref} {...itemProps} role={undefined}/>;
-});
+}
 
 export default function ListItemLink(props: ListItemLinkProps) {
     const {icon, primary, to, ...rest} = props;

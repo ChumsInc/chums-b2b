@@ -1,5 +1,5 @@
-import {BillToCustomer, Editable, SalesOrderHeader, UserRole} from "b2b-types";
-import {APIErrorResponse} from "../types/generic";
+import type {BillToCustomer, Editable, SalesOrderHeader, UserRole} from "b2b-types";
+import type {APIErrorResponse} from "../types/generic";
 
 export function isBillToCustomer(customer: BillToCustomer | null): customer is BillToCustomer {
     if (!customer) {

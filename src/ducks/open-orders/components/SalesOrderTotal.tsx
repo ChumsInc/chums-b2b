@@ -6,7 +6,7 @@ import {selectSalesOrder} from "../selectors";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import {SalesOrderHeader} from "b2b-types";
+import type {SalesOrderHeader} from "b2b-types";
 
 const reCustomerFreight = /^(RCP|COL|FREE|THRD)[ ~-]+([\w ]*)[ ~-]+(SWR|HOLD|RUSH)/;
 

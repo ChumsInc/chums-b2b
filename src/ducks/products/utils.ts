@@ -1,4 +1,4 @@
-import {
+import type {
     CartItem,
     CartProduct,
     CategoryChildCategory,
@@ -16,7 +16,7 @@ import {
 import {priceRecord} from "@/utils/customer";
 import {getItemPrice} from "@/utils/products";
 import {PRICE_FIELDS, SELL_AS_COLORS, SELL_AS_MIX, SELL_AS_SELF, SELL_AS_VARIANTS} from "@/constants/product";
-import {ProductsState} from "./index";
+import type {ProductsState} from "./index";
 
 export const isCartItem = (item: CartItem | null): item is CartItem => {
     if (!item) {

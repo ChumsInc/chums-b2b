@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import Debug from 'debug';
-import {NextFunction, Request, Response} from "express";
+import {type NextFunction, type Request, type Response} from "express";
 import fetch from 'isomorphic-fetch';
-import {Keyword} from "b2b-types";
+import type {Keyword} from "b2b-types";
 import {API_PORT} from "./config";
 
 const debug = Debug('chums:server:utils');

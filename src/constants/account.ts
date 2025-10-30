@@ -1,7 +1,4 @@
-/**
- * Created by steve on 12/6/2016.
- */
-import {
+import type {
     PaymentType,
     PaymentTypeList,
     PriceLevelsDescriptionList, ShippingMethod,

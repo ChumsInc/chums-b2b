@@ -1,5 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {PromoCode} from "b2b-types";
+import type {PromoCode} from "b2b-types";
 import {loadPromoCode, loadPromoCodes} from "./actions";
 import {promoCodeSorter} from "./utils";
 import {setLoggedIn} from "../user/actions";

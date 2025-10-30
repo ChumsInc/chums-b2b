@@ -1,6 +1,6 @@
 import React from 'react';
-import Chip, {ChipProps} from "@mui/material/Chip";
-import {styled, SxProps} from "@mui/material/styles";
+import Chip, {type ChipProps} from "@mui/material/Chip";
+import {styled, type SxProps} from "@mui/material/styles";
 
 const StyledChip = styled(Chip)<ChipProps>(() => ({
     width: 'auto',

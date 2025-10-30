@@ -1,7 +1,7 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {PromoCode} from "b2b-types";
+import type {PromoCode} from "b2b-types";
 import {fetchPromoCode, fetchPromoCodes} from "@/api/promoCodes";
-import {RootState} from "@/app/configureStore";
+import {type RootState} from "@/app/configureStore";
 import {selectPromoCodesLoading} from "./selectors";
 
 export const loadPromoCodes = createAsyncThunk<PromoCode[], void, {state: RootState}>(

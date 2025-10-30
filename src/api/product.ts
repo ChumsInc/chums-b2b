@@ -1,4 +1,4 @@
-import {Product} from "b2b-types";
+import type {Product} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
 

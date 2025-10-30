@@ -1,5 +1,5 @@
-import {createReducer, isFulfilled, isRejected, PayloadAction} from "@reduxjs/toolkit";
-import {AlertColor} from "@mui/material/Alert";
+import {createReducer, isFulfilled, isRejected, type PayloadAction} from "@reduxjs/toolkit";
+import {type AlertColor} from "@mui/material/Alert";
 import {setLoggedIn} from '../user/actions'
 import {alertSorter} from "./utils";
 import {dismissAlert, dismissContextAlert, setAlert} from "./actions";
@@ -19,10 +19,10 @@ export interface AlertsState {
     list: B2BContextAlert[];
 }
 
-const initialAlertState = (): AlertsState => ({
+const initialAlertState: AlertsState = {
     index: 0,
     list: [],
-})
+}
 
 const alertsReducer = createReducer(initialAlertState, (builder) => {
     builder

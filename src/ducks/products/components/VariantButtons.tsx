@@ -1,13 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
 import {selectCurrentVariantProduct, selectProductVariantId} from "../selectors";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {setCurrentVariant} from "../actions";
-import {ProductVariant} from "b2b-types";
+import type {ProductVariant} from "b2b-types";
 import {isSellAsColors, isSellAsMix} from "../utils";
 import VariantButton from "./VariantButton";
 import Grid from "@mui/material/Grid";
-import {ga4SelectMixItem, ga4SelectVariantItem} from "@/src/ga4/generic";
+import {ga4SelectMixItem, ga4SelectVariantItem} from "@/utils/ga4/generic";
 import {useSearchParams} from "react-router";
 
 
@@ -17,15 +16,15 @@ const activeVariants = (variants: ProductVariant[]): ProductVariant[] => {
 
 export default function VariantButtons() {
     const dispatch = useAppDispatch();
-    const selectedVariantId = useSelector(selectProductVariantId);
-    const product = useSelector(selectCurrentVariantProduct);
+    const selectedVariantId = useAppSelector(selectProductVariantId);
+    const product = useAppSelector(selectCurrentVariantProduct);
     const [variants, setVariants] = useState(activeVariants(product?.variants ?? []));
     const [params, setParams] = useSearchParams();
 
     useEffect(() => {
         const sku = params.get('sku');
         if (!!sku && product && product.itemCode !== sku) {
-            let variant:ProductVariant;
+            let variant: ProductVariant;
             const matching = variants.filter(v => v.product?.itemCode === sku
                 || (v.product && isSellAsColors(v.product) && v.product.items.filter(i => i.itemCode === sku).length > 0)
             );

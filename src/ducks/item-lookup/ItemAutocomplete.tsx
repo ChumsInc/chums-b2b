@@ -1,7 +1,7 @@
-import React, {ChangeEvent, SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import {type ChangeEvent, type SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {
-    ItemSearchResult,
+    type ItemSearchResult,
     loadItemLookup,
     selectSearchFulfilled,
     selectSearchLoading,
@@ -18,7 +18,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import {styled} from "@mui/material/styles";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import {selectCustomerKey} from "@/ducks/customer/selectors";
-import AddToCartButton from "@/ducks/carts/components/add-to-cart/AddToCartButton";
+import AddToCartButton from "@/components/b2b-cart/add-to-cart/AddToCartButton";
 
 
 const NumericTextField = styled(TextField)`
@@ -49,8 +49,8 @@ export default function ItemAutocomplete({cartId}: {
         if (!value || !customerKey || !quantity) {
             return;
         }
-        if (global?.window?.gtag) {
-            global.window.gtag('event', 'add_to_cart', {
+        if (globalThis.window?.gtag) {
+            globalThis.window.gtag('event', 'add_to_cart', {
                 items: [{item_id: value.ItemCode, item_name: value.ItemCodeDesc ?? value.ItemCode, quantity: quantity}]
             })
         }
@@ -78,11 +78,11 @@ export default function ItemAutocomplete({cartId}: {
         dispatch(loadItemLookup(searchTerm));
     }, [searchTerm]);
 
-    const changeHandler = (ev: React.SyntheticEvent, newValue: ItemSearchResult | null) => {
+    const changeHandler = (_: SyntheticEvent, newValue: ItemSearchResult | null) => {
         setValue(newValue);
     }
 
-    const inputChangeHandler = (ev: SyntheticEvent, value: string) => {
+    const inputChangeHandler = (_: SyntheticEvent, value: string) => {
         setInputValue(value);
     }
 

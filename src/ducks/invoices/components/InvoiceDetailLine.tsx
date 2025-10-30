@@ -1,10 +1,10 @@
-import React, {Fragment} from 'react';
+import {Fragment} from 'react';
 import classNames from "classnames";
 import numeral from "numeral";
 import OrderItemImage from "../../../components/OrderItemImage";
 import PriceLevelNotice from "../../../components/PriceLevelNotice";
-import UPCA from "../../../common/upc-a";
-import {InvoiceDetail} from "b2b-types";
+import UPCA from "@/components/common/upc-a";
+import type {InvoiceDetail} from "b2b-types";
 import Decimal from "decimal.js";
 import SalesOrderLineButtons from "../../open-orders/components/SalesOrderLineButtons";
 import FormattedUPC from "../../../components/FormattedUPC";

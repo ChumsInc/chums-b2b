@@ -1,4 +1,4 @@
-import {Customer, UserCustomerAccess} from "b2b-types";
+import type {Customer, UserCustomerAccess} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
 export const API_PATH_CUSTOMER_LIST = '/api/sales/b2b/account-list/:Company/:SalespersonDivisionNo-:SalespersonNo';

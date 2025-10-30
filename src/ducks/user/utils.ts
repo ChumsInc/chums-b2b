@@ -1,11 +1,11 @@
-import {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "b2b-types";
-import {SortProps} from "@/types/generic";
+import type {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "b2b-types";
+import type {SortProps} from "@/types/generic";
 import {generatePath} from "react-router";
 import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "@/constants/paths";
 import {customerSlug, shortCustomerKey} from "@/utils/customer";
-import {isRejected, UnknownAction} from "@reduxjs/toolkit";
-import {UserType} from "./types";
-import {Action} from "redux";
+import {isRejected, type UnknownAction} from "@reduxjs/toolkit";
+import type {UserType} from "./types";
+import {type Action} from "redux";
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 

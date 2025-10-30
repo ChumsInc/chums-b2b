@@ -1,12 +1,9 @@
-import React from 'react';
-import NavBarUI from "../ducks/menu/components/NavBarUI";
+import NavBarUI from "@/components/nav-bar/NavBarUI.tsx";
 
-const Header = () => {
+export default function Header() {
     return (
         <header>
             <NavBarUI/>
         </header>
     );
 };
-
-export default Header;

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import OrderDetailLine from "./OrderDetailLine";
 import SalesOrderTotal from "./SalesOrderTotal";
-import {CartProduct, SalesOrderDetailLine} from "b2b-types";
+import type {CartProduct, SalesOrderDetailLine} from "b2b-types";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "../../sales-order/utils";
 import {selectSalesOrderDetail} from "../selectors";
@@ -16,7 +16,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
+import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
 
 export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;

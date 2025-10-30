@@ -1,5 +1,5 @@
-import {B2BCartDetail} from "./cart-detail.d.ts";
-import {B2BCartHeader} from "./cart-header.d.ts";
+import type {B2BCartDetail} from "./cart-detail.d.ts";
+import type {B2BCartHeader} from "./cart-header.d.ts";
 
 export type CartAction =
     'append'

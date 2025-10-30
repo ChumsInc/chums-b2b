@@ -1,8 +1,9 @@
-import {RootState} from "@/app/configureStore";
+import {type RootState} from "@/app/configureStore";
 import {createSelector} from "@reduxjs/toolkit";
 import Decimal from "decimal.js";
 import {invoicesSorter} from "./utils";
-import {selectPermittedBillToAddress, selectPermittedShipToAddresses} from "../customer/selectors";
+import {selectPermittedBillToAddress} from "../customer/selectors";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.ts";
 
 export const selectInvoicesList = (state:RootState) => state.invoices.list.invoices ?? [];
 export const selectInvoicesListLimit = (state:RootState) => state.invoices.list.limit;

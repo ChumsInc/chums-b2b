@@ -1,7 +1,6 @@
-import React from 'react';
-import AppAlert from "../common-components/AppAlert";
+import AppAlert from "./common/AppAlert.tsx";
 import Decimal from "decimal.js";
-import {B2BCartSeason} from "@/types/cart/cart-detail";
+import type {B2BCartSeason} from "@/types/cart/cart-detail";
 import Alert from "@mui/material/Alert";
 
 import NewReleasesIcon from '@mui/icons-material/NewReleases';

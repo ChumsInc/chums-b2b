@@ -1,7 +1,12 @@
-import {CartProduct, SortProps} from "b2b-types";
-import {B2BCartHeader} from "@/types/cart/cart-header";
+import type {BasicCustomer, CartProduct, SortProps} from "b2b-types";
+import type {B2BCartHeader} from "@/types/cart/cart-header";
 import Decimal from "decimal.js";
-import {B2BCartDetail} from "@/types/cart/cart-detail";
+import type {B2BCartDetail} from "@/types/cart/cart-detail";
+import localStore from "@/utils/LocalStore.ts";
+import type {CustomerShippingAccount} from "@/types/customer.ts";
+import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores.ts";
+import {customerSlug} from "@/utils/customer.ts";
+import type {ActiveCartExtraState} from "@/ducks/carts/activeCartSlice.ts";
 
 export const defaultCartsSort: SortProps<B2BCartHeader> = {
     field: 'id',
@@ -109,4 +114,19 @@ export function calcCartQty(detail:B2BCartDetail[]) {
 
 export function shipToLocation(cart:B2BCartHeader) {
     return `${cart.ShipToCity ?? ''}, ${cart.ShipToState ?? ''} ${cart.ShipToZipCode ?? ''}`.trim();
+}
+
+
+export const initializeActiveCartState = (): ActiveCartExtraState => {
+    const shippingAccount = localStore.getItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
+    return {
+        customerKey: customerSlug(localStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, null)),
+        cartId: localStore.getItem<number | null>(STORE_CURRENT_CART, null),
+        promoCode: null,
+        shippingAccount: {
+            enabled: shippingAccount?.enabled ?? false,
+            value: shippingAccount?.value ?? '',
+        },
+        nextShipDate: null,
+    }
 }

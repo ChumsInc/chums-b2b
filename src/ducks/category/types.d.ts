@@ -1,4 +1,4 @@
-import {ProductCategory} from "b2b-types";
+import type {ProductCategory} from "b2b-types";
 
 export interface CategoryState {
     keyword: string | null;

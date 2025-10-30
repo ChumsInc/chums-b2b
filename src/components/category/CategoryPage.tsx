@@ -1,24 +1,24 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 import {loadCategory} from '@/ducks/category/actions';
 import CategoryPageElement from "./CategoryPageElement";
 import DocumentTitle from "../DocumentTitle";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCategory, selectCategoryLoading} from "@/ducks/category/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import {ga4ViewItemList} from "@/src/ga4/generic";
-import HTMLContent from "@/src/common-components/HTMLContent";
+import {ga4ViewItemList} from "@/utils/ga4/generic";
+import HTMLContent from "@/components/common/HTMLContent.tsx";
 
 export interface CategoryPageProps {
     keyword: string;
 }
+
 export default function CategoryPage({keyword}: CategoryPageProps) {
     const dispatch = useAppDispatch();
-    const loading = useSelector(selectCategoryLoading);
-    const category = useSelector(selectCategory);
+    const loading = useAppSelector(selectCategoryLoading);
+    const category = useAppSelector(selectCategory);
 
     useEffect(() => {
         dispatch(loadCategory(keyword));

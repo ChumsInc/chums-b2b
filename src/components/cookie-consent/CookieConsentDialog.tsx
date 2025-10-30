@@ -1,13 +1,13 @@
-import React, {FormEvent, useEffect, useId} from 'react';
+import {type FormEvent, type ReactElement, type RefObject, useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCookieConsentRecord, selectCookieConsentStatus} from "@/ducks/cookie-consent";
-import Dialog, {DialogProps} from "@mui/material/Dialog";
-import {TransitionProps} from "@mui/material/transitions";
+import Dialog, {type DialogProps} from "@mui/material/Dialog";
+import {type TransitionProps} from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import {CookieConsentBody, CookieConsentSection, CookieConsentSettings} from "b2b-types";
+import type {CookieConsentBody, CookieConsentSection, CookieConsentSettings} from "b2b-types";
 import List from "@mui/material/List";
 import CookieConsentItem from "@/components/cookie-consent/CookieConsentItem";
 import DialogActions from "@mui/material/DialogActions";
@@ -18,14 +18,14 @@ import {loadCookieConsentInfo, saveCookieConsent} from "@/ducks/cookie-consent/a
 import LinearProgress from "@mui/material/LinearProgress";
 
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement;
-    },
-    ref: React.Ref<unknown>,
+function Transition(
+    {ref, ...props}: TransitionProps & {
+        children: ReactElement;
+        ref: RefObject<unknown>
+    }
 ) {
     return <Slide direction="up" ref={ref} {...props} />;
-});
+}
 
 const defaultSettings: CookieConsentSettings = {
     functional: true,
@@ -43,7 +43,7 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
     const dispatch = useAppDispatch();
     const consent = useAppSelector(selectCookieConsentRecord);
     const status = useAppSelector(selectCookieConsentStatus);
-    const [preferences, setPreferences] = React.useState<CookieConsentSettings>(consent?.preferences ?? defaultSettings);
+    const [preferences, setPreferences] = useState<CookieConsentSettings>(consent?.preferences ?? defaultSettings);
     const formId = useId();
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
     }, [consent]);
 
     const saveHandler = async (settings: CookieConsentSettings) => {
-        const body:CookieConsentBody = {
+        const body: CookieConsentBody = {
             accepted: ['functional'],
             rejected: [],
         }
@@ -115,17 +115,17 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
                     color: theme.palette.grey[500],
                 })}
             >
-                <CloseIcon />
+                <CloseIcon/>
             </IconButton>
             <DialogContent>
-                {status !== 'idle' && (<LinearProgress variant="indeterminate" />)}
+                {status !== 'idle' && (<LinearProgress variant="indeterminate"/>)}
                 <DialogContentText sx={{mb: 2}}><strong>You value your privacy</strong></DialogContentText>
                 <DialogContentText sx={{mb: 2}}>
                     This website uses cookies and similar technologies to enable site functionality as well as for
                     analytics, personalization and targeted advertising.
                 </DialogContentText>
                 {consent?.gpc && (
-                    <DialogContentText sx={{mb:2}}>
+                    <DialogContentText sx={{mb: 2}}>
                         We have detected a <strong>Global Privacy Control</strong> signal from your browser and have
                         automatically opted you out of our marketing and analytics cookies. You can opt back in to the
                         analytics and marketing cookies at any time by changing your privacy settings.
@@ -155,7 +155,7 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
                 <Button type="button" variant="outlined" onClick={acceptAllHandler} disabled={status !== 'idle'}>
                     Accept All
                 </Button>
-                <Button type="submit" form={formId} variant="contained" color="primary"  disabled={status !== 'idle'}>
+                <Button type="submit" form={formId} variant="contained" color="primary" disabled={status !== 'idle'}>
                     Save Settings
                 </Button>
             </DialogActions>

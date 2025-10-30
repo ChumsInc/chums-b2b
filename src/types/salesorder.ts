@@ -1,4 +1,4 @@
-import {SalesOrderDetailLine} from "b2b-types";
+import type {SalesOrderDetailLine} from "b2b-types";
 
 export type OrderType = 'cart' | 'open' | 'past' | 'master' | 'invoice';
 

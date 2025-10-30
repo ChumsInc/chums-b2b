@@ -2,10 +2,9 @@ import React from 'react';
 import numeral from "numeral";
 import Alert from "@mui/material/Alert";
 import CartItemPriceDescription from "../../../components/CartItemPriceDescription";
-import {useSelector} from "react-redux";
 import {selectCanViewAvailable} from "../../user/selectors";
 import Decimal from "decimal.js";
-import {CartProduct} from "b2b-types";
+import type {CartProduct} from "b2b-types";
 import {styled, useTheme} from '@mui/material/styles'
 import Box from "@mui/material/Box";
 import TableCell from "@mui/material/TableCell";
@@ -13,6 +12,7 @@ import Collapse from "@mui/material/Collapse";
 import Table from '@mui/material/Table';
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
+import {useAppSelector} from "@/app/configureStore.ts";
 
 
 const CartItemDetailTableTHCell = styled(TableCell)`
@@ -31,7 +31,7 @@ const CartItemDetail = ({cartItem, msrp}: {
     cartItem: CartProduct | null;
     msrp?: (string | number | null | undefined)[]
 }) => {
-    const canViewAvailable = useSelector(selectCanViewAvailable);
+    const canViewAvailable = useAppSelector(selectCanViewAvailable);
     const theme = useTheme();
 
     if (!cartItem || !cartItem.itemCode) {
@@ -99,7 +99,7 @@ const CartItemDetail = ({cartItem, msrp}: {
                     )}
                 </TableBody>
             </Table>
-            {new Decimal(cartItem.quantity ?? 1).gt(availableToday) &&  (
+            {new Decimal(cartItem.quantity ?? 1).gt(availableToday) && (
                 <Alert severity="warning">Product is not available for immediate delivery.</Alert>
             )}
         </Box>

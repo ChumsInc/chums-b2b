@@ -1,11 +1,7 @@
-/**
- * Created by steve on 9/6/2016.
- */
-
-import React, {useEffect, useId, useState} from 'react';
-import {STATES_USA, StateTerritory, TERRITORIES_CANADA} from '@/constants/states';
+import {type ChangeEvent, useEffect, useId, useState} from 'react';
+import {STATES_USA, type StateTerritory, TERRITORIES_CANADA} from '@/constants/states';
 import MenuItem from "@mui/material/MenuItem";
-import TextField, {TextFieldProps} from "@mui/material/TextField";
+import TextField, {type TextFieldProps} from "@mui/material/TextField";
 
 export interface StateSelectProps extends Omit<TextFieldProps, 'value' | 'onChange'> {
     countryCode: string | null;
@@ -33,7 +29,7 @@ const StateSelect = ({countryCode, value, filterList, allowAllStates, onChange, 
     }, [countryCode, filterList]);
 
 
-    const changeHandler = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
         onChange(ev.target.value as string);
     }
 

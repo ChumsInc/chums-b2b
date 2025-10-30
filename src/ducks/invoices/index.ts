@@ -11,9 +11,9 @@ import {
 import {customerSlug} from "@/utils/customer";
 import {loadCustomer, setCustomerAccount, setShipToCode} from "../customer/actions";
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {InvoicesState} from "./types";
-import {SortProps} from "@/types/generic";
-import {InvoiceHistoryHeader} from "b2b-types";
+import type {InvoicesState} from "./types";
+import type {SortProps} from "@/types/generic";
+import type {InvoiceHistoryHeader} from "b2b-types";
 import {STORE_INVOICES_SORT} from "@/constants/stores";
 import localStore from "../../utils/LocalStore";
 
@@ -47,7 +47,7 @@ export const initialInvoicesState = (): InvoicesState => ({
     sort: localStore.getItem<SortProps<InvoiceHistoryHeader>>(STORE_INVOICES_SORT, defaultUserSort),
 })
 
-const invoicesReducer = createReducer(initialInvoicesState, builder => {
+const invoicesReducer = createReducer(initialInvoicesState(), builder => {
     builder
         .addCase(loadInvoices.pending, (state, action) => {
             state.loading = true;

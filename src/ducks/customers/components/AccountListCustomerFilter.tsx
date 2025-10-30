@@ -1,17 +1,15 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
-import {useAppDispatch} from "@/app/configureStore";
+import {type ChangeEvent, useEffect, useRef, useState} from 'react';
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import {useSelector} from "react-redux";
-import {selectCustomersFilter} from "../selectors";
-import {setCustomersFilter} from "../actions";
+import {selectCustomersSearchFilter, setCustomersFilter} from "../customerListSlice.ts";
 import {useIsSSR} from "@/hooks/is-server-side";
 
 const AccountListCustomerFilter = () => {
     const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
-    const filter = useSelector(selectCustomersFilter);
+    const filter = useAppSelector(selectCustomersSearchFilter);
     const timer = useRef<number>(0);
     const [debouncedSearch, setDebouncedSearch] = useState<string>(filter);
     const [value, setValue] = useState<string>(filter);

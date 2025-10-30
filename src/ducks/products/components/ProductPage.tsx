@@ -1,15 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {loadProduct, setCurrentVariant} from '../actions';
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet";
-import AddToCartForm from "@/ducks/carts/components/add-to-cart/AddToCartForm";
+import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
 import Alert from "@mui/material/Alert";
 import CartItemDetail from "./CartItemDetail";
 import {redirect, useLocation} from "react-router";
-import MissingTaxScheduleAlert from "../../customer/components/MissingTaxScheduleAlert";
+import MissingTaxScheduleAlert from "@/components/customer/billing/MissingTaxScheduleAlert.tsx";
 import RequireLogin from "@/components/RequireLogin";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
 import {selectCustomerAccount} from "../../customer/selectors";
 import ProductPageImage from "./ProductPageImage";
@@ -18,14 +17,14 @@ import ProductPageInfo from "./ProductPageInfo";
 import {isCartProduct, isProduct, isSellAsVariants} from "../utils";
 import {isBillToCustomer} from "@/utils/typeguards";
 import ProductPreSeasonAlert from "./ProductPreSeasonAlert";
-import SelectCustomerAlert from "../../customer/components/SelectCustomerAlert";
+import SelectCustomerAlert from "@/components/customer/SelectCustomerAlert.tsx";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
 import {useIsSSR} from "@/hooks/is-server-side";
-import {ga4ViewItem} from "@/src/ga4/generic";
-import HTMLContent from "@/src/common-components/HTMLContent";
+import {ga4ViewItem} from "@/utils/ga4/generic";
+import HTMLContent from "@/components/common/HTMLContent.tsx";
 import styled from "@emotion/styled";
 
 
@@ -44,11 +43,11 @@ const ProductPage = ({keyword}: {
 }) => {
     const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
-    const product = useSelector(selectCurrentProduct);
-    const selectedProduct = useSelector(selectSelectedProduct);
-    const loading = useSelector(selectProductLoading);
-    const cartItem = useSelector(selectProductCartItem);
-    const customerAccount = useSelector(selectCustomerAccount);
+    const product = useAppSelector(selectCurrentProduct);
+    const selectedProduct = useAppSelector(selectSelectedProduct);
+    const loading = useAppSelector(selectProductLoading);
+    const cartItem = useAppSelector(selectProductCartItem);
+    const customerAccount = useAppSelector(selectCustomerAccount);
     const location = useLocation();
     const [cartMessage, setCartMessage] = useState<string | null>(null);
     const timerHandle = useRef<number>(0);

@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import EmailAddressTextField from "../common-components/EmailAddressTextField";
+import {type ChangeEvent, useEffect, useState} from 'react';
+import EmailAddressTextField from "./common/EmailAddressTextField.tsx";
 import FormHelperText from "@mui/material/FormHelperText";
-import {BillToCustomer, ShipToCustomer} from "b2b-types";
+import type {BillToCustomer, ShipToCustomer} from "b2b-types";
 
 
 const splitEmailAddresses = (emailAddress: string | null, separator: string = ';'): string[] => {
@@ -26,7 +26,7 @@ const EmailAddressEditor = ({
                                 allowMultiple,
                                 maxEmailLength = 50,
                                 maxMultipleLength = 225,
-                                label = 'Email Address',
+                                label = 'Email address',
                                 required,
                                 readOnly,
                                 onChange

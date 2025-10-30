@@ -1,5 +1,5 @@
-import React, {HTMLAttributes} from 'react';
-import {SearchResult} from "b2b-types";
+import React, {type HTMLAttributes} from 'react';
+import type {SearchResult} from "b2b-types";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import {NavLink} from "react-router";

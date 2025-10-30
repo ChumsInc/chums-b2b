@@ -1,7 +1,5 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {useSelector} from "react-redux";
-import {selectCurrentCustomer} from "../../user/selectors";
 import {
     selectCurrentInvoiceNo,
     selectFilteredInvoicesList,
@@ -17,10 +15,10 @@ import {InvoiceLink} from "./InvoiceLink";
 import {DateString} from "@/components/DateString";
 import OrderLink from "../../../components/OrderLink";
 import numeral from "numeral";
-import DataTable, {SortableTableField} from "../../../common-components/DataTable";
-import {InvoiceHistoryHeader} from "b2b-types";
+import DataTable, {type SortableTableField} from "@/components/common/DataTable";
+import type {InvoiceHistoryHeader} from "b2b-types";
 import Decimal from "decimal.js";
-import {SortProps} from "@/types/generic";
+import type {SortProps} from "@/types/generic";
 import LinearProgress from "@mui/material/LinearProgress";
 import TablePagination from "@mui/material/TablePagination";
 import {invoiceKey} from "../utils";
@@ -32,6 +30,8 @@ import Box from "@mui/material/Box";
 import {ErrorBoundary} from "react-error-boundary";
 import Alert from "@mui/material/Alert";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils";
+import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
+import {customerKey} from "@/ducks/customer/utils.ts";
 
 
 const invoiceFields: SortableTableField<InvoiceHistoryHeader>[] = [
@@ -81,21 +81,21 @@ const invoiceFields: SortableTableField<InvoiceHistoryHeader>[] = [
 
 const InvoicesList = () => {
     const dispatch = useAppDispatch();
-    const list = useSelector(selectFilteredInvoicesList);
+    const list = useAppSelector(selectFilteredInvoicesList);
     const limit = useAppSelector(selectInvoicesListLimit);
     const limitReached = useAppSelector(selectInvoicesListLimitReached);
     const offset = useAppSelector(selectInvoicesListOffset);
-    const invoiceNo = useSelector(selectCurrentInvoiceNo);
-    const loading = useSelector(selectInvoicesLoading);
-    const loaded = useSelector(selectInvoicesLoaded);
-    const currentCustomer = useSelector(selectCurrentCustomer);
-    const sort = useSelector(selectInvoicesSort);
+    const invoiceNo = useAppSelector(selectCurrentInvoiceNo);
+    const loading = useAppSelector(selectInvoicesLoading);
+    const loaded = useAppSelector(selectInvoicesLoaded);
+    const currentCustomer = useAppSelector(selectCustomerAccount);
+    const sort = useAppSelector(selectInvoicesSort);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(localStore.getItem<number>(STORE_INVOICES_ROWS_PER_PAGE, 10) ?? 10);
 
     useEffect(() => {
         if (!loading && !loaded && !!currentCustomer) {
-            dispatch(loadInvoices({key: currentCustomer, start: 0, limit}))
+            dispatch(loadInvoices({key: customerKey(currentCustomer), start: 0, limit}))
             setPage(0);
         }
     }, [currentCustomer, loading, loaded]);
@@ -136,7 +136,8 @@ const InvoicesList = () => {
     }
 
     return (
-        <ErrorBoundary fallback={undefined} FallbackComponent={() => <Alert severity="error">Sorry, an error occurred</Alert> }>
+        <ErrorBoundary fallback={undefined}
+                       FallbackComponent={() => <Alert severity="error">Sorry, an error occurred</Alert>}>
             <Box>
                 <InvoiceListFilter onReload={reloadHandler}/>
                 {loading && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
@@ -147,7 +148,7 @@ const InvoicesList = () => {
                                                  onChangeSort={sortChangeHandler}/>
                 <Box display="flex" justifyContent="flex-end">
                     <TablePagination component="div"
-                                     count={list.length} page={page} onPageChange={(ev, page) => setPage(page)}
+                                     count={list.length} page={page} onPageChange={(_, page) => setPage(page)}
                                      rowsPerPage={rowsPerPage} onRowsPerPageChange={rowsPerPageChangeHandler}
                                      showFirstButton showLastButton/>
                     <Button type="button" variant="text" onClick={loadMoreHandler} disabled={limitReached || loading}>

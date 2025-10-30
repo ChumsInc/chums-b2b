@@ -1,5 +1,5 @@
 import {fetchJSON} from "@/api/fetch";
-import {CookieConsentBody, CookieConsentInfo, CookieConsentRecord} from "b2b-types";
+import type {CookieConsentBody, CookieConsentInfo, CookieConsentRecord} from "b2b-types";
 
 export async function getCookieConsent(): Promise<CookieConsentRecord | null> {
     try {

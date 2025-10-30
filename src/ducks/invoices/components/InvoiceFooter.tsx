@@ -1,10 +1,9 @@
-import React from 'react';
-import {useSelector} from "react-redux";
 import {selectCurrentInvoice} from "../selectors";
 import Decimal from "decimal.js";
 import numeral from "numeral";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
+import {useAppSelector} from "@/app/configureStore.ts";
 
 
 const InvoiceFooterRow = ({title, value}: {
@@ -21,7 +20,7 @@ const InvoiceFooterRow = ({title, value}: {
     )
 }
 const InvoiceFooter = () => {
-    const invoice = useSelector(selectCurrentInvoice);
+    const invoice = useAppSelector(selectCurrentInvoice);
     if (!invoice) {
         return null;
     }

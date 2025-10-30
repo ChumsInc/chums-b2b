@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import Debug from 'debug';
-import {Request, Response} from "express";
+import {type Request, type Response} from "express";
 import path from "node:path";
 const debug = Debug('chums:server:version');
 

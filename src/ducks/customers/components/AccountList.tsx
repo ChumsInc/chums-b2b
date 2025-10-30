@@ -1,9 +1,7 @@
-import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 import {loadCustomerList} from '../actions';
 import {longAccountNumber} from "@/utils/customer";
-import ErrorBoundary from "../../../common-components/ErrorBoundary";
-import {selectCurrentUserAccount,} from "../../user/selectors";
+import ErrorBoundary from "@/components/common/ErrorBoundary.tsx";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -11,28 +9,27 @@ import {documentTitles, PATH_PROFILE} from "@/constants/paths";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Breadcrumb from "../../../components/Breadcrumb";
 import {useLocation, useMatch} from "react-router";
-import {selectCustomersLoaded, selectCustomersLoadError, selectCustomersLoading} from "../selectors";
+import {selectCustomersStatus} from "../customerListSlice.ts";
 import Typography from "@mui/material/Typography";
 import AccountListFilters from "./AccountListFilters";
 import AccountListTable from "./AccountListTable";
 import {repAccessCode} from "../../user/utils";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
 
 const AccountList = () => {
     const dispatch = useAppDispatch();
     const match = useMatch('/profile/:id');
     const location = useLocation();
-    const userAccount = useSelector(selectCurrentUserAccount);
-    const loading = useSelector(selectCustomersLoading);
-    const loaded = useSelector(selectCustomersLoaded);
-    const error = useAppSelector(selectCustomersLoadError);
+    const userAccount = useAppSelector(selectCurrentAccess);
+    const loading = useAppSelector(selectCustomersStatus);
 
 
     useEffect(() => {
         const profileId = +(match?.params.id ?? 0);
-        if (loading === 'idle' && !loaded && profileId === userAccount?.id) {
+        if (loading === 'idle' && profileId === userAccount?.id) {
             dispatch(loadCustomerList(userAccount));
         }
-    }, [loading, loaded, match, userAccount, dispatch]);
+    }, [loading, match, userAccount, dispatch]);
 
 
     if (!userAccount) {
@@ -61,8 +58,6 @@ const AccountList = () => {
             </Typography>
 
             <AccountListFilters/>
-            {!!error && <Alert severity="error">{error}</Alert>}
-
             {loading === 'loading' && <LinearProgress variant="indeterminate" sx={{my: 1}}/>}
 
             <AccountListTable/>

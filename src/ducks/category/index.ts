@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {loadCategory} from "./actions";
-import {CategoryState} from "./types";
+import type {CategoryState} from "./types";
 
 export const initialCategoryState: CategoryState = {
     keyword: null,

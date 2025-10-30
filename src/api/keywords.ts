@@ -1,4 +1,4 @@
-import {Keyword} from "b2b-types";
+import type {Keyword} from "b2b-types";
 import {fetchJSON} from "./fetch";
 
 export async function fetchKeywords():Promise<Keyword[]> {

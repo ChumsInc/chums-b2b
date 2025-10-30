@@ -1,9 +1,8 @@
-import React, {forwardRef} from "react";
+import {forwardRef} from "react";
 import Box from "@mui/material/Box";
-import {TableComponents, TableVirtuoso} from "react-virtuoso";
-import {useSelector} from "react-redux";
-import {selectCustomerSort, selectFilteredCustomerList} from "../selectors";
-import {Customer} from "b2b-types";
+import {type TableComponents, TableVirtuoso} from "react-virtuoso";
+import {selectCustomersSort, selectFilteredCustomerList, setCustomersSort} from "../customerListSlice.ts";
+import type {Customer} from "b2b-types";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,8 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
-import {useAppDispatch} from "@/app/configureStore";
-import {setCustomersSort} from "../actions";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {accountListColumns} from "./AccountListColumns";
 
 
@@ -31,21 +29,21 @@ const VirtuosoTableComponents: TableComponents<Customer> = {
 }
 
 
-const AccountListTable = () => {
-    const customers = useSelector(selectFilteredCustomerList);
+export default function AccountListTable() {
+    const customers = useAppSelector(selectFilteredCustomerList);
     return (
         <Box sx={{height: 600, maxHeight: '75vh', width: '100%', mb: 3}}>
-            <TableVirtuoso data={customers} components={VirtuosoTableComponents}
-                           fixedHeaderContent={fixedHeaderContent} itemContent={rowContent}/>
+            <TableVirtuoso data={customers}
+                           components={VirtuosoTableComponents}
+                           fixedHeaderContent={fixedHeaderContent}
+                           itemContent={rowContent}/>
         </Box>
     )
 }
 
-export default AccountListTable;
-
 function fixedHeaderContent() {
     const dispatch = useAppDispatch();
-    const sort = useSelector(selectCustomerSort);
+    const sort = useAppSelector(selectCustomersSort);
     const sortDirection = sort.ascending ? 'asc' : 'desc';
     const sortHandler = (field: keyof Customer) => () => {
         if (field === sort.field) {

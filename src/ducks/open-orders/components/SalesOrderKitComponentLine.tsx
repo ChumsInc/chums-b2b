@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Editable, SalesOrderDetailLine} from "b2b-types";
-import {Appendable} from "@/types/generic";
+import type {Editable, SalesOrderDetailLine} from "b2b-types";
+import type {Appendable} from "@/types/generic";
 import classNames from "classnames";
 import OrderItemImage from "@/components/OrderItemImage";
-import UPCA from "../../../common/upc-a";
+import UPCA from "@/components/common/upc-a";
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import SalesOrderLineButtons from "./SalesOrderLineButtons";

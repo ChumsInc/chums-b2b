@@ -1,6 +1,6 @@
-import {B2BCartHeader} from "@/types/cart/cart-header";
-import {createEntityAdapter, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {SortProps} from "b2b-types";
+import type {B2BCartHeader} from "@/types/cart/cart-header";
+import {createEntityAdapter, createSelector, createSlice, type  PayloadAction} from "@reduxjs/toolkit";
+import type {SortProps} from "b2b-types";
 import {
     addToCart,
     duplicateSalesOrder,

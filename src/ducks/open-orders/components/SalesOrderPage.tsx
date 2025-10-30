@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {useSelector} from 'react-redux';
 import {redirect, useMatch, useParams} from 'react-router';
 import OrderDetail from "./OrderDetail";
 import Alert from "@mui/material/Alert";
@@ -12,8 +11,8 @@ import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
 import SalesOrderSkeleton from "./SalesOrderSkeleton";
 import {selectSalesOrder} from "../selectors";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
-import {selectCurrentUserAccount} from "@/ducks/user/selectors";
 import Typography from "@mui/material/Typography";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.ts";
 
 /**
  *
@@ -22,13 +21,13 @@ import Typography from "@mui/material/Typography";
 
 const SalesOrderPage = () => {
     const dispatch = useAppDispatch();
-    const userAccount = useSelector(selectCurrentUserAccount);
     const params = useParams<{ customerSlug: string; salesOrderNo: string }>();
     const match = useMatch('/account/:customerSlug/:orderType/:salesOrderNo');
-    const customer = useSelector(selectCustomerAccount);
+    const userAccount = useAppSelector(selectCurrentAccess);
+    const customer = useAppSelector(selectCustomerAccount);
     const salesOrderHeader = useAppSelector((state) => selectSalesOrder(state, params?.salesOrderNo ?? ''));
-    const loading = useSelector(selectSOLoading);
-    const customerLoading = useSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectSOLoading);
+    const customerLoading = useAppSelector(selectCustomerLoading);
 
     useEffect(() => {
         if (loading || customerLoading) {

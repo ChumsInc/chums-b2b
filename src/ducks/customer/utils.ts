@@ -1,24 +1,20 @@
-import {
+import type {
     BillToAddress,
-    BillToCustomer,
-    CustomerAddress,
+    BillToCustomer, Customer,
+    CustomerAddress, CustomerKey,
     ShipToAddress,
     ShipToCustomer,
     UserCustomerAccess
 } from "b2b-types";
-import {FetchCustomerResponse} from "./types";
-import {CustomerState} from "./index";
+import type {CustomerState, FetchCustomerResponse} from "./types";
 import {
     customerContactSorter,
     customerPaymentCardSorter,
     customerPriceRecordSorter,
     customerShipToSorter,
-    customerUserSorter,
-    defaultCustomerUserSort,
     defaultShipToSort,
 } from "@/utils/customer";
-import {B2BCartHeader} from "@/types/cart/cart-header";
-
+import type {B2BCartHeader} from "@/types/cart/cart-header";
 
 
 export const addressFromShipToAddress = (address: B2BCartHeader | ShipToAddress | null): CustomerAddress => {
@@ -87,7 +83,6 @@ export const customerResponseToState = (payload: FetchCustomerResponse | null, s
         nextState.shipTo = null;
     }
     nextState.paymentCards = [...(payload?.paymentCards ?? [])].sort(customerPaymentCardSorter);
-    nextState.users = [...(payload?.users ?? [])].sort(customerUserSorter(defaultCustomerUserSort));
     return nextState;
 }
 
@@ -114,3 +109,14 @@ export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccou
         && access.CustomerNo === customerAccount.CustomerNo;
 }
 
+export function customerKey(arg:Customer|null):CustomerKey|null {
+    if (!arg) {
+        return null;
+    }
+    const {ARDivisionNo, CustomerNo, ShipToCode} = arg;
+    return {
+        ARDivisionNo,
+        CustomerNo,
+        ShipToCode
+    }
+}

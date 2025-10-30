@@ -1,7 +1,6 @@
-import React from 'react';
 import {documentTitles} from "@/constants/paths";
 import DocumentTitle from "./DocumentTitle";
-import BannersList from "../ducks/banners/BannersList";
+import BannersList from "./banners/BannersList.tsx";
 import Typography from "@mui/material/Typography";
 
 const HomeV2 = () => {

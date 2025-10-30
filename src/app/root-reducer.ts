@@ -1,7 +1,6 @@
 import {combineReducers} from "@reduxjs/toolkit";
 import alertsReducer from "@/ducks/alerts";
 import appReducer from "@/ducks/app";
-import bannersReducer from "@/ducks/banners";
 import cartHeadersSlice from "@/ducks/carts/cartHeadersSlice";
 import cartDetailSlice from "@/ducks/carts/cartDetailSlice";
 import cartDetailStatusSlice from "@/ducks/carts/cartDetailStatusSlice";
@@ -11,7 +10,6 @@ import activeCartSlice from "@/ducks/carts/activeCartSlice";
 import categoryReducer from "@/ducks/category";
 import cookieConsentSlice from "@/ducks/cookie-consent";
 import customerReducer from "@/ducks/customer";
-import customersReducer from "@/ducks/customers";
 import invoicesReducer from "@/ducks/invoices";
 import itemLookupReducer from "@/ducks/item-lookup";
 import keywordsReducer from "@/ducks/keywords";
@@ -21,17 +19,26 @@ import openOrdersReducer from "@/ducks/open-orders";
 import pageReducer from "@/ducks/page";
 import productsReducer from "@/ducks/products";
 import promoCodeReducer from "@/ducks/promo-code";
-import repsReducer from "@/ducks/reps";
 import salesOrderReducer from "@/ducks/sales-order";
 import searchReducer from "@/ducks/search";
-import signUpReducer from "@/ducks/sign-up";
+import signUpSlice from "@/ducks/sign-up/signUpSlice";
 import userReducer from "@/ducks/user";
 import versionReducer from "@/ducks/version";
+import userAccessSlice from "@/ducks/user/userAccessSlice";
+import customerUsersSlice from "@/ducks/customer/customerUsersSlice.ts";
+import customerPricingSlice from "@/ducks/customer/customerPricingSlice.ts";
+import customerPaymentCardsSlice from "@/ducks/customer/customerPaymentCardsSlice.ts";
+import customerShipToAddressSlice from "@/ducks/customer/customerShipToAddressSlice.ts";
+import customerPermissionsSlice from "@/ducks/customer/customerPermissionsSlice.ts";
+import recentCustomersSlice from "@/ducks/customers/recentCustomersSlice.ts";
+import customerListSlice from "@/ducks/customers/customerListSlice.ts";
+import bannersSlice from "@/ducks/banners/bannersSlice.ts";
+import salespersonSlice from "@/ducks/reps/salespersonSlice.ts";
 
 export const rootReducer = combineReducers({
     alerts: alertsReducer,
     app: appReducer,
-    banners: bannersReducer,
+    [bannersSlice.reducerPath]: bannersSlice.reducer,
     [cartHeadersSlice.reducerPath]: cartHeadersSlice.reducer,
     [cartDetailSlice.reducerPath]: cartDetailSlice.reducer,
     [cartDetailStatusSlice.reducerPath]: cartDetailStatusSlice.reducer,
@@ -41,7 +48,13 @@ export const rootReducer = combineReducers({
     category: categoryReducer,
     [cookieConsentSlice.reducerPath]: cookieConsentSlice.reducer,
     customer: customerReducer,
-    customers: customersReducer,
+    [customerPaymentCardsSlice.reducerPath]: customerPaymentCardsSlice.reducer,
+    [customerPermissionsSlice.reducerPath]: customerPermissionsSlice.reducer,
+    [customerPricingSlice.reducerPath]: customerPricingSlice.reducer,
+    [customerShipToAddressSlice.reducerPath]: customerShipToAddressSlice.reducer,
+    [customerUsersSlice.reducerPath]: customerUsersSlice.reducer,
+    [customerListSlice.reducerPath]: customerListSlice.reducer,
+    [recentCustomersSlice.reducerPath]: recentCustomersSlice.reducer,
     invoices: invoicesReducer,
     itemLookup: itemLookupReducer,
     keywords: keywordsReducer,
@@ -51,10 +64,11 @@ export const rootReducer = combineReducers({
     page: pageReducer,
     products: productsReducer,
     promo_code: promoCodeReducer,
-    reps: repsReducer,
+    [salespersonSlice.reducerPath]: salespersonSlice.reducer,
     salesOrder: salesOrderReducer,
     search: searchReducer,
-    signUp: signUpReducer,
+    [signUpSlice.reducerPath]: signUpSlice.reducer,
     user: userReducer,
+    [userAccessSlice.reducerPath]: userAccessSlice.reducer,
     version: versionReducer
 });

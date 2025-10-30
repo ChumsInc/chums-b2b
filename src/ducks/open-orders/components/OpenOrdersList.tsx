@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {useSelector} from "react-redux";
 import {
     selectOpenOrdersCustomerKey,
     selectOpenOrdersFilter,
@@ -8,22 +7,21 @@ import {
     selectOpenOrdersLoaded,
     selectOpenOrdersLoading
 } from "../selectors";
-import {selectCurrentCustomer} from "../../user/selectors";
 import OrdersList from "./OrdersList";
 import OrderLink from "../../../components/OrderLink";
 import {DateString} from "@/components/DateString";
 import numeral from "numeral";
-import {SortableTableField} from "@/src/common-components/DataTable";
+import type {SortableTableField} from "@/components/common/DataTable";
 import Decimal from "decimal.js";
-import {SalesOrderHeader} from "b2b-types";
+import type {SalesOrderHeader} from "b2b-types";
 import {loadOpenOrders, setOpenOrdersFilter} from "../actions";
 import OrderFilter from "./OrderFilter";
 import LinearProgress from "@mui/material/LinearProgress";
 import NoOpenOrdersAlert from "./NoOpenOrdersAlert";
 import Button from "@mui/material/Button"
-import {selectCustomerShipToCode} from "../../customer/selectors";
+import {selectCustomerShipToCode} from "../../customer/customerShipToAddressSlice.ts";
 import ShipToCustomerLink from "@/components/ShipToCustomerLink";
-
+import {selectCustomerAccount} from "@/ducks/customer/selectors.ts";
 
 
 const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
@@ -32,7 +30,7 @@ const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
         render: (so) => <OrderLink salesOrderNo={so.SalesOrderNo} orderType="open"/>,
         sortable: true,
     },
-    {field: 'ShipToCode', title: 'Ship To Code', sortable: true, render: (so) => <ShipToCustomerLink salesOrder={so} />},
+    {field: 'ShipToCode', title: 'Ship To Code', sortable: true, render: (so) => <ShipToCustomerLink salesOrder={so}/>},
     {field: 'ShipToName', title: 'Ship To', sortable: true},
     {
         field: 'ShipToCity', title: 'Location', sortable: true,
@@ -59,13 +57,13 @@ const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
 const OpenOrdersList = () => {
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectOpenOrdersCustomerKey);
-    const currentCustomer = useSelector(selectCurrentCustomer);
+    const currentCustomer = useAppSelector(selectCustomerAccount);
     const shipToCode = useAppSelector(selectCustomerShipToCode);
-    const orders = useSelector(selectOpenOrdersList);
-    const loading = useSelector(selectOpenOrdersLoading);
-    const loaded = useSelector(selectOpenOrdersLoaded);
-    const filter = useSelector(selectOpenOrdersFilter);
-    const [list,  setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
+    const orders = useAppSelector(selectOpenOrdersList);
+    const loading = useAppSelector(selectOpenOrdersLoading);
+    const loaded = useAppSelector(selectOpenOrdersLoaded);
+    const filter = useAppSelector(selectOpenOrdersFilter);
+    const [list, setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
 
     useEffect(() => {
         if (loading === 'idle' && !loaded && !!customerKey) {
@@ -89,7 +87,8 @@ const OpenOrdersList = () => {
 
     return (
         <>
-            <OrderFilter value={filter} onChange={(ev) => dispatch(setOpenOrdersFilter(ev.target.value))} maxLength={30}>
+            <OrderFilter value={filter} onChange={(ev) => dispatch(setOpenOrdersFilter(ev.target.value))}
+                         maxLength={30}>
                 <Button type="button" variant="text" onClick={reloadHandler}>
                     Reload
                 </Button>

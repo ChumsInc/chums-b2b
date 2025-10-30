@@ -1,4 +1,4 @@
-import React from 'react';
+import {type ReactNode} from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Link from '@mui/material/Link'
@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import styled from "@emotion/styled";
 
 
-const Content404Component = ({children}: { children: React.ReactNode }) => (
+const Content404Component = ({children}: { children: ReactNode }) => (
     <Grid size={{xs: 12, sm: 6}}
           sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         {children}

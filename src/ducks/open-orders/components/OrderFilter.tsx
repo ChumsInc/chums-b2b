@@ -1,4 +1,4 @@
-import React, {InputHTMLAttributes, useId} from 'react';
+import React, {type InputHTMLAttributes, useId} from 'react';
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import SearchIcon from '@mui/icons-material/Search';

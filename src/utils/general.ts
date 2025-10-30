@@ -1,4 +1,4 @@
-import {ShippingMethodList} from "../types/customer";
+import type {ShippingMethodList} from "../types/customer";
 
 export const noop = () => {
 };
