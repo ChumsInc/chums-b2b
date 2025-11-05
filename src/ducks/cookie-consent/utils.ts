@@ -1,4 +1,4 @@
-import type {CookieConsentSettings} from "b2b-types";
+import type {CookieConsentSettings} from "chums-types/b2b";
 import LocalStore from "@/utils/LocalStore";
 import {STORE_COOKIE_CONSENT} from "@/constants/stores";
 

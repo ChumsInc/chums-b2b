@@ -1,4 +1,4 @@
-import type {BillToCustomer, CustomerKey, CustomerUser, ShipToCustomer} from "b2b-types";
+import type {BillToCustomer, CustomerKey, CustomerUser, ShipToCustomer} from "chums-types/b2b";
 import type {FetchCustomerResponse} from "@/ducks/customer/types";
 import {fetchJSON} from "./fetch";
 import {customerSlug, sageCompanyCode} from "@/utils/customer";

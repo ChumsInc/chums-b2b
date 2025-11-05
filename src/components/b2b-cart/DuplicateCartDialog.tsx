@@ -1,3 +1,5 @@
+'use client';
+
 import {useCallback, useState} from 'react';
 import Alert from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
@@ -16,7 +18,7 @@ import type {B2BCart} from "@/types/cart/cart";
 import {generatePath, useNavigate} from "react-router";
 import {customerSlug, parseCustomerSlug} from "@/utils/customer";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 
 const DuplicateCartDialog = ({open, salesOrderNo, shipToCode, onClose}: {

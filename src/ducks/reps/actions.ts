@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchRepList} from "@/api/user";
 import {type RootState} from "@/app/configureStore";
-import {selectIsEmployee, selectIsRep, selectLoggedIn} from "../user/selectors";
+import {selectIsEmployee, selectIsRep, selectLoggedIn} from "../user/userProfileSlice";
 import {selectRepsLoading} from "./salespersonSlice";
-import type {Salesperson} from "b2b-types";
+import type {Salesperson} from "chums-types/b2b";
 
 export const loadRepList = createAsyncThunk<Salesperson[], void, {state: RootState}>(
     'reps/load',
@@ -14,8 +14,7 @@ export const loadRepList = createAsyncThunk<Salesperson[], void, {state: RootSta
         condition: (arg, {getState}) => {
             const state = getState() ;
             return selectLoggedIn(state)
-                && (selectIsEmployee(state) || selectIsRep(state))
-                && !selectRepsLoading(state);
+                && selectRepsLoading(state) === 'idle';
         }
     }
 )

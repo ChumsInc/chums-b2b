@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import type {PromoCode} from "b2b-types";
+import type {PromoCode} from "chums-types/b2b";
 import {fetchPromoCode, fetchPromoCodes} from "@/api/promoCodes";
 import {type RootState} from "@/app/configureStore";
 import {selectPromoCodesLoading} from "./selectors";

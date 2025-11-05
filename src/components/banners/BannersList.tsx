@@ -1,3 +1,5 @@
+'use client';
+
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {useEffect} from "react";
 import HomeBanner from "./HomeBanner";

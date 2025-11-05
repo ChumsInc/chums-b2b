@@ -6,7 +6,7 @@ import {deepmerge} from '@mui/utils'
 import type {MinimalMenuItem} from "@/ducks/menu/types";
 import {useLocation} from "react-router";
 import {useAppSelector} from "@/app/configureStore";
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import MenuItemRouterLink from "@/components/nav-bar/MenuItemRouterLink";
 
 export interface BasicMenuProps extends Omit<MenuProps, 'open' | 'onClose' | 'anchorEl' | 'title'> {

@@ -4,7 +4,7 @@ import {type RootState} from "@/app/configureStore";
 import {hasBillToAccess} from "./utils";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
-import type {ShipToCustomer} from "b2b-types";
+import type {ShipToCustomer} from "chums-types/b2b";
 import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 export const selectCustomerKey = (state: RootState) => state.customer.key;

@@ -1,8 +1,8 @@
 import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@/utils/customer";
 import localStore from "../../utils/LocalStore";
 import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
-import {selectLoggedIn} from "../user/selectors";
-import {selectCustomerAccount, selectCustomerKey, selectCustomerLoading, selectCustomerSaving} from "./selectors";
+import {selectLoggedIn} from "../user/userProfileSlice";
+import {selectCustomerAccount, selectCustomerKey, selectCustomerLoadStatus} from "./currentCustomerSlice";
 import {
     deleteCustomerUser,
     fetchCustomerAccount,
@@ -13,7 +13,7 @@ import {
     postDefaultShipToCode,
     postShipToAddress
 } from "@/api/customer";
-import type {BasicCustomer, BillToCustomer, CustomerKey, CustomerUser, RecentCustomer, ShipToCustomer} from "b2b-types";
+import type {BasicCustomer, BillToCustomer, CustomerKey, CustomerUser, RecentCustomer, ShipToCustomer} from "chums-types/b2b";
 import {type RootState} from "@/app/configureStore";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import type {FetchCustomerResponse} from "./types";
@@ -37,7 +37,7 @@ export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, { state: 
     {
         condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state) && !!selectCustomerAccount(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle' && !!selectCustomerAccount(state);
         }
     }
 )
@@ -52,7 +52,7 @@ export const removeUser = createAsyncThunk<CustomerUser[], CustomerUser, { state
     {
         condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state) && !!selectCustomerAccount(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle' && !!selectCustomerAccount(state);
         }
     }
 )
@@ -102,7 +102,7 @@ export const loadCustomer = createAsyncThunk<FetchCustomerResponse | null, Custo
     }, {
         condition: (arg, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !!arg && !(selectCustomerLoading(state) || selectCustomerSaving(state));
+            return selectLoggedIn(state) && !!arg && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
@@ -115,7 +115,7 @@ export const saveBillingAddress = createAsyncThunk<FetchCustomerResponse | null,
     }, {
         condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
@@ -131,8 +131,7 @@ export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, 
             const state = getState();
             return selectLoggedIn(state)
                 && !!arg.ShipToCode && arg.ShipToCode.length <= 4
-                && !selectCustomerLoading(state)
-                ;
+                && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
@@ -147,7 +146,7 @@ export const setDefaultShipTo = createAsyncThunk<void, string, { state: RootStat
     {
         condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
@@ -176,7 +175,7 @@ export const loadCustomerUsers = createAsyncThunk<CustomerUser[], void, { state:
     {
         condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state) && !!selectCustomerKey(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle' && !!selectCustomerKey(state);
         }
     }
 )

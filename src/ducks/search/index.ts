@@ -1,6 +1,6 @@
 import {createAction, createAsyncThunk, createReducer} from "@reduxjs/toolkit";
 import {type RootState} from "@/app/configureStore";
-import type {SearchResult} from "b2b-types";
+import type {SearchResult} from "chums-types/b2b";
 import {fetchSearchResults} from "@/api/search";
 import {ga4Search} from "@/utils/ga4/generic";
 

@@ -1,13 +1,15 @@
+'use client';
+
 import {useRef} from 'react';
 import CartCommentLine from "./CartCommentLine";
-import type {Editable} from "b2b-types";
+import type {Editable} from "chums-types/b2b";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {saveCartItem} from "@/ducks/carts/actions";
 import CartItemLine from "./CartItemLine";
 import CartKitComponentLine from "./CartKitComponentLine";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import type {UpdateCartItemBody} from "@/types/cart/cart-action-props";
 import LinearProgress from "@mui/material/LinearProgress";

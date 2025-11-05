@@ -1,4 +1,4 @@
-import type {BillToCustomer, ShipToCustomer} from "b2b-types";
+import type {BillToCustomer, ShipToCustomer} from "chums-types/b2b";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {customerNo, isValidCustomer} from "@/utils/customer";

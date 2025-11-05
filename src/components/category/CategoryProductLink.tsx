@@ -1,5 +1,5 @@
 import SeasonTeaser from "../SeasonTeaser";
-import type {BasicProduct} from "b2b-types";
+import type {BasicProduct} from "chums-types/b2b";
 import CategoryGridItem from "./CategoryGridItem";
 import ProductAttributeStack from "@/ducks/products/components/ProductAttrbuteStack";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";

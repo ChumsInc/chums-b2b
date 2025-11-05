@@ -1,7 +1,9 @@
+'use client';
+
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {generatePath, useNavigate, useParams} from "react-router";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import {loadCart} from "@/ducks/carts/actions";
 import DocumentTitle from "@/components/DocumentTitle";
 import LinearProgress from "@mui/material/LinearProgress";

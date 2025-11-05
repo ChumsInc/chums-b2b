@@ -1,4 +1,4 @@
-import type {SalesOrderDetailLine} from "b2b-types";
+import type {SalesOrderDetailLine} from "chums-types/b2b";
 import Decimal from "decimal.js";
 
 export function calcUnitPrice(line: SalesOrderDetailLine): Decimal {

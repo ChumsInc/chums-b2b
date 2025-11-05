@@ -14,7 +14,7 @@ import type {
     ShipToAddress,
     ShipToCustomer,
     UserCustomerAccess
-} from "b2b-types";
+} from "chums-types/b2b";
 import type {SortProps} from "@/types/generic";
 import {customerKey} from "@/ducks/customer/utils";
 

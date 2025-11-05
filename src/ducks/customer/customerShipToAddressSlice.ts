@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSelector, createSlice, isAnyOf, type PayloadAction} from "@reduxjs/toolkit";
-import type {ShipToCustomer, SortProps} from "b2b-types";
+import type {ShipToCustomer, SortProps} from "chums-types/b2b";
 import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
 import {customerShipToSorter, customerSlug} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";

@@ -1,16 +1,16 @@
 import {PATH_PROFILE, PATH_PROFILE_ACCOUNT} from "@/constants/paths";
 import Breadcrumb from "@/components/Breadcrumb";
-import {selectCustomerAccount} from "@/ducks/customer/selectors";
 import {generatePath, useLocation} from "react-router";
 import type {BreadcrumbPath} from "@/types/breadcrumbs";
 import {repAccessCode} from "@/ducks/user/utils";
 import {useAppSelector} from "@/app/configureStore";
 import {selectCurrentAccess, selectUserAccessCount} from "@/ducks/user/userAccessSlice";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 
 const AccountBreadcrumbs = () => {
     const countUserAccounts = useAppSelector(selectUserAccessCount);
     const userAccount = useAppSelector(selectCurrentAccess);
-    const customerAccount = useAppSelector(selectCustomerAccount);
+    const customerKey = useAppSelector(selectCustomerKey);
     const location = useLocation();
 
     if (countUserAccounts < 2) {
@@ -27,9 +27,9 @@ const AccountBreadcrumbs = () => {
                 title: 'Account List',
                 pathname: generatePath(PATH_PROFILE_ACCOUNT, {id: `${userAccount?.id ?? 0}`})
             });
-    } else if (customerAccount) {
+    } else if (customerKey) {
         paths.push({
-            title: `${customerAccount.ARDivisionNo}-${customerAccount.CustomerNo}`,
+            title: customerKey,
             pathname: location.pathname
         })
     }

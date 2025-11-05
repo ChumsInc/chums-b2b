@@ -1,7 +1,9 @@
+'use client';
+
 import {type ChangeEvent, type FormEvent, useEffect, useRef, useState} from 'react';
 import Alert from "@mui/material/Alert";
 import {selectCustomerUsers} from "@/ducks/customer/customerUsersSlice";
-import type {CustomerUser, Editable} from "b2b-types";
+import type {CustomerUser, Editable} from "chums-types/b2b";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
@@ -13,7 +15,7 @@ import {generatePath, useMatch, useNavigate} from "react-router";
 import {customerUserPath} from "@/utils/path-utils";
 import {removeUser, saveUser} from "@/ducks/customer/actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectIsEmployee, selectIsRep} from "@/ducks/user/selectors";
+import {selectIsEmployee, selectIsRep} from "@/ducks/user/userProfileSlice";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountUserNewButton from "./AccountUserNewButton";

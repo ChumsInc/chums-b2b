@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type {CustomerAddress} from "b2b-types";
+import type {CustomerAddress} from "chums-types/b2b";
 
 const Address = ({address, className}: {
     address: CustomerAddress,

@@ -1,3 +1,3 @@
-import type {PromoCode} from "b2b-types";
+import type {PromoCode} from "chums-types/b2b";
 
 export const promoCodeSorter = (a:PromoCode, b:PromoCode) => a.id - b.id;

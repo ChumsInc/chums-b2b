@@ -1,4 +1,4 @@
-import type {RecentCustomer, Salesperson, UserCustomerAccess, UserProfile, UserRole} from "b2b-types";
+import type {RecentCustomer, Salesperson, UserCustomerAccess, UserProfile, UserRole} from "chums-types/b2b";
 
 
 

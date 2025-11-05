@@ -1,5 +1,5 @@
 import {fetchJSON} from "./fetch";
-import type {ProductCategory} from "b2b-types";
+import type {ProductCategory} from "chums-types/b2b";
 
 export async function fetchCategory(keyword: string): Promise<ProductCategory | null> {
     try {

@@ -1,5 +1,5 @@
 import {type ChangeEvent} from 'react';
-import type {BillToCustomer, ShipToCustomer} from "b2b-types";
+import type {BillToCustomer, ShipToCustomer} from "chums-types/b2b";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 

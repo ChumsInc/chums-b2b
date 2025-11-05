@@ -1,4 +1,4 @@
-import type {ContentPage} from "b2b-types";
+import type {ContentPage} from "chums-types/b2b";
 import {fetchHTML, fetchJSON} from "./fetch";
 
 export async function fetchPage(arg:string):Promise<ContentPage|null> {

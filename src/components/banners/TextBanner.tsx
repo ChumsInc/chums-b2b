@@ -1,4 +1,4 @@
-import type {Banner} from "b2b-types";
+import type {Banner} from "chums-types/b2b";
 import Box from "@mui/material/Box";
 import {type SxProps} from "@mui/system";
 import Typography from "@mui/material/Typography";

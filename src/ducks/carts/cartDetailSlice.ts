@@ -1,6 +1,6 @@
 import {createEntityAdapter, createSelector, createSlice,type  PayloadAction} from "@reduxjs/toolkit";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
-import type {SortProps} from "b2b-types";
+import type {SortProps} from "chums-types/b2b";
 import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart, saveCartItem} from "@/ducks/carts/actions";
 import {loadCustomer} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";

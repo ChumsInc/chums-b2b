@@ -1,6 +1,6 @@
 import {sendGtagEvent} from "./api";
 import {isCategoryChildProduct, isSellAsColors, isSellAsMix} from "@/ducks/products/utils";
-import type {CartProduct, CategoryChildProduct, Product, ProductCategory} from "b2b-types";
+import type {CartProduct, CategoryChildProduct, Product, ProductCategory} from "chums-types/b2b";
 import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
 
 export function ga4Exception(description: string, fatal: boolean) {

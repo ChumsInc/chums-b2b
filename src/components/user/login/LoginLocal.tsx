@@ -3,7 +3,7 @@
 import React, {type FormEvent, useState} from 'react';
 import {loginUser, resetPassword} from "@/ducks/user/actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectUserLoading} from "@/ducks/user/selectors";
+import {selectUserLoading} from "@/ducks/user/userProfileSlice";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";

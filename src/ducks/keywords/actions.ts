@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchKeywords} from '@/api/keywords'
 import {type RootState} from "@/app/configureStore";
 import {selectKeywordsLoading} from "./selectors";
-import type {Keyword} from "b2b-types";
+import type {Keyword} from "chums-types/b2b";
 
 
 export const loadKeywords = createAsyncThunk<Keyword[], void, {state: RootState}>(

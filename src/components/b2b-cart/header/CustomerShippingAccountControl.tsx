@@ -1,3 +1,5 @@
+'use client';
+
 import {type ChangeEvent, useEffect, useId, useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import FilledInput from '@mui/material/FilledInput'

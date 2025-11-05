@@ -1,9 +1,11 @@
+'use client';
+
 import {type ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import type {Editable, ShipToAddress} from "b2b-types";
+import type {Editable, ShipToAddress} from "chums-types/b2b";
 import CustomerShippingAccountControl from "./CustomerShippingAccountControl";
 import type {CartProgress} from "@/types/cart/cart-utils";
 import {
@@ -24,7 +26,6 @@ import AlertList from "@/components/alerts/AlertList";
 import SendEmailButton from "@/components/b2b-cart/header/SendEmailButton";
 import ItemAutocomplete from "@/ducks/item-lookup/ItemAutocomplete";
 import Divider from "@mui/material/Divider";
-import {selectSOLoading} from "@/ducks/sales-order/selectors";
 import TextField from "@mui/material/TextField";
 import Collapse from '@mui/material/Collapse';
 import Button from "@mui/material/Button";
@@ -37,7 +38,7 @@ import CartCheckoutProgress from "@/components/b2b-cart/header/CartCheckoutProgr
 import DeleteCartButton from "@/components/b2b-cart/header/DeleteCartButton";
 import CheckoutButton from "@/components/b2b-cart/header/CheckoutButton";
 import CartCommentInput from "@/components/b2b-cart/header/CartCommentInput";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import LinearProgress from "@mui/material/LinearProgress";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -54,7 +55,6 @@ export default function CartOrderHeader() {
     const header = useAppSelector((state) => selectCartHeaderById(state, currentCartId));
     const detail = useAppSelector((state) => selectCartDetailById(state, currentCartId));
     const loadingStatus = useAppSelector((state) => selectCartStatusById(state, currentCartId));
-    const loading = useAppSelector(selectSOLoading);
     const shipDateRef = useRef<HTMLInputElement | null>(null);
     const shipMethodRef = useRef<HTMLDivElement | null>(null);
     const paymentMethodRef = useRef<HTMLDivElement | null>(null);
@@ -86,11 +86,10 @@ export default function CartOrderHeader() {
     }, [dispatch, cartHeader, shippingAccount, customerKey, navigate])
 
     useEffect(() => {
-        if (loading) {
+        if (loadingStatus !== 'idle') {
             setCartProgress(cartProgress_Cart);
-
         }
-    }, [loading]);
+    }, [loadingStatus]);
 
     useEffect(() => {
         dispatch(loadNextShipDate());

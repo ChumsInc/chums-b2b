@@ -1,5 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
-import type {Keyword} from "b2b-types";
+import type {Keyword} from "chums-types/b2b";
 import {keywordsSorter} from "./utils";
 import {loadKeywords} from "./actions";
 

@@ -1,7 +1,8 @@
+'use client';
+
 import AppAlert from "@/components/common/AppAlert";
-import {dismissAlert, dismissContextAlert} from "@/ducks/alerts/actions";
+import {dismissAlert, dismissContextAlert, selectContextAlerts} from "@/ducks/alerts/alertsSlice";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectContextAlerts} from "@/ducks/alerts/selectors";
 
 const AlertList = ({context}: { context?: string }) => {
     const dispatch = useAppDispatch();

@@ -1,7 +1,7 @@
 import {type ChangeEvent, useEffect, useState} from 'react';
 import EmailAddressTextField from "./common/EmailAddressTextField";
 import FormHelperText from "@mui/material/FormHelperText";
-import type {BillToCustomer, ShipToCustomer} from "b2b-types";
+import type {BillToCustomer, ShipToCustomer} from "chums-types/b2b";
 
 
 const splitEmailAddresses = (emailAddress: string | null, separator: string = ';'): string[] => {

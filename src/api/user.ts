@@ -1,4 +1,4 @@
-import type {Salesperson, UserProfile} from 'b2b-types'
+import type {Salesperson, UserProfile} from 'chums-types/b2b'
 import type {
     ChangePasswordProps,
     ChangePasswordResponse,

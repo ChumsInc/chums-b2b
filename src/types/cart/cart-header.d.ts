@@ -1,4 +1,4 @@
-import type {SalesOrderHeader, SalesOrderStatus, SalesOrderType, UserProfile} from "b2b-types";
+import type {SalesOrderHeader, SalesOrderStatus, SalesOrderType, UserProfile} from "chums-types/b2b";
 
 export type CartType = SalesOrderType | '_';
 

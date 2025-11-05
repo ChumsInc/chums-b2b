@@ -1,5 +1,5 @@
 import React from 'react';
-import type {Product} from "b2b-types";
+import type {Product} from "chums-types/b2b";
 import Stack, {type StackProps} from "@mui/material/Stack";
 import SizeIconList from "../../../components/SizeIconList";
 import ProductAttributeChip from "./ProductAttributeChip";

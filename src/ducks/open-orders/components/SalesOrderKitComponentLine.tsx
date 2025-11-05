@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import type {Editable, SalesOrderDetailLine} from "b2b-types";
+import type {Editable, SalesOrderDetailLine} from "chums-types/b2b";
 import type {Appendable} from "@/types/generic";
 import classNames from "classnames";
 import OrderItemImage from "@/components/OrderItemImage";

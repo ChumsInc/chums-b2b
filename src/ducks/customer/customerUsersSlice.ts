@@ -6,7 +6,7 @@ import {
     type PayloadAction,
     type UnknownAction
 } from "@reduxjs/toolkit";
-import type {CustomerUser, SortProps} from "b2b-types";
+import type {CustomerUser, SortProps} from "chums-types/b2b";
 import {
     loadCustomer,
     loadCustomerUsers,

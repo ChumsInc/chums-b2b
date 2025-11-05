@@ -1,10 +1,12 @@
+'use client';
+
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
 import {loadCart} from "@/ducks/carts/actions";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 
 /**
  * @TODO: Refactor for using cartId instead of salesOrderNo

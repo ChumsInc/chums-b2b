@@ -1,6 +1,6 @@
 import {type SyntheticEvent, useEffect, useState} from 'react'
-import type {ShipToAddress, ShipToCustomer} from "b2b-types";
-import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import type {ShipToAddress, ShipToCustomer} from "chums-types/b2b";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";

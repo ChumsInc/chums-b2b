@@ -1,4 +1,4 @@
-import type {Editable} from "b2b-types";
+import type {Editable} from "chums-types/b2b";
 import classNames from "classnames";
 import OrderItemImage from "@/components/OrderItemImage";
 import UPCA from "@/components/common/upc-a";

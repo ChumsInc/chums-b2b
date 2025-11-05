@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect, useState} from 'react';
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
@@ -9,13 +11,14 @@ import {getShippingMethod} from "@/constants/account";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
 import Grid from '@mui/material/Grid';
-import {selectSalesOrder, selectSalesOrderInvoices} from "../selectors";
+import {selectSalesOrderInvoices} from "../currentOrderSlice";
 import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog";
 import {isClosedSalesOrder} from "../../sales-order/utils";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
+import {selectSalesOrderHeader} from "@/ducks/open-orders/currentOrderSlice";
 
 
 function isValidDate(date: string | null | undefined): boolean {
@@ -32,8 +35,8 @@ const SalesOrderHeaderElement = () => {
     const dispatch = useAppDispatch();
     const params = useParams<{ salesOrderNo: string }>();
     const customer = useAppSelector(selectCustomerAccount);
-    const header = useAppSelector((state) => selectSalesOrder(state, params?.salesOrderNo ?? ''));
-    const invoices = useAppSelector((state) => selectSalesOrderInvoices(state, params?.salesOrderNo ?? ''));
+    const header = useAppSelector(selectSalesOrderHeader);
+    const invoices = useAppSelector(selectSalesOrderInvoices);
     const [showDuplicateCart, setShowDuplicateCart] = useState(false);
     const [hasCancelDate, setHasCancelDate] = useState(isValidDate(header?.UDF_CANCEL_DATE));
     const [cancelDate, setCancelDate] = useState(toDateString(header?.UDF_CANCEL_DATE));

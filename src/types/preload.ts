@@ -1,4 +1,4 @@
-import type {UserCustomerAccess, UserProfile} from "b2b-types";
+import type {UserCustomerAccess, UserProfile} from "chums-types/b2b";
 
 
 export interface ExtendedUserProfile extends UserProfile {

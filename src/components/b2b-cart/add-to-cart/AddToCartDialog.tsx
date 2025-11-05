@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import Dialog, {type DialogProps} from "@mui/material/Dialog";
-import type {CartProduct} from "b2b-types";
+import type {CartProduct} from "chums-types/b2b";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";

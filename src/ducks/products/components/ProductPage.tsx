@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect, useRef, useState} from 'react';
 import {loadProduct, setCurrentVariant} from '../actions';
 import classNames from "classnames";
@@ -10,7 +12,7 @@ import MissingTaxScheduleAlert from "@/components/customer/billing/MissingTaxSch
 import RequireLogin from "@/components/RequireLogin";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
-import {selectCustomerAccount} from "../../customer/selectors";
+import {selectCustomerAccount} from "../../customer/currentCustomerSlice";
 import ProductPageImage from "./ProductPageImage";
 import ProductPageTitle from "./ProductPageTitle";
 import ProductPageInfo from "./ProductPageInfo";

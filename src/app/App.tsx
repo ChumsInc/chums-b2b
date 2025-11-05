@@ -1,3 +1,5 @@
+'use client';
+
 import {StrictMode, useEffect} from 'react';
 import {Route, Routes, useLocation} from 'react-router';
 import Login from "@/components/user/login/LoginPage";
@@ -10,12 +12,12 @@ import SignUp from "@/components/sign-up/SignUp";
 import Logout from "@/components/user/Logout";
 import ResetPassword from "@/components/user/ResetPassword";
 import ContentPage from "../ducks/page/ContentPage";
-import InvoicePage from "../ducks/invoices/components/InvoicePage";
-import {selectLoggedIn} from "@/ducks/user/selectors";
-import {selectCustomerAccount, selectCustomerLoaded, selectCustomerLoading} from "@/ducks/customer/selectors";
+import InvoicePage from "@/components/invoices/InvoicePage";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
+import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import AccountListContainer from "../ducks/customers/components/AccountListContainer";
+import AccountListContainer from "@/components/customerList/AccountListContainer";
 import {useAppDispatch, useAppSelector} from "./configureStore";
 import MainOutlet from "./MainOutlet";
 import ProductRouter from "../ducks/products/components/ProductRouter";
@@ -26,11 +28,10 @@ import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ContentPage404 from "../components/ContentPage404";
 import OpenOrdersList from "../ducks/open-orders/components/OpenOrdersList";
-import InvoicesList from "../ducks/invoices/components/InvoicesList";
+import InvoicesList from "@/components/invoices/InvoicesList";
 import ShipToList from "@/components/customer/delivery/ShipToList";
 import theme from "./theme";
 import Home from "../components/Home";
-import ClosedSalesOrderPage from "../ducks/open-orders/components/ClosedSalesOrderPage";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {GOOGLE_CLIENT_ID} from "@/constants/app";
 import RequestPasswordResetForm from "@/components/user/RequestPasswordResetForm";
@@ -51,7 +52,6 @@ const App = () => {
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const currentCustomer = useAppSelector(selectCustomerAccount);
-    const customerLoading = useAppSelector(selectCustomerLoading);
     const customerLoaded = useAppSelector(selectCustomerLoaded);
     const nonce = useAppSelector(selectAppNonce);
     const location = useLocation();
@@ -76,10 +76,10 @@ const App = () => {
             return;
         }
         dispatch(loadProfile());
-        if (!!currentCustomer && !customerLoading && !customerLoaded) {
+        if (!!currentCustomer && !customerLoaded) {
             dispatch(loadCustomer(currentCustomer));
         }
-    }, [isLoggedIn]);
+    }, [currentCustomer, isLoggedIn]);
 
     return (
         <StrictMode>
@@ -123,10 +123,8 @@ const App = () => {
                                                 </Route>
                                                 <Route path="carts" element={<CartsPage/>}/>
                                                 <Route path="carts/:cartId" element={<CartPage/>}/>
-                                                {/*<Route path="carts/:salesOrderNo" element={<SalesOrderPage/>}/>*/}
                                                 <Route path="orders" element={<OpenOrdersList/>}/>
                                                 <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>
-                                                <Route path="closed/:salesOrderNo" element={<ClosedSalesOrderPage/>}/>
                                                 <Route path="invoices" element={<InvoicesList/>}/>
                                                 <Route path="invoices/:type/:invoiceNo" element={<InvoicePage/>}/>
                                                 <Route path="*" element={<ContentPage404/>}/>

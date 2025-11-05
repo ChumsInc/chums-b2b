@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
-import type {Banner} from "b2b-types";
+import type {Banner} from "chums-types/b2b";
 import {loadBanners} from "@/ducks/banners/actions";
 import {bannerSorter} from "@/ducks/banners/utils";
 

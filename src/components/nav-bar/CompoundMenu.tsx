@@ -8,7 +8,7 @@ import {type ButtonProps} from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {useAppSelector} from "@/app/configureStore";
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import {type SxProps} from "@mui/system";
 import {type Theme} from "@mui/material/styles";
 import {MenuList} from "@mui/material";

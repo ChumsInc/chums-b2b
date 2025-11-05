@@ -1,4 +1,4 @@
-import type {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "b2b-types";
+import type {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "chums-types/b2b";
 import type {SortProps} from "@/types/generic";
 import {generatePath} from "react-router";
 import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "@/constants/paths";

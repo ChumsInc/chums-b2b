@@ -1,7 +1,9 @@
+"use client";
+
 import {useEffect, useRef, useState} from 'react';
 import {updateLocalAuth} from "@/ducks/user/actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectLoggedIn, selectLoginExpiry} from "@/ducks/user/selectors";
+import {selectLoggedIn, selectLoginExpiry} from "@/ducks/user/userProfileSlice";
 import {useIsSSR} from "@/hooks/is-server-side";
 
 const oneMinute = 60 * 1000;

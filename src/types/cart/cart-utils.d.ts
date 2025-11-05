@@ -16,7 +16,7 @@ export interface CartMessage {
     key: string;
 }
 
-type CartStatusValue = 'idle'|'loading'|'saving'|'deleting'|'not-found';
+type CartStatusValue = 'idle'|'loading'|'saving'|'sending'|'deleting'|'not-found';
 
 export interface CartStatusList {
     [key: number]: CartStatusValue;
@@ -31,9 +31,4 @@ export interface CartDetailStatus {
     id: number;
     cartId: number;
     status: CartStatusValue;
-}
-
-export interface CartStatus {
-    key: number;
-    status: 'idle'|'loading'|'saving'|'deleting'|'not-found';
 }

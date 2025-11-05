@@ -1,3 +1,5 @@
+'use client';
+
 import type {NavItemProps} from "@/types/ui-features";
 import {useEffect} from "react";
 import {loadResourcesMenu, selectResourcesMenu, selectShouldLoadResourcesMenu} from "@/ducks/menu";

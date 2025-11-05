@@ -3,7 +3,7 @@ import {customerPriceRecordSorter, customerSlug,} from "@/utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {getImageItemCode, isCartProduct, updateCartProductPricing} from "./utils";
 import {loadCustomer} from "../customer/actions";
-import type {CartProduct, CustomerPriceRecord, Product} from "b2b-types";
+import type {CartProduct, CustomerPriceRecord, Product} from "chums-types/b2b";
 import {loadProduct, setCartItemQuantity, setColorCode, setCurrentVariant} from "./actions";
 import {setLoggedIn} from "../user/actions";
 import {parsePossiblyMissingFilename} from "@/components/common/image";

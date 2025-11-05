@@ -1,3 +1,5 @@
+'use client';
+
 import {useEffect} from 'react';
 import {useAppDispatch} from "@/app/configureStore";
 import {logoutUser} from "@/ducks/user/actions";

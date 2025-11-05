@@ -1,4 +1,6 @@
-import {selectCustomerReturnToPath} from "@/ducks/customer/selectors";
+'use client';
+
+import {selectCustomerReturnToPath} from "@/ducks/customer/currentCustomerSlice";
 import Alert from "@mui/material/Alert";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {setReturnToPath} from "@/ducks/customer/actions";

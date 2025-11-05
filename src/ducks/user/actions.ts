@@ -19,7 +19,7 @@ import {
     selectResettingPassword,
     selectUserActionStatus,
     selectUserLoading
-} from "./selectors";
+} from "./userProfileSlice";
 import {
     fetchGoogleLogin,
     fetchUserProfile,
@@ -40,7 +40,7 @@ import type {
     UserProfileResponse
 } from "./types";
 import {type RootState} from "@/app/configureStore";
-import type {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "b2b-types";
+import type {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "chums-types/b2b";
 import {isCustomerAccess} from "./utils";
 import type {StoredProfile} from "@/types/user";
 import {loadCustomerList} from "../customers/actions";

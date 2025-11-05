@@ -9,7 +9,7 @@ import type {
     ProductColorItem,
     ProductVariant,
     SellAsVariantsProduct
-} from "b2b-types";
+} from "chums-types/b2b";
 import Decimal from "decimal.js";
 import type {CartItemColorProps, PriceField} from "../types/product";
 import {isSellAsColors, isSellAsMix, isSellAsSelf, isSellAsVariants} from "@/ducks/products/utils";

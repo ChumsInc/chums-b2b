@@ -1,7 +1,7 @@
 import type {CustomersState} from "@/ducks/customers/types";
 import {auth} from "@/api/IntranetAuthService";
 import localStore from "@/utils/LocalStore";
-import type {RecentCustomer} from "b2b-types";
+import type {RecentCustomer} from "chums-types/b2b";
 import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
 
 export const initialCustomersState = (): CustomersState => {

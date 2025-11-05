@@ -1,3 +1,5 @@
+'use client';
+
 import {useRef, useState} from 'react';
 import classNames from "classnames";
 import OrderItemImage from "@/components/OrderItemImage";
@@ -10,7 +12,7 @@ import CartLineButtons from "./CartLineButtons";
 import SalesOrderCommentLine from "./CartCommentLine";
 import FormattedUPC from "@/components/FormattedUPC";
 import Typography from "@mui/material/Typography";
-import {selectCanViewAvailable} from "@/ducks/user/selectors";
+import {selectCanViewAvailable} from "@/ducks/user/userProfileSlice";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";

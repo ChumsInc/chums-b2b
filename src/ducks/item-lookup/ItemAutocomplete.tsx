@@ -1,3 +1,5 @@
+'use client';
+
 import {type ChangeEvent, type SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {
@@ -17,7 +19,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import {styled} from "@mui/material/styles";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import AddToCartButton from "@/components/b2b-cart/add-to-cart/AddToCartButton";
 
 

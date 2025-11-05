@@ -1,12 +1,12 @@
 import {createEntityAdapter, createSelector, createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {Customer} from "b2b-types";
+import type {Customer} from "chums-types/b2b";
 import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer";
 import type {SortProps} from "@/types/generic";
 import LocalStore from "@/utils/LocalStore";
 import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
-import {dismissContextAlert} from "@/ducks/alerts/actions";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 import {STATES_USA} from "@/constants/states";
 
 const adapter = createEntityAdapter<Customer, string>({

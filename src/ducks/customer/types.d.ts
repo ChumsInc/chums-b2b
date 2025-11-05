@@ -6,7 +6,7 @@ import {
     CustomerUser, type Editable,
     PromoCode, RecentCustomer,
     ShipToCustomer, type SortProps
-} from "b2b-types";
+} from "chums-types/b2b";
 import {CustomerPermissions} from "../../ducks/user/types";
 import type {LoadStatus, Selectable} from "@/types/generic";
 import type {CustomerPermissionsState} from "@/ducks/customer/index";

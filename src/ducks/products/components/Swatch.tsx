@@ -1,6 +1,6 @@
 import React from 'react';
 import {parseColor} from '@/utils/products';
-import type {ProductColor} from "b2b-types";
+import type {ProductColor} from "chums-types/b2b";
 import {styled} from "@mui/material/styles";
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box";

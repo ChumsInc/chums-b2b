@@ -1,27 +1,29 @@
-import React, {useEffect, useState} from 'react';
+'use client';
+
+import React, {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {
     selectOpenOrdersCustomerKey,
     selectOpenOrdersFilter,
     selectOpenOrdersList,
     selectOpenOrdersLoaded,
-    selectOpenOrdersLoading
-} from "../selectors";
+    selectOpenOrdersStatus, setOpenOrdersFilter
+} from "../openOrdersSlice";
 import OrdersList from "./OrdersList";
 import OrderLink from "../../../components/OrderLink";
 import {DateString} from "@/components/DateString";
 import numeral from "numeral";
 import type {SortableTableField} from "@/components/common/DataTable";
 import Decimal from "decimal.js";
-import type {SalesOrderHeader} from "b2b-types";
-import {loadOpenOrders, setOpenOrdersFilter} from "../actions";
+import type {SalesOrderHeader} from "chums-types/b2b";
+import {loadOpenOrders} from "../actions";
 import OrderFilter from "./OrderFilter";
 import LinearProgress from "@mui/material/LinearProgress";
 import NoOpenOrdersAlert from "./NoOpenOrdersAlert";
 import Button from "@mui/material/Button"
 import {selectCustomerShipToCode} from "../../customer/customerShipToAddressSlice";
 import ShipToCustomerLink from "@/components/ShipToCustomerLink";
-import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 
 
 const openOrderFields: SortableTableField<SalesOrderHeader>[] = [
@@ -60,16 +62,16 @@ const OpenOrdersList = () => {
     const currentCustomer = useAppSelector(selectCustomerAccount);
     const shipToCode = useAppSelector(selectCustomerShipToCode);
     const orders = useAppSelector(selectOpenOrdersList);
-    const loading = useAppSelector(selectOpenOrdersLoading);
+    const status = useAppSelector(selectOpenOrdersStatus);
     const loaded = useAppSelector(selectOpenOrdersLoaded);
     const filter = useAppSelector(selectOpenOrdersFilter);
     const [list, setList] = useState(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
 
     useEffect(() => {
-        if (loading === 'idle' && !loaded && !!customerKey) {
+        if (status === 'idle' && !loaded && !!customerKey) {
             dispatch(loadOpenOrders(customerKey));
         }
-    }, [loading, loaded, customerKey]);
+    }, [status, loaded, customerKey]);
 
     useEffect(() => {
         setList(orders.filter(so => !shipToCode || so.ShipToCode === shipToCode));
@@ -81,19 +83,22 @@ const OpenOrdersList = () => {
         }
     }
 
+    const onChangeOrderFilter = (ev:ChangeEvent<HTMLInputElement>) => {
+        dispatch(setOpenOrdersFilter(ev.target.value));
+    }
+
     if (!currentCustomer || !currentCustomer.CustomerNo) {
         return null;
     }
 
     return (
         <>
-            <OrderFilter value={filter} onChange={(ev) => dispatch(setOpenOrdersFilter(ev.target.value))}
-                         maxLength={30}>
+            <OrderFilter value={filter} onChange={onChangeOrderFilter} maxLength={30}>
                 <Button type="button" variant="text" onClick={reloadHandler}>
                     Reload
                 </Button>
             </OrderFilter>
-            {loading === 'pending' && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
+            {status === 'loading' && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
             <OrdersList list={list} fields={openOrderFields}/>
             <NoOpenOrdersAlert/>
         </>

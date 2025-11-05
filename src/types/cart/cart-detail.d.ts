@@ -1,4 +1,4 @@
-import type {Editable} from "b2b-types";
+import type {Editable} from "chums-types/b2b";
 
 export interface B2BCartLine {
     id: number;

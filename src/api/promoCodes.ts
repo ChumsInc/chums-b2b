@@ -1,4 +1,4 @@
-import type {PromoCode} from "b2b-types";
+import type {PromoCode} from "chums-types/b2b";
 import {fetchJSON} from "./fetch";
 
 

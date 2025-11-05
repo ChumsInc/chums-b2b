@@ -1,6 +1,6 @@
 import numeral from 'numeral';
 import {PRICE_LEVELS} from '@/constants/account';
-import type {CustomerPriceRecord} from "b2b-types";
+import type {CustomerPriceRecord} from "chums-types/b2b";
 import {styled} from "@mui/material/styles";
 
 const CustomerPricingNotice = styled('span')`

@@ -1,18 +1,23 @@
+'use client';
+
 import React, {useEffect} from 'react';
 import {redirect, useMatch, useParams} from 'react-router';
 import OrderDetail from "./OrderDetail";
 import Alert from "@mui/material/Alert";
 import DocumentTitle from "@/components/DocumentTitle";
-import {selectCustomerAccount, selectCustomerLoading} from "../../customer/selectors";
-import {selectSOLoading} from "../../sales-order/selectors";
+import {
+    selectCustomerAccount,
+    selectCustomerLoaded,
+    selectCustomerLoadStatus
+} from "../../customer/currentCustomerSlice";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadSalesOrder} from "../actions";
 import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
 import SalesOrderSkeleton from "./SalesOrderSkeleton";
-import {selectSalesOrder} from "../selectors";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import Typography from "@mui/material/Typography";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
 
 /**
  *
@@ -25,12 +30,12 @@ const SalesOrderPage = () => {
     const match = useMatch('/account/:customerSlug/:orderType/:salesOrderNo');
     const userAccount = useAppSelector(selectCurrentAccess);
     const customer = useAppSelector(selectCustomerAccount);
-    const salesOrderHeader = useAppSelector((state) => selectSalesOrder(state, params?.salesOrderNo ?? ''));
-    const loading = useAppSelector(selectSOLoading);
-    const customerLoading = useAppSelector(selectCustomerLoading);
+    const salesOrderHeader = useAppSelector(selectSalesOrderHeader);
+    const loading = useAppSelector(selectSalesOrderStatus);
+    const customerLoaded = useAppSelector(selectCustomerLoaded);
 
     useEffect(() => {
-        if (loading || customerLoading) {
+        if (loading !== 'idle') {
             return;
         }
         if (!!params?.salesOrderNo && params?.salesOrderNo !== salesOrderHeader?.SalesOrderNo) {
@@ -39,7 +44,7 @@ const SalesOrderPage = () => {
     }, [customer, userAccount, params, loading, salesOrderHeader]);
 
 
-    if (!customer && !customerLoading) {
+    if (!customer && customerLoaded) {
         redirect('/profile');
         return;
     }
@@ -53,7 +58,7 @@ const SalesOrderPage = () => {
                 <div className="sales-order-page">
                     <SalesOrderSkeleton/>
                 </div>
-                <SalesOrderLoadingProgress salesOrderNo={match?.params?.salesOrderNo}/>
+                <SalesOrderLoadingProgress />
             </div>
         )
     }
@@ -80,7 +85,7 @@ const SalesOrderPage = () => {
             <div className="sales-order-page">
                 <Typography variant="h3" component="h2">Sales Order #{salesOrderHeader.SalesOrderNo}</Typography>
                 <SalesOrderHeaderElement/>
-                <SalesOrderLoadingProgress salesOrderNo={match?.params?.salesOrderNo}/>
+                <SalesOrderLoadingProgress/>
                 <OrderDetail salesOrderNo={match?.params?.salesOrderNo}/>
             </div>
         </div>

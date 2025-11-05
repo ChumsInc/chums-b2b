@@ -3,6 +3,17 @@ import react from '@vitejs/plugin-react';
 import path from "node:path";
 import process from "node:process";
 
+function manualChunks(id: string):string | null {
+    if (id.includes('node_modules')) {
+        if (id.includes('react')) {
+            return 'react'
+        }
+        if (id.includes('mui')) {}
+        return 'mui';
+    }
+    return null;
+}
+
 export default defineConfig({
     plugins: [react()],
     resolve: {
@@ -38,10 +49,16 @@ export default defineConfig({
         }
     },
     build: {
-        outDir: 'dist',
+        outDir: 'dist-client',
         emptyOutDir: true,
         rollupOptions: {
-            input: './src/entry-server.ts',
+            input: './src/client/index.tsx',
+            output: {
+                manualChunks: manualChunks,
+            }
         },
+        manifest: true,
+        sourcemap: true,
     },
+
 })

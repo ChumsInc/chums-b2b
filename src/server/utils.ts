@@ -2,7 +2,7 @@ import 'dotenv/config';
 import Debug from 'debug';
 import {type NextFunction, type Request, type Response} from "express";
 import fetch from 'isomorphic-fetch';
-import type {Keyword} from "b2b-types";
+import type {Keyword} from "chums-types/b2b";
 import {API_PORT} from "./config";
 
 const debug = Debug('chums:server:utils');

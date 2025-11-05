@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
-import type {CustomerPaymentCard} from "b2b-types";
+import type {CustomerPaymentCard} from "chums-types/b2b";
 import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";

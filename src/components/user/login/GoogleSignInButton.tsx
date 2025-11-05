@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {signInWithGoogle} from "@/ducks/user/actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";

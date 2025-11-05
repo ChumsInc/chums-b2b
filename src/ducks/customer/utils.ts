@@ -6,7 +6,7 @@ import type {
     ShipToAddress,
     ShipToCustomer,
     UserCustomerAccess
-} from "b2b-types";
+} from "chums-types/b2b";
 import type {CustomerState, FetchCustomerResponse} from "./types";
 import {
     customerContactSorter,

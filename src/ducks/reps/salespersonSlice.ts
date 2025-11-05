@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
-import type {Salesperson} from "b2b-types";
+import type {Salesperson} from "chums-types/b2b";
 import {salespersonKey, userRepListSort} from "@/ducks/user/utils";
 import {setLoggedIn} from "@/ducks/user/actions";
 import {loadRepList} from "@/ducks/reps/actions";

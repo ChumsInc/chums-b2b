@@ -1,6 +1,6 @@
 import {useEffect, useId, useState} from 'react';
 import ListItem, {type ListItemProps} from "@mui/material/ListItem";
-import type {CookieConsentSection, CookieConsentSectionInfo} from "b2b-types";
+import type {CookieConsentSection, CookieConsentSectionInfo} from "chums-types/b2b";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemButton from "@mui/material/ListItemButton";
 import CheckBox from "@mui/material/Checkbox";

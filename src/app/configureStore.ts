@@ -1,14 +1,14 @@
+"use client";
+
 import {configureStore} from '@reduxjs/toolkit';
-import './global-window';
 import {type TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import type {PreloadedState} from "b2b-types";
-import {initialInvoicesState} from "@/ducks/invoices";
-import {initialSalesOrderState} from "@/ducks/sales-order";
-import {initialUserState} from "@/ducks/user";
+import type {PreloadedState} from "chums-types/b2b";
+import userProfileSlice, {initialUserState} from "@/ducks/user/userProfileSlice";
 import {initializeActiveCartState} from "@/ducks/carts/utils";
 import {rootReducer} from "@/app/root-reducer";
 import {getPreloadCustomerState} from "@/ducks/customers/customerListSlice";
 import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice";
+import invoiceListSlice, {getInvoiceListInitialState} from "@/ducks/invoices/invoiceListSlice";
 
 
 const store = configureStore({
@@ -35,8 +35,7 @@ function getPreloadedState() {
         banners: getPreloadedBannersState([]),
         activeCart: initializeActiveCartState(),
         customerList: getPreloadCustomerState(),
-        invoices: initialInvoicesState(),
-        salesOrder: initialSalesOrderState(),
-        user: initialUserState(),
+        [invoiceListSlice.reducerPath]: getInvoiceListInitialState(),
+        [userProfileSlice.reducerPath]: initialUserState(),
     }
 }

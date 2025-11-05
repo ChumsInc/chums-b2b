@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import {longRepNo} from "@/utils/customer";
 import React from "react";
-import type {UserCustomerAccess} from "b2b-types";
+import type {UserCustomerAccess} from "chums-types/b2b";
 
 export interface AccessButtonProps {
     access: UserCustomerAccess;

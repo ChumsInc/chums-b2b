@@ -1,4 +1,4 @@
-import type {Keyword} from "b2b-types";
+import type {Keyword} from "chums-types/b2b";
 
 
 export const keywordsSorter = (a: Keyword, b: Keyword) => {

@@ -1,3 +1,5 @@
+'use client';
+
 import {useEffect} from 'react';
 import {loadCategory} from '@/ducks/category/actions';
 import CategoryPageElement from "./CategoryPageElement";

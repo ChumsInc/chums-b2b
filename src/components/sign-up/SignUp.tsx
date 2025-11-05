@@ -4,7 +4,7 @@ import {documentTitles, PATH_SET_PASSWORD} from "@/constants/paths";
 import MAPPolicy from "../MAPPolicy";
 import UsagePolicy from "../UsagePolicy";
 import DocumentTitle from "../DocumentTitle";
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import {useNavigate} from "react-router";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";

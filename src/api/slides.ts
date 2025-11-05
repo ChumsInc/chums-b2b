@@ -1,4 +1,4 @@
-import type {Slide} from "b2b-types";
+import type {Slide} from "chums-types/b2b";
 import {fetchJSON} from "./fetch";
 
 

@@ -2,9 +2,9 @@ import React from 'react';
 import numeral from "numeral";
 import Alert from "@mui/material/Alert";
 import CartItemPriceDescription from "../../../components/CartItemPriceDescription";
-import {selectCanViewAvailable} from "../../user/selectors";
+import {selectCanViewAvailable} from "../../user/userProfileSlice";
 import Decimal from "decimal.js";
-import type {CartProduct} from "b2b-types";
+import type {CartProduct} from "chums-types/b2b";
 import {styled, useTheme} from '@mui/material/styles'
 import Box from "@mui/material/Box";
 import TableCell from "@mui/material/TableCell";

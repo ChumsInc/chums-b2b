@@ -7,9 +7,9 @@ import {
     loadCarts,
     processCart,
     saveCart,
-    saveCartItem
+    saveCartItem, sendCartEmail
 } from "@/ducks/carts/actions";
-import {dismissContextAlert} from "@/ducks/alerts/actions";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 
 const statusAdapter = createEntityAdapter<CartStatus, number>({
     selectId: (arg) => arg.key,
@@ -117,6 +117,16 @@ const cartStatusSlice = createSlice({
                         state.global = 'idle';
                 }
             })
+            .addCase(sendCartEmail.pending, (state, action) => {
+                statusAdapter.setOne(state, {key: action.meta.arg.cartId, status: 'sending'});
+            })
+            .addCase(sendCartEmail.fulfilled, (state, action) => {
+                statusAdapter.setOne(state, {key: action.meta.arg.cartId, status: 'idle'});
+            })
+            .addCase(sendCartEmail.rejected, (state, action) => {
+                statusAdapter.setOne(state, {key: action.meta.arg.cartId, status: 'idle'});
+            })
+
     },
     selectors: {
         selectCartsStatus: (state) => state.global,

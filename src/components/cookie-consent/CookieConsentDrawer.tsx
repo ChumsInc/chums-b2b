@@ -1,3 +1,5 @@
+'use client';
+
 import {useState} from 'react';
 import Drawer from "@mui/material/Drawer";
 import Grid from "@mui/material/Grid";
@@ -12,7 +14,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import type {CookieConsentBody} from "b2b-types";
+import type {CookieConsentBody} from "chums-types/b2b";
 import CookieConsentDialog from "@/components/cookie-consent/CookieConsentDialog";
 import {saveCookieConsent} from "@/ducks/cookie-consent/actions";
 import Link from "@mui/material/Link";

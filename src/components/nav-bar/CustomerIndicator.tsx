@@ -1,9 +1,10 @@
+'use client';
+
 import {
     selectCustomerAccount,
     selectCustomerLoaded,
-    selectCustomerLoading,
     selectCustomerLoadStatus,
-} from "@/ducks/customer/selectors";
+} from "@/ducks/customer/currentCustomerSlice";
 import {useEffect} from "react";
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
@@ -20,12 +21,11 @@ export default function CustomerIndicator() {
     const currentShipTo = useAppSelector(selectCustomerShipTo);
     const params = useParams<{ customerSlug: string }>();
     const loadStatus = useAppSelector(selectCustomerLoadStatus);
-    const loading = useAppSelector(selectCustomerLoading);
     const loaded = useAppSelector(selectCustomerLoaded);
 
     useEffect(() => {
         const nextCustomer = billToCustomerSlug(params.customerSlug ?? '');
-        if (!nextCustomer && !loaded && !!customer && !loading) {
+        if (!nextCustomer && !loaded && !!customer && loadStatus === 'idle' ) {
             dispatch(loadCustomer(customer));
             return;
         }

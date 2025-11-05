@@ -12,7 +12,7 @@ import type {
 } from "@/types/cart/cart-action-props";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 import type {B2BCart} from "@/types/cart/cart";
-import type {EmailResponse} from "b2b-types";
+import type {EmailResponse} from "chums-types/b2b";
 
 export async function fetchCarts(arg: string): Promise<B2BCart[]> {
     try {

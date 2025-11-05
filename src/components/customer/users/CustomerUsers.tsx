@@ -1,5 +1,7 @@
+'use client';
+
 import CustomerUserTable from "./CustomerUserTable";
-import {selectCustomerKey, selectCustomerLoading} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -28,7 +30,8 @@ export default function CustomerUsers() {
                     <Typography variant="h3" component="h3">
                         User List
                     </Typography>
-                    <Button type="button" variant="text" onClick={reloadHandler} disabled={status !== 'idle' || !customerKey}>
+                    <Button type="button" variant="text" onClick={reloadHandler}
+                            disabled={status !== 'idle' || !customerKey}>
                         Reload
                     </Button>
                 </Stack>

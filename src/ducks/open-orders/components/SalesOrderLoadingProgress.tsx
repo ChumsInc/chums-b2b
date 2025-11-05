@@ -1,16 +1,14 @@
 import React from 'react';
-import {selectSalesOrderLoading} from "../selectors";
 import {useAppSelector} from "@/app/configureStore";
 import LinearProgress from "@mui/material/LinearProgress";
+import {selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
 
-export default function SalesOrderLoadingProgress({salesOrderNo}:{
-    salesOrderNo?: string
-}) {
-    const loading = useAppSelector(state => selectSalesOrderLoading(state, salesOrderNo));
+export default function SalesOrderLoadingProgress() {
+    const loading = useAppSelector(selectSalesOrderStatus);
     if (loading === 'idle' || loading === 'rejected') {
         return null;
     }
     return (
-        <LinearProgress variant="indeterminate" sx={{my: 1}} />
+        <LinearProgress variant="indeterminate" sx={{my: 1}}/>
     )
 }

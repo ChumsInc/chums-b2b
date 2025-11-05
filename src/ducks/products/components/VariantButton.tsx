@@ -1,9 +1,9 @@
 import React from 'react';
 import {getMSRP, getPrices, getSalesUM} from "@/utils/products";
 import numeral from 'numeral';
-import {selectLoggedIn} from "../../user/selectors";
+import {selectLoggedIn} from "../../user/userProfileSlice";
 import {selectCustomerPricing} from "../../customer/customerPricingSlice";
-import type {ProductVariant} from "b2b-types";
+import type {ProductVariant} from "chums-types/b2b";
 import Button from "@mui/material/Button";
 import {styled} from '@mui/material/styles';
 import Stack from "@mui/material/Stack";

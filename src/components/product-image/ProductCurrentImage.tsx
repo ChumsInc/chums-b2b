@@ -1,5 +1,5 @@
 import {useLayoutEffect, useState} from "react";
-import type {ProductAlternateImage} from "b2b-types";
+import type {ProductAlternateImage} from "chums-types/b2b";
 import Box from "@mui/material/Box";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import {sizesQuery} from "@/components/product-image/utils";

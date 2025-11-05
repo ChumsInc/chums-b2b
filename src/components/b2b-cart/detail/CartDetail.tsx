@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import CartDetailLine from "./CartDetailLine";
 import CartTotal from "./CartTotal";
-import type {CartProduct} from "b2b-types";
+import type {CartProduct} from "chums-types/b2b";
 import {useAppSelector} from "@/app/configureStore";
 import {ga4ViewCart} from "@/utils/ga4/cart";
 import TableContainer from '@mui/material/TableContainer';

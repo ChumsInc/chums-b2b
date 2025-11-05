@@ -1,7 +1,9 @@
+'use client';
+
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadCustomer} from "@/ducks/customer/actions";
 import Button, {type ButtonProps} from "@mui/material/Button";
-import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 
 const ReloadCustomerButton = ({type, onClick, disabled, ...rest}: ButtonProps) => {
     const dispatch = useAppDispatch();

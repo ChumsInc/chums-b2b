@@ -1,8 +1,10 @@
+'use client';
+
 import {useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
-import type {ShipToCustomer} from "b2b-types";
+import type {ShipToCustomer} from "chums-types/b2b";
 import {billToCustomerSlug, stateCountry} from "@/utils/customer";
-import {selectCustomerLoading, selectPrimaryShipTo} from "@/ducks/customer/selectors";
+import {selectPrimaryShipTo} from "@/ducks/customer/selectors";
 import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -20,6 +22,7 @@ import {
     selectSortedShipToList,
     setShipToSort
 } from "@/ducks/customer/customerShipToAddressSlice";
+import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
     shipTo: ShipToCustomer;
@@ -62,7 +65,7 @@ const ShipToList = () => {
     const dispatch = useAppDispatch();
     const list = useAppSelector(selectSortedShipToList);
     const sort = useAppSelector(selectShipToSort);
-    const loading = useAppSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectCustomerLoadStatus);
     const primaryShipTo = useAppSelector(selectPrimaryShipTo);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -80,7 +83,7 @@ const ShipToList = () => {
     }
     return (
         <div>
-            {loading && (<LinearProgress variant="indeterminate"/>)}
+            {loading === 'loading' && (<LinearProgress variant="indeterminate"/>)}
             <DataTable data={list.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
                        rowClassName={rowClassName}
                        currentSort={sort} onChangeSort={sortChangeHandler}

@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useState} from 'react';
 import {useAppDispatch} from "@/app/configureStore";
 import {
@@ -24,7 +26,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import type {StoredProfile} from "@/types/user";
-import type {RecentCustomer, UserCustomerAccess} from "b2b-types";
+import type {RecentCustomer, UserCustomerAccess} from "chums-types/b2b";
 import {shortCustomerKey} from "@/utils/customer";
 import Typography from "@mui/material/Typography";
 import Box, {type BoxProps} from "@mui/material/Box";

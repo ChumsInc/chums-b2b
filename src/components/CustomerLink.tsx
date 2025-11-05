@@ -1,7 +1,7 @@
 import {generatePath, Link as RoutedLink} from 'react-router';
 import {PATH_CUSTOMER_ACCOUNT, PATH_CUSTOMER_DELIVERY} from "@/constants/paths";
 import {billToCustomerSlug, customerSlug, longCustomerNo} from "@/utils/customer";
-import type {BasicCustomer} from "b2b-types";
+import type {BasicCustomer} from "chums-types/b2b";
 import Link from "@mui/material/Link";
 
 const CustomerLink = ({customer, selected = false}: {

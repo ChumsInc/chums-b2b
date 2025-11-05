@@ -1,3 +1,5 @@
+'use client';
+
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -8,7 +10,7 @@ import Container from "@mui/material/Container";
 import React, {useState} from "react";
 import {documentTitles} from "@/constants/paths";
 import DocumentTitle from "../DocumentTitle";
-import {selectUserActionStatus, selectUserProfile} from "@/ducks/user/selectors";
+import {selectUserActionStatus, selectUserProfile} from "@/ducks/user/userProfileSlice";
 import type {ChangePasswordProps} from "@/ducks/user/types";
 import {useNavigate} from 'react-router';
 import {changePassword} from "@/ducks/user/actions";

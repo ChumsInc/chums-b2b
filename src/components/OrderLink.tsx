@@ -3,7 +3,7 @@ import type {OrderType} from "@/types/salesorder";
 import {customerSlug} from "@/utils/customer";
 import Link from "@mui/material/Link";
 import {useAppSelector} from "@/app/configureStore";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 
 const getSalesOrderPath = (orderType: OrderType | null): string => {
     switch (orderType) {
@@ -11,7 +11,7 @@ const getSalesOrderPath = (orderType: OrderType | null): string => {
             return '/account/:customerSlug/carts/:salesOrderNo';
         case 'past':
         case 'invoice':
-            return `/account/:customerSlug/closed/:salesOrderNo`;
+            return `/account/:customerSlug/invoices`;
         default:
             return `/account/:customerSlug/orders/:salesOrderNo`;
     }

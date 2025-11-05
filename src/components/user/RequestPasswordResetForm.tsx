@@ -1,3 +1,5 @@
+'use client';
+
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -8,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
 import React, {type FormEvent, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectResettingPassword} from "@/ducks/user/selectors";
+import {selectResettingPassword} from "@/ducks/user/userProfileSlice";
 import {resetPassword} from "@/ducks/user/actions";
 import AccessWarningAlert from "./AccessWarningAlert";
 import {Link as NavLink, useNavigate} from "react-router";

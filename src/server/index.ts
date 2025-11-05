@@ -3,7 +3,6 @@ import Debug from 'debug';
 import express, {type NextFunction, type Request, type  Response} from "express";
 import favicon from "serve-favicon";
 import path from "node:path";
-import {renderApp} from "./render";
 import {getVersion, getVersionJS} from "./version";
 import {getManifest} from "./manifest";
 import {getAPIRequest, handleInvalidURL} from "./utils";
@@ -13,6 +12,7 @@ import helmet from "helmet";
 import * as crypto from "node:crypto";
 import {helmetOptions} from "./helmetOptions";
 import {useCookieGPCHelper} from "cookie-consent";
+import {renderApp} from "./render";
 
 const debug = Debug('chums:server:index');
 

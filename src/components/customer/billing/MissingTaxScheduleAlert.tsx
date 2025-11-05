@@ -1,11 +1,15 @@
 import Alert from "@mui/material/Alert";
-import {selectCustomerAccount, selectCustomerLoaded, selectCustomerLoading} from "@/ducks/customer/selectors";
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {
+    selectCustomerAccount,
+    selectCustomerLoaded,
+    selectCustomerLoadStatus
+} from "@/ducks/customer/currentCustomerSlice";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import {useAppSelector} from "@/app/configureStore";
 
 const MissingTaxScheduleAlert = () => {
     const customer = useAppSelector(selectCustomerAccount);
-    const loading = useAppSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectCustomerLoadStatus);
     const loaded = useAppSelector(selectCustomerLoaded);
     const loggedIn = useAppSelector(selectLoggedIn);
 
@@ -13,7 +17,7 @@ const MissingTaxScheduleAlert = () => {
         return null;
     }
 
-    if (!loggedIn || !loaded || loading || !!customer?.TaxSchedule) {
+    if (!loggedIn || !loaded || loading === 'loading' || !!customer?.TaxSchedule) {
         return null;
     }
 

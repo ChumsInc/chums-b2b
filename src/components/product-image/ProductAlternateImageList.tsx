@@ -1,4 +1,4 @@
-import type {ProductAlternateImage} from "b2b-types";
+import type {ProductAlternateImage} from "chums-types/b2b";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";

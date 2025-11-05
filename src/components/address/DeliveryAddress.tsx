@@ -1,5 +1,5 @@
 import Address from "./Address";
-import type {CustomerAddress, ShipToAddress} from "b2b-types";
+import type {CustomerAddress, ShipToAddress} from "chums-types/b2b";
 import classNames from "classnames";
 
 const convertToAddress = (address:ShipToAddress):CustomerAddress => {

@@ -1,5 +1,5 @@
 import type {CartProgress} from "@/types/cart/cart-utils";
-import type {SalesOrderDetailLine} from "b2b-types";
+import type {SalesOrderDetailLine} from "chums-types/b2b";
 import type {ChangeDetailLine, NewCommentLine} from "@/types/cart";
 
 export const changedDetailLine = (line: SalesOrderDetailLine): ChangeDetailLine => {

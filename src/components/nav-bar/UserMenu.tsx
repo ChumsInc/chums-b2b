@@ -1,5 +1,5 @@
 import React, {useEffect, useId} from 'react';
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItemRouterLink from "./MenuItemRouterLink";

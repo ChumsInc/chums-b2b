@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect, useRef} from 'react';
 import {selectActiveMessages, selectMessagesLoaded} from "./selectors";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
@@ -8,7 +10,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import WebIcon from '@mui/icons-material/Web';
 import Typography from "@mui/material/Typography";
 import Alert, {type AlertProps} from "@mui/material/Alert";
-import type {Message} from "b2b-types";
+import type {Message} from "chums-types/b2b";
 import Container from "@mui/material/Container";
 
 const messagesMaxAge = 1000 * 60 * 30; //30 minutes

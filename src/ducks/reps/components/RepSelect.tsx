@@ -1,13 +1,14 @@
+'use client';
+
 import React, {useEffect, useId} from 'react';
 import Select, {type SelectChangeEvent} from '@mui/material/Select';
 import {longRepNo} from "@/utils/customer";
 import {loadRepList} from "../actions";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectRepsList, selectRepsLoaded, selectRepsLoading} from "../salespersonSlice";
+import {selectRepsList} from "../salespersonSlice";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 
 const RepSelect = ({value = '', onChange}: {
@@ -15,19 +16,14 @@ const RepSelect = ({value = '', onChange}: {
     onChange: (value: string | null) => void;
 }) => {
     const dispatch = useAppDispatch();
-    const userAccount = useAppSelector(selectCurrentAccess);
     const reps = useAppSelector(selectRepsList);
-    const loading = useAppSelector(selectRepsLoading);
-    const loaded = useAppSelector(selectRepsLoaded);
-    const allowSelectReps = /[%_]+/.test(userAccount?.SalespersonNo ?? '');
     const labelId = useId();
     const inputId = useId();
 
+
     useEffect(() => {
-        if (!loading && !loaded && allowSelectReps) {
-            dispatch(loadRepList());
-        }
-    }, [allowSelectReps, loading, loaded]);
+        dispatch(loadRepList());
+    }, []);
 
     const options = reps
         .filter(rep => !!rep.active)
@@ -37,9 +33,6 @@ const RepSelect = ({value = '', onChange}: {
             return aa === bb ? 0 : (aa > bb ? 1 : -1);
         })
         .map(rep => ({value: longRepNo(rep), text: `${longRepNo(rep)} - ${rep.SalespersonName}`}));
-    if (!allowSelectReps || options.length === 0) {
-        return null;
-    }
 
     const changeHandler = (ev: SelectChangeEvent) => {
         return onChange(ev.target.value ?? null);

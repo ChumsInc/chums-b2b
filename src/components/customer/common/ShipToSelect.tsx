@@ -1,13 +1,10 @@
 import {useId} from 'react';
-import {
-    selectCustomerAccount,
-    selectPermittedBillToAddress,
-} from "@/ducks/customer/selectors";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl, {type FormControlProps} from '@mui/material/FormControl'
 import Select, {type SelectChangeEvent} from "@mui/material/Select";
-import type {ShipToAddress} from "b2b-types";
+import type {ShipToAddress} from "chums-types/b2b";
 import {shipToAddressFromBillingAddress} from "@/utils/customer";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
@@ -16,6 +13,7 @@ import Stack from "@mui/material/Stack";
 import {useAppSelector} from "@/app/configureStore";
 import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
+import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
 
 export interface ShipToSelectProps extends Omit<FormControlProps, 'value' | 'onChange'> {
     value: string | null;
@@ -32,6 +30,7 @@ export const allLocationsValue = '__ALL';
 
 export default function ShipToSelect({
                                          value,
+                                         defaultName,
                                          label,
                                          disabledShipToLocations,
                                          allowAllLocations,

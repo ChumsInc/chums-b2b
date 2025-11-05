@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect, useRef} from 'react';
 import {minCheckInterval, selectShouldAlertVersion, selectVersion} from "./index";
 import {ignoreVersion, loadVersion} from "./actions";

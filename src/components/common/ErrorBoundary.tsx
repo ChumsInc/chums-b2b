@@ -1,5 +1,5 @@
 import {type ErrorInfo, type ReactNode} from 'react';
-import {selectUserProfile} from "@/ducks/user/selectors";
+import {selectUserProfile} from "@/ducks/user/userProfileSlice";
 import {ErrorBoundary as ReactErrorBoundary, type FallbackProps} from 'react-error-boundary';
 import {postErrors} from "@/api/fetch";
 import Alert from "@mui/material/Alert";

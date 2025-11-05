@@ -1,11 +1,13 @@
+'use client';
+
 import {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
 import {saveShipToAddress, setShipToCode} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
 import ShipToAddressFormFields from "./ShipToAddressFormFields";
-import {selectCanEdit} from "@/ducks/user/selectors";
-import {selectCustomerLoading, selectPermittedBillToAddress} from "@/ducks/customer/selectors";
+import {selectCanEdit} from "@/ducks/user/userProfileSlice";
+import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
 import StoreMapToggle from "@/components/customer/common/StoreMapToggle";
-import type {Editable, ShipToCustomer} from "b2b-types";
+import type {Editable, ShipToCustomer} from "chums-types/b2b";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {generatePath, useNavigate, useParams} from "react-router";
 import DeliveryAddress from "@/components/address/DeliveryAddress";
@@ -20,11 +22,12 @@ import {billToCustomerSlug, customerSlug} from "@/utils/customer";
 import PrimaryShipToButton from "./PrimaryShipToButton";
 import TextField from "@mui/material/TextField";
 import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
+import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
 
 const ShipToForm = () => {
     const dispatch = useAppDispatch();
     const shipToAddresses = useAppSelector(selectPermittedShipToAddresses);
-    const loading = useAppSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectCustomerLoadStatus);
     const canEdit = useAppSelector(selectCanEdit);
     const billTo = useAppSelector(selectPermittedBillToAddress);
     const params = useParams<'shipToCode'>();
@@ -34,7 +37,7 @@ const ShipToForm = () => {
     const readOnly = !canEdit;
 
     useEffect(() => {
-        if (!loading) {
+        if (loading === 'idle') {
             const [shipTo] = shipToAddresses.filter(row => row.ShipToCode === params.shipToCode);
             setShipTo(shipTo ?? null);
             if (!billTo) {
@@ -79,7 +82,7 @@ const ShipToForm = () => {
         return (
             <div>
                 <h4>Delivery Address</h4>
-                {loading && <LinearProgress variant="indeterminate"/>}
+                {loading === 'loading' && <LinearProgress variant="indeterminate"/>}
                 {shipTo && <DeliveryAddress address={shipTo}/>}
             </div>
         )
@@ -134,7 +137,7 @@ const ShipToForm = () => {
                                 <Button type="button" onClick={cancelHandler}>Cancel</Button>
                                 <ReloadCustomerButton/>
                                 <Button type="submit" variant="contained"
-                                        disabled={readOnly || loading}>
+                                        disabled={readOnly || loading !== 'idle'}>
                                     Save
                                 </Button>
                             </Stack>

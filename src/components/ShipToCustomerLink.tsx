@@ -1,7 +1,7 @@
-import type {SalesOrderHeader} from "b2b-types";
+import type {SalesOrderHeader} from "chums-types/b2b";
 import CustomerLink from "@/components/CustomerLink";
 import {useAppSelector} from "@/app/configureStore";
-import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 
 export interface ShipToCustomerLinkProps {
     salesOrder: SalesOrderHeader

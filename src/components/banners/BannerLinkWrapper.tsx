@@ -1,4 +1,4 @@
-import type {Banner} from "b2b-types";
+import type {Banner} from "chums-types/b2b";
 import {Link as NavLink} from "react-router";
 import Link, {type LinkProps} from '@mui/material/Link'
 

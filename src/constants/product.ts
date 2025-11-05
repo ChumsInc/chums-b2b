@@ -1,4 +1,4 @@
-import type {ProductSellAsColors, ProductSellAsMix, ProductSellAsSelf, ProductSellAsVariants} from "b2b-types";
+import type {ProductSellAsColors, ProductSellAsMix, ProductSellAsSelf, ProductSellAsVariants} from "chums-types/b2b";
 import type {PriceFieldsList} from "@/types/product";
 
 export const SELL_AS_VARIANTS: ProductSellAsVariants = 0;

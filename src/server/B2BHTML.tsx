@@ -3,9 +3,9 @@ import {type ManifestFiles} from "./manifest";
 import * as process from "node:process";
 import {type EnhancedStore} from "@reduxjs/toolkit";
 import {Provider} from "react-redux";
-import App from "@/app/App";
 import {StaticRouter} from "react-router";
-import type {PreloadedState} from "b2b-types";
+import type {PreloadedState} from "chums-types/b2b";
+import ServerApp from "@/app/ServerApp";
 
 
 const InlineJSHeadContent = (versionNo: string) => {
@@ -30,7 +30,7 @@ export interface B2BHtmlProps {
 }
 
 export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp, cspNonce}: B2BHtmlProps) {
-    const state:PreloadedState = store.getState() ?? {};
+    const state: PreloadedState = store.getState() ?? {};
     const preloadedStateJSON = JSON.stringify(state).replace(/</g, '\\u003c');
     return (
         <html lang="en-us" dir="ltr">
@@ -79,16 +79,17 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
         <div id="root">
             <Provider store={store}>
                 <StaticRouter location={url}>
-                    <App/>
+                    <ServerApp/>
                 </StaticRouter>
             </Provider>
         </div>
-        <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}} nonce={cspNonce}/>
-        {manifestFiles['vendors-react.js'] && (<script src={manifestFiles['vendors-react.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['vendors-mui.js'] && (<script src={manifestFiles['vendors-mui.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['vendors.js'] && (<script src={manifestFiles['vendors.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['chums.js'] && (<script src={manifestFiles['chums.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['main.js'] && (<script src={manifestFiles['main.js']}  nonce={cspNonce}/>)}
+        <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}}
+                nonce={cspNonce}/>
+        {manifestFiles['vendors-react.js'] && (<script src={manifestFiles['vendors-react.js']} nonce={cspNonce}/>)}
+        {manifestFiles['vendors-mui.js'] && (<script src={manifestFiles['vendors-mui.js']} nonce={cspNonce}/>)}
+        {manifestFiles['vendors.js'] && (<script src={manifestFiles['vendors.js']} nonce={cspNonce}/>)}
+        {manifestFiles['chums.js'] && (<script src={manifestFiles['chums.js']} nonce={cspNonce}/>)}
+        {manifestFiles['main.js'] && (<script src={manifestFiles['main.js']} nonce={cspNonce}/>)}
         </body>
         </html>
     )

@@ -10,9 +10,9 @@ import {
 } from "./actions";
 import {loadCustomerList} from '../customers/actions'
 import {setLoggedIn, setUserAccess} from "../user/actions";
-import {dismissContextAlert} from "../alerts/actions";
+import {dismissContextAlert} from "../alerts/alertsSlice";
 import {customerResponseToState} from "./utils";
-import type {BillToCustomer, CustomerContact, CustomerUser, Editable, ShipToCustomer, SortProps} from "b2b-types";
+import type {BillToCustomer, CustomerContact, CustomerUser, Editable, ShipToCustomer, SortProps} from "chums-types/b2b";
 import type {LoadStatus} from "@/types/generic";
 
 

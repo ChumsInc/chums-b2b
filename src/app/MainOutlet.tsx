@@ -1,4 +1,4 @@
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import AppUpdateLocalLogin from "@/components/AppUpdateLocalLogin";
 import AlertList from "@/components/alerts/AlertList";
 import {Outlet} from "react-router";

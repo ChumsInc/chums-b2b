@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import SalesOrderCommentLine from "./SalesOrderCommentLine";
-import type {SalesOrderDetailLine} from "b2b-types";
+import type {SalesOrderDetailLine} from "chums-types/b2b";
 import SalesOrderItemLine from "./SalesOrderItemLine";
 import SalesOrderKitComponentLine from "./SalesOrderKitComponentLine";
 import TableRow from '@mui/material/TableRow';

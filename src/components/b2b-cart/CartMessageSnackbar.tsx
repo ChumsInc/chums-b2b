@@ -1,3 +1,5 @@
+'use client';
+
 import {type SyntheticEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {clearCartMessages, selectCartMessages} from "@/ducks/carts/cartMessagesSlice";

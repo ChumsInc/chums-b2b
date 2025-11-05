@@ -1,4 +1,4 @@
-import type {BasicCustomer, CartProduct, SortProps} from "b2b-types";
+import type {BasicCustomer, CartProduct, SortProps} from "chums-types/b2b";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 import Decimal from "decimal.js";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";

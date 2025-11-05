@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import type {EmailResponse} from "b2b-types";
+import type {EmailResponse} from "chums-types/b2b";
 import {
     fetchCarts,
     fetchNextShipDate,
@@ -23,7 +23,7 @@ import type {
 import type {CustomerShippingAccount} from "@/types/customer";
 import localStore from "@/utils/LocalStore";
 import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
-import {selectUserType} from "@/ducks/user/selectors";
+import {selectUserType} from "@/ducks/user/userProfileSlice";
 import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice";
 import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
@@ -143,7 +143,7 @@ export const saveCartItem = createAsyncThunk<B2BCart | null, UpdateCartItemProps
 )
 
 export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionProps, { state: RootState }>(
-    'open-orders/sendEmail',
+    'carts/sendEmail',
     async (arg) => {
         return await postCartEmail(arg);
     },

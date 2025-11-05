@@ -1,11 +1,12 @@
+'use client';
+
 import React, {type ChangeEvent, useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
-import type {SalesOrderHeader} from "b2b-types";
+import type {SalesOrderHeader} from "chums-types/b2b";
 import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {setSalesOrderSort} from "../actions";
-import {selectOpenOrdersSort} from "../selectors";
+import {selectOpenOrdersSort, setSalesOrderSort} from "../openOrdersSlice";
 
 export default function OrdersList({
                                        list,

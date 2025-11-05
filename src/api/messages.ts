@@ -1,4 +1,4 @@
-import type {Message} from "b2b-types";
+import type {Message} from "chums-types/b2b";
 import {fetchJSON} from "./fetch";
 
 export const fetchMessages = async (): Promise<Message[]> => {

@@ -1,10 +1,11 @@
+'use client';
+
 import {type MouseEvent} from "react";
 import Button, {type ButtonProps} from "@mui/material/Button";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectSendEmailStatus} from "@/ducks/open-orders/selectors";
 import SendEmailModal from "./SendEmailModal";
 import {sendCartEmail} from "@/ducks/carts/actions";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 
 export interface SendEmailButtonProps extends ButtonProps {
@@ -14,7 +15,6 @@ export interface SendEmailButtonProps extends ButtonProps {
 export default function SendEmailButton({cartId, onClick, disabled, ...props}: SendEmailButtonProps) {
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectCustomerKey);
-    const sendEmailStatus = useAppSelector(selectSendEmailStatus);
     const loadingStatus = useAppSelector((state) => selectCartStatusById(state, cartId));
 
     const sendEmailHandler = async (ev: MouseEvent<HTMLButtonElement>) => {
@@ -30,7 +30,7 @@ export default function SendEmailButton({cartId, onClick, disabled, ...props}: S
     return (
         <>
             <Button type="button" variant="text" onClick={sendEmailHandler}
-                    disabled={loadingStatus !== 'idle' || sendEmailStatus !== 'idle' || disabled} {...props}>
+                    disabled={loadingStatus !== 'idle' || disabled} {...props}>
                 Send Email
             </Button>
             <SendEmailModal/>

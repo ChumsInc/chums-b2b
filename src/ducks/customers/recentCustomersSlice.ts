@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
-import type {RecentCustomer} from "b2b-types";
+import type {RecentCustomer} from "chums-types/b2b";
 import {customerSlug} from "@/utils/customer";
 import {auth} from "@/api/IntranetAuthService";
 import localStore from "@/utils/LocalStore";

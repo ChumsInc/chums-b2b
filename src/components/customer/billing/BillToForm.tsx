@@ -1,3 +1,5 @@
+'use client';
+
 import {type ChangeEvent, type  FormEvent, useEffect, useState} from 'react';
 import AddressFormFields from '../../address/AddressFormFields';
 import {filteredTermsCode} from '@/constants/account';
@@ -5,14 +7,14 @@ import {longCustomerNo} from "@/utils/customer";
 import {saveBillingAddress} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
 import MissingTaxScheduleAlert from "./MissingTaxScheduleAlert";
-import {selectCustomerAccount, selectCustomerLoading} from "@/ducks/customer/selectors";
-import {selectCanEdit} from "@/ducks/user/selectors";
+import {selectCustomerAccount, selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
+import {selectCanEdit} from "@/ducks/user/userProfileSlice";
 import StoreMapToggle from "../common/StoreMapToggle";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 import {isBillToCustomer} from "@/utils/typeguards";
 import Address from "@/components/address/Address";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import type {BillToCustomer, Editable} from "b2b-types";
+import type {BillToCustomer, Editable} from "chums-types/b2b";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "../common/ReloadCustomerButton";
 import Grid from "@mui/material/Grid";
@@ -31,7 +33,7 @@ import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSli
 const BillToForm = () => {
     const dispatch = useAppDispatch();
     const current = useAppSelector(selectCustomerAccount);
-    const loading = useAppSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectCustomerLoadStatus);
     const canEdit = useAppSelector(selectCanEdit);
     const permissions = useAppSelector(selectCustomerPermissions);
     const [customer, setCustomer] = useState<(BillToCustomer & Editable) | null>(current ?? null);
@@ -120,7 +122,7 @@ const BillToForm = () => {
     return (
         <ErrorBoundary>
             <div>
-                {loading && <LinearProgress variant="indeterminate"/>}
+                {loading === 'loading' && <LinearProgress variant="indeterminate"/>}
                 <Grid container spacing={2}>
                     <Grid size={{xs: 12, sm: 6}}>
                         <TextField variant="filled" label="Account Number" fullWidth size="small"
@@ -225,7 +227,7 @@ const BillToForm = () => {
                                 }
                                 <Stack direction="row" spacing={2} sx={{my: 3}} justifyContent="flex-end">
                                     <ReloadCustomerButton/>
-                                    <Button type="submit" variant="contained" disabled={!canEdit || loading}>
+                                    <Button type="submit" variant="contained" disabled={!canEdit || loading !== 'idle'}>
                                         Save
                                     </Button>
                                 </Stack>

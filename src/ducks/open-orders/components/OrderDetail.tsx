@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import OrderDetailLine from "./OrderDetailLine";
 import SalesOrderTotal from "./SalesOrderTotal";
-import type {CartProduct, SalesOrderDetailLine} from "b2b-types";
+import type {CartProduct, SalesOrderDetailLine} from "chums-types/b2b";
 import Dialog from "@mui/material/Dialog";
 import {detailToCartItem} from "../../sales-order/utils";
-import {selectSalesOrderDetail} from "../selectors";
+import {selectSalesOrderDetail} from "../currentOrderSlice";
 import {useAppSelector} from "@/app/configureStore";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
@@ -21,7 +21,7 @@ import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
 export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;
 }) {
-    const detail = useAppSelector((state) => selectSalesOrderDetail(state, salesOrderNo ?? ''));
+    const detail = useAppSelector(selectSalesOrderDetail);
     const [cartItem, setCartItem] = useState<CartProduct | null>(null)
     const [unitOfMeasure, setUnitOfMeasure] = useState<string>('EA');
 

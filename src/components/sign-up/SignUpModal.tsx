@@ -2,7 +2,7 @@ import React, {type ReactElement, type RefObject, useEffect, useId, useRef, useS
 import {useIsSSR} from "@/hooks/is-server-side";
 import {NavLink, useLocation} from "react-router";
 import {useAppSelector} from "@/app/configureStore";
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import {type TransitionProps} from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import Dialog from "@mui/material/Dialog";

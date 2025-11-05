@@ -1,5 +1,5 @@
 import {type CaseReducer, createSlice} from "@reduxjs/toolkit";
-import type {BasicCustomer} from "b2b-types";
+import type {BasicCustomer} from "chums-types/b2b";
 import type {CustomerShippingAccount} from "@/types/customer";
 import localStore from "@/utils/LocalStore";
 import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";

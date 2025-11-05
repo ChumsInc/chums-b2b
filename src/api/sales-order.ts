@@ -1,4 +1,4 @@
-import type {CustomerKey, EmailResponse, SalesOrder} from 'b2b-types'
+import type {CustomerKey, EmailResponse, SalesOrder} from 'chums-types/b2b'
 import {fetchJSON} from "./fetch";
 import type {ApplyPromoCodeBody} from "../types/cart";
 import type {LoadSalesOrderProps, LoadSalesOrdersProps} from "@/types/salesorder";

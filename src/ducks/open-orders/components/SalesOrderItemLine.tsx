@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import type {SalesOrderDetailLine} from "b2b-types";
+import type {SalesOrderDetailLine} from "chums-types/b2b";
 import OrderItemImage from "../../../components/OrderItemImage";
 import numeral from "numeral";
 import PriceLevelNotice from "../../../components/PriceLevelNotice";

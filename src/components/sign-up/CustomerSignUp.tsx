@@ -1,3 +1,5 @@
+'use client';
+
 import React, {type ChangeEvent, type FormEvent, useState} from 'react';
 import Link from "@mui/material/Link";
 import FormGroup from "@mui/material/FormGroup";
@@ -11,7 +13,7 @@ import {selectSignUpError, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import type {CustomerAddress} from "b2b-types";
+import type {CustomerAddress} from "chums-types/b2b";
 import Alert from "@mui/material/Alert";
 import {Link as RoutedLink} from 'react-router'
 import FormControlLabel from "@mui/material/FormControlLabel";

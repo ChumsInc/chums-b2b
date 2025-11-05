@@ -7,11 +7,11 @@ import {
     selectProductLoading,
     selectSelectedProduct
 } from "./selectors";
-import type {CartProduct, Product, ProductVariant, SellAsVariantsProduct} from "b2b-types";
+import type {CartProduct, Product, ProductVariant, SellAsVariantsProduct} from "chums-types/b2b";
 import {fetchProduct} from "@/api/product";
-import {selectCustomerAccount} from "../customer/selectors";
+import {selectCustomerAccount} from "../customer/currentCustomerSlice";
 import {defaultCartItem, defaultVariant, getMSRP, getPrices, getSalesUM, hasVariants} from "@/utils/products";
-import {selectLoggedIn} from "../user/selectors";
+import {selectLoggedIn} from "../user/userProfileSlice";
 import {isSellAsColors, isSellAsMix, updateCartProductPricing} from "./utils";
 import {parseImageFilename} from "@/components/common/image";
 import {selectCustomerPricing} from "@/ducks/customer/customerPricingSlice";

@@ -1,0 +1,26 @@
+{
+  "_mui-sBa6CgZE.js": {
+    "file": "assets/mui-sBa6CgZE.js",
+    "name": "mui",
+    "imports": [
+      "_react-D-ZepAEl.js"
+    ]
+  },
+  "_react-D-ZepAEl.js": {
+    "file": "assets/react-D-ZepAEl.js",
+    "name": "react",
+    "imports": [
+      "_mui-sBa6CgZE.js"
+    ]
+  },
+  "src/client/index.tsx": {
+    "file": "assets/index-CZSzAtHI.js",
+    "name": "index",
+    "src": "src/client/index.tsx",
+    "isEntry": true,
+    "imports": [
+      "_react-D-ZepAEl.js",
+      "_mui-sBa6CgZE.js"
+    ]
+  }
+}

@@ -1,7 +1,9 @@
+'use client';
+
 import {useEffect} from 'react';
 import {loadCustomer, setReturnToPath} from '@/ducks/customer/actions';
 import AccountBreadcrumbs from "./AccountBreadcrumbs";
-import {selectCustomerAccount, selectCustomerLoadStatus,} from "@/ducks/customer/selectors";
+import {selectCustomerAccount, selectCustomerLoadStatus,} from "@/ducks/customer/currentCustomerSlice";
 import {generatePath, Outlet, useNavigate, useParams} from "react-router";
 import DocumentTitle from "@/components/DocumentTitle";
 import AccountTabs from "./AccountTabs";

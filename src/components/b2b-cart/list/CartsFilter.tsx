@@ -1,3 +1,5 @@
+'use client';
+
 import {type ChangeEvent, useId} from 'react';
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -6,7 +8,7 @@ import Stack from "@mui/material/Stack";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {loadCarts} from "@/ducks/carts/actions";
 import Button from "@mui/material/Button";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import {selectCartsSearch, setCartSearch} from "@/ducks/carts/cartHeadersSlice";
 
 export default function CartsFilter() {

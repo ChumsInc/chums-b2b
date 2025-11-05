@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import type {ProductAlternateImage} from "b2b-types";
+import type {ProductAlternateImage} from "chums-types/b2b";
 import {parseImageFilename} from "@/components/common/image";
 import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
 import {sizesQuery} from "@/components/product-image/utils";

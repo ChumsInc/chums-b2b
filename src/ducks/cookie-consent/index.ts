@@ -1,4 +1,4 @@
-import type {CookieConsentState} from "b2b-types";
+import type {CookieConsentState} from "chums-types/b2b";
 import {createSlice} from "@reduxjs/toolkit";
 import {loadCookieConsentInfo, loadCookieConsentStatus, saveCookieConsent} from "@/ducks/cookie-consent/actions";
 

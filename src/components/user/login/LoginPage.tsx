@@ -4,7 +4,7 @@ import {documentTitles, PATH_PROFILE} from "@/constants/paths";
 import Alert from '@mui/material/Alert';
 import GoogleSignInButton from "./GoogleSignInButton";
 import DocumentTitle from "../../DocumentTitle";
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import Typography from "@mui/material/Typography";
 import {useLocation, useNavigate} from "react-router";
 import Container from "@mui/material/Container";

@@ -1,4 +1,4 @@
-import type {CartItem, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
+import type {CartItem, SalesOrderDetailLine, SalesOrderHeader} from "chums-types/b2b";
 import type {SortProps} from "@/types/generic";
 import dayjs from "dayjs";
 import type {EditableSalesOrder} from "../open-orders/types";

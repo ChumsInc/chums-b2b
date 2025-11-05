@@ -1,4 +1,4 @@
-import type {PreloadedState} from "b2b-types";
+import type {PreloadedState} from "chums-types/b2b";
 import type {Theme} from "@mui/material/styles";
 import type {GtagFn} from "@/utils/ga4/types";
 

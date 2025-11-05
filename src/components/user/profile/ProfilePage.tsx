@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect} from 'react';
 import UserProfile from "./UserProfile";
 import {documentTitles} from '@/constants/paths';

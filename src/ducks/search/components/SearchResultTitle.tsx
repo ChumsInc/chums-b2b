@@ -2,7 +2,7 @@ import React from 'react';
 import {styled} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import type {SearchResult} from "b2b-types";
+import type {SearchResult} from "chums-types/b2b";
 
 const SearchResultTitleContainer = styled('div')`
     flex: 1 1 100%;

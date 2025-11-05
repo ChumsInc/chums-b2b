@@ -1,4 +1,4 @@
-import type {Banner} from "b2b-types";
+import type {Banner} from "chums-types/b2b";
 import {fetchJSON} from "@/api/fetch";
 
 export async function fetchBanners():Promise<Banner[]> {

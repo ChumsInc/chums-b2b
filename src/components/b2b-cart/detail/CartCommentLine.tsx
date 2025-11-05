@@ -1,3 +1,5 @@
+'use client';
+
 import {type ChangeEvent, type RefObject, useEffect, useState} from 'react';
 import classNames from "classnames";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';

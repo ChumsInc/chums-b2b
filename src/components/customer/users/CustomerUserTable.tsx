@@ -1,8 +1,10 @@
+'use client';
+
 import {useState} from 'react';
 import UserIcon from "./UserIcon";
 import BusinessIcon from '@mui/icons-material/Business';
-import {selectIsEmployee} from "@/ducks/user/selectors";
-import type {CustomerUser, UserAccessType} from "b2b-types";
+import {selectIsEmployee} from "@/ducks/user/userProfileSlice";
+import type {CustomerUser, UserAccessType} from "chums-types/b2b";
 import TablePagination from "@mui/material/TablePagination";
 import Table from "@mui/material/Table";
 import Link from "@mui/material/Link";

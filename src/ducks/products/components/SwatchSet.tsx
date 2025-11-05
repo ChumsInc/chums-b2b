@@ -1,10 +1,12 @@
+'use client';
+
 import React, {useEffect, useState} from 'react';
 import {SELL_AS_COLORS, SELL_AS_MIX} from "@/constants/product";
 import Swatch from "./Swatch";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectProductCartItem, selectProductColorCode, selectSelectedProduct} from "../selectors";
 import {setColorCode} from "../actions";
-import type {ProductSwatchBase} from "b2b-types";
+import type {ProductSwatchBase} from "chums-types/b2b";
 import {isSellAsColors, isSellAsMix} from "../utils";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";

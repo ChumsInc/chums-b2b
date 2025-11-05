@@ -1,5 +1,5 @@
 import type {NavItemProps} from "@/types/ui-features";
-import {selectLoggedIn} from "@/ducks/user/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import ListItemLink from "../ListItemLink";
 import {PATH_LOGIN} from "@/constants/paths";
 import NavItemButtonLink from "./NavItemButtonLink";

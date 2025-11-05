@@ -6,7 +6,7 @@ import {
     type PayloadAction,
     type UnknownAction
 } from "@reduxjs/toolkit";
-import type {UserCustomerAccess} from "b2b-types";
+import type {UserCustomerAccess} from "chums-types/b2b";
 import LocalStore from "@/utils/LocalStore";
 import {STORE_USER_ACCESS} from "@/constants/stores";
 import {loadProfile, saveUserProfile, setLoggedIn, setUserAccess, signInWithGoogle} from "@/ducks/user/actions";

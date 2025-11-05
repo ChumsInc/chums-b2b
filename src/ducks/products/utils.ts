@@ -12,7 +12,7 @@ import type {
     SellAsMixProduct,
     SellAsSelfProduct,
     SellAsVariantsProduct
-} from "b2b-types";
+} from "chums-types/b2b";
 import {priceRecord} from "@/utils/customer";
 import {getItemPrice} from "@/utils/products";
 import {PRICE_FIELDS, SELL_AS_COLORS, SELL_AS_MIX, SELL_AS_SELF, SELL_AS_VARIANTS} from "@/constants/product";

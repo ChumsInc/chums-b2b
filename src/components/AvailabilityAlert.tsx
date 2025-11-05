@@ -4,7 +4,7 @@ import type {B2BCartSeason} from "@/types/cart/cart-detail";
 import Alert from "@mui/material/Alert";
 
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import {selectCanViewAvailable} from "@/ducks/user/selectors";
+import {selectCanViewAvailable} from "@/ducks/user/userProfileSlice";
 import {useAppSelector} from "@/app/configureStore";
 
 const AvailabilityAlert = ({quantityOrdered, quantityAvailable, season}: {

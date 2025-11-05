@@ -1,7 +1,8 @@
+'use client';
+
 import {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectSendEmailError, selectSendEmailResponse, selectSendEmailStatus} from "@/ducks/open-orders/selectors";
-import {closeEmailResponse} from "@/ducks/open-orders/actions";
+import {selectSendEmailError, selectSendEmailResponse, selectSendEmailStatus, closeEmailResponse} from "@/ducks/carts/cartEmailSlice";
 import Dialog from "@mui/material/Dialog";
 import LinearProgress from "@mui/material/LinearProgress";
 import Alert from "@mui/material/Alert";
@@ -29,7 +30,7 @@ export default function SendEmailModal() {
         <Dialog onClose={onClose} open={open} maxWidth="sm">
             <DialogTitle>Sending proposed order email</DialogTitle>
             <DialogContent>
-                {status === 'pending' && <LinearProgress variant="indeterminate"/>}
+                {status === 'sending' && <LinearProgress variant="indeterminate"/>}
                 {status === 'fulfilled' && <LinearProgress variant="determinate" value={100}/>}
                 {!!error && <Alert severity="error">{error}</Alert>}
                 {response && (

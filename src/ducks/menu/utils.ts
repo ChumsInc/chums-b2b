@@ -1,4 +1,4 @@
-import type {BillToCustomer, MenuItem} from "b2b-types";
+import type {BillToCustomer, MenuItem} from "chums-types/b2b";
 import type {MenuElement, MinimalMenuItem, NavMenuItem} from "@/ducks/menu/types";
 import {customerPath} from "@/ducks/user/utils";
 import {generatePath} from "react-router";

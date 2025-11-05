@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect, useState} from 'react';
 import {generatePath, useNavigate, useParams} from 'react-router';
 import CategoryPage2 from "@/components/category/CategoryPage";
@@ -5,7 +7,7 @@ import ProductPage from "./ProductPage";
 import {PATH_PRODUCT} from "@/constants/paths";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import type {Keyword} from "b2b-types";
+import type {Keyword} from "chums-types/b2b";
 import Box from "@mui/material/Box";
 import {loadKeywords} from "../../keywords/actions";
 import {selectKeywordsList, selectKeywordsLoading} from "../../keywords/selectors";

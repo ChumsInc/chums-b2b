@@ -1,5 +1,5 @@
 import React from 'react';
-import {selectOpenOrdersLength} from "../selectors";
+import {selectOpenOrdersLength} from "../openOrdersSlice";
 import Alert from "@mui/material/Alert";
 import {useAppSelector} from "@/app/configureStore";
 

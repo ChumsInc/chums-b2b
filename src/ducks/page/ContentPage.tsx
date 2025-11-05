@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect} from 'react';
 import DocumentTitle from "../../components/DocumentTitle";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
@@ -8,7 +10,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import ContentPage404 from "../../components/ContentPage404";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import {selectLoggedIn} from "../user/selectors";
+import {selectLoggedIn} from "../user/userProfileSlice";
 import Alert from "@mui/material/Alert";
 import HTMLContent from "@/components/common/HTMLContent";
 

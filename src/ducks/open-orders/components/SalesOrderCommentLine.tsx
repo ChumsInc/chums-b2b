@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from "classnames";
-import type {Editable, SalesOrderDetailLine} from "b2b-types";
+import type {Editable, SalesOrderDetailLine} from "chums-types/b2b";
 import type {Appendable} from "@/types/generic";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import TableRow from '@mui/material/TableRow';

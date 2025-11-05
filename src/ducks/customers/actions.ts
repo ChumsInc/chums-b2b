@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import type {Customer, UserCustomerAccess} from "b2b-types";
+import type {Customer, UserCustomerAccess} from "chums-types/b2b";
 import {fetchCustomerList} from "@/api/customer-list";
 import {type RootState} from "@/app/configureStore";
-import {selectLoggedIn} from "../user/selectors";
+import {selectLoggedIn} from "../user/userProfileSlice";
 import {selectCustomersStatus} from "./customerListSlice";
 
 export const loadCustomerList = createAsyncThunk<Customer[], UserCustomerAccess | null, { state: RootState }>(

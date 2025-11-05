@@ -1,3 +1,5 @@
+'use client';
+
 import {type FormEvent, type ReactElement, type RefObject, useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCookieConsentRecord, selectCookieConsentStatus} from "@/ducks/cookie-consent";
@@ -7,7 +9,7 @@ import Slide from "@mui/material/Slide";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import type {CookieConsentBody, CookieConsentSection, CookieConsentSettings} from "b2b-types";
+import type {CookieConsentBody, CookieConsentSection, CookieConsentSettings} from "chums-types/b2b";
 import List from "@mui/material/List";
 import CookieConsentItem from "@/components/cookie-consent/CookieConsentItem";
 import DialogActions from "@mui/material/DialogActions";

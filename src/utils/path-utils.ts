@@ -1,5 +1,5 @@
 import type {OrderType} from "../types/salesorder";
-import type {BasicCustomer} from "b2b-types";
+import type {BasicCustomer} from "chums-types/b2b";
 import {generatePath} from "react-router";
 import {customerSlug} from "./customer";
 

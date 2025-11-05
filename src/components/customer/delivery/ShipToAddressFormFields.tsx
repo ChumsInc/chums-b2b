@@ -1,5 +1,5 @@
 import AddressFormFields from "@/components/address/AddressFormFields";
-import type {CustomerAddress, ShipToAddress, ShipToCustomer} from "b2b-types";
+import type {CustomerAddress, ShipToAddress, ShipToCustomer} from "chums-types/b2b";
 
 
 type CustomerFieldMapper = {

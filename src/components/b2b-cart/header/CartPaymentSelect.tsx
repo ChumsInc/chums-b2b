@@ -1,3 +1,5 @@
+'use client';
+
 import {type RefObject, useId} from 'react';
 import type {PaymentType} from "@/types/customer";
 import InputLabel from "@mui/material/InputLabel";

@@ -1,32 +1,7 @@
-import type {CustomerKey, ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
-import type {SortProps} from "@/types/generic";
-
-export interface InvoicesState {
-    customerKey: string | null;
-    list: {
-        invoices: InvoiceHistoryHeader[];
-        offset: number;
-        limitReached: boolean;
-        limit: number;
-    };
-    invoice: ExtendedInvoice | null;
-    loading: boolean;
-    loaded: boolean;
-    invoiceLoading: boolean;
-    filters: {
-        showPaidInvoices: boolean;
-        shipToCode: string | null;
-        search: string;
-    }
-    sort: SortProps<InvoiceHistoryHeader>
-}
-
-
+import type {CustomerKey, InvoiceHistoryHeader} from "chums-types/b2b";
 export type FetchInvoiceArg = Pick<InvoiceHistoryHeader, 'InvoiceNo' | 'InvoiceType'>;
-
-
 export interface LoadInvoicesProps {
-    key: CustomerKey|null;
+    key: CustomerKey | null;
     start?: number;
     limit?: number;
 }

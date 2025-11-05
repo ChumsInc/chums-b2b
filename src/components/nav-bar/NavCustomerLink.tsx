@@ -1,6 +1,6 @@
 import type {NavItemProps} from "@/types/ui-features";
-import {selectLoggedIn} from "@/ducks/user/selectors";
-import {selectCustomerAccount} from "@/ducks/customer/selectors";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 import React, {useEffect} from "react";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
 import {buildCustomerMenuItems} from "@/ducks/menu/utils";

@@ -1,7 +1,9 @@
+'use client';
+
 import {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {selectCartsSort, selectFilteredCarts, setCartsSort} from "@/ducks/carts/cartHeadersSlice";
-import type {SortProps} from "b2b-types";
+import type {SortProps} from "chums-types/b2b";
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import TablePagination from "@mui/material/TablePagination";
 import CartButton from "./CartButton";

@@ -1,19 +1,19 @@
 import {Link as RoutedLink, useLocation} from "react-router";
 import Alert from "@mui/material/Alert";
 import Link from '@mui/material/Link';
-import {selectCustomerKey, selectCustomerLoading} from "@/ducks/customer/selectors";
+import {selectCustomerKey, selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
 import {useTheme} from "@mui/material/styles";
 import {useAppSelector} from "@/app/configureStore";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 const SelectCustomerAlert = () => {
-    const loading = useAppSelector(selectCustomerLoading);
+    const loading = useAppSelector(selectCustomerLoadStatus);
     const currentCustomer = useAppSelector(selectCustomerKey);
     const currentAccess = useAppSelector(selectCurrentAccess);
     const theme = useTheme();
     const location = useLocation()
 
-    if (currentCustomer || loading) {
+    if (currentCustomer || loading !== 'loading') {
         return null;
     }
 

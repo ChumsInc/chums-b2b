@@ -1,4 +1,4 @@
-import type {UserCustomerAccess} from "b2b-types";
+import type {UserCustomerAccess} from "chums-types/b2b";
 import {generatePath, Link as RoutedLink} from "react-router";
 import {PATH_CUSTOMER_ACCOUNT} from "@/constants/paths";
 import Button from "@mui/material/Button";

@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import type {CustomerPriceRecord} from "b2b-types";
+import type {CustomerPriceRecord} from "chums-types/b2b";
 import {customerPriceCodeKey, customerSlug} from "@/utils/customer";
 import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";

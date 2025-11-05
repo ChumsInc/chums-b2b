@@ -1,6 +1,6 @@
 import {jwtDecode, type JwtPayload} from 'jwt-decode';
 import type {GoogleProfile, StoredProfile} from "../types/user";
-import type {UserCustomerAccess, UserProfile, UserRole} from "b2b-types";
+import type {UserCustomerAccess, UserProfile, UserRole} from "chums-types/b2b";
 
 
 interface GoogleSignInPayload extends JwtPayload {

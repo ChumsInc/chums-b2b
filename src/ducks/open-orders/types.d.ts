@@ -1,4 +1,4 @@
-import type {Editable, SalesOrder, SalesOrderDetailLine, SalesOrderHeader} from "b2b-types";
+import type {Editable, SalesOrder, SalesOrderDetailLine, SalesOrderHeader} from "chums-types/b2b";
 import type {Appendable, OrderActionStatus} from "@/types/generic";
 
 export type EditableDetailLine = SalesOrderDetailLine & Editable & Appendable;

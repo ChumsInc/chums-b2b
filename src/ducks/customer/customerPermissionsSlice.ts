@@ -1,14 +1,9 @@
 import type {CustomerPermissions} from "@/types/customer";
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
-import {
-    loadCustomer,
-    loadCustomerPermissions,
-    saveBillingAddress,
-    saveShipToAddress
-} from "@/ducks/customer/actions";
+import {loadCustomer, loadCustomerPermissions, saveBillingAddress, saveShipToAddress} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
-import {dismissContextAlert} from "@/ducks/alerts/actions";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 
 export interface CustomerPermissionsState {
     customerKey: string | null;

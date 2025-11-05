@@ -1,4 +1,4 @@
-import type {MenuItem} from "b2b-types";
+import type {MenuItem} from "chums-types/b2b";
 import {type ReactNode} from "react";
 
 export interface MenuState {

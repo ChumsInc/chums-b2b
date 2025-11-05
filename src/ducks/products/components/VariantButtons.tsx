@@ -1,8 +1,10 @@
+'use client';
+
 import React, {useCallback, useEffect, useState} from 'react';
 import {selectCurrentVariantProduct, selectProductVariantId} from "../selectors";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {setCurrentVariant} from "../actions";
-import type {ProductVariant} from "b2b-types";
+import type {ProductVariant} from "chums-types/b2b";
 import {isSellAsColors, isSellAsMix} from "../utils";
 import VariantButton from "./VariantButton";
 import Grid from "@mui/material/Grid";

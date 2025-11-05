@@ -1,5 +1,5 @@
 import React, {type HTMLAttributes} from 'react';
-import type {SearchResult} from "b2b-types";
+import type {SearchResult} from "chums-types/b2b";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import {NavLink} from "react-router";

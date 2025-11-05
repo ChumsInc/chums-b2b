@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";

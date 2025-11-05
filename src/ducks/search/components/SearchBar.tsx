@@ -1,16 +1,15 @@
+'use client';
+
 import React, {type SyntheticEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/configureStore";
 import {getSearchResults, selectSearchResults} from "../index";
 import {useNavigate} from 'react-router';
-import type {SearchResult} from "b2b-types";
+import type {SearchResult} from "chums-types/b2b";
 import {useDebounceValue} from '@/hooks/use-debounce'
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import SearchBarResult from "@/ducks/search/components/SearchBarResult";
 import {searchItemLink} from "@/ducks/search/utils";
-
-
-
 
 export default function SearchBar() {
     const dispatch = useAppDispatch();
