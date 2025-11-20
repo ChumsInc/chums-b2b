@@ -7,9 +7,10 @@ import {
     loadCarts,
     processCart,
     saveCart,
-    saveCartItem, sendCartEmail
-} from "@/ducks/carts/actions";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
+    saveCartItem,
+    sendCartEmail
+} from "@/ducks/carts/actions.js";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
 
 const statusAdapter = createEntityAdapter<CartStatus, number>({
     selectId: (arg) => arg.key,

@@ -6,11 +6,11 @@ import {
     saveShipToAddress,
     setCustomerAccount,
     setDefaultShipTo
-} from "@/ducks/customer/actions";
-import {customerSlug, emptyCustomer} from "@/utils/customer";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
-import {loadCustomerList} from "@/ducks/customers/actions";
+} from "@/ducks/customer/actions.js";
+import {customerSlug, emptyCustomer} from "@/utils/customer.js";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
+import {loadCustomerList} from "@/ducks/customers/actions.js";
 
 export interface CurrentCustomerState {
     customerKey: string | null;

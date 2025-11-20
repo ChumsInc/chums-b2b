@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {generatePath, useNavigate, useParams} from "react-router";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import {loadCart} from "@/ducks/carts/actions";

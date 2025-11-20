@@ -4,7 +4,7 @@ import React, {useEffect} from 'react';
 import UserProfile from "./UserProfile";
 import {documentTitles} from '@/constants/paths';
 import DocumentTitle from "../../DocumentTitle";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
 import {useLocation} from "react-router";

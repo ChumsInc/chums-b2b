@@ -7,7 +7,7 @@ import {
     selectProductImage,
     selectProductLoading
 } from "../selectors";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 const ProductPageImage = () => {
     const cartItem = useAppSelector(selectProductCartItem);

@@ -1,8 +1,0 @@
-{
-  "src/server/index.ts": {
-    "file": "index.js",
-    "name": "index",
-    "src": "src/server/index.ts",
-    "isEntry": true
-  }
-}

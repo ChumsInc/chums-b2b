@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";

@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import numeral from "numeral";
 import Decimal from "decimal.js";
-import {useAppSelector} from "@/app/configureStore";
 import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import type {SalesOrderHeader} from "chums-types/b2b";
-import {selectOpenOrderById} from "@/ducks/open-orders/openOrdersSlice";
+import {useAppSelector} from "@/app/hooks.js";
+import {selectOpenOrderById} from "@/ducks/open-orders/openOrdersSlice.js";
 
 const reCustomerFreight = /^(RCP|COL|FREE|THRD)[ ~-]+([\w ]*)[ ~-]+(SWR|HOLD|RUSH)/;
 

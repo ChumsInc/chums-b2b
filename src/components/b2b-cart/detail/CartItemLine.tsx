@@ -13,7 +13,7 @@ import SalesOrderCommentLine from "./CartCommentLine";
 import FormattedUPC from "@/components/FormattedUPC";
 import Typography from "@mui/material/Typography";
 import {selectCanViewAvailable} from "@/ducks/user/userProfileSlice";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
 import ProductLink from "@/components/ProductLink";

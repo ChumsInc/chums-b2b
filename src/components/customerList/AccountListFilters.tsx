@@ -2,7 +2,7 @@
 
 import Grid from "@mui/material/Grid";
 import {loadCustomerList} from "@/ducks/customers/actions";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCanFilterReps, selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import Button from "@mui/material/Button";
 import AccountListCustomerFilter from "./AccountListCustomerFilter";

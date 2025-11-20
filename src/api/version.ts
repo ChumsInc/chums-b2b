@@ -1,4 +1,4 @@
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 
 type VersionString = string;
 interface VersionNo {

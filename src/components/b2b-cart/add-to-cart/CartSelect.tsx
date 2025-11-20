@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import {selectCartHeaders} from "@/ducks/carts/cartHeadersSlice";
 import localStore from "@/utils/LocalStore";
 import {STORE_CURRENT_CART} from "@/constants/stores";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 export interface CartSelectProps extends Pick<SelectProps, 'required'> {
     cartId: number | null;

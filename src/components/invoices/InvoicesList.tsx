@@ -1,7 +1,7 @@
 'use client';
 
 import {type ChangeEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {
     selectFilteredInvoicesList,
     selectInvoicesListLimit,
@@ -14,7 +14,7 @@ import {
 } from "@/ducks/invoices/invoiceListSlice";
 import {loadInvoices} from "@/ducks/invoices/actions";
 import {InvoiceLink} from "./InvoiceLink";
-import {DateString} from "@/components/DateString";
+import DateString from "@/components/DateString";
 import OrderLink from "../OrderLink";
 import numeral from "numeral";
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";

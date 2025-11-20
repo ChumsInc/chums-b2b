@@ -3,7 +3,7 @@ import {selectUserProfile} from "@/ducks/user/userProfileSlice";
 import {ErrorBoundary as ReactErrorBoundary, type FallbackProps} from 'react-error-boundary';
 import {postErrors} from "@/api/fetch";
 import Alert from "@mui/material/Alert";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 function ErrorFallback({error}: FallbackProps) {
     // resetErrorBoundary();

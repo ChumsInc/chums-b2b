@@ -1,9 +1,9 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {CustomerPaymentCard} from "chums-types/b2b";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
-import {customerSlug} from "@/utils/customer";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
-import {loadCustomerList} from "@/ducks/customers/actions";
+import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions.js";
+import {customerSlug} from "@/utils/customer.js";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
+import {loadCustomerList} from "@/ducks/customers/actions.js";
 import dayjs from "dayjs";
 
 const adapter = createEntityAdapter<CustomerPaymentCard, string>({
@@ -79,10 +79,11 @@ const customerPaymentCardsSlice = createSlice({
 export default customerPaymentCardsSlice;
 export const {selectCustomerPaymentCards} = customerPaymentCardsSlice.selectors;
 
+const selectCurrentDate = () => dayjs().format('YYYY-MM');
+
 export const selectActiveCustomerPaymentCards = createSelector(
-    [selectCustomerPaymentCards],
-    (cards) => {
-        const exp = dayjs().format('YYYY-MM');
+    [selectCustomerPaymentCards, selectCurrentDate],
+    (cards, exp) => {
         return cards.filter(card => `${card.ExpirationDateYear}-${card.ExpirationDateMonth}` >= exp);
     }
 )

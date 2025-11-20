@@ -1,5 +1,5 @@
 import type {SearchResult} from "chums-types/b2b";
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 
 export const API_PATH_SEARCH = '/api/search/v3/:term';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import {type SyntheticEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {clearCartMessages, selectCartMessages} from "@/ducks/carts/cartMessagesSlice";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";

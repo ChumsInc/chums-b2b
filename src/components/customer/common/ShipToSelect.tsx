@@ -10,7 +10,7 @@ import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";

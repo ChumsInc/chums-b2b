@@ -1,8 +1,8 @@
 import type {CustomerKey, EmailResponse, SalesOrder} from 'chums-types/b2b'
-import {fetchJSON} from "./fetch";
-import type {ApplyPromoCodeBody} from "../types/cart";
+import {fetchJSON} from "./fetch.js";
+import type {ApplyPromoCodeBody} from "@/types/cart";
 import type {LoadSalesOrderProps, LoadSalesOrdersProps} from "@/types/salesorder";
-import {shortCustomerKey} from "@/utils/customer";
+import {shortCustomerKey} from "@/utils/customer.js";
 
 
 export async function fetchSalesOrder({customerKey, salesOrderNo}: LoadSalesOrderProps): Promise<SalesOrder | null> {

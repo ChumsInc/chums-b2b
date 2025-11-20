@@ -1,23 +1,17 @@
-'use client';
-
 import React, {useEffect} from 'react';
 import {redirect, useMatch, useParams} from 'react-router';
-import OrderDetail from "./OrderDetail";
 import Alert from "@mui/material/Alert";
-import DocumentTitle from "@/components/DocumentTitle";
-import {
-    selectCustomerAccount,
-    selectCustomerLoaded,
-    selectCustomerLoadStatus
-} from "../../customer/currentCustomerSlice";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {loadSalesOrder} from "../actions";
-import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
-import SalesOrderSkeleton from "./SalesOrderSkeleton";
-import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import Typography from "@mui/material/Typography";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
-import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
+import OrderDetail from "./OrderDetail.js";
+import DocumentTitle from "@/components/DocumentTitle.js";
+import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice.js";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
+import {loadSalesOrder} from "@/ducks/open-orders/actions.js";
+import SalesOrderHeaderElement from "./SalesOrderHeaderElement.js";
+import SalesOrderSkeleton from "./SalesOrderSkeleton.js";
+import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress.js";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.js";
+import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice.js";
 
 /**
  *
@@ -58,7 +52,7 @@ const SalesOrderPage = () => {
                 <div className="sales-order-page">
                     <SalesOrderSkeleton/>
                 </div>
-                <SalesOrderLoadingProgress />
+                <SalesOrderLoadingProgress/>
             </div>
         )
     }

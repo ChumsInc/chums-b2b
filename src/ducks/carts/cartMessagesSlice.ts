@@ -1,6 +1,6 @@
-import {createEntityAdapter, createSlice,type  PayloadAction} from "@reduxjs/toolkit";
+import {createEntityAdapter, createSlice, type  PayloadAction} from "@reduxjs/toolkit";
 import type {CartMessage} from "@/types/cart/cart-utils";
-import {addToCart, saveCart, saveCartItem} from "@/ducks/carts/actions";
+import {addToCart, saveCart, saveCartItem} from "@/ducks/carts/actions.js";
 
 const messagesAdapter = createEntityAdapter<CartMessage, string>({
     selectId: (arg) => arg.key,

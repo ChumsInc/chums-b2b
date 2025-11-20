@@ -2,7 +2,7 @@
 
 import {useEffect, useRef, useState} from 'react';
 import {updateLocalAuth} from "@/ducks/user/actions";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectLoggedIn, selectLoginExpiry} from "@/ducks/user/userProfileSlice";
 import {useIsSSR} from "@/hooks/is-server-side";
 

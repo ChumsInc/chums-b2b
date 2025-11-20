@@ -1,12 +1,10 @@
-'use client';
-
 import React, {type ChangeEvent, useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
-import type {SalesOrderHeader} from "chums-types/b2b";
-import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {selectOpenOrdersSort, setSalesOrderSort} from "../openOrdersSlice";
+import type {SalesOrderHeader} from "chums-types/b2b";
+import type {SortProps} from "@/types/generic.js";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
+import {selectOpenOrdersSort, setSalesOrderSort} from "@/ducks/open-orders/openOrdersSlice.js";
 
 export default function OrdersList({
                                        list,

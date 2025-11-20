@@ -6,7 +6,7 @@ import {customerCartURL} from "@/ducks/user/utils";
 import CustomerIndicator from "@/components/nav-bar/CustomerIndicator";
 import CartIcon from "@/components/b2b-cart/CartIcon";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 
 const CartMenu = () => {

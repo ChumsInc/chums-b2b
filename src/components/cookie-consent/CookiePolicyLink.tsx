@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import FooterLink from "@/components/footer/FooterLink";
 import CookieConsentDialog from "@/components/cookie-consent/CookieConsentDialog";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCookieConsentRecord} from "@/ducks/cookie-consent";
 import LocalStore from "@/utils/LocalStore";
 import type {CookieConsentSettings} from "chums-types/b2b";

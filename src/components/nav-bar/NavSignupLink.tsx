@@ -3,7 +3,7 @@ import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import ListItemLink from "../ListItemLink";
 import {PATH_SIGNUP} from "@/constants/paths";
 import NavItemButtonLink from "./NavItemButtonLink";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 export default function NavSignupLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useAppSelector(selectLoggedIn);

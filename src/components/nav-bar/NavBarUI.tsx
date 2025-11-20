@@ -11,7 +11,7 @@ import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
 import NavDrawer from "./NavDrawer";
 import HomeLink from "./HomeLink";
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch} from "@/app/hooks";
 import {toggleMenuDrawer} from "@/ducks/menu";
 import Container from "@mui/material/Container";
 import UserMenu from "./UserMenu";

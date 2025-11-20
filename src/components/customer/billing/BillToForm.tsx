@@ -13,7 +13,7 @@ import StoreMapToggle from "../common/StoreMapToggle";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
 import {isBillToCustomer} from "@/utils/typeguards";
 import Address from "@/components/address/Address";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import type {BillToCustomer, Editable} from "chums-types/b2b";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "../common/ReloadCustomerButton";

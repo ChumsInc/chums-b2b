@@ -1,6 +1,6 @@
 import type {CookieConsentSettings} from "chums-types/b2b";
-import LocalStore from "@/utils/LocalStore";
-import {STORE_COOKIE_CONSENT} from "@/constants/stores";
+import LocalStore from "@/utils/LocalStore.js";
+import {STORE_COOKIE_CONSENT} from "@/constants/stores.js";
 
 export function storeCookieConsent(settings:CookieConsentSettings) {
     LocalStore.setItem<CookieConsentSettings>(STORE_COOKIE_CONSENT, settings)

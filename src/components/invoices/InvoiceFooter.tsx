@@ -3,7 +3,7 @@ import Decimal from "decimal.js";
 import numeral from "numeral";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 
 const InvoiceFooterRow = ({title, value}: {

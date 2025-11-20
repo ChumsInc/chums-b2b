@@ -6,7 +6,7 @@ import {loadProductMenu, selectProductMenu, selectShouldLoadProductMenu} from "@
 import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
 import CompoundMenu from "@/components/nav-bar/CompoundMenu";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 
 const productUrl = (url: string) => `/products${url}`;
 

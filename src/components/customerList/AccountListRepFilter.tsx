@@ -1,6 +1,6 @@
 'use client';
 
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomersRepFilter, setCustomersRepFilter} from "@/ducks/customers/customerListSlice";
 import RepSelect from "@/ducks/reps/components/RepSelect";
 import {selectCanFilterReps} from "@/ducks/user/userAccessSlice";

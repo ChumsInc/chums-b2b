@@ -5,7 +5,7 @@ import {
     selectCustomerLoadStatus
 } from "@/ducks/customer/currentCustomerSlice";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 const MissingTaxScheduleAlert = () => {
     const customer = useAppSelector(selectCustomerAccount);

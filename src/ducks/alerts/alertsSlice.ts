@@ -6,8 +6,8 @@ import {
     isRejected,
     type PayloadAction
 } from "@reduxjs/toolkit";
-import {setLoggedIn} from '../user/actions'
-import {alertSorter} from "./utils";
+import {setLoggedIn} from '../user/actions.js'
+import {alertSorter} from "./utils.js";
 import type {B2BContextAlert} from "@/ducks/alerts/types";
 
 const adapter = createEntityAdapter<B2BContextAlert, number>({

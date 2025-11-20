@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import type {Message} from "chums-types/b2b";
-import {loadMessages} from "./actions";
+import {loadMessages} from "./actions.js";
 
 export interface LoadMessagesResponse {
     list: Message[],

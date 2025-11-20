@@ -17,7 +17,7 @@ import {duplicateSalesOrder} from "@/ducks/carts/actions";
 import type {B2BCart} from "@/types/cart/cart";
 import {generatePath, useNavigate} from "react-router";
 import {customerSlug, parseCustomerSlug} from "@/utils/customer";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 

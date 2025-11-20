@@ -3,7 +3,7 @@
 import React, {useEffect, useRef} from 'react';
 import {minCheckInterval, selectShouldAlertVersion, selectVersion} from "./index";
 import {ignoreVersion, loadVersion} from "./actions";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import {useIsSSR} from "@/hooks/is-server-side";

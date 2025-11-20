@@ -53,11 +53,21 @@ exports.default = (0, vite_1.defineConfig)({
     },
     build: {
         outDir: 'dist-server',
+        lib: {
+            entry: node_path_1.default.resolve(node_process_1.default.cwd(), 'src/server/index.ts'),
+            fileName: function (format, fileName) {
+                var extension = format === 'cjs' ? 'js' : 'mjs';
+                return "".concat(fileName, ".").concat(extension);
+            },
+            name: 'chums-ssr',
+            formats: ['es'],
+        },
         emptyOutDir: true,
         rollupOptions: {
             input: './src/server/index.ts',
             output: {
-                manualChunks: manualChunks,
+                preserveModules: true,
+                inlineDynamicImports: false
             },
             shimMissingExports: true,
         },
@@ -67,4 +77,13 @@ exports.default = (0, vite_1.defineConfig)({
         manifest: true,
         sourcemap: false,
     },
+    ssr: {
+        resolve: {
+            conditions: ['development', 'browser'],
+            externalConditions: ['node']
+        },
+        optimizeDeps: {
+            holdUntilCrawlEnd: true,
+        }
+    }
 });

@@ -1,9 +1,9 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
 import type {CustomerPriceRecord} from "chums-types/b2b";
-import {customerPriceCodeKey, customerSlug} from "@/utils/customer";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
-import {loadCustomerList} from "@/ducks/customers/actions";
+import {customerPriceCodeKey, customerSlug} from "@/utils/customer.js";
+import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions.js";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
+import {loadCustomerList} from "@/ducks/customers/actions.js";
 
 const adapter = createEntityAdapter<CustomerPriceRecord, string>({
     selectId: arg => customerPriceCodeKey(arg),

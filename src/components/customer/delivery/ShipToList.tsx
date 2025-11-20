@@ -16,7 +16,7 @@ import PrimaryShipToIcon from "../common/PrimaryShipToIcon";
 import Link, {type LinkProps} from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import ReloadCustomerButton from "../common/ReloadCustomerButton";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {
     selectShipToSort,
     selectSortedShipToList,

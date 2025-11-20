@@ -1,10 +1,10 @@
 import {createEntityAdapter, createSelector, createSlice,type  PayloadAction} from "@reduxjs/toolkit";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import type {SortProps} from "chums-types/b2b";
-import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart, saveCartItem} from "@/ducks/carts/actions";
-import {loadCustomer} from "@/ducks/customer/actions";
-import {customerSlug} from "@/utils/customer";
-import {calcCartQty, cartDetailSorter} from "@/ducks/carts/utils";
+import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart, saveCartItem} from "@/ducks/carts/actions.js";
+import {loadCustomer} from "@/ducks/customer/actions.js";
+import {customerSlug} from "@/utils/customer.js";
+import {calcCartQty, cartDetailSorter} from "@/ducks/carts/utils.js";
 
 const detailAdapter = createEntityAdapter<B2BCartDetail, number>({
     selectId: (arg) => arg.id,

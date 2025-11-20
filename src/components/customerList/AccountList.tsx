@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 import {loadCustomerList} from '@/ducks/customers/actions';
 import {longAccountNumber} from "@/utils/customer";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
 import {documentTitles, PATH_PROFILE} from "@/constants/paths";

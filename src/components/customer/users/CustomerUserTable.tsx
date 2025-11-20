@@ -23,7 +23,7 @@ import {
 import {customerUserPath} from "@/utils/path-utils";
 import Chip, {type ChipProps} from "@mui/material/Chip";
 import StoreIcon from '@mui/icons-material/Store';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
 

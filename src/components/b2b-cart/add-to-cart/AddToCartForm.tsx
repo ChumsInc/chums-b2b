@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartNameInput from "./CartNameInput";
 import AddToCartButton from "./AddToCartButton";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import CartSelect from "@/components/b2b-cart/add-to-cart/CartSelect";
 import CartQuantityInput from "@/components/CartQuantityInput";
 import type {CartProduct} from "chums-types/b2b";

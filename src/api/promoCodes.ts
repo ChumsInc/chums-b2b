@@ -1,5 +1,5 @@
 import type {PromoCode} from "chums-types/b2b";
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 
 
 export async function fetchPromoCodes():Promise<PromoCode[]> {

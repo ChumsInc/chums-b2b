@@ -1,13 +1,13 @@
-import {rootReducer} from "@/app/root-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import type {PreloadedState} from "chums-types/b2b";
-import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice";
-
-import "@/ducks/customer/actions";
 import {useDispatch, useSelector} from "react-redux";
+import rootReducer from "@/app/root-reducer.js";
+import {getPreloadedBannersState} from "@/ducks/banners/bannersSlice.js";
+
 
 export const useAppDispatch = () => useDispatch()
 export const useAppSelector = useSelector;
+
 
 const createServerSideStore = (preload: PreloadedState) => configureStore({
     reducer: rootReducer,

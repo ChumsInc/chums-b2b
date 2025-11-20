@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {selectCategoryStatus} from "./selectors";
-import {fetchCategory} from "@/api/category";
+import {selectCategoryStatus} from "./selectors.js";
+import {fetchCategory} from "@/api/category.js";
 import type {ProductCategory} from "chums-types/b2b";
 import {type RootState} from "@/app/configureStore";
 

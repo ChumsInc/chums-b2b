@@ -7,7 +7,7 @@ import {selectCustomerAccount, selectCustomerLoadStatus,} from "@/ducks/customer
 import {generatePath, Outlet, useNavigate, useParams} from "react-router";
 import DocumentTitle from "@/components/DocumentTitle";
 import AccountTabs from "./AccountTabs";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {customerSlug, isSameCustomer, parseCustomerSlug} from "@/utils/customer";
 import ReturnToAlert from "./ReturnToAlert";
 import CustomerTitle from "@/components/customer/CustomerTitle";

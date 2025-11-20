@@ -2,7 +2,7 @@
 
 import React, {useEffect, useRef} from 'react';
 import {selectActiveMessages, selectMessagesLoaded} from "./selectors";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadMessages} from "./actions";
 import {useIsSSR} from "@/hooks/is-server-side";
 import Stack from "@mui/material/Stack";

@@ -9,7 +9,7 @@ import Alert, {type AlertColor} from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
 import React, {type FormEvent, useState} from "react";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectResettingPassword} from "@/ducks/user/userProfileSlice";
 import {resetPassword} from "@/ducks/user/actions";
 import AccessWarningAlert from "./AccessWarningAlert";

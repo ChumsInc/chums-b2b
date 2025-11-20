@@ -2,7 +2,7 @@ import {generatePath, Link as RoutedLink} from 'react-router';
 import type {OrderType} from "@/types/salesorder";
 import {customerSlug} from "@/utils/customer";
 import Link from "@mui/material/Link";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 
 const getSalesOrderPath = (orderType: OrderType | null): string => {

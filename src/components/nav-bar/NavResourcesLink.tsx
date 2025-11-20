@@ -5,7 +5,7 @@ import {useEffect} from "react";
 import {loadResourcesMenu, selectResourcesMenu, selectShouldLoadResourcesMenu} from "@/ducks/menu";
 import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import BasicMenu from "@/components/nav-bar/BasicMenu";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 
 export default function NavResourcesLink({inDrawer}: NavItemProps) {
     const dispatch = useAppDispatch();

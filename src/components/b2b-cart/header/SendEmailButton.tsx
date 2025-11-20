@@ -2,7 +2,7 @@
 
 import {type MouseEvent} from "react";
 import Button, {type ButtonProps} from "@mui/material/Button";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import SendEmailModal from "./SendEmailModal";
 import {sendCartEmail} from "@/ducks/carts/actions";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";

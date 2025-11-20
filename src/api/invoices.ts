@@ -1,6 +1,6 @@
 import type {FetchInvoiceArg, LoadInvoicesProps} from "@/ducks/invoices/types";
 import type {ExtendedInvoice, InvoiceHistoryHeader} from "chums-types/b2b";
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 
 export interface FetchInvoiceResponse {
     invoice: ExtendedInvoice | null;

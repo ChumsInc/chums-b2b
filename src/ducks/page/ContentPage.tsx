@@ -2,7 +2,7 @@
 
 import React, {useEffect} from 'react';
 import DocumentTitle from "../../components/DocumentTitle";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectPageContent, selectPageHTML, selectPageLoaded, selectPageLoadingStatus} from "./selectors";
 import {useParams} from "react-router";
 import {loadPage} from "./actions";

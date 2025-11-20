@@ -1,54 +1,50 @@
-'use client';
-
 import {StrictMode, useEffect} from 'react';
+import {GoogleOAuthProvider} from "@react-oauth/google";
 import {Route, Routes, useLocation} from 'react-router';
-import Login from "@/components/user/login/LoginPage";
-import {loadProfile} from '@/ducks/user/actions';
-import {loadCustomer} from '@/ducks/customer/actions';
-import ProfilePage from "@/components/user/profile/ProfilePage";
-import AccountPage from "@/components/customer/AccountPage";
-import SalesOrderPage from "../ducks/open-orders/components/SalesOrderPage";
-import SignUp from "@/components/sign-up/SignUp";
-import Logout from "@/components/user/Logout";
-import ResetPassword from "@/components/user/ResetPassword";
-import ContentPage from "../ducks/page/ContentPage";
-import InvoicePage from "@/components/invoices/InvoicePage";
-import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
-import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice";
-import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import AccountListContainer from "@/components/customerList/AccountListContainer";
-import {useAppDispatch, useAppSelector} from "./configureStore";
-import MainOutlet from "./MainOutlet";
-import ProductRouter from "../ducks/products/components/ProductRouter";
-import BillToForm from "@/components/customer/billing/BillToForm";
-import ShipToForm from "@/components/customer/delivery/ShipToForm";
-import CustomerUsers from "@/components/customer/users/CustomerUsers";
+import {LocalizationProvider} from "@mui/x-date-pickers";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import ContentPage404 from "../components/ContentPage404";
-import OpenOrdersList from "../ducks/open-orders/components/OpenOrdersList";
-import InvoicesList from "@/components/invoices/InvoicesList";
-import ShipToList from "@/components/customer/delivery/ShipToList";
-import theme from "./theme";
-import Home from "../components/Home";
-import {GoogleOAuthProvider} from "@react-oauth/google";
-import {GOOGLE_CLIENT_ID} from "@/constants/app";
-import RequestPasswordResetForm from "@/components/user/RequestPasswordResetForm";
-import ChangePasswordPage from "@/components/user/ChangePasswordPage";
-import {useIsSSR} from "@/hooks/is-server-side";
-import LocalStore from "../utils/LocalStore";
-import {isTokenExpired} from "@/utils/jwtHelper";
-import {auth} from "@/api/IntranetAuthService";
-import {selectAppNonce} from "@/ducks/app/selectors";
-import EditAccountUserForm from "@/components/customer/users/EditAccountUserForm";
-import CartsPage from "@/components/b2b-cart/CartsPage";
-import CartPage from "@/components/b2b-cart/CartPage";
-import {ga4PageView} from "@/utils/ga4/generic";
+import Login from "@/components/user/login/LoginPage.js";
+import {loadProfile} from '@/ducks/user/actions.js';
+import {loadCustomer} from '@/ducks/customer/actions.js';
+import ProfilePage from "@/components/user/profile/ProfilePage.js";
+import AccountPage from "@/components/customer/AccountPage.js";
+import SalesOrderPage from "@/components/open-orders/SalesOrderPage";
+import SignUp from "@/components/sign-up/SignUp.js";
+import Logout from "@/components/user/Logout.js";
+import ResetPassword from "@/components/user/ResetPassword.js";
+import ContentPage from "../ducks/page/ContentPage.js";
+import InvoicePage from "@/components/invoices/InvoicePage.js";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice.js";
+import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice.js";
+import AccountListContainer from "@/components/customerList/AccountListContainer.js";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
+import MainOutlet from "./MainOutlet.js";
+import ProductRouter from "../ducks/products/components/ProductRouter.js";
+import BillToForm from "@/components/customer/billing/BillToForm.js";
+import ShipToForm from "@/components/customer/delivery/ShipToForm.js";
+import CustomerUsers from "@/components/customer/users/CustomerUsers.js";
+import ContentPage404 from "../components/ContentPage404.js";
+import OpenOrdersList from "@/components/open-orders/OpenOrdersList";
+import InvoicesList from "@/components/invoices/InvoicesList.js";
+import ShipToList from "@/components/customer/delivery/ShipToList.js";
+import theme from "./theme.js";
+import Home from "../components/Home.js";
+import {GOOGLE_CLIENT_ID} from "@/constants/app.js";
+import RequestPasswordResetForm from "@/components/user/RequestPasswordResetForm.js";
+import ChangePasswordPage from "@/components/user/ChangePasswordPage.js";
+import LocalStore from "../utils/LocalStore.js";
+import {isTokenExpired} from "@/utils/jwtHelper.js";
+import {auth} from "@/api/IntranetAuthService.js";
+import {selectAppNonce} from "@/ducks/app/selectors.js";
+import EditAccountUserForm from "@/components/customer/users/EditAccountUserForm.js";
+import CartsPage from "@/components/b2b-cart/CartsPage.js";
+import CartPage from "@/components/b2b-cart/CartPage.js";
+import {ga4PageView} from "@/utils/ga4/generic.js";
 
 
 const App = () => {
-    const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const currentCustomer = useAppSelector(selectCustomerAccount);
@@ -61,15 +57,12 @@ const App = () => {
     }, [location]);
 
     useEffect(() => {
-        if (isSSR) {
-            return;
-        }
         LocalStore.removeDeprecatedItems();
         const token = auth.getToken();
         if (token && isTokenExpired(token)) {
             auth.removeToken();
         }
-    }, [isSSR]);
+    }, []);
 
     useEffect(() => {
         if (!isLoggedIn) {

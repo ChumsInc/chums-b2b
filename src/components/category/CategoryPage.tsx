@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 import {loadCategory} from '@/ducks/category/actions';
 import CategoryPageElement from "./CategoryPageElement";
 import DocumentTitle from "../DocumentTitle";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCategory, selectCategoryLoading} from "@/ducks/category/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";

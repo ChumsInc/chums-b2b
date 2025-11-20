@@ -1,6 +1,6 @@
 'use client';
 
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";

@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {type ResponsiveStyleValue} from "@mui/system";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 
 const VariantButtonBase = styled(Button)(() => ({

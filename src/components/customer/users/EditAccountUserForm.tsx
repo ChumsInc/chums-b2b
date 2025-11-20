@@ -14,7 +14,7 @@ import ShipToSelect from "../common/ShipToSelect";
 import {generatePath, useMatch, useNavigate} from "react-router";
 import {customerUserPath} from "@/utils/path-utils";
 import {removeUser, saveUser} from "@/ducks/customer/actions";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectIsEmployee, selectIsRep} from "@/ducks/user/userProfileSlice";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";

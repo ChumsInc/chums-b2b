@@ -1,8 +1,8 @@
 import type {CustomersState} from "@/ducks/customers/types";
-import {auth} from "@/api/IntranetAuthService";
-import localStore from "@/utils/LocalStore";
+import {auth} from "@/api/IntranetAuthService.js";
+import localStore from "@/utils/LocalStore.js";
 import type {RecentCustomer} from "chums-types/b2b";
-import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
+import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE, STORE_RECENT_ACCOUNTS} from "@/constants/stores.js";
 
 export const initialCustomersState = (): CustomersState => {
     const isLoggedIn = auth.loggedIn();

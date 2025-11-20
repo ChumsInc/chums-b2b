@@ -5,7 +5,7 @@ import {loadInvoice} from '@/ducks/invoices/actions';
 import InvoiceHeader from "./InvoiceHeader";
 import InvoicePageDetail from "./InvoicePageDetail";
 import DocumentTitle from "../DocumentTitle";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {redirect, useMatch} from "react-router";
 import {selectCurrentInvoice, selectCurrentInvoiceStatus} from "@/ducks/invoices/currentInvoiceSlice";
 import {billToCustomerSlug} from "@/utils/customer";

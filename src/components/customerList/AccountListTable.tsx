@@ -12,7 +12,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {accountListColumns} from "./AccountListColumns";
 
 
@@ -23,7 +23,6 @@ const VirtuosoTableComponents: TableComponents<Customer> = {
     Table: (props) => (
         <Table {...props} sx={{borderCollapse: 'separate', tableLayout: 'fixed'}}/>
     ),
-    // eslint-disable-next-line react/prop-types,@typescript-eslint/no-unused-vars
     TableRow: ({item, ...props}) => <TableRow {...props} />,
     TableBody: forwardRef<HTMLTableSectionElement>(function VirtualTableBody(props, ref) {
         return (<TableBody {...props} ref={ref}/>)

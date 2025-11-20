@@ -1,11 +1,11 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import type {SalesOrder} from "chums-types/b2b";
-import {fetchOpenSalesOrders, fetchSalesOrder} from "@/api/sales-order";
-import {type RootState} from "@/app/configureStore";
-import {billToCustomerSlug} from "@/utils/customer";
-import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
-import {selectOpenOrdersStatus} from "@/ducks/open-orders/openOrdersSlice";
-import {selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
+import {fetchOpenSalesOrders, fetchSalesOrder} from "@/api/sales-order.js";
+import {type RootState} from "@/app/configureStore.js";
+import {billToCustomerSlug} from "@/utils/customer.js";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice.js";
+import {selectOpenOrdersStatus} from "@/ducks/open-orders/openOrdersSlice.js";
+import {selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice.js";
 
 export const loadOpenOrders = createAsyncThunk<SalesOrder[], string, { state: RootState }>(
     'open-orders/load',

@@ -10,7 +10,7 @@ import CartItemDetail from "./CartItemDetail";
 import {redirect, useLocation} from "react-router";
 import MissingTaxScheduleAlert from "@/components/customer/billing/MissingTaxScheduleAlert";
 import RequireLogin from "@/components/RequireLogin";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "../selectors";
 import {selectCustomerAccount} from "../../customer/currentCustomerSlice";
 import ProductPageImage from "./ProductPageImage";

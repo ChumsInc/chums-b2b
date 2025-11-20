@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert";
 import Link from '@mui/material/Link';
 import {selectCustomerKey, selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
 import {useTheme} from "@mui/material/styles";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 const SelectCustomerAlert = () => {

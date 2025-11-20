@@ -5,7 +5,7 @@ import Menu from "@mui/material/Menu";
 import MenuItemRouterLink from "./MenuItemRouterLink";
 import UserAvatar from "@/components/user/UserAvatar";
 import {generatePath} from "react-router";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 

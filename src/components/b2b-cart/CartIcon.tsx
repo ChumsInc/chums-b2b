@@ -5,7 +5,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CircularProgress from "@mui/material/CircularProgress";
 import numeral from "numeral";
 import Tooltip from "@mui/material/Tooltip";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
 import {selectCartQtyByCartId} from "@/ducks/carts/cartDetailSlice";

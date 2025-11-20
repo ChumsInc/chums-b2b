@@ -1,6 +1,6 @@
 'use client';
 
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
 import Stack from "@mui/material/Stack";

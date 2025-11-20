@@ -1,4 +1,4 @@
-import {companyCode, customerSlug, emptyCustomer} from "@/utils/customer";
+import {companyCode, customerSlug, emptyCustomer} from "@/utils/customer.js";
 import {createReducer} from "@reduxjs/toolkit";
 import {
     loadCustomer,
@@ -7,12 +7,11 @@ import {
     setCustomerAccount,
     setDefaultShipTo,
     setReturnToPath
-} from "./actions";
-import {loadCustomerList} from '../customers/actions'
-import {setLoggedIn, setUserAccess} from "../user/actions";
-import {dismissContextAlert} from "../alerts/alertsSlice";
-import {customerResponseToState} from "./utils";
-import type {BillToCustomer, CustomerContact, CustomerUser, Editable, ShipToCustomer, SortProps} from "chums-types/b2b";
+} from "./actions.js";
+import {loadCustomerList} from '../customers/actions.js'
+import {setLoggedIn, setUserAccess} from "../user/actions.js";
+import {dismissContextAlert} from "../alerts/alertsSlice.js";
+import type {BillToCustomer, CustomerContact, Editable} from "chums-types/b2b";
 import type {LoadStatus} from "@/types/generic";
 
 
@@ -78,7 +77,7 @@ const customerReducer = createReducer(initialCustomerState(), builder => {
         .addCase(saveBillingAddress.fulfilled, (state, action) => {
             state.loadStatus = 'idle';
             state.loading = false;
-            state.account = action.payload?.customer  ?? null;
+            state.account = action.payload?.customer ?? null;
             state.contacts = action.payload?.contacts ?? [];
             state.loaded = true;
         })
@@ -93,7 +92,7 @@ const customerReducer = createReducer(initialCustomerState(), builder => {
         .addCase(saveShipToAddress.fulfilled, (state, action) => {
             state.loading = false;
             state.loadStatus = 'idle';
-            state.account = action.payload?.customer  ?? null;
+            state.account = action.payload?.customer ?? null;
             state.contacts = action.payload?.contacts ?? [];
             state.loaded = true;
 
@@ -123,7 +122,7 @@ const customerReducer = createReducer(initialCustomerState(), builder => {
         .addCase(loadCustomer.fulfilled, (state, action) => {
             state.loadStatus = 'idle';
             state.loading = false;
-            state.account = action.payload?.customer  ?? null;
+            state.account = action.payload?.customer ?? null;
             state.contacts = action.payload?.contacts ?? [];
             state.loaded = true;
         })

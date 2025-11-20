@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useState} from 'react';
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch} from "@/app/hooks";
 import {
     STORE_AUTHTYPE,
     STORE_AVATAR,

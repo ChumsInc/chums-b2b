@@ -1,6 +1,6 @@
 import Decimal from "decimal.js";
 import type {ExtendedInvoice, InvoiceHistoryHeader} from "chums-types/b2b";
-import type {SortProps} from "@/types/generic";
+import type {SortProps} from "@/types/generic.js";
 
 export const defaultInvoicesSort: SortProps<InvoiceHistoryHeader> = {field: 'InvoiceDate', ascending: false};
 

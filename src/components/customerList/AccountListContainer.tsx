@@ -3,7 +3,7 @@
 import {useEffect} from 'react';
 import {setUserAccess} from '@/ducks/user/actions';
 import {PATH_PROFILE} from "@/constants/paths";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {redirect, useLocation, useParams} from "react-router";
 import AccountList from "./AccountList";
 import {setReturnToPath} from "@/ducks/customer/actions";

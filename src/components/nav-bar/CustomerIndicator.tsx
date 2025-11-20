@@ -12,7 +12,7 @@ import {billToCustomerSlug, customerNo, customerSlug, parseCustomerSlug} from "@
 import Typography from "@mui/material/Typography";
 import {useParams} from "react-router";
 import {loadCustomer} from "@/ducks/customer/actions";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice";
 
 export default function CustomerIndicator() {

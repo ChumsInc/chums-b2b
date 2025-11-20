@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import type {Editable, SalesOrderDetailLine} from "chums-types/b2b";
 import type {Appendable} from "@/types/generic";
-import classNames from "classnames";
-import OrderItemImage from "@/components/OrderItemImage";
-import UPCA from "@/components/common/upc-a";
 import numeral from "numeral";
 import Decimal from "decimal.js";
-import SalesOrderLineButtons from "./SalesOrderLineButtons";
+import classNames from "classnames";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Stack from "@mui/material/Stack";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import OrderItemImage from "@/components/OrderItemImage.js";
+import UPCA from "@/components/common/upc-a.js";
+import SalesOrderLineButtons from "./SalesOrderLineButtons.js";
+import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils.js";
 
 
 export default function SalesOrderKitComponentLine({

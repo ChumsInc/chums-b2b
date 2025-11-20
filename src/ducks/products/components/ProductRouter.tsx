@@ -6,7 +6,7 @@ import CategoryPage2 from "@/components/category/CategoryPage";
 import ProductPage from "./ProductPage";
 import {PATH_PRODUCT} from "@/constants/paths";
 import ErrorBoundary from "@/components/common/ErrorBoundary";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import type {Keyword} from "chums-types/b2b";
 import Box from "@mui/material/Box";
 import {loadKeywords} from "../../keywords/actions";

@@ -1,13 +1,13 @@
 import {createEntityAdapter, createSelector, createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {Customer} from "chums-types/b2b";
-import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer";
+import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer.js";
 import type {SortProps} from "@/types/generic";
-import LocalStore from "@/utils/LocalStore";
-import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
-import {loadCustomerList} from "@/ducks/customers/actions";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
-import {STATES_USA} from "@/constants/states";
+import LocalStore from "@/utils/LocalStore.js";
+import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores.js";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
+import {loadCustomerList} from "@/ducks/customers/actions.js";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
+import {STATES_USA} from "@/constants/states.js";
 
 const adapter = createEntityAdapter<Customer, string>({
     selectId: (arg) => customerSlug(arg)!,
@@ -41,7 +41,7 @@ const extraState = (): CustomersState => ({
     sort: {field: 'CustomerName', ascending: true},
 });
 
-export function getPreloadCustomerState(extra?:Partial<CustomersState>) {
+export function getPreloadCustomerState(extra?: Partial<CustomersState>) {
     return adapter.getInitialState({
         ...extraState(),
         ...(extra ?? {}),
@@ -58,11 +58,11 @@ const customerListSlice = createSlice({
         setCustomersFilter: (state, action: PayloadAction<string>) => {
             state.filters.search = action.payload;
         },
-        setCustomersRepFilter: (state, action: PayloadAction<string|null>) => {
+        setCustomersRepFilter: (state, action: PayloadAction<string | null>) => {
             state.filters.rep = action.payload ?? '';
             LocalStore.setItem(STORE_CUSTOMERS_FILTER_REP, action.payload);
         },
-        setCustomersStateFilter: (state, action: PayloadAction<string|null>) => {
+        setCustomersStateFilter: (state, action: PayloadAction<string | null>) => {
             state.filters.state = action.payload ?? '';
             LocalStore.setItem(STORE_CUSTOMERS_FILTER_STATE, action.payload);
         }

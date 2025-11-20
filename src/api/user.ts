@@ -6,19 +6,19 @@ import type {
     SetNewPasswordProps,
     UserProfileResponse
 } from "@/ducks/user/types";
-import {allowErrorResponseHandler, fetchJSON} from "./fetch";
-import type {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "../types/user";
-import {auth} from './IntranetAuthService';
-import {getSignInProfile, isTokenExpired} from "@/utils/jwtHelper";
-import localStore from "../utils/LocalStore";
-import {STORE_AUTHTYPE} from "@/constants/stores";
-import {AUTH_GOOGLE} from "@/constants/app";
-import {isErrorResponse, isUserRole} from "@/utils/typeguards";
+import {allowErrorResponseHandler, fetchJSON} from "./fetch.js";
+import type {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "@/types/user";
+import {auth} from './IntranetAuthService.js';
+import {getSignInProfile, isTokenExpired} from "@/utils/jwtHelper.js";
+import localStore from "../utils/LocalStore.js";
+import {STORE_AUTHTYPE} from "@/constants/stores.js";
+import {AUTH_GOOGLE} from "@/constants/app.js";
+import {isErrorResponse, isUserRole} from "@/utils/typeguards.js";
 import {jwtDecode} from 'jwt-decode';
 import type {LoadProfileProps, SignUpProfile} from "@/ducks/sign-up/types";
-import type {APIErrorResponse} from "../types/generic";
-import {configGtag} from "@/utils/ga4/api";
-import {ga4Login, ga4SignUp} from "@/utils/ga4/generic";
+import type {APIErrorResponse} from "@/types/generic";
+import {configGtag} from "@/utils/ga4/api.js";
+import {ga4Login, ga4SignUp} from "@/utils/ga4/generic.js";
 
 
 export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorResponse> {

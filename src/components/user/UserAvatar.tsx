@@ -3,7 +3,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import {selectLoggedIn, selectProfilePicture, selectUserProfile} from "@/ducks/user/userProfileSlice";
 import Box, {type BoxProps} from "@mui/material/Box";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 
 function stringToColor(string: string) {

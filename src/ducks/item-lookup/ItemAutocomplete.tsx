@@ -1,26 +1,24 @@
-'use client';
-
 import {type ChangeEvent, type SyntheticEvent, useCallback, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import {styled} from "@mui/material/styles";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
 import {
     type ItemSearchResult,
     loadItemLookup,
     selectSearchFulfilled,
     selectSearchLoading,
     selectSearchResults
-} from "./index";
-import {CONTENT_PATH_SEARCH_IMAGE} from "@/constants/paths";
-import {useDebounceValue} from '@/hooks/use-debounce'
-import Stack from "@mui/material/Stack";
-import {addToCart} from "@/ducks/carts/actions";
-import CircularProgress from "@mui/material/CircularProgress";
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import {styled} from "@mui/material/styles";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
-import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
-import AddToCartButton from "@/components/b2b-cart/add-to-cart/AddToCartButton";
+} from "./index.js";
+import {useDebounceValue} from '@/hooks/use-debounce.js'
+import {CONTENT_PATH_SEARCH_IMAGE} from "@/constants/paths.js";
+import {addToCart} from "@/ducks/carts/actions.js";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.js";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice.js";
+import AddToCartButton from "@/components/b2b-cart/add-to-cart/AddToCartButton.js";
 
 
 const NumericTextField = styled(TextField)`

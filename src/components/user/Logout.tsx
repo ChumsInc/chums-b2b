@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect} from 'react';
-import {useAppDispatch} from "@/app/configureStore";
+import {useAppDispatch} from "@/app/hooks";
 import {logoutUser} from "@/ducks/user/actions";
 import {useNavigate} from "react-router";
 

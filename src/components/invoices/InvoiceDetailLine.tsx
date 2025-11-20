@@ -6,7 +6,7 @@ import PriceLevelNotice from "../PriceLevelNotice";
 import UPCA from "@/components/common/upc-a";
 import type {InvoiceDetail} from "chums-types/b2b";
 import Decimal from "decimal.js";
-import SalesOrderLineButtons from "@/ducks/open-orders/components/SalesOrderLineButtons";
+import SalesOrderLineButtons from "@/components/open-orders/SalesOrderLineButtons";
 import FormattedUPC from "../FormattedUPC";
 import Typography from "@mui/material/Typography";
 import TableRow from '@mui/material/TableRow';

@@ -1,7 +1,7 @@
 import type {LoadStatus} from "@/types/generic";
 import {createAction, createAsyncThunk, createReducer} from "@reduxjs/toolkit";
-import {fetchItemLookup} from "@/api/itemLookup";
-import {type RootState} from "@/app/configureStore";
+import {fetchItemLookup} from "@/api/itemLookup.js";
+import type {RootState} from "@/app/configureStore.js";
 
 export interface ItemSearchResult {
     ItemCode: string;

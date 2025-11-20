@@ -2,7 +2,7 @@
 
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectSignUpProfile, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice";
 import {loadSignUpProfile} from "@/ducks/sign-up/actions";
 import LinearProgress from "@mui/material/LinearProgress";

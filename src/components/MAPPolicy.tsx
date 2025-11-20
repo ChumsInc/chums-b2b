@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadPage} from "@/ducks/page/actions";
 import {selectPageContent} from "@/ducks/page/selectors";
 import Card from "@mui/material/Card";

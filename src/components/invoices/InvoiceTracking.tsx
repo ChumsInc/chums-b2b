@@ -1,4 +1,4 @@
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCurrentInvoiceTracking} from "@/ducks/invoices/currentInvoiceSlice";
 import Alert from "@mui/material/Alert";
 import TrackingLinkBadge from "@/components/TrackingLinkBadge";

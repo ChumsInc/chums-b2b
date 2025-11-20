@@ -1,7 +1,7 @@
 'use client';
 
 import React, {type SyntheticEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {getSearchResults, selectSearchResults} from "../index";
 import {useNavigate} from 'react-router';
 import type {SearchResult} from "chums-types/b2b";

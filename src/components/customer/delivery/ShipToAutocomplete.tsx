@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 

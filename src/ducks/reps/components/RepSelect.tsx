@@ -4,7 +4,7 @@ import React, {useEffect, useId} from 'react';
 import Select, {type SelectChangeEvent} from '@mui/material/Select';
 import {longRepNo} from "@/utils/customer";
 import {loadRepList} from "../actions";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectRepsList} from "../salespersonSlice";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";

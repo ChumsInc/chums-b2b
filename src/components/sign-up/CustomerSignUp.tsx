@@ -6,7 +6,7 @@ import FormGroup from "@mui/material/FormGroup";
 import {PATH_LOGIN} from "@/constants/paths";
 import {USER_EXISTS} from "@/constants/app";
 import AddressFormFields from "../address/AddressFormFields";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import type {SignUpUser} from "@/types/user";
 import {signUpUser} from "@/ducks/sign-up/actions";
 import {selectSignUpError, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice";

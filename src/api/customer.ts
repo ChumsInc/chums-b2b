@@ -1,8 +1,8 @@
 import type {BillToCustomer, CustomerKey, CustomerUser, ShipToCustomer} from "chums-types/b2b";
 import type {FetchCustomerResponse} from "@/ducks/customer/types";
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 import {customerSlug, sageCompanyCode} from "@/utils/customer";
-import type {CustomerPermissions} from "../types/customer";
+import type {CustomerPermissions} from "@/types/customer";
 
 
 

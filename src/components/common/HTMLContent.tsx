@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import Box, {type BoxProps} from "@mui/material/Box";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectAllowsMarketing} from "@/ducks/cookie-consent";
 
 interface FindReplace {

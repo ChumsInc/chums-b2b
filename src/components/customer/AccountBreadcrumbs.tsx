@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import {generatePath, useLocation} from "react-router";
 import type {BreadcrumbPath} from "@/types/breadcrumbs";
 import {repAccessCode} from "@/ducks/user/utils";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCurrentAccess, selectUserAccessCount} from "@/ducks/user/userAccessSlice";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 

@@ -1,5 +1,5 @@
 import type {Message} from "chums-types/b2b";
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 
 export const fetchMessages = async (): Promise<Message[]> => {
     try {

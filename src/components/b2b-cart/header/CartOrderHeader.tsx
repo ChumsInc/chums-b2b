@@ -4,7 +4,7 @@ import {type ChangeEvent, useCallback, useEffect, useRef, useState} from 'react'
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import type {Editable, ShipToAddress} from "chums-types/b2b";
 import CustomerShippingAccountControl from "./CustomerShippingAccountControl";
 import type {CartProgress} from "@/types/cart/cart-utils";

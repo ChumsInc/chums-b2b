@@ -3,7 +3,7 @@
 import React from 'react';
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectIsDrawerOpen, toggleMenuDrawer} from "@/ducks/menu";
 import {useIsSSR} from "@/hooks/is-server-side";
 

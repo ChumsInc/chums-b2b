@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
 import TextField from "@mui/material/TextField";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {useDebounceValue} from "@/hooks/use-debounce";
 import {selectCartItemById, setCartItem} from "@/ducks/carts/cartDetailSlice";
 

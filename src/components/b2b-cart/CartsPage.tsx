@@ -2,7 +2,7 @@
 
 import {useEffect} from 'react';
 import CartsFilter from "@/components/b2b-cart/list/CartsFilter";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartsList from "@/components/b2b-cart/list/CartsList";
 import {loadCarts} from "@/ducks/carts/actions";

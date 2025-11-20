@@ -1,6 +1,6 @@
 import {type ChangeEvent, type RefObject, type MouseEvent, useEffect, useId, useState} from "react";
 import {DateCalendar,} from "@mui/x-date-pickers/DateCalendar";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import FilledInput from "@mui/material/FilledInput";
 import IconButton from "@mui/material/IconButton";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -9,7 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Popover from "@mui/material/Popover";
 import {type InputBaseComponentProps} from "@mui/material/InputBase";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectNextShipDate} from "@/ducks/carts/activeCartSlice";
 
 export interface ShipDateInputProps extends Omit<FormControlProps, 'onChange'> {
@@ -64,7 +64,7 @@ export default function ShipDateInput({
         setAnchorEl(ev.currentTarget);
     }
 
-    const calendarChangeHandler = (value: Dayjs | null) => {
+    const calendarChangeHandler = (value: dayjs.ConfigType | null) => {
         setAnchorEl(null);
         if (!dayjs(value).isValid() || dayjs(value).isBefore(min)) {
             return onChange(dayjs(min).toISOString())

@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectSendEmailError, selectSendEmailResponse, selectSendEmailStatus, closeEmailResponse} from "@/ducks/carts/cartEmailSlice";
 import Dialog from "@mui/material/Dialog";
 import LinearProgress from "@mui/material/LinearProgress";

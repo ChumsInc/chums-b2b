@@ -1,5 +1,5 @@
 import type {ItemSearchResult} from "@/ducks/item-lookup";
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 
 export async function fetchItemLookup(arg:string):Promise<ItemSearchResult[]> {
     try {

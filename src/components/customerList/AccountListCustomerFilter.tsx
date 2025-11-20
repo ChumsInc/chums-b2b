@@ -1,7 +1,7 @@
 'use client';
 
 import {type ChangeEvent, useEffect, useRef, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";

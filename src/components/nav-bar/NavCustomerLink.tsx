@@ -6,7 +6,7 @@ import type {MinimalMenuItem} from "@/ducks/menu/types";
 import {buildCustomerMenuItems} from "@/ducks/menu/utils";
 import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import BasicMenu from "@/components/nav-bar/BasicMenu";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 export default function NavCustomerLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useAppSelector(selectLoggedIn);

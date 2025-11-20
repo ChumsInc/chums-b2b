@@ -53,11 +53,21 @@ export default defineConfig({
     },
     build: {
         outDir: 'dist-server',
+        lib: {
+            entry: path.resolve(process.cwd(), 'src/server/index.ts'),
+            fileName: (format, fileName) => {
+                const extension = format === 'cjs' ? 'js' : 'mjs';
+                return `${fileName}.${extension}`;
+            },
+            name: 'chums-ssr',
+            formats: ['es'],
+        },
         emptyOutDir: true,
         rollupOptions: {
             input: './src/server/index.ts',
             output: {
-                manualChunks: manualChunks,
+                preserveModules: true,
+                inlineDynamicImports: false
             },
             shimMissingExports: true,
         },
@@ -67,5 +77,13 @@ export default defineConfig({
         manifest: true,
         sourcemap: false,
     },
-
+    ssr: {
+        resolve: {
+            conditions: ['development', 'browser'],
+            externalConditions: ['node']
+        },
+        optimizeDeps: {
+            holdUntilCrawlEnd: true,
+        }
+    }
 })

@@ -1,20 +1,20 @@
 import {type CaseReducer, createSlice} from "@reduxjs/toolkit";
-import type {BasicCustomer} from "chums-types/b2b";
 import type {CustomerShippingAccount} from "@/types/customer";
-import localStore from "@/utils/LocalStore";
-import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import localStore from "@/utils/LocalStore.js";
+import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores.js";
 import {
     addToCart,
     duplicateSalesOrder,
     loadCart,
-    loadCarts, loadNextShipDate,
+    loadCarts,
+    loadNextShipDate,
     processCart,
     setActiveCartId,
     setCartShippingAccount
-} from "@/ducks/carts/actions";
-import {loadCustomer} from "@/ducks/customer/actions";
-import {customerSlug} from "@/utils/customer";
-import {initializeActiveCartState} from "@/ducks/carts/utils";
+} from "@/ducks/carts/actions.js";
+import {loadCustomer} from "@/ducks/customer/actions.js";
+import {customerSlug} from "@/utils/customer.js";
+import {initializeActiveCartState} from "@/ducks/carts/utils.js";
 
 
 export interface ActiveCartExtraState {

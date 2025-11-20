@@ -5,7 +5,7 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import Stack from "@mui/material/Stack";
 import PrimaryShipToIcon from "../common/PrimaryShipToIcon";
 import Typography from "@mui/material/Typography";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 import type {Editable, ShipToCustomer} from "chums-types/b2b";
 import {loadCustomer, setDefaultShipTo} from "@/ducks/customer/actions";

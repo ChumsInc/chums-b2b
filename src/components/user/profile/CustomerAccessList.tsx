@@ -1,4 +1,4 @@
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCurrentAccess, selectCustomerAccessList} from "@/ducks/user/userAccessSlice";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";

@@ -1,12 +1,12 @@
-import {auth} from "./IntranetAuthService";
-import B2BError from "../types/generic";
-import {STORE_VERSION} from "@/constants/stores";
+import {auth} from "./IntranetAuthService.js";
+import B2BError from "@/types/generic.js";
+import {STORE_VERSION} from "@/constants/stores.js";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
-import {isLocalHost} from "@/utils/dev";
-import {ga4Exception} from "@/utils/ga4/generic";
-import SessionStore from "@/utils/SessionStore";
-import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
+import {isLocalHost} from "@/utils/dev.js";
+import {ga4Exception} from "@/utils/ga4/generic.js";
+import SessionStore from "@/utils/SessionStore.js";
+import {canStoreAnalytics} from "@/ducks/cookie-consent/utils.js";
 
 
 function getCredentials(): string | null {

@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import {useIsSSR} from "@/hooks/is-server-side";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 const SignUp = () => {
     const isSSR = useIsSSR();

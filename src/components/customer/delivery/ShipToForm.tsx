@@ -8,7 +8,7 @@ import {selectCanEdit} from "@/ducks/user/userProfileSlice";
 import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
 import StoreMapToggle from "@/components/customer/common/StoreMapToggle";
 import type {Editable, ShipToCustomer} from "chums-types/b2b";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {generatePath, useNavigate, useParams} from "react-router";
 import DeliveryAddress from "@/components/address/DeliveryAddress";
 import LinearProgress from "@mui/material/LinearProgress";

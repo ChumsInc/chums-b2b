@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useId, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomersStateFilter, selectCustomerStates, setCustomersStateFilter} from "@/ducks/customers/customerListSlice";
 import StateSelect from "../StateSelect";
 

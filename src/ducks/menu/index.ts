@@ -1,10 +1,10 @@
 import {createAction, createAsyncThunk, createReducer, createSelector} from "@reduxjs/toolkit";
 import type {Menu, MenuItem} from "chums-types/b2b";
-import {type RootState} from "@/app/configureStore";
-import {fetchMenu} from "@/api/menu";
-import {selectCustomerAccessList, selectRepAccessList} from "../user/userAccessSlice";
-import {defaultMenuItem} from "./utils";
-import {accessListURL} from "../user/utils";
+import {type RootState} from "@/app/configureStore.js";
+import {fetchMenu} from "@/api/menu.js";
+import {selectCustomerAccessList, selectRepAccessList} from "../user/userAccessSlice.js";
+import {defaultMenuItem} from "./utils.js";
+import {accessListURL} from "../user/utils.js";
 
 export interface MenuState {
     productMenu: Menu | null;

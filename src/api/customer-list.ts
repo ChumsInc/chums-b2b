@@ -1,5 +1,5 @@
 import type {Customer, UserCustomerAccess} from "chums-types/b2b";
-import {fetchJSON} from "./fetch";
+import {fetchJSON} from "./fetch.js";
 
 export const API_PATH_CUSTOMER_LIST = '/api/sales/b2b/account-list/:Company/:SalespersonDivisionNo-:SalespersonNo';
 

@@ -9,7 +9,7 @@ import FormControl, {type FormControlProps} from "@mui/material/FormControl";
 import {type InputBaseComponentProps} from "@mui/material/InputBase";
 import {PAYMENT_TYPES} from "@/constants/account";
 import FormHelperText from "@mui/material/FormHelperText";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectActiveCustomerPaymentCards} from "@/ducks/customer/customerPaymentCardsSlice";
 
 export interface CartPaymentSelectProps extends Omit<FormControlProps, 'onChange'> {

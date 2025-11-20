@@ -5,7 +5,7 @@ import {loadInvoice} from '@/ducks/invoices/actions';
 import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog";
 import {ShippingMethods} from "@/utils/general";
 import {selectCurrentInvoice} from "@/ducks/invoices/currentInvoiceSlice";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import dayjs from "dayjs";
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';

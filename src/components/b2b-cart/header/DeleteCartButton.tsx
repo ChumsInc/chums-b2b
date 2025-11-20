@@ -3,7 +3,7 @@
 import {useCallback, useState} from 'react';
 import Button, {type ButtonProps} from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {removeCart} from "@/ducks/carts/actions";
 import {generatePath, useNavigate} from "react-router";
 import LinearProgress from "@mui/material/LinearProgress";

@@ -1,6 +1,6 @@
 'use client';
 
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadCustomer} from "@/ducks/customer/actions";
 import Button, {type ButtonProps} from "@mui/material/Button";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";

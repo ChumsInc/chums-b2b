@@ -3,7 +3,7 @@
 import React, {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
 import {loadProfile, logoutUser, saveUserProfile} from "@/ducks/user/actions";
 import {AUTH_GOOGLE, AUTH_LOCAL} from "@/constants/app";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "@/ducks/user/userProfileSlice";
 import type {Editable} from "chums-types/b2b";
 import type {ExtendedUserProfile} from "@/types/user";

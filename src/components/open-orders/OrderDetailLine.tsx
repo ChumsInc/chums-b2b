@@ -1,10 +1,9 @@
-import React, {Fragment} from 'react';
-import SalesOrderCommentLine from "./SalesOrderCommentLine";
 import type {SalesOrderDetailLine} from "chums-types/b2b";
-import SalesOrderItemLine from "./SalesOrderItemLine";
-import SalesOrderKitComponentLine from "./SalesOrderKitComponentLine";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
+import SalesOrderCommentLine from "./SalesOrderCommentLine.js";
+import SalesOrderItemLine from "./SalesOrderItemLine.js";
+import SalesOrderKitComponentLine from "./SalesOrderKitComponentLine.js";
 
 
 export default function OrderDetailLine({

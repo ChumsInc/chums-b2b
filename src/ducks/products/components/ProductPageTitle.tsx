@@ -3,7 +3,7 @@ import {selectCurrentProduct, selectSelectedProduct} from "../selectors";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Typography from "@mui/material/Typography";
 import ProductAttributeStack from "./ProductAttrbuteStack";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 const ProductPageTitle = () => {
     const product = useAppSelector(selectCurrentProduct);

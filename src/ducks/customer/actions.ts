@@ -1,8 +1,8 @@
-import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@/utils/customer";
-import localStore from "../../utils/LocalStore";
-import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
-import {selectLoggedIn} from "../user/userProfileSlice";
-import {selectCustomerAccount, selectCustomerKey, selectCustomerLoadStatus} from "./currentCustomerSlice";
+import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@/utils/customer.js";
+import localStore from "../../utils/LocalStore.js";
+import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@/constants/stores.js";
+import {selectLoggedIn} from "../user/userProfileSlice.js";
+import {selectCustomerAccount, selectCustomerKey, selectCustomerLoadStatus} from "./currentCustomerSlice.js";
 import {
     deleteCustomerUser,
     fetchCustomerAccount,
@@ -12,17 +12,24 @@ import {
     postCustomerUser,
     postDefaultShipToCode,
     postShipToAddress
-} from "@/api/customer";
-import type {BasicCustomer, BillToCustomer, CustomerKey, CustomerUser, RecentCustomer, ShipToCustomer} from "chums-types/b2b";
+} from "@/api/customer.js";
+import type {
+    BasicCustomer,
+    BillToCustomer,
+    CustomerKey,
+    CustomerUser,
+    RecentCustomer,
+    ShipToCustomer
+} from "chums-types/b2b";
 import {type RootState} from "@/app/configureStore";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import type {FetchCustomerResponse} from "./types";
-import {loadOpenOrders} from "../open-orders/actions";
+import {loadOpenOrders} from "../open-orders/actions.js";
 import type {CustomerPermissions} from "@/types/customer";
-import {selectRecentCustomers} from "../customers/recentCustomersSlice";
-import {loadCarts} from "@/ducks/carts/actions";
-import {canStorePreferences} from "@/ducks/cookie-consent/utils";
-import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice";
+import {selectRecentCustomers} from "../customers/recentCustomersSlice.js";
+import {loadCarts} from "@/ducks/carts/actions.js";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils.js";
+import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice.js";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');

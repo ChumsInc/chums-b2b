@@ -3,16 +3,16 @@ import Debug from 'debug';
 import express, {type NextFunction, type Request, type  Response} from "express";
 import favicon from "serve-favicon";
 import path from "node:path";
-import {getVersion, getVersionJS} from "./version";
-import {getManifest} from "./manifest";
-import {getAPIRequest, handleInvalidURL} from "./utils";
+import {getVersion, getVersionJS} from "./version.js";
+import {getManifest} from "./manifest.js";
+import {getAPIRequest, handleInvalidURL} from "./utils.js";
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import helmet from "helmet";
 import * as crypto from "node:crypto";
-import {helmetOptions} from "./helmetOptions";
+import {helmetOptions} from "./helmetOptions.js";
 import {useCookieGPCHelper} from "cookie-consent";
-import {renderApp} from "./render";
+import {renderApp} from "./render.js";
 
 const debug = Debug('chums:server:index');
 

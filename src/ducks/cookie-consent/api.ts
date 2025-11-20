@@ -1,4 +1,4 @@
-import {fetchJSON} from "@/api/fetch";
+import {fetchJSON} from "@/api/fetch.js";
 import type {CookieConsentBody, CookieConsentInfo, CookieConsentRecord} from "chums-types/b2b";
 
 export async function getCookieConsent(): Promise<CookieConsentRecord | null> {

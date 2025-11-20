@@ -3,7 +3,7 @@ import Debug from 'debug';
 import {type NextFunction, type Request, type Response} from "express";
 import fetch from 'isomorphic-fetch';
 import type {Keyword} from "chums-types/b2b";
-import {API_PORT} from "./config";
+import {API_PORT} from "./config.js";
 
 const debug = Debug('chums:server:utils');
 

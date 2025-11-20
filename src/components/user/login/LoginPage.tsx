@@ -12,7 +12,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import AccessWarningAlert from "../AccessWarningAlert";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 const LoginPage = () => {
     const loggedIn = useAppSelector(selectLoggedIn);

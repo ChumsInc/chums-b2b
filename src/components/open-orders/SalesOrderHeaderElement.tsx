@@ -1,24 +1,21 @@
-'use client';
-
 import React, {useEffect, useState} from 'react';
 import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
-import {addressFromShipToAddress, multiLineAddress} from "../../customer/utils";
-import Typography from "@mui/material/Typography";
-import {NavLink, useParams} from "react-router";
-import {genInvoicePath} from "@/utils/path-utils";
-import {getShippingMethod} from "@/constants/account";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
-import {loadSalesOrder} from "../actions";
 import Grid from '@mui/material/Grid';
-import {selectSalesOrderInvoices} from "../currentOrderSlice";
-import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog";
-import {isClosedSalesOrder} from "../../sales-order/utils";
+import Typography from "@mui/material/Typography";
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
-import {selectSalesOrderHeader} from "@/ducks/open-orders/currentOrderSlice";
+import {NavLink, useParams} from "react-router";
+import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils.js";
+import {genInvoicePath} from "@/utils/path-utils.js";
+import {getShippingMethod} from "@/constants/account.js";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
+import {loadSalesOrder} from "@/ducks/open-orders/actions.js";
+import {selectSalesOrderHeader, selectSalesOrderInvoices} from "@/ducks/open-orders/currentOrderSlice.js";
+import DuplicateCartDialog from "@/components/b2b-cart/DuplicateCartDialog.js";
+import {isClosedSalesOrder} from "@/ducks/sales-order/utils.js";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice.js";
 
 
 function isValidDate(date: string | null | undefined): boolean {

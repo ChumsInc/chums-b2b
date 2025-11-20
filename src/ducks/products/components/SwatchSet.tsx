@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import {SELL_AS_COLORS, SELL_AS_MIX} from "@/constants/product";
 import Swatch from "./Swatch";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectProductCartItem, selectProductColorCode, selectSelectedProduct} from "../selectors";
 import {setColorCode} from "../actions";
 import type {ProductSwatchBase} from "chums-types/b2b";

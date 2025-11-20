@@ -1,17 +1,17 @@
 import 'dotenv/config';
-import {type NextFunction, type Request, type Response} from "express";
+import type {NextFunction, Request, Response} from "express";
 import type {PreloadedState} from "chums-types/b2b";
-import {type HasNonce} from "@/types/server";
+import type {HasNonce} from "@/types/server";
 import Debug from 'debug';
 import fs from "node:fs/promises";
 import React from "react";
-import {API_PORT} from "./config";
-import createServerSideStore from "@/app/server-side-store";
 import {renderToString} from "react-dom/server";
-import {loadJSON, loadKeywords} from "./utils";
-import {loadManifest} from "./manifest";
-import B2BHtml from "./B2BHTML";
 import {consentCookieName, type HasUUID} from 'cookie-consent'
+import {API_PORT} from "./config.js";
+import createServerSideStore from "@/app/server-side-store.js";
+import {loadJSON, loadKeywords} from "./utils.js";
+import {loadManifest} from "./manifest.js";
+import B2BHtml from "./B2BHTML.js";
 
 const debug = Debug('chums:server:render');
 

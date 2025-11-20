@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
 import StoreIcon from '@mui/icons-material/Store';
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCustomerUsers} from "@/ducks/customer/customerUsersSlice";
 
 const AccountUserPermissions = () => {

@@ -8,3 +8,5 @@
 /.idea/
 /dist/
 /.env
+/dist-client/
+/dist-server/

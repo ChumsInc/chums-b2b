@@ -1,9 +1,9 @@
 import type {EmailResponse} from "chums-types/b2b";
 import {createSlice, type WritableDraft} from "@reduxjs/toolkit";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
-import {customerSlug} from "@/utils/customer";
-import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
-import {sendCartEmail} from "@/ducks/carts/actions";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
+import {customerSlug} from "@/utils/customer.js";
+import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions.js";
+import {sendCartEmail} from "@/ducks/carts/actions.js";
 
 interface CartEmailState {
     customerKey: string | null;

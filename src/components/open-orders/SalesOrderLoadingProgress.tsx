@@ -1,7 +1,7 @@
 import React from 'react';
-import {useAppSelector} from "@/app/configureStore";
 import LinearProgress from "@mui/material/LinearProgress";
-import {selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
+import {useAppSelector} from "@/app/hooks.js";
+import {selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice.js";
 
 export default function SalesOrderLoadingProgress() {
     const loading = useAppSelector(selectSalesOrderStatus);

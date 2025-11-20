@@ -2,7 +2,7 @@
 
 import React, {useCallback, useEffect, useState} from 'react';
 import {selectCurrentVariantProduct, selectProductVariantId} from "../selectors";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {setCurrentVariant} from "../actions";
 import type {ProductVariant} from "chums-types/b2b";
 import {isSellAsColors, isSellAsMix} from "../utils";

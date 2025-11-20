@@ -3,7 +3,7 @@
 import {useRef} from 'react';
 import CartCommentLine from "./CartCommentLine";
 import type {Editable} from "chums-types/b2b";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {saveCartItem} from "@/ducks/carts/actions";
 import CartItemLine from "./CartItemLine";
 import CartKitComponentLine from "./CartKitComponentLine";

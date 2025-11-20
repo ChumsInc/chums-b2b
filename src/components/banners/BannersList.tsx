@@ -1,6 +1,6 @@
 'use client';
 
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {useEffect} from "react";
 import HomeBanner from "./HomeBanner";
 import Stack from "@mui/material/Stack";

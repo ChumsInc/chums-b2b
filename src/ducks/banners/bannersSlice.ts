@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {Banner} from "chums-types/b2b";
-import {loadBanners} from "@/ducks/banners/actions";
-import {bannerSorter} from "@/ducks/banners/utils";
+import {loadBanners} from "@/ducks/banners/actions.js";
+import {bannerSorter} from "@/ducks/banners/utils.js";
 
 const adapter = createEntityAdapter<Banner, number>({
     selectId: (arg) => arg.id,

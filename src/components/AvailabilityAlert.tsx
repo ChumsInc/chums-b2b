@@ -5,7 +5,7 @@ import Alert from "@mui/material/Alert";
 
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import {selectCanViewAvailable} from "@/ducks/user/userProfileSlice";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 
 const AvailabilityAlert = ({quantityOrdered, quantityAvailable, season}: {
     quantityOrdered: string | number;

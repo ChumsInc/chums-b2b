@@ -2,7 +2,7 @@
 
 import React, {type FormEvent, useState} from 'react';
 import {loginUser, resetPassword} from "@/ducks/user/actions";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectUserLoading} from "@/ducks/user/userProfileSlice";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";

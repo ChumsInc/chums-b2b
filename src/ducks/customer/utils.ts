@@ -1,20 +1,16 @@
 import type {
     BasicCustomer,
     BillToAddress,
-    BillToCustomer, Customer,
-    CustomerAddress, CustomerKey,
+    BillToCustomer,
+    Customer,
+    CustomerAddress,
+    CustomerKey,
     ShipToAddress,
     ShipToCustomer,
     UserCustomerAccess
 } from "chums-types/b2b";
 import type {CustomerState, FetchCustomerResponse} from "./types";
-import {
-    customerContactSorter,
-    customerPaymentCardSorter,
-    customerPriceRecordSorter,
-    customerShipToSorter,
-    defaultShipToSort,
-} from "@/utils/customer";
+import {customerContactSorter, customerShipToSorter, defaultShipToSort,} from "@/utils/customer.js";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 
 
@@ -103,7 +99,7 @@ export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccou
         && access.CustomerNo === customerAccount.CustomerNo;
 }
 
-export function customerKey(arg:Customer|BasicCustomer|null):CustomerKey|null {
+export function customerKey(arg: Customer | BasicCustomer | null): CustomerKey | null {
     if (!arg) {
         return null;
     }

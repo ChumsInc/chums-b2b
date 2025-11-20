@@ -19,6 +19,7 @@
     "build-server": "npm run clean && npm run compile",
     "clean": "rimraf ./dist --preserve-root && mkdir dist",
     "start-server": "nodemon ./dist/server/index.js",
+    "start-server-vite": "nodemon ./dist-server/index.js",
     "tsc-alias": "tsc-alias -p tsconfig.prod.json",
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
@@ -32,6 +33,7 @@
     "@mui/x-date-pickers": "^8.5.2",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.0.1",
+    "@tsconfig/node20": "^20.1.8",
     "@types/express": "^5.0.3",
     "b2b-types": "github:ChumsInc/b2b-types",
     "body-parser": "^2.2.0",
@@ -90,6 +92,7 @@
     "stylelint-config-standard": "^39.0.0",
     "terser-webpack-plugin": "^5.1.1",
     "ts-loader": "^9.2.4",
+    "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.0.4",
