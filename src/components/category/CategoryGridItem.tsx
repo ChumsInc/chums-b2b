@@ -1,4 +1,4 @@
-import {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import Grid from "@mui/material/Grid";
 
 export interface CategoryGridItemProps {

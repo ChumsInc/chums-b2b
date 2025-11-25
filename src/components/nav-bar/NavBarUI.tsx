@@ -1,5 +1,3 @@
-'use client';
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,20 +9,19 @@ import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
 import NavDrawer from "./NavDrawer";
 import HomeLink from "./HomeLink";
-import {useAppDispatch} from "@/app/hooks";
-import {toggleMenuDrawer} from "@/ducks/menu";
 import Container from "@mui/material/Container";
 import UserMenu from "./UserMenu";
 import CartMenu from "./CartMenu";
 import SearchBar from "@/ducks/search/components/SearchBar";
 import NavMenuList from "@/components/nav-bar/NavMenuList";
+import {useState} from "react";
 
 
-const NavBarUI = () => {
-    const dispatch = useAppDispatch();
-
+export default function NavBarUI() {
+    const [open, setOpen] = useState(false);
+    const onClose = () => setOpen(false);
     const handleDrawerToggle = () => {
-        dispatch(toggleMenuDrawer());
+        setOpen(!open);
     }
 
     return (
@@ -59,7 +56,7 @@ const NavBarUI = () => {
                 </AppBar>
             </HideOnScroll>
             <Toolbar/>
-            <NavDrawer>
+            <NavDrawer open={open} onClose={onClose}>
                 <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
                     <HomeLink sx={{display: {xs: 'block', md: 'none'}}}/>
                     <Divider/>
@@ -72,5 +69,3 @@ const NavBarUI = () => {
 
     )
 }
-
-export default NavBarUI;

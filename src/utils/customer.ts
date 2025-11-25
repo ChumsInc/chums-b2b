@@ -7,7 +7,6 @@ import type {
     CustomerAddress,
     CustomerContact,
     CustomerKey,
-    CustomerPaymentCard,
     CustomerPriceRecord,
     CustomerUser,
     RecentCustomer,
@@ -18,18 +17,8 @@ import type {
 import type {SortProps} from "@/types/generic";
 import {customerKey} from "@/ducks/customer/utils";
 
-export const companyName = (code: string = ''): string => {
-    switch (code.toLowerCase()) {
-        case 'chums':
-        case 'chi':
-            return 'Chums';
-        case 'bc':
-        case 'bcs':
-            return 'Beyond Coastal';
-        default:
-            return code;
-    }
-};
+/* eslint-disable no-nested-ternary */
+
 
 export const companyCode = (code: string = ''): string => {
     switch (code.toLowerCase()) {
@@ -99,18 +88,13 @@ export const sortUserAccounts = (a: UserCustomerAccess, b: UserCustomerAccess) =
 };
 
 export const compareCustomerAccountNumber = (a: CustomerKey, b: CustomerKey) => {
-    const aCust = longCustomerNo(a);
-    const bCust = longCustomerNo(b);
-    return aCust === bCust ? 0 : (aCust > bCust ? 1 : -1)
+    return longCustomerNo(a).localeCompare(longCustomerNo(b));
 };
 
 
 export const isUSA = (countryCode = '') => ['USA', 'US'].includes((countryCode || '').toUpperCase());
 export const isCanada = (countryCode = '') => ['CAN', 'CA'].includes((countryCode || '').toUpperCase());
 
-export const isValidCompany = ({Company}: { Company: string }) => {
-    return ['chums', 'bc'].includes(companyCode(Company).toLowerCase())
-};
 
 export const isValidARDivisionNo = (ARDivisionNo: string = ''): boolean => {
     return /^0[1-9]$/.test(ARDivisionNo);
@@ -150,6 +134,7 @@ export const calcPrice = ({stdPrice, PricingMethod = null, DiscountMarkup1 = 0, 
             return new Decimal(stdCost ?? 0).add(DiscountMarkup1).toString();
         case PRICE_METHODS.costMarkupPct:
             return new Decimal(stdCost ?? 0).times(new Decimal(1).add(new Decimal(DiscountMarkup1).div(100))).toString();
+        // no default
     }
     return stdPrice ?? 0;
 };
@@ -163,8 +148,8 @@ export const priceRecord = ({pricing = [], itemCode, priceCode}: {
     if (itemRecord) {
         return {...itemRecord};
     }
-    const [priceRecord] = pricing.filter(pc => pc.PriceCode === priceCode && pc.ItemCode === '');
-    return priceRecord || {PriceCode: '', PricingMethod: '', DiscountMarkup1: 0, ItemCode: ''};
+    const [_priceRecord] = pricing.filter(pc => pc.PriceCode === priceCode && pc.ItemCode === '');
+    return _priceRecord || {PriceCode: '', PricingMethod: '', DiscountMarkup1: 0, ItemCode: ''};
 };
 
 export const itemPrice = ({pricing = [], itemCode, priceCode, stdCost = 0, stdPrice = 0}: {
@@ -178,42 +163,6 @@ export const itemPrice = ({pricing = [], itemCode, priceCode, stdCost = 0, stdPr
     return calcPrice({stdPrice, DiscountMarkup1, PricingMethod, stdCost});
 };
 
-export const getFirstCustomer = (accounts: UserCustomerAccess[]): BasicCustomer | null => {
-    const [customer] = accounts
-        .filter(acct => !acct.isRepAccount)
-        .sort((a, b) => a.Company === b.Company
-            ? (longCustomerNo(a) > longCustomerNo(b) ? 1 : -1)
-            : (companyPriority(a.Company) > companyPriority(b.Company) ? 1 : -1)
-        );
-    if (!customer) {
-        return null;
-    }
-    const {ARDivisionNo, CustomerNo, CustomerName, ShipToCode} = customer;
-    return {ARDivisionNo, CustomerNo, CustomerName: CustomerName ?? '', ShipToCode};
-};
-
-export const getFirstUserAccount = (accounts: UserCustomerAccess[]) => {
-    const [userAccount] = accounts
-        .filter(acct => !!acct.isRepAccount)
-        .sort((a, b) => a.Company === b.Company ? (longRepNo(a) > longRepNo(b) ? 1 : -1) : (a.Company > b.Company ? 1 : -1));
-    return userAccount ?? null;
-};
-
-export const getUserAccount = (accounts: UserCustomerAccess[], id: number) => {
-    const [userAccount = {}] = accounts
-        .filter(acct => acct.id === id);
-    return userAccount;
-};
-
-export const buildRecentAccounts = (recentAccounts: RecentCustomer[] = [], customer: BasicCustomer) => {
-    if (!customer.ARDivisionNo || !customer.CustomerNo) {
-        return recentAccounts;
-    }
-    return [...recentAccounts.filter(_customer => compareCustomerAccountNumber(_customer, customer) !== 0),
-        {...customer, ts: new Date().valueOf()}]
-        .sort((a, b) => b.ts - a.ts)
-        .filter((_customer, index) => index < 10);
-};
 
 /**
  *
@@ -312,12 +261,6 @@ export const customerPriceRecordSorter = (a: CustomerPriceRecord, b: CustomerPri
 }
 
 
-export const customerPaymentCardSorter = (a: CustomerPaymentCard, b: CustomerPaymentCard) => {
-    return a.CreditCardGUID > b.CreditCardGUID ? 1 : -1;
-}
-
-export const defaultCustomerUserSort: SortProps<CustomerUser> = {field: 'id', ascending: true};
-
 export const customerUserSorter = (sort: SortProps<CustomerUser>) => (a: CustomerUser, b: CustomerUser): number => {
     const {field, ascending} = sort;
     const sortMod = ascending ? 1 : -1;
@@ -339,19 +282,20 @@ export function customerSlug(customer: CustomerKey): string;
 export function customerSlug(customer: CustomerKey | null): string;
 export function customerSlug(customer: string | null | undefined): string | null;
 export function customerSlug(customer: CustomerKey | string | null | undefined): string | null {
-    if (!customer) {
+    let _customer = customer;
+    if (!_customer) {
         return null;
     }
-    if (typeof customer === "string") {
-        const parsed = parseCustomerSlug(customer)
+    if (typeof _customer === "string") {
+        const parsed = parseCustomerSlug(_customer)
         if (!parsed) {
             return null
         }
-        customer = parsed;
+        _customer = parsed;
     }
-    return customer.ShipToCode
-        ? shipToCustomerSlug(customer)
-        : billToCustomerSlug(customer);
+    return _customer.ShipToCode
+        ? shipToCustomerSlug(_customer)
+        : billToCustomerSlug(_customer);
 }
 
 export const isSameCustomer = (a: CustomerKey | null, b: CustomerKey | null): boolean => {
@@ -365,17 +309,18 @@ export function billToCustomerSlug(customer: CustomerKey): string;
 export function billToCustomerSlug(customer: CustomerKey | null): string | null;
 export function billToCustomerSlug(customer: string | null | undefined): string | null;
 export function billToCustomerSlug(customer: CustomerKey | string | null | undefined): string | null {
-    if (!customer) {
+    let _customer = customer;
+    if (!_customer) {
         return null;
     }
-    if (typeof customer === "string") {
-        const parsed = parseCustomerSlug(customer)
+    if (typeof _customer === "string") {
+        const parsed = parseCustomerSlug(_customer)
         if (!parsed) {
             return null
         }
-        customer = parsed;
+        _customer = parsed;
     }
-    return `${customer.ARDivisionNo}-${customer.CustomerNo}`;
+    return `${_customer.ARDivisionNo}-${_customer.CustomerNo}`;
 }
 
 export function shipToCustomerSlug(customer: null | undefined): null;
@@ -390,12 +335,12 @@ export function shipToCustomerSlug(customer: CustomerKey | string | null | undef
         if (!parsed) {
             return null;
         }
-        customer = parsed;
+        return shipToCustomerSlug(parsed);
     }
     return `${customer.ARDivisionNo}-${customer.CustomerNo}-${customer.ShipToCode}`;
 }
 
-export const parseCustomerSlug = (slug: string): BasicCustomer | null => {
+export function parseCustomerSlug(slug: string): CustomerKey | null {
     if (!/^[0-9]{2}-[\S\s]+/.test(slug)) {
         return null;
     }
@@ -406,10 +351,6 @@ export const parseCustomerSlug = (slug: string): BasicCustomer | null => {
 export const shortCustomerKey = (customer: CustomerKey | null) => customer ? `${customer?.ARDivisionNo ?? ''}-${customer.CustomerNo ?? ''}` : '';
 
 export const customerNo = (customer: CustomerKey) => `${customer.ARDivisionNo}-${customer.CustomerNo}` + (customer.ShipToCode ? `:${customer.ShipToCode}` : '');
-
-export const isCustomer = (customer: CustomerKey | null): customer is CustomerKey => {
-    return !!customer && (customer as CustomerKey).CustomerNo !== undefined;
-}
 
 export const buildRecentCustomers = (recentAccounts: RecentCustomer[] = [], customer: BasicCustomer): RecentCustomer[] => {
     if (!customer || !customer.ARDivisionNo || !customer.CustomerNo) {

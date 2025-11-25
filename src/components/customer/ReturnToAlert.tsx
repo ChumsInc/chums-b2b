@@ -1,4 +1,4 @@
-'use client';
+
 
 import {selectCustomerReturnToPath} from "@/ducks/customer/currentCustomerSlice";
 import Alert from "@mui/material/Alert";

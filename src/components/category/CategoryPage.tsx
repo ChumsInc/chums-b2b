@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useEffect} from 'react';
 import {loadCategory} from '@/ducks/category/actions';
@@ -23,8 +23,11 @@ export default function CategoryPage({keyword}: CategoryPageProps) {
     const category = useAppSelector(selectCategory);
 
     useEffect(() => {
+        if (category?.keyword === keyword) {
+            return;
+        }
         dispatch(loadCategory(keyword));
-    }, [keyword]);
+    }, [keyword, category]);
 
     useEffect(() => {
         if (category) {

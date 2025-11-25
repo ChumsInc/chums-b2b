@@ -1,10 +1,10 @@
-import React, {type ChangeEvent, useEffect, useState} from 'react';
+import {type ChangeEvent, useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import TablePagination from "@mui/material/TablePagination";
 import type {SalesOrderHeader} from "chums-types/b2b";
-import type {SortProps} from "@/types/generic.js";
-import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
-import {selectOpenOrdersSort, setSalesOrderSort} from "@/ducks/open-orders/openOrdersSlice.js";
+import type {SortProps} from "@/types/generic";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
+import {selectOpenOrdersSort, setSalesOrderSort} from "@/ducks/open-orders/openOrdersSlice";
 
 export default function OrdersList({
                                        list,
@@ -27,8 +27,8 @@ export default function OrdersList({
         setPage(0);
     }
 
-    const sortChangeHandler = (sort: SortProps<SalesOrderHeader>) => {
-        dispatch(setSalesOrderSort(sort));
+    const sortChangeHandler = (arg: SortProps<SalesOrderHeader>) => {
+        dispatch(setSalesOrderSort(arg));
     }
 
     return (
@@ -38,7 +38,7 @@ export default function OrdersList({
                                          fields={fields} currentSort={sort} onChangeSort={sortChangeHandler}/>
             <TablePagination component="div"
                              count={list.length} page={page} rowsPerPage={rowsPerPage}
-                             onPageChange={(ev, page) => setPage(page)}
+                             onPageChange={(_, arg) => setPage(arg)}
                              onRowsPerPageChange={rowsPerPageChangeHandler}
                              showFirstButton showLastButton/>
         </div>

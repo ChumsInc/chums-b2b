@@ -9,8 +9,8 @@ import {
     saveCart,
     saveCartItem,
     sendCartEmail
-} from "@/ducks/carts/actions.js";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
+} from "@/ducks/carts/actions";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 
 const statusAdapter = createEntityAdapter<CartStatus, number>({
     selectId: (arg) => arg.key,
@@ -116,6 +116,7 @@ const cartStatusSlice = createSlice({
                 switch (action.payload) {
                     case loadCarts.typePrefix:
                         state.global = 'idle';
+                    // no default
                 }
             })
             .addCase(sendCartEmail.pending, (state, action) => {

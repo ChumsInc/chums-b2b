@@ -1,4 +1,4 @@
-'use client';
+
 
 import {type ChangeEvent, type  FormEvent, useEffect, useState} from 'react';
 import AddressFormFields from '../../address/AddressFormFields';
@@ -57,7 +57,8 @@ const BillToForm = () => {
     const fieldChangeHandler = (field: keyof BillToCustomer) => (ev: ChangeEvent<HTMLInputElement>) => {
         switch (field) {
             case 'Reseller':
-                return changeHandler({[field]: ev.target.checked ? 'Y' : 'N'})
+                changeHandler({[field]: ev.target.checked ? 'Y' : 'N'})
+                return
             default:
                 changeHandler(({[field]: ev.target.value}));
         }

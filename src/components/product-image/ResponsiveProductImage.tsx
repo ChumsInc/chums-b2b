@@ -1,4 +1,4 @@
-import {type ImgHTMLAttributes} from 'react';
+import type {ImgHTMLAttributes} from 'react';
 import {styled} from "@mui/material/styles";
 
 const imageSizes: number[] = [80, 250, 400, 800, 2048];
@@ -7,7 +7,6 @@ export const ResponsiveImage = styled('img')`
     max-width: 100%;
     width: 100%;
     height: auto;
-
 `
 
 export interface ResponsiveProductImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -24,18 +23,21 @@ const ResponsiveProductImage = ({
                                     sizes,
                                     ...rest
                                 }: ResponsiveProductImageProps) => {
-    filename = filename?.replace(/\s/g, '%20');
-    if (!src) {
-        src = `/images/products/${rest.width ?? 800}/${filename}`;
+    const _filename = filename?.replace(/\s/g, '%20');
+    let _src = src;
+    let _srcSet = srcSet;
+    if (!_src) {
+        _src = `/images/products/${rest.width ?? 800}/${_filename}`;
     }
-    if (!srcSet) {
+    if (!_srcSet) {
         const [nextSize = 2048] = imageSizes.filter(size => size >= (preferredSize ?? 2048));
-        srcSet = imageSizes
+        _srcSet = imageSizes
             .filter(size => size <= nextSize)
-            .map(size => `/images/products/${size}/${filename} ${size}w`).join(',')
+            .map(size => `/images/products/${size}/${_filename} ${size}w`).join(',')
     }
     return (
-        <ResponsiveImage src={src} alt={alt} srcSet={srcSet} sizes={sizes} {...rest}/>
+        <ResponsiveImage src={_src} alt={alt} srcSet={_srcSet} sizes={sizes}
+                         width={preferredSize} height={preferredSize} {...rest}/>
     )
 }
 

@@ -4,13 +4,21 @@ import ListItemLink from "../ListItemLink";
 import {PATH_LOGIN} from "@/constants/paths";
 import NavItemButtonLink from "./NavItemButtonLink";
 import {useAppSelector} from "@/app/hooks";
+import {useEffect, useState} from "react";
 
 
 export default function NavLoginLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useAppSelector(selectLoggedIn);
-    if (isLoggedIn) {
+    const [shouldShow, setShouldShow] = useState(true);
+
+    useEffect(() => {
+        setShouldShow(!isLoggedIn);
+    }, [isLoggedIn])
+
+    if (!shouldShow) {
         return null;
     }
+
     if (inDrawer) {
         return (
             <ListItemLink to={PATH_LOGIN} primary="Login"/>

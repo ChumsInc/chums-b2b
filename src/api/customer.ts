@@ -1,8 +1,9 @@
 import type {BillToCustomer, CustomerKey, CustomerUser, ShipToCustomer} from "chums-types/b2b";
 import type {FetchCustomerResponse} from "@/ducks/customer/types";
-import {fetchJSON} from "./fetch.js";
+import {fetchJSON} from "./fetch";
 import {customerSlug, sageCompanyCode} from "@/utils/customer";
 import type {CustomerPermissions} from "@/types/customer";
+import debug from "@/utils/debug.ts";
 
 
 
@@ -18,10 +19,10 @@ export async function fetchCustomerAccount({ARDivisionNo, CustomerNo}: CustomerK
         return response.result;
     } catch (err) {
         if (err instanceof Error) {
-            console.debug(fetchCustomerAccount.name, err.message);
+            debug(fetchCustomerAccount.name, err.message);
             return Promise.reject(err);
         }
-        console.debug(fetchCustomerAccount.name, err);
+        debug(fetchCustomerAccount.name, err);
         return Promise.reject(new Error(`Error in ${fetchCustomerAccount.name}`));
     }
 }
@@ -34,10 +35,10 @@ export async function fetchCustomerUsers(customerKey:string):Promise<CustomerUse
         return response?.users ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug(fetchCustomerUsers.name, err.message);
+            debug(fetchCustomerUsers.name, err.message);
             return Promise.reject(err);
         }
-        console.debug(fetchCustomerUsers.name, err);
+        debug(fetchCustomerUsers.name, err);
         return Promise.reject(new Error(`Error in ${fetchCustomerUsers.name}`));
     }
 }
@@ -55,10 +56,10 @@ export async function postAddCustomerUserLocation(arg:CustomerUser, customerKey:
         return response?.users ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("postAddCustomerUserLocation()", err.message);
+            debug("postAddCustomerUserLocation()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postAddCustomerUserLocation()", err);
+        debug("postAddCustomerUserLocation()", err);
         return Promise.reject(new Error('Error in postAddCustomerUserLocation()'));
     }
 }
@@ -82,10 +83,10 @@ export async function postCustomerUser(arg: CustomerUser, customerKey: string): 
         return response?.users ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postCustomerUser()", err.message);
+            debug("postCustomerUser()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postCustomerUser()", err);
+        debug("postCustomerUser()", err);
         return Promise.reject(new Error('Error in postCustomerUser()'));
     }
 }
@@ -100,10 +101,10 @@ export async function deleteCustomerUser(arg: CustomerUser, customer: CustomerKe
         return response?.users ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("deleteCustomerUser()", err.message);
+            debug("deleteCustomerUser()", err.message);
             return Promise.reject(err);
         }
-        console.debug("deleteCustomerUser()", err);
+        debug("deleteCustomerUser()", err);
         return Promise.reject(new Error('Error in deleteCustomerUser()'));
     }
 }
@@ -136,10 +137,10 @@ export async function postBillingAddress(arg: BillToCustomer): Promise<FetchCust
         return await fetchCustomerAccount(arg);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postBillingAddress()", err.message);
+            debug("postBillingAddress()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postBillingAddress()", err);
+        debug("postBillingAddress()", err);
         return Promise.reject(new Error('Error in postBillingAddress()'));
     }
 }
@@ -172,14 +173,15 @@ export async function postShipToAddress(arg: ShipToCustomer): Promise<FetchCusto
         return await fetchCustomerAccount(arg);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postShipToAddress()", err.message);
+            debug("postShipToAddress()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postShipToAddress()", err);
+        debug("postShipToAddress()", err);
         return Promise.reject(new Error('Error in postShipToAddress()'));
     }
 }
 
+// eslint-disable-next-line consistent-return
 export async function postDefaultShipToCode(arg: string, customer: CustomerKey): Promise<void> {
     try {
         const {ARDivisionNo, CustomerNo} = customer;
@@ -188,10 +190,10 @@ export async function postDefaultShipToCode(arg: string, customer: CustomerKey):
         await fetchJSON(url, {method: 'POST', body});
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postDefaultShipToCode()", err.message);
+            debug("postDefaultShipToCode()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postDefaultShipToCode()", err);
+        debug("postDefaultShipToCode()", err);
         return Promise.reject(new Error('Error in postDefaultShipToCode()'));
     }
 }
@@ -208,10 +210,10 @@ export async function fetchCustomerValidation({ARDivisionNo, CustomerNo}:{
         return response ?? null;
     } catch(err) {
         if (err instanceof Error) {
-            console.debug("fetchCustomerValidation()", err.message);
+            debug("fetchCustomerValidation()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchCustomerValidation()", err);
+        debug("fetchCustomerValidation()", err);
         return Promise.reject(new Error('Error in fetchCustomerValidation()'));
     }
 }

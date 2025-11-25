@@ -1,4 +1,3 @@
-import React from 'react';
 import {selectCurrentProduct, selectSelectedProduct} from "../selectors";
 import DocumentTitle from "../../../components/DocumentTitle";
 import Typography from "@mui/material/Typography";

@@ -48,17 +48,20 @@ export default function ShipToSelect({
 
     const changeHandler = (ev: SelectChangeEvent) => {
         if (!customer) {
-            return onChange(ev.target.value, null);
+            onChange(ev.target.value, null);
+            return
         }
-        const value = ev.target.value ?? customer?.PrimaryShipToCode ?? '';
-        if (allowAllLocations && value === allLocationsValue) {
-            return onChange(null, null);
+        const _value = ev.target.value ?? customer?.PrimaryShipToCode ?? '';
+        if (allowAllLocations && _value === allLocationsValue) {
+            onChange(null, null);
+            return
         }
 
-        const [address] = shipToAddresses.filter(st => st.ShipToCode === value);
+        const [address] = shipToAddresses.filter(st => st.ShipToCode === _value);
 
         if (!address && permissions?.billTo) {
-            return onChange(value, shipToAddressFromBillingAddress(customer));
+            onChange(_value, shipToAddressFromBillingAddress(customer));
+            return;
         }
 
         const {
@@ -71,7 +74,7 @@ export default function ShipToSelect({
             ShipToCountryCode,
             ShipToZipCode
         } = address;
-        onChange(value, {
+        onChange(_value, {
             ShipToName,
             ShipToAddress1,
             ShipToAddress2,
@@ -87,14 +90,14 @@ export default function ShipToSelect({
         return null;
     }
 
-    const renderValueHandler = (value: string) => {
-        if (value === '' && permissions?.billTo) {
+    const renderValueHandler = (val: string) => {
+        if (val === '' && permissions?.billTo) {
             return 'Billing address';
         }
-        if (value === allLocationsValue) {
+        if (val === allLocationsValue) {
             return 'All Locations';
         }
-        const [shipTo] = shipToAddresses.filter(st => st.ShipToCode === value);
+        const [shipTo] = shipToAddresses.filter(st => st.ShipToCode === val);
         if (shipTo) {
             return `[${shipTo?.ShipToCode}]  ${shipTo?.ShipToName}, ${shipTo?.ShipToCity} ${shipTo?.ShipToState}`;
         }

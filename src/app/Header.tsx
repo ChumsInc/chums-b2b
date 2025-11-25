@@ -1,4 +1,4 @@
-import NavBarUI from "@/components/nav-bar/NavBarUI.js";
+import NavBarUI from "@/components/nav-bar/NavBarUI";
 
 export default function Header() {
     return (

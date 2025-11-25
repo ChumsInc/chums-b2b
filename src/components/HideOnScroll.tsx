@@ -1,4 +1,4 @@
-import {type ReactElement} from 'react';
+import type {ReactElement} from 'react';
 import Slide from '@mui/material/Slide';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 

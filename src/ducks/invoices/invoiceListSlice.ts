@@ -7,16 +7,16 @@ import {
 } from "@reduxjs/toolkit";
 import Decimal from "decimal.js";
 import type {InvoiceHistoryHeader, SortProps} from "chums-types/b2b";
-import {defaultInvoicesSort, invoiceKey, invoicesSorter} from "@/ducks/invoices/utils.js";
-import localStore from "@/utils/LocalStore.js";
-import {STORE_INVOICES_SORT} from "@/constants/stores.js";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {customerSlug} from "@/utils/customer.js";
-import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions.js";
-import {loadInvoice, loadInvoices} from "@/ducks/invoices/actions.js";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
-import {selectPermittedBillToAddress} from "@/ducks/customer/selectors.js";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.js";
+import {defaultInvoicesSort, invoiceKey, invoicesSorter} from "@/ducks/invoices/utils";
+import localStore from "@/utils/LocalStore";
+import {STORE_INVOICES_SORT} from "@/constants/stores";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {customerSlug} from "@/utils/customer";
+import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
+import {loadInvoice, loadInvoices} from "@/ducks/invoices/actions";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
+import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 const adapter = createEntityAdapter<InvoiceHistoryHeader, string>({
     selectId: (arg) => invoiceKey(arg),

@@ -1,6 +1,6 @@
 import type {CookieConsentState} from "chums-types/b2b";
 import {createSlice} from "@reduxjs/toolkit";
-import {loadCookieConsentInfo, loadCookieConsentStatus, saveCookieConsent} from "@/ducks/cookie-consent/actions.js";
+import {loadCookieConsentInfo, loadCookieConsentStatus, saveCookieConsent} from "@/ducks/cookie-consent/actions";
 
 const initialCookieConsentState: CookieConsentState = {
     status: 'idle',

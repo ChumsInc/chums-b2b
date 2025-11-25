@@ -1,4 +1,4 @@
-'use client';
+
 
 import {type SyntheticEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
@@ -22,7 +22,7 @@ export default function CartMessageSnackbar() {
     useEffect(() => {
         if (snacks.length && !message) {
             setMessage(snacks[0] ?? null);
-            setSnacks((messages) => messages.slice(1));
+            setSnacks((_messages) => _messages.slice(1));
             setOpen(true);
         } else if (snacks.length && message && open) {
             setOpen(false);

@@ -1,9 +1,9 @@
 import type {SalesOrderDetailLine} from "chums-types/b2b";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";
-import SalesOrderCommentLine from "./SalesOrderCommentLine.js";
-import SalesOrderItemLine from "./SalesOrderItemLine.js";
-import SalesOrderKitComponentLine from "./SalesOrderKitComponentLine.js";
+import SalesOrderCommentLine from "./SalesOrderCommentLine";
+import SalesOrderItemLine from "./SalesOrderItemLine";
+import SalesOrderKitComponentLine from "./SalesOrderKitComponentLine";
 
 
 export default function OrderDetailLine({

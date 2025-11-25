@@ -1,11 +1,6 @@
 import Button, {type ButtonProps} from "@mui/material/Button";
 import {styled} from "@mui/material/styles";
 
-export const navItemButtonStyle = {
-    color: '#000',
-    mx: 3,
-}
-
 export const StyledNavButton = styled(Button)(({theme}) => ({
     color: theme.palette.grey["900"],
 }))

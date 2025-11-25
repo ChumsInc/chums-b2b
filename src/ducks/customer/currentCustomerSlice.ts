@@ -6,11 +6,11 @@ import {
     saveShipToAddress,
     setCustomerAccount,
     setDefaultShipTo
-} from "@/ducks/customer/actions.js";
-import {customerSlug, emptyCustomer} from "@/utils/customer.js";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
-import {loadCustomerList} from "@/ducks/customers/actions.js";
+} from "@/ducks/customer/actions";
+import {customerSlug, emptyCustomer} from "@/utils/customer";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
+import {loadCustomerList} from "@/ducks/customers/actions";
 
 export interface CurrentCustomerState {
     customerKey: string | null;
@@ -112,7 +112,7 @@ const currentCustomerSlice = createSlice({
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(customer => customerSlug(customer) === state.customerKey);
+                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
                     state.customerKey = customer ? customerSlug(customer) : null;
                     state.account = customer ? {...emptyCustomer, ...customer} : null;
                     state.loaded = !!customer;

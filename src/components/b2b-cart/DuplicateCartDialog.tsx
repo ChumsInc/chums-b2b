@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useCallback, useState} from 'react';
 import Alert from "@mui/material/Alert";
@@ -75,7 +75,7 @@ const DuplicateCartDialog = ({open, salesOrderNo, shipToCode, onClose}: {
                     </Alert>
                     <TextField autoFocus label="New Cart Name" type="text" fullWidth variant="filled"
                                value={cartName} onChange={(ev) => setCartName(ev.target.value)}/>
-                    <ShipToSelect value={shipTo ?? ''} onChange={(shipToCode) => setShipTo(shipToCode ?? '')}/>
+                    <ShipToSelect value={shipTo ?? ''} onChange={(arg) => setShipTo(arg ?? '')}/>
                     {cartStatus !== 'idle' && <LinearProgress variant="indeterminate"/>}
                 </Stack>
             </DialogContent>

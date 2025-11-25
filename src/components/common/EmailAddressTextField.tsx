@@ -1,4 +1,4 @@
-import {type ChangeEvent, type InputHTMLAttributes} from 'react';
+import type {ChangeEvent, InputHTMLAttributes} from 'react';
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';

@@ -53,7 +53,8 @@ const EmailAddressEditor = ({
 
     const changeHandler = (index: number) => (ev: ChangeEvent<HTMLInputElement>) => {
         if (!allowMultiple) {
-            return onChange({EmailAddress: ev.target.value});
+            onChange({EmailAddress: ev.target.value});
+            return;
         }
         if (emailAddresses[index] === undefined) {
             return;

@@ -1,5 +1,6 @@
 import type {Keyword} from "chums-types/b2b";
-import {fetchJSON} from "./fetch.js";
+import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 export async function fetchKeywords():Promise<Keyword[]> {
     try {
@@ -8,10 +9,10 @@ export async function fetchKeywords():Promise<Keyword[]> {
         return res?.result ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("fetchKeywords()", err.message);
+            debug("fetchKeywords()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchKeywords()", err);
+        debug("fetchKeywords()", err);
         return Promise.reject(new Error('Error in fetchKeywords()'));
     }
 }

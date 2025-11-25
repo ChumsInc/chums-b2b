@@ -1,9 +1,9 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {CustomerPaymentCard} from "chums-types/b2b";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions.js";
-import {customerSlug} from "@/utils/customer.js";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {loadCustomerList} from "@/ducks/customers/actions.js";
+import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
 import dayjs from "dayjs";
 
 const adapter = createEntityAdapter<CustomerPaymentCard, string>({
@@ -64,7 +64,7 @@ const customerPaymentCardsSlice = createSlice({
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(customer => customerSlug(customer) === state.customerKey);
+                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
                     if (!customer) {
                         adapter.removeAll(state);
                     }

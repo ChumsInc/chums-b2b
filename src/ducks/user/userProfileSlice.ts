@@ -1,9 +1,8 @@
 import {auth} from '@/api/IntranetAuthService';
 import LocalStore from "../../utils/LocalStore";
-import {STORE_AUTHTYPE, STORE_AVATAR, STORE_CUSTOMER, STORE_USER_ACCESS} from "@/constants/stores";
-import {getFirstCustomer,} from "@/utils/customer";
+import {STORE_AUTHTYPE, STORE_AVATAR} from "@/constants/stores";
 import {jwtDecode, type JwtPayload} from "jwt-decode";
-import {createSelector, createSlice, isRejected} from "@reduxjs/toolkit";
+import {createSelector, createSlice} from "@reduxjs/toolkit";
 import {
     changePassword,
     loadProfile,
@@ -16,9 +15,9 @@ import {
     signInWithGoogle,
     updateLocalAuth
 } from "./actions";
-import {getUserType, is401Action, isUserAction, isUserProfile} from "./utils";
+import {getUserType, is401Action, isUserProfile} from "./utils";
 import type {UserType} from "./types";
-import type {BasicCustomer, Editable, UserCustomerAccess, UserProfile} from "chums-types/b2b";
+import type {Editable, UserProfile} from "chums-types/b2b";
 import type {LoadStatus} from "@/types/generic";
 
 
@@ -45,13 +44,6 @@ export const initialUserState = (): UserState => {
     const isLoggedIn = auth.loggedIn();
     const profile = isLoggedIn ? (auth.getProfile() ?? null) : null
     const avatar = LocalStore.getItem<string | null>(STORE_AVATAR, null);
-    const accounts = profile?.chums?.user?.accounts ?? [];
-    const customer = isLoggedIn
-        ? LocalStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, getFirstCustomer(accounts) ?? null)
-        : null;
-    const currentAccess: UserCustomerAccess | null = isLoggedIn
-        ? LocalStore.getItem<UserCustomerAccess | null>(STORE_USER_ACCESS, (accounts.length === 1 ? accounts[0] : null))
-        : null;
     const authType = isLoggedIn ? LocalStore.getItem<string | null>(STORE_AUTHTYPE, null) : null;
 
     return {
@@ -193,12 +185,6 @@ const userProfileSlice = createSlice({
             .addCase(logoutUser.rejected, (state) => {
                 state.actionStatus = 'idle';
             })
-            .addMatcher((action) => isUserAction(action) && isRejected(action) && !!action.error,
-                (state, action) => {
-                    if (isRejected(action)) {
-                        console.log('userReducer', action?.error);
-                    }
-                })
             .addMatcher(is401Action, (state) => {
                 state.loggedIn = false;
                 state.token = null;

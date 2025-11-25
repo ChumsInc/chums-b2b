@@ -1,6 +1,4 @@
-'use client';
-
-import React, {useState} from 'react';
+import {useCallback, useState} from 'react';
 import {useAppDispatch} from "@/app/hooks";
 import {
     STORE_AUTHTYPE,
@@ -32,10 +30,7 @@ import Typography from "@mui/material/Typography";
 import Box, {type BoxProps} from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
-import {
-    setCustomersRepFilter,
-    setCustomersStateFilter
-} from "@/ducks/customers/customerListSlice";
+import {setCustomersRepFilter, setCustomersStateFilter} from "@/ducks/customers/customerListSlice";
 import {loadProfile, setAvatar, setUserAccess} from "@/ducks/user/actions";
 import {setCartShippingAccount} from "@/ducks/carts/actions";
 import {getTokenExpirationDate, isTokenExpired} from "@/utils/jwtHelper";
@@ -51,6 +46,10 @@ const protectedSettings = [
 export default function StoredSettings(props: BoxProps) {
     const dispatch = useAppDispatch();
     const [values, setValues] = useState<StoredSettings>(getSettings());
+    const reloadHandler = useCallback(() => {
+        setValues(getSettings());
+    }, [])
+
 
     const removeSettingHandler = (key: string) => {
         LocalStore.removeItem(key);
@@ -76,13 +75,11 @@ export default function StoredSettings(props: BoxProps) {
             case STORE_USER_ACCESS:
                 dispatch(setUserAccess(null));
                 break;
+            // no default
         }
         reloadHandler();
     }
 
-    const reloadHandler = () => {
-        setValues(getSettings());
-    }
 
     return (
         <Box {...props}>
@@ -151,6 +148,7 @@ function getSettings(): StoredSettings {
     const settings: StoredSettings = {};
 
     function parseProfileValues(value: StoredProfile): string {
+        /* eslint-disable camelcase */
         const {email, name, chums} = value as StoredProfile;
         const {id, last_login, logins} = chums?.user ?? {};
         return JSON.stringify({email, name, id, last_login, logins}, undefined, 2);

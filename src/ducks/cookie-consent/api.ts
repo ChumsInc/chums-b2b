@@ -1,5 +1,6 @@
-import {fetchJSON} from "@/api/fetch.js";
+import {fetchJSON} from "@/api/fetch";
 import type {CookieConsentBody, CookieConsentInfo, CookieConsentRecord} from "chums-types/b2b";
+import debug from "@/utils/debug.ts";
 
 export async function getCookieConsent(): Promise<CookieConsentRecord | null> {
     try {
@@ -8,10 +9,10 @@ export async function getCookieConsent(): Promise<CookieConsentRecord | null> {
         return res ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("getCookieConsent()", err.message);
+            debug("getCookieConsent()", err.message);
             return Promise.reject(err);
         }
-        console.debug("getCookieConsent()", err);
+        debug("getCookieConsent()", err);
         return Promise.reject(new Error('Error in getCookieConsent()'));
     }
 }
@@ -23,10 +24,10 @@ export async function postCookieConsent(arg: CookieConsentBody): Promise<CookieC
         return await fetchJSON<CookieConsentRecord>(url, {method: 'POST', body});
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("putCookieConsent()", err.message);
+            debug("putCookieConsent()", err.message);
             return Promise.reject(err);
         }
-        console.debug("putCookieConsent()", err);
+        debug("putCookieConsent()", err);
         return Promise.reject(new Error('Error in putCookieConsent()'));
     }
 }
@@ -38,10 +39,10 @@ export async function getCookieConsentInfo(): Promise<CookieConsentInfo | null> 
         return res ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("getCookieConsentInfo()", err.message);
+            debug("getCookieConsentInfo()", err.message);
             return Promise.reject(err);
         }
-        console.debug("getCookieConsentInfo()", err);
+        debug("getCookieConsentInfo()", err);
         return Promise.reject(new Error('Error in getCookieConsentInfo()'));
     }
 }

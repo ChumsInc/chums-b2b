@@ -1,4 +1,3 @@
-import React from 'react';
 import type {Product} from "chums-types/b2b";
 import Stack, {type StackProps} from "@mui/material/Stack";
 import SizeIconList from "../../../components/SizeIconList";

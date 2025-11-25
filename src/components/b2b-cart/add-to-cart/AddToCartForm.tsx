@@ -1,4 +1,4 @@
-'use client';
+
 
 import {type FormEvent, useCallback, useEffect, useState} from 'react';
 import {addToCart} from "@/ducks/carts/actions";
@@ -133,8 +133,8 @@ export default function AddToCartForm({
 
 
     useEffect(() => {
-        const shipToCode = currentShipToCode;
-        if (!shipToCode) {
+        const _shipToCode = currentShipToCode;
+        if (!_shipToCode) {
             if (permissions?.billTo) {
                 setShipToCode(customer?.PrimaryShipToCode ?? '');
             } else {
@@ -142,12 +142,12 @@ export default function AddToCartForm({
             }
 
         }
-        setShipToCode(shipToCode ?? '');
+        setShipToCode(_shipToCode ?? '');
     }, [currentShipToCode, customer, permissions]);
 
 
     const cartChangeHandler = (value: number) => {
-        const [cart] = carts.filter(cart => cart.id === value);
+        const [cart] = carts.filter(_cart => _cart.id === value);
         setCartState(cart ?? null);
     }
 

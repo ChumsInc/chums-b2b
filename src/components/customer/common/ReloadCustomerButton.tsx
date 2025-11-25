@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadCustomer} from "@/ducks/customer/actions";

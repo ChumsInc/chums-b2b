@@ -1,6 +1,4 @@
-"use client";
-
-import React, {type FormEvent, useState} from 'react';
+import {type FormEvent, useState} from 'react';
 import {loginUser, resetPassword} from "@/ducks/user/actions";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectUserLoading} from "@/ducks/user/userProfileSlice";

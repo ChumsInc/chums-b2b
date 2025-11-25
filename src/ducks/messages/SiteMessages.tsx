@@ -1,10 +1,7 @@
-'use client';
-
-import React, {useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {selectActiveMessages, selectMessagesLoaded} from "./selectors";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadMessages} from "./actions";
-import {useIsSSR} from "@/hooks/is-server-side";
 import Stack from "@mui/material/Stack";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import WebIcon from '@mui/icons-material/Web';
@@ -17,27 +14,19 @@ const messagesMaxAge = 1000 * 60 * 30; //30 minutes
 
 const SiteMessages = () => {
     const dispatch = useAppDispatch();
-    const isSSR = useIsSSR();
     const messages = useAppSelector(selectActiveMessages);
     const loaded = useAppSelector(selectMessagesLoaded);
     const timerRef = useRef<number>(0);
 
     useEffect(() => {
-        if (isSSR) {
-            return;
-        }
-
         timerRef.current = window.setInterval(() => {
             dispatch(loadMessages());
         }, messagesMaxAge);
 
         return () => {
-            if (isSSR) {
-                return;
-            }
             window.clearInterval(timerRef.current);
         }
-    }, [isSSR, messages, loaded]);
+    }, [messages, loaded]);
 
     const refreshHandler = () => {
         dispatch(loadMessages());
@@ -53,6 +42,7 @@ const SiteMessages = () => {
                 return {severity: "info", icon: <LocalShippingIcon onClick={refreshHandler}/>};
             case 'site':
                 return {severity: 'warning', icon: <WebIcon onClick={refreshHandler}/>};
+            // no default
         }
         return {};
     }

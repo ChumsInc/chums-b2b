@@ -1,12 +1,13 @@
-'use client';
+
 
 import {useEffect, useState} from 'react';
 import type {NavItemProps} from "@/types/ui-features";
-import {loadProductMenu, selectProductMenu, selectShouldLoadProductMenu} from "@/ducks/menu";
+import {selectProductMenu, selectShouldLoadProductMenu} from "@/ducks/menu";
 import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
 import CompoundMenu from "@/components/nav-bar/CompoundMenu";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
+import {loadProductMenu} from "@/ducks/menu/actions.ts";
 
 const productUrl = (url: string) => `/products${url}`;
 

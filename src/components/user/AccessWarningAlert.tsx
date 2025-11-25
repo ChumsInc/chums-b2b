@@ -1,6 +1,5 @@
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import Divider from "@mui/material/Divider";
 
 const AccessWarningAlert = () => {

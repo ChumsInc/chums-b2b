@@ -1,13 +1,6 @@
 import type {MenuItem} from "chums-types/b2b";
-import {type ReactNode} from "react";
+import type {ReactNode} from "react";
 
-export interface MenuState {
-    productMenu: Menu|null;
-    items: MenuItem[]
-    loading: boolean;
-    loaded: boolean;
-    isOpen: boolean;
-}
 
 export interface MenuElement {
     id: number|string;

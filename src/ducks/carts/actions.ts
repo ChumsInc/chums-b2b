@@ -7,9 +7,9 @@ import {
     postDuplicateSalesOrder,
     postProcessCart,
     putUpdateCartItems
-} from "./api.js";
-import {type RootState} from "@/app/configureStore";
-import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@/ducks/carts/api.js";
+} from "./api";
+import type {RootState} from "@/app/configureStore";
+import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@/ducks/carts/api";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 import type {B2BCart} from "@/types/cart/cart";
 import type {
@@ -21,13 +21,13 @@ import type {
     UpdateCartProps
 } from "@/types/cart/cart-action-props";
 import type {CustomerShippingAccount} from "@/types/customer";
-import localStore from "@/utils/LocalStore.js";
-import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores.js";
-import {selectUserType} from "@/ducks/user/userProfileSlice.js";
-import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice.js";
-import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice.js";
-import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice.js";
-import {canStorePreferences} from "@/ducks/cookie-consent/utils.js";
+import localStore from "@/utils/LocalStore";
+import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import {selectUserType} from "@/ducks/user/userProfileSlice";
+import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice";
+import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 
 export const loadCarts = createAsyncThunk<B2BCart[], string | null, { state: RootState }>(
     'carts/loadCarts',
@@ -175,23 +175,28 @@ export const setCartShippingAccount = createAction('activeCart/setCartShippingAc
     }
 });
 
+function buildCartComments(shippingAccount: CustomerShippingAccount | null, arg:B2BCartHeader):string[] {
+    const comment: string[] = [];
+    if (shippingAccount?.enabled) {
+        comment.push('RCP')
+        comment.push(`${shippingAccount.value.trim()}`);
+    }
+
+    if (arg.CancelReasonCode?.toUpperCase() === 'HOLD') {
+        comment.push('HOLD');
+    } else {
+        comment.push('SWR');
+    }
+    return comment;
+}
+
 export const processCart = createAsyncThunk<string | null, B2BCartHeader, { state: RootState }>(
     'processCart',
     async (arg, {getState}) => {
         const state = getState();
         const shippingAccount = selectCartShippingAccount(state);
         const userType = selectUserType(state);
-        const comment: string[] = [];
-        if (shippingAccount?.enabled) {
-            comment.push('RCP')
-            comment.push(`${shippingAccount.value.trim()}`);
-        }
-
-        if (arg.CancelReasonCode?.toUpperCase() === 'HOLD') {
-            comment.push('HOLD');
-        } else {
-            comment.push('SWR');
-        }
+        const comment = buildCartComments(shippingAccount, arg);
 
         const FOB = [`SLC`, userType?.toUpperCase()?.slice(0, 1) ?? '']
             .filter(str => !!str)

@@ -9,7 +9,7 @@ export interface ShipToCustomerLinkProps {
 
 export default function ShipToCustomerLink({salesOrder}: ShipToCustomerLinkProps) {
     const currentCustomer = useAppSelector(selectCustomerAccount);
-    if (salesOrder.BillToDivisionNo == currentCustomer?.ARDivisionNo && salesOrder.BillToCustomerNo === currentCustomer?.CustomerNo) {
+    if (salesOrder.BillToDivisionNo === currentCustomer?.ARDivisionNo && salesOrder.BillToCustomerNo === currentCustomer?.CustomerNo) {
         return (
             <CustomerLink customer={salesOrder}/>
         )

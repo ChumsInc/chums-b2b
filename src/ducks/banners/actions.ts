@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import type {Banner} from "chums-types/b2b";
-import {fetchBanners} from "./api.js";
-import {type RootState} from "@/app/configureStore.js";
-import {selectBannersStatus} from "@/ducks/banners/bannersSlice.js";
+import {fetchBanners} from "./api";
+import type {RootState} from "@/app/configureStore";
+import {selectBannersStatus} from "@/ducks/banners/bannersSlice";
 
 
 export interface LoadBannersResponse {

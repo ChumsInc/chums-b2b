@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import CustomerSignUp from "./CustomerSignUp";
 import {documentTitles, PATH_SET_PASSWORD} from "@/constants/paths";
 import MAPPolicy from "../MAPPolicy";

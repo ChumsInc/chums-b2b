@@ -1,7 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import type {SignUpResponse, SignUpUser} from "@/types/user";
 import {fetchSignUpProfile, postSignUpUser} from "@/api/user";
-import {type RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 import {selectSignUpStatus} from "./signUpSlice";
 import type {LoadProfileProps, SignUpProfile} from "./types";
 import type {APIErrorResponse} from "@/types/generic";
@@ -29,7 +29,7 @@ export const loadSignUpProfile = createAsyncThunk<SignUpProfile | APIErrorRespon
         return await fetchSignUpProfile(arg);
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState() ;
             return selectSignUpStatus(state) === 'idle';
         }

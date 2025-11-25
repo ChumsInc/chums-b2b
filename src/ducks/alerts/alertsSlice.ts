@@ -6,8 +6,8 @@ import {
     isRejected,
     type PayloadAction
 } from "@reduxjs/toolkit";
-import {setLoggedIn} from '../user/actions.js'
-import {alertSorter} from "./utils.js";
+import {setLoggedIn} from "../user/actions";
+import {alertSorter} from "./utils";
 import type {B2BContextAlert} from "@/ducks/alerts/types";
 
 const adapter = createEntityAdapter<B2BContextAlert, number>({
@@ -32,7 +32,7 @@ const alertsSlice = createSlice({
         setAlert: (state, action: PayloadAction<Omit<B2BContextAlert, 'alertId' | 'count'>>) => {
             const nextIndex = state.index + 1;
             if (action.payload.context) {
-                const alert = Object.values(state.entities).find(alert => alert.context === action.payload.context);
+                const alert = Object.values(state.entities).find(_alert => _alert.context === action.payload.context);
                 if (!alert) {
                     adapter.addOne(state, {...action.payload, alertId: nextIndex, count: 1})
                     state.index = nextIndex;
@@ -48,7 +48,7 @@ const alertsSlice = createSlice({
             adapter.removeOne(state, action.payload);
         },
         dismissContextAlert: (state, action: PayloadAction<string>) => {
-            const alert = Object.values(state.entities).find(alert => alert.context === action.payload);
+            const alert = Object.values(state.entities).find(_alert => _alert.context === action.payload);
             adapter.removeOne(state, alert?.alertId ?? 0);
         },
     },
@@ -62,7 +62,7 @@ const alertsSlice = createSlice({
             .addMatcher(isRejected, (state, action) => {
                 const nextIndex = state.index + 1;
                 const context = action.type.replace('/rejected', '');
-                const alert = Object.values(state.entities).find(alert => alert.context === context);
+                const alert = Object.values(state.entities).find(_alert => _alert.context === context);
                 if (alert) {
                     adapter.updateOne(state, {changes: {count: (alert.count ?? 0) + 1}, id: alert.alertId})
                 } else {
@@ -79,7 +79,7 @@ const alertsSlice = createSlice({
             .addMatcher((action) => isFulfilled(action as PayloadAction),
                 (state, action) => {
                     const context = action.type.replace('/fulfilled', '');
-                    const alert = Object.values(state.entities).find(alert => alert.context === context);
+                    const alert = Object.values(state.entities).find(_alert => _alert.context === context);
                     if (alert) {
                         adapter.removeOne(state, alert.alertId);
                     }
@@ -92,7 +92,7 @@ const alertsSlice = createSlice({
 
 export default alertsSlice;
 
-export const {setAlert, dismissAlert, dismissContextAlert} = alertsSlice.actions;
+export const {dismissAlert, dismissContextAlert} = alertsSlice.actions;
 export const {selectAlerts} = alertsSlice.selectors;
 
 export const selectContextAlerts = createSelector(

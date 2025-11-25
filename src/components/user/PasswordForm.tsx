@@ -1,4 +1,4 @@
-import React, {type FormEvent, useState} from "react";
+import {type FormEvent, useState} from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";

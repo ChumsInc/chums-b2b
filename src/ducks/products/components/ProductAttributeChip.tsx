@@ -1,4 +1,3 @@
-import React from 'react';
 import Chip, {type ChipProps} from "@mui/material/Chip";
 import {styled, type SxProps} from "@mui/material/styles";
 
@@ -55,6 +54,7 @@ const attributeColor = (attr: ProductAttributeType | string): ProductAttributeCo
             return {backgroundColor: 'var(--chums-red)', color: '#FFFFFF'};
         case 'new':
             return {backgroundColor: 'var(--chums-red)', color: '#FFFFFF'};
+        // no default
     }
     return {};
 }
@@ -79,20 +79,23 @@ const attributeText = (attr: ProductAttributeType | string): string => {
             return 'NEW COLORS';
         case 'new':
             return 'NEW';
+        // no default
     }
     return attr;
 
 }
 
 export default function ProductAttributeChip({feature, label, sx, ...rest}: ProductAttributeChipProps) {
-    if (!sx) {
-        sx = {} as SxProps;
+    let sxProps = sx as SxProps;
+    let _label = label;
+    if (!sxProps) {
+        sxProps = {} as SxProps;
     }
     const colors = attributeColor(feature);
-    if (!label) {
-        label = attributeText(feature);
+    if (!_label) {
+        _label = attributeText(feature);
     }
     return (
-        <StyledChip label={label} {...rest} size="small" sx={{...colors, ...sx}}/>
+        <StyledChip label={_label} {...rest} size="small" sx={{...colors, ...sxProps}}/>
     )
 }

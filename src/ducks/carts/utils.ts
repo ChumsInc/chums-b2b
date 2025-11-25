@@ -2,16 +2,13 @@ import type {BasicCustomer, CartProduct, SortProps} from "chums-types/b2b";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 import Decimal from "decimal.js";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
-import localStore from "@/utils/LocalStore.js";
+import localStore from "@/utils/LocalStore";
 import type {CustomerShippingAccount} from "@/types/customer";
-import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores.js";
-import {customerSlug} from "@/utils/customer.js";
-import type {ActiveCartExtraState} from "@/ducks/carts/activeCartSlice.js";
+import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import {customerSlug} from "@/utils/customer";
+import type {ActiveCartExtraState} from "@/ducks/carts/activeCartSlice";
 
-export const defaultCartsSort: SortProps<B2BCartHeader> = {
-    field: 'id',
-    ascending: true,
-}
+/* eslint-disable no-nested-ternary */
 
 export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a: B2BCartHeader, b: B2BCartHeader) => {
     const sortMod = ascending ? 1 : -1;
@@ -57,11 +54,6 @@ export const parseCartId = (str?: number | string | null): number => {
         return NaN;
     }
     return +str;
-}
-
-export const defaultCartDetailSort: SortProps<B2BCartDetail> = {
-    field: 'id',
-    ascending: true,
 }
 
 export const cartDetailSorter = ({

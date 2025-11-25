@@ -2,11 +2,11 @@ import {isValidCustomer} from "@/utils/customer";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import type {ExtendedInvoice, InvoiceHistoryHeader} from "chums-types/b2b";
 import type {FetchInvoiceArg, LoadInvoicesProps} from "./types";
-import {fetchInvoice, fetchInvoices} from "@/api/invoices.js";
-import {type RootState} from "@/app/configureStore.js";
-import {selectLoggedIn} from "../user/userProfileSlice.js";
-import {selectInvoicesStatus} from "@/ducks/invoices/invoiceListSlice.js";
-import {selectCurrentInvoiceStatus} from "@/ducks/invoices/currentInvoiceSlice.js";
+import {fetchInvoice, fetchInvoices} from "@/api/invoices";
+import type {RootState} from "@/app/configureStore";
+import {selectLoggedIn} from "../user/userProfileSlice";
+import {selectInvoicesStatus} from "@/ducks/invoices/invoiceListSlice";
+import {selectCurrentInvoiceStatus} from "@/ducks/invoices/currentInvoiceSlice";
 
 
 export const loadInvoice = createAsyncThunk<ExtendedInvoice | null, FetchInvoiceArg, { state: RootState }>(

@@ -1,4 +1,3 @@
-import React from 'react';
 import numeral from "numeral";
 import Alert from "@mui/material/Alert";
 import CartItemPriceDescription from "../../../components/CartItemPriceDescription";

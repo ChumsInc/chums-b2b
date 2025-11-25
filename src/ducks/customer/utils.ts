@@ -9,8 +9,6 @@ import type {
     ShipToCustomer,
     UserCustomerAccess
 } from "chums-types/b2b";
-import type {CustomerState, FetchCustomerResponse} from "./types";
-import {customerContactSorter, customerShipToSorter, defaultShipToSort,} from "@/utils/customer.js";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 
 
@@ -50,30 +48,6 @@ export const multiLineAddress = (address: CustomerAddress, includeName?: boolean
         address.AddressLine3 ?? '',
         finalLine
     ].filter(line => !!line);
-}
-
-export const customerResponseToState = (payload: FetchCustomerResponse | null, state: CustomerState): Partial<CustomerState> => {
-    const nextState: Partial<CustomerState> = {};
-    nextState.account = payload?.customer ?? null;
-    nextState.shipToCode = payload?.customer?.PrimaryShipToCode ?? null;
-    nextState.contacts = [...(payload?.contacts ?? [])].sort(customerContactSorter);
-    nextState.shipToAddresses = [...(payload?.shipTo ?? [])].sort(customerShipToSorter(defaultShipToSort));
-    const [shipTo] = nextState.shipToAddresses.filter(st => st.ShipToCode === state.shipToCode);
-    if (shipTo && payload?.permissions?.values?.billTo) {
-        nextState.shipToCode = shipTo?.ShipToCode ?? null;
-        nextState.shipTo = shipTo ?? null;
-    } else if (shipTo && payload?.permissions?.values?.shipTo.includes(shipTo.ShipToCode)) {
-        nextState.shipToCode = shipTo?.ShipToCode ?? null;
-        nextState.shipTo = shipTo ?? null;
-    } else if (!payload?.permissions?.values?.billTo) {
-        const [shipTo] = nextState.shipToAddresses;
-        nextState.shipToCode = shipTo?.ShipToCode ?? null;
-        nextState.shipTo = shipTo ?? null;
-    } else {
-        nextState.shipToCode = null;
-        nextState.shipTo = null;
-    }
-    return nextState;
 }
 
 export const filterShipToByUserAccount = (access: UserCustomerAccess | null) => (address: ShipToCustomer): boolean => {

@@ -1,4 +1,4 @@
-import {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {generatePath, Link as RoutedLink} from 'react-router';
 import Link from "@mui/material/Link";
 import {useAppSelector} from "@/app/hooks";

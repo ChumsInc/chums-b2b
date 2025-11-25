@@ -1,4 +1,4 @@
-'use client';
+
 
 import {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
@@ -15,7 +15,6 @@ import {
 import {loadInvoices} from "@/ducks/invoices/actions";
 import {InvoiceLink} from "./InvoiceLink";
 import DateString from "@/components/DateString";
-import OrderLink from "../OrderLink";
 import numeral from "numeral";
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import type {InvoiceHistoryHeader} from "chums-types/b2b";
@@ -110,11 +109,11 @@ const InvoicesList = () => {
     }, [sort]);
 
     const rowsPerPageChangeHandler = (ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const rowsPerPage = +(ev.target.value ?? 10);
+        const rpp = +(ev.target.value ?? 10);
         if (canStorePreferences()) {
-            localStore.setItem(STORE_INVOICES_ROWS_PER_PAGE, rowsPerPage);
+            localStore.setItem(STORE_INVOICES_ROWS_PER_PAGE, rpp);
         }
-        setRowsPerPage(rowsPerPage);
+        setRowsPerPage(rpp);
     }
 
     const reloadHandler = () => {
@@ -136,11 +135,11 @@ const InvoicesList = () => {
         return null;
     }
 
-    const sortChangeHandler = (sort: SortProps<InvoiceHistoryHeader>) => {
+    const sortChangeHandler = (arg: SortProps<InvoiceHistoryHeader>) => {
         if (canStorePreferences()) {
-            localStore.setItem<SortProps<InvoiceHistoryHeader>>(STORE_INVOICES_SORT, sort);
+            localStore.setItem<SortProps<InvoiceHistoryHeader>>(STORE_INVOICES_SORT, arg);
         }
-        dispatch(setInvoicesSort(sort));
+        dispatch(setInvoicesSort(arg));
     }
 
     return (
@@ -159,7 +158,7 @@ const InvoicesList = () => {
                                                  onChangeSort={sortChangeHandler}/>
                 <Box display="flex" justifyContent="flex-end">
                     <TablePagination component="div"
-                                     count={list.length} page={page} onPageChange={(_, page) => setPage(page)}
+                                     count={list.length} page={page} onPageChange={(_, arg) => setPage(arg)}
                                      rowsPerPage={rowsPerPage} onRowsPerPageChange={rowsPerPageChangeHandler}
                                      showFirstButton showLastButton/>
                     <Button type="button" variant="text" onClick={loadMoreHandler}

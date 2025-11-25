@@ -1,60 +1,34 @@
-import {StrictMode, useEffect} from 'react';
+import {StrictMode, useEffect, useState} from 'react';
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import {Route, Routes, useLocation} from 'react-router';
+import {useLocation} from 'react-router';
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Login from "@/components/user/login/LoginPage.js";
-import {loadProfile} from '@/ducks/user/actions.js';
-import {loadCustomer} from '@/ducks/customer/actions.js';
-import ProfilePage from "@/components/user/profile/ProfilePage.js";
-import AccountPage from "@/components/customer/AccountPage.js";
-import SalesOrderPage from "@/components/open-orders/SalesOrderPage";
-import SignUp from "@/components/sign-up/SignUp.js";
-import Logout from "@/components/user/Logout.js";
-import ResetPassword from "@/components/user/ResetPassword.js";
-import ContentPage from "../ducks/page/ContentPage.js";
-import InvoicePage from "@/components/invoices/InvoicePage.js";
-import {selectLoggedIn} from "@/ducks/user/userProfileSlice.js";
-import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice.js";
-import AccountListContainer from "@/components/customerList/AccountListContainer.js";
-import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
-import MainOutlet from "./MainOutlet.js";
-import ProductRouter from "../ducks/products/components/ProductRouter.js";
-import BillToForm from "@/components/customer/billing/BillToForm.js";
-import ShipToForm from "@/components/customer/delivery/ShipToForm.js";
-import CustomerUsers from "@/components/customer/users/CustomerUsers.js";
-import ContentPage404 from "../components/ContentPage404.js";
-import OpenOrdersList from "@/components/open-orders/OpenOrdersList";
-import InvoicesList from "@/components/invoices/InvoicesList.js";
-import ShipToList from "@/components/customer/delivery/ShipToList.js";
-import theme from "./theme.js";
-import Home from "../components/Home.js";
-import {GOOGLE_CLIENT_ID} from "@/constants/app.js";
-import RequestPasswordResetForm from "@/components/user/RequestPasswordResetForm.js";
-import ChangePasswordPage from "@/components/user/ChangePasswordPage.js";
-import LocalStore from "../utils/LocalStore.js";
-import {isTokenExpired} from "@/utils/jwtHelper.js";
-import {auth} from "@/api/IntranetAuthService.js";
-import {selectAppNonce} from "@/ducks/app/selectors.js";
-import EditAccountUserForm from "@/components/customer/users/EditAccountUserForm.js";
-import CartsPage from "@/components/b2b-cart/CartsPage.js";
-import CartPage from "@/components/b2b-cart/CartPage.js";
-import {ga4PageView} from "@/utils/ga4/generic.js";
+import {loadProfile} from "@/ducks/user/actions";
+import {loadCustomer} from "@/ducks/customer/actions";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
+import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
+import theme from "./theme";
+import {GOOGLE_CLIENT_ID} from "@/constants/app";
+import LocalStore from "../utils/LocalStore";
+import {isTokenExpired} from "@/utils/jwtHelper";
+import {auth} from "@/api/IntranetAuthService";
+import {selectAppNonce} from "@/ducks/app/selectors";
+import {ga4PageView} from "@/utils/ga4/generic";
+import AppRouter from "@/app/AppRouter.tsx";
 
 
-const App = () => {
+export default function App() {
     const dispatch = useAppDispatch();
-    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const _isLoggedIn = useAppSelector(selectLoggedIn);
     const currentCustomer = useAppSelector(selectCustomerAccount);
     const customerLoaded = useAppSelector(selectCustomerLoaded);
     const nonce = useAppSelector(selectAppNonce);
     const location = useLocation();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        ga4PageView()
-    }, [location]);
 
     useEffect(() => {
         LocalStore.removeDeprecatedItems();
@@ -63,6 +37,14 @@ const App = () => {
             auth.removeToken();
         }
     }, []);
+
+    useEffect(() => {
+        setIsLoggedIn(_isLoggedIn);
+    }, [_isLoggedIn]);
+
+    useEffect(() => {
+        ga4PageView()
+    }, [location]);
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -80,54 +62,7 @@ const App = () => {
                 <ThemeProvider theme={theme}>
                     <CssBaseline>
                         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID} nonce={nonce ?? undefined}>
-                            <Routes>
-                                <Route path="/" element={<MainOutlet/>}>
-                                    <Route index element={<Home/>}/>
-                                    <Route path="/home" element={<Home/>}/>
-                                    <Route path="/products" element={<ProductRouter/>}/>
-                                    <Route path="/products/:category" element={<ProductRouter/>}/>
-                                    <Route path="/products/:category/:product" element={<ProductRouter/>}/>
-                                    <Route path="/products/:category/:product/:sku" element={<ProductRouter/>}/>
-                                    <Route path="/pages/:keyword" element={<ContentPage/>}/>
-                                    {!isLoggedIn && (
-                                        <>
-                                            <Route path="/set-password/:hash/:key" element={<ResetPassword/>}/>
-                                            <Route path="/set-password" element={<ResetPassword/>}/>
-                                            <Route path="/signup/:hash/:key" element={<ResetPassword/>}/>
-                                            <Route path="/signup" element={<SignUp/>}/>
-                                            <Route path="/reset-password" element={<RequestPasswordResetForm/>}/>
-                                            <Route path="/login" element={<Login/>}/>
-                                            <Route path="*" element={<Login/>}/>
-                                        </>
-                                    )}
-                                    {isLoggedIn && (
-                                        <>
-                                            <Route path="/login" element={<Login/>}/>
-                                            <Route path="/logout" element={<Logout/>}/>
-                                            <Route path="/profile" element={<ProfilePage/>}/>
-                                            <Route path="/profile/set-password" element={<ChangePasswordPage/>}/>
-                                            <Route path="/profile/:id" element={<AccountListContainer/>}/>
-                                            <Route path="/account/:customerSlug" element={<AccountPage/>}>
-                                                <Route index element={<BillToForm/>}/>
-                                                <Route path="delivery" element={<ShipToList/>}/>
-                                                <Route path="delivery/:shipToCode" element={<ShipToForm/>}/>
-                                                <Route path="users" element={<CustomerUsers/>}>
-                                                    <Route path=":id?" element={<EditAccountUserForm/>}/>
-                                                </Route>
-                                                <Route path="carts" element={<CartsPage/>}/>
-                                                <Route path="carts/:cartId" element={<CartPage/>}/>
-                                                <Route path="orders" element={<OpenOrdersList/>}/>
-                                                <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>
-                                                <Route path="invoices" element={<InvoicesList/>}/>
-                                                <Route path="invoices/:type/:invoiceNo" element={<InvoicePage/>}/>
-                                                <Route path="*" element={<ContentPage404/>}/>
-                                            </Route>
-                                            <Route path="*" element={<ContentPage404/>}/>
-                                        </>
-                                    )}
-                                    <Route path="*" element={<ContentPage404/>}/>
-                                </Route>
-                            </Routes>
+                            <AppRouter/>
                         </GoogleOAuthProvider>
                     </CssBaseline>
                 </ThemeProvider>
@@ -135,7 +70,3 @@ const App = () => {
         </StrictMode>
     )
 }
-
-
-export default App
-

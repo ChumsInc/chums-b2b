@@ -8,35 +8,34 @@ export default class UPCA {
     }
 
     static format(upc:string) {
-        upc = UPCA.raw(upc);
+        let _upc = UPCA.raw(upc);
 
-        if (upc.length === 5) {
-            upc = UPCA.CHUMS + upc;
+        if (_upc.length === 5) {
+            _upc = UPCA.CHUMS + _upc;
         }
 
-        if (upc.length !== 11 && upc.length !== 12) {
-            return upc;
+        if (_upc.length !== 11 && _upc.length !== 12) {
+            return _upc;
         }
-        const [, p1, p2, p3] = /(\d)(\d{5})(\d{5})(\d)/.exec(upc) ?? [];
-        return [p1, p2, p3, UPCA.checkdigit(upc)].join(' ');
+        const [, p1, p2, p3] = /(\d)(\d{5})(\d{5})(\d)/.exec(_upc) ?? [];
+        return [p1, p2, p3, UPCA.checkdigit(_upc)].join(' ');
     }
 
     static checkdigit(upc:string) {
-        upc = UPCA.raw(upc.trim()).slice(0, 11);
+        let _upc = UPCA.raw(upc.trim()).slice(0, 11);
 
-        if (upc.length === 5) {
-            upc = UPCA.CHUMS + upc;
+        if (_upc.length === 5) {
+            _upc = UPCA.CHUMS + _upc;
         }
 
-        if (upc.length !== 11) {
-            console.log('UPCA.checkdigit() UPC is too short', upc);
-            return upc;
+        if (_upc.length !== 11) {
+            return _upc;
         }
         const cd = {
             even: 0,
             odd: 0
         };
-        upc.split('').map((c, index) => {
+        _upc.split('').forEach((c, index) => {
             const parsed = parseInt(c, 10);
             if (index % 2 === 0) {
                 cd.even += parsed;

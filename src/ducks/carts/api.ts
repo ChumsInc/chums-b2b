@@ -13,6 +13,8 @@ import type {
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 import type {B2BCart} from "@/types/cart/cart";
 import type {EmailResponse} from "chums-types/b2b";
+import debug from "@/utils/debug.ts";
+
 
 export async function fetchCarts(arg: string): Promise<B2BCart[]> {
     try {
@@ -23,10 +25,10 @@ export async function fetchCarts(arg: string): Promise<B2BCart[]> {
         return res?.carts ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("fetchCarts()", err.message);
+            debug("fetchCarts()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchCarts()", err);
+        debug("fetchCarts()", err);
         return Promise.reject(new Error('Error in fetchCarts()'));
     }
 }
@@ -41,10 +43,10 @@ export async function fetchCart(arg: CartActionProps): Promise<B2BCart | null> {
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("fetchCart()", err.message);
+            debug("fetchCart()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchCart()", err);
+        debug("fetchCart()", err);
         return Promise.reject(new Error('Error in fetchCart()'));
     }
 }
@@ -59,10 +61,10 @@ export async function putCart(arg: UpdateCartProps): Promise<B2BCart | null> {
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("putCart()", err.message);
+            debug("putCart()", err.message);
             return Promise.reject(err);
         }
-        console.debug("putCart()", err);
+        debug("putCart()", err);
         return Promise.reject(new Error('Error in putCart()'));
     }
 }
@@ -82,10 +84,10 @@ export async function postAddToCart(arg: AddToCartProps): Promise<B2BCart | null
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postAddToCart()", err.message);
+            debug("postAddToCart()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postAddToCart()", err);
+        debug("postAddToCart()", err);
         return Promise.reject(new Error('Error in postAddToCart()'));
     }
 }
@@ -101,10 +103,10 @@ export async function putUpdateCartItem(arg: UpdateCartItemProps): Promise<B2BCa
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("putUpdateCartItem()", err.message);
+            debug("putUpdateCartItem()", err.message);
             return Promise.reject(err);
         }
-        console.debug("putUpdateCartItem()", err);
+        debug("putUpdateCartItem()", err);
         return Promise.reject(new Error('Error in putUpdateCartItem()'));
     }
 }
@@ -119,10 +121,10 @@ export async function putUpdateCartItems(arg: UpdateCartItemsProps): Promise<B2B
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("putUpdateCartItem()", err.message);
+            debug("putUpdateCartItem()", err.message);
             return Promise.reject(err);
         }
-        console.debug("putUpdateCartItem()", err);
+        debug("putUpdateCartItem()", err);
         return Promise.reject(new Error('Error in putUpdateCartItem()'));
     }
 }
@@ -137,10 +139,10 @@ export async function deleteCartItem(arg: DeleteCartItemProps): Promise<B2BCart 
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("deleteCartItem()", err.message);
+            debug("deleteCartItem()", err.message);
             return Promise.reject(err);
         }
-        console.debug("deleteCartItem()", err);
+        debug("deleteCartItem()", err);
         return Promise.reject(new Error('Error in deleteCartItem()'));
     }
 }
@@ -153,7 +155,7 @@ export async function deleteCart(arg: CartActionProps): Promise<B2BCartHeader[]>
             params.set('salesOrderNo', arg.salesOrderNo);
             const url = `/sage/b2b/cart-sync/delete-cart.php?${params.toString()}`;
             await fetchJSON(url, {method: 'DELETE'}, allowErrorResponseHandler);
-            console.log('removed sage quote', arg.salesOrderNo);
+            debug('removed sage quote', arg.salesOrderNo);
         }
         const url = '/api/carts/:customerKey/:cartId.json'
             .replace(':customerKey', encodeURIComponent(arg.customerKey!))
@@ -162,10 +164,10 @@ export async function deleteCart(arg: CartActionProps): Promise<B2BCartHeader[]>
         return res?.carts ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("deleteCart()", err.message);
+            debug("deleteCart()", err.message);
             return Promise.reject(err);
         }
-        console.debug("deleteCart()", err);
+        debug("deleteCart()", err);
         return Promise.reject(new Error('Error in deleteCart()'));
     }
 }
@@ -180,10 +182,10 @@ export async function postCartEmail(arg: CartActionProps): Promise<EmailResponse
         return res?.result ?? null
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("postCartEmail()", err.message);
+            debug("postCartEmail()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postCartEmail()", err);
+        debug("postCartEmail()", err);
         return Promise.reject(new Error('Error in postCartEmail()'));
     }
 }
@@ -201,10 +203,10 @@ export async function postProcessCart(arg: PromoteCartBody): Promise<string | nu
         return res?.salesOrderNo ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postProcessCart()", err.message);
+            debug("postProcessCart()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postProcessCart()", err);
+        debug("postProcessCart()", err);
         return Promise.reject(new Error('Error in postProcessCart()'));
     }
 }
@@ -219,10 +221,10 @@ export async function postDuplicateSalesOrder(arg: DuplicateCartProps): Promise<
         return res?.cart ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postDuplicateSalesOrder()", err.message);
+            debug("postDuplicateSalesOrder()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postDuplicateSalesOrder()", err);
+        debug("postDuplicateSalesOrder()", err);
         return Promise.reject(new Error('Error in postDuplicateSalesOrder()'));
     }
 }
@@ -234,10 +236,10 @@ export async function fetchNextShipDate(): Promise<string | null> {
         return res?.nextShipDate ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("fetchNextShipDate()", err.message);
+            debug("fetchNextShipDate()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchNextShipDate()", err);
+        debug("fetchNextShipDate()", err);
         return Promise.reject(new Error('Error in fetchNextShipDate()'));
     }
 }

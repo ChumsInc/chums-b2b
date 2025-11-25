@@ -1,17 +1,17 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {redirect, useMatch, useParams} from 'react-router';
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
-import OrderDetail from "./OrderDetail.js";
-import DocumentTitle from "@/components/DocumentTitle.js";
-import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice.js";
-import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
-import {loadSalesOrder} from "@/ducks/open-orders/actions.js";
-import SalesOrderHeaderElement from "./SalesOrderHeaderElement.js";
-import SalesOrderSkeleton from "./SalesOrderSkeleton.js";
-import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress.js";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.js";
-import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice.js";
+import OrderDetail from "./OrderDetail";
+import DocumentTitle from "@/components/DocumentTitle";
+import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
+import {loadSalesOrder} from "@/ducks/open-orders/actions";
+import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
+import SalesOrderSkeleton from "./SalesOrderSkeleton";
+import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
 
 /**
  *
@@ -40,7 +40,7 @@ const SalesOrderPage = () => {
 
     if (!customer && customerLoaded) {
         redirect('/profile');
-        return;
+        return null;
     }
 
     const documentTitle = `Sales Order #${match?.params?.salesOrderNo}`;

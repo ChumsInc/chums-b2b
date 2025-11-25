@@ -45,32 +45,32 @@ const ShipToAutocomplete = ({
     const [options, setOptions] = useState<ShipToCustomer[]>(shipToAddresses ?? []);
 
     useEffect(() => {
-        console.debug('useEffect()[shipToCode, shipToAddresses]', {shipToCode})
-        const [shipTo] = shipToAddresses.filter(shipTo => shipTo.ShipToCode === shipToCode);
+        const [shipTo] = shipToAddresses.filter(_shipTo => _shipTo.ShipToCode === shipToCode);
         setValue(shipTo ?? null);
         setInputValue(shipTo?.ShipToCode ?? '');
     }, [shipToCode, shipToAddresses]);
 
     useEffect(() => {
-        const options = shipToAddresses.filter(shipTo => {
+        const _options = shipToAddresses.filter(shipTo => {
             return shipTo.ShipToCode.toUpperCase().startsWith(inputValue.toUpperCase())
                 || shipTo.ShipToName.toUpperCase().includes(inputValue.toUpperCase())
                 || shipTo.ShipToCity?.toUpperCase().includes(inputValue.toUpperCase())
                 || shipTo.ShipToState?.toUpperCase().includes(inputValue.toUpperCase())
                 || shipTo.ShipToZipCode?.toUpperCase().includes(inputValue.toUpperCase())
         });
-        setOptions(options)
+        setOptions(_options)
     }, [inputValue, shipToAddresses]);
 
     useEffect(() => {
         if (!customer) {
-            return onChange(value?.ShipToCode ?? null, null);
+            onChange(value?.ShipToCode ?? null, null);
+            return;
         }
         onChange(value?.ShipToCode ?? '', value);
     }, [value])
 
-    const inputChangeHandler = (_: SyntheticEvent, value: string) => {
-        setInputValue(value);
+    const inputChangeHandler = (_: SyntheticEvent, arg: string) => {
+        setInputValue(arg);
     }
 
     const changeHandler = (_: SyntheticEvent, newValue: ShipToCustomer | null) => {
@@ -93,7 +93,7 @@ const ShipToAutocomplete = ({
                       inputValue={inputValue}
                       onInputChange={inputChangeHandler}
                       getOptionDisabled={getOptionDisabled}
-                      isOptionEqualToValue={(option, value) => option.ShipToCode === value.ShipToCode}
+                      isOptionEqualToValue={(option, _value) => option.ShipToCode === _value.ShipToCode}
                       noOptionsText="Billing Location"
                       blurOnSelect
                       getOptionLabel={(option) => `[${option.ShipToCode}] ${option.ShipToName}`}

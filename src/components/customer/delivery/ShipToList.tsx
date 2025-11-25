@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
@@ -74,8 +74,8 @@ const ShipToList = () => {
         setPage(0);
     }, [list, sort, rowsPerPage]);
 
-    const sortChangeHandler = (sort: SortProps<ShipToCustomer>) => {
-        dispatch(setShipToSort(sort));
+    const sortChangeHandler = (arg: SortProps<ShipToCustomer>) => {
+        dispatch(setShipToSort(arg));
     }
 
     const rowClassName = (row: ShipToCustomer) => {
@@ -90,7 +90,7 @@ const ShipToList = () => {
                        fields={fields} keyField="ShipToCode"/>
             <Grid container spacing={2} justifyContent="end">
                 <TablePagination component="div" count={list.length}
-                                 page={page} onPageChange={(_, page) => setPage(page)}
+                                 page={page} onPageChange={(_, arg) => setPage(arg)}
                                  rowsPerPage={rowsPerPage}
                                  onRowsPerPageChange={(ev) => setRowsPerPage(+ev.target.value)}
                                  showFirstButton showLastButton/>

@@ -10,7 +10,7 @@ import {
     STORE_USER_ACCESS
 } from '@/constants/stores';
 import {auth} from '@/api/IntranetAuthService';
-import {getProfile, getSignInProfile, getTokenExpiry} from "@/utils/jwtHelper";
+import {getProfile, getTokenExpiry} from "@/utils/jwtHelper";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {AUTH_LOCAL} from "@/constants/app";
 import {
@@ -39,29 +39,21 @@ import type {
     SetNewPasswordProps,
     UserProfileResponse
 } from "./types";
-import {type RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 import type {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "chums-types/b2b";
 import {isCustomerAccess} from "./utils";
-import type {StoredProfile} from "@/types/user";
 import {loadCustomerList} from "../customers/actions";
 import {isErrorResponse} from "@/utils/typeguards";
 import type {APIErrorResponse} from "@/types/generic";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {setLoggedInHelper, signInWithGoogleHelper} from "@/ducks/user/action-helpers";
 
-export const setLoggedIn = createAction('user/setLoggedIn', function (arg: SetLoggedInProps) {
+export const setLoggedIn = createAction('user/setLoggedIn', (arg: SetLoggedInProps) => {
     if (arg.loggedIn) {
-        const profile = auth.getProfile();
-        const accounts = profile?.chums?.user?.accounts ?? [];
-        if (!arg.accessList) {
-            arg.accessList = accounts;
-        }
-        if (!arg.access) {
-            arg.access = localStore.getItem<UserCustomerAccess | null>(
-                STORE_USER_ACCESS, (accounts.length === 1 ? accounts[0] : null)
-            )
-        }
-        if (!arg.authType) {
-            arg.authType = localStore.getItem<string | null>(STORE_AUTHTYPE, null) ?? '';
+        return {
+            payload: {
+                ...setLoggedInHelper(arg)
+            }
         }
     }
     return {
@@ -71,6 +63,19 @@ export const setLoggedIn = createAction('user/setLoggedIn', function (arg: SetLo
     }
 });
 
+
+export const loadProfile = createAsyncThunk<UserProfileResponse, void, { state: RootState }>(
+    'user/loadProfile',
+    async () => {
+        return await fetchUserProfile();
+    },
+    {
+        condition: (_arg, {getState}) => {
+            const state = getState();
+            return !selectUserLoading(state) && selectLoggedIn(state);
+        }
+    }
+)
 
 export interface LoginUserProps {
     email: string;
@@ -120,9 +125,6 @@ export const updateLocalAuth = createAsyncThunk<void, void, { state: RootState }
             const expires = getTokenExpiry(token);
             dispatch(setLoggedIn({loggedIn: true, authType: AUTH_LOCAL, token, expires}));
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('updateLocalAuth()', err.message)
-            }
             dispatch(setLoggedIn({loggedIn: false}));
             auth.removeToken();
             return;
@@ -143,27 +145,7 @@ export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string, { 
     async (arg) => {
         const response = await fetchGoogleLogin(arg);
         auth.setToken(response.token ?? arg);
-        if (response.user) {
-            const profile = getSignInProfile(arg);
-            const {user, roles, accounts, token} = response;
-            if (token) {
-                auth.setToken(token);
-            }
-            const storedProfile: StoredProfile = {
-                ...profile,
-                chums: {
-                    user: {
-                        ...user,
-                        roles: roles ?? [],
-                        accounts: accounts ?? []
-                    }
-                }
-            }
-            response.picture = getSignInProfile(arg)?.imageUrl ?? null;
-            auth.setProfile(storedProfile);
-            response.recentCustomers = localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, []);
-        }
-        return response;
+        return signInWithGoogleHelper(response, arg);
     },
     {
         condition: (_arg, {getState}) => {
@@ -180,9 +162,7 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
             await postLogout()
             auth.logout();
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.debug("()", err.message);
-            }
+            // ignore error
         }
         localStore.removeItem(STORE_CUSTOMER);
         localStore.removeItem(STORE_USER_ACCESS);
@@ -192,7 +172,7 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
         dispatch(setLoggedIn({loggedIn: false}));
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
             return selectUserActionStatus(state) === 'idle';
         }
@@ -224,24 +204,11 @@ export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCus
     {
         condition: (arg, {getState}) => {
             // only set the user access if the access is a rep account
-            // if not a rep access, then the access should be treated specifically as a customer and not an access object.
+            // if not a rep access list, then the access should be treated specifically as a customer and not an access object.
             const state = getState();
             return selectLoggedIn(state)
                 && !!arg?.isRepAccount
                 && selectCurrentAccess(state)?.id !== arg?.id;
-        }
-    }
-)
-
-export const loadProfile = createAsyncThunk<UserProfileResponse, void, { state: RootState }>(
-    'user/loadProfile',
-    async () => {
-        return await fetchUserProfile();
-    },
-    {
-        condition: (_arg, {getState}) => {
-            const state = getState();
-            return !selectUserLoading(state) && selectLoggedIn(state);
         }
     }
 )

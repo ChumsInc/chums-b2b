@@ -1,4 +1,4 @@
-import {type ChangeEvent} from 'react';
+import type {ChangeEvent} from 'react';
 import StateSelect from '../StateSelect';
 import CountrySelect from '../CountrySelect';
 import type {CustomerAddress} from "chums-types/b2b";
@@ -6,15 +6,14 @@ import {isCanada, isUSA} from "@/utils/customer";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 
-const AddressFormFields = ({address, onChange, readOnly, addressType}: {
+export interface AddressFormFieldsProps {
     address: CustomerAddress;
     onChange: (arg: Partial<CustomerAddress>) => void;
     readOnly?: boolean;
-    addressType?: 'billing'|'shipping';
-}) => {
-    if (!addressType) {
-        addressType = 'billing';
-    }
+    addressType?: 'billing' | 'shipping';
+}
+
+export default function AddressFormFields({address, onChange, readOnly, addressType}: AddressFormFieldsProps) {
     const requiresStateCode = isUSA(address.CountryCode ?? '') || isCanada(address.CountryCode ?? '');
 
     const changeHandler = (field: keyof CustomerAddress) => (ev: ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +24,9 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
             case 'City':
             case 'State':
             case 'ZipCode':
-                return onChange({[field]: ev.target.value})
+                onChange({[field]: ev.target.value})
+                return
+            // no default
         }
     }
 
@@ -33,7 +34,9 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
         switch (field) {
             case 'State':
             case 'CountryCode':
-                return onChange({[field]: value});
+                onChange({[field]: value});
+                return;
+            // no default
         }
     }
 
@@ -46,7 +49,7 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
                            htmlInput: {
                                readOnly,
                                maxLength: 30,
-                               autoComplete: `${addressType} address-line1`
+                               autoComplete: `${addressType ?? 'billing'} address-line1`
                            }
                        }}
                        required/>
@@ -56,16 +59,16 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
                            htmlInput: {
                                readOnly,
                                maxLength: 30,
-                               autoComplete: `${addressType} address-line2`
+                               autoComplete: `${addressType ?? 'billing'} address-line2`
                            }
                        }}
-                       />
+            />
             <TextField variant="filled" onChange={changeHandler('AddressLine3')} value={address.AddressLine3 ?? ''}
                        slotProps={{
                            htmlInput: {
                                readOnly,
                                maxLength: 30,
-                               autoComplete: `${addressType} address-line3`
+                               autoComplete: `${addressType ?? 'billing'} address-line3`
                            }
                        }}
                        size="small"
@@ -76,10 +79,10 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
                            htmlInput: {
                                readOnly,
                                maxLength: 30,
-                               autoComplete: `${addressType} address-level2`
+                               autoComplete: `${addressType ?? 'billing'} address-level2`
                            }
                        }}
-                       required />
+                       required/>
             <Stack direction={{xs: 'column', md: 'row'}} spacing={1}>
                 {requiresStateCode && (
                     <StateSelect value={address.State ?? ''} countryCode={address.CountryCode}
@@ -88,7 +91,7 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
                                      htmlInput: {
                                          readOnly,
                                          disabled: readOnly,
-                                         autoComplete: `${addressType} address-level1`
+                                         autoComplete: `${addressType ?? 'billing'} address-level1`
                                      }
                                  }}
                                  variant="filled" size="small"
@@ -100,7 +103,7 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
                                    htmlInput: {
                                        readOnly,
                                        maxLength: 30,
-                                       autoComplete: `${addressType} address-level1`
+                                       autoComplete: `${addressType ?? 'billing'} address-level1`
                                    }
                                }}
                                size="small"
@@ -112,7 +115,7 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
                                htmlInput: {
                                    readOnly,
                                    maxLength: 10,
-                                   autoComplete: `${addressType} postal-code`
+                                   autoComplete: `${addressType ?? 'billing'} postal-code`
                                }
                            }}
                            required/>
@@ -120,7 +123,7 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
                                variant="filled" size="small"
                                slotProps={{
                                    htmlInput: {
-                                       autoComplete: `${addressType} country-code`,
+                                       autoComplete: `${addressType ?? 'billing'} country-code`,
                                        readOnly,
                                        disabled: readOnly
                                    }
@@ -131,5 +134,3 @@ const AddressFormFields = ({address, onChange, readOnly, addressType}: {
         </Stack>
     )
 }
-
-export default AddressFormFields;

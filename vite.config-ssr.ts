@@ -1,21 +1,14 @@
 import { defineConfig } from 'vite';
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import react from '@vitejs/plugin-react';
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import path from "node:path";
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import process from "node:process";
 
-function manualChunks(id: string):string | null {
-    if (id.includes('node_modules')) {
-        if (id.includes('react')) {
-            return 'react'
-        }
-        if (id.includes('mui')) {}
-        return 'mui';
-    }
-    return null;
-}
 
 export default defineConfig({
     plugins: [react()],
@@ -55,10 +48,10 @@ export default defineConfig({
         outDir: 'dist-server',
         lib: {
             entry: path.resolve(process.cwd(), 'src/server/index.ts'),
-            fileName: (format, fileName) => {
-                const extension = format === 'cjs' ? 'js' : 'mjs';
-                return `${fileName}.${extension}`;
-            },
+            // fileName: (format, fileName) => {
+            //     // const extension = format === 'cjs' ? 'js' : 'mjs';
+            //     return `${fileName}.mjs`;
+            // },
             name: 'chums-ssr',
             formats: ['es'],
         },

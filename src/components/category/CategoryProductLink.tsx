@@ -22,7 +22,7 @@ const CategoryProductLink = ({title, description, product, imageUrl, className =
                                         preferredSize={400}/>
                 <div className="product-title">{title}</div>
                 <ProductAttributeStack product={product}/>
-                <SeasonTeaser season_teaser={product.season_teaser} season_active={product.season_active}
+                <SeasonTeaser teaser={product.season_teaser} active={product.season_active}
                               sx={{justifyContent: 'center'}}/>
             </ProductLink>
             <div className="description">

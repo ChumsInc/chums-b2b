@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import IconButton from "@mui/material/IconButton";

@@ -1,36 +1,26 @@
-'use client';
-
-import React from 'react';
+import {useEffect, useState, type ReactNode} from 'react';
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {selectIsDrawerOpen, toggleMenuDrawer} from "@/ducks/menu";
-import {useIsSSR} from "@/hooks/is-server-side";
 
 const drawerWidth = 240;
 
 interface NavDrawerProps {
-    children: React.ReactNode;
+    open?: boolean;
+    onClose: () => void;
+    children: ReactNode;
 }
 
-const NavDrawer = ({children}: NavDrawerProps) => {
-    const isSSR = useIsSSR();
-    const dispatch = useAppDispatch();
-    const isOpen = useAppSelector(selectIsDrawerOpen);
-
-    const closeHandler = () => {
-        dispatch(toggleMenuDrawer());
-    }
-
-    if (isSSR) {
-        return null;
-    }
+export default function NavDrawer({open, onClose, children}: NavDrawerProps) {
+    const [container, setContainer] = useState<Element | null>(null);
+    useEffect(() => {
+        setContainer(window.document.body);
+    }, []);
 
     return (
         <Box component="nav" aria-label="mobile app menu">
-            <Drawer container={window?.document?.body} variant="temporary" open={isOpen}
+            <Drawer container={container} variant="temporary" open={open}
                     anchor="top"
-                    onClose={closeHandler}
+                    onClose={onClose}
                     ModalProps={{
                         keepMounted: true,
                     }}
@@ -43,4 +33,3 @@ const NavDrawer = ({children}: NavDrawerProps) => {
         </Box>
     )
 }
-export default NavDrawer;

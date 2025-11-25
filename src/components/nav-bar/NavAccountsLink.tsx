@@ -10,6 +10,7 @@ import {selectRecentCustomers} from "@/ducks/customers/recentCustomersSlice";
 import {customerNo, shortCustomerKey} from "@/utils/customer";
 import CompoundMenu from "@/components/nav-bar/CompoundMenu";
 import {selectCurrentAccess, selectRepAccessList} from "@/ducks/user/userAccessSlice";
+import {useEffect, useState} from "react";
 
 
 const defaultItems: MinimalMenuItem[] = [
@@ -38,13 +39,18 @@ export default function NavAccountsLink({inDrawer}: NavItemProps) {
     const accessList = useAppSelector(selectRepAccessList);
     const access = useAppSelector(selectCurrentAccess);
     const recentCustomers = useAppSelector(selectRecentCustomers);
+    const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        setShow(isLoggedIn);
+    }, [isLoggedIn]);
 
     const drawerItems: MinimalMenuItem[] = [
         {id: 'profile', title: 'Profile', url: '/profile'},
-        ...accessList.map(access => ({
-            id: access.id,
-            title: access.SalespersonName ?? repAccessCode(access),
-            url: accessListURL(access),
+        ...accessList.map(_access => ({
+            id: _access.id,
+            title: _access.SalespersonName ?? repAccessCode(_access),
+            url: accessListURL(_access),
         })),
     ]
 
@@ -54,11 +60,11 @@ export default function NavAccountsLink({inDrawer}: NavItemProps) {
             ...defaultItems[1],
             url: access ? accessListURL(access) : '/profile',
             menu: {
-                items: accessList.map(access => ({
-                    id: access.id,
-                    title: <MenuLinkProfile linkCode={repAccessCode(access)}
-                                            linkName={access.SalespersonName ?? ''}/>,
-                    url: accessListURL(access),
+                items: accessList.map(_access => ({
+                    id: _access.id,
+                    title: <MenuLinkProfile linkCode={repAccessCode(_access)}
+                                            linkName={_access.SalespersonName ?? ''}/>,
+                    url: accessListURL(_access),
                 }))
             }
         },
@@ -76,7 +82,7 @@ export default function NavAccountsLink({inDrawer}: NavItemProps) {
         }
     ]
 
-    if (!isLoggedIn) {
+    if (!show) {
         return null;
     }
 
@@ -89,15 +95,4 @@ export default function NavAccountsLink({inDrawer}: NavItemProps) {
     return (
         <CompoundMenu title="Accounts" items={items} urlFormat={(url) => url}/>
     )
-    //
-    // return (
-    //     <BasicMenu title="Accounts"
-    //                items={items}
-    //                sx={{
-    //                    '& .MuiMenu-list': {
-    //                        flexDirection: 'row'
-    //                    }
-    //                }}>
-    //     </BasicMenu>
-    // )
 }

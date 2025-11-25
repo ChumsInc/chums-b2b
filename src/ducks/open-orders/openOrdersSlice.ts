@@ -85,7 +85,7 @@ const openOrdersSlice = createSlice({
             })
             .addCase(dismissContextAlert, (state, action) => {
                 if (action.payload.startsWith(loadOpenOrders.typePrefix)) {
-                    state.status === 'idle';
+                    state.status = 'idle';
                 }
             })
             .addCase(loadSalesOrder.fulfilled, (state, action) => {

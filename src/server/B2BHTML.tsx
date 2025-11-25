@@ -1,14 +1,13 @@
-import React from 'react';
 import * as process from "node:process";
-import {type EnhancedStore} from "@reduxjs/toolkit";
+import type {EnhancedStore} from "@reduxjs/toolkit";
 import {Provider} from "react-redux";
 import {StaticRouter} from "react-router";
-import type {PreloadedState} from "chums-types/b2b";
+import type {CookieConsentState, PreloadedState} from "chums-types/b2b";
 import type {ManifestFiles} from "./manifest";
-import ServerApp from "@/app/ServerApp.js";
+import App from "@/app/App.tsx";
 
 
-const InlineJSHeadContent = (versionNo: string) => {
+const inlineJSHeadContent = (versionNo: string) => {
     return `
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -30,7 +29,7 @@ export interface B2BHtmlProps {
 }
 
 export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp, cspNonce}: B2BHtmlProps) {
-    const state: PreloadedState = store.getState() ?? {};
+    const state: PreloadedState = store.getState();
     const preloadedStateJSON = JSON.stringify(state).replace(/</g, '\\u003c');
     return (
         <html lang="en-us" dir="ltr">
@@ -65,32 +64,52 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
                 nonce={cspNonce}
                 rel="stylesheet"/>
             <script src="https://accounts.google.com/gsi/client" async defer nonce={cspNonce}/>
-            {state.cookieConsent?.record?.preferences?.analytics && (
-                <>
-                    <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}
-                            nonce={cspNonce}/>
-                    <script dangerouslySetInnerHTML={{__html: InlineJSHeadContent(manifestFiles.version ?? '')}}
-                            nonce={cspNonce}/>
-                </>
-            )}
+            <AnalyticsScripts nonce={cspNonce} consent={state.cookieConsent} versionNo={manifestFiles.version ?? ''} />
             <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+            {!!manifestFiles.index && (
+                <link rel="modulepreload" href={`/${manifestFiles.index}`} nonce={cspNonce}/>
+
+            )}
+            {manifestFiles.imports.map(file => (
+                <link rel="modulepreload" key={file} href={`/${file}`} nonce={cspNonce}/>
+            ))}
         </head>
         <body>
         <div id="root">
             <Provider store={store}>
                 <StaticRouter location={url}>
-                    <ServerApp/>
+                    <App/>
                 </StaticRouter>
             </Provider>
         </div>
         <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}}
                 nonce={cspNonce}/>
-        {manifestFiles['vendors-react.js'] && (<script src={manifestFiles['vendors-react.js']} nonce={cspNonce}/>)}
-        {manifestFiles['vendors-mui.js'] && (<script src={manifestFiles['vendors-mui.js']} nonce={cspNonce}/>)}
-        {manifestFiles['vendors.js'] && (<script src={manifestFiles['vendors.js']} nonce={cspNonce}/>)}
-        {manifestFiles['chums.js'] && (<script src={manifestFiles['chums.js']} nonce={cspNonce}/>)}
-        {manifestFiles['main.js'] && (<script src={manifestFiles['main.js']} nonce={cspNonce}/>)}
+        {!!manifestFiles.index && (
+            <script type="module" src={`/${manifestFiles.index}`} nonce={cspNonce}/>
+        )}
+        {manifestFiles.imports.map(file => (
+            <script type="module" key={file} src={`/${file}`} nonce={cspNonce}/>
+        ))}
         </body>
         </html>
+    )
+}
+
+interface AnalyticsScriptsProps {
+    nonce: string;
+    consent: CookieConsentState | undefined;
+    versionNo: string;
+}
+function AnalyticsScripts({nonce, consent, versionNo}: AnalyticsScriptsProps) {
+    if (!consent?.record?.preferences?.analytics) {
+        return null;
+    }
+    return (
+        <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}
+                    nonce={nonce}/>
+            <script dangerouslySetInnerHTML={{__html: inlineJSHeadContent(versionNo)}}
+                    nonce={nonce}/>
+        </>
     )
 }

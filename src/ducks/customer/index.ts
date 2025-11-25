@@ -1,4 +1,4 @@
-import {companyCode, customerSlug, emptyCustomer} from "@/utils/customer.js";
+import {companyCode, customerSlug, emptyCustomer} from "@/utils/customer";
 import {createReducer} from "@reduxjs/toolkit";
 import {
     loadCustomer,
@@ -7,10 +7,10 @@ import {
     setCustomerAccount,
     setDefaultShipTo,
     setReturnToPath
-} from "./actions.js";
-import {loadCustomerList} from '../customers/actions.js'
-import {setLoggedIn, setUserAccess} from "../user/actions.js";
-import {dismissContextAlert} from "../alerts/alertsSlice.js";
+} from "./actions";
+import {loadCustomerList} from "../customers/actions"
+import {setLoggedIn, setUserAccess} from "../user/actions";
+import {dismissContextAlert} from "../alerts/alertsSlice";
 import type {BillToCustomer, CustomerContact, Editable} from "chums-types/b2b";
 import type {LoadStatus} from "@/types/generic";
 
@@ -147,7 +147,7 @@ const customerReducer = createReducer(initialCustomerState(), builder => {
         })
         .addCase(loadCustomerList.fulfilled, (state, action) => {
             if (state.account) {
-                const [customer] = action.payload.filter(customer => customerSlug(customer) === customerSlug(state.account));
+                const [customer] = action.payload.filter(_customer => customerSlug(_customer) === customerSlug(state.account));
                 if (!customer) {
                     state.account = null;
                     state.contacts = [];

@@ -1,9 +1,9 @@
 import type {CustomerPermissions} from "@/types/customer";
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {loadCustomer, loadCustomerPermissions, saveBillingAddress, saveShipToAddress} from "@/ducks/customer/actions.js";
-import {customerSlug} from "@/utils/customer.js";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomer, loadCustomerPermissions, saveBillingAddress, saveShipToAddress} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 
 export interface CustomerPermissionsState {
     customerKey: string | null;
@@ -50,7 +50,7 @@ const customerPermissionsSlice = createSlice({
                 state.values = action.payload;
                 state.status = 'fulfilled';
             })
-            .addCase(loadCustomerPermissions.rejected, (state, action) => {
+            .addCase(loadCustomerPermissions.rejected, (state) => {
                 state.status = 'rejected';
             })
             .addCase(dismissContextAlert, (state, action) => {

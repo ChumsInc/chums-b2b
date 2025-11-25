@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import type {B2BCartHeader} from "@/types/cart/cart-header";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import Decimal from "decimal.js";
@@ -22,7 +23,9 @@ function cartValue(header: B2BCartHeader): number {
 }
 
 export function ga4ViewCart(header: B2BCartHeader | null, detail: B2BCartDetail[]) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     if (header && detail.length > 0) {
         sendGtagEvent('view_cart', {
             currency: 'USD',
@@ -33,7 +36,9 @@ export function ga4ViewCart(header: B2BCartHeader | null, detail: B2BCartDetail[
 }
 
 export function ga4AddPaymentInfo(header: B2BCartHeader, detail: B2BCartDetail[]) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('add_payment_info', {
         currency: "USD",
         value: cartValue(header),
@@ -43,7 +48,9 @@ export function ga4AddPaymentInfo(header: B2BCartHeader, detail: B2BCartDetail[]
 }
 
 export function ga4BeginCheckout(header: B2BCartHeader, detail: B2BCartDetail[]) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('begin_checkout', {
         currency: "USD",
         value: cartValue(header),
@@ -52,7 +59,9 @@ export function ga4BeginCheckout(header: B2BCartHeader, detail: B2BCartDetail[])
 }
 
 export function ga4AddShippingInfo(header: B2BCartHeader, detail: B2BCartDetail[]) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('add_shipping_info', {
         currency: "USD",
         value: cartValue(header),
@@ -62,7 +71,9 @@ export function ga4AddShippingInfo(header: B2BCartHeader, detail: B2BCartDetail[
 }
 
 export function ga4Purchase(header:B2BCartHeader, detail: B2BCartDetail[]) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('purchase', {
         currency: "USD",
         value: cartValue(header),
@@ -71,8 +82,10 @@ export function ga4Purchase(header:B2BCartHeader, detail: B2BCartDetail[]) {
     })
 }
 
-export function ga4AddToCart(cartItem:CartProduct, quantity: number) {
-    if (!canStoreAnalytics()) return;
+export function ga4AddToCart(cartItem:Pick<CartProduct, 'itemCode'|'name'|'price'>, quantity: number) {
+    if (!canStoreAnalytics()) {
+        return;
+    }
     const price = cartItem.price ? new Decimal(cartItem.price).toNumber() : 0;
     const value = cartItem.price ? new Decimal(cartItem.price).times(quantity).toNumber() : 0;
     sendGtagEvent('add_to_cart', {

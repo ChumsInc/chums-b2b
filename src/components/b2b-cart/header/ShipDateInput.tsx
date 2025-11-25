@@ -8,7 +8,7 @@ import FormControl, {type FormControlProps} from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Popover from "@mui/material/Popover";
-import {type InputBaseComponentProps} from "@mui/material/InputBase";
+import type {InputBaseComponentProps} from "@mui/material/InputBase";
 import {useAppSelector} from "@/app/hooks";
 import {selectNextShipDate} from "@/ducks/carts/activeCartSlice";
 
@@ -45,31 +45,33 @@ export default function ShipDateInput({
 
 
     const changeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
-        const value = ev.target.value;
-        if (!dayjs(value).isValid() || dayjs(value).isBefore(min)) {
-            return onChange(dayjs(min).toISOString())
+        const arg = ev.target.value;
+        if (!dayjs(arg).isValid() || dayjs(arg).isBefore(min)) {
+            onChange(dayjs(min).toISOString())
+            return;
         }
-        onChange(dayjs(value).toISOString());
+        onChange(dayjs(arg).toISOString());
     }
 
-    const dateValue = (value: string | null): string => {
-        if (!dayjs(value).isValid() || dayjs(value).isBefore(min)) {
+    const dateValue = (arg: string | null): string => {
+        if (!dayjs(arg).isValid() || dayjs(arg).isBefore(min)) {
             return dayjs(min).format('YYYY-MM-DD');
         }
-        const offset = dayjs(value).toDate().getTimezoneOffset();
-        return dayjs(value).add(offset, 'minutes').format('YYYY-MM-DD');
+        const offset = dayjs(arg).toDate().getTimezoneOffset();
+        return dayjs(arg).add(offset, 'minutes').format('YYYY-MM-DD');
     }
 
     const buttonClickHandler = (ev: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(ev.currentTarget);
     }
 
-    const calendarChangeHandler = (value: dayjs.ConfigType | null) => {
+    const calendarChangeHandler = (arg: dayjs.ConfigType | null) => {
         setAnchorEl(null);
-        if (!dayjs(value).isValid() || dayjs(value).isBefore(min)) {
-            return onChange(dayjs(min).toISOString())
+        if (!dayjs(arg).isValid() || dayjs(arg).isBefore(min)) {
+            onChange(dayjs(min).toISOString())
+            return;
         }
-        onChange(dayjs(value).toISOString());
+        onChange(dayjs(arg).toISOString());
     }
 
     return (

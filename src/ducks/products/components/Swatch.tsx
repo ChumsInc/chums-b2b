@@ -1,4 +1,3 @@
-import React from 'react';
 import {parseColor} from '@/utils/products';
 import type {ProductColor} from "chums-types/b2b";
 import {styled} from "@mui/material/styles";

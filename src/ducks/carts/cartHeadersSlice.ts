@@ -9,10 +9,10 @@ import {
     processCart,
     saveCart,
     saveCartItem
-} from "@/ducks/carts/actions.js";
-import {loadCustomer} from "@/ducks/customer/actions.js";
-import {customerSlug} from "@/utils/customer.js";
-import {cartsSorter} from "@/ducks/carts/utils.js";
+} from "@/ducks/carts/actions";
+import {loadCustomer} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
+import {cartsSorter} from "@/ducks/carts/utils";
 
 export const cartsAdapter = createEntityAdapter<B2BCartHeader, number>({
     selectId: (arg) => arg.id,

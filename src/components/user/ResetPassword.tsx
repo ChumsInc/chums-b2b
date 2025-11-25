@@ -1,6 +1,4 @@
-'use client';
-
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectSignUpProfile, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice";

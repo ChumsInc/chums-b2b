@@ -1,4 +1,4 @@
-'use client';
+
 
 import {forwardRef} from "react";
 import Box from "@mui/material/Box";

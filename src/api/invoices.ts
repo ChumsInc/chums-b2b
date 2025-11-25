@@ -1,6 +1,7 @@
 import type {FetchInvoiceArg, LoadInvoicesProps} from "@/ducks/invoices/types";
 import type {ExtendedInvoice, InvoiceHistoryHeader} from "chums-types/b2b";
-import {fetchJSON} from "./fetch.js";
+import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 export interface FetchInvoiceResponse {
     invoice: ExtendedInvoice | null;
@@ -19,10 +20,10 @@ export async function fetchInvoice(arg: FetchInvoiceArg): Promise<ExtendedInvoic
         return response.invoice;
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("deprecated_loadInvoice()", err.message);
+            debug("deprecated_loadInvoice()", err.message);
             return Promise.reject(err);
         }
-        console.debug("deprecated_loadInvoice()", err);
+        debug("deprecated_loadInvoice()", err);
         return Promise.reject(new Error('Error in deprecated_loadInvoice()'));
     }
 }
@@ -43,10 +44,10 @@ export async function fetchInvoices(arg: LoadInvoicesProps): Promise<InvoiceHist
         return response?.list ?? [];
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchInvoices()", err.message);
+            debug("fetchInvoices()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchInvoices()", err);
+        debug("fetchInvoices()", err);
         return Promise.reject(new Error('Error in fetchInvoices()'));
     }
 }

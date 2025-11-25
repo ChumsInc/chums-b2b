@@ -1,4 +1,4 @@
-"use client";
+
 
 import {useEffect, useRef, useState} from 'react';
 import {updateLocalAuth} from "@/ducks/user/actions";
@@ -14,8 +14,8 @@ function useExpiresIn(expiry: number) {
     const timer = useRef(0);
     useEffect(() => {
         timer.current = window.setInterval(() => {
-            const expiresIn = (expiry * 1000) - new Date().valueOf();
-            setExpiresIn(expiresIn);
+            const _expiresIn = (expiry * 1000) - new Date().valueOf();
+            setExpiresIn(_expiresIn);
         }, oneMinute);
         return () => {
             window.clearInterval(timer.current);
@@ -24,7 +24,7 @@ function useExpiresIn(expiry: number) {
     return expiresIn
 }
 
-const AppUpdateLocalLogin = () => {
+export default function AppUpdateLocalLogin() {
     const dispatch = useAppDispatch();
     const isSSR = useIsSSR();
     const isLoggedIn = useAppSelector(selectLoggedIn);
@@ -36,7 +36,6 @@ const AppUpdateLocalLogin = () => {
             return;
         }
         if (isLoggedIn && expiresIn < fiveMinutes && expiresIn > 0) {
-            console.log('dispatching updateLocalAuth()');
             dispatch(updateLocalAuth())
         }
     }, [dispatch, isSSR, isLoggedIn, expiresIn]);
@@ -49,5 +48,3 @@ const AppUpdateLocalLogin = () => {
         <div className="login-container" style={{display: 'none'}} data-expires-in={expiresIn}/>
     )
 }
-
-export default AppUpdateLocalLogin;

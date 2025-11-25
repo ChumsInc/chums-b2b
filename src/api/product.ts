@@ -1,5 +1,6 @@
 import type {Product} from "chums-types/b2b";
-import {fetchJSON} from "./fetch.js";
+import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 
 export async function fetchProduct(arg:string):Promise<Product|null> {
@@ -11,10 +12,10 @@ export async function fetchProduct(arg:string):Promise<Product|null> {
         return product ?? null;
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("fetchProduct()", err.message);
+            debug("fetchProduct()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchProduct()", err);
+        debug("fetchProduct()", err);
         return Promise.reject(new Error('Error in fetchProduct()'));
     }
 }

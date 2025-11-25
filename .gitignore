@@ -10,3 +10,4 @@
 /.env
 /dist-client/
 /dist-server/
+/stats.html

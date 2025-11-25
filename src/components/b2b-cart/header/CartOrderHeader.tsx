@@ -1,20 +1,3 @@
-'use client';
-
-import {type ChangeEvent, useCallback, useEffect, useRef, useState} from 'react';
-import dayjs from "dayjs";
-import Stack from "@mui/material/Stack";
-import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import type {Editable, ShipToAddress} from "chums-types/b2b";
-import CustomerShippingAccountControl from "./CustomerShippingAccountControl";
-import type {CartProgress} from "@/types/cart/cart-utils";
-import {
-    cartProgress_Cart,
-    cartProgress_Confirm,
-    cartProgress_Delivery,
-    cartProgress_Payment,
-    nextCartProgress
-} from "@/utils/cart";
 import ShipDateInput from "./ShipDateInput";
 import ShippingMethodSelect from "@/components/b2b-cart/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
@@ -46,6 +29,14 @@ import Checkbox from "@mui/material/Checkbox";
 import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@/utils/ga4/cart";
 import {selectActiveCartId, selectCartShippingAccount, selectNextShipDate} from "@/ducks/carts/activeCartSlice";
 import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDetailSlice";
+import Stack from "@mui/material/Stack";
+import {cartProgress, nextCartProgress} from "@/utils/cart.ts";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
+import {type ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
+import type {CartProgress, Editable, ShipToAddress} from "chums-types/b2b";
+import dayjs from "dayjs";
+import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils.ts";
+import CustomerShippingAccountControl from "@/components/b2b-cart/header/CustomerShippingAccountControl.tsx";
 
 
 export default function CartOrderHeader() {
@@ -65,14 +56,13 @@ export default function CartOrderHeader() {
     const nextShipDate = useAppSelector(selectNextShipDate)
 
     const [cartHeader, setCartHeader] = useState<(B2BCartHeader & Editable) | null>(header);
-    const [cartProgress, setCartProgress] = useState<CartProgress>(cartProgress_Cart);
+    const [progress, setProgress] = useState<CartProgress>(cartProgress.cart);
 
     const promoteCart = useCallback(async () => {
         if (!cartHeader) {
             return;
         }
         const response = await dispatch(processCart(cartHeader));
-        console.log('promoteCart', response);
         if (response.payload && typeof response.payload === 'string') {
             navigate(generatePath('/account/:customerSlug/orders/:salesOrderNo', {
                 customerSlug: customerKey,
@@ -87,7 +77,7 @@ export default function CartOrderHeader() {
 
     useEffect(() => {
         if (loadingStatus !== 'idle') {
-            setCartProgress(cartProgress_Cart);
+            setProgress(cartProgress.cart);
         }
     }, [loadingStatus]);
 
@@ -95,32 +85,32 @@ export default function CartOrderHeader() {
         dispatch(loadNextShipDate());
     }, []);
 
-    const validateForm = (cartProgress: CartProgress): CartProgress => {
+    const validateForm = (_progress: CartProgress): CartProgress => {
         if (!cartHeader) {
-            return cartProgress_Cart;
+            return cartProgress.cart;
         }
-        if (cartProgress >= cartProgress_Cart) {
+        if (_progress >= cartProgress.cart) {
             const shipExpireDate = dayjs(cartHeader.shipExpireDate);
             if (!cartHeader.shipExpireDate || !shipExpireDate.isValid() || shipExpireDate.isBefore(nextShipDate)) {
                 shipDateRef.current?.focus();
-                return cartProgress_Delivery;
+                return cartProgress.delivery;
             }
             if (!cartHeader.shipVia) {
                 shipMethodRef.current?.focus();
-                return cartProgress_Delivery;
+                return cartProgress.delivery;
             }
         }
-        if (cartProgress >= cartProgress_Delivery) {
+        if (_progress >= cartProgress.delivery) {
             if (!cartHeader.PaymentType) {
                 paymentMethodRef.current?.focus();
-                return cartProgress_Payment;
+                return cartProgress.payment;
             }
             if (!cartHeader.customerPONo) {
                 customerPORef.current?.focus();
-                return cartProgress_Payment;
+                return cartProgress.payment;
             }
         }
-        return nextCartProgress(cartProgress);
+        return nextCartProgress(_progress);
     }
 
     useEffect(() => {
@@ -147,6 +137,7 @@ export default function CartOrderHeader() {
             case 'CancelReasonCode':
                 setCartHeader({...cartHeader, [field]: ev.target.checked ? 'HOLD' : '', changed: true});
                 return;
+            // no default
 
         }
     }
@@ -170,6 +161,7 @@ export default function CartOrderHeader() {
                                 changed: true
                             });
                             return;
+                        // no default
                     }
                 }
                 setCartHeader({...cartHeader, [field]: value ?? '', changed: true});
@@ -177,6 +169,7 @@ export default function CartOrderHeader() {
             case 'shipVia':
             case 'PaymentType':
                 setCartHeader({...cartHeader, [field]: value ?? '', changed: true});
+            // no default
         }
     }
 
@@ -186,11 +179,11 @@ export default function CartOrderHeader() {
         }
         if (!address) {
             setCartHeader({...cartHeader, shipToCode: value, changed: true});
-            setCartProgress(cartProgress_Cart);
+            setProgress(cartProgress.cart);
             return;
         }
         setCartHeader({...cartHeader, shipToCode: value, ...address, changed: true});
-        setCartProgress(cartProgress_Cart);
+        setProgress(cartProgress.cart);
     }
 
     const setCurrentCartHandler = () => {
@@ -201,7 +194,7 @@ export default function CartOrderHeader() {
     }
 
     const reloadHandler = () => {
-        setCartProgress(cartProgress_Cart);
+        setProgress(cartProgress.cart);
         if (!customerKey || !header) {
             return;
         }
@@ -220,22 +213,22 @@ export default function CartOrderHeader() {
         if (!cartHeader) {
             return;
         }
-        if (cartProgress < cartProgress_Confirm) {
-            const next = validateForm(cartProgress);
-            console.log('submitHandler', next);
+        if (progress < cartProgress.confirm) {
+            const next = validateForm(progress);
             switch (next) {
-                case cartProgress_Delivery:
+                case cartProgress.delivery:
                     ga4BeginCheckout(header, detail);
 
                     break;
-                case cartProgress_Payment:
+                case cartProgress.payment:
                     ga4AddShippingInfo(header, detail);
                     break;
-                case cartProgress_Confirm:
+                case cartProgress.confirm:
                     ga4AddPaymentInfo(header, detail);
                     break;
+                // no default
             }
-            setCartProgress(next);
+            setProgress(next);
             return;
         }
         ga4Purchase(header, detail)
@@ -289,7 +282,7 @@ export default function CartOrderHeader() {
             </Grid>
             <Grid container spacing={2} sx={{mb: 1}}>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <Collapse in={cartProgress >= cartProgress_Delivery} collapsedSize={0}>
+                    <Collapse in={progress >= cartProgress.delivery} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
                             <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
                                 <ShipDateInput value={cartHeader?.shipExpireDate ?? nextShipDate}
@@ -316,7 +309,7 @@ export default function CartOrderHeader() {
                     </Collapse>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <Collapse in={cartProgress >= cartProgress_Payment} collapsedSize={0}>
+                    <Collapse in={progress >= cartProgress.payment} collapsedSize={0}>
                         <Stack spacing={2} direction="column">
                             <CartPaymentSelect value={cartHeader?.PaymentType ?? ''} error={!cartHeader?.PaymentType}
                                                ref={paymentMethodRef} required
@@ -334,11 +327,11 @@ export default function CartOrderHeader() {
                     </Collapse>
                 </Grid>
             </Grid>
-            <CartCheckoutProgress current={cartProgress} disabled={loadingStatus !== 'idle'}
-                                  onChange={setCartProgress}/>
+            <CartCheckoutProgress current={progress} disabled={loadingStatus !== 'idle'}
+                                  onChange={setProgress}/>
             <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between">
                 <Stack sx={{flex: '1 1 auto'}}>
-                    {(detailChanged || cartHeader?.changed) && cartProgress === cartProgress_Cart && (
+                    {(detailChanged || cartHeader?.changed) && progress === cartProgress.cart && (
                         <Alert severity="warning">Don&apos;t forget to save your changes!</Alert>
                     )}
                 </Stack>
@@ -353,17 +346,17 @@ export default function CartOrderHeader() {
                     </Button>
 
                     <Button type="button"
-                            variant={(detailChanged || cartHeader?.changed) && cartProgress === cartProgress_Cart ? 'contained' : "text"}
+                            variant={(detailChanged || cartHeader?.changed) && progress === cartProgress.cart ? 'contained' : "text"}
                             color={(detailChanged || cartHeader?.changed) ? 'warning' : 'primary'}
                             onClick={saveCartHandler}
-                            disabled={loadingStatus !== 'idle' || (cartProgress !== cartProgress_Cart && !detailChanged)}>
+                            disabled={loadingStatus !== 'idle' || (progress !== cartProgress.cart && !detailChanged)}>
                         Save Cart
                     </Button>
                     <SendEmailButton cartId={cartHeader.id}
-                                     disabled={cartProgress !== cartProgress_Cart || detailChanged}>
+                                     disabled={progress !== cartProgress.cart || detailChanged}>
                         Send Email
                     </SendEmailButton>
-                    <CheckoutButton cartProgress={cartProgress} onClick={submitHandler}
+                    <CheckoutButton progress={progress} onClick={submitHandler}
                                     disabled={loadingStatus !== 'idle' || detailChanged}/>
                     {cartHeader.id !== currentCartId && (
                         <Button type="button" variant="contained" disabled={loadingStatus !== 'idle'}

@@ -1,4 +1,3 @@
-import React from 'react';
 import type {SearchResult} from "chums-types/b2b";
 import FolderIcon from "@mui/icons-material/Folder";
 import DescriptionIcon from "@mui/icons-material/Description";

@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useEffect} from 'react';
 import CartsFilter from "@/components/b2b-cart/list/CartsFilter";

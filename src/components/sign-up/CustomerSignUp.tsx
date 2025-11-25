@@ -1,6 +1,4 @@
-'use client';
-
-import React, {type ChangeEvent, type FormEvent, useState} from 'react';
+import {type ChangeEvent, type FormEvent, useState} from 'react';
 import Link from "@mui/material/Link";
 import FormGroup from "@mui/material/FormGroup";
 import {PATH_LOGIN} from "@/constants/paths";

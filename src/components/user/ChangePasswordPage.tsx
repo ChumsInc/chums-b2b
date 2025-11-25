@@ -1,5 +1,3 @@
-'use client';
-
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Typography from "@mui/material/Typography";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -7,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import PasswordForm from "./PasswordForm";
 import Container from "@mui/material/Container";
-import React, {useState} from "react";
+import {useState} from "react";
 import {documentTitles} from "@/constants/paths";
 import DocumentTitle from "../DocumentTitle";
 import {selectUserActionStatus, selectUserProfile} from "@/ducks/user/userProfileSlice";

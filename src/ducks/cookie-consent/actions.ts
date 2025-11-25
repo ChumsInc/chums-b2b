@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import type {CookieConsentBody, CookieConsentRecord, CookieConsentInfo} from "chums-types/b2b";
-import {type RootState} from "@/app/configureStore";
-import {getCookieConsent, getCookieConsentInfo, postCookieConsent} from "@/ducks/cookie-consent/api.js";
-import {selectCookieConsentStatus} from "@/ducks/cookie-consent/index.js";
+import type {RootState} from "@/app/configureStore";
+import {getCookieConsent, getCookieConsentInfo, postCookieConsent} from "@/ducks/cookie-consent/api";
+import {selectCookieConsentStatus} from "@/ducks/cookie-consent/index";
 
 export const loadCookieConsentStatus = createAsyncThunk<CookieConsentRecord | null, void, { state: RootState }>(
     'cookie-consent/load',

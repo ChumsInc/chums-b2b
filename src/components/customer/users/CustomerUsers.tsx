@@ -1,4 +1,4 @@
-'use client';
+
 
 import CustomerUserTable from "./CustomerUserTable";
 import {selectCustomerKey} from "@/ducks/customer/selectors";

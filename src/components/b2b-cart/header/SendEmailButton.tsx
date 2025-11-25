@@ -1,6 +1,6 @@
-'use client';
 
-import {type MouseEvent} from "react";
+
+import type {MouseEvent} from "react";
 import Button, {type ButtonProps} from "@mui/material/Button";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import SendEmailModal from "./SendEmailModal";

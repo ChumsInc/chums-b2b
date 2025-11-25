@@ -1,6 +1,4 @@
-'use client';
-
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {SELL_AS_COLORS, SELL_AS_MIX} from "@/constants/product";
 import Swatch from "./Swatch";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
@@ -61,9 +59,9 @@ const SwatchSet = () => {
         ga4SelectColorItem(selectedProduct, cartItem);
     }, [selectedProduct, cartItem]);
 
-    const clickHandler = (colorCode: string | null) => {
-        if (colorCode) {
-            dispatch(setColorCode(colorCode));
+    const clickHandler = (arg: string | null) => {
+        if (arg) {
+            dispatch(setColorCode(arg));
         }
     }
 

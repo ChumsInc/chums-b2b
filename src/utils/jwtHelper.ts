@@ -1,7 +1,7 @@
 import {jwtDecode, type JwtPayload} from 'jwt-decode';
 import type {GoogleProfile, StoredProfile} from "../types/user";
 import type {UserCustomerAccess, UserProfile, UserRole} from "chums-types/b2b";
-
+/* eslint-disable camelcase */
 
 interface GoogleSignInPayload extends JwtPayload {
     email: string;
@@ -30,15 +30,6 @@ export const isLocalToken = (token: JwtPayload | LocalSignInPayload | null): tok
         return false;
     }
     return token.iss === 'chums.com';
-}
-
-export const getLocalAuthUserId = (token: string) => {
-    const decoded = jwtDecode(token);
-    if (!isLocalToken(decoded)) {
-        return 0;
-    }
-    return decoded.user.id ?? 0;
-
 }
 
 export const getProfile = (token: string): StoredProfile | null => {

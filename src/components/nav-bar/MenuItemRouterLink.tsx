@@ -1,4 +1,4 @@
-import {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {Link as RouterLink} from 'react-router';
 import MenuItem, {type MenuItemProps} from "@mui/material/MenuItem";
 

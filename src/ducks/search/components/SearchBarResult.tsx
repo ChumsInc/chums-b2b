@@ -1,4 +1,4 @@
-import React, {type HTMLAttributes} from 'react';
+import {type HTMLAttributes} from 'react';
 import type {SearchResult} from "chums-types/b2b";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";

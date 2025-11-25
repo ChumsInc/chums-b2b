@@ -1,48 +1,37 @@
-'use client';
-
-import React, {useEffect, useRef} from 'react';
+import {type SyntheticEvent, useCallback, useEffect, useRef} from 'react';
 import {minCheckInterval, selectShouldAlertVersion, selectVersion} from "./index";
 import {ignoreVersion, loadVersion} from "./actions";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import {useIsSSR} from "@/hooks/is-server-side";
 
 
 export default function AppVersion() {
-    const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
     const version = useAppSelector(selectVersion);
     const shouldAlert = useAppSelector(selectShouldAlertVersion);
     const intervalRef = useRef<number>(0);
+    const onUpdateVersion = useCallback((force: boolean = false) => {
+        dispatch(loadVersion(force))
+    }, [])
+
+    const visibilityChangeHandler = useCallback(() => {
+        onUpdateVersion();
+    }, [])
 
     useEffect(() => {
-        if (isSSR) {
-            return;
-        }
-
         if (!version) {
             onUpdateVersion();
         }
         intervalRef.current = window.setInterval(onUpdateVersion, minCheckInterval);
         return () => {
-            if (isSSR) {
-                return;
-            }
             window.clearInterval(intervalRef.current);
             window.removeEventListener('visibilityChange', visibilityChangeHandler)
         }
-    }, [isSSR, version]);
+    }, [version]);
 
-    const onUpdateVersion = (force = false) => {
-        dispatch(loadVersion(force));
-    }
 
-    const visibilityChangeHandler = () => {
-        onUpdateVersion()
-    }
-
-    const onDismissUpdate = (ev: React.SyntheticEvent) => {
+    const onDismissUpdate = (ev: SyntheticEvent) => {
         ev.preventDefault();
         ev.stopPropagation();
         dispatch(ignoreVersion());
@@ -52,10 +41,6 @@ export default function AppVersion() {
         window.location.reload();
     }
 
-
-    if (isSSR) {
-        return;
-    }
 
     return (
         <div>

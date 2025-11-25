@@ -7,14 +7,20 @@ import CustomerIndicator from "@/components/nav-bar/CustomerIndicator";
 import CartIcon from "@/components/b2b-cart/CartIcon";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
 import {useAppSelector} from "@/app/hooks";
+import {useEffect, useState} from "react";
 
 
 const CartMenu = () => {
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const currentCustomer = useAppSelector(selectCustomerAccount);
     const currentCart = useAppSelector(selectActiveCartId);
+    const [show, setShow] = useState(false);
 
-    if (!isLoggedIn) {
+    useEffect(() => {
+        setShow(isLoggedIn);
+    }, [isLoggedIn]);
+
+    if (!show) {
         return null;
     }
 

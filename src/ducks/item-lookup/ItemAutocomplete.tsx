@@ -5,20 +5,21 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import {styled} from "@mui/material/styles";
-import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {
     type ItemSearchResult,
     loadItemLookup,
     selectSearchFulfilled,
     selectSearchLoading,
     selectSearchResults
-} from "./index.js";
-import {useDebounceValue} from '@/hooks/use-debounce.js'
-import {CONTENT_PATH_SEARCH_IMAGE} from "@/constants/paths.js";
-import {addToCart} from "@/ducks/carts/actions.js";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.js";
-import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice.js";
-import AddToCartButton from "@/components/b2b-cart/add-to-cart/AddToCartButton.js";
+} from "./index";
+import {useDebounceValue} from "@/hooks/use-debounce";
+import {CONTENT_PATH_SEARCH_IMAGE} from "@/constants/paths";
+import {addToCart} from "@/ducks/carts/actions";
+import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
+import AddToCartButton from "@/components/b2b-cart/add-to-cart/AddToCartButton";
+import {ga4AddToCart} from "@/utils/ga4/cart.ts";
 
 
 const NumericTextField = styled(TextField)`
@@ -49,11 +50,11 @@ export default function ItemAutocomplete({cartId}: {
         if (!value || !customerKey || !quantity) {
             return;
         }
-        if (globalThis.window?.gtag) {
-            globalThis.window.gtag('event', 'add_to_cart', {
-                items: [{item_id: value.ItemCode, item_name: value.ItemCodeDesc ?? value.ItemCode, quantity: quantity}]
-            })
-        }
+        ga4AddToCart({
+            itemCode: value.ItemCode,
+            name: value.ItemCodeDesc ?? value.ItemCode,
+            price: `${value.StandardUnitPrice ?? ''}`,
+        }, quantity);
         await dispatch(addToCart({
             cartId,
             customerKey,
@@ -82,8 +83,8 @@ export default function ItemAutocomplete({cartId}: {
         setValue(newValue);
     }
 
-    const inputChangeHandler = (_: SyntheticEvent, value: string) => {
-        setInputValue(value);
+    const inputChangeHandler = (_: SyntheticEvent, arg: string) => {
+        setInputValue(arg);
     }
 
     const quantityChangeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +116,7 @@ export default function ItemAutocomplete({cartId}: {
                 )}
                 inputValue={inputValue}
                 onInputChange={inputChangeHandler}
-                isOptionEqualToValue={(option, value) => option.ItemCode === value.ItemCode}
+                isOptionEqualToValue={(option, arg) => option.ItemCode === arg.ItemCode}
                 options={options}
                 noOptionsText={fulfilled ? 'Item Not Found' : null}
                 blurOnSelect

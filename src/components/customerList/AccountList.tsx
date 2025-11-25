@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useEffect} from 'react';
 import {loadCustomerList} from '@/ducks/customers/actions';

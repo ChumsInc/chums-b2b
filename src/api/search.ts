@@ -1,7 +1,6 @@
 import type {SearchResult} from "chums-types/b2b";
-import {fetchJSON} from "./fetch.js";
-
-export const API_PATH_SEARCH = '/api/search/v3/:term';
+import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 export async function fetchSearchResults(arg: string): Promise<SearchResult[]> {
     try {
@@ -12,10 +11,10 @@ export async function fetchSearchResults(arg: string): Promise<SearchResult[]> {
         return response ?? [];
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("fetchSearchResults()", err.message);
+            debug("fetchSearchResults()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchSearchResults()", err);
+        debug("fetchSearchResults()", err);
         return Promise.reject(new Error('Error in fetchSearchResults()'));
     }
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import classNames from "classnames";
 import type {Editable, SalesOrderDetailLine} from "chums-types/b2b";
 import type {Appendable} from "@/types/generic";

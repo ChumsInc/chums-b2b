@@ -21,15 +21,16 @@ export default function HTMLContent({html, ...rest}: HTMLContentProps) {
 
     useEffect(() => {
         if (!allowsMarketing) {
-            let _html = html;
-            replacements.forEach(({find, replace}) => _html = _html.replace(find, replace))
-            setHtmlContent(_html);
+            const sanitized = replacements.reduce((_html, {find, replace}) => _html.replace(find, replace), html);
+            setHtmlContent(sanitized);
             return;
         }
         setHtmlContent(html);
     }, [html, allowsMarketing]);
+
     if (!html) {
         return null
     }
+
     return <Box {...rest} dangerouslySetInnerHTML={{ __html: htmlContent }}  />
 }

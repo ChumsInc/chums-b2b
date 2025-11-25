@@ -1,7 +1,7 @@
 import type {Banner} from "chums-types/b2b";
 import BannerLinkWrapper from "./BannerLinkWrapper";
 import Box from "@mui/material/Box";
-import {type SxProps} from "@mui/system";
+import type {SxProps} from "@mui/system";
 import Typography from "@mui/material/Typography";
 import styled from "@emotion/styled";
 

@@ -1,7 +1,7 @@
 import {createReducer} from "@reduxjs/toolkit";
 import type {Keyword} from "chums-types/b2b";
-import {keywordsSorter} from "./utils.js";
-import {loadKeywords} from "./actions.js";
+import {keywordsSorter} from "./utils";
+import {loadKeywords} from "./actions";
 
 export interface KeywordsState {
     list: Keyword[],

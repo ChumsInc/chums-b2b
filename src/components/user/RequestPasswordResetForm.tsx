@@ -1,5 +1,3 @@
-'use client';
-
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -8,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Alert, {type AlertColor} from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
-import React, {type FormEvent, useState} from "react";
+import {type FormEvent, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectResettingPassword} from "@/ducks/user/userProfileSlice";
 import {resetPassword} from "@/ducks/user/actions";

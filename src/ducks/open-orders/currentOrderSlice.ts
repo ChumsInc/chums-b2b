@@ -103,9 +103,9 @@ const currentOrderSlice = createSlice({
                 }
             })
             .addCase(loadOpenOrders.fulfilled, (state, action) => {
-                const so = action.payload.find(so => so.SalesOrderNo === state.salesOrderNo);
-                state.header = so ?? null;
-                if (!so) {
+                const salesOrder = action.payload.find(so => so.SalesOrderNo === state.salesOrderNo);
+                state.header = salesOrder ?? null;
+                if (!salesOrder) {
                     adapter.removeAll(state);
                     state.invoices = [];
                     state.salesOrderNo = null;

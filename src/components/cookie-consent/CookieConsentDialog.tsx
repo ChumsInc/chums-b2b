@@ -1,10 +1,10 @@
-'use client';
+
 
 import {type FormEvent, type ReactElement, type RefObject, useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCookieConsentRecord, selectCookieConsentStatus} from "@/ducks/cookie-consent";
 import Dialog, {type DialogProps} from "@mui/material/Dialog";
-import {type TransitionProps} from "@mui/material/transitions";
+import type {TransitionProps} from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";

@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useCallback, useState} from 'react';
 import Button, {type ButtonProps} from "@mui/material/Button";

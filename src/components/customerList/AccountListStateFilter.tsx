@@ -1,9 +1,11 @@
-'use client';
+
 
 import {useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomersStateFilter, selectCustomerStates, setCustomersStateFilter} from "@/ducks/customers/customerListSlice";
 import StateSelect from "../StateSelect";
+
+const minStates = 1;
 
 const AccountListStateFilter = () => {
     const dispatch = useAppDispatch();
@@ -25,7 +27,7 @@ const AccountListStateFilter = () => {
         dispatch(setCustomersStateFilter(state));
     }
 
-    if (states.length < 2) {
+    if (states.length <= minStates) {
         return null;
     }
     return (

@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useEffect} from 'react';
 import {loadInvoice} from '@/ducks/invoices/actions';
@@ -29,6 +29,7 @@ const invoiceTypeDescription = (invoiceType: InvoiceType): string => {
             return 'Cash Invoice';
         case 'XD':
             return 'Deleted Invoice';
+            // no default
     }
     return 'Invoice';
 }

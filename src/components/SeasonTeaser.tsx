@@ -2,12 +2,12 @@ import ProductAttributeChip from "../ducks/products/components/ProductAttributeC
 import Stack, {type StackProps} from "@mui/material/Stack";
 
 export interface SeasonTeaserProps extends StackProps {
-    season_teaser?: string | null;
-    season_active?: boolean | null;
+    teaser?: string | null;
+    active?: boolean | null;
 }
 
-const SeasonTeaser = ({season_teaser, season_active, ...rest}: SeasonTeaserProps) => {
-    const show: boolean = !!season_active && !!season_teaser;
+export default function SeasonTeaser({teaser, active, ...rest}: SeasonTeaserProps) {
+    const show: boolean = !!active && !!teaser;
     if (!show) {
         return null;
     }
@@ -15,9 +15,7 @@ const SeasonTeaser = ({season_teaser, season_active, ...rest}: SeasonTeaserProps
     return (
         <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" {...rest}>
             <ProductAttributeChip feature="new"/>
-            <span>{season_teaser}</span>
+            <span>{teaser}</span>
         </Stack>
     );
 };
-
-export default SeasonTeaser;

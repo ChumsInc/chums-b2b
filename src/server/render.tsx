@@ -4,15 +4,17 @@ import type {PreloadedState} from "chums-types/b2b";
 import type {HasNonce} from "@/types/server";
 import Debug from 'debug';
 import fs from "node:fs/promises";
-import React from "react";
 import {renderToString} from "react-dom/server";
 import {consentCookieName, type HasUUID} from 'cookie-consent'
-import {API_PORT} from "./config.js";
-import createServerSideStore from "@/app/server-side-store.js";
-import {loadJSON, loadKeywords} from "./utils.js";
-import {loadManifest} from "./manifest.js";
-import B2BHtml from "./B2BHTML.js";
+import {API_PORT} from "./config";
+import createServerSideStore from "@/app/server-side-store";
+import {loadJSON, loadKeywords} from "./utils";
+import {loadManifest} from "./manifest";
+import B2BHtml from "./B2BHTML";
+import util from "node:util";
+import {Buffer} from 'node:buffer';
 
+// eslint-disable-next-line new-cap
 const debug = Debug('chums:server:render');
 
 // Ensure these paths stay matched with /src/app/App routes
@@ -39,10 +41,10 @@ async function loadVersionNo(): Promise<string | null> {
         return json?.version ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("loadVersionNo()", err.message);
+            debug("loadVersionNo()", err.message);
             return Promise.reject(err);
         }
-        console.debug("loadVersionNo()", err);
+        debug("loadVersionNo()", err);
         return Promise.reject(new Error('Error in loadVersionNo()'));
     }
 }
@@ -64,7 +66,9 @@ async function getPreloadedState(req: Request, res: Response<unknown, HasNonce &
             params.set('uuid', cookieConsentUUID);
         }
         const nonce: string = res.locals.cspNonce!;
-        const preload = await loadJSON<PreloadedState>(`http://localhost:${API_PORT}/preload/v2/state.json?${params.toString()}`);
+        const url = `http://localhost:${API_PORT}/preload/v2/state.json?${params.toString()}`;
+        debug("getPreloadedState()", url);
+        const preload = await loadJSON<PreloadedState>(url);
         preload.version = {
             versionNo: await loadVersionNo(),
             lastChecked: new Date().valueOf(),
@@ -96,6 +100,7 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
         const keywords = await loadKeywords();
         if (req.params.keyword) {
             const keyword = keywords.find(kw => kw.keyword === req.params.keyword);
+            // debug('renderApp() keyword', keyword);
             if (!keyword?.status) {
                 let redirect = '/';
                 if (req.params.category) {
@@ -125,7 +130,6 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
         try {
             const stat = await fs.stat("./public/b2b-swatches/swatches.css");
             swatchMTime = stat.mtimeMs ?? 0;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             //Do nothing here
         }
@@ -142,8 +146,9 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
     } catch (err: unknown) {
         if (err instanceof Error) {
             debug("renderApp()", err.message);
-            console.trace(err.message);
-            return res.json({error: err.message, name: err.name});
+            debug('error while rendering', util.format('%s: %s', err.name, err.message));
+            res.json({error: err.message, name: err.name});
+            return;
         }
         res.json({error: 'unknown error in renderApp'});
     }

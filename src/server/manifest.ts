@@ -1,27 +1,39 @@
 import fs from "node:fs/promises";
-import Debug from 'debug';
-import {loadVersion} from "./version.js";
-import {type Request, type Response} from "express";
+import _debug from 'debug';
+import {loadVersion} from "./version";
+import type {Request, Response} from "express";
 import path from "node:path";
-const debug = Debug('chums:server:manifest');
+const debug = _debug('chums:server:manifest');
+import process from "node:process";
+import {Buffer} from 'node:buffer'
 
 export interface ManifestFiles {
-    'vendors-react.js'?: string;
-    'vendors-mui.js'?: string;
-    'vendors.js'?: string;
-    'chums.js'?: string;
-    'main.js'?: string;
+    index?: string;
+    imports: string[];
     version?: string;
 }
 export async function loadManifest():Promise<ManifestFiles> {
     try {
         const {versionNo} = await loadVersion();
-        const manifestFile = await fs.readFile(path.join(process.cwd(), './public/build/manifest.json'));
+        const manifestFile = await fs.readFile(path.join(process.cwd(), './dist-client/.vite/manifest.json'));
         const manifestJSON = Buffer.from(manifestFile).toString();
 
-        let manifestFiles:ManifestFiles = {};
+        const manifestFiles:ManifestFiles = {
+            imports: []
+        };
         try {
-            manifestFiles = JSON.parse(manifestJSON || '{}');
+            const json = JSON.parse(manifestJSON || '{}');
+            // debug('loadManifest() manifestJSON', json);
+            const file = json['src/client/index.tsx']?.file;
+            if (file) {
+                manifestFiles.index = file;
+            }
+            for (const key of json['src/client/index.tsx']?.imports ?? []) {
+                const importFile = json[key].file as string;
+                if (importFile) {
+                    manifestFiles.imports.push(importFile)
+                }
+            }
         } catch (err:unknown) {
             if (err instanceof Error) {
                 debug('loadManifest() error parsing manifest', err.message);
@@ -37,14 +49,15 @@ export async function loadManifest():Promise<ManifestFiles> {
     }
 }
 
-export const getManifest = async (req:Request, res: Response) => {
+export const getManifest = async (_:Request, res: Response) => {
     try {
         const manifest = await loadManifest();
         res.json(manifest);
     } catch(err:unknown) {
         if (err instanceof Error) {
             debug("getManifest()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return
         }
         res.json({error: 'unknown error in getManifest'});
     }

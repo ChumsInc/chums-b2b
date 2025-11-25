@@ -1,6 +1,4 @@
-'use client';
-
-import React, {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import DocumentTitle from "../../components/DocumentTitle";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectPageContent, selectPageHTML, selectPageLoaded, selectPageLoadingStatus} from "./selectors";
@@ -16,12 +14,17 @@ import HTMLContent from "@/components/common/HTMLContent";
 
 export default function ContentPage() {
     const dispatch = useAppDispatch();
-    const isLoggedIn = useAppSelector(selectLoggedIn);
+    const _isLoggedIn = useAppSelector(selectLoggedIn);
     const content = useAppSelector(selectPageContent);
     const loading = useAppSelector(selectPageLoadingStatus);
     const loaded = useAppSelector(selectPageLoaded);
     const html = useAppSelector(selectPageHTML);
     const params = useParams<{ keyword: string }>();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setIsLoggedIn(_isLoggedIn);
+    }, [_isLoggedIn]);
 
     useEffect(() => {
         dispatch(loadPage(params.keyword))

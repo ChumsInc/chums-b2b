@@ -7,13 +7,15 @@ import {useAppSelector} from "@/app/hooks";
 import {selectCurrentAccess, selectUserAccessCount} from "@/ducks/user/userAccessSlice";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 
+const minBreadcrumbAccounts = 2;
+
 const AccountBreadcrumbs = () => {
     const countUserAccounts = useAppSelector(selectUserAccessCount);
     const userAccount = useAppSelector(selectCurrentAccess);
     const customerKey = useAppSelector(selectCustomerKey);
     const location = useLocation();
 
-    if (countUserAccounts < 2) {
+    if (countUserAccounts < minBreadcrumbAccounts) {
         return null;
     }
 

@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useEffect} from 'react';
 import {loadCustomer, setReturnToPath} from '@/ducks/customer/actions';
@@ -38,8 +38,12 @@ const AccountPage = () => {
 
     useEffect(() => {
         const nextCustomer = parseCustomerSlug(params.customerSlug ?? '');
+
+        if (isSameCustomer(customer, nextCustomer)) {
+            return;
+        }
+
         if (!nextCustomer || !customerSlug(nextCustomer)) {
-            console.log('nextCustomer', nextCustomer, customerSlug(nextCustomer));
             if (!userAccount?.id) {
                 navigate(`/profile`);
                 return;
@@ -48,9 +52,6 @@ const AccountPage = () => {
             return;
         }
 
-        if (isSameCustomer(customer, nextCustomer)) {
-            return;
-        }
         if (loadStatus === 'idle') {
             dispatch(loadCustomer(nextCustomer));
         }

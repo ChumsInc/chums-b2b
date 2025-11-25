@@ -1,9 +1,8 @@
-import React, {type ReactElement, type RefObject, useEffect, useId, useRef, useState} from 'react';
-import {useIsSSR} from "@/hooks/is-server-side";
+import {type ReactElement, type RefObject, useCallback, useEffect, useId, useRef, useState} from 'react';
 import {NavLink, useLocation} from "react-router";
 import {useAppSelector} from "@/app/hooks";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
-import {type TransitionProps} from "@mui/material/transitions";
+import type {TransitionProps} from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import Dialog from "@mui/material/Dialog";
 import LocalStore from "@/utils/LocalStore";
@@ -41,54 +40,49 @@ const StyledImage = styled.img`
 
 const SignUpModal = () => {
     const id = useId();
-    const isSSR = useIsSSR();
     const location = useLocation();
     const timer = useRef<number>(0);
     const delay = useRef<number>(10 * 1000);
     const isLoggedIn = useAppSelector(selectLoggedIn);
+    const [loggedIn, setLoggedIn] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [enabled, setEnabled] = React.useState<boolean>(LocalStore.getItem<boolean>(STORE_SHOW_SIGNUP_POPUP, !isLoggedIn));
+    const [enabled, setEnabled] = useState<boolean>(LocalStore.getItem<boolean>(STORE_SHOW_SIGNUP_POPUP, false));
 
-    useEffect(() => {
-        if (isSSR) {
-            return;
-        }
+    const handleClose = useCallback(() => {
+        setShowModal(false);
+        setEnabled(false);
+        LocalStore.setItem<boolean>(STORE_SHOW_SIGNUP_POPUP, false);
+    }, []);
 
-        if (isLoggedIn || excludedPaths.test(location.pathname)) {
-            // if the user is logged in, don't bother ever showing the dialog
-            // if the user is on the login, signup, reset-password, etc., don't bother ever showing the dialog
-            window.clearTimeout(timer.current);
-            handleClose();
-            return;
-        }
-
-        if (!enabled) {
-            window.clearTimeout(timer.current)
-            return;
-        }
-
-        delayShowPopup();
-        return () => {
-            if (!isSSR) {
-                window.clearTimeout(timer.current);
-            }
-        }
-    }, [isLoggedIn, isSSR, enabled, delay.current, location.pathname]);
-
-    const delayShowPopup = () => {
+    const delayShowPopup = useCallback(() => {
         window.clearTimeout(timer.current)
         timer.current = window.setTimeout(() => {
             setShowModal(true);
         }, delay.current);
-    }
+    }, [timer.current])
 
-    const handleClose = () => {
-        setShowModal(false);
-        setEnabled(false);
-        LocalStore.setItem<boolean>(STORE_SHOW_SIGNUP_POPUP, false);
-    }
+    useEffect(() => {
+        setLoggedIn(isLoggedIn);
+    }, [isLoggedIn]);
 
-    if (isSSR || isLoggedIn || !enabled) {
+    useEffect(() => {
+        if (loggedIn || excludedPaths.test(location.pathname)) {
+            // if the user is logged in, don't bother ever showing the dialog
+            // if the user is on the login, signup, reset-password, etc., don't bother ever showing the dialog
+            window.clearTimeout(timer.current);
+            handleClose();
+        } else if (!enabled) {
+            window.clearTimeout(timer.current)
+        } else {
+            delayShowPopup();
+        }
+        return () => {
+            window.clearTimeout(timer.current);
+        }
+    }, [loggedIn, enabled, delay.current, location.pathname]);
+
+
+    if (loggedIn || !enabled) {
         return null;
     }
 

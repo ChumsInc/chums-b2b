@@ -1,5 +1,3 @@
-'use client';
-
 import {useState} from 'react';
 import Drawer from "@mui/material/Drawer";
 import Grid from "@mui/material/Grid";

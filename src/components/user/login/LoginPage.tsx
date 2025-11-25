@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import LoginLocal from "./LoginLocal";
 import {documentTitles, PATH_PROFILE} from "@/constants/paths";
 import Alert from '@mui/material/Alert';

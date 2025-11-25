@@ -1,7 +1,7 @@
 import {type ChangeEvent, useId} from 'react';
-import {COUNTRIES} from '@/constants/countries';
 import MenuItem from "@mui/material/MenuItem";
 import TextField, {type TextFieldProps} from "@mui/material/TextField";
+import {getCountryDataList} from 'countries-list';
 
 
 export interface CountrySelectProps extends Omit<TextFieldProps, 'value' | 'onChange'> {
@@ -10,6 +10,7 @@ export interface CountrySelectProps extends Omit<TextFieldProps, 'value' | 'onCh
 }
 
 const CountrySelect = ({value, onChange, id, ...rest}: CountrySelectProps) => {
+    const countries = getCountryDataList();
     const _id = id ?? useId();
 
     const changeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +27,8 @@ const CountrySelect = ({value, onChange, id, ...rest}: CountrySelectProps) => {
                    {...rest}
                    onChange={changeHandler} value={value ?? ''} fullWidth>
             <MenuItem>Select One</MenuItem>
-            {COUNTRIES.map(option => (
-                <MenuItem key={option.cca3} value={option.cca3}>{option.name}</MenuItem>
+            {countries.map(option => (
+                <MenuItem key={option.iso3} value={option.iso3}>{option.name}</MenuItem>
             ))}
         </TextField>
     )

@@ -8,7 +8,7 @@ import {
     processCart,
     saveCart,
     saveCartItem
-} from "@/ducks/carts/actions.js";
+} from "@/ducks/carts/actions";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 
 const statusAdapter = createEntityAdapter<CartDetailStatus, number>({

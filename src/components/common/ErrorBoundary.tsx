@@ -1,9 +1,10 @@
-import {type ErrorInfo, type ReactNode} from 'react';
+import type {ErrorInfo, ReactNode} from 'react';
 import {selectUserProfile} from "@/ducks/user/userProfileSlice";
 import {ErrorBoundary as ReactErrorBoundary, type FallbackProps} from 'react-error-boundary';
-import {postErrors} from "@/api/fetch";
+import {postErrors, type PostErrorsArg} from "@/api/fetch";
 import Alert from "@mui/material/Alert";
 import {useAppSelector} from "@/app/hooks";
+import debug from "@/utils/debug.ts";
 
 function ErrorFallback({error}: FallbackProps) {
     // resetErrorBoundary();
@@ -25,12 +26,13 @@ export default function ErrorBoundary({reportErrors, children}: {
         if (reportErrors === false) {
             return;
         }
-        postErrors({
+        const arg:PostErrorsArg = {
             message: error.message,
             userId: userProfile?.id,
             componentStack: info.componentStack ?? ''
-        })
-            .catch(err => console.log(err.message));
+        }
+        postErrors(arg)
+            .catch(err => debug(err.message));
     }
 
     return (

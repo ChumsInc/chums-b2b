@@ -15,12 +15,12 @@ import {
     saveShipToAddress,
     saveUser,
     setCustomerAccount
-} from "@/ducks/customer/actions.js";
-import {customerSlug, customerUserSorter} from "@/utils/customer.js";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {loadCustomerList} from "@/ducks/customers/actions.js";
-import {selectPermittedBillToAddress} from "@/ducks/customer/selectors.js";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice.js";
+} from "@/ducks/customer/actions";
+import {customerSlug, customerUserSorter} from "@/utils/customer";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
+import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
+import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 
 const adapter = createEntityAdapter<CustomerUser, number>({
     selectId: (arg) => arg.id,
@@ -51,7 +51,7 @@ const customerUsersSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(loadCustomerUsers.pending, (state, action) => {
+            .addCase(loadCustomerUsers.pending, (state) => {
                 state.status = 'loading';
             })
             .addCase(loadCustomerUsers.fulfilled, (state, action) => {
@@ -105,7 +105,7 @@ const customerUsersSlice = createSlice({
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(customer => customerSlug(customer) === state.customerKey);
+                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
                     if (!customer) {
                         adapter.removeAll(state);
                     }

@@ -1,4 +1,4 @@
-'use client';
+
 
 import {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
@@ -68,8 +68,8 @@ export default function CartsList() {
         setPage(0);
     }
 
-    const sortChangeHandler = (sort: SortProps<B2BCartHeader>) => {
-        dispatch(setCartsSort(sort));
+    const sortChangeHandler = (arg: SortProps<B2BCartHeader>) => {
+        dispatch(setCartsSort(arg));
     }
 
     return (
@@ -79,7 +79,7 @@ export default function CartsList() {
                                       fields={cartFields} currentSort={sort} onChangeSort={sortChangeHandler}/>
             <TablePagination component="div"
                              count={list.length} page={page} rowsPerPage={rowsPerPage}
-                             onPageChange={(_, page) => setPage(page)}
+                             onPageChange={(_, arg) => setPage(arg)}
                              onRowsPerPageChange={rowsPerPageChangeHandler}
                              showFirstButton={list.length > rowsPerPage} showLastButton={list.length > rowsPerPage}/>
         </div>

@@ -1,18 +1,9 @@
-import {
-    createEntityAdapter,
-    createSelector,
-    createSlice,
-    isAnyOf,
-    type PayloadAction,
-    type UnknownAction
-} from "@reduxjs/toolkit";
+import {createEntityAdapter, createSelector, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import type {UserCustomerAccess} from "chums-types/b2b";
 import LocalStore from "@/utils/LocalStore";
 import {STORE_USER_ACCESS} from "@/constants/stores";
 import {loadProfile, saveUserProfile, setLoggedIn, setUserAccess, signInWithGoogle} from "@/ducks/user/actions";
-import {auth} from "@/api/IntranetAuthService";
 import {getPrimaryAccount, isCustomerAccess} from "@/ducks/user/utils";
-import {saveUser} from "@/ducks/customer/actions";
 
 export interface UserAccessState {
     current: UserCustomerAccess | null;
@@ -27,7 +18,7 @@ const adapter = createEntityAdapter<UserCustomerAccess, number>({
 const selectors = adapter.getSelectors();
 
 const initialState: UserAccessState = {
-    current: LocalStore.getItem<UserCustomerAccess|null>(STORE_USER_ACCESS, null),
+    current: LocalStore.getItem<UserCustomerAccess | null>(STORE_USER_ACCESS, null),
     status: 'idle'
 };
 
@@ -77,7 +68,12 @@ const userAccessSlice = createSlice({
 });
 
 export default userAccessSlice;
-export const {selectAccessList, selectCurrentAccess, selectAccessStatus, selectUserAccessCount} = userAccessSlice.selectors;
+export const {
+    selectAccessList,
+    selectCurrentAccess,
+    selectAccessStatus,
+    selectUserAccessCount
+} = userAccessSlice.selectors;
 
 export const selectCanFilterReps = createSelector(
     [selectCurrentAccess],

@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchPage} from "@/api/page";
-import {type RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 import {selectPageLoadingStatus} from "./selectors";
 import type {ContentPage} from "chums-types/b2b";
 

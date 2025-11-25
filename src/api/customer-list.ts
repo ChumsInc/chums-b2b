@@ -1,7 +1,6 @@
 import type {Customer, UserCustomerAccess} from "chums-types/b2b";
-import {fetchJSON} from "./fetch.js";
-
-export const API_PATH_CUSTOMER_LIST = '/api/sales/b2b/account-list/:Company/:SalespersonDivisionNo-:SalespersonNo';
+import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 export async function fetchCustomerList(arg:UserCustomerAccess):Promise<Customer[]> {
     try {
@@ -16,10 +15,10 @@ export async function fetchCustomerList(arg:UserCustomerAccess):Promise<Customer
         return res?.result ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("fetchCustomerList()", err.message);
+            debug("fetchCustomerList()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchCustomerList()", err);
+        debug("fetchCustomerList()", err);
         return Promise.reject(new Error('Error in fetchCustomerList()'));
     }
 }

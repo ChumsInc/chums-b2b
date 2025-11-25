@@ -1,24 +1,7 @@
-import type {OrderType} from "../types/salesorder";
 import type {BasicCustomer} from "chums-types/b2b";
 import {generatePath} from "react-router";
 import {customerSlug} from "./customer";
 
-
-export const getSalesOrderPath = (orderType: OrderType | null): string => {
-    switch (orderType) {
-        case 'cart':
-            return '/account/:customerSlug/carts/:salesOrderNo';
-        case 'past':
-        case 'invoice':
-            return '/account/:customerSlug/invoices/so/:salesOrderNo';
-        default:
-            return '/account/:customerSlug/orders/:salesOrderNo';
-    }
-}
-
-export const genSalesOrderPath = (customer: BasicCustomer, salesOrderNo: string, orderType: OrderType | null) => {
-    return generatePath(getSalesOrderPath(orderType), {customerSlug: customerSlug(customer), salesOrderNo});
-}
 
 export const genInvoicePath = (customer: BasicCustomer, invoiceNo: string, invoiceType?: string) => {
     return generatePath(`/account/:customerSlug/invoices/:invoiceType/:invoiceNo`, {

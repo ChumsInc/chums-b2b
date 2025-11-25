@@ -1,4 +1,4 @@
-'use client';
+
 
 import AppAlert from "@/components/common/AppAlert";
 import {dismissAlert, dismissContextAlert, selectContextAlerts} from "@/ducks/alerts/alertsSlice";
@@ -11,8 +11,8 @@ const AlertList = ({context}: { context?: string }) => {
     const dismissHandler = (id: number) => {
         dispatch(dismissAlert(id));
     }
-    const contextDismissHandler = (context: string) => {
-        dispatch(dismissContextAlert(context))
+    const contextDismissHandler = (s: string) => {
+        dispatch(dismissContextAlert(s))
     }
     return (
         <>

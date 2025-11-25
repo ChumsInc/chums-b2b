@@ -1,4 +1,4 @@
-'use client';
+
 
 import {type ChangeEvent, type FormEvent, useEffect, useRef, useState} from 'react';
 import Alert from "@mui/material/Alert";
@@ -45,14 +45,14 @@ const EditAccountUserForm = () => {
             setDisabledShipTo([]);
             return;
         }
-        const [user] = users.filter(u => u.id.toString() === match?.params?.id);
-        if (!user) {
+        const _user = users.find(u => u.id.toString() === match?.params?.id);
+        if (!_user) {
             setUser(null);
             setDisabledShipTo([]);
             return;
         }
-        setUser({...user, shipToCode: []});
-        setDisabledShipTo(user.shipToCode ?? []);
+        setUser({..._user, shipToCode: []});
+        setDisabledShipTo(_user.shipToCode ?? []);
     }, [match?.params?.id, users]);
 
     useEffect(() => {

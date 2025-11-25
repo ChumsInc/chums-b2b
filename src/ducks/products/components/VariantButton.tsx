@@ -1,16 +1,14 @@
-import React from 'react';
-import {getMSRP, getPrices, getSalesUM} from "@/utils/products";
-import numeral from 'numeral';
 import {selectLoggedIn} from "../../user/userProfileSlice";
-import {selectCustomerPricing} from "../../customer/customerPricingSlice";
 import type {ProductVariant} from "chums-types/b2b";
 import Button from "@mui/material/Button";
 import {styled} from '@mui/material/styles';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {type ResponsiveStyleValue} from "@mui/system";
+import type {ResponsiveStyleValue} from "@mui/system";
 import {useAppSelector} from "@/app/hooks";
+import {useEffect, useState} from "react";
+import VariantButtonPrice from "@/ducks/products/components/VariantButtonPrice.tsx";
 
 
 const VariantButtonBase = styled(Button)(() => ({
@@ -25,12 +23,16 @@ const VariantButton = ({variant, selected, direction, spacing, onClick}: {
     spacing?: ResponsiveStyleValue<number | string>;
     onClick: (variant: ProductVariant) => void;
 }) => {
-    const priceCodes = useAppSelector(selectCustomerPricing);
-    const loggedIn = useAppSelector(selectLoggedIn);
-    const prices = loggedIn
-        ? getPrices(variant.product, priceCodes)
-        : getMSRP(variant.product);
-    const salesUM = getSalesUM(variant.product);
+    const _loggedIn = useAppSelector(selectLoggedIn);
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    useEffect(() => {
+        setLoggedIn(_loggedIn);
+    }, [_loggedIn]);
+
+    if (!variant.product) {
+        return null
+    }
 
     return (
         <VariantButtonBase variant={selected ? 'contained' : 'outlined'}
@@ -41,11 +43,7 @@ const VariantButton = ({variant, selected, direction, spacing, onClick}: {
                     <Typography variant="variantButtonText">{variant.title}</Typography>
                 </Box>
                 <Box>
-                    <Typography variant="variantButtonPrice">
-                        $ {prices.map(price => numeral(price).format('0.00')).join(' - ')}
-                        {' '}
-                        ({salesUM || 'EA'})
-                    </Typography>
+                    <VariantButtonPrice product={variant.product} loggedIn={loggedIn}/>
                 </Box>
             </Stack>
         </VariantButtonBase>

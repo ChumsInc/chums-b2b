@@ -1,6 +1,4 @@
-'use client';
-
-import React, {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {loadProduct, setCurrentVariant} from '../actions';
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet";
@@ -24,11 +22,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import VariantButtons from "./VariantButtons";
 import Collapse from "@mui/material/Collapse";
-import {useIsSSR} from "@/hooks/is-server-side";
 import {ga4ViewItem} from "@/utils/ga4/generic";
 import HTMLContent from "@/components/common/HTMLContent";
 import styled from "@emotion/styled";
 
+//@TODO: figure out why this one not hydrating correctly
 
 const ProductPanel = styled.div`
     iframe {
@@ -43,7 +41,6 @@ const ProductPanel = styled.div`
 const ProductPage = ({keyword}: {
     keyword: string;
 }) => {
-    const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
     const product = useAppSelector(selectCurrentProduct);
     const selectedProduct = useAppSelector(selectSelectedProduct);
@@ -74,9 +71,6 @@ const ProductPage = ({keyword}: {
     }, [cartItem]);
 
     useEffect(() => {
-        if (isSSR) {
-            return;
-        }
         if (cartMessage) {
             timerHandle.current = window.setTimeout(() => {
                 setCartMessage(null);
@@ -85,7 +79,7 @@ const ProductPage = ({keyword}: {
         return () => {
             window.clearTimeout(timerHandle.current);
         }
-    }, [isSSR, cartMessage]);
+    }, [cartMessage]);
 
 
     useEffect(() => {
@@ -94,7 +88,6 @@ const ProductPage = ({keyword}: {
             && isSellAsVariants(product)
             && selectedProduct?.keyword !== location.state.variant) {
             const [_variant] = product.variants.filter(v => v.product?.keyword === location.state.variant);
-            console.debug(location.state.variant, _variant.product?.keyword);
             if (_variant) {
                 dispatch(setCurrentVariant(_variant));
             }

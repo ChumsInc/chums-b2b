@@ -1,27 +1,27 @@
-import React, {type ChangeEvent, useEffect, useState} from 'react';
+import {type ChangeEvent, useEffect, useState} from 'react';
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import type {SalesOrderHeader} from "chums-types/b2b";
 import LinearProgress from "@mui/material/LinearProgress";
 import Button from "@mui/material/Button"
-import {useAppDispatch, useAppSelector} from "@/app/hooks.js";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {
     selectOpenOrdersCustomerKey,
     selectOpenOrdersFilter,
     selectOpenOrdersList,
     selectOpenOrdersLoaded,
     selectOpenOrdersStatus, setOpenOrdersFilter
-} from "@/ducks/open-orders/openOrdersSlice.js";
-import OrdersList from "./OrdersList.js";
-import OrderLink from "../OrderLink.js";
-import DateString from "@/components/DateString.js";
-import type {SortableTableField} from "@/components/common/DataTable/index.js";
-import {loadOpenOrders} from "@/ducks/open-orders/actions.js";
-import OrderFilter from "./OrderFilter.js";
-import NoOpenOrdersAlert from "./NoOpenOrdersAlert.js";
-import {selectCustomerShipToCode} from "@/ducks/customer/customerShipToAddressSlice.js";
-import ShipToCustomerLink from "@/components/ShipToCustomerLink.js";
-import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice.js";
+} from "@/ducks/open-orders/openOrdersSlice";
+import OrdersList from "./OrdersList";
+import OrderLink from "../OrderLink";
+import DateString from "@/components/DateString";
+import type {SortableTableField} from "@/components/common/DataTable";
+import {loadOpenOrders} from "@/ducks/open-orders/actions";
+import OrderFilter from "./OrderFilter";
+import NoOpenOrdersAlert from "./NoOpenOrdersAlert";
+import {selectCustomerShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
+import ShipToCustomerLink from "@/components/ShipToCustomerLink";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 
 
 const openOrderFields: SortableTableField<SalesOrderHeader>[] = [

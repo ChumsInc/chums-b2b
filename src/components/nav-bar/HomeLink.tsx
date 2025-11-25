@@ -1,7 +1,7 @@
 import RoutedLink from "./RoutedLink";
 import ChumsLogo from "../ChumsLogo";
 import Typography from "@mui/material/Typography";
-import {type SxProps} from "@mui/material/styles";
+import type {SxProps} from "@mui/material/styles";
 
 
 export default function HomeLink({sx}:{

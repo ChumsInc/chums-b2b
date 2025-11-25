@@ -1,4 +1,3 @@
-import React from 'react';
 import {selectProductCartItem, selectProductMSRP, selectProductSalesUM, selectSelectedProduct} from "../selectors";
 import numeral from "numeral";
 import Stack from "@mui/material/Stack";

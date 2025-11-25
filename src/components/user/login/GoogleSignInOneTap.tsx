@@ -1,6 +1,3 @@
-'use client';
-
-import React from 'react';
 import {signInWithGoogle} from "@/ducks/user/actions";
 import {useAppDispatch} from "@/app/hooks";
 import {type CredentialResponse, useGoogleOneTapLogin,} from "@react-oauth/google";
@@ -23,13 +20,10 @@ export default function GoogleSignInOneTap({onDone}: { onDone?: () => void }) {
         }
     }
 
-    // if (loggedIn) {
-    //     return null;
-    // }
-
     useGoogleOneTapLogin({
         onSuccess: successHandler,
         onError: errorHandler,
+        // eslint-disable-next-line camelcase
         use_fedcm_for_prompt: true,
     })
 

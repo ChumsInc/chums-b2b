@@ -1,4 +1,4 @@
-'use client';
+
 
 import React, {type SyntheticEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
@@ -34,7 +34,7 @@ export default function SearchBar() {
         dispatch(getSearchResults(searchTerm));
     }, [searchTerm]);
 
-    const changeHandler = (ev: React.SyntheticEvent, newValue: SearchResult | null) => {
+    const changeHandler = (_: React.SyntheticEvent, newValue: SearchResult | null) => {
         setValue(null);
         setInputValue('');
         if (newValue) {
@@ -43,8 +43,8 @@ export default function SearchBar() {
         }
     }
 
-    const inputChangeHandler = (ev: SyntheticEvent, value: string) => {
-        setInputValue(value);
+    const inputChangeHandler = (_: SyntheticEvent, arg: string) => {
+        setInputValue(arg);
     }
 
     return (

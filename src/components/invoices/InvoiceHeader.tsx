@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useState} from 'react';
 import {loadInvoice} from '@/ducks/invoices/actions';

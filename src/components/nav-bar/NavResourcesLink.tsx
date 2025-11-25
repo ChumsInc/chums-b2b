@@ -1,11 +1,12 @@
-'use client';
+
 
 import type {NavItemProps} from "@/types/ui-features";
 import {useEffect} from "react";
-import {loadResourcesMenu, selectResourcesMenu, selectShouldLoadResourcesMenu} from "@/ducks/menu";
+import {selectResourcesMenu, selectShouldLoadResourcesMenu} from "@/ducks/menu";
 import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import BasicMenu from "@/components/nav-bar/BasicMenu";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
+import {loadResourcesMenu} from "@/ducks/menu/actions.ts";
 
 export default function NavResourcesLink({inDrawer}: NavItemProps) {
     const dispatch = useAppDispatch();

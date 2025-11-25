@@ -1,7 +1,7 @@
 import {type CaseReducer, createSlice} from "@reduxjs/toolkit";
 import type {CustomerShippingAccount} from "@/types/customer";
-import localStore from "@/utils/LocalStore.js";
-import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores.js";
+import localStore from "@/utils/LocalStore";
+import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
 import {
     addToCart,
     duplicateSalesOrder,
@@ -11,10 +11,10 @@ import {
     processCart,
     setActiveCartId,
     setCartShippingAccount
-} from "@/ducks/carts/actions.js";
-import {loadCustomer} from "@/ducks/customer/actions.js";
-import {customerSlug} from "@/utils/customer.js";
-import {initializeActiveCartState} from "@/ducks/carts/utils.js";
+} from "@/ducks/carts/actions";
+import {loadCustomer} from "@/ducks/customer/actions";
+import {customerSlug} from "@/utils/customer";
+import {initializeActiveCartState} from "@/ducks/carts/utils";
 
 
 export interface ActiveCartExtraState {

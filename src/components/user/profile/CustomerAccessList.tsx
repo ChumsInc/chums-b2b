@@ -2,7 +2,6 @@ import {useAppSelector} from "@/app/hooks";
 import {selectCurrentAccess, selectCustomerAccessList} from "@/ducks/user/userAccessSlice";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import React from "react";
 import {sortUserAccounts} from "@/utils/customer";
 import Stack from "@mui/material/Stack";
 import CustomerAccessButton from "@/components/user/profile/CustomerAccessButton";
@@ -11,7 +10,9 @@ export default function CustomerAccessList() {
     const list = useAppSelector(selectCustomerAccessList);
     const current = useAppSelector(selectCurrentAccess);
 
-    if (list.length === 0) return null;
+    if (list.length === 0) {
+        return null;
+    }
 
     return (
         <Box sx={{mt: 3}}>

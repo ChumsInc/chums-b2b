@@ -1,6 +1,6 @@
-import {type HelmetOptions} from "helmet";
+import type {HelmetOptions} from "helmet";
 import {IncomingMessage, ServerResponse} from "node:http";
-import {type Response} from "express";
+import type {Response} from "express";
 
 
 export const helmetOptions:Readonly<HelmetOptions> = {

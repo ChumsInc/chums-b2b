@@ -1,7 +1,6 @@
-import React from 'react';
 import Alert from "@mui/material/Alert";
-import {selectOpenOrdersLength} from "@/ducks/open-orders/openOrdersSlice.js";
-import {useAppSelector} from "@/app/hooks.js";
+import {selectOpenOrdersLength} from "@/ducks/open-orders/openOrdersSlice";
+import {useAppSelector} from "@/app/hooks";
 
 export default function NoOpenOrdersAlert() {
     const length = useAppSelector(selectOpenOrdersLength);

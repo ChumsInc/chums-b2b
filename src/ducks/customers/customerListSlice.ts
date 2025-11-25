@@ -1,13 +1,13 @@
 import {createEntityAdapter, createSelector, createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {Customer} from "chums-types/b2b";
-import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer.js";
+import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer";
 import type {SortProps} from "@/types/generic";
-import LocalStore from "@/utils/LocalStore.js";
-import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores.js";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {loadCustomerList} from "@/ducks/customers/actions.js";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
-import {STATES_USA} from "@/constants/states.js";
+import LocalStore from "@/utils/LocalStore";
+import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
+import {STATES_USA} from "@/constants/states";
 
 const adapter = createEntityAdapter<Customer, string>({
     selectId: (arg) => customerSlug(arg)!,
@@ -144,7 +144,6 @@ export const selectFilteredCustomerList = createSelector(
         let filterRegex = /^/;
         try {
             filterRegex = new RegExp(`\\b${filter ?? ''}`, 'i');
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             filterRegex = /^/;
         }
@@ -174,7 +173,7 @@ export const selectCustomerStates = createSelector(
     (list) => {
         const states = list.reduce((pv: string[], cv) => {
             if (cv.CountryCode === 'USA' && cv.State && !pv.includes(cv.State)) {
-                const [state] = STATES_USA.filter(state => state.code === cv.State)
+                const state = STATES_USA.find(value => value.code === cv.State)
                 if (state) {
                     return [...pv, state.code];
                 }

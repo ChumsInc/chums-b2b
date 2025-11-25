@@ -1,6 +1,4 @@
-'use client';
-
-import React, {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {selectCurrentVariantProduct, selectProductVariantId} from "../selectors";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {setCurrentVariant} from "../actions";

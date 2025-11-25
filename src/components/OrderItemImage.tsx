@@ -1,23 +1,25 @@
 import {parseImageFilename2} from "@/components/common/image";
-export const API_PATH_CART_IMAGE = '/api/images/products/find/80/:ItemCode';
+import {apiPathCartImage} from "@/constants/api.ts";
 
 
-const OrderItemImage = ({itemCode, itemCodeDesc, colorCode, image}:{
-    itemCode: string|null;
-    itemCodeDesc: string|null;
-    colorCode?: string|null;
-    image?: string|null;
-}) => {
+export interface OrderItemImageProps {
+    itemCode: string | null;
+    itemCodeDesc: string | null;
+    colorCode?: string | null;
+    image?: string | null;
+}
+
+export default function OrderItemImage({itemCode, itemCodeDesc, colorCode, image}: OrderItemImageProps) {
     if (!itemCode) {
         return null;
     }
-    if (!!image && image?.includes('?') && !!colorCode) {
-        image = parseImageFilename2({image, colorCode})
+    let _image = image;
+    if (!!_image && _image?.includes('?') && !!colorCode) {
+        _image = parseImageFilename2({image: _image, colorCode})
     }
-    const src = image
-        ? `/images/products/80/${encodeURIComponent(image)}`
-        : API_PATH_CART_IMAGE.replace(':ItemCode', encodeURIComponent(itemCode));
+    const src = _image
+        ? `/images/products/80/${encodeURIComponent(_image)}`
+        : apiPathCartImage.replace(':ItemCode', encodeURIComponent(itemCode));
     return (<img src={src} alt={itemCodeDesc ?? undefined} className="img-thumbnail"/>)
 };
 
-export default OrderItemImage;

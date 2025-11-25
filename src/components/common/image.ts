@@ -20,9 +20,7 @@ export function parseImageFilename(productImage: string, colorCode?: string | nu
     }
     let image: string = productImage.replace(/\?/, colorCode ?? '');
     if (colorCode) {
-        colorCode.split('').map(code => {
-            image = image!.replace(/\*/, code);
-        });
+        image = colorCode.split('').reduce((_img, code) => _img.replace(/\*/, code), image);
     }
 
     return image.replace(/\*/g, '').replace(/\s/g, '%20');

@@ -4,7 +4,6 @@ import {PATH_CUSTOMER_ACCOUNT} from "@/constants/paths";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import {customerSlug, longCustomerNo} from "@/utils/customer";
-import React from "react";
 
 export interface AccessButtonProps {
     access: UserCustomerAccess;

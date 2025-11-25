@@ -1,4 +1,4 @@
-import {type RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 
 export const selectPageKeywords = (state: RootState) => state.page.list;
 export const selectPageKeyword = (state: RootState) => state.page.keyword;

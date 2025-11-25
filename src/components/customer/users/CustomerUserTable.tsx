@@ -1,4 +1,4 @@
-'use client';
+
 
 import {useState} from 'react';
 import UserIcon from "./UserIcon";
@@ -49,8 +49,8 @@ const CustomerPermissionsIcon = ({
         )
     }
     const label = shipToCode.length === 1 ? shipToCode[0] : `x ${shipToCode.length}`;
-    const colorProp = (accountType: UserAccessType): Pick<ChipProps, 'color'> => {
-        switch (accountType) {
+    const colorProp = (arg: UserAccessType): Pick<ChipProps, 'color'> => {
+        switch (arg) {
             case 1:
                 return {color: 'primary'};
             case 2:
@@ -158,7 +158,7 @@ const CustomerUserTable = () => {
                 </TableBody>
             </Table>
             <TablePagination component="div"
-                             count={users.length} onPageChange={(_, page) => setPage(page)} page={page}
+                             count={users.length} onPageChange={(_, arg) => setPage(arg)} page={page}
                              rowsPerPage={10}/>
         </div>
     )

@@ -3,33 +3,47 @@ import {isCategoryChildProduct, isSellAsColors, isSellAsMix} from "@/ducks/produ
 import type {CartProduct, CategoryChildProduct, Product, ProductCategory} from "chums-types/b2b";
 import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
 
+/* eslint-disable camelcase */
+
 export function ga4Exception(description: string, fatal: boolean) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('exception', {description, fatal});
 }
 
 export function ga4Search(searchTerm: string) {
-    if (!canStoreAnalytics())
+    if (!canStoreAnalytics()) {
+        return
+    }
     sendGtagEvent('search', {search_term: searchTerm.trim()});
 }
 
 export function ga4Login(method: 'credentials' | 'google') {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('login', {method})
 }
 
 export function ga4SignUp() {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('sign_up');
 }
 
 export function ga4PageView() {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('page_view');
 }
 
 export function ga4ViewItemList(category: ProductCategory) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('view_item_list', {
         item_list_id: category.keyword,
         item_list_name: category.title ?? category.keyword,
@@ -42,7 +56,9 @@ export function ga4ViewItemList(category: ProductCategory) {
 }
 
 export function ga4SelectCustomer(customerSlug: string) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('select_content', {
         content_type: 'customer',
         content_id: customerSlug!,
@@ -50,7 +66,9 @@ export function ga4SelectCustomer(customerSlug: string) {
 }
 
 export function ga4ViewItem(product: Product | null) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     if (product) {
         sendGtagEvent('view_item', {
             items: [{
@@ -62,7 +80,9 @@ export function ga4ViewItem(product: Product | null) {
 }
 
 export function ga4SelectColorItem(product: Product | null, cartItem: CartProduct | null) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     if (cartItem) {
         if (isSellAsColors(product) && cartItem.colorCode !== product.defaultColor) {
             sendGtagEvent('select_item', {
@@ -80,7 +100,9 @@ export function ga4SelectColorItem(product: Product | null, cartItem: CartProduc
 }
 
 export function ga4SelectMixItem(product: Product | null, variantProduct: Product | undefined) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     if (product && variantProduct && isSellAsMix(variantProduct)) {
         sendGtagEvent('select_item', {
             item_list_id: product.itemCode,
@@ -94,7 +116,9 @@ export function ga4SelectMixItem(product: Product | null, variantProduct: Produc
 }
 
 export function ga4SelectVariantItem(itemCode: string) {
-    if (!canStoreAnalytics()) return;
+    if (!canStoreAnalytics()) {
+        return;
+    }
     sendGtagEvent('select_content', {
         content_type: 'variant',
         content_id: itemCode

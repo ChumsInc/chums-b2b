@@ -1,6 +1,4 @@
-'use client';
-
-import React, {useEffect, useId} from 'react';
+import {useEffect, useId} from 'react';
 import Select, {type SelectChangeEvent} from '@mui/material/Select';
 import {longRepNo} from "@/utils/customer";
 import {loadRepList} from "../actions";
@@ -28,9 +26,7 @@ const RepSelect = ({value = '', onChange}: {
     const options = reps
         .filter(rep => !!rep.active)
         .sort((a, b) => {
-            const aa = longRepNo(a);
-            const bb = longRepNo(b);
-            return aa === bb ? 0 : (aa > bb ? 1 : -1);
+            return longRepNo(a).localeCompare(longRepNo(b));
         })
         .map(rep => ({value: longRepNo(rep), text: `${longRepNo(rep)} - ${rep.SalespersonName}`}));
 

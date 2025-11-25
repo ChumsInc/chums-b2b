@@ -14,13 +14,14 @@ export interface MiniChipProps extends ChipProps {
 }
 
 const MiniChip = ({bgColor, textColor, color, label, sx, ...props}:MiniChipProps) => {
-    if (!!bgColor && !textColor) {
-        textColor = getContrastRatio(bgColor, '#FFF') > 4.5 ? '#FFF' : '#000'
+    let _color = textColor;
+    if (!!bgColor && !_color) {
+        _color = getContrastRatio(bgColor, '#FFF') > 4.5 ? '#FFF' : '#000'
     }
 
     return (
         <BaseMiniChip label={label} color={color}
-                      sx={{...sx, color: textColor, backgroundColor: bgColor, mr: '2px'}} {...props} size="small"/>
+                      sx={{...sx, color: _color, backgroundColor: bgColor, mr: '2px'}} {...props} size="small"/>
     )
 }
 export default MiniChip;

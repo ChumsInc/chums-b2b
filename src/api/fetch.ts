@@ -1,12 +1,14 @@
-import {auth} from "./IntranetAuthService.js";
-import B2BError from "@/types/generic.js";
-import {STORE_VERSION} from "@/constants/stores.js";
+import {auth} from "./IntranetAuthService";
+import B2BError from "@/types/generic";
+import {STORE_VERSION} from "@/constants/stores";
 import 'isomorphic-fetch';
 import 'whatwg-fetch'
-import {isLocalHost} from "@/utils/dev.js";
-import {ga4Exception} from "@/utils/ga4/generic.js";
-import SessionStore from "@/utils/SessionStore.js";
-import {canStoreAnalytics} from "@/ducks/cookie-consent/utils.js";
+import {isLocalHost} from "@/utils/dev";
+import {ga4Exception} from "@/utils/ga4/generic";
+import SessionStore from "@/utils/SessionStore";
+import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
+import debug from "@/utils/debug.ts";
+
 
 
 function getCredentials(): string | null {
@@ -34,16 +36,16 @@ async function handleJSONResponse<T = unknown>(res: Response, args?: unknown): P
         const json = await res.json();
         if (json.error) {
             await postErrors({message: json.error, componentStack});
-            console.warn(json.error);
+            debug(json.error);
             return Promise.reject(new B2BError(json.error, res.url));
         }
         return json;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("handleJSONResponse()", err.message);
+            debug("handleJSONResponse()", err.message);
             return Promise.reject(err);
         }
-        console.debug("handleJSONResponse()", err);
+        debug("handleJSONResponse()", err);
         return Promise.reject(new Error('Error in handleJSONResponse()'));
     }
 }
@@ -53,10 +55,10 @@ export async function allowErrorResponseHandler<T = unknown>(res: Response): Pro
         return await res.json() as T;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("allowErrorResponseHandler()", err.message);
+            debug("allowErrorResponseHandler()", err.message);
             return Promise.reject(err);
         }
-        console.debug("allowErrorResponseHandler()", err);
+        debug("allowErrorResponseHandler()", err);
         return Promise.reject(new Error('Error in allowErrorResponseHandler()'));
     }
 }
@@ -68,8 +70,10 @@ export async function fetchJSON<T = unknown>(url: string, {
     headers,
     body,
     ...requestInit
+// eslint-disable-next-line no-undef
 }: RequestInit = {}, responseHandler?: ResponseHandler): Promise<T | null> {
     try {
+        // eslint-disable-next-line no-undef
         const options: RequestInit = {...requestInit};
 
         if (!options.method) {
@@ -100,10 +104,10 @@ export async function fetchJSON<T = unknown>(url: string, {
         return await handleJSONResponse<T>(res, options.body);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.log("fetchJSON()", err.message);
+            debug("fetchJSON()", err.message);
             return Promise.reject(err);
         }
-        console.error("fetchJSON()", err);
+        debug("fetchJSON()", err);
         if (typeof err === 'string') {
             return Promise.reject(new Error(err));
         }
@@ -111,6 +115,7 @@ export async function fetchJSON<T = unknown>(url: string, {
     }
 }
 
+// eslint-disable-next-line no-undef
 export async function fetchHTML(url: string, options: RequestInit = {}): Promise<string | undefined> {
     try {
         options.headers = new Headers(options?.headers);
@@ -129,10 +134,10 @@ export async function fetchHTML(url: string, options: RequestInit = {}): Promise
         return await res.text();
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.log("fetchHTML()", err.message);
+            debug("fetchHTML()", err.message);
             return Promise.reject(err);
         }
-        console.error("fetchHTML()", err)
+        debug("fetchHTML()", err)
         if (typeof err === 'string') {
             return Promise.reject(new Error(err));
         }
@@ -158,6 +163,7 @@ export async function postErrors({message, componentStack, userId, fatal}: PostE
             url: globalThis.window.location.pathname,
             message,
             componentStack: componentStack ?? '',
+            // eslint-disable-next-line camelcase
             user_id: canStoreAnalytics() ?  (userId ?? 0) : 0,
             version,
         });
@@ -165,13 +171,16 @@ export async function postErrors({message, componentStack, userId, fatal}: PostE
         ga4Exception('An error occurred', fatal ?? false);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.log("postErrors()", err.message);
+            debug("postErrors()", err.message);
+            // eslint-disable-next-line consistent-return
             return Promise.reject(err);
         }
-        console.error("postErrors()", err)
+        debug("postErrors()", err)
         if (typeof err === 'string') {
+            // eslint-disable-next-line consistent-return
             return Promise.reject(new Error(err));
         }
+        // eslint-disable-next-line consistent-return
         return Promise.reject(err);
     }
 }

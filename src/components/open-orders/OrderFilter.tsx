@@ -10,12 +10,9 @@ export interface OrderFilterProps extends InputHTMLAttributes<HTMLInputElement> 
 
 const OrderFilter = ({value, onChange, children, placeholder, className, id, ...rest}: OrderFilterProps) => {
     const _id = useId();
-    if (!id) {
-        id = _id;
-    }
     return (
         <Stack direction="row" spacing={2} justifyContent="space-between">
-            <TextField type="search" value={value} onChange={onChange} variant="standard" size="small" id={id}
+            <TextField type="search" value={value} onChange={onChange} variant="standard" size="small" id={id ?? _id}
                        fullWidth
                        slotProps={{
                            input: {

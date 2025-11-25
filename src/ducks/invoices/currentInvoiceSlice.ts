@@ -6,12 +6,12 @@ import type {
     PaperlessLogRow
 } from "chums-types/b2b";
 import {createSelector, createSlice, type WritableDraft} from "@reduxjs/toolkit";
-import {loadInvoice, loadInvoices} from "@/ducks/invoices/actions.js";
-import {invoiceKey} from "@/ducks/invoices/utils.js";
-import {dismissContextAlert} from "@/ducks/alerts/alertsSlice.js";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {customerSlug} from "@/utils/customer.js";
-import {setCustomerAccount} from "@/ducks/customer/actions.js";
+import {loadInvoice, loadInvoices} from "@/ducks/invoices/actions";
+import {invoiceKey} from "@/ducks/invoices/utils";
+import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {customerSlug} from "@/utils/customer";
+import {setCustomerAccount} from "@/ducks/customer/actions";
 
 export interface InvoiceState {
     customerKey: string | null;

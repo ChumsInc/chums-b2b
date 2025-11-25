@@ -1,6 +1,6 @@
 import {type RefObject, useId} from 'react';
 import Select, {type SelectChangeEvent} from "@mui/material/Select";
-import {type InputBaseComponentProps} from "@mui/material/InputBase";
+import type {InputBaseComponentProps} from "@mui/material/InputBase";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl, {type FormControlProps} from '@mui/material/FormControl'

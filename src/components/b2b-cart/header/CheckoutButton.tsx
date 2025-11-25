@@ -1,26 +1,26 @@
 import type {CartProgress,} from "@/types/cart/cart-utils";
-import {cartProgress_Cart, cartProgress_Confirm, cartProgress_Delivery, cartProgress_Payment} from "@/utils/cart";
+import {cartProgress} from "@/utils/cart";
 import Button, {type ButtonProps} from "@mui/material/Button";
 
 export interface CheckoutButtonProps extends ButtonProps {
-    cartProgress: CartProgress;
+    progress: CartProgress;
 }
 
-export default function CheckoutButton({cartProgress, type, ...buttonProps}: CheckoutButtonProps) {
+export default function CheckoutButton({progress, type, ...buttonProps}: CheckoutButtonProps) {
     const buttonText = () => {
-        switch (cartProgress) {
-            case cartProgress_Cart:
+        switch (progress) {
+            case cartProgress.cart:
                 return 'Begin Checkout';
-            case cartProgress_Delivery:
+            case cartProgress.delivery:
                 return 'Confirm Delivery & Shipping';
-            case cartProgress_Payment:
+            case cartProgress.payment:
                 return 'Confirm Payment';
             default:
                 return 'Submit Order';
         }
     }
     return (
-        <Button type={type ?? 'button'} variant={cartProgress === cartProgress_Confirm ? 'contained' : "outlined"}
+        <Button type={type ?? 'button'} variant={progress === cartProgress.confirm ? 'contained' : "outlined"}
                 {...buttonProps}>
             {buttonText()}
         </Button>

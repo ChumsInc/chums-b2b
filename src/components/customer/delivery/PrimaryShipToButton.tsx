@@ -1,4 +1,4 @@
-'use client';
+
 
 import Button from "@mui/material/Button";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";

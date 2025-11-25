@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import type {SalesOrderDetailLine} from "chums-types/b2b";
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import Typography from "@mui/material/Typography";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import OrderItemImage from "../OrderItemImage.js";
-import PriceLevelNotice from "../PriceLevelNotice.js";
-import SalesOrderLineButtons from "./SalesOrderLineButtons.js";
-import SalesOrderCommentLine from "./SalesOrderCommentLine.js";
-import FormattedUPC from "../FormattedUPC.js";
-import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils.js";
+import OrderItemImage from "../OrderItemImage";
+import PriceLevelNotice from "../PriceLevelNotice";
+import SalesOrderLineButtons from "./SalesOrderLineButtons";
+import SalesOrderCommentLine from "./SalesOrderCommentLine";
+import FormattedUPC from "../FormattedUPC";
+import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils";
 
 export default function SalesOrderItemLine({
                                                line,

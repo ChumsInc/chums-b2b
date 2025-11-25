@@ -1,5 +1,6 @@
 import type {Slide} from "chums-types/b2b";
-import {fetchJSON} from "./fetch.js";
+import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 
 //reserved for future use?
@@ -9,10 +10,10 @@ export async function fetchSlides(): Promise<Slide[]> {
         return res?.slides ?? [];
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchSlides()", err.message);
+            debug("fetchSlides()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchSlides()", err);
+        debug("fetchSlides()", err);
         return Promise.reject(new Error('Error in fetchSlides()'));
     }
 }

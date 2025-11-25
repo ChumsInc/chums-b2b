@@ -1,24 +1,14 @@
-import type {Editable, SalesOrder, SalesOrderDetailLine, SalesOrderHeader} from "chums-types/b2b";
-import type {Appendable, OrderActionStatus} from "@/types/generic";
+import type {Editable, SalesOrder, SalesOrderDetailLine} from "chums-types/b2b";
+import type {Appendable} from "@/types/generic";
 
 export type EditableDetailLine = SalesOrderDetailLine & Editable & Appendable;
 
 export interface OpenOrderDetailList {
-    [key:string]: EditableDetailLine
+    [key: string]: EditableDetailLine
 }
 
-export interface EditableSalesOrderHeader extends SalesOrderHeader {
-    changed?: boolean;
-}
 export interface EditableSalesOrder extends SalesOrder {
     changed?: boolean;
     detail: OpenOrderDetailList;
 }
 
-export interface OpenOrderList {
-    [key:string]: EditableSalesOrder|EditableSalesOrderHeader;
-}
-
-export interface ActionStatusList {
-    [key:string]: OrderActionStatus;
-}

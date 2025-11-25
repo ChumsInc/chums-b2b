@@ -1,12 +1,12 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {RecentCustomer} from "chums-types/b2b";
-import {customerSlug} from "@/utils/customer.js";
-import {auth} from "@/api/IntranetAuthService.js";
-import localStore from "@/utils/LocalStore.js";
-import LocalStore from "@/utils/LocalStore.js";
-import {STORE_RECENT_ACCOUNTS} from "@/constants/stores.js";
-import {setLoggedIn, signInWithGoogle} from "@/ducks/user/actions.js";
-import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions.js";
+import {customerSlug} from "@/utils/customer";
+import {auth} from "@/api/IntranetAuthService";
+import localStore from "@/utils/LocalStore";
+import LocalStore from "@/utils/LocalStore";
+import {STORE_RECENT_ACCOUNTS} from "@/constants/stores";
+import {setLoggedIn, signInWithGoogle} from "@/ducks/user/actions";
+import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 
 const adapter = createEntityAdapter<RecentCustomer, string>({
     selectId: (arg) => customerSlug(arg),

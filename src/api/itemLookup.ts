@@ -1,5 +1,6 @@
 import type {ItemSearchResult} from "@/ducks/item-lookup";
-import {fetchJSON} from "./fetch.js";
+import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 export async function fetchItemLookup(arg:string):Promise<ItemSearchResult[]> {
     try {
@@ -11,10 +12,10 @@ export async function fetchItemLookup(arg:string):Promise<ItemSearchResult[]> {
         return res?.items ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("fetchItemLookup()", err.message);
+            debug("fetchItemLookup()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchItemLookup()", err);
+        debug("fetchItemLookup()", err);
         return Promise.reject(new Error('Error in fetchItemLookup()'));
     }
 }

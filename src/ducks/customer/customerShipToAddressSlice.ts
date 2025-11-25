@@ -1,12 +1,12 @@
 import {createEntityAdapter, createSelector, createSlice, isAnyOf, type PayloadAction} from "@reduxjs/toolkit";
 import type {ShipToCustomer, SortProps} from "chums-types/b2b";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions.js";
-import {customerShipToSorter, customerSlug} from "@/utils/customer.js";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.js";
-import {loadCustomerList} from "@/ducks/customers/actions.js";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice.js";
-import {filterShipToByUserAccount} from "@/ducks/customer/utils.js";
-import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.js";
+import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
+import {customerShipToSorter, customerSlug} from "@/utils/customer";
+import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {loadCustomerList} from "@/ducks/customers/actions";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {filterShipToByUserAccount} from "@/ducks/customer/utils";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 
 const adapter = createEntityAdapter<ShipToCustomer, string>({
     selectId: (arg) => arg.ShipToCode,
@@ -66,7 +66,7 @@ const customerShipToAddressSlice = createSlice({
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(customer => customerSlug(customer) === state.customerKey);
+                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
                     if (!customer) {
                         adapter.removeAll(state);
                     }

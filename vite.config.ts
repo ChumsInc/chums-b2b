@@ -2,14 +2,14 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from "node:path";
 import process from "node:process";
+import { visualizer } from "rollup-plugin-visualizer";
 
-function manualChunks(id: string):string | null {
+function parseChunks(id: string):string | null {
     if (id.includes('node_modules')) {
-        if (id.includes('react')) {
-            return 'react'
+        if (id.includes('mui')) {
+            return 'mui';
         }
-        if (id.includes('mui')) {}
-        return 'mui';
+        return 'vendor';
     }
     return null;
 }
@@ -49,13 +49,15 @@ export default defineConfig({
         }
     },
     build: {
+        // minify: false,
         outDir: 'dist-client',
         emptyOutDir: true,
         rollupOptions: {
             input: './src/client/index.tsx',
             output: {
-                manualChunks: manualChunks,
-            }
+                manualChunks: parseChunks,
+            },
+            plugins: [visualizer()]
         },
         manifest: true,
         sourcemap: true,

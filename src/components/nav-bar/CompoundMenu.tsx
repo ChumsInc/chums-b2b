@@ -4,13 +4,13 @@ import Popover, {type PopoverProps} from "@mui/material/Popover";
 import Box, {type BoxProps} from "@mui/material/Box";
 import {useLocation} from "react-router";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
-import {type ButtonProps} from "@mui/material/Button";
+import type {ButtonProps} from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {useAppSelector} from "@/app/hooks";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
-import {type SxProps} from "@mui/system";
-import {type Theme} from "@mui/material/styles";
+import type {SxProps} from "@mui/system";
+import type {Theme} from "@mui/material/styles";
 import {MenuList} from "@mui/material";
 import MenuItemRouterLink from "@/components/nav-bar/MenuItemRouterLink";
 
@@ -89,11 +89,11 @@ export default function CompoundMenu({
                                 <MenuItemRouterLink to={urlFormat(item.url)} sx={itemStyle}>
                                     {item.title}
                                 </MenuItemRouterLink>
-                                {item.menu?.items?.map((item) => (
-                                    <MenuItemRouterLink key={item.id} disabled={item.requireLogin && !isLoggedIn}
+                                {item.menu?.items?.map((_item) => (
+                                    <MenuItemRouterLink key={_item.id} disabled={_item.requireLogin && !isLoggedIn}
                                                         onClick={handleClick}
-                                                        to={urlFormat(item.url)}>
-                                        {item.title}
+                                                        to={urlFormat(_item.url)}>
+                                        {_item.title}
                                     </MenuItemRouterLink>
                                 ))}
                             </MenuList>

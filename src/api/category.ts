@@ -1,5 +1,6 @@
 import {fetchJSON} from "./fetch";
 import type {ProductCategory} from "chums-types/b2b";
+import debug from "@/utils/debug.ts";
 
 export async function fetchCategory(keyword: string): Promise<ProductCategory | null> {
     try {
@@ -11,10 +12,10 @@ export async function fetchCategory(keyword: string): Promise<ProductCategory | 
         return response?.categories?.[0] ?? null;
     } catch (err) {
         if (err instanceof Error) {
-            console.debug(fetchCategory.name, err.message);
+            debug(fetchCategory.name, err.message);
             return Promise.reject(err);
         }
-        console.debug(fetchCategory.name, err);
+        debug(fetchCategory.name, err);
         return Promise.reject(new Error('Error in fetchCategory()'));
     }
 }

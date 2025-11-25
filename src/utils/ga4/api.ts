@@ -29,10 +29,7 @@ export function sendGtagEvent(eventName: 'view_item', options?: GtagViewItemArgs
 export function sendGtagEvent(eventName: 'view_item_list', options?: GtagViewItemListArgs): void;
 export function sendGtagEvent(eventName: GtagEventName, options?: GtagEventArgs) {
     if (typeof globalThis.window !== 'undefined' && typeof globalThis.window.gtag !== 'undefined') {
-        if (!options) {
-            options = {};
-        }
-        globalThis.window.gtag('event', eventName, options);
+        globalThis.window.gtag('event', eventName, options ?? {});
     }
 }
 

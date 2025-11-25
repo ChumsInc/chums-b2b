@@ -1,4 +1,4 @@
-import {type ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';

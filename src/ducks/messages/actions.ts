@@ -1,8 +1,8 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {fetchMessages} from "@/api/messages.js";
-import {type RootState} from "@/app/configureStore.js";
-import {selectMessagesLoading} from "./selectors.js";
-import type {LoadMessagesResponse} from "./index.js";
+import {fetchMessages} from "@/api/messages";
+import type {RootState} from "@/app/configureStore";
+import {selectMessagesLoading} from "./selectors";
+import type {LoadMessagesResponse} from "./index";
 
 export const loadMessages = createAsyncThunk<LoadMessagesResponse, void, {state: RootState}>(
     'messages/load',

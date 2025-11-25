@@ -5,8 +5,8 @@ import TableFooter from "@mui/material/TableFooter";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import type {SalesOrderHeader} from "chums-types/b2b";
-import {useAppSelector} from "@/app/hooks.js";
-import {selectOpenOrderById} from "@/ducks/open-orders/openOrdersSlice.js";
+import {useAppSelector} from "@/app/hooks";
+import {selectOpenOrderById} from "@/ducks/open-orders/openOrdersSlice";
 
 const reCustomerFreight = /^(RCP|COL|FREE|THRD)[ ~-]+([\w ]*)[ ~-]+(SWR|HOLD|RUSH)/;
 

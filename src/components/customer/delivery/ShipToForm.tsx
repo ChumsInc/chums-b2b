@@ -1,4 +1,4 @@
-'use client';
+
 
 import {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
 import {saveShipToAddress, setShipToCode} from '@/ducks/customer/actions';
@@ -18,7 +18,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import EmailAddressEditor from "@/components/EmailAddressEditor";
 import TelephoneFormFields from "../common/TelephoneFormFields";
-import {billToCustomerSlug, customerSlug} from "@/utils/customer";
+import {billToCustomerSlug} from "@/utils/customer";
 import PrimaryShipToButton from "./PrimaryShipToButton";
 import TextField from "@mui/material/TextField";
 import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
@@ -38,10 +38,10 @@ const ShipToForm = () => {
 
     useEffect(() => {
         if (loading === 'idle') {
-            const [shipTo] = shipToAddresses.filter(row => row.ShipToCode === params.shipToCode);
-            setShipTo(shipTo ?? null);
+            const [_shipTo] = shipToAddresses.filter(row => row.ShipToCode === params.shipToCode);
+            setShipTo(_shipTo ?? null);
             if (!billTo) {
-                dispatch(setShipToCode(shipTo?.ShipToCode ?? null));
+                dispatch(setShipToCode(_shipTo?.ShipToCode ?? null));
             }
         }
     }, [shipToAddresses, params, loading, billTo])
@@ -68,7 +68,8 @@ const ShipToForm = () => {
     const fieldChangeHandler = (field: keyof ShipToCustomer) => (ev: ChangeEvent<HTMLInputElement>) => {
         switch (field) {
             case 'Reseller':
-                return changeHandler({[field]: ev.target.checked ? 'Y' : 'N'})
+                changeHandler({[field]: ev.target.checked ? 'Y' : 'N'})
+                return
             default:
                 changeHandler({[field]: ev.target.value});
         }

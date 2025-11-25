@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import type {CartProduct, SalesOrderDetailLine} from "chums-types/b2b";
 import Dialog from "@mui/material/Dialog";
 import TableContainer from '@mui/material/TableContainer';
@@ -11,12 +11,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import OrderDetailLine from "./OrderDetailLine.js";
-import SalesOrderTotal from "./SalesOrderTotal.js";
-import {detailToCartItem} from "@/ducks/sales-order/utils.js";
-import {selectSalesOrderDetail} from "@/ducks/open-orders/currentOrderSlice.js";
-import {useAppSelector} from "@/app/hooks.js";
-import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm.js";
+import OrderDetailLine from "./OrderDetailLine";
+import SalesOrderTotal from "./SalesOrderTotal";
+import {detailToCartItem} from "@/ducks/sales-order/utils";
+import {selectSalesOrderDetail} from "@/ducks/open-orders/currentOrderSlice";
+import {useAppSelector} from "@/app/hooks";
+import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
 
 export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;

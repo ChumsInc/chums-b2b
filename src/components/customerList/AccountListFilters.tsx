@@ -1,4 +1,4 @@
-'use client';
+
 
 import Grid from "@mui/material/Grid";
 import {loadCustomerList} from "@/ducks/customers/actions";

@@ -15,15 +15,6 @@ import ResponsiveProductImage from "@/components/product-image/ResponsiveProduct
 import Typography from "@mui/material/Typography";
 import HTMLContent from "@/components/common/HTMLContent";
 
-
-export const ITEM_TYPES = {
-    product: 'product',
-    category: 'category',
-    section: 'section',
-    link: 'link',
-    other: '',
-};
-
 const imageSizes = "(max-width: 600px) 168px, (max-width: 900px) 268px, 354px";
 
 export interface CategoryPageElementProps {

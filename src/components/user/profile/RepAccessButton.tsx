@@ -3,7 +3,6 @@ import {PATH_PROFILE_ACCOUNT} from "@/constants/paths";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import {longRepNo} from "@/utils/customer";
-import React from "react";
 import type {UserCustomerAccess} from "chums-types/b2b";
 
 export interface AccessButtonProps {

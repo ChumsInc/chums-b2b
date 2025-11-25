@@ -8,8 +8,7 @@ import {
     ShipToCustomer, type SortProps
 } from "chums-types/b2b";
 import {CustomerPermissions} from "../../ducks/user/types";
-import type {LoadStatus, Selectable} from "@/types/generic";
-import type {CustomerPermissionsState} from "@/ducks/customer/index";
+import type {LoadStatus} from "@/types/generic";
 
 export interface FetchCustomerResponse {
     contacts: CustomerContact[];

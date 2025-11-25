@@ -1,22 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vite_1 = require("vite");
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 var plugin_react_1 = require("@vitejs/plugin-react");
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 var node_path_1 = require("node:path");
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 var node_process_1 = require("node:process");
-function manualChunks(id) {
-    if (id.includes('node_modules')) {
-        if (id.includes('react')) {
-            return 'react';
-        }
-        if (id.includes('mui')) { }
-        return 'mui';
-    }
-    return null;
-}
 exports.default = (0, vite_1.defineConfig)({
     plugins: [(0, plugin_react_1.default)()],
     resolve: {
@@ -55,10 +48,10 @@ exports.default = (0, vite_1.defineConfig)({
         outDir: 'dist-server',
         lib: {
             entry: node_path_1.default.resolve(node_process_1.default.cwd(), 'src/server/index.ts'),
-            fileName: function (format, fileName) {
-                var extension = format === 'cjs' ? 'js' : 'mjs';
-                return "".concat(fileName, ".").concat(extension);
-            },
+            // fileName: (format, fileName) => {
+            //     // const extension = format === 'cjs' ? 'js' : 'mjs';
+            //     return `${fileName}.mjs`;
+            // },
             name: 'chums-ssr',
             formats: ['es'],
         },

@@ -1,8 +1,8 @@
-import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@/utils/customer.js";
-import localStore from "../../utils/LocalStore.js";
-import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@/constants/stores.js";
-import {selectLoggedIn} from "../user/userProfileSlice.js";
-import {selectCustomerAccount, selectCustomerKey, selectCustomerLoadStatus} from "./currentCustomerSlice.js";
+import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@/utils/customer";
+import localStore from "../../utils/LocalStore";
+import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
+import {selectLoggedIn} from "../user/userProfileSlice";
+import {selectCustomerAccount, selectCustomerKey, selectCustomerLoadStatus} from "./currentCustomerSlice";
 import {
     deleteCustomerUser,
     fetchCustomerAccount,
@@ -12,7 +12,7 @@ import {
     postCustomerUser,
     postDefaultShipToCode,
     postShipToAddress
-} from "@/api/customer.js";
+} from "@/api/customer";
 import type {
     BasicCustomer,
     BillToCustomer,
@@ -21,15 +21,15 @@ import type {
     RecentCustomer,
     ShipToCustomer
 } from "chums-types/b2b";
-import {type RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import type {FetchCustomerResponse} from "./types";
-import {loadOpenOrders} from "../open-orders/actions.js";
+import {loadOpenOrders} from "../open-orders/actions";
 import type {CustomerPermissions} from "@/types/customer";
-import {selectRecentCustomers} from "../customers/recentCustomersSlice.js";
-import {loadCarts} from "@/ducks/carts/actions.js";
-import {canStorePreferences} from "@/ducks/cookie-consent/utils.js";
-import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice.js";
+import {selectRecentCustomers} from "../customers/recentCustomersSlice";
+import {loadCarts} from "@/ducks/carts/actions";
+import {canStorePreferences} from "@/ducks/cookie-consent/utils";
+import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');
@@ -128,6 +128,7 @@ export const saveBillingAddress = createAsyncThunk<FetchCustomerResponse | null,
 )
 
 
+export const maxShipToLength = 4;
 export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, ShipToCustomer, { state: RootState }>(
     'customer/saveShipToAddress',
     async (arg) => {
@@ -137,7 +138,7 @@ export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, 
         condition: (arg, {getState}) => {
             const state = getState();
             return selectLoggedIn(state)
-                && !!arg.ShipToCode && arg.ShipToCode.length <= 4
+                && !!arg.ShipToCode && arg.ShipToCode.length <= maxShipToLength
                 && selectCustomerLoadStatus(state) === 'idle';
         }
     }
