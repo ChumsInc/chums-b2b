@@ -3,7 +3,7 @@
 import {useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomersStateFilter, selectCustomerStates, setCustomersStateFilter} from "@/ducks/customers/customerListSlice";
-import StateSelect from "../StateSelect";
+import StateSelect from "../address/StateSelect.tsx";
 
 const minStates = 1;
 

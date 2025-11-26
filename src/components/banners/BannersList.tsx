@@ -18,7 +18,7 @@ const BannersList = () => {
 
     return (
         <Stack direction="column" spacing={2} sx={{mb: 2}}>
-            {banners.map(banner => (<HomeBanner key={banner.id} banner={banner}/>))}
+            {banners.map((banner, index) => (<HomeBanner key={banner.id} banner={banner} loading={index === 0 ? 'eager' : 'lazy'} />))}
         </Stack>
     )
 }

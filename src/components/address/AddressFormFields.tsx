@@ -1,6 +1,6 @@
 import type {ChangeEvent} from 'react';
-import StateSelect from '../StateSelect';
-import CountrySelect from '../CountrySelect';
+import StateSelect from './StateSelect.tsx';
+import CountrySelect from './CountrySelect.tsx';
 import type {CustomerAddress} from "chums-types/b2b";
 import {isCanada, isUSA} from "@/utils/customer";
 import Stack from "@mui/material/Stack";

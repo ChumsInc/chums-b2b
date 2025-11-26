@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useId, useState} from 'react';
 import Drawer from "@mui/material/Drawer";
 import Grid from "@mui/material/Grid";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
@@ -24,6 +24,7 @@ export default function CookieConsentDrawer() {
     const hasCookieConsent = useAppSelector(selectHasCookieConsent);
     const dismissed = useAppSelector(selectCookieConsentDismissed);
     const [showDialog, setShowDialog] = useState(false);
+    const id = useId();
 
     const acceptHandler = () => {
         const body: CookieConsentBody = {
@@ -60,18 +61,21 @@ export default function CookieConsentDrawer() {
                     </Typography>
                 </Grid>
                 <Grid size={{xs: 5, lg: "auto"}}>
-                    <Button onClick={() => setShowDialog(true)}>Cookie Settings</Button>
+                    <Button onClick={() => setShowDialog(true)}
+                            aria-controls={id} aria-haspopup={true} aria-expanded={showDialog}>
+                        Cookie Settings
+                    </Button>
                 </Grid>
                 <Grid size={{xs: 5, lg: "auto"}}>
                     <Button variant="contained" color="chumsGrey" onClick={acceptHandler}>Accept Cookies</Button>
                 </Grid>
                 <Grid size={{xs: 2, lg: "auto"}}>
-                    <IconButton onClick={onDismiss}>
+                    <IconButton onClick={onDismiss} aria-label="Dismiss cookie-consent dialog">
                         <CloseIcon/>
                     </IconButton>
                 </Grid>
             </Grid>
-            <CookieConsentDialog open={showDialog} onClose={() => setShowDialog(false)}/>
+            <CookieConsentDialog open={showDialog} onClose={() => setShowDialog(false)} id={id}/>
         </Drawer>
     )
 }

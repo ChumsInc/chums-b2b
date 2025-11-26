@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import FooterLinks from "@/components/footer/FooterLinks";
 import SocialIcons from "@/components/footer/SocialIcons";
 import ContactUs from "@/components/footer/ContactUs";
+import SignUpModal from "@/components/sign-up/SignUpModal.tsx";
 
 const ContactsContainer = styled(Stack)(() => ({
     backgroundColor: '#000000',
@@ -20,6 +21,7 @@ const Footer = () => {
                 <SocialIcons/>
             </ContactsContainer>
             <FooterLinks/>
+            <SignUpModal/>
         </Box>
     )
 };

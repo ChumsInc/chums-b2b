@@ -21,6 +21,8 @@ export const helmetOptions:Readonly<HelmetOptions> = {
                 "https://accounts.google.com/gsi/client",
                 "www.google-analytics.com",
                 "www.googletagmanager.com",
+                "https://www.youtube.com/",
+                "https://www.youtube-nocookie.com/",
                 "'unsafe-inline'",
                 (_req: IncomingMessage, res: ServerResponse): string => `'nonce-${(res as Response).locals.cspNonce}'`,
             ],

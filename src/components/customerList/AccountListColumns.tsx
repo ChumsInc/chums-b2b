@@ -1,10 +1,10 @@
 import type {SortableTableField} from "@/components/common/DataTable";
 import type {Customer} from "chums-types/b2b";
 import type {SxProps} from "@mui/system";
-import CustomerLink from "../CustomerLink";
+import CustomerLink from "./CustomerLink.tsx";
 import CustomerNameField from "./CustomerNameField";
 import {stateCountry} from "@/utils/customer";
-import TelephoneLink from "../TelephoneLink";
+import TelephoneLink from "./TelephoneLink.tsx";
 
 interface ColumnData extends SortableTableField<Customer> {
     width: number;

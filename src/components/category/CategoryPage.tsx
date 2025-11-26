@@ -1,9 +1,6 @@
-
-
 import {useEffect} from 'react';
 import {loadCategory} from '@/ducks/category/actions';
 import CategoryPageElement from "./CategoryPageElement";
-import DocumentTitle from "../DocumentTitle";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCategory, selectCategoryLoading} from "@/ducks/category/selectors";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -12,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import {ga4ViewItemList} from "@/utils/ga4/generic";
 import HTMLContent from "@/components/common/HTMLContent";
+import {useTitle} from "@/components/app/TitleContext";
 
 export interface CategoryPageProps {
     keyword: string;
@@ -21,6 +19,7 @@ export default function CategoryPage({keyword}: CategoryPageProps) {
     const dispatch = useAppDispatch();
     const loading = useAppSelector(selectCategoryLoading);
     const category = useAppSelector(selectCategory);
+    const {setPageTitle} = useTitle()
 
     useEffect(() => {
         if (category?.keyword === keyword) {
@@ -31,6 +30,10 @@ export default function CategoryPage({keyword}: CategoryPageProps) {
 
     useEffect(() => {
         if (category) {
+            setPageTitle({
+                title: category.title,
+                description: category.pageText?.substring(0, 150) ?? ''
+            })
             ga4ViewItemList(category);
         }
     }, [category]);
@@ -47,7 +50,6 @@ export default function CategoryPage({keyword}: CategoryPageProps) {
     const children = category.children.filter(cat => !!cat.status).sort((a, b) => a.priority - b.priority);
     return (
         <Box>
-            <DocumentTitle documentTitle={title}/>
             {!!lifestyle && (
                 <img src={lifestyle} alt="lifestyle image" aria-hidden="true" style={{width: '100%'}}/>
             )}

@@ -3,7 +3,6 @@ import {redirect, useMatch, useParams} from 'react-router';
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import OrderDetail from "./OrderDetail";
-import DocumentTitle from "@/components/DocumentTitle";
 import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadSalesOrder} from "@/ducks/open-orders/actions";
@@ -12,6 +11,7 @@ import SalesOrderSkeleton from "./SalesOrderSkeleton";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
+import {useTitle} from "@/components/app/TitleContext";
 
 /**
  *
@@ -27,6 +27,11 @@ const SalesOrderPage = () => {
     const salesOrderHeader = useAppSelector(selectSalesOrderHeader);
     const loading = useAppSelector(selectSalesOrderStatus);
     const customerLoaded = useAppSelector(selectCustomerLoaded);
+    const {setPageTitle} = useTitle();
+
+    useEffect(() => {
+        setPageTitle({title: `Sales Order #${salesOrderHeader?.SalesOrderNo ?? 'Loading...'}`});
+    }, [salesOrderHeader]);
 
     useEffect(() => {
         if (loading !== 'idle') {
@@ -43,11 +48,9 @@ const SalesOrderPage = () => {
         return null;
     }
 
-    const documentTitle = `Sales Order #${match?.params?.salesOrderNo}`;
     if (!salesOrderHeader || !customer) {
         return (
             <div>
-                <DocumentTitle documentTitle={documentTitle}/>
                 <Typography variant="h3" component="h2">Sales Order #{match?.params?.salesOrderNo}</Typography>
                 <div className="sales-order-page">
                     <SalesOrderSkeleton/>
@@ -60,7 +63,6 @@ const SalesOrderPage = () => {
     if (salesOrderHeader.OrderStatus === 'X') {
         return (
             <div>
-                <DocumentTitle documentTitle={documentTitle}/>
                 <Typography variant="h3" component="h2">Cancelled Order #{salesOrderHeader.SalesOrderNo}</Typography>
                 <div className="sales-order-page">
                     <SalesOrderSkeleton/>
@@ -74,14 +76,11 @@ const SalesOrderPage = () => {
     }
 
     return (
-        <div>
-            <DocumentTitle documentTitle={documentTitle}/>
-            <div className="sales-order-page">
-                <Typography variant="h3" component="h2">Sales Order #{salesOrderHeader.SalesOrderNo}</Typography>
-                <SalesOrderHeaderElement/>
-                <SalesOrderLoadingProgress/>
-                <OrderDetail salesOrderNo={match?.params?.salesOrderNo}/>
-            </div>
+        <div className="sales-order-page">
+            <Typography variant="h3" component="h2">Sales Order #{salesOrderHeader.SalesOrderNo}</Typography>
+            <SalesOrderHeaderElement/>
+            <SalesOrderLoadingProgress/>
+            <OrderDetail salesOrderNo={match?.params?.salesOrderNo}/>
         </div>
     )
 }

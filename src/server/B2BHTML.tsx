@@ -38,11 +38,6 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
             <meta httpEquiv="x-ua-compatible" content="ie-edge"/>
             <meta name="description" content="Chums B2B"/>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
-            <title>Chums B2B</title>
-            <meta property="og:image" content="https://b2b.chums.com/images/logos/Chums-Logo-Badge-Red-RGB.png"/>
-            <meta property="og:image:alt" content="Chums Logo"/>
-            <meta property="og:type" content="website"/>
-            <meta property="og:url" content="https://b2b.chums.com/"/>
             <link rel="apple-touch-icon" sizes="57x57" href="/images/icons/apple-touch-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="/images/icons/apple-touch-icon-60x60.png"/>
             <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/apple-touch-icon-72x72.png"/>

@@ -2,21 +2,21 @@
 
 import {useRef, useState} from 'react';
 import classNames from "classnames";
-import OrderItemImage from "@/components/OrderItemImage";
-import AvailabilityAlert from "@/components/AvailabilityAlert";
+import OrderItemImage from "@/components/common/OrderItemImage.tsx";
+import AvailabilityAlert from "@/components/b2b-cart/AvailabilityAlert.tsx";
 import numeral from "numeral";
-import CartQuantityInput from "@/components/CartQuantityInput";
-import PriceLevelNotice from "@/components/PriceLevelNotice";
+import CartQuantityInput from "@/components/b2b-cart/CartQuantityInput.tsx";
+import PriceLevelNotice from "@/components/common/PriceLevelNotice.tsx";
 import Decimal from "decimal.js";
 import CartLineButtons from "./CartLineButtons";
 import SalesOrderCommentLine from "./CartCommentLine";
-import FormattedUPC from "@/components/FormattedUPC";
+import FormattedUPC from "@/components/common/FormattedUPC.tsx";
 import Typography from "@mui/material/Typography";
 import {selectCanViewAvailable} from "@/ducks/user/userProfileSlice";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import ProductLink from "@/components/ProductLink";
+import ProductLink from "@/components/common/ProductLink.tsx";
 import {selectCartItemById, setCartItem} from "@/ducks/carts/cartDetailSlice";
 import Alert from "@mui/material/Alert";
 

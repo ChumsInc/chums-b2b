@@ -3,7 +3,6 @@ import LoginLocal from "./LoginLocal";
 import {documentTitles, PATH_PROFILE} from "@/constants/paths";
 import Alert from '@mui/material/Alert';
 import GoogleSignInButton from "./GoogleSignInButton";
-import DocumentTitle from "../../DocumentTitle";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import Typography from "@mui/material/Typography";
 import {useLocation, useNavigate} from "react-router";
@@ -13,14 +12,17 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import AccessWarningAlert from "../AccessWarningAlert";
 import {useAppSelector} from "@/app/hooks";
+import {useTitle} from "@/components/app/TitleContext";
 
 const LoginPage = () => {
     const loggedIn = useAppSelector(selectLoggedIn);
     const navigate = useNavigate();
     const location = useLocation();
     const [message, setMessage] = useState<string | null>(null);
+    const {setPageTitle} = useTitle();
 
     useEffect(() => {
+        setPageTitle({title: documentTitles.login, description: 'Login to your Chums B2B Portal account.'})
         if (location.state?.message) {
             setMessage(location.state.message);
         }
@@ -32,9 +34,9 @@ const LoginPage = () => {
         }
     }, [loggedIn]);
 
+
     return (
         <Container maxWidth="sm">
-            <DocumentTitle documentTitle={documentTitles.login}/>
             <Typography variant="h1" component="h1" sx={{my: 3}}>Chums B2B Portal</Typography>
             <Typography variant="body1">Hey there friend! This site is for authorized Chums dealers only.</Typography>
 

@@ -14,7 +14,7 @@ import {
 } from "@/ducks/invoices/invoiceListSlice";
 import {loadInvoices} from "@/ducks/invoices/actions";
 import {InvoiceLink} from "./InvoiceLink";
-import DateString from "@/components/DateString";
+import DateString from "@/components/common/DateString.tsx";
 import numeral from "numeral";
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import type {InvoiceHistoryHeader} from "chums-types/b2b";

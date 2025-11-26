@@ -1,10 +1,10 @@
-import SeasonTeaser from "../SeasonTeaser";
+import SeasonTeaser from "./SeasonTeaser.tsx";
 import type {BasicProduct} from "chums-types/b2b";
 import CategoryGridItem from "./CategoryGridItem";
-import ProductAttributeStack from "@/ducks/products/components/ProductAttrbuteStack";
-import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
+import ProductAttributeStack from "@/components/products/ProductAttrbuteStack.tsx";
+import ResponsiveProductImage from "@/components/products/product-image/ResponsiveProductImage";
 import {parseImageFilename} from "@/components/common/image";
-import ProductLink from "@/components/ProductLink";
+import ProductLink from "@/components/common/ProductLink.tsx";
 import HTMLContent from "@/components/common/HTMLContent";
 
 const CategoryProductLink = ({title, description, product, imageUrl, className = ''}: {

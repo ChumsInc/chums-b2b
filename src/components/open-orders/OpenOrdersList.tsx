@@ -13,14 +13,14 @@ import {
     selectOpenOrdersStatus, setOpenOrdersFilter
 } from "@/ducks/open-orders/openOrdersSlice";
 import OrdersList from "./OrdersList";
-import OrderLink from "../OrderLink";
-import DateString from "@/components/DateString";
+import OrderLink from "./OrderLink.tsx";
+import DateString from "@/components/common/DateString.tsx";
 import type {SortableTableField} from "@/components/common/DataTable";
 import {loadOpenOrders} from "@/ducks/open-orders/actions";
 import OrderFilter from "./OrderFilter";
 import NoOpenOrdersAlert from "./NoOpenOrdersAlert";
 import {selectCustomerShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
-import ShipToCustomerLink from "@/components/ShipToCustomerLink";
+import ShipToCustomerLink from "@/components/customerList/ShipToCustomerLink.tsx";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 
 

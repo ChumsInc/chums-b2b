@@ -2,7 +2,7 @@
 
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomersRepFilter, setCustomersRepFilter} from "@/ducks/customers/customerListSlice";
-import RepSelect from "@/ducks/reps/components/RepSelect";
+import RepSelect from "@/components/customerList/RepSelect.tsx";
 import {selectCanFilterReps} from "@/ducks/user/userAccessSlice";
 
 const AccountListRepFilter = () => {

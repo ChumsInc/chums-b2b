@@ -1,0 +1,63 @@
+import {useEffect, useRef} from 'react';
+import {selectActiveMessages, selectMessagesLoaded} from "@/ducks/messages/selectors.ts";
+import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
+import {loadMessages} from "@/ducks/messages/actions.ts";
+import Stack from "@mui/material/Stack";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import WebIcon from '@mui/icons-material/Web';
+import Typography from "@mui/material/Typography";
+import Alert, {type AlertProps} from "@mui/material/Alert";
+import type {Message} from "chums-types/b2b";
+import Container from "@mui/material/Container";
+
+const messagesMaxAge = 1000 * 60 * 30; //30 minutes
+
+const SiteMessages = () => {
+    const dispatch = useAppDispatch();
+    const messages = useAppSelector(selectActiveMessages);
+    const loaded = useAppSelector(selectMessagesLoaded);
+    const timerRef = useRef<number>(0);
+
+    useEffect(() => {
+        timerRef.current = window.setInterval(() => {
+            dispatch(loadMessages());
+        }, messagesMaxAge);
+
+        return () => {
+            window.clearInterval(timerRef.current);
+        }
+    }, [messages, loaded]);
+
+    const refreshHandler = () => {
+        dispatch(loadMessages());
+    }
+
+    if (!messages.length) {
+        return null;
+    }
+
+    const alertProps = (message: Message): Pick<AlertProps, 'severity' | 'icon'> => {
+        switch (message.type) {
+            case 'shipping':
+                return {severity: "info", icon: <LocalShippingIcon onClick={refreshHandler}/>};
+            case 'site':
+                return {severity: 'warning', icon: <WebIcon onClick={refreshHandler}/>};
+            // no default
+        }
+        return {};
+    }
+
+    return (
+        <Container>
+            <Stack spacing={1} sx={{mb: 5}}>
+                {messages.map((message) => (
+                    <Alert key={message.id} {...alertProps(message)}>
+                        <Typography>{message.message}</Typography>
+                    </Alert>
+                ))}
+            </Stack>
+        </Container>
+    )
+}
+
+export default SiteMessages;

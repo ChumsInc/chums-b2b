@@ -6,7 +6,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import List from "@mui/material/List";
-import ListItemLink from "@/components/ListItemLink";
+import ListItemLink from "@/components/nav-bar/ListItemLink.tsx";
 import Divider from "@mui/material/Divider";
 
 export interface DrawerMenuProps {

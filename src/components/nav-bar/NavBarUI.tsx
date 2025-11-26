@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import HideOnScroll from "../HideOnScroll";
+import HideOnScroll from "./HideOnScroll.tsx";
 import Divider from '@mui/material/Divider';
 import List from "@mui/material/List";
 import Stack from "@mui/material/Stack";
@@ -12,7 +12,7 @@ import HomeLink from "./HomeLink";
 import Container from "@mui/material/Container";
 import UserMenu from "./UserMenu";
 import CartMenu from "./CartMenu";
-import SearchBar from "@/ducks/search/components/SearchBar";
+import SearchBar from "@/components/search/SearchBar.tsx";
 import NavMenuList from "@/components/nav-bar/NavMenuList";
 import {useState} from "react";
 

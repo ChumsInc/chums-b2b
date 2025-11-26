@@ -17,7 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import ChumsLogo from "../ChumsLogo";
+import ChumsLogo from "../common/ChumsLogo.tsx";
 import styled from '@emotion/styled';
 
 const imagePathLandscape = "/images/chums/homepage/2024/06/B2BPopUpImage-landscape.jpg";

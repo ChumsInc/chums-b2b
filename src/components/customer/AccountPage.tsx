@@ -1,11 +1,8 @@
-
-
 import {useEffect} from 'react';
 import {loadCustomer, setReturnToPath} from '@/ducks/customer/actions';
 import AccountBreadcrumbs from "./AccountBreadcrumbs";
 import {selectCustomerAccount, selectCustomerLoadStatus,} from "@/ducks/customer/currentCustomerSlice";
 import {generatePath, Outlet, useNavigate, useParams} from "react-router";
-import DocumentTitle from "@/components/DocumentTitle";
 import AccountTabs from "./AccountTabs";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {customerSlug, isSameCustomer, parseCustomerSlug} from "@/utils/customer";
@@ -14,8 +11,9 @@ import CustomerTitle from "@/components/customer/CustomerTitle";
 import {ga4SelectCustomer} from "@/utils/ga4/generic";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice";
+import {useTitle} from "@/components/app/TitleContext";
 
-const AccountPage = () => {
+export default function AccountPage() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const customer = useAppSelector(selectCustomerAccount);
@@ -23,6 +21,7 @@ const AccountPage = () => {
     const params = useParams<{ customerSlug: string }>();
     const loadStatus = useAppSelector(selectCustomerLoadStatus);
     const shipTo = useAppSelector(selectCustomerShipTo);
+    const {setPageTitle} = useTitle()
 
     useEffect(() => {
         return () => {
@@ -32,6 +31,7 @@ const AccountPage = () => {
 
     useEffect(() => {
         if (customer) {
+            setPageTitle({title: customer.CustomerName});
             ga4SelectCustomer(customerSlug(customer)!);
         }
     }, [customer]);
@@ -59,7 +59,6 @@ const AccountPage = () => {
 
     return (
         <div>
-            <DocumentTitle documentTitle={customer?.CustomerName ?? ''}/>
             <AccountBreadcrumbs/>
             <ReturnToAlert/>
             <CustomerTitle customer={customer} shipTo={shipTo} loading={loadStatus !== 'idle'}/>
@@ -68,5 +67,3 @@ const AccountPage = () => {
         </div>
     );
 };
-
-export default AccountPage;

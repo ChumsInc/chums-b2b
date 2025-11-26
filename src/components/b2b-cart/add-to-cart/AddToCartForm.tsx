@@ -11,7 +11,7 @@ import CartNameInput from "./CartNameInput";
 import AddToCartButton from "./AddToCartButton";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import CartSelect from "@/components/b2b-cart/add-to-cart/CartSelect";
-import CartQuantityInput from "@/components/CartQuantityInput";
+import CartQuantityInput from "@/components/b2b-cart/CartQuantityInput.tsx";
 import type {CartProduct} from "chums-types/b2b";
 import Box from "@mui/material/Box";
 import type {B2BCartHeader} from "@/types/cart/cart-header";

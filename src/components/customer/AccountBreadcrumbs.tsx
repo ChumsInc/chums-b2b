@@ -1,5 +1,5 @@
 import {PATH_PROFILE, PATH_PROFILE_ACCOUNT} from "@/constants/paths";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/components/common/Breadcrumb.tsx";
 import {generatePath, useLocation} from "react-router";
 import type {BreadcrumbPath} from "@/types/breadcrumbs";
 import {repAccessCode} from "@/ducks/user/utils";

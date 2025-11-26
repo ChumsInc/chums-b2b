@@ -18,6 +18,7 @@ import {auth} from "@/api/IntranetAuthService";
 import {selectAppNonce} from "@/ducks/app/selectors";
 import {ga4PageView} from "@/utils/ga4/generic";
 import AppRouter from "@/app/AppRouter.tsx";
+import TitleProvider from "@/components/app/TitleProvider";
 
 
 export default function App() {
@@ -62,7 +63,9 @@ export default function App() {
                 <ThemeProvider theme={theme}>
                     <CssBaseline>
                         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID} nonce={nonce ?? undefined}>
-                            <AppRouter/>
+                            <TitleProvider>
+                                <AppRouter/>
+                            </TitleProvider>
                         </GoogleOAuthProvider>
                     </CssBaseline>
                 </ThemeProvider>

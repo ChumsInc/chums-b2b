@@ -11,7 +11,12 @@ const StyledImg = styled.img`
     height: auto;
 `
 
-export default function ImageBanner({banner}: { banner: Banner }) {
+export interface ImageBannerProps {
+    banner: Banner;
+    loading?: 'eager' | 'lazy';
+}
+
+export default function ImageBanner({banner, loading}: ImageBannerProps) {
     if (!banner.image || (!banner.image.desktop?.filename && !banner.image.mobile?.filename)) {
         return null;
     }
@@ -49,7 +54,8 @@ export default function ImageBanner({banner}: { banner: Banner }) {
                                 width={banner.image.desktop?.width || 1600}
                                 height={banner.image.desktop?.height || 500}
                                 srcSet={bannerImagePath(banner.image.desktop.filename)}/>)}
-                    <StyledImg src={src} alt={banner.image.desktop?.altText || banner.image.mobile?.altText || ''} />
+                    <StyledImg src={src} alt={banner.image.desktop?.altText || banner.image.mobile?.altText || ''}
+                               loading={loading}/>
                 </picture>
                 {banner.image.desktop?.overlay && (
                     <Typography variant="body1" sx={desktopSxProps}>

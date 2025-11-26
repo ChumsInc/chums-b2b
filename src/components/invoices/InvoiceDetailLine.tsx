@@ -1,13 +1,13 @@
 import {Fragment} from 'react';
 import classNames from "classnames";
 import numeral from "numeral";
-import OrderItemImage from "../OrderItemImage";
-import PriceLevelNotice from "../PriceLevelNotice";
+import OrderItemImage from "../common/OrderItemImage.tsx";
+import PriceLevelNotice from "../common/PriceLevelNotice.tsx";
 import UPCA from "@/components/common/upc-a";
 import type {InvoiceDetail} from "chums-types/b2b";
 import Decimal from "decimal.js";
 import SalesOrderLineButtons from "@/components/open-orders/SalesOrderLineButtons";
-import FormattedUPC from "../FormattedUPC";
+import FormattedUPC from "../common/FormattedUPC.tsx";
 import Typography from "@mui/material/Typography";
 import TableRow from '@mui/material/TableRow';
 import TableCell from "@mui/material/TableCell";

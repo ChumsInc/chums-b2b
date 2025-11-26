@@ -29,7 +29,7 @@ export default function CartIcon() {
                 <Box sx={{m: 1, position: 'relative'}}>
                     <Badge badgeContent={cartQty} color="primary" max={99999}
                            anchorOrigin={{vertical: "bottom", horizontal: 'right'}}>
-                        <ShoppingCartIcon fontSize="medium"/>
+                        <ShoppingCartIcon fontSize="medium" aria-label={`Cart #${cartId}`}/>
                     </Badge>
                     {cartStatus !== 'idle' && (
                         <CircularProgress size={36} sx={{position: 'absolute', top: -6, left: -6, zIndex: 1}}/>

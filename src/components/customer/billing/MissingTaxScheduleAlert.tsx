@@ -17,7 +17,7 @@ const MissingTaxScheduleAlert = () => {
         return null;
     }
 
-    if (!loggedIn || !loaded || loading === 'loading' || !!customer?.TaxSchedule) {
+    if (!loggedIn || !loaded || loading === 'loading' || !!customer.TaxSchedule) {
         return null;
     }
 

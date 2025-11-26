@@ -40,6 +40,7 @@ export const TERMS_CODES: TermsCodeList = {
     '40': {description: '2% 15 Net 50', due: 50},
     '90': {description: 'Net 90 Days', due: 90},
     '92': {description: 'Net 120 Days', due: 120},
+    '97': {description: 'Ebiz Email Pay', due: 0},
     '98': {description: 'Cash In Advance', due: 0},
     '99': {description: '*Net 30 Days', due: 30},
 };

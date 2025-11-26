@@ -1,9 +1,5 @@
-
-
 import {type ChangeEvent, type  FormEvent, useEffect, useState} from 'react';
 import AddressFormFields from '../../address/AddressFormFields';
-import {filteredTermsCode} from '@/constants/account';
-import {longCustomerNo} from "@/utils/customer";
 import {saveBillingAddress} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
 import MissingTaxScheduleAlert from "./MissingTaxScheduleAlert";
@@ -18,17 +14,14 @@ import type {BillToCustomer, Editable} from "chums-types/b2b";
 import LinearProgress from "@mui/material/LinearProgress";
 import ReloadCustomerButton from "../common/ReloadCustomerButton";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import TelephoneFormFields from "../common/TelephoneFormFields";
-import IconButton from "@mui/material/IconButton";
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
+import BillingCustomerAddressTitle from "@/components/customer/billing/BillingCustomerAddressTitle.tsx";
+import BillingCustomerAccountNumber from "@/components/customer/billing/BillingCustomerAccountNumber.tsx";
+import BillingCustomerPaymentTerms from "@/components/customer/billing/BillingCustomerPaymentTerms.tsx";
+import BillingEmailFields from "@/components/customer/billing/BillingEmailFields.tsx";
 
 const BillToForm = () => {
     const dispatch = useAppDispatch();
@@ -37,12 +30,10 @@ const BillToForm = () => {
     const canEdit = useAppSelector(selectCanEdit);
     const permissions = useAppSelector(selectCustomerPermissions);
     const [customer, setCustomer] = useState<(BillToCustomer & Editable) | null>(current ?? null);
-    const [emailAddresses, setEmailAddresses] = useState<string[]>(current?.EmailAddress?.split(';')?.map(email => email.trim()) ?? [''])
 
     useEffect(() => {
         if (isBillToCustomer(current)) {
             setCustomer({...current});
-            setEmailAddresses(current?.EmailAddress?.split(';')?.map(email => email.trim()) ?? ['']);
         } else {
             setCustomer(null);
         }
@@ -61,41 +52,6 @@ const BillToForm = () => {
                 return
             default:
                 changeHandler(({[field]: ev.target.value}));
-        }
-    }
-
-    const emailChangeHandler = (index: number) => (ev: ChangeEvent<HTMLInputElement>) => {
-        if (!customer) {
-            return;
-        }
-        const email: string[] = [...emailAddresses];
-        if (email[index] !== undefined) {
-            email[index] = ev.target.value;
-        }
-        setEmailAddresses(email);
-        setCustomer({...customer, EmailAddress: email.join(';')});
-    }
-
-    const addEmailAddressHandler = (after: number) => {
-        if (!customer) {
-            return;
-        }
-        const email = emailAddresses.toSpliced(after + 1, 0, '');
-        setEmailAddresses(email);
-        setCustomer({...customer, EmailAddress: email.join(';')});
-    }
-
-    const removeEmailAddressHandler = (index: number) => {
-        if (!customer) {
-            return;
-        }
-        if (emailAddresses[index] !== undefined) {
-            const email = emailAddresses.filter((_, _index) => _index !== index);
-            if (email.length === 0) {
-                email.push('');
-            }
-            setEmailAddresses(email);
-            setCustomer({...customer, EmailAddress: email.join(';')});
         }
     }
 
@@ -125,62 +81,14 @@ const BillToForm = () => {
             <div>
                 {loading === 'loading' && <LinearProgress variant="indeterminate"/>}
                 <Grid container spacing={2}>
-                    <Grid size={{xs: 12, sm: 6}}>
-                        <TextField variant="filled" label="Account Number" fullWidth size="small"
-                                   type="text" value={longCustomerNo(customer) || ''}
-                                   slotProps={{
-                                       htmlInput: {readOnly: true}
-                                   }}/>
-                    </Grid>
-                    <Grid size={{xs: 12, sm: 6}}>
-                        {customer.ParentCustomerNo && (
-                            <>
-                                <Typography variant="subtitle1" component="h3">
-                                    Billing Customer
-                                </Typography>
-                                <Box sx={{mb: 1}}>
-                                    <Typography variant="h5" sx={{
-                                        display: 'inline',
-                                        mr: 3
-                                    }}>{customer.ParentDivisionNo}-{customer.ParentCustomerNo}</Typography>
-                                    <Typography variant="h5" sx={{
-                                        display: 'inline',
-                                        fontWeight: 300
-                                    }}>{customer.ParentCustomerName}</Typography>
-                                </Box>
-                                <Address address={{
-                                    CustomerName: '',
-                                    AddressLine1: customer.ParentAddressLine1 ?? '',
-                                    AddressLine2: customer.ParentAddressLine2 ?? '',
-                                    AddressLine3: customer.ParentAddressLine3 ?? '',
-                                    City: customer.ParentCity ?? '',
-                                    State: customer.ParentState ?? '',
-                                    ZipCode: customer.ParentZipCode ?? '',
-                                    CountryCode: customer.ParentCountryCode ?? '',
-                                }}/>
-                            </>
-                        )}
-                        {!customer.ParentCustomerNo && (
-                            <TextField variant="filled" label="Payment Terms" fullWidth size="small"
-                                       type="text" value={filteredTermsCode(customer.TermsCode)?.description ?? ''}
-                                       slotProps={{
-                                           htmlInput: {readOnly: true}
-                                       }}
-                            />
-                        )}
-                    </Grid>
+                    <BillingCustomerAccountNumber customer={customer}/>
+                    <BillingCustomerPaymentTerms customer={customer}/>
                 </Grid>
 
-                {!customer.TaxSchedule && (<MissingTaxScheduleAlert/>)}
+                <MissingTaxScheduleAlert/>
+
                 <hr/>
-                <Typography variant="h3" component="h3">
-                    {customer.ParentCustomerNo && (
-                        <span>Sold-To Contact &amp; Address</span>
-                    )}
-                    {!customer.ParentCustomerNo && (
-                        <span>Billing Contact &amp; Address</span>
-                    )}
-                </Typography>
+                <BillingCustomerAddressTitle customer={customer}/>
 
                 <form onSubmit={submitHandler}>
                     <Grid container spacing={2}>
@@ -194,33 +102,7 @@ const BillToForm = () => {
                                 <StoreMapToggle checked={customer.Reseller === 'Y'}
                                                 onChange={fieldChangeHandler('Reseller')}
                                                 readOnly={!canEdit}/>
-                                {emailAddresses.map((email, index) => (
-                                    <TextField key={index} variant="filled" label="Email Address" fullWidth size="small"
-                                               type="email" value={email} onChange={emailChangeHandler(index)}
-                                               slotProps={{
-                                                   htmlInput: {
-                                                       readOnly: !canEdit,
-                                                       maxLength: 250 - emailAddresses.join(';').length
-                                                   },
-                                                   input: {
-                                                       endAdornment: (
-                                                           <InputAdornment position="end">
-                                                               <IconButton aria-label="Add a new email address"
-                                                                           disabled={!email || emailAddresses.join(';').length > 240}
-                                                                           onClick={() => addEmailAddressHandler(index)}>
-                                                                   <AddIcon/>
-                                                               </IconButton>
-                                                               <IconButton aria-label="Add a new email address"
-                                                                           onClick={() => removeEmailAddressHandler(index)}
-                                                                           disabled={index === 0}>
-                                                                   <RemoveIcon/>
-                                                               </IconButton>
-                                                           </InputAdornment>
-                                                       )
-                                                   }
-                                               }}
-                                    />
-                                ))}
+                                <BillingEmailFields onChange={changeHandler}/>
                                 <TelephoneFormFields account={customer} onChange={changeHandler} readOnly={!canEdit}/>
                                 {customer.changed &&
                                     <Alert severity="warning" title="Hey!">Don&#39;t forget to save your

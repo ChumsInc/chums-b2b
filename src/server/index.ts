@@ -42,6 +42,7 @@ app.use(useCookieGPCHelper());
 app.get('/chums.css.map', (_, res) => {
     res.redirect('/css/chums.css.map');
 })
+app.use('/assets', express.static('./dist-client/assets', {fallthrough: false}));
 app.use('/css', express.static('./dist-server/css', {fallthrough: false}));
 app.use('/js', express.static('./dist-server/js', {fallthrough: false}));
 app.use('/build', express.static('./public/build', {fallthrough: false}));

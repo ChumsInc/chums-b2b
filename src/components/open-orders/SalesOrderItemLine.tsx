@@ -5,11 +5,11 @@ import Decimal from "decimal.js";
 import Typography from "@mui/material/Typography";
 import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
-import OrderItemImage from "../OrderItemImage";
-import PriceLevelNotice from "../PriceLevelNotice";
+import OrderItemImage from "../common/OrderItemImage.tsx";
+import PriceLevelNotice from "../common/PriceLevelNotice.tsx";
 import SalesOrderLineButtons from "./SalesOrderLineButtons";
 import SalesOrderCommentLine from "./SalesOrderCommentLine";
-import FormattedUPC from "../FormattedUPC";
+import FormattedUPC from "../common/FormattedUPC.tsx";
 import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils";
 
 export default function SalesOrderItemLine({

@@ -16,7 +16,7 @@ import ReloadCustomerButton from "../common/ReloadCustomerButton";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import EmailAddressEditor from "@/components/EmailAddressEditor";
+import EmailAddressEditor from "@/components/customer/delivery/EmailAddressEditor.tsx";
 import TelephoneFormFields from "../common/TelephoneFormFields";
 import {billToCustomerSlug} from "@/utils/customer";
 import PrimaryShipToButton from "./PrimaryShipToButton";

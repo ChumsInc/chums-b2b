@@ -1,10 +1,7 @@
-
-
 import {useEffect} from 'react';
 import {loadInvoice} from '@/ducks/invoices/actions';
 import InvoiceHeader from "./InvoiceHeader";
 import InvoicePageDetail from "./InvoicePageDetail";
-import DocumentTitle from "../DocumentTitle";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {redirect, useMatch} from "react-router";
 import {selectCurrentInvoice, selectCurrentInvoiceStatus} from "@/ducks/invoices/currentInvoiceSlice";
@@ -14,6 +11,7 @@ import type {InvoiceType} from "chums-types/b2b";
 import type {FetchInvoiceArg} from "@/ducks/invoices/types";
 import Typography from "@mui/material/Typography";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
+import {useTitle} from "@/components/app/TitleContext";
 
 const invoiceTypeDescription = (invoiceType: InvoiceType): string => {
     switch (invoiceType) {
@@ -29,7 +27,7 @@ const invoiceTypeDescription = (invoiceType: InvoiceType): string => {
             return 'Cash Invoice';
         case 'XD':
             return 'Deleted Invoice';
-            // no default
+        // no default
     }
     return 'Invoice';
 }
@@ -40,6 +38,12 @@ const InvoicePage = () => {
     const invoice = useAppSelector(selectCurrentInvoice);
     const status = useAppSelector(selectCurrentInvoiceStatus);
     const customer = useAppSelector(selectCustomerKey);
+    const {setPageTitle} = useTitle();
+    const documentTitle = `Invoice: ${match?.params?.invoiceNo ?? ''}-${match?.params?.invoiceType ?? ''}`;
+
+    useEffect(() => {
+        setPageTitle({title: documentTitle});
+    }, [documentTitle, setPageTitle]);
 
     useEffect(() => {
         if (customer && billToCustomerSlug(customer) !== match?.params?.customerSlug) {
@@ -57,11 +61,8 @@ const InvoicePage = () => {
         }
     }, [match, invoice, status, customer]);
 
-    const documentTitle = `Invoice: ${match?.params?.invoiceNo ?? ''}-${match?.params?.invoiceType ?? ''}`;
-
     return (
         <div className="sales-order-page">
-            <DocumentTitle documentTitle={documentTitle}/>
             <Typography component="h2" variant="h2">{documentTitle}</Typography>
             {!!invoice && invoice.InvoiceType !== 'IN' && (
                 <Typography component="h3" variant="h3">{invoiceTypeDescription(invoice.InvoiceType)}</Typography>)}

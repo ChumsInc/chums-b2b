@@ -26,9 +26,9 @@ const CartMenu = () => {
 
     if (!currentCustomer) {
         return (
-            <NavItemButtonLink to="/profile">
+            <NavItemButtonLink to="/profile" aria-label="Cart requires a current customer">
                 <CustomerIndicator/>
-                <ShoppingCartOutlinedIcon fontSize="medium"/>
+                <ShoppingCartOutlinedIcon fontSize="medium" role="presentation"/>
             </NavItemButtonLink>
         )
     }

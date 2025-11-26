@@ -1,8 +1,8 @@
 import type {Editable} from "chums-types/b2b";
 import classNames from "classnames";
-import OrderItemImage from "@/components/OrderItemImage";
+import OrderItemImage from "@/components/common/OrderItemImage.tsx";
 import UPCA from "@/components/common/upc-a";
-import AvailabilityAlert from "@/components/AvailabilityAlert";
+import AvailabilityAlert from "@/components/b2b-cart/AvailabilityAlert.tsx";
 import numeral from "numeral";
 import Decimal from "decimal.js";
 import CartLineButtons from "./CartLineButtons";

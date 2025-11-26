@@ -1,42 +1,29 @@
-import ShipDateInput from "./ShipDateInput";
-import ShippingMethodSelect from "@/components/b2b-cart/header/ShippingMethodSelect";
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
-import ShipToSelect from "@/components/customer/common/ShipToSelect";
-import Alert from "@mui/material/Alert";
 import {generatePath, useNavigate} from "react-router";
 import AlertList from "@/components/alerts/AlertList";
-import SendEmailButton from "@/components/b2b-cart/header/SendEmailButton";
-import ItemAutocomplete from "@/ducks/item-lookup/ItemAutocomplete";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
-import Collapse from '@mui/material/Collapse';
-import Button from "@mui/material/Button";
 import {selectCartHeaderById,} from "@/ducks/carts/cartHeadersSlice";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import type {B2BCartHeader} from "@/types/cart/cart-header";
-import {loadCart, loadNextShipDate, processCart, saveCart} from "@/ducks/carts/actions";
-import CartPaymentSelect from "@/components/b2b-cart/header/CartPaymentSelect";
+import {loadNextShipDate, processCart} from "@/ducks/carts/actions";
 import CartCheckoutProgress from "@/components/b2b-cart/header/CartCheckoutProgress";
-import DeleteCartButton from "@/components/b2b-cart/header/DeleteCartButton";
-import CheckoutButton from "@/components/b2b-cart/header/CheckoutButton";
-import CartCommentInput from "@/components/b2b-cart/header/CartCommentInput";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import LinearProgress from "@mui/material/LinearProgress";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@/utils/ga4/cart";
 import {selectActiveCartId, selectCartShippingAccount, selectNextShipDate} from "@/ducks/carts/activeCartSlice";
 import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDetailSlice";
-import Stack from "@mui/material/Stack";
 import {cartProgress, nextCartProgress} from "@/utils/cart.ts";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {type ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
-import type {CartProgress, Editable, ShipToAddress} from "chums-types/b2b";
+import {useCallback, useEffect, useRef, useState} from "react";
+import type {CartProgress, ShipToAddress} from "chums-types/b2b";
 import dayjs from "dayjs";
-import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils.ts";
-import CustomerShippingAccountControl from "@/components/b2b-cart/header/CustomerShippingAccountControl.tsx";
+import CartActionButtons from "@/components/b2b-cart/header/CartActionButtons.tsx";
+import isEqual from 'fast-deep-equal';
+import CartHeaderDelivery from "@/components/b2b-cart/header/CartHeaderDelivery.tsx";
+import CartHeaderPayment from "@/components/b2b-cart/header/CartHeaderPayment.tsx";
+import CartHeaderInfo from "@/components/b2b-cart/header/CartHeaderInfo.tsx";
+import CartHeaderShipTo from "@/components/b2b-cart/header/CartHeaderShipTo.tsx";
+import CartSkeleton from "@/components/b2b-cart/header/CartSkeleton.tsx";
 
 
 export default function CartOrderHeader() {
@@ -55,8 +42,10 @@ export default function CartOrderHeader() {
     const shippingAccount = useAppSelector(selectCartShippingAccount);
     const nextShipDate = useAppSelector(selectNextShipDate)
 
-    const [cartHeader, setCartHeader] = useState<(B2BCartHeader & Editable) | null>(header);
+    const [cartHeader, setCartHeader] = useState<B2BCartHeader | null>(header);
     const [progress, setProgress] = useState<CartProgress>(cartProgress.cart);
+
+    const changed = !isEqual(cartHeader, header);
 
     const promoteCart = useCallback(async () => {
         if (!cartHeader) {
@@ -118,95 +107,29 @@ export default function CartOrderHeader() {
             setCartHeader(null);
             return;
         }
-        setCartHeader({...header, shipExpireDate: nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD')});
+        // @TODO: migrate the cart expire date away from the Ship Date field
+        setCartHeader(header);
+        // setCartHeader({...header, shipExpireDate: nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD')});
     }, [header, nextShipDate]);
-
-    if (!customerKey || !header || !cartHeader) {
-        return null;
-    }
-
-
-    const orderDate = dayjs(cartHeader.dateCreated).format('YYYY-MM-DD');
-
-    const changeHandler = (field: keyof B2BCartHeader) => (ev: ChangeEvent<HTMLInputElement>) => {
-        switch (field) {
-            case 'customerPONo':
-            case 'promoCode':
-                setCartHeader({...cartHeader, [field]: ev.target.value, changed: true});
-                return;
-            case 'CancelReasonCode':
-                setCartHeader({...cartHeader, [field]: ev.target.checked ? 'HOLD' : '', changed: true});
-                return;
-            // no default
-
-        }
-    }
-
-    const valueChangeHandler = (field: keyof B2BCartHeader) => (value: string | null) => {
-        switch (field) {
-            case 'shipExpireDate':
-                if (dayjs(value).isValid()) {
-                    switch (dayjs(value).day()) {
-                        case 0:
-                            setCartHeader({
-                                ...cartHeader,
-                                [field]: dayjs(value).add(1, 'day').toISOString(),
-                                changed: true
-                            });
-                            return;
-                        case 6:
-                            setCartHeader({
-                                ...cartHeader,
-                                [field]: dayjs(value).add(2, 'day').toISOString(),
-                                changed: true
-                            });
-                            return;
-                        // no default
-                    }
-                }
-                setCartHeader({...cartHeader, [field]: value ?? '', changed: true});
-                return;
-            case 'shipVia':
-            case 'PaymentType':
-                setCartHeader({...cartHeader, [field]: value ?? '', changed: true});
-            // no default
-        }
-    }
 
     const shipToChangeHandler = (value: string | null, address: ShipToAddress | null) => {
         if (!cartHeader) {
             return;
         }
         if (!address) {
-            setCartHeader({...cartHeader, shipToCode: value, changed: true});
+            setCartHeader({...cartHeader, shipToCode: value});
             setProgress(cartProgress.cart);
             return;
         }
-        setCartHeader({...cartHeader, shipToCode: value, ...address, changed: true});
+        setCartHeader({...cartHeader, shipToCode: value, ...address});
         setProgress(cartProgress.cart);
     }
 
-    const setCurrentCartHandler = () => {
-        if (!customerKey || !header) {
+    const changeHandler = (arg: Partial<B2BCartHeader>) => {
+        if (!cartHeader) {
             return;
         }
-        dispatch(loadCart({customerKey, cartId: header.id}))
-    }
-
-    const reloadHandler = () => {
-        setProgress(cartProgress.cart);
-        if (!customerKey || !header) {
-            return;
-        }
-        dispatch(loadCart({customerKey, cartId: header?.id}));
-        dispatch(loadNextShipDate());
-    }
-
-    const saveCartHandler = async () => {
-        if (!customerKey || !cartHeader) {
-            return;
-        }
-        dispatch(saveCart({customerKey, cartId: cartHeader.id, body: cartHeader}));
+        setCartHeader({...cartHeader, ...arg});
     }
 
     const submitHandler = async () => {
@@ -235,145 +158,42 @@ export default function CartOrderHeader() {
         await promoteCart();
     }
 
+    if (!customerKey || !header || !cartHeader) {
+        return (
+            <CartSkeleton/>
+        );
+    }
+
     return (
         <Box component="div">
             <Grid container spacing={2} sx={{mb: 1}}>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <Stack spacing={2} direction="column">
-                        <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
-                            <TextField label="Cart Created" type="date" fullWidth variant="filled" size="small"
-                                       value={orderDate} placeholder=""
-                                       slotProps={{
-                                           htmlInput: {readOnly: true}
-                                       }}/>
-                            <TextField label="Cart Expires" type="date" size="small" variant="filled" fullWidth
-                                       value={dayjs(header?.shipExpireDate).format('YYYY-MM-DD')}
-                                       slotProps={{
-                                           htmlInput: {readOnly: true}
-                                       }}/>
-                        </Stack>
-                        <TextField label="Cart Name" type="text" fullWidth variant="filled" size="small"
-                                   value={cartHeader?.customerPONo ?? ''} required
-                                   onChange={changeHandler("customerPONo")}
-                                   slotProps={{
-                                       htmlInput: {ref: customerPORef, maxLength: 30}
-                                   }}/>
-                        <TextField label="Promo Code" type="text" fullWidth
-                                   slotProps={{
-                                       htmlInput: {maxLength: 30}
-                                   }}
-                                   value={cartHeader?.promoCode ?? ''} onChange={changeHandler('promoCode')}
-                                   variant="filled" size="small"/>
-                    </Stack>
+                    <CartHeaderInfo cartHeader={cartHeader} customerPORef={customerPORef} onChange={changeHandler}/>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <Stack spacing={2} direction="column">
-                        <ShipToSelect value={cartHeader?.shipToCode ?? ''}
-                                      disabled={loadingStatus !== 'idle'}
-                                      defaultName="Default Address"
-                                      onChange={shipToChangeHandler}/>
-                        <TextField label="Delivery Address" type="text" multiline variant="filled" size="small"
-                                   value={multiLineAddress(addressFromShipToAddress(cartHeader), true).join('\n')}
-                                   slotProps={{
-                                       htmlInput: {readOnly: true},
-                                   }}/>
-                    </Stack>
+                    <CartHeaderShipTo cartHeader={cartHeader} onChangeShipTo={shipToChangeHandler}/>
                 </Grid>
             </Grid>
             <Grid container spacing={2} sx={{mb: 1}}>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <Collapse in={progress >= cartProgress.delivery} collapsedSize={0}>
-                        <Stack spacing={2} direction="column">
-                            <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
-                                <ShipDateInput value={cartHeader?.shipExpireDate ?? nextShipDate}
-                                               disabled={loadingStatus !== 'idle'}
-                                               error={!cartHeader?.shipExpireDate || !dayjs(cartHeader.shipExpireDate).isValid() || dayjs(cartHeader?.shipExpireDate).isBefore(nextShipDate)}
-                                               onChange={valueChangeHandler('shipExpireDate')}
-                                               inputProps={{required: true}} ref={shipDateRef}/>
-                                <FormControl variant="filled" fullWidth>
-                                    <FormControlLabel control={
-                                        <Checkbox checked={cartHeader?.CancelReasonCode === 'HOLD'}
-                                                  onChange={changeHandler('CancelReasonCode')}/>
-                                    } label="Hold for Ship Date"/>
-                                </FormControl>
-                            </Stack>
-                            <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
-                                <ShippingMethodSelect value={cartHeader?.shipVia ?? ''} required
-                                                      disabled={loadingStatus !== 'idle'}
-                                                      error={!cartHeader?.shipVia}
-                                                      ref={shipMethodRef}
-                                                      onChange={valueChangeHandler('shipVia')}/>
-                                <CustomerShippingAccountControl shipVia={cartHeader?.shipVia}/>
-                            </Stack>
-                        </Stack>
-                    </Collapse>
+                    <CartHeaderDelivery cartHeader={cartHeader} progress={progress}
+                                        shipDateRef={shipDateRef} shipMethodRef={shipMethodRef}
+                                        onChange={changeHandler}/>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <Collapse in={progress >= cartProgress.payment} collapsedSize={0}>
-                        <Stack spacing={2} direction="column">
-                            <CartPaymentSelect value={cartHeader?.PaymentType ?? ''} error={!cartHeader?.PaymentType}
-                                               ref={paymentMethodRef} required
-                                               disabled={loadingStatus !== 'idle'}
-                                               onChange={valueChangeHandler('PaymentType')}/>
-                            <TextField label="Purchase Order No" type="text" fullWidth variant="filled" size="small"
-                                       value={cartHeader?.customerPONo ?? ''} onChange={changeHandler('customerPONo')}
-                                       slotProps={{
-                                           htmlInput: {maxLength: 30}
-                                       }}
-                                       disabled={loadingStatus !== 'idle'}
-                                       error={!cartHeader.customerPONo}
-                                       required/>
-                        </Stack>
-                    </Collapse>
+                    <CartHeaderPayment cartHeader={cartHeader} progress={progress}
+                                       paymentMethodRef={paymentMethodRef}
+                                       onChange={changeHandler}/>
                 </Grid>
             </Grid>
             <CartCheckoutProgress current={progress} disabled={loadingStatus !== 'idle'}
                                   onChange={setProgress}/>
-            <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between">
-                <Stack sx={{flex: '1 1 auto'}}>
-                    {(detailChanged || cartHeader?.changed) && progress === cartProgress.cart && (
-                        <Alert severity="warning">Don&apos;t forget to save your changes!</Alert>
-                    )}
-                </Stack>
-                <Stack spacing={3} direction={{sm: 'column', md: 'row'}} sx={{justifyContent: 'flex-end'}}>
-                    <DeleteCartButton customerKey={customerKey} cartId={cartHeader.id}
-                                      disabled={loadingStatus !== 'idle' || cartHeader?.changed}>
-                        Delete Cart
-                    </DeleteCartButton>
-
-                    <Button type="button" variant="text" onClick={reloadHandler} disabled={loadingStatus !== 'idle'}>
-                        {detailChanged || cartHeader?.changed ? 'Cancel Changes' : 'Reload'}
-                    </Button>
-
-                    <Button type="button"
-                            variant={(detailChanged || cartHeader?.changed) && progress === cartProgress.cart ? 'contained' : "text"}
-                            color={(detailChanged || cartHeader?.changed) ? 'warning' : 'primary'}
-                            onClick={saveCartHandler}
-                            disabled={loadingStatus !== 'idle' || (progress !== cartProgress.cart && !detailChanged)}>
-                        Save Cart
-                    </Button>
-                    <SendEmailButton cartId={cartHeader.id}
-                                     disabled={progress !== cartProgress.cart || detailChanged}>
-                        Send Email
-                    </SendEmailButton>
-                    <CheckoutButton progress={progress} onClick={submitHandler}
-                                    disabled={loadingStatus !== 'idle' || detailChanged}/>
-                    {cartHeader.id !== currentCartId && (
-                        <Button type="button" variant="contained" disabled={loadingStatus !== 'idle'}
-                                onClick={setCurrentCartHandler}>
-                            Set Current Cart
-                        </Button>
-                    )}
-                </Stack>
-            </Stack>
+            <CartActionButtons cartHeader={cartHeader} progress={progress} setProgress={setProgress}
+                               headerChanged={changed} detailChanged={detailChanged}
+                               onSubmit={submitHandler}/>
             {loadingStatus !== 'idle' && <LinearProgress variant="indeterminate"/>}
             <AlertList context={processCart.typePrefix}/>
-            <hr/>
-            <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between"
-                   divider={<Divider orientation="vertical" flexItem/>}>
-                <ItemAutocomplete cartId={header.id}/>
-                <CartCommentInput cartId={header.id}/>
-            </Stack>
+
 
         </Box>
     )

@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {Route, Routes} from "react-router";
-import MainOutlet from "@/app/MainOutlet.tsx";
-import Home from "@/components/Home.tsx";
-import ProductRouter from "@/ducks/products/components/ProductRouter.tsx";
-import ContentPage from "@/ducks/page/ContentPage.tsx";
+import MainOutlet from "@/components/app/MainOutlet.tsx";
+import Home from "@/components/home/Home.tsx";
+import ProductRouter from "@/components/products/ProductRouter.tsx";
+import ContentPage from "@/components/pages/ContentPage.tsx";
 import ResetPassword from "@/components/user/ResetPassword.tsx";
 import SignUp from "@/components/sign-up/SignUp.tsx";
 import RequestPasswordResetForm from "@/components/user/RequestPasswordResetForm.tsx";

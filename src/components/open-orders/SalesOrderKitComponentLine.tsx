@@ -8,7 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from "@mui/material/TableRow";
 import Stack from "@mui/material/Stack";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import OrderItemImage from "@/components/OrderItemImage";
+import OrderItemImage from "@/components/common/OrderItemImage.tsx";
 import UPCA from "@/components/common/upc-a";
 import SalesOrderLineButtons from "./SalesOrderLineButtons";
 import {calcItemPrice, calcUnitPrice} from "@/ducks/open-orders/utils";

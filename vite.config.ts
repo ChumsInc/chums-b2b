@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from "node:path";
@@ -43,7 +44,7 @@ export default defineConfig({
                 changeOrigin: true,
             },
             '/version': {
-                target: 'https://b2b.chums.com',
+                target: `http://localhost:${process.env.DEV_VERSION_PROXY_PORT ?? 3001}`,
                 changeOrigin: true,
             }
         }

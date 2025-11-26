@@ -1,5 +1,3 @@
-
-
 import {useEffect} from 'react';
 import {loadCustomerList} from '@/ducks/customers/actions';
 import {longAccountNumber} from "@/utils/customer";
@@ -8,8 +6,7 @@ import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Alert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
 import {documentTitles, PATH_PROFILE} from "@/constants/paths";
-import DocumentTitle from "../DocumentTitle";
-import Breadcrumb from "../Breadcrumb";
+import Breadcrumb from "../common/Breadcrumb.tsx";
 import {useLocation, useMatch} from "react-router";
 import {selectCustomersStatus} from "@/ducks/customers/customerListSlice";
 import Typography from "@mui/material/Typography";
@@ -17,6 +14,7 @@ import AccountListFilters from "./AccountListFilters";
 import AccountListTable from "./AccountListTable";
 import {repAccessCode} from "@/ducks/user/utils";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {useTitle} from "@/components/app/TitleContext";
 
 const AccountList = () => {
     const dispatch = useAppDispatch();
@@ -24,7 +22,12 @@ const AccountList = () => {
     const location = useLocation();
     const userAccount = useAppSelector(selectCurrentAccess);
     const loading = useAppSelector(selectCustomersStatus);
+    const {setPageTitle} = useTitle();
 
+    useEffect(() => {
+        const documentTitle = documentTitles.accountList.replace(':name', userAccount?.SalespersonName ?? '');
+        setPageTitle({title: documentTitle, description: 'Account List'});
+    }, []);
 
     useEffect(() => {
         const profileId = +(match?.params.id ?? 0);
@@ -42,7 +45,6 @@ const AccountList = () => {
         )
     }
 
-    const documentTitle = documentTitles.accountList.replace(':name', userAccount.SalespersonName || '');
 
     const paths = [
         {title: 'Profile', pathname: PATH_PROFILE},
@@ -52,7 +54,6 @@ const AccountList = () => {
 
     return (
         <ErrorBoundary>
-            <DocumentTitle documentTitle={documentTitle}/>
             <Breadcrumb paths={paths}/>
             <Typography variant="h1" component="h1">Account List</Typography>
             <Typography variant="h2" component="h2">

@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import type {NextFunction, Request, Response} from "express";
-import type {PreloadedState} from "chums-types/b2b";
 import type {HasNonce} from "@/types/server";
-import Debug from 'debug';
+import _debug from 'debug';
 import fs from "node:fs/promises";
 import {renderToString} from "react-dom/server";
 import {consentCookieName, type HasUUID} from 'cookie-consent'
@@ -13,9 +12,10 @@ import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
 import util from "node:util";
 import {Buffer} from 'node:buffer';
+import type {PreloadedStateV2a} from "@/types/ui-features.ts";
 
 // eslint-disable-next-line new-cap
-const debug = Debug('chums:server:render');
+const debug = _debug('chums:server:render');
 
 // Ensure these paths stay matched with /src/app/App routes
 const validRoutes: RegExp = /^\/($|home|products|pages|set-password|signup|reset-password|login|logout|profile|account)/;
@@ -49,7 +49,7 @@ async function loadVersionNo(): Promise<string | null> {
     }
 }
 
-async function getPreloadedState(req: Request, res: Response<unknown, HasNonce & HasUUID>): Promise<PreloadedState> {
+async function getPreloadedState(req: Request, res: Response<unknown, HasNonce & HasUUID>): Promise<PreloadedStateV2a> {
     try {
         const params = new URLSearchParams();
         if (req.params.keyword) {
@@ -66,9 +66,9 @@ async function getPreloadedState(req: Request, res: Response<unknown, HasNonce &
             params.set('uuid', cookieConsentUUID);
         }
         const nonce: string = res.locals.cspNonce!;
-        const url = `http://localhost:${API_PORT}/preload/v2/state.json?${params.toString()}`;
+        const url = `http://localhost:${API_PORT}/preload/v2a/state.json?${params.toString()}`;
         debug("getPreloadedState()", url);
-        const preload = await loadJSON<PreloadedState>(url);
+        const preload = await loadJSON<PreloadedStateV2a>(url);
         preload.version = {
             versionNo: await loadVersionNo(),
             lastChecked: new Date().valueOf(),
