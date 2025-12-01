@@ -14,7 +14,6 @@ import util from "node:util";
 import {Buffer} from 'node:buffer';
 import type {PreloadedStateV2a} from "@/types/ui-features.ts";
 
-// eslint-disable-next-line new-cap
 const debug = _debug('chums:server:render');
 
 // Ensure these paths stay matched with /src/app/App routes
