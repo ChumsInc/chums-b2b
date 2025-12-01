@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router";
+import {useNavigate, useParams, useSearchParams} from "react-router";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectSignUpProfile, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice";
 import {loadSignUpProfile} from "@/ducks/sign-up/actions";
@@ -12,43 +12,43 @@ import {setNewPassword} from "@/ducks/user/actions";
 import type {ChangePasswordResponse, SetNewPasswordProps} from "@/ducks/user/types";
 import Alert from "@mui/material/Alert";
 import {isErrorResponse} from "@/utils/typeguards";
-import {useIsSSR} from "@/hooks/is-server-side";
 
 
 const ResetPassword = () => {
     const dispatch = useAppDispatch();
     const profile = useAppSelector(selectSignUpProfile);
     const loading = useAppSelector(selectSignUpStatus);
-    const isSSR = useIsSSR();
     const params = useParams<{ hash: string; key: string }>();
+    const [searchParams] = useSearchParams();
+    const [hash, setHash] = useState<string | null>(null);
+    const [key, setKey] = useState<string | null>(null);
     const [alert, setAlert] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isSSR) {
-            let hash = params.hash ?? '';
-            let key = params.key ?? '';
-            if (!hash || !key) {
-                const search = new URLSearchParams(document?.location?.search);
-                hash = search.get('h') ?? '';
-                key = search.get('key') ?? '';
-            }
-            dispatch(loadSignUpProfile({hash, key}))
-                .then(res => {
-                    const payload = res.payload;
-                    if (isErrorResponse(payload)) {
-                        setAlert(payload.error ?? 'An error occurred while loading the request.');
-                    }
-                })
-        }
-    }, [isSSR, params]);
+        const _hash = params.hash ?? searchParams.get('h') ?? null;
+        const _key = params.key ?? searchParams.get('key') ?? null;
+        setHash(_hash);
+        setKey(_key);
+    }, [params, searchParams]);
 
-    const onSetPassword = useCallback(async (arg: Pick<SetNewPasswordProps, 'newPassword'>) => {
-        if (!params || !params.key || !params.hash) {
+    useEffect(() => {
+        if (!hash || !key) {
             return;
         }
-        const hash = params.hash;
-        const key = params.key;
+        dispatch(loadSignUpProfile({hash, key}))
+            .then(res => {
+                const payload = res.payload;
+                if (isErrorResponse(payload)) {
+                    setAlert(payload.error ?? 'An error occurred while loading the request.');
+                }
+            })
+    }, [hash, key]);
+
+    const onSetPassword = useCallback(async (arg: Pick<SetNewPasswordProps, 'newPassword'>) => {
+        if (!key || !hash) {
+            return;
+        }
         const res = await dispatch(setNewPassword(({...arg, hash, key})));
         const payload: ChangePasswordResponse | null = res.payload as ChangePasswordResponse | null;
         if (payload?.success) {
@@ -57,7 +57,7 @@ const ResetPassword = () => {
             setAlert(payload.error);
         }
 
-    }, [params])
+    }, [hash, key])
 
     const cancelHandler = () => {
         navigate('/login');

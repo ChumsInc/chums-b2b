@@ -1,17 +1,13 @@
-
-
 import {type ChangeEvent, useEffect, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import {selectCustomersSearchFilter, setCustomersFilter} from "@/ducks/customers/customerListSlice";
-import {useIsSSR} from "@/hooks/is-server-side";
 
 const debounceTimeout = 500;
 
 const AccountListCustomerFilter = () => {
-    const isSSR = useIsSSR();
     const dispatch = useAppDispatch();
     const filter = useAppSelector(selectCustomersSearchFilter);
     const timer = useRef<number>(0);
@@ -30,11 +26,9 @@ const AccountListCustomerFilter = () => {
     useEffect(() => {
         timer.current = window.setTimeout(() => setDebouncedSearch(value), debounceTimeout);
         return () => {
-            if (!isSSR) {
-                window.clearTimeout(timer.current);
-            }
+            window.clearTimeout(timer.current);
         }
-    }, [isSSR, value])
+    }, [value])
 
     const filterChangeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
         setValue(ev.target.value);

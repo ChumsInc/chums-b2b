@@ -1,10 +1,7 @@
-
-
 import {useEffect, useRef, useState} from 'react';
 import {updateLocalAuth} from "@/ducks/user/actions.ts";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import {selectLoggedIn, selectLoginExpiry} from "@/ducks/user/userProfileSlice.ts";
-import {useIsSSR} from "@/hooks/is-server-side.ts";
 
 const oneMinute = 60 * 1000;
 const fiveMinutes = 5 * oneMinute;
@@ -26,19 +23,18 @@ function useExpiresIn(expiry: number) {
 
 export default function AppUpdateLocalLogin() {
     const dispatch = useAppDispatch();
-    const isSSR = useIsSSR();
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const expires = useAppSelector(selectLoginExpiry);
     const expiresIn = useExpiresIn(expires);
 
     useEffect(() => {
-        if (isSSR || !isLoggedIn) {
+        if (!isLoggedIn) {
             return;
         }
         if (isLoggedIn && expiresIn < fiveMinutes && expiresIn > 0) {
             dispatch(updateLocalAuth())
         }
-    }, [dispatch, isSSR, isLoggedIn, expiresIn]);
+    }, [dispatch, isLoggedIn, expiresIn]);
 
     if (!isLoggedIn) {
         return null;
