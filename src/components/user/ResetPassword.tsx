@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
-import {useNavigate, useParams, useSearchParams} from "react-router";
+import {useNavigate} from "react-router";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectSignUpProfile, selectSignUpStatus} from "@/ducks/sign-up/signUpSlice";
 import {loadSignUpProfile} from "@/ducks/sign-up/actions";
@@ -12,25 +12,16 @@ import {setNewPassword} from "@/ducks/user/actions";
 import type {ChangePasswordResponse, SetNewPasswordProps} from "@/ducks/user/types";
 import Alert from "@mui/material/Alert";
 import {isErrorResponse} from "@/utils/typeguards";
+import useAuthKey from "@/hooks/useAuthKey.ts";
 
 
 const ResetPassword = () => {
     const dispatch = useAppDispatch();
     const profile = useAppSelector(selectSignUpProfile);
     const loading = useAppSelector(selectSignUpStatus);
-    const params = useParams<{ hash: string; key: string }>();
-    const [searchParams] = useSearchParams();
-    const [hash, setHash] = useState<string | null>(null);
-    const [key, setKey] = useState<string | null>(null);
+    const {hash, key} = useAuthKey()
     const [alert, setAlert] = useState<string | null>(null);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const _hash = params.hash ?? searchParams.get('h') ?? null;
-        const _key = params.key ?? searchParams.get('key') ?? null;
-        setHash(_hash);
-        setKey(_key);
-    }, [params, searchParams]);
 
     useEffect(() => {
         if (!hash || !key) {

@@ -10,9 +10,11 @@ import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import {useAppSelector} from "@/app/hooks";
 import {useTitle} from "@/components/app/TitleContext";
+import useAuthKey from "@/hooks/useAuthKey.ts";
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const {hash, key} = useAuthKey();
     const loggedIn = useAppSelector(selectLoggedIn);
     const {setPageTitle} = useTitle();
 
@@ -21,13 +23,10 @@ const SignUp = () => {
     }, []);
 
     useEffect(() => {
-        const params = new URLSearchParams(document?.location?.search);
-        const hash = params.get('h') ?? '';
-        const key = params.get('key') ?? '';
         if (!loggedIn && !!hash && !!key) {
             navigate(PATH_SET_PASSWORD + document?.location?.search, {replace: true});
         }
-    }, [])
+    }, [hash, key])
 
     useEffect(() => {
         if (loggedIn) {
