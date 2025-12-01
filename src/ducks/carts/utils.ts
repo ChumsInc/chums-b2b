@@ -1,5 +1,4 @@
-import type {BasicCustomer, CartProduct, SortProps} from "chums-types/b2b";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, BasicCustomer, CartProduct, SortProps} from "chums-types/b2b";
 import Decimal from "decimal.js";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import localStore from "@/utils/LocalStore";
@@ -17,7 +16,7 @@ export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a:
         case 'customerPONo':
         case 'dateCreated':
         case 'shipToName':
-            case 'ShipToName':
+        case 'ShipToName':
             return (
                 (a[field] ?? '').toLowerCase() === (b[field] ?? '').toLowerCase()
                     ? (a.id - b.id)
@@ -30,8 +29,8 @@ export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a:
         case 'ShipToCity':
             return (
                 shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase()) === 0
-                ? (a.id - b.id)
-                : shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase())
+                    ? (a.id - b.id)
+                    : shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase())
             ) * sortMod;
         case 'subTotalAmt':
             return (
@@ -95,7 +94,7 @@ export const cartDetailToCartProduct = (row: B2BCartDetail): CartProduct | null 
     }
 }
 
-export function calcCartQty(detail:B2BCartDetail[]) {
+export function calcCartQty(detail: B2BCartDetail[]) {
     return detail
         .filter(line => line.itemType === '1')
         .map(line => new Decimal(line.quantityOrdered).times(line.unitOfMeasureConvFactor))
@@ -104,7 +103,7 @@ export function calcCartQty(detail:B2BCartDetail[]) {
 }
 
 
-export function shipToLocation(cart:B2BCartHeader) {
+export function shipToLocation(cart: B2BCartHeader) {
     return `${cart.ShipToCity ?? ''}, ${cart.ShipToState ?? ''} ${cart.ShipToZipCode ?? ''}`.trim();
 }
 

@@ -1,5 +1,5 @@
 import {useId} from 'react';
-import type {CartProgress,} from "@/types/cart/cart-utils";
+import type {CartProgress,} from "chums-types/b2b";
 import {cartProgress} from "@/utils/cart";
 import Box from "@mui/material/Box";
 import LinearProgress from '@mui/material/LinearProgress'

@@ -1,9 +1,8 @@
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, ShipToAddress} from "chums-types/b2b";
 import ShipToSelect from "@/components/customer/common/ShipToSelect.tsx";
 import TextField from "@mui/material/TextField";
 import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils.ts";
 import Stack from "@mui/material/Stack";
-import type {ShipToAddress} from "chums-types/b2b";
 import {useAppSelector} from "@/app/hooks.ts";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
 

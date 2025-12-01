@@ -1,10 +1,9 @@
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, CartProgress} from "chums-types/b2b";
 import {cartProgress} from "@/utils/cart.ts";
 import Stack from "@mui/material/Stack";
 import CartPaymentSelect from "@/components/b2b-cart/header/CartPaymentSelect.tsx";
 import TextField from "@mui/material/TextField";
 import Collapse from "@mui/material/Collapse";
-import type {CartProgress} from "chums-types/b2b";
 import type {RefObject} from "react";
 import {useAppSelector} from "@/app/hooks.ts";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";

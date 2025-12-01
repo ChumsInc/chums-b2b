@@ -1,5 +1,4 @@
-import type {CartProgress, Editable} from "chums-types/b2b";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, CartProgress, Editable} from "chums-types/b2b";
 import {cartProgress} from "@/utils/cart.ts";
 import Stack from "@mui/material/Stack";
 import ShipDateInput from "@/components/b2b-cart/header/ShipDateInput.tsx";
@@ -19,6 +18,8 @@ import type {RefObject} from "react";
 export interface CartHeaderDeliveryProps {
     progress: CartProgress;
     cartHeader: B2BCartHeader | null;
+    shipDate: string | null;
+    onChangeShipDate: (value: string | null) => void;
     shipDateRef: RefObject<HTMLInputElement | null>;
     shipMethodRef: RefObject<HTMLDivElement | null>;
     onChange: (arg: Partial<B2BCartHeader & Editable>) => void;
@@ -27,6 +28,8 @@ export interface CartHeaderDeliveryProps {
 export default function CartHeaderDelivery({
                                                progress,
                                                cartHeader,
+                                               shipDate,
+                                               onChangeShipDate,
                                                shipDateRef,
                                                shipMethodRef,
                                                onChange
@@ -41,10 +44,10 @@ export default function CartHeaderDelivery({
         <Collapse in={progress >= cartProgress.delivery} collapsedSize={0}>
             <Stack spacing={2} direction="column">
                 <Stack spacing={2} direction={{xs: 'column', md: 'row'}}>
-                    <ShipDateInput value={cartHeader?.shipExpireDate ?? nextShipDate}
+                    <ShipDateInput value={shipDate ?? nextShipDate}
                                    disabled={loadingStatus !== 'idle'}
-                                   error={!cartHeader?.shipExpireDate || !dayjs(cartHeader.shipExpireDate).isValid() || dayjs(cartHeader?.shipExpireDate).isBefore(nextShipDate)}
-                                   onChange={valueChangeHandler('shipExpireDate', onChange)}
+                                   error={!shipDate || !dayjs(shipDate).isValid() || dayjs(shipDate).isBefore(nextShipDate)}
+                                   onChange={onChangeShipDate}
                                    inputProps={{required: true}} ref={shipDateRef}/>
                     <FormControl variant="filled" fullWidth>
                         <FormControlLabel control={

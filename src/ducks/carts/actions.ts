@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import type {EmailResponse} from "chums-types/b2b";
+import type {B2BCart, B2BCartHeader, EmailResponse} from "chums-types/b2b";
 import {
     fetchCarts,
     fetchNextShipDate,
@@ -10,8 +10,6 @@ import {
 } from "./api";
 import type {RootState} from "@/app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@/ducks/carts/api";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
-import type {B2BCart} from "@/types/cart/cart";
 import type {
     AddToCartProps,
     CartActionProps,
@@ -175,7 +173,7 @@ export const setCartShippingAccount = createAction('activeCart/setCartShippingAc
     }
 });
 
-function buildCartComments(shippingAccount: CustomerShippingAccount | null, arg:B2BCartHeader):string[] {
+function buildCartComments(shippingAccount: CustomerShippingAccount | null, arg: B2BCartHeader): string[] {
     const comment: string[] = [];
     if (shippingAccount?.enabled) {
         comment.push('RCP')
@@ -236,7 +234,7 @@ export const duplicateSalesOrder = createAsyncThunk<B2BCart | null, DuplicateCar
     }
 )
 
-export const loadNextShipDate = createAsyncThunk<string|null, void, {state:RootState}>(
+export const loadNextShipDate = createAsyncThunk<string | null, void, { state: RootState }>(
     'carts/loadNextShipDate',
     async () => {
         return await fetchNextShipDate();

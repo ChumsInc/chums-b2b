@@ -1,4 +1,5 @@
 import type {
+    B2BCartHeader,
     BasicCustomer,
     BillToAddress,
     BillToCustomer,
@@ -9,7 +10,6 @@ import type {
     ShipToCustomer,
     UserCustomerAccess
 } from "chums-types/b2b";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
 
 
 export const addressFromShipToAddress = (address: B2BCartHeader | ShipToAddress | null): CustomerAddress => {

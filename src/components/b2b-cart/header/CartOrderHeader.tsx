@@ -4,7 +4,7 @@ import {generatePath, useNavigate} from "react-router";
 import AlertList from "@/components/alerts/AlertList";
 import {selectCartHeaderById,} from "@/ducks/carts/cartHeadersSlice";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, CartProgress, ShipToAddress} from "chums-types/b2b";
 import {loadNextShipDate, processCart} from "@/ducks/carts/actions";
 import CartCheckoutProgress from "@/components/b2b-cart/header/CartCheckoutProgress";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
@@ -15,7 +15,6 @@ import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDeta
 import {cartProgress, nextCartProgress} from "@/utils/cart.ts";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import {useCallback, useEffect, useRef, useState} from "react";
-import type {CartProgress, ShipToAddress} from "chums-types/b2b";
 import dayjs from "dayjs";
 import CartActionButtons from "@/components/b2b-cart/header/CartActionButtons.tsx";
 import isEqual from 'fast-deep-equal';
@@ -43,9 +42,8 @@ export default function CartOrderHeader() {
     const nextShipDate = useAppSelector(selectNextShipDate)
 
     const [cartHeader, setCartHeader] = useState<B2BCartHeader | null>(header);
+    const [shipDate, setShipDate] = useState<string | null>(nextShipDate);
     const [progress, setProgress] = useState<CartProgress>(cartProgress.cart);
-
-    const changed = !isEqual(cartHeader, header);
 
     const promoteCart = useCallback(async () => {
         if (!cartHeader) {
@@ -109,7 +107,7 @@ export default function CartOrderHeader() {
         }
         // @TODO: migrate the cart expire date away from the Ship Date field
         setCartHeader(header);
-        // setCartHeader({...header, shipExpireDate: nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD')});
+        setShipDate(nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD'));
     }, [header, nextShipDate]);
 
     const shipToChangeHandler = (value: string | null, address: ShipToAddress | null) => {
@@ -164,6 +162,9 @@ export default function CartOrderHeader() {
         );
     }
 
+    const changed = !isEqual(cartHeader, header);
+
+
     return (
         <Box component="div">
             <Grid container spacing={2} sx={{mb: 1}}>
@@ -177,7 +178,8 @@ export default function CartOrderHeader() {
             <Grid container spacing={2} sx={{mb: 1}}>
                 <Grid size={{xs: 12, sm: 6}}>
                     <CartHeaderDelivery cartHeader={cartHeader} progress={progress}
-                                        shipDateRef={shipDateRef} shipMethodRef={shipMethodRef}
+                                        shipDate={shipDate} onChangeShipDate={setShipDate} shipDateRef={shipDateRef}
+                                        shipMethodRef={shipMethodRef}
                                         onChange={changeHandler}/>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}}>

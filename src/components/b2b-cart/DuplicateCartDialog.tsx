@@ -1,5 +1,3 @@
-
-
 import {useCallback, useState} from 'react';
 import Alert from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
@@ -14,7 +12,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import type {DuplicateCartProps} from "@/types/cart/cart-action-props";
 import {duplicateSalesOrder} from "@/ducks/carts/actions";
-import type {B2BCart} from "@/types/cart/cart";
+import type {B2BCart} from "chums-types/b2b";
 import {generatePath, useNavigate} from "react-router";
 import {customerSlug, parseCustomerSlug} from "@/utils/customer";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";

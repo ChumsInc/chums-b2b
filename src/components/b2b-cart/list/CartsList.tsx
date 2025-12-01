@@ -1,16 +1,13 @@
-
-
 import {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCartsSort, selectFilteredCarts, setCartsSort} from "@/ducks/carts/cartHeadersSlice";
-import type {SortProps} from "chums-types/b2b";
+import type {B2BCartHeader, SortProps} from "chums-types/b2b";
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import TablePagination from "@mui/material/TablePagination";
 import CartButton from "./CartButton";
 import DateString from "@/components/common/DateString.tsx";
 import numeral from "numeral";
 import Decimal from "decimal.js";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
 import CartLink from "@/components/b2b-cart/list/CartLink";
 import {shipToLocation} from "@/ducks/carts/utils";
 

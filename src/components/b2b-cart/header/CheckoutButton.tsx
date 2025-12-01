@@ -1,4 +1,4 @@
-import type {CartProgress,} from "@/types/cart/cart-utils";
+import type {CartProgress,} from "chums-types/b2b";
 import {cartProgress} from "@/utils/cart";
 import Button, {type ButtonProps} from "@mui/material/Button";
 

@@ -10,9 +10,7 @@ import type {
     UpdateCartItemsProps,
     UpdateCartProps
 } from "@/types/cart/cart-action-props";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
-import type {B2BCart} from "@/types/cart/cart";
-import type {EmailResponse} from "chums-types/b2b";
+import type {B2BCart, B2BCartHeader, EmailResponse} from "chums-types/b2b";
 import debug from "@/utils/debug.ts";
 
 

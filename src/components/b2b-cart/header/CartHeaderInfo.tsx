@@ -1,4 +1,4 @@
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader} from "chums-types/b2b";
 import dayjs from "dayjs";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";

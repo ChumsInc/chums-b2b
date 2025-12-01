@@ -1,5 +1,3 @@
-
-
 import {type FormEvent, useCallback, useEffect, useState} from 'react';
 import {addToCart} from "@/ducks/carts/actions";
 import {selectCustomerAccount, selectCustomerKey,} from "@/ducks/customer/currentCustomerSlice";
@@ -12,9 +10,8 @@ import AddToCartButton from "./AddToCartButton";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import CartSelect from "@/components/b2b-cart/add-to-cart/CartSelect";
 import CartQuantityInput from "@/components/b2b-cart/CartQuantityInput.tsx";
-import type {CartProduct} from "chums-types/b2b";
+import type {B2BCartHeader, CartProduct} from "chums-types/b2b";
 import Box from "@mui/material/Box";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
 import {selectCartHeaderById, selectCartHeaders,} from "@/ducks/carts/cartHeadersSlice";
 import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import {ga4AddToCart} from "@/utils/ga4/cart";

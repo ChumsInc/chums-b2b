@@ -1,6 +1,5 @@
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, SortProps} from "chums-types/b2b";
 import {createEntityAdapter, createSelector, createSlice, type  PayloadAction} from "@reduxjs/toolkit";
-import type {SortProps} from "chums-types/b2b";
 import {
     addToCart,
     duplicateSalesOrder,

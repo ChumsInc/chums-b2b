@@ -1,8 +1,7 @@
 import AppAlert from "../common/AppAlert.tsx";
 import Decimal from "decimal.js";
-import type {B2BCartSeason} from "@/types/cart/cart-detail";
+import type {B2BCartSeason} from "chums-types/b2b";
 import Alert from "@mui/material/Alert";
-
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import {selectCanViewAvailable} from "@/ducks/user/userProfileSlice.ts";
 import {useAppSelector} from "@/app/hooks.ts";

@@ -1,7 +1,6 @@
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice.ts";
-import type {B2BCartHeader} from "@/types/cart/cart-header";
-import type {CartProgress} from "chums-types/b2b";
+import type {B2BCartHeader, CartProgress} from "chums-types/b2b";
 import Stack from "@mui/material/Stack";
 import {cartProgress} from "@/utils/cart.ts";
 import Alert from "@mui/material/Alert";

@@ -1,10 +1,9 @@
 /* eslint-disable camelcase */
-import type {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, CartProduct} from "chums-types/b2b";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import Decimal from "decimal.js";
 import {sendGtagEvent} from "@/utils/ga4/api";
 import type {GtagItem} from "@/utils/ga4/types";
-import type {CartProduct} from "chums-types/b2b";
 import {canStoreAnalytics} from "@/ducks/cookie-consent/utils";
 
 function cartItems(detail: B2BCartDetail[]): GtagItem[] {
@@ -70,7 +69,7 @@ export function ga4AddShippingInfo(header: B2BCartHeader, detail: B2BCartDetail[
     })
 }
 
-export function ga4Purchase(header:B2BCartHeader, detail: B2BCartDetail[]) {
+export function ga4Purchase(header: B2BCartHeader, detail: B2BCartDetail[]) {
     if (!canStoreAnalytics()) {
         return;
     }
@@ -82,7 +81,7 @@ export function ga4Purchase(header:B2BCartHeader, detail: B2BCartDetail[]) {
     })
 }
 
-export function ga4AddToCart(cartItem:Pick<CartProduct, 'itemCode'|'name'|'price'>, quantity: number) {
+export function ga4AddToCart(cartItem: Pick<CartProduct, 'itemCode' | 'name' | 'price'>, quantity: number) {
     if (!canStoreAnalytics()) {
         return;
     }
