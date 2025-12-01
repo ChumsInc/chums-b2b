@@ -34,11 +34,15 @@ export default function CookieConsentDrawer() {
         dispatch(saveCookieConsent(body));
     }
 
-    const onDismiss = () => {
+    const dismissHandler = () => {
         dispatch(dismissCookieConsent());
     }
 
-    if (dismissed || hasCookieConsent) {
+    if (hasCookieConsent) {
+        return null;
+    }
+
+    if (dismissed) {
         return null
     }
 
@@ -70,7 +74,7 @@ export default function CookieConsentDrawer() {
                     <Button variant="contained" color="chumsGrey" onClick={acceptHandler}>Accept Cookies</Button>
                 </Grid>
                 <Grid size={{xs: 2, lg: "auto"}}>
-                    <IconButton onClick={onDismiss} aria-label="Dismiss cookie-consent dialog">
+                    <IconButton onClick={dismissHandler} aria-label="Dismiss cookie-consent dialog">
                         <CloseIcon/>
                     </IconButton>
                 </Grid>

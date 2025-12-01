@@ -51,8 +51,8 @@ const cookieConsentSlice = createSlice({
             })
     },
     selectors: {
-        selectHasCookieConsent: (state) => !!state.record?.ack,
-        selectHasGPCFlag: (state) => !!state.record?.gpc,
+        selectHasCookieConsent: (state) => state.record?.ack ?? false,
+        selectHasGPCFlag: (state) => state.record?.gpc ?? false,
         selectCookieConsentStatus: (state) => state.status,
         selectCookieConsentRecord: (state) => state.record,
         selectAllowsPreferences: (state) => state.record?.preferences?.preferences ?? false,

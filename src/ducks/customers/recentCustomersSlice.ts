@@ -8,24 +8,39 @@ import {STORE_RECENT_ACCOUNTS} from "@/constants/stores";
 import {setLoggedIn, signInWithGoogle} from "@/ducks/user/actions";
 import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 
+
+export interface RecentCustomersState {
+    updated: boolean;
+}
+
 const adapter = createEntityAdapter<RecentCustomer, string>({
     selectId: (arg) => customerSlug(arg),
     sortComparer: (a, b) => customerSlug(a).localeCompare(customerSlug(b))
 })
 const selectors = adapter.getSelectors();
 
-const isLoggedIn = auth.loggedIn();
-const recentCustomers = isLoggedIn
-    ? localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, [])
-    : [];
+function recentCustomers() {
+    const isLoggedIn = auth.loggedIn();
+    return isLoggedIn
+        ? localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, [])
+        : [];
+}
+
+const extraState:RecentCustomersState = {
+    updated: false,
+}
 
 export const recentCustomersSlice = createSlice({
     name: 'recentCustomers',
-    initialState: adapter.getInitialState(undefined, recentCustomers),
+    initialState: adapter.getInitialState(extraState, recentCustomers()),
     reducers: {
         clearRecentCustomers: (state) => {
             adapter.removeAll(state);
             LocalStore.removeItem(STORE_RECENT_ACCOUNTS);
+        },
+        updateRecentCustomers: (state) => {
+            adapter.setAll(state, recentCustomers());
+            state.updated = true;
         }
     },
     extraReducers: builder => {
@@ -49,13 +64,14 @@ export const recentCustomersSlice = createSlice({
     },
     selectors: {
         selectAll: (state) => selectors.selectAll(state),
+        selectRecentCustomersUpdated: (state) => state.updated,
     }
 });
 
 export default recentCustomersSlice;
 
-const {selectAll} = recentCustomersSlice.selectors;
-export const {clearRecentCustomers} = recentCustomersSlice.actions;
+export const {selectAll, selectRecentCustomersUpdated} = recentCustomersSlice.selectors;
+export const {clearRecentCustomers, updateRecentCustomers} = recentCustomersSlice.actions;
 
 export const selectRecentCustomers = createSelector(
     [selectAll],

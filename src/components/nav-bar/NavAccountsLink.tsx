@@ -4,9 +4,13 @@ import {accessListURL, customerURL, repAccessCode} from "@/ducks/user/utils";
 import UserAvatar from "@/components/user/UserAvatar";
 import type {MinimalMenuItem} from "@/ducks/menu/types";
 import DrawerMenu from "@/components/nav-bar/DrawerMenu";
-import {useAppSelector} from "@/app/hooks";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import MenuLinkProfile from "@/components/nav-bar/MenuLinkProfile";
-import {selectRecentCustomers} from "@/ducks/customers/recentCustomersSlice";
+import {
+    selectRecentCustomers,
+    selectRecentCustomersUpdated,
+    updateRecentCustomers
+} from "@/ducks/customers/recentCustomersSlice";
 import {customerNo, shortCustomerKey} from "@/utils/customer";
 import CompoundMenu from "@/components/nav-bar/CompoundMenu";
 import {selectCurrentAccess, selectRepAccessList} from "@/ducks/user/userAccessSlice";
@@ -35,15 +39,21 @@ const defaultItems: MinimalMenuItem[] = [
 ]
 
 export default function NavAccountsLink({inDrawer}: NavItemProps) {
+    const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const accessList = useAppSelector(selectRepAccessList);
     const access = useAppSelector(selectCurrentAccess);
     const recentCustomers = useAppSelector(selectRecentCustomers);
     const [show, setShow] = useState(false);
+    const isUpdated = useAppSelector(selectRecentCustomersUpdated)
 
     useEffect(() => {
+        if (!isUpdated && isLoggedIn) {
+            dispatch(updateRecentCustomers());
+        };
         setShow(isLoggedIn);
-    }, [isLoggedIn]);
+    }, [isLoggedIn, isUpdated]);
+
 
     const drawerItems: MinimalMenuItem[] = [
         {id: 'profile', title: 'Profile', url: '/profile'},
