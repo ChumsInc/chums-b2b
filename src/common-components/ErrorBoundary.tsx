@@ -7,12 +7,21 @@ import Alert from "@mui/material/Alert";
 
 function ErrorFallback({error}: FallbackProps) {
     // resetErrorBoundary();
+    if (error instanceof Error) {
+        return (
+            <Alert severity="error">
+                <strong>Sorry! Something went wrong.</strong>
+                <div style={{whiteSpace: 'pre-wrap'}}>{error.message}</div>
+            </Alert>
+        )
+    }
     return (
         <Alert severity="error">
             <strong>Sorry! Something went wrong.</strong>
-            <div style={{whiteSpace: 'pre-wrap'}}>{error.message}</div>
+            <div style={{whiteSpace: 'pre-wrap'}}>Unknown Error</div>
         </Alert>
     )
+
 }
 
 export default function ErrorBoundary({reportErrors, children}: {
@@ -21,8 +30,8 @@ export default function ErrorBoundary({reportErrors, children}: {
 }) {
     const userProfile = useSelector(selectUserProfile);
 
-    const logError = (error: Error, info: React.ErrorInfo) => {
-        if (reportErrors === false) {
+    const logError = (error: Error|unknown, info: React.ErrorInfo) => {
+        if (reportErrors === false || !(error instanceof Error) || !error.message) {
             return;
         }
         postErrors({
