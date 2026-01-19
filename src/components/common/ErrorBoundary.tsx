@@ -7,11 +7,21 @@ import {useAppSelector} from "@/app/hooks";
 import debug from "@/utils/debug.ts";
 
 function ErrorFallback({error}: FallbackProps) {
-    // resetErrorBoundary();
+    if (!error) {
+        return null;
+    }
+    if (error instanceof Error) {
+        return (
+            <Alert severity="error">
+                <strong>Sorry! Something went wrong.</strong>
+                <div style={{whiteSpace: 'pre-wrap'}}>{error.message}</div>
+            </Alert>
+        )
+    }
     return (
         <Alert severity="error">
             <strong>Sorry! Something went wrong.</strong>
-            <div style={{whiteSpace: 'pre-wrap'}}>{error.message}</div>
+            <div style={{whiteSpace: 'pre-wrap'}}>Unknown error</div>
         </Alert>
     )
 }
@@ -22,8 +32,11 @@ export default function ErrorBoundary({reportErrors, children}: {
 }) {
     const userProfile = useAppSelector(selectUserProfile);
 
-    const logError = (error: Error, info: ErrorInfo) => {
+    const logError = (error: Error|unknown, info: ErrorInfo) => {
         if (reportErrors === false) {
+            return;
+        }
+        if (!(error instanceof Error)) {
             return;
         }
         const arg:PostErrorsArg = {

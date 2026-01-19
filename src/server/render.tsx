@@ -51,14 +51,14 @@ async function loadVersionNo(): Promise<string | null> {
 async function getPreloadedState(req: Request, res: Response<unknown, HasNonce & HasUUID>): Promise<PreloadedStateV2a> {
     try {
         const params = new URLSearchParams();
-        if (req.params.keyword) {
-            params.set('keyword', req.params.keyword);
+        if (req.params.keyword && typeof req.params.keyword === 'string') {
+            params.set('keyword', req.params.keyword as string);
         }
-        if (req.params.sku) {
-            params.set('sku', req.params.sku);
+        if (req.params.sku && typeof req.params.sku === 'string') {
+            params.set('sku', req.params.sku as string);
         }
         if (req.query.sku && typeof req.query.sku === 'string') {
-            params.set('sku', req.query.sku);
+            params.set('sku', req.query.sku as string);
         }
         const cookieConsentUUID = req.signedCookies[consentCookieName] ?? res.locals.uuid ?? null;
         if (cookieConsentUUID) {
