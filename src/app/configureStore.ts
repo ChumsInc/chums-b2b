@@ -14,6 +14,9 @@ export const store = configureStore({
         immutableCheck: false,
     }),
     preloadedState: getPreloadedState(),
+    devTools: {
+        name: 'CHUMS - B2B'
+    }
 });
 
 export type RootState = ReturnType<typeof store.getState>

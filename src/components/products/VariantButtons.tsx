@@ -69,7 +69,7 @@ export default function VariantButtons() {
     }
 
     return (
-        <Grid container spacing={1} className="variant-buttons-container"
+        <Grid container spacing={1} sx={{mb: 1}} className="variant-buttons-container"
               direction={{xs: variants.length > 2 ? 'row' : 'column', sm: 'row'}}
               justifyContent={variants.length === 2 ? 'center' : 'flex-start'}>
             {variants

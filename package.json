@@ -13,6 +13,7 @@
     "build-vite-ssr": "vite build --config vite.config-ssr.ts",
     "start-ssr": "npm run compile && nodemon dist/server/index.js",
     "start-dev-server": "nodemon dev-server.js",
+    "start-dev-version-proxy": "nodemon dev-version-proxy.js",
     "start-server-vite": "nodemon ./dist-server/index.js",
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },

@@ -119,21 +119,21 @@ const ProductPage = ({keyword}: {
 
                         <SwatchSet/>
                         {(!isCartProduct(cartItem) || !cartItem.itemCode) && !loading && (
-                            <Alert severity="info">
+                            <Alert severity="info" sx={{my: 0.5}}>
                                 Please select a color
                             </Alert>
                         )}
                         {!!selectedProduct && !selectedProduct?.availableForSale && (
-                            <Alert severity="warning">
+                            <Alert severity="warning" sx={{my: 0.5}}>
                                 <span><strong>{selectedProduct?.name}</strong> is not available for sale.</span>
                             </Alert>
                         )}
                         {!selectedProduct?.season && !!selectedProduct?.dateAvailable && (
-                            <Alert severity="warning">{selectedProduct.dateAvailable}</Alert>
+                            <Alert severity="warning" sx={{my: 0.5}}>{selectedProduct.dateAvailable}</Alert>
                         )}
                         <RequireLogin
                             fallback={(
-                                <Alert severity="warning" title="">
+                                <Alert severity="warning" title="" sx={{my: 0.5}}>
                                     Please log in to see prices and availability
                                 </Alert>
                             )}>

@@ -1,11 +1,16 @@
-import {selectProductCartItem, selectProductMSRP, selectProductSalesUM, selectSelectedProduct} from "@/ducks/products/selectors.ts";
-import numeral from "numeral";
+import {
+    selectProductCartItem,
+    selectProductMSRP,
+    selectProductSalesUM,
+    selectSelectedProduct
+} from "@/ducks/products/selectors.ts";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {useAppSelector} from "@/app/hooks.ts";
+import ProductPrice from "@/components/products/ProductPrice.tsx";
 
-const ProductPageInfo = () => {
+export default function ProductPageInfo() {
     const msrp = useAppSelector(selectProductMSRP);
     const salesUM = useAppSelector(selectProductSalesUM);
     const cartItem = useAppSelector(selectProductCartItem);
@@ -21,13 +26,9 @@ const ProductPageInfo = () => {
             <Box>
                 <Typography variant="caption" sx={{mr: 2}} component="span">MSRP</Typography>
                 <Typography variant="body1" component="span" sx={{fontWeight: '600'}}>
-                    $ {msrp.map(price => numeral(price).format('0.00')).join(' - ')}
-                    {' '}
-                    ({salesUM})
+                    <ProductPrice prices={msrp} salesUM={salesUM}/>
                 </Typography>
             </Box>
         </Stack>
     )
 }
-
-export default ProductPageInfo;

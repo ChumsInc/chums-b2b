@@ -89,7 +89,8 @@ const CartItemDetail = ({cartItem, msrp}: {
                     </TableRow>
                     {canViewAvailable && (
                         <TableRow
-                            sx={{color: ((cartItem.quantityAvailable ?? 0) <= 0 ? theme.palette.error.main : undefined)}}>
+                            title="Availability is only visible for CHUMS employees"
+                            sx={{color: availableToday.lte(0) ? theme.palette.error.main : undefined}}>
                             <CartItemDetailTableTHCell component="th" scope="row" align="left" sx={{color: 'inherit'}}>Available
                                 Today</CartItemDetailTableTHCell>
                             <CartItemDetailTableTDCell align="right"
@@ -99,7 +100,7 @@ const CartItemDetail = ({cartItem, msrp}: {
                 </TableBody>
             </Table>
             {new Decimal(cartItem.quantity ?? 1).gt(availableToday) && (
-                <Alert severity="warning">Product is not available for immediate delivery.</Alert>
+                <Alert severity="warning" sx={{my: 0.5}}>Product is not available for immediate delivery.</Alert>
             )}
         </Box>
     )

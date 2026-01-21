@@ -107,6 +107,10 @@ export const getPrices = (product: Product | null | undefined, priceCodes: Custo
 };
 
 export const defaultCartItem = (product: Product | null, option?: CartItemColorProps): CartProduct | null => {
+    if (!product) {
+        return null;
+    }
+
     if (isSellAsColors(product)) {
         const items = product.items.filter(item => item.status);
         let cartItem: ProductColorItem | undefined;
@@ -165,9 +169,6 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
             season: product.season ?? null,
         };
     }
-    if (!product) {
-        return null;
-    }
     return {
         image: product.image,
         name: product.name,
@@ -180,7 +181,8 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
         msrp: product.msrp,
         quantity: 1,
         seasonCode: product.season_code,
-        seasonAvailable: product.season_available
+        seasonAvailable: product.season_available,
+        season: product.season ?? null,
     };
 };
 

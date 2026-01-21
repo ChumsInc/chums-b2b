@@ -3,15 +3,15 @@ import {useAppSelector} from "@/app/hooks.ts";
 import {selectCustomerPricing} from "@/ducks/customer/customerPricingSlice.ts";
 import {useEffect, useState} from "react";
 import {getMSRP, getPrices, getSalesUM} from "@/utils/products.ts";
-import numeral from "numeral";
 import Typography from "@mui/material/Typography";
+import ProductPrice from "@/components/products/ProductPrice.tsx";
 
 export interface VariantButtonPriceProps {
     product: Product;
     loggedIn: boolean;
 }
 
-export default function VariantButtonPrice({product, loggedIn}:VariantButtonPriceProps) {
+export default function VariantButtonPrice({product, loggedIn}: VariantButtonPriceProps) {
     const priceCodes = useAppSelector(selectCustomerPricing);
     const [prices, setPrices] = useState(getUserPrices(product, priceCodes, loggedIn));
     const salesUM = getSalesUM(product);
@@ -22,9 +22,7 @@ export default function VariantButtonPrice({product, loggedIn}:VariantButtonPric
 
     return (
         <Typography variant="variantButtonPrice">
-            $ {prices.map(price => numeral(price).format('0.00')).join(' - ')}
-            {' '}
-            ({salesUM || 'EA'})
+            <ProductPrice prices={prices} salesUM={salesUM || 'EA'}/>
         </Typography>
     )
 }

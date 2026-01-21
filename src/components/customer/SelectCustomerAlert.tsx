@@ -19,7 +19,7 @@ const SelectCustomerAlert = () => {
 
     const path = currentAccess ? `/profile/${currentAccess.id}` : '/profile';
     return (
-        <Alert severity="warning">
+        <Alert severity="warning" sx={{my: 0.5}}>
             <Link component={RoutedLink} to={path} state={{returnTo: location.pathname}}
                   sx={{color: theme.palette.warning.main}}>Please select a customer.</Link>
         </Alert>
