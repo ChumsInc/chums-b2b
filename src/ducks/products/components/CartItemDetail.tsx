@@ -89,18 +89,21 @@ const CartItemDetail = ({cartItem, msrp}: {
                         <CartItemDetailTableTDCell align="right">{cartItem.itemCode}</CartItemDetailTableTDCell>
                     </TableRow>
                     {canViewAvailable && (
-                        <TableRow
-                            sx={{color: ((cartItem.quantityAvailable ?? 0) <= 0 ? theme.palette.error.main : undefined)}}>
-                            <CartItemDetailTableTHCell component="th" scope="row" align="left" sx={{color: 'inherit'}}>Available
-                                Today</CartItemDetailTableTHCell>
-                            <CartItemDetailTableTDCell align="right"
-                                                       sx={{color: 'inherit'}}>{numeral(availableToday.toString()).format('0,0')} ({cartItem.salesUM})</CartItemDetailTableTDCell>
+                        <TableRow sx={{
+                            color: (availableToday.lte(0) ? theme.palette.error.main : undefined)
+                        }}>
+                            <CartItemDetailTableTHCell component="th" scope="row" align="left" sx={{color: 'inherit'}}>
+                                Available Today
+                            </CartItemDetailTableTHCell>
+                            <CartItemDetailTableTDCell align="right" sx={{color: 'inherit'}}>
+                                {numeral(availableToday.toString()).format('0,0')} ({cartItem.salesUM})
+                            </CartItemDetailTableTDCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
             {new Decimal(cartItem.quantity ?? 1).gt(availableToday) &&  (
-                <Alert severity="warning">Product is not available for immediate delivery.</Alert>
+                <Alert severity="warning" sx={{my: 0.5}}>Product is not available for immediate delivery.</Alert>
             )}
         </Box>
     )

@@ -1,10 +1,10 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 import {selectProductCartItem, selectProductMSRP, selectProductSalesUM, selectSelectedProduct} from "../selectors";
-import numeral from "numeral";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import ProductPrice from "@/ducks/products/components/ProductPrice";
 
 const ProductPageInfo = () => {
     const msrp = useSelector(selectProductMSRP);
@@ -22,9 +22,7 @@ const ProductPageInfo = () => {
             <Box>
                 <Typography variant="caption" sx={{mr: 2}} component="span">MSRP</Typography>
                 <Typography variant="body1" component="span" sx={{fontWeight: '600'}}>
-                    $ {msrp.map(price => numeral(price).format('0.00')).join(' - ')}
-                    {' '}
-                    ({salesUM})
+                    <ProductPrice prices={msrp} salesUM={salesUM}/>
                 </Typography>
             </Box>
         </Stack>

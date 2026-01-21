@@ -11,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {ResponsiveStyleValue} from "@mui/system";
+import ProductPrice from "@/ducks/products/components/ProductPrice";
 
 
 const VariantButtonBase = styled(Button)(() => ({
@@ -42,9 +43,7 @@ const VariantButton = ({variant, selected, direction, spacing, onClick}: {
                 </Box>
                 <Box>
                     <Typography variant="variantButtonPrice">
-                        $ {prices.map(price => numeral(price).format('0.00')).join(' - ')}
-                        {' '}
-                        ({salesUM || 'EA'})
+                        <ProductPrice prices={prices} salesUM={salesUM || 'EA'} />
                     </Typography>
                 </Box>
             </Stack>

@@ -164,7 +164,7 @@ export default function AddToCartForm({
 
     return (
         <form onSubmit={submitHandler} className="add-to-cart" method="post">
-            <Stack spacing={2} direction="column">
+            <Stack spacing={2} direction="column" sx={{mt: 1}}>
                 <CartSelect cartId={cartId === excludeCartId ? 0 : cartId} onChange={cartChangeHandler} required
                             excludeCartId={excludeCartId}/>
                 {!cartId && cartsStatus === 'loading' && (
