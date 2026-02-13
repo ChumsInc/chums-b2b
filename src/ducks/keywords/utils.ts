@@ -1,9 +1,7 @@
-import {Keyword} from "b2b-types";
+import type {Keyword} from "chums-types/b2b";
 
 
 export const keywordsSorter = (a: Keyword, b: Keyword) => {
     return a.keyword.toLowerCase() > b.keyword.toLowerCase() ? 1 : -1;
 }
-
-export const pageKeywordsFilter = (kw: Keyword) => kw.pagetype === 'page';
 

@@ -1,6 +1,6 @@
-import {createEntityAdapter, createSelector, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {B2BCartDetail} from "@/types/cart/cart-detail";
-import {SortProps} from "b2b-types";
+import {createEntityAdapter, createSelector, createSlice,type  PayloadAction} from "@reduxjs/toolkit";
+import type {B2BCartDetail} from "@/types/cart/cart-detail";
+import type {SortProps} from "chums-types/b2b";
 import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart, saveCartItem} from "@/ducks/carts/actions";
 import {loadCustomer} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
@@ -122,7 +122,7 @@ export const {
 } = cartDetailSlice.selectors;
 
 export const selectByCartId = createSelector(
-    [selectAll, (state, cartId) => cartId],
+    [selectAll, (_, cartId) => cartId],
     (rows, cartId) => {
         return rows.filter(row => row.cartHeaderId === cartId);
     }

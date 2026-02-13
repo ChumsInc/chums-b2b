@@ -1,21 +1,14 @@
-import {MenuItem} from "b2b-types";
-import React from "react";
+import type {MenuItem} from "chums-types/b2b";
+import type {ReactNode} from "react";
 
-export interface MenuState {
-    productMenu: Menu|null;
-    items: MenuItem[]
-    loading: boolean;
-    loaded: boolean;
-    isOpen: boolean;
-}
 
 export interface MenuElement {
     id: number|string;
-    element: React.ReactNode|null;
+    element: ReactNode|null;
     requireLogin?: boolean;
 }
 export interface MinimalMenuItem extends Pick<MenuItem, 'id'|'requireLogin'|'url'> {
-    title: string|React.ReactNode|null;
+    title: string|ReactNode|null;
     menu?: {
         items?: Omit<MinimalMenuItem, 'menu'>[]
     };

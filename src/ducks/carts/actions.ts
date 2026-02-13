@@ -1,5 +1,5 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {EmailResponse} from "b2b-types";
+import type {B2BCart, B2BCartHeader, EmailResponse} from "chums-types/b2b";
 import {
     fetchCarts,
     fetchNextShipDate,
@@ -8,11 +8,9 @@ import {
     postProcessCart,
     putUpdateCartItems
 } from "./api";
-import {RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 import {deleteCart, deleteCartItem, fetchCart, postAddToCart, putCart, putUpdateCartItem} from "@/ducks/carts/api";
-import {B2BCartHeader} from "@/types/cart/cart-header";
-import {B2BCart} from "@/types/cart/cart";
-import {
+import type {
     AddToCartProps,
     CartActionProps,
     DuplicateCartProps,
@@ -20,10 +18,10 @@ import {
     UpdateCartItemProps,
     UpdateCartProps
 } from "@/types/cart/cart-action-props";
-import {CustomerShippingAccount} from "@/types/customer";
+import type {CustomerShippingAccount} from "@/types/customer";
 import localStore from "@/utils/LocalStore";
 import {STORE_CURRENT_CART, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
-import {selectUserType} from "@/ducks/user/selectors";
+import {selectUserType} from "@/ducks/user/userProfileSlice";
 import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
 import {selectCartDetailById} from "@/ducks/carts/cartDetailSlice";
 import {selectCartShippingAccount} from "@/ducks/carts/activeCartSlice";
@@ -143,7 +141,7 @@ export const saveCartItem = createAsyncThunk<B2BCart | null, UpdateCartItemProps
 )
 
 export const sendCartEmail = createAsyncThunk<EmailResponse | null, CartActionProps, { state: RootState }>(
-    'open-orders/sendEmail',
+    'carts/sendEmail',
     async (arg) => {
         return await postCartEmail(arg);
     },
@@ -175,23 +173,28 @@ export const setCartShippingAccount = createAction('activeCart/setCartShippingAc
     }
 });
 
+function buildCartComments(shippingAccount: CustomerShippingAccount | null, arg: B2BCartHeader): string[] {
+    const comment: string[] = [];
+    if (shippingAccount?.enabled) {
+        comment.push('RCP')
+        comment.push(`${shippingAccount.value.trim()}`);
+    }
+
+    if (arg.CancelReasonCode?.toUpperCase() === 'HOLD') {
+        comment.push('HOLD');
+    } else {
+        comment.push('SWR');
+    }
+    return comment;
+}
+
 export const processCart = createAsyncThunk<string | null, B2BCartHeader, { state: RootState }>(
     'processCart',
     async (arg, {getState}) => {
         const state = getState();
         const shippingAccount = selectCartShippingAccount(state);
         const userType = selectUserType(state);
-        const comment: string[] = [];
-        if (shippingAccount?.enabled) {
-            comment.push('RCP')
-            comment.push(`${shippingAccount.value.trim()}`);
-        }
-
-        if (arg.CancelReasonCode?.toUpperCase() === 'HOLD') {
-            comment.push('HOLD');
-        } else {
-            comment.push('SWR');
-        }
+        const comment = buildCartComments(shippingAccount, arg);
 
         const FOB = [`SLC`, userType?.toUpperCase()?.slice(0, 1) ?? '']
             .filter(str => !!str)
@@ -231,7 +234,7 @@ export const duplicateSalesOrder = createAsyncThunk<B2BCart | null, DuplicateCar
     }
 )
 
-export const loadNextShipDate = createAsyncThunk<string|null, void, {state:RootState}>(
+export const loadNextShipDate = createAsyncThunk<string | null, void, { state: RootState }>(
     'carts/loadNextShipDate',
     async () => {
         return await fetchNextShipDate();

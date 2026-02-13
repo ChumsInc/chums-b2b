@@ -1,10 +1,10 @@
-import {createAction, createAsyncThunk, createReducer, createSelector} from "@reduxjs/toolkit";
-import {Menu, MenuItem} from "b2b-types";
-import {RootState} from "@/app/configureStore";
-import {fetchMenu} from "@/api/menu";
-import {selectCustomerAccessList, selectRepAccessList} from "../user/selectors";
+import {createAction, createReducer, createSelector} from "@reduxjs/toolkit";
+import type {Menu} from "chums-types/b2b";
+import type {RootState} from "@/app/configureStore";
+import {selectCustomerAccessList, selectRepAccessList} from "../user/userAccessSlice";
 import {defaultMenuItem} from "./utils";
 import {accessListURL} from "../user/utils";
+import {loadProductMenu, loadResourcesMenu} from "@/ducks/menu/actions.ts";
 
 export interface MenuState {
     productMenu: Menu | null;
@@ -14,12 +14,6 @@ export interface MenuState {
     isOpen: boolean;
 }
 
-
-export const sortMenuPriority = (a: MenuItem, b: MenuItem) => a.priority === b.priority
-    ? (a.title === b.title ? 0 : (a.title > b.title ? 1 : -1))
-    : a.priority > b.priority ? 1 : -1;
-
-
 const initialMenuState: MenuState = {
     productMenu: null,
     productMenuStatus: 'idle',
@@ -27,30 +21,6 @@ const initialMenuState: MenuState = {
     resourcesMenuStatus: 'idle',
     isOpen: false,
 }
-
-export const loadProductMenu = createAsyncThunk<Menu | null, void, { state: RootState }>(
-    'menus/productMenu',
-    async () => {
-        return fetchMenu(2);
-    }, {
-        condition: (arg, {getState}) => {
-            const state = getState();
-            return !selectProductsMenuLoading(state);
-        }
-    }
-)
-
-export const loadResourcesMenu = createAsyncThunk<Menu | null, void, { state: RootState }>(
-    'menus/loadResourcesMenu',
-    async () => {
-        return await fetchMenu(122);
-    }, {
-        condition: (arg, {getState}) => {
-            const state = getState();
-            return !selectResourcesMenuLoading(state);
-        }
-    }
-)
 
 export const selectProductMenu = (state: RootState): Menu | null => state.menu.productMenu;
 export const selectResourcesMenu = (state: RootState) => state.menu.resourcesMenu;

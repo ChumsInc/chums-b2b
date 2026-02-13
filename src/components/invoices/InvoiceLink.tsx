@@ -1,0 +1,16 @@
+import {generatePath, Link as RoutedLink} from "react-router";
+import type {InvoiceHeader, InvoiceHistoryHeader} from "chums-types/b2b";
+import {billToCustomerSlug} from "@/utils/customer";
+import Link from "@mui/material/Link";
+
+export const PATH_INVOICE = '/account/:customerSlug/invoices/:InvoiceType/:InvoiceNo';
+
+export const InvoiceLink = ({invoice}: { invoice: InvoiceHeader|InvoiceHistoryHeader | null }) => {
+    if (!invoice || !invoice.InvoiceNo) {
+        return null;
+    }
+    const {InvoiceNo, InvoiceType} = invoice;
+    const customerSlug = billToCustomerSlug(invoice)!;
+    const path = generatePath(PATH_INVOICE, {customerSlug, InvoiceType, InvoiceNo});
+    return (<Link component={RoutedLink} to={path}>{InvoiceNo}-{InvoiceType}</Link>)
+}

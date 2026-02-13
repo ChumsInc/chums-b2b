@@ -1,14 +1,8 @@
 import {billToCustomerSlug, buildRecentCustomers, customerSlug} from "@/utils/customer";
 import localStore from "../../utils/LocalStore";
 import {STORE_CUSTOMER, STORE_RECENT_ACCOUNTS} from "@/constants/stores";
-import {selectCurrentCustomer, selectLoggedIn} from "../user/selectors";
-import {
-    selectCustomerAccount,
-    selectCustomerKey,
-    selectCustomerLoading,
-    selectCustomerPermissionsLoading,
-    selectCustomerSaving
-} from "./selectors";
+import {selectLoggedIn} from "../user/userProfileSlice";
+import {selectCustomerAccount, selectCustomerKey, selectCustomerLoadStatus} from "./currentCustomerSlice";
 import {
     deleteCustomerUser,
     fetchCustomerAccount,
@@ -19,27 +13,26 @@ import {
     postDefaultShipToCode,
     postShipToAddress
 } from "@/api/customer";
-import {
+import type {
     BasicCustomer,
     BillToCustomer,
     CustomerKey,
     CustomerUser,
     RecentCustomer,
-    ShipToCustomer,
-    SortProps
-} from "b2b-types";
-import {RootState} from "@/app/configureStore";
+    ShipToCustomer
+} from "chums-types/b2b";
+import type {RootState} from "@/app/configureStore";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {FetchCustomerResponse} from "./types";
+import type {FetchCustomerResponse} from "./types";
 import {loadOpenOrders} from "../open-orders/actions";
-import {CustomerPermissions} from "@/types/customer";
-import {selectRecentCustomers} from "../customers/selectors";
+import type {CustomerPermissions} from "@/types/customer";
+import {selectRecentCustomers} from "../customers/recentCustomersSlice";
 import {loadCarts} from "@/ducks/carts/actions";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils";
+import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice";
 
 export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
 export const setShipToCode = createAction<string | null>('customer/setShipToCode');
-export const setCustomerUserSort = createAction<SortProps<CustomerUser>>('customer/setCustomerUserSort');
 
 export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, { state: RootState }>(
     'customer/saveUser',
@@ -49,9 +42,9 @@ export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, { state: 
         return await postCustomerUser(arg, customer!);
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state) && !!selectCustomerAccount(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle' && !!selectCustomerAccount(state);
         }
     }
 )
@@ -64,9 +57,9 @@ export const removeUser = createAsyncThunk<CustomerUser[], CustomerUser, { state
         return await deleteCustomerUser(arg, customer);
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state) && !!selectCustomerAccount(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle' && !!selectCustomerAccount(state);
         }
     }
 )
@@ -106,9 +99,7 @@ export const loadCustomer = createAsyncThunk<FetchCustomerResponse | null, Custo
             localStore.setItem(STORE_RECENT_ACCOUNTS, response.recent);
         }
         const {ARDivisionNo, CustomerNo, CustomerName, ShipToCode} = response.customer;
-        const currentCustomer = selectCurrentCustomer(state);
         localStore.setItem<BasicCustomer>(STORE_CUSTOMER, {
-            ...(currentCustomer ?? {}),
             ARDivisionNo,
             CustomerNo,
             CustomerName,
@@ -118,7 +109,7 @@ export const loadCustomer = createAsyncThunk<FetchCustomerResponse | null, Custo
     }, {
         condition: (arg, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !!arg && !(selectCustomerLoading(state) || selectCustomerSaving(state));
+            return selectLoggedIn(state) && !!arg && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
@@ -129,14 +120,15 @@ export const saveBillingAddress = createAsyncThunk<FetchCustomerResponse | null,
     async (arg) => {
         return await postBillingAddress(arg);
     }, {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
 
 
+export const maxShipToLength = 4;
 export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, ShipToCustomer, { state: RootState }>(
     'customer/saveShipToAddress',
     async (arg) => {
@@ -146,9 +138,8 @@ export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, 
         condition: (arg, {getState}) => {
             const state = getState();
             return selectLoggedIn(state)
-                && !!arg.ShipToCode && arg.ShipToCode.length <= 4
-                && !selectCustomerLoading(state)
-                ;
+                && !!arg.ShipToCode && arg.ShipToCode.length <= maxShipToLength
+                && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
@@ -161,9 +152,9 @@ export const setDefaultShipTo = createAsyncThunk<void, string, { state: RootStat
         await postDefaultShipToCode(arg, customer);
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle';
         }
     }
 )
@@ -177,22 +168,22 @@ export const loadCustomerPermissions = createAsyncThunk<CustomerPermissions | nu
     }, {
         condition: (arg, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !!arg && !selectCustomerPermissionsLoading(state) && !!selectCustomerAccount(state);
+            return selectLoggedIn(state) && !!arg && selectCustomerPermissionsStatus(state) === 'idle' && !!selectCustomerAccount(state);
         }
     }
 )
 
 export const loadCustomerUsers = createAsyncThunk<CustomerUser[], void, { state: RootState }>(
     'customer/users/load',
-    async (arg, {getState}) => {
+    async (_, {getState}) => {
         const state = getState();
         const customerKey = selectCustomerKey(state);
         return await fetchCustomerUsers(customerKey!);
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
-            return selectLoggedIn(state) && !selectCustomerLoading(state) && !!selectCustomerKey(state);
+            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle' && !!selectCustomerKey(state);
         }
     }
 )

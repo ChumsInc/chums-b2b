@@ -1,6 +1,6 @@
-import {HelmetOptions} from "helmet";
+import type {HelmetOptions} from "helmet";
 import {IncomingMessage, ServerResponse} from "node:http";
-import {Response} from "express";
+import type {Response} from "express";
 
 
 export const helmetOptions:Readonly<HelmetOptions> = {
@@ -21,6 +21,8 @@ export const helmetOptions:Readonly<HelmetOptions> = {
                 "https://accounts.google.com/gsi/client",
                 "www.google-analytics.com",
                 "www.googletagmanager.com",
+                "https://www.youtube.com/",
+                "https://www.youtube-nocookie.com/",
                 "'unsafe-inline'",
                 (_req: IncomingMessage, res: ServerResponse): string => `'nonce-${(res as Response).locals.cspNonce}'`,
             ],

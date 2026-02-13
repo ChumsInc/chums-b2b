@@ -1,4 +1,4 @@
-import {SearchResult} from "b2b-types";
+import type {SearchResult} from "chums-types/b2b";
 import {generatePath} from "react-router";
 import {PATH_CATEGORY, PATH_PAGE, PATH_PRODUCT, PATH_PRODUCT_WITHOUT_PARENT} from "@/constants/paths";
 

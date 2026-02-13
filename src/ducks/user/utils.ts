@@ -1,19 +1,15 @@
-import {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "b2b-types";
-import {SortProps} from "@/types/generic";
+import type {CustomerKey, CustomerSalesperson, Salesperson, UserCustomerAccess, UserProfile} from "chums-types/b2b";
 import {generatePath} from "react-router";
 import {PATH_CUSTOMER_ACCOUNT, PATH_PROFILE_ACCOUNT} from "@/constants/paths";
 import {customerSlug, shortCustomerKey} from "@/utils/customer";
-import {isRejected, UnknownAction} from "@reduxjs/toolkit";
-import {UserType} from "./types";
-import {Action} from "redux";
+import {isRejected, type UnknownAction} from "@reduxjs/toolkit";
+import type {UserType} from "./types";
+import type {Action} from "redux";
 
 export const AUTH_ERROR = 'AUTH_ERROR';
 
 export const salespersonKey = (sp: Salesperson) => `${sp.SalespersonDivisionNo}-${sp.SalespersonNo}`;
 
-export const userAccountSort = (a: UserCustomerAccess, b: UserCustomerAccess): number => {
-    return a.id - b.id;
-}
 
 export const getPrimaryAccount = (accountList: UserCustomerAccess[]): UserCustomerAccess | null => {
     if (!accountList.length) {
@@ -35,16 +31,7 @@ export const isUserProfile = (user: UserProfile | null): user is UserProfile => 
     return !!user && (user as UserProfile).id !== undefined;
 }
 
-export const isCustomer = (customer: CustomerKey | null): customer is CustomerKey => {
-    return !!customer && (customer as CustomerKey).CustomerNo !== undefined;
-}
 
-export const customerAccessAccountSorter = (sort: SortProps<UserCustomerAccess>) =>
-    (a: UserCustomerAccess, b: UserCustomerAccess) => {
-        return (a[sort.field] === b[sort.field]
-            ? (a.id - b.id)
-            : ((a[sort.field] || '') > (b[sort.field] || '') ? 1 : -1)) * (sort.ascending ? 1 : -1)
-    };
 
 export const salespersonPath = (rep: CustomerSalesperson | null) => {
     if (!rep) {
@@ -64,7 +51,6 @@ export const customerCartURL = (customer: CustomerKey, cartId?: number) => {
         cartId: `${cartId}`
     });
 };
-export const repAccountListURL = (rep: CustomerSalesperson) => `/profile/rep/${encodeURIComponent(salespersonPath(rep))}`;
 
 export const accessListURL = (access: UserCustomerAccess) => {
     if (access.isRepAccount) {
@@ -72,9 +58,6 @@ export const accessListURL = (access: UserCustomerAccess) => {
     }
     return generatePath(PATH_CUSTOMER_ACCOUNT, {customerSlug: shortCustomerKey(access)});
 }
-
-
-export const canEditAccountRoles: string[] = ['root', 'admin', 'cs', 'sales'];
 
 export const repAccessCode = (row: UserCustomerAccess): string => {
     if (row.SalespersonDivisionNo === '%' && row.SalespersonNo === '%') {
@@ -88,10 +71,6 @@ export const repAccessCode = (row: UserCustomerAccess): string => {
     }
     return `${row.SalespersonDivisionNo}-${row.SalespersonNo}`;
 };
-
-export const isUserAction = (action: Action | UnknownAction): boolean => {
-    return action.type.startsWith('user/')
-}
 
 export const is401Action = (action: Action | UnknownAction): boolean => {
     return isRejected(action) && action.error.name === AUTH_ERROR;
@@ -108,5 +87,7 @@ export const getUserType = (profile: UserProfile | null): UserType | null => {
             return 'REP';
         case 4:
             return 'CUSTOMER';
+        default:
+            return null;
     }
 }

@@ -1,5 +1,6 @@
-import {PromoCode} from "b2b-types";
+import type {PromoCode} from "chums-types/b2b";
 import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 
 export async function fetchPromoCodes():Promise<PromoCode[]> {
@@ -8,10 +9,10 @@ export async function fetchPromoCodes():Promise<PromoCode[]> {
         return res?.promo_codes ?? [];
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("loadPromoCodes()", err.message);
+            debug("loadPromoCodes()", err.message);
             return Promise.reject(err);
         }
-        console.debug("loadPromoCodes()", err);
+        debug("loadPromoCodes()", err);
         return Promise.reject(new Error('Error in loadPromoCodes()'));
     }
 }
@@ -25,10 +26,10 @@ export async function fetchPromoCode(arg:string):Promise<PromoCode|null> {
         return promo ?? null;
     } catch(err:unknown) {
         if (err instanceof Error) {
-            console.debug("fetchPromoCode()", err.message);
+            debug("fetchPromoCode()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchPromoCode()", err);
+        debug("fetchPromoCode()", err);
         return Promise.reject(new Error('Error in fetchPromoCode()'));
     }
 }

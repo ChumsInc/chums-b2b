@@ -1,19 +1,23 @@
 import fs from "node:fs/promises";
-import Debug from 'debug';
-import {Request, Response} from "express";
+import _debug from 'debug';
+import type {Request, Response} from "express";
 import path from "node:path";
-const debug = Debug('chums:server:version');
+import process from "node:process";
+import {Buffer} from 'node:buffer'
+
+const debug = _debug('chums:server:version');
 
 interface PackageConfig {
-    version?:string;
+    version?: string;
 }
-export async function loadVersion():Promise<{versionNo: string}> {
+
+export async function loadVersion(): Promise<{ versionNo: string }> {
     try {
         const packageJSON = await fs.readFile(path.join(process.cwd(), 'package.json'));
 
-        const packageConfig:PackageConfig = JSON.parse(Buffer.from(packageJSON).toString() ?? '{}');
+        const packageConfig: PackageConfig = JSON.parse(Buffer.from(packageJSON).toString() ?? '{}');
         return {versionNo: packageConfig.version ?? ''};
-    } catch(err:unknown) {
+    } catch (err: unknown) {
         if (err instanceof Error) {
             debug("loadVersion()", err.message);
             return Promise.reject(err);
@@ -22,29 +26,31 @@ export async function loadVersion():Promise<{versionNo: string}> {
     }
 }
 
-export const getVersion = async (req:Request, res:Response) => {
+export const getVersion = async (_: Request, res: Response) => {
     try {
         const version = await loadVersion();
         res.json({version});
-    } catch(err:unknown) {
+    } catch (err: unknown) {
         if (err instanceof Error) {
             debug("getVersion()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return
         }
         res.json({error: 'unknown error in getVersion'});
     }
 }
 
-export const getVersionJS = async (req:Request, res:Response) => {
+export const getVersionJS = async (_: Request, res: Response) => {
     try {
         const {versionNo} = await loadVersion();
         const js = 'CHUMS.version = ' + JSON.stringify(versionNo);
         res.set('Content-Type', 'application/javascript')
             .send(js);
-    } catch(err:unknown) {
+    } catch (err: unknown) {
         if (err instanceof Error) {
             debug("getVersionJS()", err.message);
-            return res.json({error: err.message, name: err.name});
+            res.json({error: err.message, name: err.name});
+            return
         }
         res.json({error: 'unknown error in getVersionJS'});
     }

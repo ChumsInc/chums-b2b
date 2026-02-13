@@ -1,4 +1,4 @@
-import {CSSProperties} from 'react'
+import type {CSSProperties} from 'react'
 import {createTheme} from '@mui/material/styles'
 import {alpha} from "@mui/material";
 
@@ -222,7 +222,7 @@ theme = createTheme(theme, {
     }
 })
 
-if (global.window) {
+if (globalThis.window) {
     window.theme = theme;
 }
 

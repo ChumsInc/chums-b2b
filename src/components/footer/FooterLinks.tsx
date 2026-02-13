@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import Box from "@mui/material/Box";
-import AppVersion from "@/ducks/version/AppVersion";
-import SignUpModal from "@/components/SignUpModal";
+import AppVersion from "@/components/footer/AppVersion.tsx";
 import Link from "@mui/material/Link";
 import {Link as NavLink} from "react-router";
 import {styled} from "@mui/material/styles";
@@ -12,6 +11,7 @@ import CookiePolicyLink from "@/components/cookie-consent/CookiePolicyLink";
 const BottomLinksContainer = styled(Box)(({theme}) => ({
     display: 'flex',
     flexDirection: 'column',
+    gap: '0.5rem',
     justifyContent: 'space-between',
     width: '100%',
     backgroundColor: '#262626',
@@ -26,10 +26,10 @@ const BottomLinksContainer = styled(Box)(({theme}) => ({
 }));
 
 const BottomLinks = styled(Stack)(({theme}) => ({
-    margin: '0 7px',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    gap: '0.5rem',
     '* a': {
         padding: '0 calc(var(--footer-contacts-padding) / 3)',
         color: '#EEEEEE !important',
@@ -47,8 +47,9 @@ export default function FooterLinks() {
 
     return (
         <BottomLinksContainer>
-            <Box sx={{ml: {xs: '1rem'}}}><AppVersion/></Box>
-            <Box sx={{ml: {xs: '1rem'}}}><SignUpModal/></Box>
+            <Box sx={{ml: {xs: '1rem'}}}>
+                <AppVersion/>
+            </Box>
             <BottomLinks direction="row" useFlexGap flexWrap="wrap">
                 <FooterLink underline="hover" href="//intranet.chums.com/apps/current-openings"
                             target="_blank" rel="noreferrer">
@@ -66,7 +67,7 @@ export default function FooterLinks() {
                 <FooterLink underline="hover" href="https://chums.com" target="_blank"
                             rel="noreferrer">CHUMS.COM</FooterLink>
             </BottomLinks>
-            <Box sx={{mr: 1}}>
+            <Box sx={{mr: 1, textAlign: 'right'}}>
                 © {year} Chums. All rights reserved
             </Box>
         </BottomLinksContainer>

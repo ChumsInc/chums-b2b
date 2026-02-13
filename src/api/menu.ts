@@ -1,5 +1,6 @@
-import {Menu} from "b2b-types";
+import type {Menu} from "chums-types/b2b";
 import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 export async function fetchMenu(id:number):Promise<Menu|null> {
     try {
@@ -11,10 +12,10 @@ export async function fetchMenu(id:number):Promise<Menu|null> {
         return response?.menu ?? null;
     } catch(err) {
         if (err instanceof Error) {
-            console.debug("loadMenu()", err.message);
+            debug("loadMenu()", err.message);
             return Promise.reject(err);
         }
-        console.debug("loadMenu()", err);
+        debug("loadMenu()", err);
         return Promise.reject(new Error('Error in loadMenu()'));
     }
 }

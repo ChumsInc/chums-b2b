@@ -1,5 +1,5 @@
-import {Salesperson, UserProfile} from 'b2b-types'
-import {
+import type {Salesperson, UserProfile} from 'chums-types/b2b'
+import type {
     ChangePasswordProps,
     ChangePasswordResponse,
     FunkyUserProfileResponse,
@@ -7,18 +7,19 @@ import {
     UserProfileResponse
 } from "@/ducks/user/types";
 import {allowErrorResponseHandler, fetchJSON} from "./fetch";
-import {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "../types/user";
-import {auth} from './IntranetAuthService';
+import type {LocalAuth, SignUpResponse, SignUpUser, StoredProfile} from "@/types/user";
+import {auth} from "./IntranetAuthService";
 import {getSignInProfile, isTokenExpired} from "@/utils/jwtHelper";
 import localStore from "../utils/LocalStore";
 import {STORE_AUTHTYPE} from "@/constants/stores";
 import {AUTH_GOOGLE} from "@/constants/app";
 import {isErrorResponse, isUserRole} from "@/utils/typeguards";
 import {jwtDecode} from 'jwt-decode';
-import {LoadProfileProps, SignUpProfile} from "@/ducks/sign-up/types";
-import {APIErrorResponse} from "../types/generic";
-import {configGtag} from "@/src/ga4/api";
-import {ga4Login, ga4SignUp} from "@/src/ga4/generic";
+import type {LoadProfileProps, SignUpProfile} from "@/ducks/sign-up/types";
+import type {APIErrorResponse} from "@/types/generic";
+import {configGtag} from "@/utils/ga4/api";
+import {ga4Login, ga4SignUp} from "@/utils/ga4/generic";
+import debug from "@/utils/debug.ts";
 
 
 export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorResponse> {
@@ -39,10 +40,10 @@ export async function postLocalLogin(arg: LocalAuth): Promise<string | APIErrorR
         return res.token;
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("postLocalLogin()", err.message);
+            debug("postLocalLogin()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postLocalLogin()", err);
+        debug("postLocalLogin()", err);
         return Promise.reject(new Error('Error in postLocalLogin()'));
     }
 }
@@ -54,10 +55,10 @@ export async function postLocalReauth(): Promise<string|null> {
         return res?.token ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postLocalReauth()", err.message);
+            debug("postLocalReauth()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postLocalReauth()", err);
+        debug("postLocalReauth()", err);
         return Promise.reject(new Error('Error in postLocalReauth()'));
     }
 }
@@ -67,20 +68,21 @@ export async function fetchUserProfile(): Promise<UserProfileResponse> {
         const url = '/api/user/v2/b2b/profile.json';
         const response = await fetchJSON<UserProfileResponse>(url, {cache: 'no-cache'});
         if (!response) {
-            return Promise.reject(new Error('Error loading useer profile'));
+            return Promise.reject(new Error('Error loading user profile'));
         }
         response.reps = [];
         if (response.user?.accountType === 1) {
             response.reps = await fetchRepList();
         }
+        // eslint-disable-next-line camelcase
         configGtag({user_id: `${response?.user?.id ?? 0}`})
         return response as UserProfileResponse;
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchUserProfile()", err.message);
+            debug("fetchUserProfile()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchUserProfile()", err);
+        debug("fetchUserProfile()", err);
         return Promise.reject(new Error('Error in fetchUserProfile()'));
     }
 }
@@ -102,7 +104,6 @@ export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<U
             try {
                 const decoded = jwtDecode(response.token);
                 response.expires = decoded.exp;
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err: unknown) {
                 //do nothing
             }
@@ -110,25 +111,25 @@ export async function postUserProfile(arg: Pick<UserProfile, 'name'>): Promise<U
         return response as UserProfileResponse;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postUserProfile()", err.message);
+            debug("postUserProfile()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postUserProfile()", err);
+        debug("postUserProfile()", err);
         return Promise.reject(new Error('Error in postUserProfile()'));
     }
 }
 
 export async function fetchRepList(): Promise<Salesperson[]> {
     try {
-        const url = '/api/sales/rep/list/chums/condensed';
+        const url = '/api/sales/b2b/salesperson/list.json';
         const response = await fetchJSON<{ list: Salesperson[] }>(url, {cache: 'no-cache'});
         return (response?.list ?? []).filter(rep => !!rep.active);
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchRepList()", err.message);
+            debug("fetchRepList()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchRepList()", err);
+        debug("fetchRepList()", err);
         return Promise.reject(new Error('Error in fetchRepList()'));
     }
 }
@@ -157,7 +158,6 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
             try {
                 const decoded = jwtDecode(response.token);
                 response.expires = decoded.exp;
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err: unknown) {
                 // do nothing
             }
@@ -182,10 +182,10 @@ export async function fetchGoogleLogin(token: string): Promise<UserProfileRespon
         return response;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("fetchGoogleLogin()", err.message);
+            debug("fetchGoogleLogin()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchGoogleLogin()", err);
+        debug("fetchGoogleLogin()", err);
         return Promise.reject(new Error('Error in fetchGoogleLogin()'));
     }
 }
@@ -200,10 +200,10 @@ export async function postResetPassword(arg: string): Promise<boolean> {
         return response?.success ?? false;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postResetPassword()", err.message);
+            debug("postResetPassword()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postResetPassword()", err);
+        debug("postResetPassword()", err);
         return Promise.reject(new Error('Error in postResetPassword()'));
     }
 }
@@ -219,14 +219,15 @@ export async function fetchSignUpProfile(arg: LoadProfileProps): Promise<SignUpP
         if (isErrorResponse(res)) {
             return res;
         }
+        // eslint-disable-next-line camelcase
         configGtag({user_id: `${res?.user?.id ?? 0}`})
         return res?.user ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("fetchSignUpProfile()", err.message);
+            debug("fetchSignUpProfile()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchSignUpProfile()", err);
+        debug("fetchSignUpProfile()", err);
         return Promise.reject(new Error('Error in fetchSignUpProfile()'));
     }
 }
@@ -242,10 +243,10 @@ export async function postSignUpUser(arg: SignUpUser): Promise<SignUpResponse | 
         return res;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postSignUpUser()", err.message);
+            debug("postSignUpUser()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postSignUpUser()", err);
+        debug("postSignUpUser()", err);
         return Promise.reject(new Error('Error in postSignUpUser()'));
     }
 }
@@ -260,10 +261,10 @@ export async function postPasswordChange(arg: ChangePasswordProps): Promise<Chan
         }, allowErrorResponseHandler);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postPasswordChange()", err.message);
+            debug("postPasswordChange()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postPasswordChange()", err);
+        debug("postPasswordChange()", err);
         return Promise.reject(new Error('Error in postPasswordChange()'));
     }
 }
@@ -278,24 +279,25 @@ export async function postNewPassword(arg: SetNewPasswordProps): Promise<ChangeP
         return res ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postNewPassword()", err.message);
+            debug("postNewPassword()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postNewPassword()", err);
+        debug("postNewPassword()", err);
         return Promise.reject(new Error('Error in postNewPassword()'));
     }
 }
 
+// eslint-disable-next-line consistent-return
 export async function postLogout(): Promise<void> {
     try {
         const url = '/api/user/v2/b2b/logout.json';
         await fetchJSON(url, {method: 'POST'}, allowErrorResponseHandler);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("postLogout()", err.message);
+            debug("postLogout()", err.message);
             return Promise.reject(err);
         }
-        console.debug("postLogout()", err);
+        debug("postLogout()", err);
         return Promise.reject(new Error('Error in postLogout()'));
     }
 

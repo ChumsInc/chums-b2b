@@ -1,40 +1,16 @@
-import {ReactNode} from 'react'
-import {SxProps} from "@mui/system";
+import type {Banner, PreloadedState} from "chums-types/b2b";
 
 export interface NavItemProps {
     inDrawer?: boolean;
 }
 
-export interface NavItem {
-    id: string;
-    title?: string;
-    render?: ({inDrawer}: NavItemProps) => ReactNode;
+
+export interface BannersStateV2a {
+    entities: Record<number, Banner>;
+    ids: number[];
+    status: 'idle'|'loading'|'rejected';
+    updated: number;
 }
-
-export interface BannerImage {
-    filename: string;
-    width: number;
-    height: number;
+export interface PreloadedStateV2a extends Omit<PreloadedState, 'banners'>{
+    banners?: BannersStateV2a
 }
-
-
-export interface Banner {
-    id: number;
-    title: string;
-    priority: number | null;
-    url: string | null;
-    startDate: string | null;
-    endDate: string | null;
-    active: boolean;
-    image?: null | {
-        desktop: BannerImage;
-        mobile?: BannerImage;
-    },
-    overlay?: null | {
-        sxProps?: SxProps;
-        innerText: string;
-    }
-    src?: string | null;
-    sxProps?: SxProps | null;
-}
-

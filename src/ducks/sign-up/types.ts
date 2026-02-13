@@ -1,4 +1,4 @@
-import {UserProfile} from "b2b-types";
+import type {UserProfile} from "chums-types/b2b";
 
 export type SignUpProfile = Pick<UserProfile, 'id'|'email'|'name'|'accountType'>;
 

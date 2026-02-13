@@ -1,7 +1,7 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
-import {PromoCode} from "b2b-types";
+import type {PromoCode} from "chums-types/b2b";
 import {fetchPromoCode, fetchPromoCodes} from "@/api/promoCodes";
-import {RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 import {selectPromoCodesLoading} from "./selectors";
 
 export const loadPromoCodes = createAsyncThunk<PromoCode[], void, {state: RootState}>(
@@ -10,7 +10,7 @@ export const loadPromoCodes = createAsyncThunk<PromoCode[], void, {state: RootSt
         return await fetchPromoCodes();
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState() ;
             return !selectPromoCodesLoading(state);
         }
@@ -29,7 +29,7 @@ export const loadPromoCode = createAsyncThunk<PromoCode | null, string, {state: 
         return promoCode;
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState() ;
             return !selectPromoCodesLoading(state);
         }

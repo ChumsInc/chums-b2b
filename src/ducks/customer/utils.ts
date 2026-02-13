@@ -1,24 +1,15 @@
-import {
+import type {
+    B2BCartHeader,
+    BasicCustomer,
     BillToAddress,
     BillToCustomer,
+    Customer,
     CustomerAddress,
+    CustomerKey,
     ShipToAddress,
     ShipToCustomer,
     UserCustomerAccess
-} from "b2b-types";
-import {FetchCustomerResponse} from "./types";
-import {CustomerState} from "./index";
-import {
-    customerContactSorter,
-    customerPaymentCardSorter,
-    customerPriceRecordSorter,
-    customerShipToSorter,
-    customerUserSorter,
-    defaultCustomerUserSort,
-    defaultShipToSort,
-} from "@/utils/customer";
-import {B2BCartHeader} from "@/types/cart/cart-header";
-
+} from "chums-types/b2b";
 
 
 export const addressFromShipToAddress = (address: B2BCartHeader | ShipToAddress | null): CustomerAddress => {
@@ -59,38 +50,6 @@ export const multiLineAddress = (address: CustomerAddress, includeName?: boolean
     ].filter(line => !!line);
 }
 
-export const customerResponseToState = (payload: FetchCustomerResponse | null, state: CustomerState): Partial<CustomerState> => {
-    const nextState: Partial<CustomerState> = {};
-    nextState.account = payload?.customer ?? null;
-    nextState.shipToCode = payload?.customer?.PrimaryShipToCode ?? null;
-    nextState.permissions = {
-        values: payload?.permissions ?? null,
-        loading: false,
-        loaded: true,
-    };
-    nextState.contacts = [...(payload?.contacts ?? [])].sort(customerContactSorter);
-    nextState.pricing = [...(payload?.pricing ?? [])].sort(customerPriceRecordSorter);
-    nextState.shipToAddresses = [...(payload?.shipTo ?? [])].sort(customerShipToSorter(defaultShipToSort));
-    const [shipTo] = nextState.shipToAddresses.filter(st => st.ShipToCode === state.shipToCode);
-    if (shipTo && nextState.permissions?.values?.billTo) {
-        nextState.shipToCode = shipTo?.ShipToCode ?? null;
-        nextState.shipTo = shipTo ?? null;
-    } else if (shipTo && nextState.permissions?.values?.shipTo.includes(shipTo.ShipToCode)) {
-        nextState.shipToCode = shipTo?.ShipToCode ?? null;
-        nextState.shipTo = shipTo ?? null;
-    } else if (!nextState.permissions?.values?.billTo) {
-        const [shipTo] = nextState.shipToAddresses;
-        nextState.shipToCode = shipTo?.ShipToCode ?? null;
-        nextState.shipTo = shipTo ?? null;
-    } else {
-        nextState.shipToCode = null;
-        nextState.shipTo = null;
-    }
-    nextState.paymentCards = [...(payload?.paymentCards ?? [])].sort(customerPaymentCardSorter);
-    nextState.users = [...(payload?.users ?? [])].sort(customerUserSorter(defaultCustomerUserSort));
-    return nextState;
-}
-
 export const filterShipToByUserAccount = (access: UserCustomerAccess | null) => (address: ShipToCustomer): boolean => {
     if (!access) {
         return false;
@@ -114,3 +73,14 @@ export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccou
         && access.CustomerNo === customerAccount.CustomerNo;
 }
 
+export function customerKey(arg: Customer | BasicCustomer | null): CustomerKey | null {
+    if (!arg) {
+        return null;
+    }
+    const {ARDivisionNo, CustomerNo, ShipToCode} = arg;
+    return {
+        ARDivisionNo,
+        CustomerNo,
+        ShipToCode
+    }
+}

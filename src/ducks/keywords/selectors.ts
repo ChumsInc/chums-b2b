@@ -1,5 +1,5 @@
-import {RootState} from "@/app/configureStore";
 import {createSelector} from "@reduxjs/toolkit";
+import type {RootState} from "@/app/configureStore";
 
 export const selectKeywordsLoading = (state:RootState) => state.keywords.loading;
 export const selectKeywordsLoaded = (state:RootState) => state.keywords.loaded;

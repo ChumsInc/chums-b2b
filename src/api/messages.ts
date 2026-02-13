@@ -1,5 +1,6 @@
-import {Message} from "b2b-types";
+import type {Message} from "chums-types/b2b";
 import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 export const fetchMessages = async (): Promise<Message[]> => {
     try {
@@ -7,10 +8,10 @@ export const fetchMessages = async (): Promise<Message[]> => {
         return response?.messages ?? [];
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchMessages()", err.message);
+            debug("fetchMessages()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchMessages()", err);
+        debug("fetchMessages()", err);
         return Promise.reject(new Error('Error in fetchMessages()'));
     }
 }

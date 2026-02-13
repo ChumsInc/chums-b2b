@@ -1,15 +1,18 @@
-import {defaultSort} from "./index";
 import Decimal from "decimal.js";
-import {ExtendedInvoice, InvoiceHistoryHeader} from "b2b-types";
-import {SortProps} from "@/types/generic";
+import type {InvoiceHistoryHeader} from "chums-types/b2b";
+import type {SortProps} from "@/types/generic";
+
+/* eslint-disable no-nested-ternary */
+
+export const defaultInvoicesSort: SortProps<InvoiceHistoryHeader> = {field: 'InvoiceDate', ascending: false};
 
 export const invoiceTotal = (invoice: InvoiceHistoryHeader): Decimal => {
     return new Decimal(invoice.TaxableSalesAmt ?? 0).add(invoice.NonTaxableSalesAmt ?? 0).sub(invoice.DiscountAmt ?? 0);
 }
 
-export const invoiceKey = (invoice: InvoiceHistoryHeader) => `${invoice.InvoiceNo}-${invoice.InvoiceType}`;
+export const invoiceKey = (invoice: Pick<InvoiceHistoryHeader, 'InvoiceNo' | 'InvoiceType'>) => `${invoice.InvoiceNo}-${invoice.InvoiceType}`;
 
-export const invoicesSorter = (sort: SortProps<InvoiceHistoryHeader> = defaultSort) =>
+export const invoicesSorter = (sort: SortProps<InvoiceHistoryHeader> = defaultInvoicesSort) =>
     (a: InvoiceHistoryHeader, b: InvoiceHistoryHeader) => {
         const {field, ascending} = sort;
         const sortMod = ascending ? 1 : -1;
@@ -45,10 +48,3 @@ export const invoicesSorter = (sort: SortProps<InvoiceHistoryHeader> = defaultSo
         }
     }
 
-export function isInvoiceHeader(invoice: ExtendedInvoice | InvoiceHistoryHeader | null): invoice is InvoiceHistoryHeader {
-    return !!invoice && (invoice as ExtendedInvoice).Detail === undefined;
-}
-
-export function isInvoice(invoice: ExtendedInvoice | InvoiceHistoryHeader | null): invoice is ExtendedInvoice {
-    return !!invoice && 'undefined' !== typeof (invoice as ExtendedInvoice).Detail;
-}

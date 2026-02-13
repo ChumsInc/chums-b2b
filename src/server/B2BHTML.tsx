@@ -1,14 +1,13 @@
-import React from 'react';
-import {ManifestFiles} from "./manifest";
 import * as process from "node:process";
-import {EnhancedStore} from "@reduxjs/toolkit";
+import type {EnhancedStore} from "@reduxjs/toolkit";
 import {Provider} from "react-redux";
-import App from "@/app/App";
 import {StaticRouter} from "react-router";
-import {PreloadedState} from "b2b-types";
+import type {CookieConsentState, PreloadedState} from "chums-types/b2b";
+import type {ManifestFiles} from "./manifest";
+import App from "@/app/App.tsx";
 
 
-const InlineJSHeadContent = (versionNo: string) => {
+const inlineJSHeadContent = (versionNo: string) => {
     return `
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -30,7 +29,7 @@ export interface B2BHtmlProps {
 }
 
 export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp, cspNonce}: B2BHtmlProps) {
-    const state:PreloadedState = store.getState() ?? {};
+    const state: PreloadedState = store.getState();
     const preloadedStateJSON = JSON.stringify(state).replace(/</g, '\\u003c');
     return (
         <html lang="en-us" dir="ltr">
@@ -39,11 +38,6 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
             <meta httpEquiv="x-ua-compatible" content="ie-edge"/>
             <meta name="description" content="Chums B2B"/>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
-            <title>Chums B2B</title>
-            <meta property="og:image" content="https://b2b.chums.com/images/logos/Chums-Logo-Badge-Red-RGB.png"/>
-            <meta property="og:image:alt" content="Chums Logo"/>
-            <meta property="og:type" content="website"/>
-            <meta property="og:url" content="https://b2b.chums.com/"/>
             <link rel="apple-touch-icon" sizes="57x57" href="/images/icons/apple-touch-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="/images/icons/apple-touch-icon-60x60.png"/>
             <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/apple-touch-icon-72x72.png"/>
@@ -65,15 +59,15 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
                 nonce={cspNonce}
                 rel="stylesheet"/>
             <script src="https://accounts.google.com/gsi/client" async defer nonce={cspNonce}/>
-            {state.cookieConsent?.record?.preferences?.analytics && (
-                <>
-                    <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}
-                            nonce={cspNonce}/>
-                    <script dangerouslySetInnerHTML={{__html: InlineJSHeadContent(manifestFiles.version ?? '')}}
-                            nonce={cspNonce}/>
-                </>
-            )}
+            <AnalyticsScripts nonce={cspNonce} consent={state.cookieConsent} versionNo={manifestFiles.version ?? ''} />
             <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+            {!!manifestFiles.index && (
+                <link rel="modulepreload" href={`/${manifestFiles.index}`} nonce={cspNonce}/>
+
+            )}
+            {manifestFiles.imports.map(file => (
+                <link rel="modulepreload" key={file} href={`/${file}`} nonce={cspNonce}/>
+            ))}
         </head>
         <body>
         <div id="root">
@@ -83,13 +77,34 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
                 </StaticRouter>
             </Provider>
         </div>
-        <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}} nonce={cspNonce}/>
-        {manifestFiles['vendors-react.js'] && (<script src={manifestFiles['vendors-react.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['vendors-mui.js'] && (<script src={manifestFiles['vendors-mui.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['vendors.js'] && (<script src={manifestFiles['vendors.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['chums.js'] && (<script src={manifestFiles['chums.js']}  nonce={cspNonce}/>)}
-        {manifestFiles['main.js'] && (<script src={manifestFiles['main.js']}  nonce={cspNonce}/>)}
+        <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}}
+                nonce={cspNonce}/>
+        {!!manifestFiles.index && (
+            <script type="module" src={`/${manifestFiles.index}`} nonce={cspNonce}/>
+        )}
+        {manifestFiles.imports.map(file => (
+            <script type="module" key={file} src={`/${file}`} nonce={cspNonce}/>
+        ))}
         </body>
         </html>
+    )
+}
+
+interface AnalyticsScriptsProps {
+    nonce: string;
+    consent: CookieConsentState | undefined;
+    versionNo: string;
+}
+function AnalyticsScripts({nonce, consent, versionNo}: AnalyticsScriptsProps) {
+    if (!consent?.record?.preferences?.analytics) {
+        return null;
+    }
+    return (
+        <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_TAG_ID}`}
+                    nonce={nonce}/>
+            <script dangerouslySetInnerHTML={{__html: inlineJSHeadContent(versionNo)}}
+                    nonce={nonce}/>
+        </>
     )
 }
