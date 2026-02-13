@@ -43,6 +43,10 @@ export default defineConfig({
                 target: 'https://b2b.chums.com',
                 changeOrigin: true,
             },
+            '/pdf': {
+                target: 'https://b2b.chums.com',
+                changeOrigin: true,
+            },
             '/version': {
                 target: `http://localhost:${process.env.DEV_VERSION_PROXY_PORT ?? 3001}`,
                 changeOrigin: true,

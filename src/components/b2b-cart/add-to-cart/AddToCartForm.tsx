@@ -1,4 +1,4 @@
-import {type FormEvent, useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {addToCart} from "@/ducks/carts/actions";
 import {selectCustomerAccount, selectCustomerKey,} from "@/ducks/customer/currentCustomerSlice";
 import ShipToSelect from "@/components/customer/common/ShipToSelect";
@@ -60,8 +60,7 @@ export default function AddToCartForm({
     const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? null);
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId ?? 0));
 
-    const submitHandler = useCallback(async (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = useCallback(async () => {
         if (disabled || !customerKey || !cartName) {
             return;
         }
@@ -157,7 +156,7 @@ export default function AddToCartForm({
     }
 
     return (
-        <form onSubmit={submitHandler} className="add-to-cart" method="post">
+        <form action={submitHandler} className="add-to-cart" method="post">
             <Stack spacing={2} direction="column">
                 <CartSelect cartId={cartId === excludeCartId ? 0 : cartId} onChange={cartChangeHandler} required
                             excludeCartId={excludeCartId}/>

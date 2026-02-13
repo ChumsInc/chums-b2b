@@ -34,7 +34,7 @@ import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 import {customerKey} from "@/ducks/customer/utils";
 import {selectCurrentInvoiceNo} from "@/ducks/invoices/currentInvoiceSlice";
-import NoOpenInvoicesAlert from "@/components/invoices/NoOpenInvoicesAlert";
+import NoInvoicesAlert from "@/components/invoices/NoInvoicesAlert.tsx";
 
 
 const invoiceFields: SortableTableField<InvoiceHistoryHeader>[] = [
@@ -148,8 +148,8 @@ const InvoicesList = () => {
             <Box>
                 <InvoiceListFilter onReload={reloadHandler}/>
                 {status === 'loading' && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
-                {loaded && !showPaidInvoices && list.length === 0 && (
-                    <NoOpenInvoicesAlert />
+                {loaded && list.length === 0 && (
+                    <NoInvoicesAlert paid={showPaidInvoices} />
                 )}
                 <DataTable<InvoiceHistoryHeader> keyField={row => invoiceKey(row)}
                                                  data={list.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}

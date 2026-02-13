@@ -6,6 +6,7 @@ import {
 } from "@/ducks/customer/currentCustomerSlice";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import {useAppSelector} from "@/app/hooks";
+import Box from "@mui/material/Box";
 
 const MissingTaxScheduleAlert = () => {
     const customer = useAppSelector(selectCustomerAccount);
@@ -22,9 +23,9 @@ const MissingTaxScheduleAlert = () => {
     }
 
     return (
-        <Alert severity="error">
-            <strong className="me-1">Warning:</strong>
-            Missing Tax Schedule. Please contact
+        <Alert severity="error" sx={{my: 0.5}}>
+            <Box sx={{mr: 1}} component="strong">Warning:</Box>
+            Missing Tax Schedule. Please contact {' '}
             <a
                 href={`mailto:cs@chums.com?subject=${customer.ARDivisionNo}-${customer.CustomerNo}${encodeURIComponent(' Missing Tax Schedule (B2B)')}`}
                 rel="noreferrer"

@@ -7,6 +7,7 @@ import {
     selectProductLoading
 } from "@/ducks/products/selectors.ts";
 import {useAppSelector} from "@/app/hooks.ts";
+import Skeleton from "@mui/material/Skeleton";
 
 const ProductPageImage = () => {
     const cartItem = useAppSelector(selectProductCartItem);
@@ -16,6 +17,13 @@ const ProductPageImage = () => {
     const altImages = useAppSelector(selectProductAltImages);
 
     if (!cartItem || !image || !image.filename) {
+        if (loading) {
+            return (
+                <div>
+                    <Skeleton variant="rounded" width={800} height={800} sx={{maxWidth: '100%', height: 'auto'}}/>
+                </div>
+            )
+        }
         return null;
     }
 

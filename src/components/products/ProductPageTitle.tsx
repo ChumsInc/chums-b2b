@@ -4,8 +4,9 @@ import ProductAttributeStack from "./ProductAttrbuteStack.tsx";
 import {useAppSelector} from "@/app/hooks.ts";
 import {useTitle} from "@/components/app/TitleContext.tsx";
 import {useEffect} from "react";
+import Skeleton from "@mui/material/Skeleton";
 
-const ProductPageTitle = () => {
+export default function ProductPageTitle() {
     const product = useAppSelector(selectCurrentProduct);
     const selectedProduct = useAppSelector(selectSelectedProduct);
     const {setPageTitle} = useTitle();
@@ -30,7 +31,16 @@ const ProductPageTitle = () => {
         || (!!selectedProduct?.season?.product_teaser && selectedProduct?.season?.active)
 
     if (!product) {
-        return null;
+        return (
+            <div className="product-title">
+                <Typography component="h1" variant="h1">
+                    <Skeleton variant="text"/>
+                </Typography>
+                <Typography component="h2" variant="h2" sx={{fontSize: 24}}>
+                    <Skeleton variant="text"/>
+                </Typography>
+            </div>
+        );
     }
     return (
         <div className="product-title">
@@ -44,5 +54,3 @@ const ProductPageTitle = () => {
         </div>
     )
 }
-
-export default ProductPageTitle;

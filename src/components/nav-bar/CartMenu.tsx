@@ -18,7 +18,8 @@ const CartMenu = () => {
 
     useEffect(() => {
         setShow(isLoggedIn);
-    }, [isLoggedIn]);
+        console.log({currentCustomer, isLoggedIn});
+    }, [isLoggedIn, currentCustomer]);
 
     if (!show) {
         return null;

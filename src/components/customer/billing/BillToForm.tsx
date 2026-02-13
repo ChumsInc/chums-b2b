@@ -22,6 +22,8 @@ import BillingCustomerAddressTitle from "@/components/customer/billing/BillingCu
 import BillingCustomerAccountNumber from "@/components/customer/billing/BillingCustomerAccountNumber.tsx";
 import BillingCustomerPaymentTerms from "@/components/customer/billing/BillingCustomerPaymentTerms.tsx";
 import BillingEmailFields from "@/components/customer/billing/BillingEmailFields.tsx";
+import Skeleton from "@mui/material/Skeleton";
+import Typography from "@mui/material/Typography";
 
 const BillToForm = () => {
     const dispatch = useAppDispatch();
@@ -64,6 +66,44 @@ const BillToForm = () => {
     }
 
     if (!current || !customer) {
+        if (loading === 'loading') {
+            return (
+                <div>
+                    <Typography variant="h1">
+                        <Skeleton variant="text" />
+                    </Typography>
+                    <LinearProgress variant="indeterminate"/>
+                    <Grid container spacing={2}>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                        <Grid size={{xs: 12, sm: 6}}>
+                            <Skeleton variant="rectangular" height={23} width="100%" />
+                        </Grid>
+                    </Grid>
+                </div>
+            )
+        }
         return null;
     }
 

@@ -14,6 +14,9 @@ import {useParams} from "react-router";
 import {loadCustomer} from "@/ducks/customer/actions";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice";
+import localStore from "@/utils/LocalStore.ts";
+import type {BasicCustomer} from "chums-types/b2b";
+import {STORE_CUSTOMER} from "@/constants/stores.ts";
 
 export default function CustomerIndicator() {
     const dispatch = useAppDispatch();
@@ -24,13 +27,16 @@ export default function CustomerIndicator() {
     const loaded = useAppSelector(selectCustomerLoaded);
 
     useEffect(() => {
-        const nextCustomer = billToCustomerSlug(params.customerSlug ?? '');
+        let nextCustomer = billToCustomerSlug(params.customerSlug ?? '');
         if (!nextCustomer && !loaded && !!customer && loadStatus === 'idle' ) {
             dispatch(loadCustomer(customer));
             return;
         }
         if (!nextCustomer) {
-            return;
+            nextCustomer = customerSlug(localStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, null));
+            if (!nextCustomer) {
+                return;
+            }
         }
         if (!customer || customerSlug(customer) !== nextCustomer) {
             if (loadStatus !== 'idle') {

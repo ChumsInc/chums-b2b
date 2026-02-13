@@ -107,7 +107,7 @@ export default function AddressFormFields({address, onChange, readOnly, addressT
                                    }
                                }}
                                size="small"
-                               required fullWidth label="State"/>
+                               fullWidth label="State"/>
                 )}
                 <TextField variant="filled" fullWidth label="Postal Code" size="small"
                            onChange={changeHandler('ZipCode')} value={address.ZipCode ?? ''}
