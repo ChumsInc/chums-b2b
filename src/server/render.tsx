@@ -66,7 +66,7 @@ async function getPreloadedState(req: Request, res: Response<unknown, HasNonce &
         }
         const nonce: string = res.locals.cspNonce!;
         const url = `http://localhost:${API_PORT}/preload/v2a/state.json?${params.toString()}`;
-        debug("getPreloadedState()", url);
+        // debug("getPreloadedState()", url);
         const preload = await loadJSON<PreloadedStateV2a>(url);
         preload.version = {
             versionNo: await loadVersionNo(),
