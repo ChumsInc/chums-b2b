@@ -8,6 +8,6 @@
 /.idea/
 /dist/
 /.env
-/dist-server
-/dist-client
+/dist-client/
+/dist-server/
 /stats.html

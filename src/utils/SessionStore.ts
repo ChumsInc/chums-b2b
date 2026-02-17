@@ -9,7 +9,6 @@ export default class SessionStore {
         }
         try {
             return JSON.parse(data) ?? defaultValue;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             return defaultValue;
         }

@@ -1,23 +1,4 @@
-import {RecentCustomer, Salesperson, UserCustomerAccess, UserProfile, UserRole} from "b2b-types";
-
-
-
-export interface UserSignupState {
-    email: string;
-    authKey: string; // not used?
-    authHash: string;
-    error: string | null;
-    loading: boolean;
-}
-
-export interface UserPasswordState {
-    // @TODO: migrate to PasswordForm internal state
-    oldPassword: string;
-    newPassword: string;
-    newPassword2: string;
-    visible: boolean;
-}
-
+import type {RecentCustomer, Salesperson, UserCustomerAccess, UserProfile, UserRole} from "chums-types/b2b";
 
 export interface SetLoggedInProps {
     loggedIn: boolean;
@@ -25,6 +6,8 @@ export interface SetLoggedInProps {
     token?: string;
     expires?: number;
     recentCustomers?: RecentCustomer[];
+    accessList?: UserCustomerAccess[];
+    access?: UserCustomerAccess | null;
 }
 
 export interface UserProfileResponse {
@@ -58,7 +41,5 @@ export interface SetNewPasswordProps {
     hash: string;
     newPassword: string;
 }
-
-export type SignUpProfile = Pick<UserProfile, 'id' | 'email' | 'name' | 'accountType'>;
 
 export type UserType = 'EMPLOYEE' | 'REP' | 'CUSTOMER' | 'BUYER';

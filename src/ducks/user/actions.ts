@@ -1,23 +1,25 @@
 import localStore from '../../utils/LocalStore';
+import LocalStore from '../../utils/LocalStore';
 import {
-    STORE_AUTHTYPE, STORE_AVATAR,
+    STORE_AUTHTYPE,
+    STORE_AVATAR,
     STORE_CURRENT_CART,
     STORE_CUSTOMER,
-    STORE_CUSTOMER_SHIPPING_ACCOUNT, STORE_RECENT_ACCOUNTS,
+    STORE_CUSTOMER_SHIPPING_ACCOUNT,
+    STORE_RECENT_ACCOUNTS,
     STORE_USER_ACCESS
 } from '@/constants/stores';
 import {auth} from '@/api/IntranetAuthService';
-import {getProfile, getSignInProfile, getTokenExpiry} from "@/utils/jwtHelper";
+import {getProfile, getTokenExpiry} from "@/utils/jwtHelper";
 import {loadCustomer, setCustomerAccount} from "../customer/actions";
 import {AUTH_LOCAL} from "@/constants/app";
 import {
-    selectCurrentUserAccount,
     selectLoggedIn,
     selectLoggingIn,
     selectResettingPassword,
     selectUserActionStatus,
     selectUserLoading
-} from "./selectors";
+} from "./userProfileSlice";
 import {
     fetchGoogleLogin,
     fetchUserProfile,
@@ -30,24 +32,50 @@ import {
     postUserProfile
 } from "@/api/user";
 import {createAction, createAsyncThunk, isFulfilled} from "@reduxjs/toolkit";
-import {
+import type {
     ChangePasswordProps,
     ChangePasswordResponse,
     SetLoggedInProps,
     SetNewPasswordProps,
     UserProfileResponse
 } from "./types";
-import {RootState} from "@/app/configureStore";
-import {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "b2b-types";
+import type {RootState} from "@/app/configureStore";
+import type {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "chums-types/b2b";
 import {isCustomerAccess} from "./utils";
-import {StoredProfile} from "@/types/user";
 import {loadCustomerList} from "../customers/actions";
 import {isErrorResponse} from "@/utils/typeguards";
-import {APIErrorResponse} from "@/types/generic";
-import LocalStore from "../../utils/LocalStore";
+import type {APIErrorResponse} from "@/types/generic";
+import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {setLoggedInHelper, signInWithGoogleHelper} from "@/ducks/user/action-helpers";
 
-export const setLoggedIn = createAction<SetLoggedInProps>('user/setLoggedIn');
+export const setLoggedIn = createAction('user/setLoggedIn', (arg: SetLoggedInProps) => {
+    if (arg.loggedIn) {
+        return {
+            payload: {
+                ...setLoggedInHelper(arg)
+            }
+        }
+    }
+    return {
+        payload: {
+            ...arg
+        }
+    }
+});
 
+
+export const loadProfile = createAsyncThunk<UserProfileResponse, void, { state: RootState }>(
+    'user/loadProfile',
+    async () => {
+        return await fetchUserProfile();
+    },
+    {
+        condition: (_arg, {getState}) => {
+            const state = getState();
+            return !selectUserLoading(state) && selectLoggedIn(state);
+        }
+    }
+)
 
 export interface LoginUserProps {
     email: string;
@@ -97,9 +125,6 @@ export const updateLocalAuth = createAsyncThunk<void, void, { state: RootState }
             const expires = getTokenExpiry(token);
             dispatch(setLoggedIn({loggedIn: true, authType: AUTH_LOCAL, token, expires}));
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.log('updateLocalAuth()', err.message)
-            }
             dispatch(setLoggedIn({loggedIn: false}));
             auth.removeToken();
             return;
@@ -120,27 +145,7 @@ export const signInWithGoogle = createAsyncThunk<UserProfileResponse, string, { 
     async (arg) => {
         const response = await fetchGoogleLogin(arg);
         auth.setToken(response.token ?? arg);
-        if (response.user) {
-            const profile = getSignInProfile(arg);
-            const {user, roles, accounts, token} = response;
-            if (token) {
-                auth.setToken(token);
-            }
-            const storedProfile: StoredProfile = {
-                ...profile,
-                chums: {
-                    user: {
-                        ...user,
-                        roles: roles ?? [],
-                        accounts: accounts ?? []
-                    }
-                }
-            }
-            response.picture = getSignInProfile(arg)?.imageUrl ?? null;
-            auth.setProfile(storedProfile);
-            response.recentCustomers = localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, []);
-        }
-        return response;
+        return signInWithGoogleHelper(response, arg);
     },
     {
         condition: (_arg, {getState}) => {
@@ -154,11 +159,10 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
     'user/logoutUser',
     async (_arg, {dispatch}) => {
         try {
-            await Promise.allSettled([postLogout(), auth.logout()])
+            await postLogout()
+            auth.logout();
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.debug("()", err.message);
-            }
+            // ignore error
         }
         localStore.removeItem(STORE_CUSTOMER);
         localStore.removeItem(STORE_USER_ACCESS);
@@ -168,7 +172,7 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
         dispatch(setLoggedIn({loggedIn: false}));
     },
     {
-        condition: (arg, {getState}) => {
+        condition: (_, {getState}) => {
             const state = getState();
             return selectUserActionStatus(state) === 'idle';
         }
@@ -178,7 +182,7 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
 export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCustomerAccess | null, {
     state: RootState
 }>(
-    'user/access/set',
+    'userAccess/setCurrent',
     async (arg, {dispatch}) => {
         localStore.setItem<UserCustomerAccess | null>(STORE_USER_ACCESS, arg);
         if (isCustomerAccess(arg)) {
@@ -200,24 +204,11 @@ export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCus
     {
         condition: (arg, {getState}) => {
             // only set the user access if the access is a rep account
-            // if not a rep access, then the access should be treated specifically as a customer and not an access object.
+            // if not a rep access list, then the access should be treated specifically as a customer and not an access object.
             const state = getState();
             return selectLoggedIn(state)
                 && !!arg?.isRepAccount
-                && selectCurrentUserAccount(state)?.id !== arg?.id;
-        }
-    }
-)
-
-export const loadProfile = createAsyncThunk<UserProfileResponse, void, { state: RootState }>(
-    'user/loadProfile',
-    async () => {
-        return await fetchUserProfile();
-    },
-    {
-        condition: (_arg, {getState}) => {
-            const state = getState();
-            return !selectUserLoading(state) && selectLoggedIn(state);
+                && selectCurrentAccess(state)?.id !== arg?.id;
         }
     }
 )
@@ -286,7 +277,7 @@ export const saveUserProfile = createAsyncThunk<UserProfileResponse, Pick<UserPr
     }
 )
 
-export const setAvatar = createAction('user/setAvatar', (arg: string|null) => {
+export const setAvatar = createAction('user/setAvatar', (arg: string | null) => {
     if (arg) {
         LocalStore.setItem<string>(STORE_AVATAR, arg);
     } else {

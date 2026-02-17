@@ -1,23 +1,14 @@
-/**
- * Created by steve on 12/6/2016.
- */
-import {
-    PaymentType,
+import type {
     PaymentTypeList,
-    PriceLevelsDescriptionList, ShippingMethod,
-    ShippingMethodList, TermsCode,
+    PriceLevelsDescriptionList,
+    ShippingMethod,
+    ShippingMethodList,
+    TermsCode,
     TermsCodeList
 } from "../types/customer";
 
 
-export const filteredTermsCode = (code?:string|null):TermsCode|null => {
-    if (!code) {
-        return null;
-    }
-    return TERMS_CODES[code] ?? null;
-};
-
-export const TERMS_CODES:TermsCodeList = {
+export const TERMS_CODES: TermsCodeList = {
     '00': {description: 'No Terms', due: 0},
     '01': {description: 'COD', due: 15},
     '02': {description: 'Net 30 Days', due: 30},
@@ -49,15 +40,13 @@ export const TERMS_CODES:TermsCodeList = {
     '40': {description: '2% 15 Net 50', due: 50},
     '90': {description: 'Net 90 Days', due: 90},
     '92': {description: 'Net 120 Days', due: 120},
+    '97': {description: 'Ebiz Email Pay', due: 0},
     '98': {description: 'Cash In Advance', due: 0},
     '99': {description: '*Net 30 Days', due: 30},
 };
 
-export const getPaymentType = (paymentType:string|null):PaymentType => {
-    return PAYMENT_TYPES[paymentType ?? ''] ?? PAYMENT_TYPES.OTHER;
-};
 
-export const PAYMENT_TYPES:PaymentTypeList = {
+export const PAYMENT_TYPES: PaymentTypeList = {
     TERMS: {
         code: 'TERMS',
         sageCode: '',
@@ -126,12 +115,6 @@ export const PAYMENT_TYPES:PaymentTypeList = {
     }
 };
 
-export const CREDIT_CARD_PAYMENT_TYPES = [
-    PAYMENT_TYPES["1AMEX"].code,
-    PAYMENT_TYPES["1DISC"].code,
-    PAYMENT_TYPES["1M/V"].code,
-];
-
 export const PRICE_METHODS = {
     override: 'O',
     discountPct: 'D',
@@ -141,23 +124,21 @@ export const PRICE_METHODS = {
 };
 
 
-export const SHIPPING_METHODS:ShippingMethodList = {
+export const SHIPPING_METHODS: ShippingMethodList = {
     '1FEX_GROUND': {code: '1FEX_GROUND', description: 'FedEX Ground', allowCustomerAccount: true, carrier: 'fedex'},
     '1UPS_GROUND': {code: '1UPS_GROUND', description: 'UPS Ground', allowCustomerAccount: true, carrier: 'ups'},
     'APP': {code: 'APP', description: 'USPS Priority', allowCustomerAccount: false, carrier: 'usps'},
     'TO BE DECIDED': {code: 'TO BE DECIDED', description: 'To Be Decided', allowCustomerAccount: false, carrier: ''},
 };
 
-export const DEFAULT_SHIPPING_ACCOUNT = {enabled: false, value: ''};
-
-export const getShippingMethod = (code:string|null|undefined):ShippingMethod|null => {
+export const getShippingMethod = (code: string | null | undefined): ShippingMethod | null => {
     if (!code) {
         return null;
     }
     return SHIPPING_METHODS[code] ?? null;
 };
 
-export const PRICE_LEVELS:PriceLevelsDescriptionList = {
+export const PRICE_LEVELS: PriceLevelsDescriptionList = {
     1: 'Wholesale 100 Pc',
     2: 'Wholesale 200 Pc',
     5: 'Wholesale 500 Pc',
@@ -172,4 +153,11 @@ export const PRICE_LEVELS:PriceLevelsDescriptionList = {
     X: 'International 5000',
     Y: 'International 10000',
     Z: 'International 20000',
+}
+
+export function filteredTermsCode(code?: string | null): TermsCode | null {
+    if (!code) {
+        return null;
+    }
+    return TERMS_CODES[code] ?? null;
 }

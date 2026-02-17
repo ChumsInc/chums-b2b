@@ -1,6 +1,6 @@
-import {PreloadedState} from "../types/preload";
-import {Theme} from "@mui/material/styles";
-import {GtagFn} from "@/src/ga4/types";
+import type {PreloadedState} from "chums-types/b2b";
+import type {Theme} from "@mui/material/styles";
+import type {GtagFn} from "@/utils/ga4/types";
 
 
 declare global {
@@ -23,4 +23,3 @@ declare global {
 //     }
 // }
 
-export default global;

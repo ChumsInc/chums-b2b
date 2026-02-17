@@ -1,12 +1,11 @@
-import React from 'react';
-import SeasonTeaser from "../SeasonTeaser";
-import {BasicProduct} from "b2b-types";
+import SeasonTeaser from "./SeasonTeaser.tsx";
+import type {BasicProduct} from "chums-types/b2b";
 import CategoryGridItem from "./CategoryGridItem";
-import ProductAttributeStack from "@/ducks/products/components/ProductAttrbuteStack";
-import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
-import {parseImageFilename} from "@/src/common/image";
-import ProductLink from "@/components/ProductLink";
-import HTMLContent from "@/src/common-components/HTMLContent";
+import ProductAttributeStack from "@/components/products/ProductAttrbuteStack.tsx";
+import ResponsiveProductImage from "@/components/products/product-image/ResponsiveProductImage";
+import {parseImageFilename} from "@/components/common/image";
+import ProductLink from "@/components/common/ProductLink.tsx";
+import HTMLContent from "@/components/common/HTMLContent";
 
 const CategoryProductLink = ({title, description, product, imageUrl, className = ''}: {
     title: string;
@@ -23,7 +22,7 @@ const CategoryProductLink = ({title, description, product, imageUrl, className =
                                         preferredSize={400}/>
                 <div className="product-title">{title}</div>
                 <ProductAttributeStack product={product}/>
-                <SeasonTeaser season_teaser={product.season_teaser} season_active={product.season_active}
+                <SeasonTeaser teaser={product.season_teaser} active={product.season_active}
                               sx={{justifyContent: 'center'}}/>
             </ProductLink>
             <div className="description">

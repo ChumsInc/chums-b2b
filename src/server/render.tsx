@@ -1,21 +1,22 @@
 import 'dotenv/config';
-import Debug from 'debug';
+import type {NextFunction, Request, Response} from "express";
+import type {HasNonce} from "@/types/server";
+import _debug from 'debug';
 import fs from "node:fs/promises";
-import {NextFunction, Request, Response} from "express";
 import {renderToString} from "react-dom/server";
-import React from "react";
+import {consentCookieName, type HasUUID} from 'cookie-consent'
 import {API_PORT} from "./config";
+import createServerSideStore from "@/app/server-side-store";
 import {loadJSON, loadKeywords} from "./utils";
 import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
-import {PreloadedState} from "b2b-types";
-import {consentCookieName, HasUUID} from 'cookie-consent'
-import {HasNonce} from "@/types/server";
-import createServerSideStore from "@/app/server-side-store";
+import util from "node:util";
+import {Buffer} from 'node:buffer';
+import type {PreloadedStateV2a} from "@/types/ui-features.ts";
 
-const debug = Debug('chums:server:render');
+const debug = _debug('chums:server:render');
 
-// Ensure these paths stay matched with /src/app/App.tsx routes
+// Ensure these paths stay matched with /src/app/App routes
 const validRoutes: RegExp = /^\/($|home|products|pages|set-password|signup|reset-password|login|logout|profile|account)/;
 
 async function loadMainCSS(): Promise<string> {
@@ -39,21 +40,21 @@ async function loadVersionNo(): Promise<string | null> {
         return json?.version ?? null;
     } catch (err: unknown) {
         if (err instanceof Error) {
-            console.debug("loadVersionNo()", err.message);
+            debug("loadVersionNo()", err.message);
             return Promise.reject(err);
         }
-        console.debug("loadVersionNo()", err);
+        debug("loadVersionNo()", err);
         return Promise.reject(new Error('Error in loadVersionNo()'));
     }
 }
 
-async function getPreloadedState(req: Request, res: Response<unknown, HasNonce & HasUUID>): Promise<PreloadedState> {
+async function getPreloadedState(req: Request, res: Response<unknown, HasNonce & HasUUID>): Promise<PreloadedStateV2a> {
     try {
         const params = new URLSearchParams();
-        if (req.params.keyword) {
+        if (req.params.keyword && typeof req.params.keyword === 'string') {
             params.set('keyword', req.params.keyword as string);
         }
-        if (req.params.sku) {
+        if (req.params.sku && typeof req.params.sku === 'string') {
             params.set('sku', req.params.sku as string);
         }
         if (req.query.sku && typeof req.query.sku === 'string') {
@@ -64,7 +65,9 @@ async function getPreloadedState(req: Request, res: Response<unknown, HasNonce &
             params.set('uuid', cookieConsentUUID);
         }
         const nonce: string = res.locals.cspNonce!;
-        const preload = await loadJSON<PreloadedState>(`http://localhost:${API_PORT}/preload/v2/state.json?${params.toString()}`);
+        const url = `http://localhost:${API_PORT}/preload/v2a/state.json?${params.toString()}`;
+        // debug("getPreloadedState()", url);
+        const preload = await loadJSON<PreloadedStateV2a>(url);
         preload.version = {
             versionNo: await loadVersionNo(),
             lastChecked: new Date().valueOf(),
@@ -96,6 +99,7 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
         const keywords = await loadKeywords();
         if (req.params.keyword) {
             const keyword = keywords.find(kw => kw.keyword === req.params.keyword);
+            // debug('renderApp() keyword', keyword);
             if (!keyword?.status) {
                 let redirect = '/';
                 if (req.params.category) {
@@ -125,7 +129,6 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
         try {
             const stat = await fs.stat("./public/b2b-swatches/swatches.css");
             swatchMTime = stat.mtimeMs ?? 0;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err: unknown) {
             //Do nothing here
         }
@@ -142,8 +145,9 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
     } catch (err: unknown) {
         if (err instanceof Error) {
             debug("renderApp()", err.message);
-            console.trace(err.message);
-            return res.json({error: err.message, name: err.name});
+            debug('error while rendering', util.format('%s: %s', err.name, err.message));
+            res.json({error: err.message, name: err.name});
+            return;
         }
         res.json({error: 'unknown error in renderApp'});
     }

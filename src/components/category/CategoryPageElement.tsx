@@ -1,8 +1,7 @@
-import React from 'react';
 import CategoryLink from "./CategoryLink";
 import CategoryProductLink from "./CategoryProductLink";
 import {Link as RoutedLink} from "react-router";
-import {ProductCategoryChild} from "b2b-types";
+import type {ProductCategoryChild} from "chums-types/b2b";
 import {
     isCategoryChildCategory,
     isCategoryChildLink,
@@ -12,18 +11,9 @@ import {
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import CategoryGridItem from "./CategoryGridItem";
-import ResponsiveProductImage from "@/components/product-image/ResponsiveProductImage";
+import ResponsiveProductImage from "@/components/products/product-image/ResponsiveProductImage";
 import Typography from "@mui/material/Typography";
-import HTMLContent from "@/src/common-components/HTMLContent";
-
-
-export const ITEM_TYPES = {
-    product: 'product',
-    category: 'category',
-    section: 'section',
-    link: 'link',
-    other: '',
-};
+import HTMLContent from "@/components/common/HTMLContent";
 
 const imageSizes = "(max-width: 600px) 168px, (max-width: 900px) 268px, 354px";
 

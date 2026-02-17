@@ -1,5 +1,3 @@
-
-
 export const AUTH_LOCAL = 'AUTH_LOCAL';
 export const AUTH_GOOGLE = 'AUTH_GOOGLE';
 export const USER_EXISTS = 'USER_EXISTS';

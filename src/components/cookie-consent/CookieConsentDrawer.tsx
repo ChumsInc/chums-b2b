@@ -1,7 +1,7 @@
-import React from 'react';
+import {useId, useState} from 'react';
 import Drawer from "@mui/material/Drawer";
 import Grid from "@mui/material/Grid";
-import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {
     dismissCookieConsent,
     selectCookieConsentDismissed,
@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import {CookieConsentBody} from "b2b-types";
+import type {CookieConsentBody} from "chums-types/b2b";
 import CookieConsentDialog from "@/components/cookie-consent/CookieConsentDialog";
 import {saveCookieConsent} from "@/ducks/cookie-consent/actions";
 import Link from "@mui/material/Link";
@@ -23,7 +23,8 @@ export default function CookieConsentDrawer() {
     const gpc = useAppSelector(selectHasGPCFlag);
     const hasCookieConsent = useAppSelector(selectHasCookieConsent);
     const dismissed = useAppSelector(selectCookieConsentDismissed);
-    const [showDialog, setShowDialog] = React.useState(false);
+    const [showDialog, setShowDialog] = useState(false);
+    const id = useId();
 
     const acceptHandler = () => {
         const body: CookieConsentBody = {
@@ -33,11 +34,15 @@ export default function CookieConsentDrawer() {
         dispatch(saveCookieConsent(body));
     }
 
-    const onDismiss = () => {
+    const dismissHandler = () => {
         dispatch(dismissCookieConsent());
     }
 
-    if (dismissed || hasCookieConsent) {
+    if (hasCookieConsent) {
+        return null;
+    }
+
+    if (dismissed) {
         return null
     }
 
@@ -60,18 +65,21 @@ export default function CookieConsentDrawer() {
                     </Typography>
                 </Grid>
                 <Grid size={{xs: 5, lg: "auto"}}>
-                    <Button onClick={() => setShowDialog(true)}>Cookie Settings</Button>
+                    <Button onClick={() => setShowDialog(true)}
+                            aria-controls={id} aria-haspopup={true} aria-expanded={showDialog}>
+                        Cookie Settings
+                    </Button>
                 </Grid>
                 <Grid size={{xs: 5, lg: "auto"}}>
                     <Button variant="contained" color="chumsGrey" onClick={acceptHandler}>Accept Cookies</Button>
                 </Grid>
                 <Grid size={{xs: 2, lg: "auto"}}>
-                    <IconButton onClick={onDismiss}>
+                    <IconButton onClick={dismissHandler} aria-label="Dismiss cookie-consent dialog">
                         <CloseIcon/>
                     </IconButton>
                 </Grid>
             </Grid>
-            <CookieConsentDialog open={showDialog} onClose={() => setShowDialog(false)}/>
+            <CookieConsentDialog open={showDialog} onClose={() => setShowDialog(false)} id={id}/>
         </Drawer>
     )
 }

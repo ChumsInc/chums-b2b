@@ -1,4 +1,5 @@
 import {fetchJSON} from "./fetch";
+import debug from "@/utils/debug.ts";
 
 type VersionString = string;
 interface VersionNo {
@@ -20,10 +21,10 @@ export async function fetchVersion(): Promise<string|null> {
             : response?.version) ?? null
     } catch (err) {
         if (err instanceof Error) {
-            console.debug("fetchVersion()", err.message);
+            debug("fetchVersion()", err.message);
             return Promise.reject(err);
         }
-        console.debug("fetchVersion()", err);
+        debug("fetchVersion()", err);
         return Promise.reject(new Error('Error in fetchVersion()'));
     }
 }

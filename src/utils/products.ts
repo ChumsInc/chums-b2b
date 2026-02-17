@@ -1,19 +1,17 @@
 import {PRICE_FIELDS, SELL_AS_MIX, SELL_AS_SELF} from "@/constants/product";
 import {calcPrice, priceRecord} from "./customer";
-import {
+import type {
     BasicProduct,
     CartProduct,
     CustomerPriceRecord,
-    Keyword,
     Product,
     ProductColorItem,
-    ProductVariant,
     SellAsVariantsProduct
-} from "b2b-types";
+} from "chums-types/b2b";
 import Decimal from "decimal.js";
-import {CartItemColorProps, PriceField} from "../types/product";
-import {isSellAsColors, isSellAsMix, isSellAsSelf, isSellAsVariants} from "@/ducks/products/utils";
-import {parseImageFilename2} from "../common/image";
+import type {CartItemColorProps, PriceField} from "../types/product";
+import {isSellAsColors, isSellAsMix, isSellAsVariants} from "@/ducks/products/utils";
+import {parseImageFilename2} from "@/components/common/image";
 
 export const hasVariants = (product: Product | null): boolean => isSellAsVariants(product) && product.variants.filter(v => v.status).length > 0;
 
@@ -112,6 +110,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
     if (!product) {
         return null;
     }
+
     if (isSellAsColors(product)) {
         const items = product.items.filter(item => item.status);
         let cartItem: ProductColorItem | undefined;
@@ -139,7 +138,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
         }
         // const colorName = color?.name ?? '';
         // const additionalData: ProductAdditionalData = {};
-        const [image_filename] = product.mix.items
+        const [filename] = product.mix.items
             .filter(item => item.color?.code === color?.code)
             .map(item => {
                 if (item.additionalData && item.additionalData.image_filename) {
@@ -157,7 +156,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
             name: product.name,
             colorCode: color?.code,
             colorName: color?.name,
-            image: image_filename ?? parseImageFilename2({image: product.image, colorCode: color?.code}),
+            image: filename ?? parseImageFilename2({image: product.image, colorCode: color?.code}),
             msrp: product.msrp,
             stdPrice: product.stdPrice,
             priceCode: product.priceCode,
@@ -187,7 +186,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
     };
 };
 
-const isPreSeason = (item:ProductColorItem, product?: BasicProduct):boolean => {
+const isPreSeason = (item: ProductColorItem, product?: BasicProduct): boolean => {
     if (item.additionalData?.season && item.additionalData.season.active) {
         return !(item.additionalData.seasonAvailable || item.additionalData.season.product_available)
     }
@@ -196,7 +195,8 @@ const isPreSeason = (item:ProductColorItem, product?: BasicProduct):boolean => {
     }
     return false;
 }
-export const colorCartItem = (item: ProductColorItem, product?: BasicProduct): CartProduct => {
+
+export function colorCartItem(item: ProductColorItem, product?: BasicProduct): CartProduct {
     return {
         quantityAvailable: item.QuantityAvailable,
         msrp: item.msrp,
@@ -226,56 +226,18 @@ export const colorCartItem = (item: ProductColorItem, product?: BasicProduct): C
             : (item.additionalData?.season?.preSeasonMessage ?? product?.preSeasonMessage ?? product?.dateAvailable),
         message: item.additionalData?.message,
     }
-};
+}
 
-
-export const sortVariants = (a: ProductVariant, b: ProductVariant) => a.priority === b.priority
-    ? (a.title.toLowerCase() === b.title.toLowerCase() ? 0 : (a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1))
-    : (a.priority > b.priority ? 1 : -1);
-
-/**
- *
- * @param {Object} product
- * @param {Number} product.sellAs
- * @param {String} product.defaultColor
- * @param {Object} product.mix
- * @param {Array} product.items
- * @param preferredColor
- * @return {string}
- */
-export const getDefaultColor = (product: Product | null, preferredColor: string = ''): string => {
-    if (isSellAsSelf(product)) {
-        return product.defaultColor ?? '';
-    }
-    if (isSellAsMix(product)) {
-        return product.mix.items.filter(item => item.color?.code === preferredColor).length > 0
-            ? preferredColor
-            : (product.defaultColor ?? '');
-    }
-    if (isSellAsColors(product)) {
-        return product.items
-            .filter(item => item.status)
-            .filter(item => item.colorCode === preferredColor).length
-            ? preferredColor
-            : (product.defaultColor ?? '');
-    }
-    return (product?.defaultColor || '');
-};
 
 export const parseColor = (str: string, colorCode: string = ''): string => {
-    if (!str) {
+    let _colorCode = colorCode;
+    let _str = str;
+    if (!_str) {
         return '';
     }
-    colorCode = String(colorCode);
+    _colorCode = String(_colorCode);
 
-    str = str.replace(/\?/, colorCode);
-    colorCode.split('').map(code => {
-        str = str.replace(/\*/, code);
-    });
-    return str.replace(/\*/g, '');
+    _str = _str.replace(/\?/, _colorCode);
+    _str = _colorCode.split('').reduce((acc, code) => acc.replace(/\*/g, code), _str);
+    return _str.replace(/\*/g, '');
 };
-
-
-export const keywordSorter = (a: Keyword, b: Keyword) => {
-    return a.keyword.toLowerCase() > b.keyword.toLowerCase() ? 1 : -1;
-}

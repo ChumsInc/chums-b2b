@@ -1,5 +1,4 @@
-import {B2BCartDetail} from "./cart-detail.d.ts";
-import {B2BCartHeader} from "./cart-header.d.ts";
+import type {B2BCartDetail, B2BCartHeader} from "chums-types/b2b";
 
 export type CartAction =
     'append'

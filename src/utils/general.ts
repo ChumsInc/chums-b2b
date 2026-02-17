@@ -1,11 +1,7 @@
-import {ShippingMethodList} from "../types/customer";
+import type {ShippingMethodList} from "../types/customer";
 
 export const noop = () => {
 };
-
-export function waitForIt(delay: number) {
-    return new Promise(res => setTimeout(res, delay));
-}
 
 export const ShippingMethods: ShippingMethodList = {
     '1FEX_GROUND': {

@@ -1,7 +1,7 @@
-import {LoadVersionResponse, selectShouldCheckVersion, selectVersionLoading} from "./index";
+import {type LoadVersionResponse, selectShouldCheckVersion, selectVersionLoading} from "./index";
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {fetchVersion} from "@/api/version";
-import {RootState} from "@/app/configureStore";
+import type {RootState} from "@/app/configureStore";
 import {STORE_VERSION} from "@/constants/stores";
 import SessionStore from "@/utils/SessionStore";
 

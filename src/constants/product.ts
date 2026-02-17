@@ -1,5 +1,5 @@
-import {ProductSellAsColors, ProductSellAsMix, ProductSellAsSelf, ProductSellAsVariants} from "b2b-types";
-import {PriceFieldsList} from "@/types/product";
+import type {ProductSellAsColors, ProductSellAsMix, ProductSellAsSelf, ProductSellAsVariants} from "chums-types/b2b";
+import type {PriceFieldsList} from "@/types/product";
 
 export const SELL_AS_VARIANTS: ProductSellAsVariants = 0;
 export const SELL_AS_SELF: ProductSellAsSelf = 1;

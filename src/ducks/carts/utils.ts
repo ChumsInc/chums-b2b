@@ -1,12 +1,13 @@
-import {CartProduct, SortProps} from "b2b-types";
-import {B2BCartHeader} from "@/types/cart/cart-header";
+import type {B2BCartHeader, BasicCustomer, CartProduct, SortProps} from "chums-types/b2b";
 import Decimal from "decimal.js";
-import {B2BCartDetail} from "@/types/cart/cart-detail";
+import type {B2BCartDetail} from "@/types/cart/cart-detail";
+import localStore from "@/utils/LocalStore";
+import type {CustomerShippingAccount} from "@/types/customer";
+import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import {customerSlug} from "@/utils/customer";
+import type {ActiveCartExtraState} from "@/ducks/carts/activeCartSlice";
 
-export const defaultCartsSort: SortProps<B2BCartHeader> = {
-    field: 'id',
-    ascending: true,
-}
+/* eslint-disable no-nested-ternary */
 
 export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a: B2BCartHeader, b: B2BCartHeader) => {
     const sortMod = ascending ? 1 : -1;
@@ -15,7 +16,7 @@ export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a:
         case 'customerPONo':
         case 'dateCreated':
         case 'shipToName':
-            case 'ShipToName':
+        case 'ShipToName':
             return (
                 (a[field] ?? '').toLowerCase() === (b[field] ?? '').toLowerCase()
                     ? (a.id - b.id)
@@ -28,8 +29,8 @@ export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a:
         case 'ShipToCity':
             return (
                 shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase()) === 0
-                ? (a.id - b.id)
-                : shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase())
+                    ? (a.id - b.id)
+                    : shipToLocation(a).toLowerCase().localeCompare(shipToLocation(b).toLowerCase())
             ) * sortMod;
         case 'subTotalAmt':
             return (
@@ -52,11 +53,6 @@ export const parseCartId = (str?: number | string | null): number => {
         return NaN;
     }
     return +str;
-}
-
-export const defaultCartDetailSort: SortProps<B2BCartDetail> = {
-    field: 'id',
-    ascending: true,
 }
 
 export const cartDetailSorter = ({
@@ -98,7 +94,7 @@ export const cartDetailToCartProduct = (row: B2BCartDetail): CartProduct | null 
     }
 }
 
-export function calcCartQty(detail:B2BCartDetail[]) {
+export function calcCartQty(detail: B2BCartDetail[]) {
     return detail
         .filter(line => line.itemType === '1')
         .map(line => new Decimal(line.quantityOrdered).times(line.unitOfMeasureConvFactor))
@@ -107,6 +103,21 @@ export function calcCartQty(detail:B2BCartDetail[]) {
 }
 
 
-export function shipToLocation(cart:B2BCartHeader) {
+export function shipToLocation(cart: B2BCartHeader) {
     return `${cart.ShipToCity ?? ''}, ${cart.ShipToState ?? ''} ${cart.ShipToZipCode ?? ''}`.trim();
+}
+
+
+export const initializeActiveCartState = (): ActiveCartExtraState => {
+    const shippingAccount = localStore.getItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
+    return {
+        customerKey: customerSlug(localStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, null)),
+        cartId: localStore.getItem<number | null>(STORE_CURRENT_CART, null),
+        promoCode: null,
+        shippingAccount: {
+            enabled: shippingAccount?.enabled ?? false,
+            value: shippingAccount?.value ?? '',
+        },
+        nextShipDate: null,
+    }
 }

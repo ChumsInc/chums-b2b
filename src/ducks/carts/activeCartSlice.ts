@@ -1,19 +1,20 @@
-import {CaseReducer, createSlice} from "@reduxjs/toolkit";
-import {BasicCustomer} from "b2b-types";
-import {CustomerShippingAccount} from "@/types/customer";
+import {type CaseReducer, createSlice} from "@reduxjs/toolkit";
+import type {CustomerShippingAccount} from "@/types/customer";
 import localStore from "@/utils/LocalStore";
-import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import {STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
 import {
     addToCart,
     duplicateSalesOrder,
     loadCart,
-    loadCarts, loadNextShipDate,
+    loadCarts,
+    loadNextShipDate,
     processCart,
     setActiveCartId,
     setCartShippingAccount
 } from "@/ducks/carts/actions";
 import {loadCustomer} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
+import {initializeActiveCartState} from "@/ducks/carts/utils";
 
 
 export interface ActiveCartExtraState {
@@ -24,19 +25,6 @@ export interface ActiveCartExtraState {
     nextShipDate: string | null;
 }
 
-export const initializeActiveCartState = (): ActiveCartExtraState => {
-    const shippingAccount = localStore.getItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
-    return {
-        customerKey: customerSlug(localStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, null)),
-        cartId: localStore.getItem<number | null>(STORE_CURRENT_CART, null),
-        promoCode: null,
-        shippingAccount: {
-            enabled: shippingAccount?.enabled ?? false,
-            value: shippingAccount?.value ?? '',
-        },
-        nextShipDate: null,
-    }
-}
 
 const clearActiveCart: CaseReducer<ActiveCartExtraState> = (state) => {
     state.cartId = null;

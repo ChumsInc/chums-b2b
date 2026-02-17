@@ -1,6 +1,6 @@
-import React, {useEffect, useId} from 'react';
-import ListItem, {ListItemProps} from "@mui/material/ListItem";
-import {CookieConsentSection, CookieConsentSectionInfo} from "b2b-types";
+import {useEffect, useId, useState} from 'react';
+import ListItem, {type ListItemProps} from "@mui/material/ListItem";
+import type {CookieConsentSection, CookieConsentSectionInfo} from "chums-types/b2b";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemButton from "@mui/material/ListItemButton";
 import CheckBox from "@mui/material/Checkbox";
@@ -11,7 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
-import {useAppSelector} from "@/app/configureStore";
+import {useAppSelector} from "@/app/hooks";
 import {selectCookieConsentDetails} from "@/ducks/cookie-consent";
 
 
@@ -23,8 +23,8 @@ export interface CookieConsentItemProps extends Omit<ListItemProps, 'onChange'> 
 
 export default function CookieConsentItem({consentSection, checked, onChange, ...rest}: CookieConsentItemProps) {
     const detail = useAppSelector(selectCookieConsentDetails);
-    const [section, setSection] = React.useState<CookieConsentSectionInfo|null>(detail?.[consentSection] ?? null);
-    const [expanded, setExpanded] = React.useState(false);
+    const [section, setSection] = useState<CookieConsentSectionInfo|null>(detail?.[consentSection] ?? null);
+    const [expanded, setExpanded] = useState(false);
     const labelId = useId();
     const checkboxId = useId();
 
