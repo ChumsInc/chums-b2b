@@ -12,7 +12,7 @@ const ProductPreSeasonAlert = () => {
         && !(cartItem.season?.product_available || cartItem.seasonAvailable);
     return (
         <Collapse in={show}>
-            <Alert severity="info" sx={{my: 1}}>
+            <Alert severity="info" sx={{mb: 2}}>
                 <Box component="strong" sx={{mr: 2}}>Pre-Season Order:</Box> {cartItem?.season?.preSeasonMessage}
             </Alert>
         </Collapse>

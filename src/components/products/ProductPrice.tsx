@@ -1,6 +1,5 @@
-import React from 'react';
 import numeral from "numeral";
-import Box, {BoxProps} from "@mui/material/Box";
+import Box, {type BoxProps} from "@mui/material/Box";
 
 export interface ProductPriceProps {
     prices: (string|number)[];
