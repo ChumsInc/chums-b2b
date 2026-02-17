@@ -1,23 +1,29 @@
-import {useCallback, useEffect, useState} from 'react';
+import React, {FormEvent, useCallback, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 import {addToCart} from "@/ducks/carts/actions";
-import {selectCustomerAccount, selectCustomerKey,} from "@/ducks/customer/currentCustomerSlice";
-import ShipToSelect from "@/components/customer/common/ShipToSelect";
+import {
+    selectCustomerAccount,
+    selectCustomerKey,
+    selectCustomerPermissions,
+    selectCustomerPermissionsLoading,
+    selectCustomerShipToCode
+} from "@/ducks/customer/selectors";
+import ShipToSelect from "@/ducks/customer/components/ShipToSelect";
 import {loadCustomerPermissions} from "@/ducks/customer/actions";
 import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
 import CartNameInput from "./CartNameInput";
 import AddToCartButton from "./AddToCartButton";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import CartSelect from "@/components/b2b-cart/add-to-cart/CartSelect";
-import CartQuantityInput from "@/components/b2b-cart/CartQuantityInput.tsx";
-import type {B2BCartHeader, CartProduct} from "chums-types/b2b";
+import {useAppDispatch, useAppSelector} from "@/app/configureStore";
+import CartSelect from "@/ducks/carts/components/add-to-cart/CartSelect";
+import CartQuantityInput from "@/components/CartQuantityInput";
+import {CartProduct} from "b2b-types";
 import Box from "@mui/material/Box";
+import {B2BCartHeader} from "@/types/cart/cart-header";
 import {selectCartHeaderById, selectCartHeaders,} from "@/ducks/carts/cartHeadersSlice";
 import {selectCartsStatus, selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
-import {ga4AddToCart} from "@/utils/ga4/cart";
+import {ga4AddToCart} from "@/src/ga4/cart";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
-import {selectCustomerShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
-import {selectCustomerPermissions, selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice";
 
 export interface AddToCartFormProps {
     cartItem: CartProduct;
@@ -48,10 +54,10 @@ export default function AddToCartForm({
     const carts = useAppSelector(selectCartHeaders);
     const activeCartId = useAppSelector(selectActiveCartId);
     const activeCart = useAppSelector((state) => selectCartHeaderById(state, activeCartId));
-    const customer = useAppSelector(selectCustomerAccount);
-    const permissions = useAppSelector(selectCustomerPermissions);
-    const permissionsStatus = useAppSelector(selectCustomerPermissionsStatus);
-    const currentShipToCode = useAppSelector(selectCustomerShipToCode);
+    const customer = useSelector(selectCustomerAccount);
+    const permissions = useSelector(selectCustomerPermissions);
+    const permissionsLoading = useSelector(selectCustomerPermissionsLoading);
+    const currentShipToCode = useSelector(selectCustomerShipToCode);
     const cartsStatus = useAppSelector(selectCartsStatus);
 
     const [cartId, setCartId] = useState<number | null>(activeCart?.id ?? null);
@@ -60,7 +66,8 @@ export default function AddToCartForm({
     const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? null);
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId ?? 0));
 
-    const submitHandler = useCallback(async () => {
+    const submitHandler = useCallback(async (ev: FormEvent) => {
+        ev.preventDefault();
         if (disabled || !customerKey || !cartName) {
             return;
         }
@@ -110,10 +117,10 @@ export default function AddToCartForm({
     }, [])
 
     useEffect(() => {
-        if (!permissions && permissionsStatus === 'idle') {
+        if (!permissions && !permissionsLoading) {
             dispatch(loadCustomerPermissions(customer));
         }
-    }, [customer, dispatch, permissions, permissionsStatus])
+    }, [customer, dispatch, permissions, permissionsLoading])
 
     useEffect(() => {
         setCartState(activeCart ?? null);
@@ -129,8 +136,8 @@ export default function AddToCartForm({
 
 
     useEffect(() => {
-        const _shipToCode = currentShipToCode;
-        if (!_shipToCode) {
+        const shipToCode = currentShipToCode;
+        if (!shipToCode) {
             if (permissions?.billTo) {
                 setShipToCode(customer?.PrimaryShipToCode ?? '');
             } else {
@@ -138,12 +145,12 @@ export default function AddToCartForm({
             }
 
         }
-        setShipToCode(_shipToCode ?? '');
+        setShipToCode(shipToCode ?? '');
     }, [currentShipToCode, customer, permissions]);
 
 
     const cartChangeHandler = (value: number) => {
-        const [cart] = carts.filter(_cart => _cart.id === value);
+        const [cart] = carts.filter(cart => cart.id === value);
         setCartState(cart ?? null);
     }
 
@@ -156,8 +163,8 @@ export default function AddToCartForm({
     }
 
     return (
-        <form action={submitHandler} className="add-to-cart" method="post">
-            <Stack spacing={2} direction="column">
+        <form onSubmit={submitHandler} className="add-to-cart" method="post">
+            <Stack spacing={2} direction="column" sx={{mt: 1}}>
                 <CartSelect cartId={cartId === excludeCartId ? 0 : cartId} onChange={cartChangeHandler} required
                             excludeCartId={excludeCartId}/>
                 {!cartId && cartsStatus === 'loading' && (
