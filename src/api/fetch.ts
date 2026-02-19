@@ -20,10 +20,10 @@ function getCredentials(): string | null {
 }
 
 async function handleJSONResponse<T = unknown>(res: Response, args?: unknown): Promise<T> {
-    const componentStack = JSON.stringify({
+    const componentStack = {
         url: res.url,
         args: args ?? null
-    })
+    }
     if (!res.ok) {
         const text = res.statusText ?? await res.text();
         if (/(401|403|504)/.test(res.status.toString())) {
@@ -147,7 +147,7 @@ export async function fetchHTML(url: string, options: RequestInit = {}): Promise
 
 export interface PostErrorsArg {
     message: string;
-    componentStack?: string;
+    componentStack?: string|object;
     userId?: number;
     fatal?: boolean;
 }
@@ -162,7 +162,9 @@ export async function postErrors({message, componentStack, userId, fatal}: PostE
         const body = JSON.stringify({
             url: globalThis.window.location.pathname,
             message,
-            componentStack: componentStack ?? '',
+            componentStack: typeof componentStack === 'string'
+                ? componentStack.split('\n')
+                : (componentStack ?? null),
             // eslint-disable-next-line camelcase
             user_id: canStoreAnalytics() ?  (userId ?? 0) : 0,
             version,

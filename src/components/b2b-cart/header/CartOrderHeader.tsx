@@ -46,10 +46,13 @@ export default function CartOrderHeader() {
     const [progress, setProgress] = useState<CartProgress>(cartProgress.cart);
 
     const promoteCart = useCallback(async () => {
-        if (!cartHeader) {
+        if (!cartHeader || !shipDate) {
             return;
         }
-        const response = await dispatch(processCart(cartHeader));
+        const response = await dispatch(processCart({
+            ...cartHeader,
+            shipExpireDate: shipDate
+        }));
         if (response.payload && typeof response.payload === 'string') {
             navigate(generatePath('/account/:customerSlug/orders/:salesOrderNo', {
                 customerSlug: customerKey,

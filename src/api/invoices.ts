@@ -9,7 +9,7 @@ export interface FetchInvoiceResponse {
 
 export async function fetchInvoice(arg: FetchInvoiceArg): Promise<ExtendedInvoice | null> {
     try {
-        const url = '/api/sales/invoice/chums/:InvoiceType/:InvoiceNo'
+        const url = '/api/sales/invoice/chums/:InvoiceType/:InvoiceNo.json'
             .replace(':InvoiceType', encodeURIComponent(arg.InvoiceType ?? 'IN'))
             .replace(':InvoiceNo', encodeURIComponent(arg.InvoiceNo));
         const response = await fetchJSON<FetchInvoiceResponse>(url, {cache: 'no-cache'});
