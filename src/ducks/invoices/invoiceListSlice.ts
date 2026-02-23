@@ -33,7 +33,7 @@ export interface InvoiceListState {
     limit: number;
     limitReached: boolean;
     filters: {
-        showPaidInvoices: boolean;
+        hidePaidInvoices: boolean;
         shipToCode: string | null;
         search: string;
     }
@@ -49,7 +49,7 @@ const extraState = (): InvoiceListState => {
         limit: 500,
         limitReached: false,
         filters: {
-            showPaidInvoices: false,
+            hidePaidInvoices: false,
             shipToCode: null,
             search: '',
         },
@@ -72,8 +72,8 @@ const invoiceListSlice = createSlice({
         setInvoicesFilterShipToCode: (state, action: PayloadAction<string | null>) => {
             state.filters.shipToCode = action.payload;
         },
-        setShowPaidInvoices: (state, action: PayloadAction<boolean | null>) => {
-            state.filters.showPaidInvoices = action.payload ?? !state.filters.showPaidInvoices;
+        setHidePaidInvoices: (state, action:PayloadAction<boolean>) => {
+            state.filters.hidePaidInvoices = action.payload;
         },
         setInvoicesSort: (state, action: PayloadAction<SortProps<InvoiceHistoryHeader>>) => {
             state.sort = action.payload;
@@ -141,7 +141,7 @@ const invoiceListSlice = createSlice({
         selectInvoicesListLimit: (state) => state.limit,
         selectInvoicesListOffset: (state) => state.offset,
         selectInvoicesListLimitReached: (state) => state.limitReached,
-        selectInvoicesShowPaid: (state) => state.filters.showPaidInvoices,
+        selectInvoicesHidePaid: (state) => state.filters.hidePaidInvoices,
         selectInvoicesShipToFilter: (state) => state.filters.shipToCode,
         selectInvoicesSearch: (state) => state.filters.search,
         selectInvoicesSort: (state) => state.sort,
@@ -156,7 +156,7 @@ export const {
     setInvoicesFilterSearch,
     setInvoicesFilterShipToCode,
     setInvoicesSort,
-    setShowPaidInvoices
+    setHidePaidInvoices,
 } = invoiceListSlice.actions;
 export const {
     selectAll,
@@ -165,19 +165,19 @@ export const {
     selectInvoicesSearch,
     selectInvoicesListLimit,
     selectInvoicesSort,
-    selectInvoicesShowPaid,
     selectInvoicesShipToFilter,
     selectInvoicesStatus,
-    selectInvoicesLoaded
+    selectInvoicesLoaded,
+    selectInvoicesHidePaid,
 } = invoiceListSlice.selectors;
 
 export const selectFilteredInvoicesList = createSelector(
-    [selectAll, selectInvoicesShowPaid, selectInvoicesShipToFilter,
+    [selectAll, selectInvoicesHidePaid, selectInvoicesShipToFilter,
         selectInvoicesSearch, selectInvoicesSort, selectPermittedBillToAddress, selectPermittedShipToAddresses],
-    (list, showPaid, shipTo, search, sort, allowBillTo, allowedShipToList) => {
+    (list, hidePaid, shipTo, search, sort, allowBillTo, allowedShipToList) => {
         return list
             .filter(inv => allowBillTo || allowedShipToList.map(c => c.ShipToCode).includes(inv.ShipToCode ?? ''))
-            .filter(inv => showPaid || !new Decimal(inv.Balance ?? '0').eq(0))
+            .filter(inv => !hidePaid || !new Decimal(inv.Balance ?? '0').eq(0))
             .filter(inv => !shipTo || inv.ShipToCode === shipTo)
             .filter(inv => !search
                 || inv.CustomerPONo?.toLowerCase()?.includes(search.toLowerCase())
@@ -197,6 +197,6 @@ function resetCustomerInvoices(state: WritableDraft<ReturnType<typeof invoiceLis
     state.limitReached = false;
     state.filters.search = '';
     state.filters.shipToCode = null;
-    state.filters.showPaidInvoices = false;
+    state.filters.hidePaidInvoices = false;
     state.loaded = false;
 }

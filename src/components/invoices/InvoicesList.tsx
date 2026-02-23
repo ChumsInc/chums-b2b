@@ -1,13 +1,12 @@
-
-
 import {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {
     selectFilteredInvoicesList,
+    selectInvoicesHidePaid,
     selectInvoicesListLimit,
     selectInvoicesListLimitReached,
     selectInvoicesListOffset,
-    selectInvoicesLoaded, selectInvoicesShowPaid,
+    selectInvoicesLoaded,
     selectInvoicesSort,
     selectInvoicesStatus,
     setInvoicesSort
@@ -91,7 +90,7 @@ const InvoicesList = () => {
     const invoiceNo = useAppSelector(selectCurrentInvoiceNo);
     const loaded = useAppSelector(selectInvoicesLoaded);
     const status = useAppSelector(selectInvoicesStatus);
-    const showPaidInvoices = useAppSelector(selectInvoicesShowPaid);
+    const hidePaidInvoices = useAppSelector(selectInvoicesHidePaid);
     const currentCustomer = useAppSelector(selectCustomerAccount);
     const sort = useAppSelector(selectInvoicesSort);
     const [page, setPage] = useState(0);
@@ -149,7 +148,7 @@ const InvoicesList = () => {
                 <InvoiceListFilter onReload={reloadHandler}/>
                 {status === 'loading' && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
                 {loaded && list.length === 0 && (
-                    <NoInvoicesAlert paid={showPaidInvoices} />
+                    <NoInvoicesAlert hidePaid={hidePaidInvoices}/>
                 )}
                 <DataTable<InvoiceHistoryHeader> keyField={row => invoiceKey(row)}
                                                  data={list.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}

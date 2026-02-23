@@ -1,12 +1,12 @@
 import Alert from "@mui/material/Alert";
 
 export interface NoInvoicesAlertProps {
-    paid?: boolean;
+    hidePaid?: boolean;
 }
-export default function NoInvoicesAlert({paid}:NoInvoicesAlertProps) {
+export default function NoInvoicesAlert({hidePaid}:NoInvoicesAlertProps) {
     return (
         <Alert variant="outlined" color="info" sx={{mt: 3}}>
-            {paid ? 'No invoices' : 'No unpaid invoices'}
+            {hidePaid ? 'No unpaid invoices' : 'No invoices'}
         </Alert>
     )
 }

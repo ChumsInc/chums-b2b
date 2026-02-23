@@ -1,16 +1,14 @@
-
-
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import type {ChangeEvent} from "react";
 import {
+    selectInvoicesHidePaid,
     selectInvoicesSearch,
     selectInvoicesShipToFilter,
-    selectInvoicesShowPaid,
+    setHidePaidInvoices,
     setInvoicesFilterSearch,
-    setInvoicesFilterShipToCode,
-    setShowPaidInvoices
+    setInvoicesFilterShipToCode
 } from "@/ducks/invoices/invoiceListSlice";
 import ShipToSelect, {allLocationsValue} from "@/components/customer/common/ShipToSelect";
 import FormGroup from "@mui/material/FormGroup";
@@ -24,7 +22,7 @@ const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
     const dispatch = useAppDispatch();
     const search = useAppSelector(selectInvoicesSearch);
     const shipTo = useAppSelector(selectInvoicesShipToFilter);
-    const showPaid = useAppSelector(selectInvoicesShowPaid);
+    const hidePaid = useAppSelector(selectInvoicesHidePaid);
 
     const searchChangeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
         dispatch(setInvoicesFilterSearch(ev.target.value));
@@ -35,7 +33,7 @@ const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
     }
 
     const prepaidChangeHandler = (ev: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setShowPaidInvoices(ev.target.checked))
+        dispatch(setHidePaidInvoices(ev.target.checked))
     }
 
     return (
@@ -59,8 +57,8 @@ const InvoiceListFilter = ({onReload}: { onReload: () => void }) => {
             </Grid>
             <Grid sx={{flex: '1 1 auto'}}>
                 <FormGroup>
-                    <FormControlLabel control={<Checkbox checked={showPaid} onChange={prepaidChangeHandler}/>}
-                                      label="Show paid invoices?"/>
+                    <FormControlLabel control={<Checkbox checked={hidePaid} onChange={prepaidChangeHandler}/>}
+                                      label="Hide paid invoices?"/>
                 </FormGroup>
             </Grid>
             <Grid>
