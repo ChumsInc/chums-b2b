@@ -1,15 +1,16 @@
-import {useEffect, useId, useState, type MouseEvent} from 'react';
+import {type MouseEvent, useEffect, useId, useState} from 'react';
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItemRouterLink from "./MenuItemRouterLink";
 import UserAvatar from "@/components/user/UserAvatar";
-import {generatePath} from "react-router";
+import {generatePath, useLocation} from "react-router";
 import {useAppSelector} from "@/app/hooks";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 
 
 export default function UserMenu() {
+    const location = useLocation();
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const currentAccess = useAppSelector(selectCurrentAccess);
     const buttonId = useId();
@@ -20,13 +21,15 @@ export default function UserMenu() {
 
     useEffect(() => {
         setLoggedIn(isLoggedIn);
-        if (open && !isLoggedIn) {
-            setAnchorEl(null);
-        }
-    }, [isLoggedIn, open]);
+        setAnchorEl(null);
+    }, [isLoggedIn, location.pathname]);
 
 
     const handleClick = (event: MouseEvent<HTMLElement>) => {
+        // if (!isLoggedIn) {
+        //     navigate('/login');
+        //     return;
+        // }
         setAnchorEl(event.currentTarget);
     };
 
@@ -43,7 +46,6 @@ export default function UserMenu() {
                 <Menu id={menuId} open={open} onClose={handleClose} anchorEl={anchorEl}
                       slotProps={{list: {'aria-labelledby': buttonId}}}>
                     <MenuItemRouterLink to="/login">Login</MenuItemRouterLink>
-                    {/*<GoogleSignInOneTap onDone={handleClose}/>*/}
                 </Menu>
             </>
         )
