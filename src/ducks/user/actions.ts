@@ -66,8 +66,18 @@ export const setLoggedIn = createAction('user/setLoggedIn', (arg: SetLoggedInPro
 
 export const loadProfile = createAsyncThunk<UserProfileResponse, void, { state: RootState }>(
     'user/loadProfile',
-    async () => {
-        return await fetchUserProfile();
+    async (_arg, {dispatch, getState}) => {
+        const profile = await fetchUserProfile();
+        if (profile?.accounts && profile.accounts.length > 0) {
+            const isRep = profile.accounts.filter(acct => acct.isRepAccount).length > 0;
+            if (!isRep) {
+                const state = getState();
+                if (!state.currentCustomer.customerKey) {
+                    dispatch(loadCustomer(profile.accounts[0]));
+                }
+            }
+        }
+        return profile;
     },
     {
         condition: (_arg, {getState}) => {
