@@ -103,7 +103,13 @@ export const loginUser = createAsyncThunk<string | APIErrorResponse, LoginUserPr
             auth.setProfile(getProfile(token));
             const expires = getTokenExpiry(token);
             const recentCustomers = localStore.getItem<RecentCustomer[]>(STORE_RECENT_ACCOUNTS, []);
-            dispatch(setLoggedIn({loggedIn: true, authType: AUTH_LOCAL, token, expires, recentCustomers}));
+            dispatch(setLoggedIn({
+                loggedIn: true,
+                authType: AUTH_LOCAL,
+                token,
+                expires,
+                recentCustomers
+            }));
             const profileResponse = await dispatch(loadProfile());
             if (isFulfilled(profileResponse) && profileResponse.payload.accounts?.length === 1) {
                 dispatch(loadCustomerList(profileResponse.payload.accounts[0]))
@@ -133,7 +139,12 @@ export const updateLocalAuth = createAsyncThunk<void, void, { state: RootState }
             auth.setToken(token);
             auth.setProfile(getProfile(token));
             const expires = getTokenExpiry(token);
-            dispatch(setLoggedIn({loggedIn: true, authType: AUTH_LOCAL, token, expires}));
+            dispatch(setLoggedIn({
+                loggedIn: true,
+                authType: AUTH_LOCAL,
+                token,
+                expires
+            }));
         } catch (err: unknown) {
             dispatch(setLoggedIn({loggedIn: false}));
             auth.removeToken();

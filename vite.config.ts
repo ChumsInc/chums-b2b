@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react';
 import path from "node:path";
 import process from "node:process";
 import { visualizer } from "rollup-plugin-visualizer";
-import {nodePolyfills} from 'vite-plugin-node-polyfills';
 
 function parseChunks(id: string):string | null {
     if (id.includes('node_modules')) {
@@ -17,7 +16,7 @@ function parseChunks(id: string):string | null {
 }
 
 export default defineConfig({
-    plugins: [react(), nodePolyfills()],
+    plugins: [react()],
     resolve: {
         alias: {
             "@/": path.resolve(process.cwd(), 'src'),
