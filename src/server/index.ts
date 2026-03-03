@@ -14,6 +14,7 @@ import {helmetOptions} from "./helmetOptions";
 import {useCookieGPCHelper} from "cookie-consent";
 import {renderApp} from "./render";
 import process from "node:process";
+import rateLimit from "express-rate-limit";
 
 const debug = _debug('chums:server:index');
 
@@ -21,11 +22,23 @@ const logUsage = (req: Request, _: Response, next: NextFunction) => {
     debug(req.ip, req.method, req.url);
     next();
 }
-// DO NOT USE COMPRESSION - in order to prevent BREACH attack do not use compression when it will get recompressed on the nginx server outlet.
-// app.use(compression());
+
+const generalLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    limit: 50, // max 50 requests per minute,
+    message: {error: 'Too many requests, please try again later.'}
+})
+
+const renderLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    limit: 25, // max 25 requests per minute,
+    message: {error: 'Too many requests, please try again later.'}
+})
 
 const app = express();
-app.set('trust proxy', true);
+app.set('trust proxy', 'loopback');
+app.set('trust proxy', '192.168.0.0/16');
+// app.set('trust proxy', 1);
 app.use((_: Request, res: Response, next: NextFunction) => {
     // must be before helmetOptions below
     res.locals.cspNonce = crypto.randomBytes(32).toString("hex");
@@ -49,12 +62,15 @@ app.use('/build', express.static('./public/build', {fallthrough: false}));
 app.get('/images', express.static('./public/images', {fallthrough: false}));
 app.get('/files', express.static('./files', {fallthrough: false}));
 app.get('/pdf', express.static('./pdf', {fallthrough: false}));
+
+app.use(generalLimiter);
 app.get('/manifest.json', getManifest);
 app.get('/version.js', getVersionJS);
 app.get('/version.json', getVersion);
 app.get('/version', getVersion);
 app.get('/api', getAPIRequest);
 
+app.use(renderLimiter);
 app.use(handleInvalidURL);
 app.use(logUsage);
 

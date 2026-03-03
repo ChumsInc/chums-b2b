@@ -1,5 +1,5 @@
 import type {HelmetOptions} from "helmet";
-import {IncomingMessage, ServerResponse} from "node:http";
+import type {IncomingMessage, ServerResponse} from "node:http";
 import type {Response} from "express";
 
 
