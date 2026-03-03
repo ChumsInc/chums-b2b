@@ -1,4 +1,4 @@
-import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
+import {createEntityAdapter, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import type {CartDetailStatus, CartStatusValue} from "@/types/cart/cart-utils";
 import {
     addToCart,
@@ -28,27 +28,6 @@ const cartStatusSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(addToCart.pending, (state, action) => {
-                statusAdapter.setOne(state, {id: 0, cartId: action.meta.arg.cartId ?? 0, status: 'saving'})
-            })
-            .addCase(addToCart.fulfilled, (state, action) => {
-                statusAdapter.removeOne(state, 0);
-                if (action.payload) {
-                    const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
-                    statusAdapter.removeMany(state, oldItems);
-                    statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'));
-                }
-            })
-            .addCase(addToCart.rejected, (state) => {
-                statusAdapter.removeOne(state, 0)
-            })
-            .addCase(loadCart.fulfilled, (state, action) => {
-                if (action.payload) {
-                    const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
-                    statusAdapter.removeMany(state, oldItems);
-                    statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'));
-                }
-            })
             .addCase(loadCarts.fulfilled, (state, action) => {
                 statusAdapter.removeAll(state);
                 const newItems: CartDetailStatus[] = [];
@@ -56,34 +35,6 @@ const cartStatusSlice = createSlice({
                     newItems.push(...mapItemStatus(cart.detail, 'idle'))
                 })
                 statusAdapter.setMany(state, newItems);
-            })
-            .addCase(saveCart.fulfilled, (state, action) => {
-                if (action.payload) {
-                    const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
-                    statusAdapter.removeMany(state, oldItems);
-                    statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'))
-                }
-            })
-            .addCase(saveCartItem.pending, (state, action) => {
-                statusAdapter.setOne(state, {
-                    id: action.meta.arg.cartItemId,
-                    cartId: action.meta.arg.cartId,
-                    status: 'saving'
-                });
-            })
-            .addCase(saveCartItem.fulfilled, (state, action) => {
-                statusAdapter.setOne(state, {
-                    id: action.meta.arg.cartItemId,
-                    cartId: action.meta.arg.cartId,
-                    status: 'idle'
-                });
-            })
-            .addCase(saveCartItem.rejected, (state, action) => {
-                statusAdapter.setOne(state, {
-                    id: action.meta.arg.cartItemId,
-                    cartId: action.meta.arg.cartId,
-                    status: 'idle'
-                });
             })
             .addCase(processCart.fulfilled, (state, action) => {
                 const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.meta.arg.id).map(s => s.id);
@@ -93,6 +44,52 @@ const cartStatusSlice = createSlice({
                 statusAdapter.removeOne(state, 0);
                 if (action.payload) {
                     statusAdapter.addMany(state, mapItemStatus(action.payload.detail, 'idle'));
+                }
+            })
+            .addAsyncThunk(addToCart, {
+                pending: (state, action) => {
+                    statusAdapter.setOne(state, {id: 0, cartId: action.meta.arg.cartId ?? 0, status: 'saving'})
+                },
+                fulfilled: (state, action) => {
+                    statusAdapter.removeOne(state, 0);
+                    if (action.payload) {
+                        const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
+                        statusAdapter.removeMany(state, oldItems);
+                        statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'));
+                    }
+                },
+                rejected: (state) => {
+                    statusAdapter.removeOne(state, 0)
+                }
+            })
+            .addAsyncThunk(saveCartItem, {
+                pending: (state, action) => {
+                    statusAdapter.setOne(state, {
+                        id: action.meta.arg.cartItemId,
+                        cartId: action.meta.arg.cartId,
+                        status: 'saving'
+                    });
+                },
+                fulfilled: (state, action) => {
+                    statusAdapter.setOne(state, {
+                        id: action.meta.arg.cartItemId,
+                        cartId: action.meta.arg.cartId,
+                        status: 'idle'
+                    });
+                },
+                rejected: (state, action) => {
+                    statusAdapter.setOne(state, {
+                        id: action.meta.arg.cartItemId,
+                        cartId: action.meta.arg.cartId,
+                        status: 'idle'
+                    });
+                }
+            })
+            .addMatcher(isAnyOf(loadCart.fulfilled, saveCart.fulfilled), (state, action) => {
+                if (action.payload) {
+                    const oldItems = adapterSelectors.selectAll(state).filter(s => s.cartId === action.payload?.header.id).map(s => s.id);
+                    statusAdapter.removeMany(state, oldItems);
+                    statusAdapter.setMany(state, mapItemStatus(action.payload.detail, 'idle'))
                 }
             })
     },
