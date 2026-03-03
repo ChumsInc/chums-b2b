@@ -11,8 +11,6 @@
     "build-vite": "tsc -b && vite build",
     "build-vite-dev": "tsc -b && vite build --mode development",
     "build-vite-ssr": "vite build --config vite.config-ssr.ts",
-    "start-ssr": "npm run compile && nodemon dist/server/index.js",
-    "start-dev-server": "nodemon dev-server.js",
     "start-dev-version-proxy": "nodemon dev-version-proxy.js",
     "start-server-vite": "nodemon ./dist-server/index.js",
     "version": "auto-changelog -p && git add CHANGELOG.md"
@@ -40,6 +38,7 @@
     "decimal.js": "^10.4.3",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
     "fast-deep-equal": "^3.1.3",
     "helmet": "^8.0.0",
     "isomorphic-fetch": "^3.0.0",

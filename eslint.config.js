@@ -1,8 +1,8 @@
+import {defineConfig, globalIgnores} from 'eslint/config'
 import eslint from '@eslint/js'
 import globals from 'globals'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
-import {globalIgnores} from 'eslint/config'
 import jetBrains from '@jetbrains/eslint-config'
 
 const mySettings = {
@@ -22,8 +22,8 @@ const mySettings = {
     }
 }
 
-export default tseslint.config([
-    globalIgnores(['dist', 'dist-server', 'dist-client']),
+export default defineConfig([
+    globalIgnores(['dist/**/*', 'dist-server/**/*', 'dist-client/**/*']),
     {
         files: ['**/*.{ts,tsx}'],
         extends: [
@@ -37,5 +37,22 @@ export default tseslint.config([
             ecmaVersion: 2020,
             globals: globals.browser,
         },
-    },
-])
+    }]);
+
+// export default defineConfig([
+//     globalIgnores(['dist', 'dist-server', 'dist-client']),
+//     {
+//         files: ['**/*.{ts,tsx}'],
+//         extends: [
+//             eslint.configs.recommended,
+//             tseslint.configs.recommended,
+//             reactRefresh.configs.vite,
+//             jetBrains,
+//             mySettings,
+//         ],
+//         languageOptions: {
+//             ecmaVersion: 2020,
+//             globals: globals.browser,
+//         },
+//     },
+// ])
