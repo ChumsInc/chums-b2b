@@ -37,8 +37,6 @@ const renderLimiter = rateLimit({
 
 const app = express();
 app.set('trust proxy', 'loopback');
-app.set('trust proxy', '192.168.0.0/16');
-// app.set('trust proxy', 1);
 app.use((_: Request, res: Response, next: NextFunction) => {
     // must be before helmetOptions below
     res.locals.cspNonce = crypto.randomBytes(32).toString("hex");
