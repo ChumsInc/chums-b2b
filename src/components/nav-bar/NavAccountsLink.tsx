@@ -50,7 +50,7 @@ export default function NavAccountsLink({inDrawer}: NavItemProps) {
     useEffect(() => {
         if (!isUpdated && isLoggedIn) {
             dispatch(updateRecentCustomers());
-        };
+        }
         setShow(isLoggedIn);
     }, [isLoggedIn, isUpdated]);
 

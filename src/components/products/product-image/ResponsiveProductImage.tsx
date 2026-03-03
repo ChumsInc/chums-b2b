@@ -3,7 +3,7 @@ import {styled} from "@mui/material/styles";
 
 const imageSizes: number[] = [80, 250, 400, 800, 2048];
 
-export const ResponsiveImage = styled('img')`
+const ResponsiveImage = styled('img')`
     max-width: 100%;
     width: 100%;
     height: auto;
@@ -14,15 +14,15 @@ export interface ResponsiveProductImageProps extends ImgHTMLAttributes<HTMLImage
     preferredSize?: number;
 }
 
-const ResponsiveProductImage = ({
-                                    filename,
-                                    preferredSize,
-                                    src,
-                                    alt,
-                                    srcSet,
-                                    sizes,
-                                    ...rest
-                                }: ResponsiveProductImageProps) => {
+export default function ResponsiveProductImage({
+                                                   filename,
+                                                   preferredSize,
+                                                   src,
+                                                   alt,
+                                                   srcSet,
+                                                   sizes,
+                                                   ...rest
+                                               }: ResponsiveProductImageProps) {
     const _filename = filename?.replace(/\s/g, '%20');
     let _src = src;
     let _srcSet = srcSet;
@@ -40,5 +40,3 @@ const ResponsiveProductImage = ({
                          width={preferredSize} height={preferredSize} {...rest}/>
     )
 }
-
-export default ResponsiveProductImage;
