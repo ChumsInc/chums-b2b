@@ -1,5 +1,5 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
-import type {Banner, BannersState as PreloadBannersState} from "chums-types/b2b";
+import type {Banner} from "chums-types/b2b";
 import {loadBanners} from "@/ducks/banners/actions";
 import {bannerSorter} from "@/ducks/banners/utils";
 
@@ -18,13 +18,6 @@ export interface BannersState {
 const extraState: BannersState = {
     status: 'idle',
     updated: 0,
-}
-
-export function getPreloadedBannersState(arg?:PreloadBannersState) {
-    return adapter.getInitialState({
-        ...extraState,
-        updated: arg?.updated ?? 0,
-    }, arg?.list ?? [])
 }
 
 const bannersSlice = createSlice({

@@ -23,6 +23,3 @@ export interface B2BCartDetail extends Omit<B2BCartLine, 'priceLevel' | 'product
     status?: 'idle'|'saving'|'deleting'
 }
 
-export interface B2BCartDetailStatusList {
-    [key:number]: 'idle'|'saving'|'deleting';
-}
