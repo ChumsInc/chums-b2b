@@ -1,10 +1,9 @@
-import {EventEmitter} from "events"
 import {isTokenExpired} from "@/utils/jwtHelper"
 import LocalStore from "../utils/LocalStore";
-import {STORE_PROFILE, STORE_AVATAR, STORE_TOKEN, STORE_USER} from "@/constants/stores";
+import {STORE_AVATAR, STORE_PROFILE, STORE_TOKEN, STORE_USER} from "@/constants/stores";
 import type {StoredProfile} from "@/types/user";
 
-export class AuthService extends EventEmitter {
+export class AuthService {
 
     loggedIn() {
         // Checks if there is a saved token AND it's still valid
@@ -20,10 +19,10 @@ export class AuthService extends EventEmitter {
     }
 
     getGoogleUser(): StoredProfile | null {
-        return LocalStore.getItem<StoredProfile|null>(STORE_PROFILE, null);
+        return LocalStore.getItem<StoredProfile | null>(STORE_PROFILE, null);
     }
 
-    setProfile(profile: StoredProfile|null) {
+    setProfile(profile: StoredProfile | null) {
         if (!profile) {
             LocalStore.removeItem(STORE_PROFILE);
             return;
@@ -33,13 +32,11 @@ export class AuthService extends EventEmitter {
         if (profile.imageUrl) {
             LocalStore.setItem<string>(STORE_AVATAR, profile.imageUrl);
         }
-        // Triggers profile_updated event to update the UI
-        this.emit('profile_updated', profile);
     }
 
     getProfile(): StoredProfile | null {
         // Retrieves the profile data from localStorage
-        return LocalStore.getItem<StoredProfile|null>(STORE_PROFILE, null);
+        return LocalStore.getItem<StoredProfile | null>(STORE_PROFILE, null);
     }
 
     setToken(idToken: string) {
@@ -53,7 +50,7 @@ export class AuthService extends EventEmitter {
 
     getToken(): string | null {
         // Retrieves the user token from localStorage
-        return LocalStore.getItem<string|null>(STORE_TOKEN, null);
+        return LocalStore.getItem<string | null>(STORE_TOKEN, null);
     }
 
     logout() {
