@@ -1,6 +1,4 @@
-
-
-import {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
+import {type ChangeEvent, useEffect, useState} from 'react';
 import {saveShipToAddress, setShipToCode} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
 import ShipToAddressFormFields from "./ShipToAddressFormFields";
@@ -51,8 +49,7 @@ const ShipToForm = () => {
     //     //@TODO: should we allow a B2B user to create a new shipTo location?
     // }
 
-    const submitHandler = (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = () => {
         if (!shipTo || !canEdit) {
             return;
         }
@@ -91,9 +88,9 @@ const ShipToForm = () => {
 
     return (
         <div>
-            {loading && <LinearProgress variant="indeterminate"/>}
+            {(loading === 'loading' || loading === 'saving') && <LinearProgress variant="indeterminate"/>}
             {shipTo && (
-                <form onSubmit={submitHandler}>
+                <form action={submitHandler}>
                     <Grid container spacing={2} alignItems="center">
                         <Grid size={{xs: 12, sm: 6}}>
                             <TextField variant="filled" label="Location Name" fullWidth size="small"

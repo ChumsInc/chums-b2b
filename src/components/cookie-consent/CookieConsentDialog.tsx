@@ -1,6 +1,4 @@
-
-
-import {type FormEvent, type ReactElement, type RefObject, useEffect, useId, useState} from 'react';
+import {type ReactElement, type RefObject, useEffect, useId, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCookieConsentRecord, selectCookieConsentStatus} from "@/ducks/cookie-consent";
 import Dialog, {type DialogProps} from "@mui/material/Dialog";
@@ -82,10 +80,8 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
         onClose();
     }
 
-    const submitHandler = async (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = async () => {
         await saveHandler(preferences);
-
     }
 
     const changeHandler = (section: CookieConsentSection) => (checked: boolean) => {
@@ -134,7 +130,7 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
                     </DialogContentText>
                 )}
                 {!!consent?.uuid && <DialogContentText sx={{mb: 2}}>Your cookie ID: {consent.uuid}</DialogContentText>}
-                <form id={formId} onSubmit={submitHandler}>
+                <form id={formId} action={submitHandler}>
                     <List>
                         <CookieConsentItem consentSection="functional" checked={true}
                                            onChange={changeHandler('functional')}/>

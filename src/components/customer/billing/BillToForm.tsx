@@ -1,4 +1,4 @@
-import {type ChangeEvent, type  FormEvent, useEffect, useState} from 'react';
+import {type ChangeEvent, useEffect, useState} from 'react';
 import AddressFormFields from '../../address/AddressFormFields';
 import {saveBillingAddress} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
@@ -57,8 +57,7 @@ const BillToForm = () => {
         }
     }
 
-    const submitHandler = (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = () => {
         if (!customer) {
             return;
         }
@@ -70,35 +69,35 @@ const BillToForm = () => {
             return (
                 <div>
                     <Typography variant="h1">
-                        <Skeleton variant="text" />
+                        <Skeleton variant="text"/>
                     </Typography>
                     <LinearProgress variant="indeterminate"/>
                     <Grid container spacing={2}>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                     </Grid>
                     <Grid container spacing={2}>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                         <Grid size={{xs: 12, sm: 6}}>
-                            <Skeleton variant="rectangular" height={23} width="100%" />
+                            <Skeleton variant="rectangular" height={23} width="100%"/>
                         </Grid>
                     </Grid>
                 </div>
@@ -130,7 +129,7 @@ const BillToForm = () => {
                 <hr/>
                 <BillingCustomerAddressTitle customer={customer}/>
 
-                <form onSubmit={submitHandler}>
+                <form action={submitHandler}>
                     <Grid container spacing={2}>
                         <Grid size={{xs: 12, sm: 6}}>
                             <AddressFormFields address={customer} addressType="billing"

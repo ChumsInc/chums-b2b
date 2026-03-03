@@ -1,4 +1,4 @@
-import {type ChangeEvent, type FormEvent, useState} from 'react';
+import {type ChangeEvent, useState} from 'react';
 import Link from "@mui/material/Link";
 import FormGroup from "@mui/material/FormGroup";
 import {PATH_LOGIN} from "@/constants/paths";
@@ -46,8 +46,7 @@ const CustomerSignUp = () => {
     const status = useAppSelector(selectSignUpStatus);
     const error = useAppSelector(selectSignUpError);
 
-    const submitHandler = (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = () => {
         dispatch(signUpUser(user));
     }
 
@@ -73,7 +72,7 @@ const CustomerSignUp = () => {
     return (
         <>
             {status === 'saving' && <LinearProgress variant="indeterminate"/>}
-            <form onSubmit={submitHandler}>
+            <form action={submitHandler}>
                 <Stack spacing={1} direction="column">
                     <TextField variant="filled" label="Your Name" required
                                value={user.name} onChange={changeHandler('name')}

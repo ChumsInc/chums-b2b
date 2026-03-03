@@ -1,8 +1,13 @@
-import {type ChangeEvent, type FormEvent, useEffect, useState} from 'react';
+import {type ChangeEvent, useEffect, useState} from 'react';
 import {loadProfile, logoutUser, saveUserProfile} from "@/ducks/user/actions";
 import {AUTH_GOOGLE, AUTH_LOCAL} from "@/constants/app";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {selectAuthType, selectProfilePicture, selectUserLoading, selectUserProfile} from "@/ducks/user/userProfileSlice";
+import {
+    selectAuthType,
+    selectProfilePicture,
+    selectUserLoading,
+    selectUserProfile
+} from "@/ducks/user/userProfileSlice";
 import type {Editable} from "chums-types/b2b";
 import type {ExtendedUserProfile} from "@/types/user";
 import Stack from "@mui/material/Stack";
@@ -43,8 +48,7 @@ const UserProfile = () => {
         setProfilePic(imageUrl ?? defaultProfilePic(email));
     }, [profile, imageUrl]);
 
-    const submitHandler = (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = () => {
         if (!user) {
             return;
         }
@@ -87,7 +91,7 @@ const UserProfile = () => {
                             variant="rounded"/>
                 </Grid>
                 <Grid size={{xs: 9, sm: 10}}>
-                    <form onSubmit={submitHandler}>
+                    <form action={submitHandler}>
                         {loading && <LinearProgress variant="indeterminate" sx={{mb: 1}}/>}
                         <Stack spacing={2} direction={{xs: "column", lg: "row"}}>
                             <TextField label="Name" type="text" fullWidth variant="filled" size="small"

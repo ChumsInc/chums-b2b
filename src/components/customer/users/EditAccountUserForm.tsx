@@ -1,6 +1,4 @@
-
-
-import {type ChangeEvent, type FormEvent, useEffect, useRef, useState} from 'react';
+import {type ChangeEvent, useEffect, useRef, useState} from 'react';
 import Alert from "@mui/material/Alert";
 import {selectCustomerUsers} from "@/ducks/customer/customerUsersSlice";
 import type {CustomerUser, Editable} from "chums-types/b2b";
@@ -87,8 +85,7 @@ const EditAccountUserForm = () => {
         setUser({...user, shipToCode: [shipToCode ?? ''], changed: true});
     }
 
-    const submitHandler = async (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = async () => {
         if (!user) {
             return;
         }
@@ -163,7 +160,7 @@ const EditAccountUserForm = () => {
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <form action={submitHandler}>
             <Stack direction="column" spacing={2}>
                 <Typography variant="h3" component="h3">
                     {user.id === 0 && (<span>New User</span>)}

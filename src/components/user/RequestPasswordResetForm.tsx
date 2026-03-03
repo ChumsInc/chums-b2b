@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Alert, {type AlertColor} from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button"
-import {type FormEvent, useState} from "react";
+import {useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectResettingPassword} from "@/ducks/user/userProfileSlice";
 import {resetPassword} from "@/ducks/user/actions";
@@ -27,8 +27,7 @@ const RequestPasswordResetForm = () => {
         navigate('/login');
     }
 
-    const submitHandler = async (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = async () => {
         const res = await dispatch(resetPassword(email));
         if (res.payload) {
             setResponse("If your email address is in our database, we will send you an email to reset your password.");
@@ -42,7 +41,7 @@ const RequestPasswordResetForm = () => {
     return (
         <Container maxWidth="sm">
             <Typography variant="h1" component="h1" sx={{my: 3}}>Chums B2B Portal</Typography>
-            <Box component="form" onSubmit={submitHandler}>
+            <Box component="form" action={submitHandler}>
                 <Typography component="h2" variant="h2">Reset Your Password</Typography>
                 {responseType !== 'success' && (
                     <Alert severity="info" sx={{mb: 1}}>

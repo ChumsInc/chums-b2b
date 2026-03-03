@@ -1,4 +1,4 @@
-import {type FormEvent, useState} from "react";
+import {useState} from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -24,8 +24,7 @@ const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: Pa
     const [password2, setPassword2] = useState<string>('');
 
 
-    const submitHandler = (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = () => {
         return onSubmit({oldPassword, newPassword: password1});
     }
 
@@ -35,7 +34,8 @@ const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: Pa
             <Typography component="h3" variant="h3" sx={{my: 3}}>
                 {isPasswordReset ? 'Set your password' : 'Update your password'}
             </Typography>
-            <Stack direction="column" spacing={2} component="form" onSubmit={submitHandler} name="username">
+            <Stack direction="column" spacing={2} component="form"
+                   action={submitHandler} name="username">
                 <TextField variant="filled" value={email ?? ''} label="Email"
                            slotProps={{
                                htmlInput: {readOnly: true, autoComplete: 'username'},

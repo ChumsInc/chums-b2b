@@ -1,4 +1,4 @@
-import {type FormEvent, useState} from 'react';
+import {useState} from 'react';
 import {loginUser, resetPassword} from "@/ducks/user/actions";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectUserLoading} from "@/ducks/user/userProfileSlice";
@@ -25,8 +25,7 @@ const LoginLocal = () => {
     const [alert, setAlert] = useState<string | null>(null)
 
 
-    const submitHandler = async (ev: FormEvent) => {
-        ev.preventDefault();
+    const submitHandler = async () => {
         if (forgotPassword) {
             await dispatch(resetPassword(email));
             setForgotPassword(false);
@@ -40,7 +39,7 @@ const LoginLocal = () => {
     }
 
     return (
-        <Box component="form" onSubmit={submitHandler}>
+        <Box component="form" action={submitHandler}>
             <Stack direction="column">
                 {!!alert && (<Alert severity="warning" sx={{my: 3}}>{alert}</Alert>)}
                 {loading && <LinearProgress variant="indeterminate" title="Processing Login Request"/>}
