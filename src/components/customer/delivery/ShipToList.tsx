@@ -1,9 +1,7 @@
-
-
 import {useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import type {ShipToCustomer} from "chums-types/b2b";
-import {billToCustomerSlug, stateCountry} from "@/utils/customer";
+import {billToCustomerSlug, customerSlug, stateCountry} from "@/utils/customer";
 import {selectPrimaryShipTo} from "@/ducks/customer/selectors";
 import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
@@ -17,12 +15,9 @@ import Link, {type LinkProps} from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import ReloadCustomerButton from "../common/ReloadCustomerButton";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {
-    selectShipToSort,
-    selectSortedShipToList,
-    setShipToSort
-} from "@/ducks/customer/customerShipToAddressSlice";
+import {selectShipToSort, selectSortedShipToList, setShipToSort} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
     shipTo: ShipToCustomer;
@@ -30,10 +25,16 @@ export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
 
 
 const ShipToLink = ({shipTo, children, ...rest}: ShipToLinkProps) => {
-    const path = generatePath(PATH_CUSTOMER_DELIVERY, {
-        customerSlug: billToCustomerSlug(shipTo),
-        code: encodeURIComponent(shipTo.ShipToCode)
-    });
+    const permissions = useAppSelector(selectCustomerPermissions);
+    const path = permissions?.billTo
+        ? generatePath(PATH_CUSTOMER_DELIVERY, {
+            customerSlug: billToCustomerSlug(shipTo),
+            code: encodeURIComponent(shipTo.ShipToCode),
+        })
+        : generatePath(PATH_CUSTOMER_DELIVERY, {
+            customerSlug: customerSlug(shipTo),
+            code: encodeURIComponent(shipTo.ShipToCode)
+        });
     return (
         <Link component={NavLink} to={path} {...rest}>{children}</Link>
     )

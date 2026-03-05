@@ -57,7 +57,7 @@ export default function AddToCartForm({
     const [cartId, setCartId] = useState<number | null>(activeCart?.id ?? null);
     const [cartComment, setCartComment] = useState<string>(comment ?? '');
     const [cartName, setCartName] = useState<string>(activeCart?.customerPONo ?? '');
-    const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? null);
+    const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? currentShipToCode ?? null);
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId ?? 0));
 
     const submitHandler = useCallback(async () => {
@@ -105,7 +105,7 @@ export default function AddToCartForm({
     const setCartState = useCallback((cart: B2BCartHeader | null) => {
         setCartId(cart?.id ?? 0);
         // setCart(cart);
-        setShipToCode(cart?.shipToCode ?? null);
+        setShipToCode(cart?.shipToCode ?? currentShipToCode ?? null);
         setCartName(cart?.customerPONo ?? '');
     }, [])
 

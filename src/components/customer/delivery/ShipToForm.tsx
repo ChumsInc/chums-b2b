@@ -1,5 +1,5 @@
 import {type ChangeEvent, useEffect, useState} from 'react';
-import {saveShipToAddress, setShipToCode} from '@/ducks/customer/actions';
+import {saveShipToAddress} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
 import ShipToAddressFormFields from "./ShipToAddressFormFields";
 import {selectCanEdit} from "@/ducks/user/userProfileSlice";
@@ -19,7 +19,7 @@ import TelephoneFormFields from "../common/TelephoneFormFields";
 import {billToCustomerSlug} from "@/utils/customer";
 import PrimaryShipToButton from "./PrimaryShipToButton";
 import TextField from "@mui/material/TextField";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
+import {selectPermittedShipToAddresses, setShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
 
 const ShipToForm = () => {
@@ -36,7 +36,7 @@ const ShipToForm = () => {
 
     useEffect(() => {
         if (loading === 'idle') {
-            const [_shipTo] = shipToAddresses.filter(row => row.ShipToCode === params.shipToCode);
+            const [_shipTo] = shipToAddresses.filter(row => row.ShipToCode === decodeURIComponent(params.shipToCode ?? ''));
             setShipTo(_shipTo ?? null);
             if (!billTo) {
                 dispatch(setShipToCode(_shipTo?.ShipToCode ?? null));

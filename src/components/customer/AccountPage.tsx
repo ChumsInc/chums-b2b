@@ -10,8 +10,9 @@ import ReturnToAlert from "./ReturnToAlert";
 import CustomerTitle from "@/components/customer/CustomerTitle";
 import {ga4SelectCustomer} from "@/utils/ga4/generic";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
-import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice";
+import {selectCustomerShipTo, setShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
 import {useTitle} from "@/components/app/TitleContext";
+import {setActiveCartId} from "@/ducks/carts/actions.ts";
 
 export default function AccountPage() {
     const dispatch = useAppDispatch();
@@ -40,6 +41,10 @@ export default function AccountPage() {
         const nextCustomer = parseCustomerSlug(params.customerSlug ?? '');
 
         if (isSameCustomer(customer, nextCustomer)) {
+            if (nextCustomer?.ShipToCode && nextCustomer.ShipToCode !== shipTo?.ShipToCode) {
+                dispatch(setShipToCode(decodeURIComponent(nextCustomer.ShipToCode)));
+                dispatch(setActiveCartId(null));
+            }
             return;
         }
 

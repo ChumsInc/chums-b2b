@@ -50,6 +50,7 @@ const customerShipToAddressSlice = createSlice({
             .addCase(setLoggedIn, (state, action) => {
                 if (!action.payload.loggedIn) {
                     adapter.removeAll(state);
+                    state.customerKey = null;
                 }
             })
             .addCase(loadCustomer.pending, (state, action) => {
