@@ -3,7 +3,6 @@ import {saveShipToAddress} from '@/ducks/customer/actions';
 import Alert from "@mui/material/Alert";
 import ShipToAddressFormFields from "./ShipToAddressFormFields";
 import {selectCanEdit} from "@/ducks/user/userProfileSlice";
-import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
 import StoreMapToggle from "@/components/customer/common/StoreMapToggle";
 import type {Editable, ShipToCustomer} from "chums-types/b2b";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
@@ -21,13 +20,14 @@ import PrimaryShipToButton from "./PrimaryShipToButton";
 import TextField from "@mui/material/TextField";
 import {selectPermittedShipToAddresses, setShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
 
 const ShipToForm = () => {
     const dispatch = useAppDispatch();
     const shipToAddresses = useAppSelector(selectPermittedShipToAddresses);
     const loading = useAppSelector(selectCustomerLoadStatus);
     const canEdit = useAppSelector(selectCanEdit);
-    const billTo = useAppSelector(selectPermittedBillToAddress);
+    const permissions = useAppSelector(selectCustomerPermissions);
     const params = useParams<'shipToCode'>();
     const [shipTo, setShipTo] = useState<ShipToCustomer & Editable | null>(null);
     const navigate = useNavigate();
@@ -38,11 +38,11 @@ const ShipToForm = () => {
         if (loading === 'idle') {
             const [_shipTo] = shipToAddresses.filter(row => row.ShipToCode === decodeURIComponent(params.shipToCode ?? ''));
             setShipTo(_shipTo ?? null);
-            if (!billTo) {
+            if (!permissions?.billTo) {
                 dispatch(setShipToCode(_shipTo?.ShipToCode ?? null));
             }
         }
-    }, [shipToAddresses, params, loading, billTo])
+    }, [shipToAddresses, params, loading, permissions])
 
 
     // const onNewShipToCustomer = () => {
@@ -108,7 +108,7 @@ const ShipToForm = () => {
                                        slotProps={{
                                            htmlInput: {readOnly: true}
                                        }}/>
-                            <PrimaryShipToButton shipTo={shipTo} disabled={readOnly || !billTo}/>
+                            <PrimaryShipToButton shipTo={shipTo} disabled={readOnly || !permissions?.billTo}/>
                         </Grid>
                     </Grid>
                     <hr/>

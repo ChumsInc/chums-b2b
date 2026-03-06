@@ -31,7 +31,7 @@ import {ErrorBoundary} from "react-error-boundary";
 import Alert from "@mui/material/Alert";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
-import {customerKey} from "@/ducks/customer/utils";
+import {toCustomerKey} from "@/ducks/customer/utils";
 import {selectCurrentInvoiceNo} from "@/ducks/invoices/currentInvoiceSlice";
 import NoInvoicesAlert from "@/components/invoices/NoInvoicesAlert.tsx";
 
@@ -98,7 +98,7 @@ const InvoicesList = () => {
 
     useEffect(() => {
         if (status === 'idle' && !loaded && !!currentCustomer) {
-            dispatch(loadInvoices({key: customerKey(currentCustomer), start: 0, limit}))
+            dispatch(loadInvoices({key: toCustomerKey(currentCustomer), start: 0, limit}))
             setPage(0);
         }
     }, [currentCustomer, status, loaded]);

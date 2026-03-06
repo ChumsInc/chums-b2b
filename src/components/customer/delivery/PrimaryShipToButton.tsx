@@ -1,5 +1,3 @@
-
-
 import Button from "@mui/material/Button";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import Stack from "@mui/material/Stack";
@@ -9,7 +7,7 @@ import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 import type {Editable, ShipToCustomer} from "chums-types/b2b";
 import {loadCustomer, setDefaultShipTo} from "@/ducks/customer/actions";
-import {selectPrimaryShipTo} from "@/ducks/customer/selectors";
+import {selectPrimaryShipToCode} from "@/ducks/customer/currentCustomerSlice.ts";
 
 
 export interface PrimaryShipToButtonProps {
@@ -19,11 +17,11 @@ export interface PrimaryShipToButtonProps {
 
 const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
     const dispatch = useAppDispatch();
-    const primaryShipTo = useAppSelector(selectPrimaryShipTo);
+    const primaryShipToCode = useAppSelector(selectPrimaryShipToCode);
     const permissions = useAppSelector(selectCustomerPermissions);
 
     const onSetDefaultShipTo = async () => {
-        if (permissions?.canSetDefaultShipTo && shipTo && shipTo.ShipToCode !== primaryShipTo?.ShipToCode) {
+        if (permissions?.canSetDefaultShipTo && shipTo && shipTo.ShipToCode !== primaryShipToCode) {
             await dispatch(setDefaultShipTo(shipTo.ShipToCode))
             dispatch(loadCustomer(shipTo));
         }
@@ -35,15 +33,15 @@ const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
 
     return (
         <>
-            {primaryShipTo?.ShipToCode !== shipTo.ShipToCode && (
+            {primaryShipToCode !== shipTo.ShipToCode && (
                 <Button type="button" variant="outlined"
                         startIcon={<LocalShippingIcon/>}
-                        disabled={!permissions?.canSetDefaultShipTo || shipTo.changed || disabled || shipTo.ShipToCode === primaryShipTo?.ShipToCode || !permissions?.billTo}
+                        disabled={!permissions?.canSetDefaultShipTo || shipTo.changed || disabled || shipTo.ShipToCode === primaryShipToCode || !permissions?.billTo}
                         onClick={onSetDefaultShipTo}>
                     Set as default delivery location
                 </Button>
             )}
-            {primaryShipTo?.ShipToCode === shipTo.ShipToCode && (
+            {primaryShipToCode === shipTo.ShipToCode && (
                 <Stack direction="row" spacing={2} alignItems="center">
                     <PrimaryShipToIcon shipToCode={shipTo.ShipToCode}/>
                     <Typography variant="body1">Default delivery location</Typography>

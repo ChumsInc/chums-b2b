@@ -11,7 +11,6 @@ import cartStatusSlice from "@/ducks/carts/cartStatusSlice";
 import activeCartSlice from "@/ducks/carts/activeCartSlice";
 import categoryReducer from "@/ducks/category/index";
 import cookieConsentSlice from "@/ducks/cookie-consent/index";
-import customerReducer from "@/ducks/customer/index";
 import itemLookupReducer from "@/ducks/item-lookup/index";
 import keywordsReducer from "@/ducks/keywords/index";
 import menuReducer from "@/ducks/menu/index";
@@ -37,6 +36,7 @@ import currentInvoiceSlice from "@/ducks/invoices/currentInvoiceSlice";
 import openOrdersSlice from "@/ducks/open-orders/openOrdersSlice";
 import currentOrderSlice from "@/ducks/open-orders/currentOrderSlice";
 import currentCustomerSlice from "@/ducks/customer/currentCustomerSlice";
+import customerContactsSlice from "@/ducks/customer/customerContactsSlice.ts";
 
 const rootReducer = combineReducers({
     [alertsSlice.reducerPath]: alertsSlice.reducer,
@@ -51,8 +51,8 @@ const rootReducer = combineReducers({
     [activeCartSlice.reducerPath]: activeCartSlice.reducer,
     category: categoryReducer,
     [cookieConsentSlice.reducerPath]: cookieConsentSlice.reducer,
-    customer: customerReducer,
     [currentCustomerSlice.reducerPath]: currentCustomerSlice.reducer,
+    [customerContactsSlice.reducerPath]: customerContactsSlice.reducer,
     [customerPaymentCardsSlice.reducerPath]: customerPaymentCardsSlice.reducer,
     [customerPermissionsSlice.reducerPath]: customerPermissionsSlice.reducer,
     [customerPricingSlice.reducerPath]: customerPricingSlice.reducer,

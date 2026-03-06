@@ -73,7 +73,7 @@ export const hasBillToAccess = (access: UserCustomerAccess | null, customerAccou
         && access.CustomerNo === customerAccount.CustomerNo;
 }
 
-export function customerKey(arg: Customer | BasicCustomer | null): CustomerKey | null {
+export function toCustomerKey(arg: Customer | BasicCustomer | null): CustomerKey | null {
     if (!arg) {
         return null;
     }

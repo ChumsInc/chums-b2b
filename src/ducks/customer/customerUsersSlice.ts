@@ -19,8 +19,7 @@ import {
 import {customerSlug, customerUserSorter} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
-import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
 
 const adapter = createEntityAdapter<CustomerUser, number>({
     selectId: (arg) => arg.id,
@@ -130,10 +129,10 @@ export const {setCustomerUsersSort} = customerUsersSlice.actions;
 export const {selectCustomerUsers, selectCustomerUsersStatus, selectCustomerUsersSort} = customerUsersSlice.selectors;
 
 export const selectPermittedCustomerUsers = createSelector(
-    [selectCustomerUsers, selectPermittedBillToAddress, selectPermittedShipToAddresses, selectCustomerUsersSort],
-    (users, billTo, shipToAddresses, sort) => {
+    [selectCustomerUsers, selectCustomerPermissions, selectCustomerUsersSort],
+    (users, permissions, sort) => {
         return users
-            .filter(user => billTo || shipToAddresses.filter(addr => user.shipToCode?.includes(addr.ShipToCode)).length > 0)
+            .filter(user => permissions?.billTo || !!permissions?.shipTo?.filter(st => user.shipToCode?.includes(st))?.length)
             .sort(customerUserSorter(sort));
     }
 )
