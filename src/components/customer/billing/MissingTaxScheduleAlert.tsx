@@ -14,11 +14,11 @@ const MissingTaxScheduleAlert = () => {
     const loaded = useAppSelector(selectCustomerLoaded);
     const loggedIn = useAppSelector(selectLoggedIn);
 
-    if (!customer) {
+    if (!customer || !loggedIn) {
         return null;
     }
 
-    if (!loggedIn || !loaded || loading === 'loading' || !!customer.TaxSchedule) {
+    if (!loaded || loading !== 'idle' || !!customer.TaxSchedule) {
         return null;
     }
 

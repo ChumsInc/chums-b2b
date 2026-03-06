@@ -11,7 +11,7 @@ import {
 } from '@/constants/stores';
 import {auth} from '@/api/IntranetAuthService';
 import {getProfile, getTokenExpiry} from "@/utils/jwtHelper";
-import {loadCustomer, setCustomerAccount} from "../customer/actions";
+import {loadCustomer} from "../customer/actions";
 import {AUTH_LOCAL} from "@/constants/app";
 import {
     selectLoggedIn,
@@ -40,8 +40,7 @@ import type {
     UserProfileResponse
 } from "./types";
 import type {RootState} from "@/app/configureStore";
-import type {BasicCustomer, RecentCustomer, UserCustomerAccess, UserProfile} from "chums-types/b2b";
-import {isCustomerAccess} from "./utils";
+import type {RecentCustomer, UserCustomerAccess, UserProfile} from "chums-types/b2b";
 import {loadCustomerList} from "../customers/actions";
 import {isErrorResponse} from "@/utils/typeguards";
 import type {APIErrorResponse} from "@/types/generic";
@@ -204,22 +203,8 @@ export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCus
     state: RootState
 }>(
     'userAccess/setCurrent',
-    async (arg, {dispatch}) => {
+    async (arg) => {
         localStore.setItem<UserCustomerAccess | null>(STORE_USER_ACCESS, arg);
-        if (isCustomerAccess(arg)) {
-            if (!arg.isRepAccount) {
-                const {ARDivisionNo, CustomerNo, CustomerName, ShipToCode} = arg;
-                dispatch(setCustomerAccount({ARDivisionNo, CustomerNo, ShipToCode}));
-                dispatch(loadCustomer(arg));
-                localStore.setItem<BasicCustomer>(STORE_CUSTOMER, {
-                    ARDivisionNo,
-                    CustomerNo,
-                    CustomerName: CustomerName ?? ''
-                });
-            } else {
-                dispatch(loadCustomerList(arg));
-            }
-        }
         return arg;
     },
     {

@@ -1,13 +1,14 @@
-
-
 import {useEffect} from 'react';
 import {setUserAccess} from '@/ducks/user/actions';
 import {PATH_PROFILE} from "@/constants/paths";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {redirect, useLocation, useParams} from "react-router";
 import AccountList from "./AccountList";
-import {setReturnToPath} from "@/ducks/customer/actions";
+import {loadCustomer, setReturnToPath} from "@/ducks/customer/actions";
 import {selectAccessList, selectAccessStatus, selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import localStore from "@/utils/LocalStore.ts";
+import type {BasicCustomer} from "chums-types/b2b";
+import {STORE_CUSTOMER} from "@/constants/stores.ts";
 
 const AccountListContainer = () => {
     const dispatch = useAppDispatch();
@@ -35,7 +36,17 @@ const AccountListContainer = () => {
             return;
         }
         if (nextAccess.id !== access?.id) {
-            dispatch(setUserAccess(nextAccess));
+            if (nextAccess.isRepAccount) {
+                dispatch(setUserAccess(nextAccess));
+                return;
+            }
+            const {ARDivisionNo, CustomerNo, CustomerName} = nextAccess;
+            dispatch(loadCustomer(nextAccess));
+            localStore.setItem<BasicCustomer>(STORE_CUSTOMER, {
+                ARDivisionNo,
+                CustomerNo,
+                CustomerName: CustomerName ?? ''
+            });
         }
     }, [params, access, accessList, accessStatus]);
 
