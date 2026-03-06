@@ -1,11 +1,11 @@
-import {selectPrimaryShipTo} from "@/ducks/customer/selectors";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Tooltip from "@mui/material/Tooltip";
 import {useAppSelector} from "@/app/hooks";
+import {selectPrimaryShipToCode} from "@/ducks/customer/currentCustomerSlice.ts";
 
 const PrimaryShipToIcon = ({shipToCode}: { shipToCode: string | null }) => {
-    const primaryShipTo = useAppSelector(selectPrimaryShipTo);
-    if (shipToCode !== primaryShipTo?.ShipToCode) {
+    const primaryShipToCode = useAppSelector(selectPrimaryShipToCode);
+    if (shipToCode !== primaryShipToCode) {
         return null;
     }
 

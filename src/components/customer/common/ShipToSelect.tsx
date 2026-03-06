@@ -13,7 +13,6 @@ import Stack from "@mui/material/Stack";
 import {useAppSelector} from "@/app/hooks";
 import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
-import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
 
 export interface ShipToSelectProps extends Omit<FormControlProps, 'value' | 'onChange'> {
     value: string | null;
@@ -41,7 +40,6 @@ export default function ShipToSelect({
                                      }: ShipToSelectProps) {
     const customer = useAppSelector(selectCustomerAccount);
     const shipToAddresses = useAppSelector(selectPermittedShipToAddresses);
-    const hasBillToPermissions = useAppSelector(selectPermittedBillToAddress);
     const permissions = useAppSelector(selectCustomerPermissions);
     const id = useId();
 
@@ -118,7 +116,7 @@ export default function ShipToSelect({
                     renderValue={renderValueHandler}
                     readOnly={readOnly} required={required}>
                 {allowAllLocations && (<MenuItem value={allLocationsValue}>All Addresses</MenuItem>)}
-                {hasBillToPermissions && <MenuItem value="">Billing Address</MenuItem>}
+                {permissions?.billTo && <MenuItem value="">Billing Address</MenuItem>}
                 {shipToAddresses
                     .filter(shipTo => shipTo.ShipToCode !== '' || permissions?.billTo)
                     .map(shipTo => (

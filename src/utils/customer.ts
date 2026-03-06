@@ -15,7 +15,7 @@ import type {
     UserCustomerAccess
 } from "chums-types/b2b";
 import type {SortProps} from "@/types/generic";
-import {customerKey} from "@/ducks/customer/utils";
+import {toCustomerKey} from "@/ducks/customer/utils";
 
 /* eslint-disable no-nested-ternary */
 
@@ -278,9 +278,6 @@ export const customerUserSorter = (sort: SortProps<CustomerUser>) => (a: Custome
     }
 }
 
-export function customerSlug(customer: CustomerKey): string;
-export function customerSlug(customer: CustomerKey | null): string;
-export function customerSlug(customer: string | null | undefined): string | null;
 export function customerSlug(customer: CustomerKey | string | null | undefined): string | null {
     let _customer = customer;
     if (!_customer) {
@@ -358,7 +355,7 @@ export const buildRecentCustomers = (recentAccounts: RecentCustomer[] = [], cust
     }
     const key = billToCustomerSlug(customer);
     const current: RecentCustomer = {
-        ...customerKey(customer)!,
+        ...toCustomerKey(customer)!,
         CustomerName: customer.CustomerName,
         ts: new Date().valueOf(),
     }

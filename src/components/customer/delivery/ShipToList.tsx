@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import type {ShipToCustomer} from "chums-types/b2b";
 import {billToCustomerSlug, customerSlug, stateCountry} from "@/utils/customer";
-import {selectPrimaryShipTo} from "@/ducks/customer/selectors";
 import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -16,7 +15,7 @@ import Grid from "@mui/material/Grid";
 import ReloadCustomerButton from "../common/ReloadCustomerButton";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectShipToSort, selectSortedShipToList, setShipToSort} from "@/ducks/customer/customerShipToAddressSlice";
-import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
+import {selectCustomerLoadStatus, selectPrimaryShipToCode} from "@/ducks/customer/currentCustomerSlice";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
@@ -67,7 +66,7 @@ const ShipToList = () => {
     const list = useAppSelector(selectSortedShipToList);
     const sort = useAppSelector(selectShipToSort);
     const loading = useAppSelector(selectCustomerLoadStatus);
-    const primaryShipTo = useAppSelector(selectPrimaryShipTo);
+    const primaryShipToCode = useAppSelector(selectPrimaryShipToCode);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -80,7 +79,7 @@ const ShipToList = () => {
     }
 
     const rowClassName = (row: ShipToCustomer) => {
-        return classNames({'table-primary': row.ShipToCode === primaryShipTo?.ShipToCode});
+        return classNames({'table-primary': row.ShipToCode === primaryShipToCode});
     }
     return (
         <div>

@@ -126,6 +126,7 @@ const currentCustomerSlice = createSlice({
         selectCustomerLoadStatus: (state) => state.status,
         selectCustomerLoaded: (state) => state.loaded,
         selectCustomerReturnToPath: (state) => state.returnToPath,
+        selectPrimaryShipToCode: (state) => state.account?.ShipToCode ?? null,
     }
 });
 
@@ -138,6 +139,7 @@ export const {
     selectCustomerLoadStatus,
     selectCustomerLoaded,
     selectCustomerReturnToPath,
+    selectPrimaryShipToCode,
 } = currentCustomerSlice.selectors;
 
 

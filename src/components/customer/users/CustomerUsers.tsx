@@ -1,7 +1,5 @@
-
-
 import CustomerUserTable from "./CustomerUserTable";
-import {selectCustomerKey} from "@/ducks/customer/selectors";
+import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import LinearProgress from "@mui/material/LinearProgress";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";

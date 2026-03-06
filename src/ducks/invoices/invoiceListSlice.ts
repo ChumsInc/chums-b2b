@@ -15,8 +15,7 @@ import {customerSlug} from "@/utils/customer";
 import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 import {loadInvoice, loadInvoices} from "@/ducks/invoices/actions";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
-import {selectPermittedBillToAddress} from "@/ducks/customer/selectors";
-import {selectPermittedShipToAddresses} from "@/ducks/customer/customerShipToAddressSlice";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
 
 const adapter = createEntityAdapter<InvoiceHistoryHeader, string>({
     selectId: (arg) => invoiceKey(arg),
@@ -72,7 +71,7 @@ const invoiceListSlice = createSlice({
         setInvoicesFilterShipToCode: (state, action: PayloadAction<string | null>) => {
             state.filters.shipToCode = action.payload;
         },
-        setHidePaidInvoices: (state, action:PayloadAction<boolean>) => {
+        setHidePaidInvoices: (state, action: PayloadAction<boolean>) => {
             state.filters.hidePaidInvoices = action.payload;
         },
         setInvoicesSort: (state, action: PayloadAction<SortProps<InvoiceHistoryHeader>>) => {
@@ -173,10 +172,10 @@ export const {
 
 export const selectFilteredInvoicesList = createSelector(
     [selectAll, selectInvoicesHidePaid, selectInvoicesShipToFilter,
-        selectInvoicesSearch, selectInvoicesSort, selectPermittedBillToAddress, selectPermittedShipToAddresses],
-    (list, hidePaid, shipTo, search, sort, allowBillTo, allowedShipToList) => {
+        selectInvoicesSearch, selectInvoicesSort, selectCustomerPermissions],
+    (list, hidePaid, shipTo, search, sort, permissions) => {
         return list
-            .filter(inv => allowBillTo || allowedShipToList.map(c => c.ShipToCode).includes(inv.ShipToCode ?? ''))
+            .filter(inv => permissions?.billTo || permissions?.shipTo?.includes(inv.ShipToCode ?? ''))
             .filter(inv => !hidePaid || !new Decimal(inv.Balance ?? '0').eq(0))
             .filter(inv => !shipTo || inv.ShipToCode === shipTo)
             .filter(inv => !search
