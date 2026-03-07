@@ -14,7 +14,8 @@ import {
     saveBillingAddress,
     saveShipToAddress,
     saveUser,
-    setCustomerAccount
+    setCustomerAccount,
+    setDefaultShipTo
 } from "@/ducks/customer/actions";
 import {customerSlug, customerUserSorter} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
@@ -83,19 +84,10 @@ const customerUsersSlice = createSlice({
                     adapter.removeAll(state);
                 }
             })
-            .addCase(saveBillingAddress.fulfilled, (state, action) => {
-                adapter.setAll(state, action.payload?.users ?? []);
-            })
-            .addCase(saveShipToAddress.fulfilled, (state, action) => {
-                adapter.setAll(state, action.payload?.users ?? []);
-            })
             .addCase(loadCustomer.pending, (state, action) => {
                 if (state.customerKey !== customerSlug(action.meta.arg)) {
                     adapter.removeAll(state);
                 }
-            })
-            .addCase(loadCustomer.fulfilled, (state, action) => {
-                adapter.setAll(state, action.payload?.users ?? []);
             })
             .addCase(setUserAccess.pending, (state, action) => {
                 if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
@@ -110,7 +102,20 @@ const customerUsersSlice = createSlice({
                     }
                 }
             })
-            .addMatcher(isAnyOf(loadCustomerUsers.rejected, removeUser.rejected, saveUser.rejected), (state) => {
+            .addMatcher(isAnyOf(
+                loadCustomer.fulfilled,
+                saveBillingAddress.fulfilled,
+                saveShipToAddress.fulfilled,
+                setDefaultShipTo.fulfilled,
+            ), (state, action) => {
+                state.customerKey = customerSlug(action.payload?.customer ?? null);
+                adapter.setAll(state, action.payload?.users ?? []);
+            })
+            .addMatcher(isAnyOf(
+                loadCustomerUsers.rejected,
+                removeUser.rejected,
+                saveUser.rejected
+            ), (state) => {
                 state.status = 'rejected';
             })
             .addMatcher(isDismissedAction, (state) => {

@@ -13,17 +13,19 @@ import CartMessageSnackbar from "@/components/b2b-cart/CartMessageSnackbar.tsx";
 import CookieConsentDrawer from "@/components/cookie-consent/CookieConsentDrawer.tsx";
 import {useAppSelector} from "@/app/hooks.ts";
 import {useEffect, useState} from "react";
+import CustomerProvider from "@/components/customer/CustomerProvider.tsx";
 
 export default function MainOutlet() {
     const loggedIn = useAppSelector(selectLoggedIn);
     const [allowAuth, setAllowAuth] = useState(false);
 
     useEffect(() => {
+        // set allowAuth to true after initial render to prevent rendering during the server render
         setAllowAuth(true)
     }, []);
 
     return (
-        <>
+        <CustomerProvider>
             <Header/>
             <Box component="main" sx={{marginTop: '100px', marginBottom: '3rem'}}>
                 <SiteMessages/>
@@ -39,6 +41,6 @@ export default function MainOutlet() {
             </Box>
             <Footer/>
             <CookieConsentDrawer/>
-        </>
+        </CustomerProvider>
     )
 }

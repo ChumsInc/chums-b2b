@@ -1,16 +1,14 @@
-
-
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {loadCustomer} from "@/ducks/customer/actions";
+import {useAppSelector} from "@/app/hooks";
 import Button, {type ButtonProps} from "@mui/material/Button";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
 
-const ReloadCustomerButton = ({type, onClick, disabled, ...rest}: ButtonProps) => {
-    const dispatch = useAppDispatch();
+export default function ReloadCustomerButton ({type, onClick, disabled, ...rest}: ButtonProps) {
+    const {reloadCustomer} = useCustomer();
     const currentCustomer = useAppSelector(selectCustomerAccount);
 
     const clickHandler = () => {
-        dispatch(loadCustomer(currentCustomer));
+        reloadCustomer();
     }
 
     return (
@@ -21,5 +19,3 @@ const ReloadCustomerButton = ({type, onClick, disabled, ...rest}: ButtonProps) =
         </Button>
     )
 }
-
-export default ReloadCustomerButton;

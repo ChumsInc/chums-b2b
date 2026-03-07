@@ -144,12 +144,12 @@ export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, 
     }
 )
 
-export const setDefaultShipTo = createAsyncThunk<void, string, { state: RootState }>(
+export const setDefaultShipTo = createAsyncThunk<FetchCustomerResponse, string, { state: RootState }>(
     'customer/setDefaultShipTo',
     async (arg, {getState}) => {
         const state = getState();
         const customer = selectCustomerAccount(state) as CustomerKey;
-        await postDefaultShipToCode(arg, customer);
+        return await postDefaultShipToCode(arg, customer);
     },
     {
         condition: (_, {getState}) => {

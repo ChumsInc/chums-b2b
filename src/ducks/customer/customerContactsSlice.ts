@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import type {CustomerContact} from "chums-types/b2b";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.ts";
-import {loadCustomer, saveBillingAddress, saveShipToAddress} from "@/ducks/customer/actions.ts";
+import {loadCustomer, saveBillingAddress, saveShipToAddress, setDefaultShipTo} from "@/ducks/customer/actions.ts";
 import {customerSlug} from "@/utils/customer.ts";
 import {loadCustomerList} from "@/ducks/customers/actions.ts";
 
@@ -55,9 +55,10 @@ const customerContactsSlice = createSlice({
                 }
             })
             .addMatcher(isAnyOf(
+                loadCustomer.fulfilled,
                 saveBillingAddress.fulfilled,
                 saveShipToAddress.fulfilled,
-                loadCustomer.fulfilled
+                setDefaultShipTo.fulfilled,
             ), (state, action) => {
                 if (action.payload) {
                     adapter.setAll(state, action.payload.contacts ?? []);

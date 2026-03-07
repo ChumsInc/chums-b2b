@@ -15,7 +15,6 @@ export async function fetchCustomerAccount({ARDivisionNo, CustomerNo}: CustomerK
         if (!response?.result || !response.result.customer || !response.result.customer.CustomerNo) {
             return Promise.reject(new Error('Invalid response when loading customer account'));
         }
-        response.result.permissions = await fetchCustomerValidation({ARDivisionNo, CustomerNo});
         return response.result;
     } catch (err) {
         if (err instanceof Error) {
@@ -181,13 +180,13 @@ export async function postShipToAddress(arg: ShipToCustomer): Promise<FetchCusto
     }
 }
 
-// eslint-disable-next-line consistent-return
-export async function postDefaultShipToCode(arg: string, customer: CustomerKey): Promise<void> {
+export async function postDefaultShipToCode(arg: string, customer: CustomerKey): Promise<FetchCustomerResponse> {
     try {
         const {ARDivisionNo, CustomerNo} = customer;
         const url = '/sage/b2b/set-primary-shipto.php?co=CHI';
         const body = JSON.stringify({Company: 'chums', account: `${ARDivisionNo}-${CustomerNo}:${arg}`});
         await fetchJSON(url, {method: 'POST', body});
+        return await fetchCustomerAccount(customer);
     } catch (err: unknown) {
         if (err instanceof Error) {
             debug("postDefaultShipToCode()", err.message);
