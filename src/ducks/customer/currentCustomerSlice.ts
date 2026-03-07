@@ -1,5 +1,5 @@
 import type {BillToCustomer} from "chums-types/b2b";
-import {createSlice, type PayloadAction, type WritableDraft} from "@reduxjs/toolkit";
+import {createSlice, isAnyOf, type PayloadAction, type WritableDraft} from "@reduxjs/toolkit";
 import {
     loadCustomer,
     saveBillingAddress,
@@ -56,30 +56,17 @@ const currentCustomerSlice = createSlice({
             .addCase(saveBillingAddress.pending, (state) => {
                 state.status = 'saving';
             })
-            .addCase(saveBillingAddress.fulfilled, (state, action) => {
-                state.status = 'idle'
-                state.account = action.payload?.customer ?? null;
-                state.loaded = true;
-            })
             .addCase(saveBillingAddress.rejected, (state) => {
                 state.status = 'rejected'
             })
             .addCase(saveShipToAddress.pending, (state) => {
                 state.status = 'saving'
             })
-            .addCase(saveShipToAddress.fulfilled, (state, action) => {
-                state.status = 'idle'
-                state.account = action.payload?.customer ?? null;
-                state.loaded = true;
-            })
             .addCase(saveShipToAddress.rejected, (state) => {
                 state.status = 'rejected'
             })
             .addCase(setDefaultShipTo.pending, (state) => {
                 state.status = 'saving';
-            })
-            .addCase(setDefaultShipTo.fulfilled, (state) => {
-                state.status = 'idle'
             })
             .addCase(setDefaultShipTo.rejected, (state) => {
                 state.status = 'rejected';
@@ -91,11 +78,6 @@ const currentCustomerSlice = createSlice({
                     resetCustomerState(state);
                     state.customerKey = customerKey;
                 }
-            })
-            .addCase(loadCustomer.fulfilled, (state, action) => {
-                state.status = 'idle';
-                state.account = action.payload?.customer ?? null;
-                state.loaded = true;
             })
             .addCase(loadCustomer.rejected, (state) => {
                 state.status = 'rejected';
@@ -118,6 +100,16 @@ const currentCustomerSlice = createSlice({
                     state.account = customer ? {...emptyCustomer, ...customer} : null;
                     state.loaded = !!customer;
                 }
+            })
+            .addMatcher(isAnyOf(
+                loadCustomer.fulfilled,
+                setDefaultShipTo.fulfilled,
+                saveBillingAddress.fulfilled,
+                saveShipToAddress.fulfilled,
+            ), (state, action) => {
+                state.status = 'idle';
+                state.account = action.payload?.customer ?? null;
+                state.loaded = true;
             })
     },
     selectors: {

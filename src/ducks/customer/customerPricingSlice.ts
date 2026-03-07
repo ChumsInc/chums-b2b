@@ -1,7 +1,13 @@
-import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
+import {createEntityAdapter, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import type {CustomerPriceRecord} from "chums-types/b2b";
 import {customerPriceCodeKey, customerSlug} from "@/utils/customer";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
+import {
+    loadCustomer,
+    saveBillingAddress,
+    saveShipToAddress,
+    setCustomerAccount,
+    setDefaultShipTo
+} from "@/ducks/customer/actions";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
 
@@ -39,22 +45,12 @@ const customerPricingSlice = createSlice({
                     state.customerKey = null;
                 }
             })
-            .addCase(saveBillingAddress.fulfilled, (state, action) => {
-                adapter.setAll(state, action.payload?.pricing ?? []);
-            })
-            .addCase(saveShipToAddress.fulfilled, (state, action) => {
-                adapter.setAll(state, action.payload?.pricing ?? []);
-            })
             .addCase(loadCustomer.pending, (state, action) => {
                 const customerKey = customerSlug(action.meta.arg);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                     adapter.removeAll(state);
                 }
-            })
-            .addCase(loadCustomer.fulfilled, (state, action) => {
-                state.customerKey = customerSlug(action.payload?.customer ?? null)
-                adapter.setAll(state, action.payload?.pricing ?? [])
             })
             .addCase(setUserAccess.pending, (state, action) => {
                 if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
@@ -68,6 +64,15 @@ const customerPricingSlice = createSlice({
                         adapter.removeAll(state);
                     }
                 }
+            })
+            .addMatcher(isAnyOf(
+                loadCustomer.fulfilled,
+                saveBillingAddress.fulfilled,
+                saveShipToAddress.fulfilled,
+                setDefaultShipTo.fulfilled,
+            ), (state, action) => {
+                state.customerKey = customerSlug(action.payload?.customer ?? null)
+                adapter.setAll(state, action.payload?.pricing ?? [])
             })
     },
     selectors: {

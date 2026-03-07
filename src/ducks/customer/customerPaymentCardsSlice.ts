@@ -1,6 +1,12 @@
-import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
+import {createEntityAdapter, createSelector, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import type {CustomerPaymentCard} from "chums-types/b2b";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
+import {
+    loadCustomer,
+    saveBillingAddress,
+    saveShipToAddress,
+    setCustomerAccount,
+    setDefaultShipTo
+} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
@@ -40,22 +46,12 @@ const customerPaymentCardsSlice = createSlice({
                     adapter.removeAll(state);
                 }
             })
-            .addCase(saveBillingAddress.fulfilled, (state, action) => {
-                adapter.setAll(state, action.payload?.paymentCards ?? []);
-            })
-            .addCase(saveShipToAddress.fulfilled, (state, action) => {
-                adapter.setAll(state, action.payload?.paymentCards ?? []);
-            })
             .addCase(loadCustomer.pending, (state, action) => {
                 const customerKey = customerSlug(action.meta.arg);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                     adapter.removeAll(state);
                 }
-            })
-            .addCase(loadCustomer.fulfilled, (state, action) => {
-                state.customerKey = customerSlug(action.payload?.customer ?? null);
-                adapter.setAll(state, action.payload?.paymentCards ?? []);
             })
             .addCase(setUserAccess.pending, (state, action) => {
                 if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
@@ -69,6 +65,15 @@ const customerPaymentCardsSlice = createSlice({
                         adapter.removeAll(state);
                     }
                 }
+            })
+            .addMatcher(isAnyOf(
+                loadCustomer.fulfilled,
+                setDefaultShipTo.fulfilled,
+                saveBillingAddress.fulfilled,
+                saveShipToAddress.fulfilled,
+            ), (state, action) => {
+                state.customerKey = customerSlug(action.payload?.customer ?? null);
+                adapter.setAll(state, action.payload?.paymentCards ?? []);
             })
     },
     selectors: {

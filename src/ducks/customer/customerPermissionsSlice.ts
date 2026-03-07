@@ -1,7 +1,13 @@
 import type {CustomerPermissions} from "@/types/customer";
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
-import {loadCustomer, loadCustomerPermissions, saveBillingAddress, saveShipToAddress} from "@/ducks/customer/actions";
+import {
+    loadCustomer,
+    loadCustomerPermissions,
+    saveBillingAddress,
+    saveShipToAddress,
+    setDefaultShipTo
+} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 
@@ -59,9 +65,11 @@ const customerPermissionsSlice = createSlice({
                 }
             })
             .addMatcher(isAnyOf(
+                loadCustomer.fulfilled,
                 saveBillingAddress.fulfilled,
                 saveShipToAddress.fulfilled,
-                loadCustomer.fulfilled), (state, action) => {
+                setDefaultShipTo.fulfilled,
+            ), (state, action) => {
                 state.customerKey = customerSlug(action.payload?.customer ?? null);
                 state.values = action.payload?.permissions ?? null;
             })

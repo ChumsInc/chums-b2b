@@ -1,6 +1,12 @@
 import {createEntityAdapter, createSelector, createSlice, isAnyOf, type PayloadAction} from "@reduxjs/toolkit";
 import type {ShipToCustomer, SortProps} from "chums-types/b2b";
-import {loadCustomer, saveBillingAddress, saveShipToAddress, setCustomerAccount} from "@/ducks/customer/actions";
+import {
+    loadCustomer,
+    saveBillingAddress,
+    saveShipToAddress,
+    setCustomerAccount,
+    setDefaultShipTo
+} from "@/ducks/customer/actions";
 import {customerShipToSorter, customerSlug} from "@/utils/customer";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
@@ -73,7 +79,12 @@ const customerShipToAddressSlice = createSlice({
                     }
                 }
             })
-            .addMatcher(isAnyOf(loadCustomer.fulfilled, saveBillingAddress.fulfilled, saveShipToAddress.fulfilled), (state, action) => {
+            .addMatcher(isAnyOf(
+                loadCustomer.fulfilled,
+                saveBillingAddress.fulfilled,
+                saveShipToAddress.fulfilled,
+                setDefaultShipTo.fulfilled,
+            ), (state, action) => {
                 state.customerKey = customerSlug(action.payload?.customer ?? null);
                 const list = action.payload?.shipTo ?? [];
                 adapter.setAll(state, list);

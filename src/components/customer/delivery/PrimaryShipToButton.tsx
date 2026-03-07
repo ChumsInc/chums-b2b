@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
 import type {Editable, ShipToCustomer} from "chums-types/b2b";
-import {loadCustomer, setDefaultShipTo} from "@/ducks/customer/actions";
+import {setDefaultShipTo} from "@/ducks/customer/actions";
 import {selectPrimaryShipToCode} from "@/ducks/customer/currentCustomerSlice.ts";
 
 
@@ -20,10 +20,10 @@ const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
     const primaryShipToCode = useAppSelector(selectPrimaryShipToCode);
     const permissions = useAppSelector(selectCustomerPermissions);
 
+
     const onSetDefaultShipTo = async () => {
         if (permissions?.canSetDefaultShipTo && shipTo && shipTo.ShipToCode !== primaryShipToCode) {
             await dispatch(setDefaultShipTo(shipTo.ShipToCode))
-            dispatch(loadCustomer(shipTo));
         }
     }
 

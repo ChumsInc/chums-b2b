@@ -1,58 +1,21 @@
 import {useEffect} from 'react';
-import {setUserAccess} from '@/ducks/user/actions';
-import {PATH_PROFILE} from "@/constants/paths";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {redirect, useLocation, useParams} from "react-router";
+import {useAppDispatch} from "@/app/hooks";
+import {useLocation} from "react-router";
 import AccountList from "./AccountList";
-import {loadCustomer, setReturnToPath} from "@/ducks/customer/actions";
-import {selectAccessList, selectAccessStatus, selectCurrentAccess} from "@/ducks/user/userAccessSlice";
-import localStore from "@/utils/LocalStore.ts";
-import type {BasicCustomer} from "chums-types/b2b";
-import {STORE_CUSTOMER} from "@/constants/stores.ts";
+import {setReturnToPath} from "@/ducks/customer/actions";
 
-const AccountListContainer = () => {
+export default function AccountListContainer(){
     const dispatch = useAppDispatch();
-    const params = useParams<'id'>();
-    const access = useAppSelector(selectCurrentAccess);
-    const accessList = useAppSelector(selectAccessList);
-    const accessStatus = useAppSelector(selectAccessStatus);
     const location = useLocation();
 
     useEffect(() => {
+        // @TODO: is there a better way to do this?
         if (location.state?.returnTo) {
             dispatch(setReturnToPath(location.state.returnTo));
         }
     }, []);
 
-
-    useEffect(() => {
-        if (accessStatus !== 'idle') {
-            return;
-        }
-        const id = Number(params.id ?? 0);
-        const [nextAccess] = accessList.filter(ca => ca.id === id);
-        if (!nextAccess) {
-            redirect(PATH_PROFILE);
-            return;
-        }
-        if (nextAccess.id !== access?.id) {
-            if (nextAccess.isRepAccount) {
-                dispatch(setUserAccess(nextAccess));
-                return;
-            }
-            const {ARDivisionNo, CustomerNo, CustomerName} = nextAccess;
-            dispatch(loadCustomer(nextAccess));
-            localStore.setItem<BasicCustomer>(STORE_CUSTOMER, {
-                ARDivisionNo,
-                CustomerNo,
-                CustomerName: CustomerName ?? ''
-            });
-        }
-    }, [params, access, accessList, accessStatus]);
-
     return (
         <AccountList/>
     );
 }
-
-export default AccountListContainer;

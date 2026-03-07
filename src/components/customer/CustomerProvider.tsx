@@ -13,6 +13,7 @@ import LocalStore from "@/utils/LocalStore.ts";
 import {STORE_CUSTOMER} from "@/constants/stores.ts";
 import {toCustomerKey} from "@/ducks/customer/utils.ts";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils.ts";
+import {ga4SelectCustomer} from "@/utils/ga4/generic.ts";
 
 export interface CustomerProviderProps {
     children: ReactNode;
@@ -51,6 +52,9 @@ export default function CustomerProvider({children}: CustomerProviderProps) {
     useEffect(() => {
         setCustomerKey(customerSlug(customer));
         LocalStore.setItem(STORE_CUSTOMER, toCustomerKey(customer));
+        if (customer) {
+            ga4SelectCustomer(customerSlug(customer)!);
+        }
     }, [customer]);
 
     useEffect(() => {
@@ -74,6 +78,4 @@ export default function CustomerProvider({children}: CustomerProviderProps) {
             {children}
         </CustomerContext>
     )
-
-
 }
