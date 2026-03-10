@@ -7,8 +7,8 @@ import {
     setCustomerAccount,
     setDefaultShipTo
 } from "@/ducks/customer/actions";
-import {customerSlug} from "@/utils/customer";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {billToCustomerSlug} from "@/utils/customer";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
 import dayjs from "dayjs";
 
@@ -34,7 +34,7 @@ const customerPaymentCardsSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(setCustomerAccount.fulfilled, (state, action) => {
-                const customerKey = customerSlug(action.payload.customer);
+                const customerKey = billToCustomerSlug(action.payload.customer);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                     adapter.removeAll(state);
@@ -47,20 +47,15 @@ const customerPaymentCardsSlice = createSlice({
                 }
             })
             .addCase(loadCustomer.pending, (state, action) => {
-                const customerKey = customerSlug(action.meta.arg);
+                const customerKey = billToCustomerSlug(action.meta.arg);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                     adapter.removeAll(state);
                 }
             })
-            .addCase(setUserAccess.pending, (state, action) => {
-                if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
-                    adapter.removeAll(state);
-                }
-            })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
+                    const customer = action.payload.find(_customer => billToCustomerSlug(_customer) === state.customerKey);
                     if (!customer) {
                         adapter.removeAll(state);
                     }
@@ -72,7 +67,7 @@ const customerPaymentCardsSlice = createSlice({
                 saveBillingAddress.fulfilled,
                 saveShipToAddress.fulfilled,
             ), (state, action) => {
-                state.customerKey = customerSlug(action.payload?.customer ?? null);
+                state.customerKey = billToCustomerSlug(action.payload?.customer ?? null);
                 adapter.setAll(state, action.payload?.paymentCards ?? []);
             })
     },

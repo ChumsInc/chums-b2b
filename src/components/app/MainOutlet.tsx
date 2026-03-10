@@ -1,4 +1,4 @@
-import {Outlet} from "react-router";
+import {Outlet, useLocation} from "react-router";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
@@ -12,35 +12,40 @@ import GoogleSignInOneTap from "@/components/user/login/GoogleSignInOneTap.tsx";
 import CartMessageSnackbar from "@/components/b2b-cart/CartMessageSnackbar.tsx";
 import CookieConsentDrawer from "@/components/cookie-consent/CookieConsentDrawer.tsx";
 import {useAppSelector} from "@/app/hooks.ts";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import CustomerProvider from "@/components/customer/CustomerProvider.tsx";
+import {ga4PageView} from "@/utils/ga4/generic.ts";
+import ProfileProvider from "@/components/user/profile-provider/ProfileProvider.tsx";
 
 export default function MainOutlet() {
     const loggedIn = useAppSelector(selectLoggedIn);
-    const [allowAuth, setAllowAuth] = useState(false);
+    const location = useLocation();
+    const allowAuth = typeof globalThis.window !== 'undefined';
 
     useEffect(() => {
-        // set allowAuth to true after initial render to prevent rendering during the server render
-        setAllowAuth(true)
-    }, []);
+        ga4PageView()
+    }, [location]);
+
 
     return (
-        <CustomerProvider>
-            <Header/>
-            <Box component="main" sx={{marginTop: '100px', marginBottom: '3rem'}}>
-                <SiteMessages/>
-                <Container maxWidth="xl">
-                    {allowAuth && loggedIn && <AppUpdateLocalLogin/>}
-                    {allowAuth && !loggedIn && <GoogleSignInOneTap/>}
-                    <AlertList/>
-                    <ErrorBoundary>
-                        <Outlet/>
-                    </ErrorBoundary>
-                </Container>
-                <CartMessageSnackbar/>
-            </Box>
-            <Footer/>
-            <CookieConsentDrawer/>
-        </CustomerProvider>
+        <ProfileProvider>
+            <CustomerProvider>
+                <Header/>
+                <Box component="main" sx={{marginTop: '100px', marginBottom: '3res'}}>
+                    <SiteMessages/>
+                    <Container maxWidth="xl">
+                        {allowAuth && loggedIn && <AppUpdateLocalLogin/>}
+                        {allowAuth && !loggedIn && <GoogleSignInOneTap/>}
+                        <AlertList/>
+                        <ErrorBoundary>
+                            <Outlet/>
+                        </ErrorBoundary>
+                    </Container>
+                    <CartMessageSnackbar/>
+                </Box>
+                <Footer/>
+                <CookieConsentDrawer/>
+            </CustomerProvider>
+        </ProfileProvider>
     )
 }

@@ -39,6 +39,10 @@ export default defineConfig({
                 target: 'http://localhost',
                 changeOrigin: true,
             },
+            '/sage': {
+                target: 'http://localhost',
+                changeOrigin: true,
+            },
             '/images': {
                 target: 'https://b2b.chums.com',
                 changeOrigin: true,

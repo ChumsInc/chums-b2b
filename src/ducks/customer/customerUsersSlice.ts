@@ -9,7 +9,6 @@ import {
 import type {CustomerUser, SortProps} from "chums-types/b2b";
 import {
     loadCustomer,
-    loadCustomerUsers,
     removeUser,
     saveBillingAddress,
     saveShipToAddress,
@@ -18,7 +17,7 @@ import {
     setDefaultShipTo
 } from "@/ducks/customer/actions";
 import {customerSlug, customerUserSorter} from "@/utils/customer";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
 
@@ -51,13 +50,6 @@ const customerUsersSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(loadCustomerUsers.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(loadCustomerUsers.fulfilled, (state, action) => {
-                state.status = 'idle';
-                adapter.setAll(state, action.payload);
-            })
             .addCase(saveUser.pending, (state) => {
                 state.status = 'saving';
             })
@@ -89,11 +81,6 @@ const customerUsersSlice = createSlice({
                     adapter.removeAll(state);
                 }
             })
-            .addCase(setUserAccess.pending, (state, action) => {
-                if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
-                    adapter.removeAll(state);
-                }
-            })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
                     const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
@@ -112,7 +99,6 @@ const customerUsersSlice = createSlice({
                 adapter.setAll(state, action.payload?.users ?? []);
             })
             .addMatcher(isAnyOf(
-                loadCustomerUsers.rejected,
                 removeUser.rejected,
                 saveUser.rejected
             ), (state) => {
@@ -145,7 +131,7 @@ export const selectPermittedCustomerUsers = createSelector(
 
 function isDismissedAction(action: UnknownAction | PayloadAction<string>): boolean {
     if (typeof action.payload === 'string') {
-        return [saveUser.typePrefix, removeUser.typePrefix, loadCustomerUsers.typePrefix].includes(action.payload)
+        return [saveUser.typePrefix, removeUser.typePrefix].includes(action.payload)
     }
     return false;
 }

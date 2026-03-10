@@ -7,10 +7,11 @@ import {
     setCustomerAccount,
     setDefaultShipTo
 } from "@/ducks/customer/actions";
-import {customerSlug, emptyCustomer} from "@/utils/customer";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {billToCustomerSlug, emptyCustomer} from "@/utils/customer";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 import {loadCustomerList} from "@/ducks/customers/actions";
+import {setUserAccess} from "@/ducks/user/userAccessSlice.ts";
 
 
 export interface CurrentCustomerState {
@@ -40,7 +41,7 @@ const currentCustomerSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(setCustomerAccount.fulfilled, (state, action) => {
-                const customerKey = customerSlug(action.payload.customer);
+                const customerKey = billToCustomerSlug(action.payload.customer);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                 }
@@ -73,7 +74,7 @@ const currentCustomerSlice = createSlice({
             })
             .addCase(loadCustomer.pending, (state, action) => {
                 state.status = 'loading';
-                const customerKey = customerSlug(action.meta.arg);
+                const customerKey = billToCustomerSlug(action.meta.arg);
                 if (state.customerKey !== customerKey) {
                     resetCustomerState(state);
                     state.customerKey = customerKey;
@@ -87,17 +88,17 @@ const currentCustomerSlice = createSlice({
                     state.status = 'idle'
                 }
             })
-            .addCase(setUserAccess.pending, (state, action) => {
-                const customerKey = customerSlug(action.meta.arg);
-                if (!action.meta.arg?.isRepAccount && state.customerKey !== customerKey) {
+            .addCase(setUserAccess, (state, action) => {
+                const customerKey = billToCustomerSlug(action.payload);
+                if (!action.payload?.isRepAccount && state.customerKey !== customerKey) {
                     resetCustomerState(state);
                 }
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
-                    state.customerKey = customer ? customerSlug(customer) : null;
-                    state.account = customer ? {...emptyCustomer, ...customer} : null;
+                    const customer = action.payload.find(_customer => billToCustomerSlug(_customer) === state.customerKey);
+                    state.customerKey = customer ? billToCustomerSlug(customer) : null;
+                    state.account = customer ? {...emptyCustomer, ...state.account, ...customer} : null;
                     state.loaded = !!customer;
                 }
             })
@@ -108,6 +109,7 @@ const currentCustomerSlice = createSlice({
                 saveShipToAddress.fulfilled,
             ), (state, action) => {
                 state.status = 'idle';
+                state.customerKey = billToCustomerSlug(action.payload?.customer ?? null);
                 state.account = action.payload?.customer ?? null;
                 state.loaded = true;
             })

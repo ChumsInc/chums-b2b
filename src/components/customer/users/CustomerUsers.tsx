@@ -7,18 +7,18 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import AccountUserPermissions from "./AccountUserPermissions";
 import {Outlet} from "react-router";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {loadCustomerUsers} from "@/ducks/customer/actions";
+import {useAppSelector} from "@/app/hooks";
 import Button from "@mui/material/Button";
 import {selectCustomerUsersStatus} from "@/ducks/customer/customerUsersSlice";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
 
 export default function CustomerUsers() {
-    const dispatch = useAppDispatch();
     const status = useAppSelector(selectCustomerUsersStatus);
     const customerKey = useAppSelector(selectCustomerKey)
+    const {reloadCustomer} = useCustomer();
 
     const reloadHandler = () => {
-        dispatch(loadCustomerUsers());
+        reloadCustomer()
     }
 
     return (

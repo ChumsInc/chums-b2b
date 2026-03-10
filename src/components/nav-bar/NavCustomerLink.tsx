@@ -7,12 +7,14 @@ import {buildCustomerMenuItems} from "@/ducks/menu/utils";
 import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import BasicMenu from "@/components/nav-bar/BasicMenu";
 import {useAppSelector} from "@/app/hooks";
+import {useLocation} from "react-router";
 
 export default function NavCustomerLink({inDrawer}: NavItemProps) {
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const account = useAppSelector(selectCustomerAccount);
     const [show, setShow] = useState(false);
     const [items, setItems] = useState<MinimalMenuItem[]>([]);
+    const location = useLocation();
 
     useEffect(() => {
         setShow(isLoggedIn)
@@ -37,7 +39,7 @@ export default function NavCustomerLink({inDrawer}: NavItemProps) {
     }
 
     return (
-        <BasicMenu title="Customer"
+        <BasicMenu title="Customer" key={location.pathname}
                    sx={{
                        '& .MuiMenu-list': {
                            flexDirection: 'column',

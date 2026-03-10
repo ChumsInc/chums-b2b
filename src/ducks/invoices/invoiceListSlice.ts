@@ -10,7 +10,7 @@ import type {InvoiceHistoryHeader, SortProps} from "chums-types/b2b";
 import {defaultInvoicesSort, invoiceKey, invoicesSorter} from "@/ducks/invoices/utils";
 import localStore from "@/utils/LocalStore";
 import {STORE_INVOICES_SORT} from "@/constants/stores";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {customerSlug} from "@/utils/customer";
 import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 import {loadInvoice, loadInvoices} from "@/ducks/invoices/actions";
@@ -83,12 +83,6 @@ const invoiceListSlice = createSlice({
             .addCase(setLoggedIn, (state, action) => {
                 if (!action.payload.loggedIn) {
                     resetCustomerInvoices(state, null);
-                }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                const customerKey = customerSlug(action?.meta?.arg);
-                if (!action.meta.arg?.isRepAccount && state.customerKey !== customerKey) {
-                    resetCustomerInvoices(state, customerKey);
                 }
             })
             .addCase(loadCustomer.pending, (state, action) => {

@@ -15,9 +15,11 @@ import CartMenu from "./CartMenu";
 import SearchBar from "@/components/search/SearchBar.tsx";
 import NavMenuList from "@/components/nav-bar/NavMenuList";
 import {useState} from "react";
+import {useLocation} from "react-router";
 
 
 export default function NavBarUI() {
+    const location = useLocation();
     const [open, setOpen] = useState(false);
     const onClose = () => setOpen(false);
     const handleDrawerToggle = () => {
@@ -49,7 +51,7 @@ export default function NavBarUI() {
                             </Box>
                             <Stack spacing={2} direction="row" useFlexGap>
                                 <CartMenu/>
-                                <UserMenu/>
+                                <UserMenu key={location.pathname}/>
                             </Stack>
                         </Toolbar>
                     </Container>

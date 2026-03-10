@@ -6,6 +6,7 @@ export const STORE_AVATAR = 'chums/b2b/avatar'
 export const STORE_TOKEN = 'chums/b2b/id_token';
 export const STORE_USER = 'chums/b2b/googleUser';
 export const STORE_CUSTOMER = 'chums/b2b/customer';
+export const STORE_CUSTOMER_SHIPTO = 'chums/b2b/customer/shipto';
 export const STORE_CUSTOMERS_FILTER_REP = 'chums/b2b/customers/filter/rep';
 export const STORE_CUSTOMERS_FILTER_STATE = 'chums/b2b/customers/filter/state';
 export const STORE_USER_ACCESS = 'chums/b2b/userAccess';

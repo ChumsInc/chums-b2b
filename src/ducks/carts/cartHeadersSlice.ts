@@ -12,6 +12,9 @@ import {
 import {loadCustomer} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
 import {cartsSorter} from "@/ducks/carts/utils";
+import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
+import {selectCustomerShipToCode} from "@/ducks/customer/customerShipToAddressSlice.ts";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice.ts";
 
 export const cartsAdapter = createEntityAdapter<B2BCartHeader, number>({
     selectId: (arg) => arg.id,
@@ -122,15 +125,24 @@ export const selectCartTotalById = createSelector(
 )
 
 export const selectFilteredCarts = createSelector(
-    [selectCartHeaders, selectCartsSearch, selectCartsSort],
-    (list, search, sort) => {
+    [selectCartHeaders, selectCustomerPermissions, selectCustomerShipToCode, selectCartsSearch, selectCartsSort],
+    (list, permissions, shipTo, search, sort) => {
         return list
+            .filter(cart => permissions?.billTo || !shipTo || cart.shipToCode === shipTo)
             .filter(cart => !search.trim()
                 || cart.id.toString().includes(search.trim())
                 || (cart.salesOrderNo ?? '').toLowerCase().includes(search.trim().toLowerCase())
                 || (cart.customerPONo ?? '').toLowerCase().includes(search.trim().toLowerCase())
             )
             .sort(cartsSorter(sort));
+    }
+)
+
+export const selectActiveCart = createSelector(
+    [selectActiveCartId, selectCartHeaders],
+    (id, headers) => {
+        const _cart = headers.find(cart => cart.id === id);
+        return _cart ?? null;
     }
 )
 

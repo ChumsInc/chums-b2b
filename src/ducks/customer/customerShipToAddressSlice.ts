@@ -7,12 +7,13 @@ import {
     setCustomerAccount,
     setDefaultShipTo
 } from "@/ducks/customer/actions";
-import {customerShipToSorter, customerSlug} from "@/utils/customer";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {billToCustomerSlug, customerShipToSorter} from "@/utils/customer";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
 import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import {filterShipToByUserAccount} from "@/ducks/customer/utils";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
+import {addToCart} from "@/ducks/carts/actions.ts";
 
 const adapter = createEntityAdapter<ShipToCustomer, string>({
     selectId: (arg) => arg.ShipToCode,
@@ -47,7 +48,7 @@ const customerShipToAddressSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(setCustomerAccount.fulfilled, (state, action) => {
-                const customerKey = customerSlug(action.payload.customer);
+                const customerKey = billToCustomerSlug(action.payload.customer);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                     adapter.removeAll(state);
@@ -60,23 +61,26 @@ const customerShipToAddressSlice = createSlice({
                 }
             })
             .addCase(loadCustomer.pending, (state, action) => {
-                const customerKey = customerSlug(action.meta.arg);
+                const customerKey = billToCustomerSlug(action.meta.arg);
                 if (state.customerKey !== customerKey) {
                     state.customerKey = customerKey;
                     adapter.removeAll(state);
                 }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
-                    adapter.removeAll(state);
+                if (action.meta.arg?.ShipToCode) {
+                    state.shipToCode = action.meta.arg.ShipToCode;
                 }
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
+                    const customer = action.payload.find(_customer => billToCustomerSlug(_customer) === state.customerKey);
                     if (!customer) {
                         adapter.removeAll(state);
                     }
+                }
+            })
+            .addCase(addToCart.fulfilled, (state, action) => {
+                if (action.meta.arg.setActiveCart && state.shipToCode) {
+                    state.shipToCode = action.payload?.header?.shipToCode ?? null;
                 }
             })
             .addMatcher(isAnyOf(
@@ -85,7 +89,7 @@ const customerShipToAddressSlice = createSlice({
                 saveShipToAddress.fulfilled,
                 setDefaultShipTo.fulfilled,
             ), (state, action) => {
-                state.customerKey = customerSlug(action.payload?.customer ?? null);
+                state.customerKey = billToCustomerSlug(action.payload?.customer ?? null);
                 const list = action.payload?.shipTo ?? [];
                 adapter.setAll(state, list);
                 if (state.shipToCode) {

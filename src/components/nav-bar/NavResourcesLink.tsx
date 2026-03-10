@@ -7,11 +7,13 @@ import DrawerMenu from "@/components/nav-bar/DrawerMenu";
 import BasicMenu from "@/components/nav-bar/BasicMenu";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadResourcesMenu} from "@/ducks/menu/actions.ts";
+import {useLocation} from "react-router";
 
 export default function NavResourcesLink({inDrawer}: NavItemProps) {
     const dispatch = useAppDispatch();
     const shouldLoad = useAppSelector(selectShouldLoadResourcesMenu);
     const menu = useAppSelector(selectResourcesMenu);
+    const location = useLocation();
 
     useEffect(() => {
         if (shouldLoad) {
@@ -26,7 +28,7 @@ export default function NavResourcesLink({inDrawer}: NavItemProps) {
     }
 
     return (
-        <BasicMenu title="Resources"
+        <BasicMenu title="Resources" key={location.pathname}
                    items={menu?.items ?? []}
                    sx={{
                        '& .MuiMenu-list': {

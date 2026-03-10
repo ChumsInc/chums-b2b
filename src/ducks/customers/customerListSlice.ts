@@ -1,15 +1,16 @@
 import {createEntityAdapter, createSelector, createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {Customer} from "chums-types/b2b";
 import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer";
 import type {SortProps} from "@/types/generic";
 import LocalStore from "@/utils/LocalStore";
 import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {loadCustomerList} from "@/ducks/customers/actions";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 import {STATES_USA} from "@/constants/states";
+import {setUserAccess} from "@/ducks/user/userAccessSlice.ts";
+import type {ListedCustomer} from "@/ducks/customers/types.ts";
 
-const adapter = createEntityAdapter<Customer, string>({
+const adapter = createEntityAdapter<ListedCustomer, string>({
     selectId: (arg) => customerSlug(arg)!,
     sortComparer: (a, b) => customerSlug(a)!.localeCompare(customerSlug(b)!)
 });
@@ -25,7 +26,7 @@ export interface CustomersState {
     },
     countries: string[];
     states: string[];
-    sort: SortProps<Customer>;
+    sort: SortProps<ListedCustomer>;
 }
 
 const extraState = (): CustomersState => ({
@@ -52,7 +53,7 @@ const customerListSlice = createSlice({
     name: 'customerList',
     initialState: adapter.getInitialState(extraState()),
     reducers: {
-        setCustomersSort: (state, action: PayloadAction<SortProps<Customer>>) => {
+        setCustomersSort: (state, action: PayloadAction<SortProps<ListedCustomer>>) => {
             state.sort = action.payload;
         },
         setCustomersFilter: (state, action: PayloadAction<string>) => {
@@ -100,14 +101,14 @@ const customerListSlice = createSlice({
                     state.status = 'idle'
                 }
             })
-            .addCase(setUserAccess.pending, (state, action) => {
-                if (state.accessKey !== action.meta.arg?.id) {
+            .addCase(setUserAccess, (state, action) => {
+                if (state.accessKey !== action.payload?.id) {
                     adapter.removeAll(state);
                     state.status = 'idle';
                     state.filters.rep = '';
                     state.filters.search = '';
                     state.filters.state = '';
-                    state.accessKey = action.meta.arg?.id ?? null;
+                    state.accessKey = action.payload?.id ?? null;
                 }
             })
     },

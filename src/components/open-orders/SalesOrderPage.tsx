@@ -3,15 +3,15 @@ import {redirect, useMatch, useParams} from 'react-router';
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import OrderDetail from "./OrderDetail";
-import {selectCustomerAccount, selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice";
+import {selectCustomerLoaded} from "@/ducks/customer/currentCustomerSlice";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {loadSalesOrder} from "@/ducks/open-orders/actions";
 import SalesOrderHeaderElement from "./SalesOrderHeaderElement";
 import SalesOrderSkeleton from "./SalesOrderSkeleton";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
 import {useTitle} from "@/components/app/TitleContext";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
 
 /**
  *
@@ -22,8 +22,7 @@ const SalesOrderPage = () => {
     const dispatch = useAppDispatch();
     const params = useParams<{ customerSlug: string; salesOrderNo: string }>();
     const match = useMatch('/account/:customerSlug/:orderType/:salesOrderNo');
-    const userAccount = useAppSelector(selectCurrentAccess);
-    const customer = useAppSelector(selectCustomerAccount);
+    const {customer} = useCustomer();
     const salesOrderHeader = useAppSelector(selectSalesOrderHeader);
     const loading = useAppSelector(selectSalesOrderStatus);
     const customerLoaded = useAppSelector(selectCustomerLoaded);
@@ -40,7 +39,7 @@ const SalesOrderPage = () => {
         if (!!params?.salesOrderNo && params?.salesOrderNo !== salesOrderHeader?.SalesOrderNo) {
             dispatch(loadSalesOrder(params.salesOrderNo))
         }
-    }, [customer, userAccount, params, loading, salesOrderHeader]);
+    }, [params, loading, salesOrderHeader]);
 
 
     if (!customer && customerLoaded) {

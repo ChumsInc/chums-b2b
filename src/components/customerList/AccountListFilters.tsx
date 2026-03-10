@@ -1,23 +1,20 @@
-
-
 import Grid from "@mui/material/Grid";
-import {loadCustomerList} from "@/ducks/customers/actions";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {selectCanFilterReps, selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import {useAppSelector} from "@/app/hooks";
+import {selectCanFilterReps} from "@/ducks/user/userAccessSlice";
 import Button from "@mui/material/Button";
 import AccountListCustomerFilter from "./AccountListCustomerFilter";
 import AccountListRepFilter from "./AccountListRepFilter";
 import AccountListStateFilter from "./AccountListStateFilter";
 import {selectCustomerStates} from "@/ducks/customers/customerListSlice";
+import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
 
 const AccountListFilters = () => {
-    const dispatch = useAppDispatch();
-    const userAccount = useAppSelector(selectCurrentAccess);
+    const {reloadAccountList} = useProfile();
     const allowSelectReps = useAppSelector(selectCanFilterReps);
     const statesList = useAppSelector(selectCustomerStates);
 
     const reloadHandler = () => {
-        dispatch(loadCustomerList(userAccount));
+        reloadAccountList();
     }
 
     return (

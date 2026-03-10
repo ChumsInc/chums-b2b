@@ -20,11 +20,11 @@ export default function AppVersion() {
     const intervalRef = useRef<number>(0);
     const onUpdateVersion = useCallback((force: boolean = false) => {
         dispatch(loadVersion(force))
-    }, [])
+    }, [dispatch])
 
     const visibilityChangeHandler = useCallback(() => {
         onUpdateVersion();
-    }, [])
+    }, [onUpdateVersion])
 
     useEffect(() => {
         if (!version) {
@@ -35,7 +35,7 @@ export default function AppVersion() {
             window.clearInterval(intervalRef.current);
             window.removeEventListener('visibilityChange', visibilityChangeHandler)
         }
-    }, [version]);
+    }, [version, onUpdateVersion, visibilityChangeHandler]);
 
 
     const onDismissUpdate = (ev: SyntheticEvent) => {

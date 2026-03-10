@@ -1,14 +1,12 @@
-import {useAppSelector} from "@/app/hooks";
-import {selectCurrentAccess, selectCustomerAccessList} from "@/ducks/user/userAccessSlice";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {sortUserAccounts} from "@/utils/customer";
 import Stack from "@mui/material/Stack";
 import CustomerAccessButton from "@/components/user/profile/CustomerAccessButton";
+import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
 
 export default function CustomerAccessList() {
-    const list = useAppSelector(selectCustomerAccessList);
-    const current = useAppSelector(selectCurrentAccess);
+    const {list, currentAccess} = useProfile();
 
     if (list.length === 0) {
         return null;
@@ -21,7 +19,7 @@ export default function CustomerAccessList() {
                 {list
                     .sort(sortUserAccounts)
                     .map(acct => (
-                        <CustomerAccessButton key={acct.id} access={acct} active={acct.id === current?.id}/>
+                        <CustomerAccessButton key={acct.id} access={acct} active={acct.id === currentAccess?.id}/>
                     ))}
             </Stack>
         </Box>

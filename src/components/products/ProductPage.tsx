@@ -1,15 +1,20 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {loadProduct, setCurrentVariant} from '@/ducks/products/actions.ts';
 import classNames from "classnames";
 import SwatchSet from "./SwatchSet.tsx";
 import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm.tsx";
 import Alert from "@mui/material/Alert";
 import CartItemDetail from "./CartItemDetail.tsx";
-import {redirect, useLocation} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import MissingTaxScheduleAlert from "@/components/customer/billing/MissingTaxScheduleAlert.tsx";
 import RequireLogin from "@/components/common/RequireLogin.tsx";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "@/ducks/products/selectors.ts";
+import {
+    selectCurrentProduct,
+    selectProductCartItem,
+    selectProductLoading,
+    selectSelectedProduct
+} from "@/ducks/products/selectors.ts";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice.ts";
 import ProductPageImage from "./ProductPageImage.tsx";
 import ProductPageTitle from "./ProductPageTitle.tsx";
@@ -38,9 +43,9 @@ const ProductPanel = styled.div`
     }
 `
 
-const ProductPage = ({keyword}: {
+export default function ProductPage({keyword}: {
     keyword: string;
-}) => {
+}) {
     const dispatch = useAppDispatch();
     const product = useAppSelector(selectCurrentProduct);
     const selectedProduct = useAppSelector(selectSelectedProduct);
@@ -49,37 +54,16 @@ const ProductPage = ({keyword}: {
     const customerAccount = useAppSelector(selectCustomerAccount);
     const location = useLocation();
     const [cartMessage, setCartMessage] = useState<string | null>(null);
-    const timerHandle = useRef<number>(0);
-    const [quantity, setQuantity] = useState<number>(1);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
         dispatch(loadProduct(keyword));
-    }, [keyword]);
+    }, [dispatch, keyword]);
 
     useEffect(() => {
-        setQuantity(1);
         ga4ViewItem(product)
     }, [product])
-
-    useEffect(() => {
-        setQuantity(1);
-    }, [selectedProduct?.salesUM]);
-
-    useEffect(() => {
-        setCartMessage(null);
-    }, [cartItem]);
-
-    useEffect(() => {
-        if (cartMessage) {
-            timerHandle.current = window.setTimeout(() => {
-                setCartMessage(null);
-            }, 5000);
-        }
-        return () => {
-            window.clearTimeout(timerHandle.current);
-        }
-    }, [cartMessage]);
 
 
     useEffect(() => {
@@ -91,10 +75,9 @@ const ProductPage = ({keyword}: {
             if (_variant) {
                 dispatch(setCurrentVariant(_variant));
             }
-            delete location.state.variant;
-            redirect(location.pathname);
+            navigate(location.pathname, {replace: true});
         }
-    }, [location, selectedProduct, product]);
+    }, [location, selectedProduct, product, dispatch, navigate]);
 
 
     return (
@@ -114,7 +97,7 @@ const ProductPage = ({keyword}: {
 
                         <ProductPageInfo/>
                         {isSellAsVariants(product) && (
-                            <VariantButtons/>
+                            <VariantButtons key={product.id}/>
                         )}
 
                         <SwatchSet/>
@@ -144,11 +127,10 @@ const ProductPage = ({keyword}: {
                             <MissingTaxScheduleAlert/>
                             {isProduct(selectedProduct) && isCartProduct(cartItem)
                                 && isBillToCustomer(customerAccount) && selectedProduct.availableForSale && (
-                                    <AddToCartForm quantity={quantity} cartItem={cartItem}
+                                    <AddToCartForm cartItem={cartItem}
                                                    setActiveCart unitOfMeasure={cartItem.salesUM ?? 'EA'}
                                                    disabled={!customerAccount?.TaxSchedule}
-                                                   onChangeQuantity={setQuantity} comment=""
-                                                   afterAddToCart={setCartMessage}/>
+                                                   comment=""/>
                                 )}
                             <Collapse in={!!cartMessage}>
                                 <Alert severity="info" onClose={() => setCartMessage(null)}>{cartMessage}</Alert>
@@ -177,4 +159,3 @@ const ProductPage = ({keyword}: {
         </Box>
     );
 }
-export default ProductPage;

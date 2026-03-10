@@ -4,6 +4,7 @@ import globals from 'globals'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import jetBrains from '@jetbrains/eslint-config'
+import reactHooks from 'eslint-plugin-react-hooks'
 
 const mySettings = {
     rules: {
@@ -23,6 +24,7 @@ const mySettings = {
 }
 
 export default defineConfig([
+    reactHooks.configs.flat.recommended,
     globalIgnores(['dist/**/*', 'dist-server/**/*', 'dist-client/**/*']),
     {
         files: ['**/*.{ts,tsx}'],

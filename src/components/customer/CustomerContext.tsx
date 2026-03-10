@@ -6,10 +6,12 @@ import {createContext} from "react";
 export interface CustomerContextState {
     customerKey: string|null;
     customer: BillToCustomer|null;
+    shipToAddresses: ShipToCustomer[];
     shipTo: ShipToCustomer|null;
     permissions: CustomerPermissions|null;
     status: CurrentCustomerState['status'];
     setCustomerKey: (arg: CustomerKey|string|null) => void;
+    setShipTo: (arg: string|null) => void;
     reloadCustomer: () => void;
 }
 

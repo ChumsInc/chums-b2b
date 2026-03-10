@@ -17,6 +17,7 @@ import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectShipToSort, selectSortedShipToList, setShipToSort} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerLoadStatus, selectPrimaryShipToCode} from "@/ducks/customer/currentCustomerSlice";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
     shipTo: ShipToCustomer;
@@ -67,6 +68,7 @@ const ShipToList = () => {
     const sort = useAppSelector(selectShipToSort);
     const loading = useAppSelector(selectCustomerLoadStatus);
     const primaryShipToCode = useAppSelector(selectPrimaryShipToCode);
+    const {shipTo} = useCustomer();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -85,7 +87,7 @@ const ShipToList = () => {
         <div>
             {loading === 'loading' && (<LinearProgress variant="indeterminate"/>)}
             <DataTable data={list.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
-                       rowClassName={rowClassName}
+                       rowClassName={rowClassName} selected={(row) => row.ShipToCode === shipTo?.ShipToCode}
                        currentSort={sort} onChangeSort={sortChangeHandler}
                        fields={fields} keyField="ShipToCode"/>
             <Grid container spacing={2} justifyContent="end">

@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {SalesOrderDetailLine, SalesOrderHeader} from "chums-types/b2b";
 import {loadOpenOrders, loadSalesOrder} from "@/ducks/open-orders/actions";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {customerSlug} from "@/utils/customer";
 import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 import {detailSequenceSorter} from "@/ducks/sales-order/utils";
@@ -67,16 +67,6 @@ const currentOrderSlice = createSlice({
                 if (!action.payload.loggedIn) {
                     adapter.removeAll(state)
                     state.customerKey = null;
-                    state.salesOrderNo = null;
-                    state.header = null;
-                    state.invoices = [];
-                }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                const customerKey = customerSlug(action?.meta?.arg);
-                if (!action.meta.arg?.isRepAccount && state.customerKey !== customerKey) {
-                    adapter.removeAll(state)
-                    state.customerKey = customerKey;
                     state.salesOrderNo = null;
                     state.header = null;
                     state.invoices = [];

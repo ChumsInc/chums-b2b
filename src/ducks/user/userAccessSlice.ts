@@ -1,8 +1,8 @@
-import {createEntityAdapter, createSelector, createSlice, isAnyOf} from "@reduxjs/toolkit";
+import {createEntityAdapter, createSelector, createSlice, isAnyOf, type PayloadAction} from "@reduxjs/toolkit";
 import type {UserCustomerAccess} from "chums-types/b2b";
 import LocalStore from "@/utils/LocalStore";
 import {STORE_USER_ACCESS} from "@/constants/stores";
-import {loadProfile, saveUserProfile, setLoggedIn, setUserAccess, signInWithGoogle} from "@/ducks/user/actions";
+import {loadProfile, saveUserProfile, setLoggedIn, signInWithGoogle} from "@/ducks/user/actions";
 import {getPrimaryAccount, isCustomerAccess} from "@/ducks/user/utils";
 
 export interface UserAccessState {
@@ -26,7 +26,11 @@ const initialState: UserAccessState = {
 const userAccessSlice = createSlice({
     name: 'userAccess',
     initialState: adapter.getInitialState(initialState),
-    reducers: {},
+    reducers: {
+        setUserAccess: (state, action: PayloadAction<UserCustomerAccess | null>) => {
+            state.current = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(setLoggedIn, (state, action) => {
@@ -39,9 +43,6 @@ const userAccessSlice = createSlice({
                     adapter.removeAll(state);
                     state.current = null;
                 }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                state.current = action.meta.arg;
             })
             .addMatcher(isAnyOf(
                 loadProfile.fulfilled,
@@ -68,6 +69,7 @@ const userAccessSlice = createSlice({
 });
 
 export default userAccessSlice;
+export const {setUserAccess} = userAccessSlice.actions;
 export const {
     selectAccessList,
     selectCurrentAccess,

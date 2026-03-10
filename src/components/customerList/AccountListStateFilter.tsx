@@ -1,8 +1,10 @@
-
-
-import {useEffect, useId, useState} from 'react';
+import {useId} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {selectCustomersStateFilter, selectCustomerStates, setCustomersStateFilter} from "@/ducks/customers/customerListSlice";
+import {
+    selectCustomersStateFilter,
+    selectCustomerStates,
+    setCustomersStateFilter
+} from "@/ducks/customers/customerListSlice";
 import StateSelect from "../address/StateSelect.tsx";
 
 const minStates = 1;
@@ -12,22 +14,14 @@ const AccountListStateFilter = () => {
     const states = useAppSelector(selectCustomerStates);
     const stateFilter = useAppSelector(selectCustomersStateFilter);
     const id = useId();
-    const [list, setList] = useState<string[]>([]);
-
-    useEffect(() => {
-        if (stateFilter && !states.includes(stateFilter)) {
-            setList([...states, stateFilter]);
-        } else {
-            setList(states);
-        }
-    }, [states, stateFilter]);
-
 
     const changeHandler = (state: string) => {
         dispatch(setCustomersStateFilter(state));
     }
 
-    if (states.length <= minStates) {
+    const list = stateFilter && !states.includes(stateFilter) ? [...states, stateFilter] : states;
+
+    if (list.length <= minStates) {
         return null;
     }
     return (

@@ -1,4 +1,4 @@
-import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
+import {createEntityAdapter, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {CartStatus} from "@/types/cart/cart-utils";
 import {
     addToCart,
@@ -11,6 +11,7 @@ import {
     sendCartEmail
 } from "@/ducks/carts/actions";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice.ts";
 
 const statusAdapter = createEntityAdapter<CartStatus, number>({
     selectId: (arg) => arg.key,
@@ -132,11 +133,19 @@ const cartStatusSlice = createSlice({
     },
     selectors: {
         selectCartsStatus: (state) => state.global,
+        selectAll: (state) => adapterSelectors.selectAll(state),
         selectCartStatusById: (state, cartId: number) => adapterSelectors.selectById(state, cartId)?.status ?? 'idle'
     }
 });
 
 export const {selectCartStatusById, selectCartsStatus} = cartStatusSlice.selectors;
+
+export const selectActiveCartStatus = createSelector(
+    [selectActiveCartId, cartStatusSlice.selectors.selectAll],
+    (activeCartId, carts) => {
+        return carts.find(c => c.key === activeCartId)?.status ?? 'idle';
+    }
+)
 
 // export const selectCartStatusById = createSelector(
 //     [(state:RootState) => state, (state:RootState, id) => id],

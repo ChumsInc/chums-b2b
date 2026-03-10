@@ -1,18 +1,17 @@
 import {Link as RoutedLink, useLocation} from "react-router";
 import Alert from "@mui/material/Alert";
 import Link from '@mui/material/Link';
-import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import {useTheme} from "@mui/material/styles";
-import {useAppSelector} from "@/app/hooks";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
 
 const SelectCustomerAlert = () => {
-    const currentCustomer = useAppSelector(selectCustomerKey);
-    const currentAccess = useAppSelector(selectCurrentAccess);
+    const {customer} = useCustomer();
+    const {currentAccess} = useProfile()
     const theme = useTheme();
     const location = useLocation()
 
-    if (currentCustomer) {
+    if (customer) {
         return null;
     }
 

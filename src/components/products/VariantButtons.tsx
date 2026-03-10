@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
 import {selectCurrentVariantProduct, selectProductVariantId} from "@/ducks/products/selectors.ts";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import {setCurrentVariant} from "@/ducks/products/actions.ts";
@@ -18,8 +18,8 @@ export default function VariantButtons() {
     const dispatch = useAppDispatch();
     const selectedVariantId = useAppSelector(selectProductVariantId);
     const product = useAppSelector(selectCurrentVariantProduct);
-    const [variants, setVariants] = useState(activeVariants(product?.variants ?? []));
     const [params, setParams] = useSearchParams();
+    const variants = activeVariants(product?.variants ?? []);
 
     useEffect(() => {
         const sku = params.get('sku');
@@ -38,7 +38,7 @@ export default function VariantButtons() {
                 return;
             }
         }
-    }, [params, product, variants]);
+    }, [dispatch, params, product, selectedVariantId, variants]);
 
     const selectHandler = useCallback((variant: ProductVariant) => {
         if (!variant || !variant.id || !product) {
@@ -57,11 +57,7 @@ export default function VariantButtons() {
         }
         setParams(_params, {replace: true});
         dispatch(setCurrentVariant(variant))
-    }, [product])
-
-    useEffect(() => {
-        setVariants(activeVariants(product?.variants ?? []));
-    }, [product]);
+    }, [dispatch, params, product, setParams])
 
 
     if (variants.length <= 1) {

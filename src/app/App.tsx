@@ -1,25 +1,26 @@
 import {StrictMode, useEffect} from 'react';
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import {useLocation} from 'react-router';
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import {useAppSelector} from "@/app/hooks";
+import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import theme from "./theme";
 import {GOOGLE_CLIENT_ID} from "@/constants/app";
 import LocalStore from "../utils/LocalStore";
 import {isTokenExpired} from "@/utils/jwtHelper";
 import {auth} from "@/api/IntranetAuthService";
 import {selectAppNonce} from "@/ducks/app/selectors";
-import {ga4PageView} from "@/utils/ga4/generic";
 import AppRouter from "@/app/AppRouter.tsx";
 import TitleProvider from "@/components/app/TitleProvider";
+import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
+import {loadProfile} from "@/ducks/user/actions.ts";
 
 
 export default function App() {
+    const dispatch = useAppDispatch();
     const nonce = useAppSelector(selectAppNonce);
-    const location = useLocation();
+    const loggedIn = useAppSelector(selectLoggedIn);
 
 
     useEffect(() => {
@@ -28,11 +29,11 @@ export default function App() {
         if (token && isTokenExpired(token)) {
             auth.removeToken();
         }
-    }, []);
+        if (loggedIn) {
+            dispatch(loadProfile());
+        }
+    }, [dispatch, loggedIn]);
 
-    useEffect(() => {
-        ga4PageView()
-    }, [location]);
 
     return (
         <StrictMode>

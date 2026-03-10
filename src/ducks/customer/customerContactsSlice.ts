@@ -1,8 +1,8 @@
 import {createEntityAdapter, createSlice, isAnyOf} from "@reduxjs/toolkit";
 import type {CustomerContact} from "chums-types/b2b";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions.ts";
+import {setLoggedIn} from "@/ducks/user/actions.ts";
 import {loadCustomer, saveBillingAddress, saveShipToAddress, setDefaultShipTo} from "@/ducks/customer/actions.ts";
-import {customerSlug} from "@/utils/customer.ts";
+import {billToCustomerSlug} from "@/utils/customer.ts";
 import {loadCustomerList} from "@/ducks/customers/actions.ts";
 
 const adapter = createEntityAdapter<CustomerContact, string>({
@@ -33,7 +33,7 @@ const customerContactsSlice = createSlice({
                 }
             })
             .addCase(loadCustomer.pending, (state, action) => {
-                const customerKey = customerSlug(action.meta.arg);
+                const customerKey = billToCustomerSlug(action.meta.arg);
                 if (state.customerKey !== customerKey) {
                     adapter.removeAll(state);
                     state.customerKey = customerKey;
@@ -41,17 +41,11 @@ const customerContactsSlice = createSlice({
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
-                    const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey) ?? null;
+                    const customer = action.payload.find(_customer => billToCustomerSlug(_customer) === state.customerKey) ?? null;
                     if (!customer) {
                         state.customerKey = null;
                         adapter.removeAll(state);
                     }
-                }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                if (state.customerKey && !action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
-                    state.customerKey = null;
-                    adapter.removeAll(state);
                 }
             })
             .addMatcher(isAnyOf(
@@ -61,6 +55,7 @@ const customerContactsSlice = createSlice({
                 setDefaultShipTo.fulfilled,
             ), (state, action) => {
                 if (action.payload) {
+                    state.customerKey = billToCustomerSlug(action.payload.customer);
                     adapter.setAll(state, action.payload.contacts ?? []);
                 }
             })

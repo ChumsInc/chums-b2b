@@ -3,9 +3,15 @@ import Decimal from "decimal.js";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import localStore from "@/utils/LocalStore";
 import type {CustomerShippingAccount} from "@/types/customer";
-import {STORE_CURRENT_CART, STORE_CUSTOMER, STORE_CUSTOMER_SHIPPING_ACCOUNT} from "@/constants/stores";
+import {
+    STORE_CURRENT_CART,
+    STORE_CUSTOMER,
+    STORE_CUSTOMER_SHIPPING_ACCOUNT,
+    STORE_CUSTOMER_SHIPTO
+} from "@/constants/stores";
 import {customerSlug} from "@/utils/customer";
 import type {ActiveCartExtraState} from "@/ducks/carts/activeCartSlice";
+import LocalStore from "@/utils/LocalStore";
 
 /* eslint-disable no-nested-ternary */
 
@@ -112,6 +118,7 @@ export const initializeActiveCartState = (): ActiveCartExtraState => {
     const shippingAccount = localStore.getItem<CustomerShippingAccount | null>(STORE_CUSTOMER_SHIPPING_ACCOUNT, null);
     return {
         customerKey: customerSlug(localStore.getItem<BasicCustomer | null>(STORE_CUSTOMER, null)),
+        shipToCode: LocalStore.getItem<string|null>(STORE_CUSTOMER_SHIPTO, null),
         cartId: localStore.getItem<number | null>(STORE_CURRENT_CART, null),
         promoCode: null,
         shippingAccount: {

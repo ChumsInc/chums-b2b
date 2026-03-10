@@ -1,9 +1,10 @@
 import type {EmailResponse} from "chums-types/b2b";
 import {createSlice, type WritableDraft} from "@reduxjs/toolkit";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {customerSlug} from "@/utils/customer";
 import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 import {sendCartEmail} from "@/ducks/carts/actions";
+import {setUserAccess} from "@/ducks/user/userAccessSlice.ts";
 
 interface CartEmailState {
     customerKey: string | null;
@@ -31,9 +32,9 @@ const cartEmailSlice = createSlice({
                     resetCartEmail(state, null);
                 }
             })
-            .addCase(setUserAccess.pending, (state, action) => {
-                const customerKey = customerSlug(action?.meta?.arg);
-                if (!action.meta.arg?.isRepAccount && state.customerKey !== customerKey) {
+            .addCase(setUserAccess, (state, action) => {
+                const customerKey = customerSlug(action.payload);
+                if (!action.payload?.isRepAccount && state.customerKey !== customerKey) {
                     resetCartEmail(state, customerKey);
                 }
             })
