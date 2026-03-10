@@ -40,11 +40,10 @@ import type {
     UserProfileResponse
 } from "./types";
 import type {RootState} from "@/app/configureStore";
-import type {RecentCustomer, UserCustomerAccess, UserProfile} from "chums-types/b2b";
+import type {RecentCustomer, UserProfile} from "chums-types/b2b";
 import {loadCustomerList} from "../customers/actions";
 import {isErrorResponse} from "@/utils/typeguards";
 import type {APIErrorResponse} from "@/types/generic";
-import {selectCurrentAccess} from "@/ducks/user/userAccessSlice";
 import {setLoggedInHelper, signInWithGoogleHelper} from "@/ducks/user/action-helpers";
 
 export const setLoggedIn = createAction('user/setLoggedIn', (arg: SetLoggedInProps) => {
@@ -195,26 +194,6 @@ export const logoutUser = createAsyncThunk<void, void, { state: RootState }>(
         condition: (_, {getState}) => {
             const state = getState();
             return selectUserActionStatus(state) === 'idle';
-        }
-    }
-)
-
-export const setUserAccess = createAsyncThunk<UserCustomerAccess | null, UserCustomerAccess | null, {
-    state: RootState
-}>(
-    'userAccess/setCurrent',
-    async (arg) => {
-        localStore.setItem<UserCustomerAccess | null>(STORE_USER_ACCESS, arg);
-        return arg;
-    },
-    {
-        condition: (arg, {getState}) => {
-            // only set the user access if the access is a rep account
-            // if not a rep access list, then the access should be treated specifically as a customer and not an access object.
-            const state = getState();
-            return selectLoggedIn(state)
-                && !!arg?.isRepAccount
-                && selectCurrentAccess(state)?.id !== arg?.id;
         }
     }
 )

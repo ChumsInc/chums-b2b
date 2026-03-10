@@ -1,4 +1,4 @@
-import {generatePath, Link as RoutedLink} from 'react-router';
+import {generatePath, Link as RoutedLink, useLocation} from 'react-router';
 import {PATH_CUSTOMER_ACCOUNT} from "@/constants/paths.ts";
 import {customerSlug, longCustomerNo} from "@/utils/customer.ts";
 import type {BasicCustomer} from "chums-types/b2b";
@@ -9,13 +9,14 @@ const CustomerLink = ({customer, selected = false}: {
     selected?: boolean;
 }) => {
     const slug = customerSlug(customer);
+    const location = useLocation();
     if (!slug) {
         return null;
     }
     const path = generatePath(PATH_CUSTOMER_ACCOUNT, {customerSlug: encodeURIComponent(slug)})
-
     return (
         <Link component={RoutedLink} to={path} sx={{whiteSpace: 'nowrap'}} color={selected ? 'chumsRed' : undefined}
+              state={location.state}
               aria-label={`Select '${customer.CustomerName}'`}>
             {longCustomerNo(customer)}
         </Link>

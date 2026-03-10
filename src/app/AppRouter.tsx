@@ -11,7 +11,7 @@ import Login from "@/components/user/login/LoginPage.tsx";
 import Logout from "@/components/user/Logout.tsx";
 import ProfilePage from "@/components/user/profile/ProfilePage.tsx";
 import ChangePasswordPage from "@/components/user/ChangePasswordPage.tsx";
-import AccountListContainer from "@/components/customerList/AccountListContainer.tsx";
+import AccountListContainer from "@/components/customerList/AccountList.tsx";
 import AccountPage from "@/components/customer/AccountPage.tsx";
 import BillToForm from "@/components/customer/billing/BillToForm.tsx";
 import ShipToList from "@/components/customer/delivery/ShipToList.tsx";
@@ -64,7 +64,7 @@ export default function AppRouter() {
                         <Route path="/logout" element={<Logout/>}/>
                         <Route path="/profile" element={<ProfilePage/>}/>
                         <Route path="/profile/set-password" element={<ChangePasswordPage/>}/>
-                        <Route path="/profile/:id" element={<AccountListContainer/>}/>
+                        <Route path="/profile/:accessId" element={<AccountListContainer/>}/>
                         <Route path="/account/:customerSlug" element={<AccountPage/>}>
                             <Route index element={<BillToForm/>}/>
                             <Route path="delivery" element={<ShipToList/>}/>

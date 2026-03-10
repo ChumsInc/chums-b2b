@@ -1,6 +1,6 @@
 import type {CustomerPermissions} from "@/types/customer";
 import {createSlice, isAnyOf} from "@reduxjs/toolkit";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {
     loadCustomer,
     loadCustomerPermissions,
@@ -8,7 +8,7 @@ import {
     saveShipToAddress,
     setDefaultShipTo
 } from "@/ducks/customer/actions";
-import {customerSlug} from "@/utils/customer";
+import {billToCustomerSlug} from "@/utils/customer";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 
 export interface CustomerPermissionsState {
@@ -36,29 +36,6 @@ const customerPermissionsSlice = createSlice({
                     state.status = 'idle';
                 }
             })
-            .addCase(setUserAccess.fulfilled, (state, action) => {
-                if (!action.meta.arg?.isRepAccount && customerSlug(action.meta.arg) !== state.customerKey) {
-                    state.status = 'idle';
-                    state.customerKey = customerSlug(action.meta.arg);
-                    state.values = null;
-                }
-            })
-            .addCase(loadCustomerPermissions.pending, (state, action) => {
-                const customerKey = customerSlug(action.meta.arg);
-                state.status = 'loading';
-                if (state.customerKey !== customerKey) {
-                    state.values = null;
-                    state.customerKey = customerKey;
-                }
-            })
-            .addCase(loadCustomerPermissions.fulfilled, (state, action) => {
-                state.customerKey = customerSlug(action.meta.arg);
-                state.values = action.payload;
-                state.status = 'fulfilled';
-            })
-            .addCase(loadCustomerPermissions.rejected, (state) => {
-                state.status = 'rejected';
-            })
             .addCase(dismissContextAlert, (state, action) => {
                 if (action.payload === loadCustomerPermissions.typePrefix) {
                     state.status = 'idle';
@@ -70,7 +47,7 @@ const customerPermissionsSlice = createSlice({
                 saveShipToAddress.fulfilled,
                 setDefaultShipTo.fulfilled,
             ), (state, action) => {
-                state.customerKey = customerSlug(action.payload?.customer ?? null);
+                state.customerKey = billToCustomerSlug(action.payload?.customer ?? null);
                 state.values = action.payload?.permissions ?? null;
             })
     },

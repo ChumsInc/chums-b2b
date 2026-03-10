@@ -4,15 +4,16 @@ import {generatePath, useLocation} from "react-router";
 import type {BreadcrumbPath} from "@/types/breadcrumbs";
 import {repAccessCode} from "@/ducks/user/utils";
 import {useAppSelector} from "@/app/hooks";
-import {selectCurrentAccess, selectUserAccessCount} from "@/ducks/user/userAccessSlice";
-import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
+import {selectUserAccessCount} from "@/ducks/user/userAccessSlice";
+import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
 
 const minBreadcrumbAccounts = 2;
 
 const AccountBreadcrumbs = () => {
     const countUserAccounts = useAppSelector(selectUserAccessCount);
-    const userAccount = useAppSelector(selectCurrentAccess);
-    const customerKey = useAppSelector(selectCustomerKey);
+    const {currentAccess} = useProfile();
+    const {customerKey} = useCustomer()
     const location = useLocation();
 
     if (countUserAccounts < minBreadcrumbAccounts) {
@@ -22,13 +23,22 @@ const AccountBreadcrumbs = () => {
     const paths: BreadcrumbPath[] = [
         {title: 'Profile', pathname: PATH_PROFILE},
     ];
-    if (userAccount?.isRepAccount) {
+    if (currentAccess?.isRepAccount) {
         paths.push(
-            {title: repAccessCode(userAccount), pathname: PATH_PROFILE},
+            {
+                title: repAccessCode(currentAccess),
+                pathname: generatePath(PATH_PROFILE_ACCOUNT, {id: `${currentAccess?.id ?? 0}`})
+            },
             {
                 title: 'Account List',
-                pathname: generatePath(PATH_PROFILE_ACCOUNT, {id: `${userAccount?.id ?? 0}`})
+                pathname: generatePath(PATH_PROFILE_ACCOUNT, {id: `${currentAccess?.id ?? 0}`})
             });
+        if (customerKey) {
+            paths.push({
+                title: customerKey,
+                pathname: location.pathname
+            })
+        }
     } else if (customerKey) {
         paths.push({
             title: customerKey,

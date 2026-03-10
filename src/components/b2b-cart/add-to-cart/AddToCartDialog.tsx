@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import Dialog, {type DialogProps} from "@mui/material/Dialog";
 import type {CartProduct} from "chums-types/b2b";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -8,14 +7,22 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 
 export interface AddToCartDialogProps extends DialogProps {
-    item: CartProduct|null;
+    item: CartProduct | null;
     excludeCartId?: number;
     unitOfMeasure?: string;
     onDone: () => void;
     onCancel: () => void;
 }
-export default function AddToCartDialog({item, unitOfMeasure, excludeCartId, open, onClose, onDone, onCancel}: AddToCartDialogProps) {
-    const [quantity, setQuantity] = useState(item?.quantity ?? 1);
+
+export default function AddToCartDialog({
+                                            item,
+                                            unitOfMeasure,
+                                            excludeCartId,
+                                            open,
+                                            onClose,
+                                            onDone,
+                                            onCancel
+                                        }: AddToCartDialogProps) {
     if (!item) {
         return null;
     }
@@ -26,7 +33,6 @@ export default function AddToCartDialog({item, unitOfMeasure, excludeCartId, ope
                 {!!item && (
                     <AddToCartForm cartItem={item}
                                    unitOfMeasure={unitOfMeasure}
-                                   quantity={quantity} onChangeQuantity={setQuantity}
                                    excludeCartId={excludeCartId}
                                    onDone={onDone}
                     />

@@ -19,6 +19,7 @@ import {initializeActiveCartState} from "@/ducks/carts/utils";
 
 export interface ActiveCartExtraState {
     customerKey: string | null;
+    shipToCode: string | null;
     cartId: number | null;
     promoCode: string | null;
     shippingAccount: CustomerShippingAccount | null;
@@ -42,6 +43,9 @@ const activeCartSlice = createSlice({
             .addCase(addToCart.fulfilled, (state, action) => {
                 if (action.meta.arg.setActiveCart && action.payload) {
                     state.cartId = action.payload.header.id;
+                    if (state.shipToCode !== action.payload.header.shipToCode) {
+                        state.shipToCode = action.payload.header.shipToCode;
+                    }
                 }
             })
             .addCase(loadCart.pending, (state, action) => {
@@ -57,12 +61,18 @@ const activeCartSlice = createSlice({
             })
             .addCase(loadCarts.fulfilled, (state, action) => {
                 if (!state.cartId && action.payload.length) {
-                    state.cartId = action.payload[0].header.id;
+                    if (state.shipToCode) {
+                        const [cart] = action.payload.filter(_cart => _cart.header.shipToCode === state.shipToCode);
+                        state.cartId = cart?.header?.id ?? null
+                    } else {
+                        state.cartId = action.payload[0].header.id;
+                    }
                 }
             })
             .addCase(loadCustomer.pending, (state, action) => {
                 if (state.customerKey !== customerSlug(action.meta.arg)) {
                     state.customerKey = customerSlug(action.meta.arg);
+                    state.shipToCode = action.meta.arg?.ShipToCode ?? null;
                     state.cartId = null;
                 }
             })

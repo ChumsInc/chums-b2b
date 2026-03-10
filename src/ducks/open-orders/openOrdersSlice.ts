@@ -6,7 +6,7 @@ import {
     type WritableDraft
 } from "@reduxjs/toolkit";
 import type {SalesOrderHeader, SortProps} from "chums-types/b2b";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {customerSlug} from "@/utils/customer";
 import {loadCustomer, setCustomerAccount} from "@/ducks/customer/actions";
 import {loadOpenOrders, loadSalesOrder} from "@/ducks/open-orders/actions";
@@ -52,12 +52,6 @@ const openOrdersSlice = createSlice({
             .addCase(setLoggedIn, (state, action) => {
                 if (!action.payload.loggedIn) {
                     resetOrdersState(state)
-                }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                const customerKey = customerSlug(action?.meta?.arg);
-                if (!action.meta.arg?.isRepAccount && state.customerKey !== customerKey) {
-                    resetOrdersState(state, customerKey)
                 }
             })
             .addCase(setCustomerAccount.fulfilled, (state, action) => {

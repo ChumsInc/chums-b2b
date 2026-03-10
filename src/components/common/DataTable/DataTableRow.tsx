@@ -22,7 +22,7 @@ export const DataTableRow = <T = KeyedObject>({
     const _className = typeof rowClassName === 'function' ? rowClassName(row) : rowClassName;
 
     return (
-        <TableRow ref={trRef} className={classNames({'table-active': selected}, className, _className)}
+        <TableRow ref={trRef} selected={selected} className={classNames(className, _className)}
                   onClick={clickHandler} {...rest}>
             {fields.map((field, index) => {
                 const fieldClassName = typeof field.className === 'function' ? field.className(row) : field.className;

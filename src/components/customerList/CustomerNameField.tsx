@@ -1,7 +1,7 @@
-import type {Customer} from "chums-types/b2b";
 import Stack from "@mui/material/Stack";
+import type {ListedCustomer} from "@/ducks/customers/types.ts";
 
-const CustomerNameField = ({customer}: { customer: Customer }) => {
+const CustomerNameField = ({customer}: { customer: ListedCustomer }) => {
     if (!customer.ShipToCode) {
         return customer.CustomerName;
     }

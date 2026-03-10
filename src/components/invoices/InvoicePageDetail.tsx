@@ -4,19 +4,14 @@ import InvoiceDetailLine from "./InvoiceDetailLine";
 import TableFooter from "@mui/material/TableFooter";
 import type {CartProduct, InvoiceHistoryDetail} from "chums-types/b2b";
 import InvoiceFooter from "./InvoiceFooter";
-import Dialog from "@mui/material/Dialog";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
 import TableRow from "@mui/material/TableRow";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
 import {useAppSelector} from "@/app/hooks";
+import AddToCartDialog from "@/components/b2b-cart/add-to-cart/AddToCartDialog.tsx";
 
 const InvoicePageDetail = () => {
     const detail = useAppSelector(selectSortedInvoiceDetail);
@@ -36,13 +31,9 @@ const InvoicePageDetail = () => {
         setCartItem(item);
     }
 
-    const quantityChangeHandler = (quantity: number) => {
-        if (!cartItem) {
-            return;
-        }
-        setCartItem({...cartItem, quantity});
+    const closeCartDialog = () => {
+        setCartItem(null);
     }
-
 
     if (!detail.length) {
         return null
@@ -79,21 +70,9 @@ const InvoicePageDetail = () => {
                     <InvoiceFooter/>
                 </TableFooter>
             </Table>
-            <Dialog open={open} onClose={() => setCartItem(null)}>
-                <DialogTitle>Add &apos;{cartItem?.itemCode}&apos; To Cart</DialogTitle>
-                <DialogContent>
-                    {!!cartItem && (
-                        <AddToCartForm cartItem={cartItem}
-                                       unitOfMeasure={unitOfMeasure}
-                                       quantity={cartItem?.quantity ?? 1} onChangeQuantity={quantityChangeHandler}
-                                       onDone={() => setCartItem(null)}
-                        />
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={() => setCartItem(null)}>Cancel</Button>
-                </DialogActions>
-            </Dialog>
+            <AddToCartDialog item={cartItem} unitOfMeasure={unitOfMeasure}
+                             open={open} onClose={closeCartDialog}
+                             onDone={closeCartDialog} onCancel={closeCartDialog}/>
         </TableContainer>
     )
 }

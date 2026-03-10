@@ -84,7 +84,7 @@ export default function ShipToSelect({
         });
     }
 
-    if (!shipToAddresses.length) {
+    if (!shipToAddresses.length || !customer) {
         return null;
     }
 
@@ -116,7 +116,19 @@ export default function ShipToSelect({
                     renderValue={renderValueHandler}
                     readOnly={readOnly} required={required}>
                 {allowAllLocations && (<MenuItem value={allLocationsValue}>All Addresses</MenuItem>)}
-                {permissions?.billTo && <MenuItem value="">Billing Address</MenuItem>}
+                {permissions?.billTo && <MenuItem value="">
+                    <Stack direction="row" spacing={2} sx={{width: '100%'}}>
+                    <Chip label="Billing" size="small" sx={{flex: '0 0 20%'}}/>
+                    <Box sx={{width: '80%'}}>
+                        <Typography variant="body1" sx={{whiteSpace: 'wrap'}}>
+                            {customer.CustomerName}
+                        </Typography>
+                        <Typography variant="body1" sx={{fontSize: '80%'}}>
+                            {customer.City}, {customer.State}
+                        </Typography>
+                    </Box>
+                    </Stack>
+                </MenuItem>}
                 {shipToAddresses
                     .filter(shipTo => shipTo.ShipToCode !== '' || permissions?.billTo)
                     .map(shipTo => (

@@ -1,22 +1,17 @@
 import {useState} from 'react';
 import type {CartProduct, SalesOrderDetailLine} from "chums-types/b2b";
-import Dialog from "@mui/material/Dialog";
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from '@mui/material/TableBody';
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
 import OrderDetailLine from "./OrderDetailLine";
 import SalesOrderTotal from "./SalesOrderTotal";
 import {detailToCartItem} from "@/ducks/sales-order/utils";
 import {selectSalesOrderDetail} from "@/ducks/open-orders/currentOrderSlice";
 import {useAppSelector} from "@/app/hooks";
-import AddToCartForm from "@/components/b2b-cart/add-to-cart/AddToCartForm";
+import AddToCartDialog from "@/components/b2b-cart/add-to-cart/AddToCartDialog.tsx";
 
 export default function OrderDetail({salesOrderNo}: {
     salesOrderNo?: string;
@@ -35,12 +30,7 @@ export default function OrderDetail({salesOrderNo}: {
         setCartItem({...item, name: line.ItemCodeDesc, productId: 0, image: ''});
     }
 
-    const quantityChangeHandler = (quantity: number) => {
-        if (!cartItem) {
-            return;
-        }
-        setCartItem({...cartItem, quantity});
-    }
+    const closeCartDialog = () => setCartItem(null);
 
     const open = !!cartItem;
     if (!salesOrderNo) {
@@ -71,21 +61,9 @@ export default function OrderDetail({salesOrderNo}: {
                 </TableBody>
                 <SalesOrderTotal salesOrderNo={salesOrderNo}/>
             </Table>
-            <Dialog open={open} onClose={() => setCartItem(null)}>
-                <DialogTitle>Add {cartItem?.itemCode} To Cart</DialogTitle>
-                <DialogContent>
-                    {!!cartItem && (
-                        <AddToCartForm cartItem={cartItem}
-                                       unitOfMeasure={unitOfMeasure}
-                                       quantity={cartItem?.quantity ?? 1} onChangeQuantity={quantityChangeHandler}
-                                       onDone={() => setCartItem(null)}
-                        />
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={() => setCartItem(null)}>Cancel</Button>
-                </DialogActions>
-            </Dialog>
+            <AddToCartDialog item={cartItem} unitOfMeasure={unitOfMeasure}
+                             open={open} onClose={closeCartDialog}
+                             onDone={closeCartDialog} onCancel={closeCartDialog}/>
         </TableContainer>
     )
 }

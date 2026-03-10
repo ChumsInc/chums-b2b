@@ -6,7 +6,6 @@ import {selectCustomerAccount, selectCustomerKey, selectCustomerLoadStatus} from
 import {
     deleteCustomerUser,
     fetchCustomerAccount,
-    fetchCustomerUsers,
     fetchCustomerValidation,
     postBillingAddress,
     postCustomerUser,
@@ -22,7 +21,7 @@ import type {
     ShipToCustomer
 } from "chums-types/b2b";
 import type {RootState} from "@/app/configureStore";
-import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 import type {FetchCustomerResponse} from "./types";
 import {loadOpenOrders} from "../open-orders/actions";
 import type {CustomerPermissions} from "@/types/customer";
@@ -30,9 +29,6 @@ import {selectRecentCustomers} from "../customers/recentCustomersSlice";
 import {loadCarts} from "@/ducks/carts/actions";
 import {canStorePreferences} from "@/ducks/cookie-consent/utils";
 import {selectCustomerPermissionsStatus} from "@/ducks/customer/customerPermissionsSlice";
-
-export const setReturnToPath = createAction<string | null>('customer/setReturnTo');
-export const setShipToCode = createAction<string | null>('customer/setShipToCode');
 
 export const saveUser = createAsyncThunk<CustomerUser[], CustomerUser, { state: RootState }>(
     'customer/saveUser',
@@ -169,21 +165,6 @@ export const loadCustomerPermissions = createAsyncThunk<CustomerPermissions | nu
         condition: (arg, {getState}) => {
             const state = getState();
             return selectLoggedIn(state) && !!arg && selectCustomerPermissionsStatus(state) === 'idle' && !!selectCustomerAccount(state);
-        }
-    }
-)
-
-export const loadCustomerUsers = createAsyncThunk<CustomerUser[], void, { state: RootState }>(
-    'customer/users/load',
-    async (_, {getState}) => {
-        const state = getState();
-        const customerKey = selectCustomerKey(state);
-        return await fetchCustomerUsers(customerKey!);
-    },
-    {
-        condition: (_, {getState}) => {
-            const state = getState();
-            return selectLoggedIn(state) && selectCustomerLoadStatus(state) === 'idle' && !!selectCustomerKey(state);
         }
     }
 )

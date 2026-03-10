@@ -1,24 +1,18 @@
 import Alert from "@mui/material/Alert";
-import {
-    selectCustomerAccount,
-    selectCustomerLoaded,
-    selectCustomerLoadStatus
-} from "@/ducks/customer/currentCustomerSlice";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import {useAppSelector} from "@/app/hooks";
 import Box from "@mui/material/Box";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
 
-const MissingTaxScheduleAlert = () => {
-    const customer = useAppSelector(selectCustomerAccount);
-    const loading = useAppSelector(selectCustomerLoadStatus);
-    const loaded = useAppSelector(selectCustomerLoaded);
+export default function MissingTaxScheduleAlert() {
+    const {customer, status} = useCustomer()
     const loggedIn = useAppSelector(selectLoggedIn);
 
     if (!customer || !loggedIn) {
         return null;
     }
 
-    if (!loaded || loading !== 'idle' || !!customer.TaxSchedule) {
+    if (status !== 'idle' || !!customer.TaxSchedule) {
         return null;
     }
 
@@ -33,4 +27,4 @@ const MissingTaxScheduleAlert = () => {
         </Alert>
     )
 }
-export default MissingTaxScheduleAlert;
+

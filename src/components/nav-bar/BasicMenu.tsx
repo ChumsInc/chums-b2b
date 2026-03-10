@@ -1,10 +1,9 @@
-import React, {useEffect, useId} from 'react';
+import React, {useId} from 'react';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Menu, {type MenuProps} from "@mui/material/Menu";
 import NavItemButton from "@/components/nav-bar/NavItemButton";
 import {deepmerge} from '@mui/utils'
 import type {MinimalMenuItem} from "@/ducks/menu/types";
-import {useLocation} from "react-router";
 import {useAppSelector} from "@/app/hooks";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import MenuItemRouterLink from "@/components/nav-bar/MenuItemRouterLink";
@@ -18,16 +17,11 @@ export interface BasicMenuProps extends Omit<MenuProps, 'open' | 'onClose' | 'an
 }
 
 export default function BasicMenu({title, items, sx, urlFormat, mediaQuery, requiresLogin, ...rest}: BasicMenuProps) {
-    const location = useLocation();
     const isLoggedIn = useAppSelector(selectLoggedIn);
     const mediaLg = useMediaQuery(mediaQuery ?? '(min-width: 1200px)');
     const buttonId = useId();
     const menuId = useId();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-    useEffect(() => {
-        setAnchorEl(null);
-    }, [location]);
 
     const open = Boolean(anchorEl);
 

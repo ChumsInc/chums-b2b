@@ -16,7 +16,7 @@ const AccountListCustomerFilter = () => {
 
     useEffect(() => {
         dispatch(setCustomersFilter(debouncedSearch));
-    }, [debouncedSearch]);
+    }, [dispatch, debouncedSearch]);
 
     useEffect(() => {
         setValue(filter);

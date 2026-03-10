@@ -3,7 +3,6 @@ import Decimal from "decimal.js";
 import type {
     BasicCustomer,
     BillToCustomer,
-    Customer,
     CustomerAddress,
     CustomerContact,
     CustomerKey,
@@ -16,6 +15,7 @@ import type {
 } from "chums-types/b2b";
 import type {SortProps} from "@/types/generic";
 import {toCustomerKey} from "@/ducks/customer/utils";
+import type {ListedCustomer, ListedCustomerAddress} from "@/ducks/customers/types.ts";
 
 /* eslint-disable no-nested-ternary */
 
@@ -194,7 +194,10 @@ export const shipToAddressFromBillingAddress = (customer: BillToCustomer): ShipT
     }
 };
 
-export const customerListSorter = ({field, ascending}: SortProps<Customer>) => (a: Customer, b: Customer) => {
+export const customerListSorter = ({
+                                       field,
+                                       ascending
+                                   }: SortProps<ListedCustomer>) => (a: ListedCustomer, b: ListedCustomer) => {
     const sortMod = ascending ? 1 : -1;
     switch (field) {
         case 'CustomerName':
@@ -220,16 +223,17 @@ export const customerListSorter = ({field, ascending}: SortProps<Customer>) => (
     }
 }
 
-export const isShipToAddress = (address: ShipToAddress | CustomerAddress | null): address is ShipToAddress => {
+export const isShipToAddress = (address: ShipToAddress | ListedCustomerAddress | CustomerAddress | null): address is ShipToAddress => {
     return !!address && (address as ShipToAddress).ShipToName !== undefined;
 }
 
-export const isCustomerAddress = (address: ShipToAddress | CustomerAddress | null): address is CustomerAddress => {
+
+export const isCustomerAddress = (address: ShipToAddress | CustomerAddress | ListedCustomerAddress | null): address is CustomerAddress => {
     return !!address && (address as CustomerAddress).CustomerName !== undefined;
 }
 
 
-export const stateCountry = (address: CustomerAddress | ShipToAddress | null): string | null => {
+export const stateCountry = (address: CustomerAddress | ListedCustomerAddress | ShipToAddress | null): string | null => {
     if (isCustomerAddress(address)) {
         if (!address.CountryCode || address.CountryCode === 'US' || address.CountryCode === 'USA') {
             return address.State;
@@ -278,6 +282,9 @@ export const customerUserSorter = (sort: SortProps<CustomerUser>) => (a: Custome
     }
 }
 
+export function customerSlug(customer: CustomerKey): string;
+export function customerSlug(customer: string | null | undefined): string | null;
+export function customerSlug(customer: CustomerKey | string | null | undefined): string | null;
 export function customerSlug(customer: CustomerKey | string | null | undefined): string | null {
     let _customer = customer;
     if (!_customer) {

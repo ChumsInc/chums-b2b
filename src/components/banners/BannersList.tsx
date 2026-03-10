@@ -14,7 +14,7 @@ const BannersList = () => {
         if (!loaded) {
             dispatch(loadBanners())
         }
-    }, [loaded]);
+    }, [dispatch, loaded]);
 
     return (
         <Stack direction="column" spacing={2} sx={{mb: 2}}>

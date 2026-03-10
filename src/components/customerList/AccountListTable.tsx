@@ -1,10 +1,7 @@
-
-
 import {forwardRef} from "react";
 import Box from "@mui/material/Box";
 import {type TableComponents, TableVirtuoso} from "react-virtuoso";
 import {selectCustomersSort, selectFilteredCustomerList, setCustomersSort} from "@/ducks/customers/customerListSlice";
-import type {Customer} from "chums-types/b2b";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -14,9 +11,10 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {accountListColumns} from "./AccountListColumns";
+import type {ListedCustomer} from "@/ducks/customers/types.ts";
 
 
-const VirtuosoTableComponents: TableComponents<Customer> = {
+const VirtuosoTableComponents: TableComponents<ListedCustomer> = {
     Scroller: forwardRef<HTMLDivElement>(function VirtualTableScroller(props, ref) {
         return (<TableContainer component={Paper} {...props} ref={ref} elevation={0}/>)
     }),
@@ -36,17 +34,17 @@ export default function AccountListTable() {
         <Box sx={{height: 600, maxHeight: '75vh', width: '100%', mb: 3}}>
             <TableVirtuoso data={customers}
                            components={VirtuosoTableComponents}
-                           fixedHeaderContent={fixedHeaderContent}
+                           fixedHeaderContent={AccountListHeader}
                            itemContent={rowContent}/>
         </Box>
     )
 }
 
-function fixedHeaderContent() {
+function AccountListHeader() {
     const dispatch = useAppDispatch();
     const sort = useAppSelector(selectCustomersSort);
     const sortDirection = sort.ascending ? 'asc' : 'desc';
-    const sortHandler = (field: keyof Customer) => () => {
+    const sortHandler = (field: keyof ListedCustomer) => () => {
         if (field === sort.field) {
             dispatch(setCustomersSort({field, ascending: !sort.ascending}))
             return;
@@ -72,7 +70,7 @@ function fixedHeaderContent() {
     )
 }
 
-function rowContent(_index: number, row: Customer) {
+function rowContent(_index: number, row: ListedCustomer) {
     return (
         <>
             {accountListColumns.map(column => (

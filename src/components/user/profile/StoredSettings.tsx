@@ -31,10 +31,11 @@ import Box, {type BoxProps} from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import {setCustomersRepFilter, setCustomersStateFilter} from "@/ducks/customers/customerListSlice";
-import {loadProfile, setAvatar, setUserAccess} from "@/ducks/user/actions";
+import {setAvatar} from "@/ducks/user/actions";
 import {setCartShippingAccount} from "@/ducks/carts/actions";
 import {getTokenExpirationDate, isTokenExpired} from "@/utils/jwtHelper";
 import {clearRecentCustomers} from "@/ducks/customers/recentCustomersSlice";
+import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
 
 export type StoredSettings = Record<string, string>;
 
@@ -45,6 +46,7 @@ const protectedSettings = [
 
 export default function StoredSettings(props: BoxProps) {
     const dispatch = useAppDispatch();
+    const {setCurrentAccess, reloadProfile} = useProfile();
     const [values, setValues] = useState<StoredSettings>(getSettings());
     const reloadHandler = useCallback(() => {
         setValues(getSettings());
@@ -58,7 +60,7 @@ export default function StoredSettings(props: BoxProps) {
                 dispatch(setCustomersStateFilter(null))
                 break;
             case STORE_PROFILE:
-                dispatch(loadProfile());
+                reloadProfile();
                 break;
             case STORE_AVATAR:
                 dispatch(setAvatar(null));
@@ -73,7 +75,7 @@ export default function StoredSettings(props: BoxProps) {
                 dispatch(clearRecentCustomers());
                 break;
             case STORE_USER_ACCESS:
-                dispatch(setUserAccess(null));
+                setCurrentAccess(null);
                 break;
             // no default
         }

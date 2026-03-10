@@ -18,31 +18,31 @@ import TelephoneFormFields from "../common/TelephoneFormFields";
 import {billToCustomerSlug} from "@/utils/customer";
 import PrimaryShipToButton from "./PrimaryShipToButton";
 import TextField from "@mui/material/TextField";
-import {selectPermittedShipToAddresses, setShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
+import {setShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
-import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
+import useCustomer from "@/components/customer/hooks/useCustomer.ts";
 
 const ShipToForm = () => {
     const dispatch = useAppDispatch();
-    const shipToAddresses = useAppSelector(selectPermittedShipToAddresses);
+    const {shipToAddresses, shipTo: currentShipTo, status, permissions} = useCustomer();
     const loading = useAppSelector(selectCustomerLoadStatus);
     const canEdit = useAppSelector(selectCanEdit);
-    const permissions = useAppSelector(selectCustomerPermissions);
     const params = useParams<'shipToCode'>();
-    const [shipTo, setShipTo] = useState<ShipToCustomer & Editable | null>(null);
+    const [shipTo, setShipTo] = useState<ShipToCustomer & Editable | null>(currentShipTo ?? null);
     const navigate = useNavigate();
+
 
     const readOnly = !canEdit;
 
     useEffect(() => {
-        if (loading === 'idle') {
+        if (status === 'idle') {
             const [_shipTo] = shipToAddresses.filter(row => row.ShipToCode === decodeURIComponent(params.shipToCode ?? ''));
             setShipTo(_shipTo ?? null);
             if (!permissions?.billTo) {
                 dispatch(setShipToCode(_shipTo?.ShipToCode ?? null));
             }
         }
-    }, [shipToAddresses, params, loading, permissions])
+    }, [shipToAddresses, params, status, permissions])
 
 
     // const onNewShipToCustomer = () => {

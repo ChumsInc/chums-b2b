@@ -9,7 +9,7 @@ import {createSelector, createSlice, type WritableDraft} from "@reduxjs/toolkit"
 import {loadInvoice, loadInvoices} from "@/ducks/invoices/actions";
 import {invoiceKey} from "@/ducks/invoices/utils";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {customerSlug} from "@/utils/customer";
 import {setCustomerAccount} from "@/ducks/customer/actions";
 
@@ -75,13 +75,6 @@ const currentInvoiceSlice = createSlice({
             .addCase(setLoggedIn, (state, action) => {
                 if (!action.payload.loggedIn) {
                     state.customerKey = null;
-                    resetInvoice(state);
-                }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                const customerKey = customerSlug(action?.meta?.arg);
-                if (!action.meta.arg?.isRepAccount && state.customerKey !== customerKey) {
-                    state.customerKey = customerKey;
                     resetInvoice(state);
                 }
             })
