@@ -114,9 +114,10 @@ const currentCustomerSlice = createSlice({
             .addCase(loadCustomerList.fulfilled, (state, action) => {
                 if (state.customerKey) {
                     const customer = action.payload.find(_customer => customerSlug(_customer) === state.customerKey);
-                    state.customerKey = customer ? customerSlug(customer) : null;
-                    state.account = customer ? {...emptyCustomer, ...customer} : null;
-                    state.loaded = !!customer;
+                    if (!customer) {
+                        state.customerKey = null;
+                        state.account = null;
+                    }
                 }
             })
     },
