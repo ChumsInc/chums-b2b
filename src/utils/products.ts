@@ -20,7 +20,7 @@ export const defaultVariant = (product: SellAsVariantsProduct) => {
     const [variant = activeVariants[0]] = activeVariants.filter(v => v.isDefaultVariant);
     return variant;
 };
-
+//
 export const getSalesUM = (product: Product | null | undefined): string => {
     if (!product) {
         return '';
@@ -181,7 +181,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
         msrp: product.msrp,
         quantity: 1,
         seasonCode: product.season_code,
-        seasonAvailable: product.season_available,
+        seasonAvailable: product.additionalData?.seasonAvailable || product.season_available,
         season: product.season ?? null,
     };
 };
