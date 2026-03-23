@@ -13,20 +13,21 @@ import ProfilePage from "@/components/user/profile/ProfilePage.tsx";
 import ChangePasswordPage from "@/components/user/ChangePasswordPage.tsx";
 import AccountListContainer from "@/components/customerList/AccountList.tsx";
 import AccountPage from "@/components/customer/AccountPage.tsx";
-import BillToForm from "@/components/customer/billing/BillToForm.tsx";
+import BillingCustomerPanel from "@/components/customer/billing/BillingCustomerPanel.tsx";
 import ShipToList from "@/components/customer/delivery/ShipToList.tsx";
-import ShipToForm from "@/components/customer/delivery/ShipToForm.tsx";
 import CustomerUsers from "@/components/customer/users/CustomerUsers.tsx";
 import EditAccountUserForm from "@/components/customer/users/EditAccountUserForm.tsx";
 import CartsPage from "@/components/b2b-cart/CartsPage.tsx";
-import CartPage from "@/components/b2b-cart/CartPage.tsx";
 import OpenOrdersList from "@/components/open-orders/OpenOrdersList.tsx";
 import SalesOrderPage from "@/components/open-orders/SalesOrderPage.tsx";
-import InvoicesList from "@/components/invoices/InvoicesList.tsx";
 import InvoicePage from "@/components/invoices/InvoicePage.tsx";
 import ContentPage404 from "@/components/ContentPage404.tsx";
 import {useAppSelector} from "@/app/hooks.ts";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
+import StoredSettings from "@/components/user/profile/StoredSettings.tsx";
+import ShipToCustomerPanel from "@/components/customer/delivery/ShipToCustomerPanel.tsx";
+import InvoicesPanel from "@/components/invoices/InvoicesPanel.tsx";
+import CartPanel from "@/components/b2b-cart/CartPanel.tsx";
 
 
 export default function AppRouter() {
@@ -63,20 +64,21 @@ export default function AppRouter() {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/logout" element={<Logout/>}/>
                         <Route path="/profile" element={<ProfilePage/>}/>
+                        <Route path="/profile/settings" element={<StoredSettings/>}/>
                         <Route path="/profile/set-password" element={<ChangePasswordPage/>}/>
                         <Route path="/profile/:accessId" element={<AccountListContainer/>}/>
                         <Route path="/account/:customerSlug" element={<AccountPage/>}>
-                            <Route index element={<BillToForm/>}/>
+                            <Route index element={<BillingCustomerPanel/>}/>
                             <Route path="delivery" element={<ShipToList/>}/>
-                            <Route path="delivery/:shipToCode" element={<ShipToForm/>}/>
+                            <Route path="delivery/:shipToCode" element={<ShipToCustomerPanel/>}/>
                             <Route path="users" element={<CustomerUsers/>}>
                                 <Route path=":id?" element={<EditAccountUserForm/>}/>
                             </Route>
                             <Route path="carts" element={<CartsPage/>}/>
-                            <Route path="carts/:cartId" element={<CartPage/>}/>
+                            <Route path="carts/:cartId" element={<CartPanel/>}/>
                             <Route path="orders" element={<OpenOrdersList/>}/>
                             <Route path="orders/:salesOrderNo" element={<SalesOrderPage/>}/>
-                            <Route path="invoices" element={<InvoicesList/>}/>
+                            <Route path="invoices" element={<InvoicesPanel/>}/>
                             <Route path="invoices/:type/:invoiceNo" element={<InvoicePage/>}/>
                             <Route path="*" element={<ContentPage404/>}/>
                         </Route>

@@ -66,7 +66,8 @@ export default function ItemAutocomplete({cartId}: {
                 commentText: '',
             },
         }));
-    }, [value, customerKey, quantity])
+    }, [value, customerKey, quantity, dispatch, cartId])
+
     useEffect(() => {
         setOptions(results ?? []);
     }, [results]);

@@ -20,7 +20,7 @@ exports.default = (0, vite_1.defineConfig)({
             "@/components": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/components'),
             "@/constants": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/constants'),
             "@/ducks": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/ducks'),
-            "@/hooks": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/hooks'),
+            "@/hooks": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/customer'),
             "@/slices": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/slices'),
             "@/types": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/types'),
             "@/utils": node_path_1.default.resolve(node_process_1.default.cwd(), 'src/utils'),

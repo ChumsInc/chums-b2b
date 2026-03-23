@@ -5,8 +5,8 @@ import type {BreadcrumbPath} from "@/types/breadcrumbs";
 import {repAccessCode} from "@/ducks/user/utils";
 import {useAppSelector} from "@/app/hooks";
 import {selectUserAccessCount} from "@/ducks/user/userAccessSlice";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 const minBreadcrumbAccounts = 2;
 

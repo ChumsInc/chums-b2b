@@ -138,10 +138,10 @@ const cartStatusSlice = createSlice({
     }
 });
 
-export const {selectCartStatusById, selectCartsStatus} = cartStatusSlice.selectors;
+export const {selectCartStatusById, selectAll, selectCartsStatus} = cartStatusSlice.selectors;
 
 export const selectActiveCartStatus = createSelector(
-    [selectActiveCartId, cartStatusSlice.selectors.selectAll],
+    [selectActiveCartId, selectAll],
     (activeCartId, carts) => {
         return carts.find(c => c.key === activeCartId)?.status ?? 'idle';
     }

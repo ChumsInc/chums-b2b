@@ -1,6 +1,5 @@
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice.ts";
-import type {B2BCartHeader, CartProgress} from "chums-types/b2b";
+import type {B2BCartHeader} from "chums-types/b2b";
 import Stack from "@mui/material/Stack";
 import {cartProgress} from "@/utils/cart.ts";
 import Alert from "@mui/material/Alert";
@@ -10,89 +9,72 @@ import SendEmailButton from "@/components/b2b-cart/header/SendEmailButton.tsx";
 import CheckoutButton from "@/components/b2b-cart/header/CheckoutButton.tsx";
 import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice.ts";
-import {loadCart, loadNextShipDate, saveCart} from "@/ducks/carts/actions.ts";
+import {loadCart, saveCart} from "@/ducks/carts/actions.ts";
+import {useCartCheckout} from "@/hooks/cart-checkout/CartCheckoutContext.tsx";
+import {useEditorContext} from "@/hooks/editor/useEditorContext.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 export interface CartActionButtonsProps {
-    cartHeader: B2BCartHeader | null;
-    headerChanged?: boolean;
     detailChanged?: boolean;
-    progress: CartProgress;
-    setProgress: (progress: CartProgress) => void;
     onSubmit?: () => void;
 }
 
 export default function CartActionButtons({
-                                              cartHeader,
-                                              headerChanged,
                                               detailChanged,
-                                              progress,
-                                              setProgress,
                                               onSubmit
                                           }: CartActionButtonsProps) {
+    const {customerKey} = useCustomer()
+    const {reloadCart, progress} = useCartCheckout();
+    const {value, changed} = useEditorContext<B2BCartHeader>();
     const dispatch = useAppDispatch();
-    const customerKey = useAppSelector(selectCustomerKey);
     const currentCartId = useAppSelector(selectActiveCartId);
     const loadingStatus = useAppSelector((state) => selectCartStatusById(state, currentCartId));
 
-    const reloadHandler = () => {
-        setProgress(cartProgress.cart);
-        if (!customerKey || !cartHeader?.id) {
-            return;
-        }
-        dispatch(loadCart({customerKey, cartId: cartHeader?.id}));
-        dispatch(loadNextShipDate());
-    }
-
     const saveCartHandler = async () => {
-        if (!customerKey || !cartHeader) {
+        if (!customerKey) {
             return;
         }
-        dispatch(saveCart({customerKey, cartId: cartHeader.id, body: cartHeader}));
+        dispatch(saveCart({customerKey, cartId: value.id, body: value}));
     }
 
     const setCurrentCartHandler = () => {
-        if (!customerKey || !cartHeader) {
+        if (!customerKey) {
             return;
         }
-        dispatch(loadCart({customerKey, cartId: cartHeader.id}))
-    }
-
-
-    if (!cartHeader) {
-        return null;
+        dispatch(loadCart({customerKey, cartId: value.id}))
     }
 
     return (
         <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between">
             <Stack sx={{flex: '1 1 auto'}}>
-                {(detailChanged || headerChanged) && progress === cartProgress.cart && (
+                {(detailChanged || changed) && progress === cartProgress.cart && (
                     <Alert severity="warning">Don&apos;t forget to save your changes!</Alert>
                 )}
             </Stack>
             <Stack spacing={3} direction={{sm: 'column', md: 'row'}} sx={{justifyContent: 'flex-end'}}>
-                <DeleteCartButton customerKey={customerKey} cartId={cartHeader.id}
-                                  disabled={loadingStatus !== 'idle' || headerChanged}>
+                <DeleteCartButton customerKey={customerKey} cartId={value.id}
+                                  disabled={loadingStatus !== 'idle' || changed}>
                     Delete Cart
                 </DeleteCartButton>
 
-                <Button type="button" variant="text" onClick={reloadHandler} disabled={loadingStatus !== 'idle'}>
-                    {detailChanged || headerChanged ? 'Cancel Changes' : 'Reload'}
+                <Button type="button" variant="text" onClick={reloadCart} disabled={loadingStatus !== 'idle'}>
+                    {detailChanged || changed ? 'Cancel Changes' : 'Reload'}
                 </Button>
 
                 <Button type="button"
-                        variant={(detailChanged || headerChanged) && progress === cartProgress.cart ? 'contained' : "text"}
-                        color={(detailChanged || headerChanged) ? 'warning' : 'primary'}
+                        variant={(detailChanged || changed) && progress === cartProgress.cart ? 'contained' : "text"}
+                        color={(detailChanged || changed) ? 'warning' : 'primary'}
                         onClick={saveCartHandler}
                         disabled={loadingStatus !== 'idle' || (progress !== cartProgress.cart && !detailChanged)}>
                     Save Cart
                 </Button>
-                <SendEmailButton cartId={cartHeader.id}
+                <SendEmailButton cartId={value.id}
                                  disabled={progress !== cartProgress.cart || detailChanged}>
                     Send Email
                 </SendEmailButton>
                 <CheckoutButton progress={progress} onClick={onSubmit}
                                 disabled={loadingStatus !== 'idle' || detailChanged}/>
-                {cartHeader.id !== currentCartId && (
+                {value.id !== currentCartId && (
                     <Button type="button" variant="contained" disabled={loadingStatus !== 'idle'}
                             onClick={setCurrentCartHandler}>
                         Set Current Cart

@@ -69,14 +69,12 @@ export default function B2BHtml({url, css, store, manifestFiles, swatchTimestamp
                 <link rel="modulepreload" key={file} href={`/${file}`} nonce={cspNonce}/>
             ))}
         </head>
-        <body>
-        <div id="root">
-            <Provider store={store}>
-                <StaticRouter location={url}>
-                    <App/>
-                </StaticRouter>
-            </Provider>
-        </div>
+        <body id="root">
+        <Provider store={store}>
+            <StaticRouter location={url}>
+                <App/>
+            </StaticRouter>
+        </Provider>
         <script dangerouslySetInnerHTML={{__html: `window.__PRELOADED_STATE__ = ${preloadedStateJSON}`}}
                 nonce={cspNonce}/>
         {!!manifestFiles.index && (

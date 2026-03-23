@@ -4,37 +4,27 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import {type ChangeEvent, useEffect, useState} from "react";
+import {type ChangeEvent} from "react";
 import {useAppSelector} from "@/app/hooks.ts";
-import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice.ts";
 import {selectCanEdit} from "@/ducks/user/userProfileSlice.ts";
+import {useEditorContext} from "@/hooks/editor/useEditorContext.ts";
 
-export interface BillingEmailFieldsProps {
-    onChange: (arg: Partial<BillToCustomer>) => void;
-}
-
-export default function BillingEmailFields({onChange}: BillingEmailFieldsProps) {
-    const current = useAppSelector(selectCustomerAccount);
+export default function BillingEmailFields() {
+    const {value, updateValue} = useEditorContext<BillToCustomer>();
     const canEdit = useAppSelector(selectCanEdit);
-    const [emailAddresses, setEmailAddresses] = useState<string[]>(current?.EmailAddress?.split(';')?.map(email => email.trim()) ?? [''])
-
-    useEffect(() => {
-        setEmailAddresses(current?.EmailAddress?.split(';')?.map(email => email.trim()) ?? ['']);
-    }, [current]);
+    const emailAddresses = value.EmailAddress.split(';').map(email => email.trim());
 
     const emailChangeHandler = (index: number) => (ev: ChangeEvent<HTMLInputElement>) => {
         const email: string[] = [...emailAddresses];
         if (email[index] !== undefined) {
             email[index] = ev.target.value;
         }
-        setEmailAddresses(email);
-        onChange({EmailAddress: email.join(';')});
-    }
+        updateValue({EmailAddress: email.join(';')});
+    };
 
     const addEmailAddressHandler = (after: number) => {
         const email = emailAddresses.toSpliced(after + 1, 0, '');
-        setEmailAddresses(email);
-        onChange({EmailAddress: email.join(';')});
+        updateValue({EmailAddress: email.join(';')});
     }
 
     const removeEmailAddressHandler = (index: number) => {
@@ -43,8 +33,7 @@ export default function BillingEmailFields({onChange}: BillingEmailFieldsProps) 
             if (email.length === 0) {
                 email.push('');
             }
-            setEmailAddresses(email);
-            onChange({EmailAddress: email.join(';')});
+            updateValue({EmailAddress: email.join(';')});
         }
     }
 

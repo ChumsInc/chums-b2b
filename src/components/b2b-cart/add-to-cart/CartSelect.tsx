@@ -8,7 +8,7 @@ import {selectCartHeaders} from "@/ducks/carts/cartHeadersSlice";
 import localStore from "@/utils/LocalStore";
 import {STORE_CURRENT_CART} from "@/constants/stores";
 import {useAppSelector} from "@/app/hooks";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 import {useAddToCart} from "@/components/b2b-cart/add-to-cart/AddToCartContext.tsx";
 
 export interface CartSelectProps extends Pick<SelectProps, 'required'> {

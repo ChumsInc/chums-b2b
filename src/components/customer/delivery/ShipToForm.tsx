@@ -1,151 +1,100 @@
-import {type ChangeEvent, useEffect, useState} from 'react';
-import {saveShipToAddress} from '@/ducks/customer/actions';
+import {type ChangeEvent} from 'react';
 import Alert from "@mui/material/Alert";
 import ShipToAddressFormFields from "./ShipToAddressFormFields";
-import {selectCanEdit} from "@/ducks/user/userProfileSlice";
 import StoreMapToggle from "@/components/customer/common/StoreMapToggle";
-import type {Editable, ShipToCustomer} from "chums-types/b2b";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {generatePath, useNavigate, useParams} from "react-router";
-import DeliveryAddress from "@/components/address/DeliveryAddress";
-import LinearProgress from "@mui/material/LinearProgress";
+import type {ShipToCustomer} from "chums-types/b2b";
+import {useAppSelector} from "@/app/hooks";
 import ReloadCustomerButton from "../common/ReloadCustomerButton";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import EmailAddressEditor from "@/components/customer/delivery/EmailAddressEditor.tsx";
 import TelephoneFormFields from "../common/TelephoneFormFields";
-import {billToCustomerSlug} from "@/utils/customer";
 import PrimaryShipToButton from "./PrimaryShipToButton";
 import TextField from "@mui/material/TextField";
-import {setShipToCode} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerLoadStatus} from "@/ducks/customer/currentCustomerSlice";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import {useEditorContext} from "@/hooks/editor/useEditorContext.ts";
 
-const ShipToForm = () => {
-    const dispatch = useAppDispatch();
-    const {shipToAddresses, shipTo: currentShipTo, status, permissions} = useCustomer();
-    const loading = useAppSelector(selectCustomerLoadStatus);
-    const canEdit = useAppSelector(selectCanEdit);
-    const params = useParams<'shipToCode'>();
-    const [shipTo, setShipTo] = useState<ShipToCustomer & Editable | null>(currentShipTo ?? null);
-    const navigate = useNavigate();
+export interface ShipToFormProps {
+    readOnly?: boolean;
+    onSave: (arg: ShipToCustomer) => void;
+}
 
+export default function ShipToForm({readOnly, onSave}: ShipToFormProps) {
+    const {value, updateValue, changed, reset} = useEditorContext<ShipToCustomer>();
+    const status = useAppSelector(selectCustomerLoadStatus);
 
-    const readOnly = !canEdit;
-
-    useEffect(() => {
-        if (status === 'idle') {
-            const [_shipTo] = shipToAddresses.filter(row => row.ShipToCode === decodeURIComponent(params.shipToCode ?? ''));
-            setShipTo(_shipTo ?? null);
-            if (!permissions?.billTo) {
-                dispatch(setShipToCode(_shipTo?.ShipToCode ?? null));
-            }
-        }
-    }, [shipToAddresses, params, status, permissions])
-
-
-    // const onNewShipToCustomer = () => {
-    //     //@TODO: should we allow a B2B user to create a new shipTo location?
-    // }
-
-    const submitHandler = () => {
-        if (!shipTo || !canEdit) {
-            return;
-        }
-        dispatch(saveShipToAddress(shipTo));
-    }
 
     const changeHandler = (arg: Partial<ShipToCustomer>) => {
-        if (shipTo) {
-            setShipTo({...shipTo, ...arg, changed: true});
-        }
+        updateValue(arg);
     }
 
     const fieldChangeHandler = (field: keyof ShipToCustomer) => (ev: ChangeEvent<HTMLInputElement>) => {
         switch (field) {
             case 'Reseller':
-                changeHandler({[field]: ev.target.checked ? 'Y' : 'N'})
+                updateValue({[field]: ev.target.checked ? 'Y' : 'N'})
                 return
             default:
-                changeHandler({[field]: ev.target.value});
+                updateValue({[field]: ev.target.value});
         }
     }
 
-    const cancelHandler = () => {
-        navigate(generatePath('/account/:customerSlug/delivery', {customerSlug: billToCustomerSlug(shipTo)}));
-    }
-
-    if (!canEdit) {
-        return (
-            <div>
-                <h4>Delivery Address</h4>
-                {loading === 'loading' && <LinearProgress variant="indeterminate"/>}
-                {shipTo && <DeliveryAddress address={shipTo}/>}
-            </div>
-        )
+    const submitHandler = () => {
+        onSave(value);
     }
 
     return (
-        <div>
-            {(loading === 'loading' || loading === 'saving') && <LinearProgress variant="indeterminate"/>}
-            {shipTo && (
-                <form action={submitHandler}>
-                    <Grid container spacing={2} alignItems="center">
-                        <Grid size={{xs: 12, sm: 6}}>
-                            <TextField variant="filled" label="Location Name" fullWidth size="small"
-                                       type="text" value={shipTo.ShipToName ?? ''}
-                                       onChange={fieldChangeHandler('ShipToName')}
-                                       slotProps={{
-                                           htmlInput: {readOnly}
-                                       }}/>
-                        </Grid>
-                        <Grid size={{xs: 12, sm: 6}}
-                              style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                            <TextField variant="filled" label="Location Code" size="small"
-                                       type="text" value={shipTo.ShipToCode ?? ''}
-                                       onChange={fieldChangeHandler('ShipToCode')}
-                                       slotProps={{
-                                           htmlInput: {readOnly: true}
-                                       }}/>
-                            <PrimaryShipToButton shipTo={shipTo} disabled={readOnly || !permissions?.billTo}/>
-                        </Grid>
-                    </Grid>
-                    <hr/>
-                    <Grid container spacing={2}>
-                        <Grid size={{xs: 12, sm: 6}}>
-                            <ShipToAddressFormFields address={shipTo} readOnly={readOnly} onChange={changeHandler}/>
-                        </Grid>
-                        <Grid size={{xs: 12, sm: 6}}>
-                            <Stack direction="column" spacing={2}>
-                                <StoreMapToggle checked={shipTo.Reseller === 'Y'}
-                                                onChange={fieldChangeHandler('Reseller')}
-                                                readOnly={readOnly}/>
-                                <EmailAddressEditor label="Email Address"
-                                                    readOnly={!canEdit}
-                                                    value={shipTo.EmailAddress}
-                                                    onChange={changeHandler}/>
-                                <TelephoneFormFields account={shipTo} onChange={changeHandler} readOnly={!canEdit}/>
-                                {shipTo.changed && (
-                                    <Alert severity="warning" title="Hey!">Don&apos;t forget to save your
-                                        changes.</Alert>
-                                )}
-                            </Stack>
-                            <Stack direction="row" spacing={2} sx={{my: 3}} justifyContent="flex-end">
-                                <Button type="button" onClick={cancelHandler}>Cancel</Button>
-                                <ReloadCustomerButton/>
-                                <Button type="submit" variant="contained"
-                                        disabled={readOnly || loading !== 'idle'}>
-                                    Save
-                                </Button>
-                            </Stack>
-                        </Grid>
-                    </Grid>
-                </form>
-            )}
-        </div>
+        <form action={submitHandler}>
+            <Grid container spacing={2} alignItems="center">
+                <Grid size={{xs: 12, sm: 6}}>
+                    <TextField variant="filled" label="Location Name" fullWidth size="small"
+                               type="text" value={value.ShipToName ?? ''}
+                               onChange={fieldChangeHandler('ShipToName')}
+                               slotProps={{
+                                   htmlInput: {readOnly}
+                               }}/>
+                </Grid>
+                <Grid size={{xs: 12, sm: 6}}
+                      style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <TextField variant="filled" label="Location Code" size="small"
+                               type="text" value={value.ShipToCode ?? ''}
+                               onChange={fieldChangeHandler('ShipToCode')}
+                               slotProps={{
+                                   htmlInput: {readOnly: true}
+                               }}/>
+                    <PrimaryShipToButton shipTo={value} disabled={readOnly || changed}/>
+                </Grid>
+            </Grid>
+            <hr/>
+            <Grid container spacing={2}>
+                <Grid size={{xs: 12, sm: 6}}>
+                    <ShipToAddressFormFields address={value} readOnly={readOnly} onChange={changeHandler}/>
+                </Grid>
+                <Grid size={{xs: 12, sm: 6}}>
+                    <Stack direction="column" spacing={2}>
+                        <StoreMapToggle checked={value.Reseller === 'Y'}
+                                        onChange={fieldChangeHandler('Reseller')}
+                                        readOnly={readOnly}/>
+                        <EmailAddressEditor label="Email Address"
+                                            readOnly={readOnly}
+                                            value={value.EmailAddress}
+                                            onChange={changeHandler}/>
+                        <TelephoneFormFields account={value} onChange={changeHandler} readOnly={readOnly}/>
+                        {changed && (
+                            <Alert severity="warning" title="Hey!">Don&apos;t forget to save your
+                                changes.</Alert>
+                        )}
+                    </Stack>
+                    <Stack direction="row" spacing={2} sx={{my: 3}} justifyContent="flex-end">
+                        <Button type="button" onClick={reset}>Cancel</Button>
+                        <ReloadCustomerButton/>
+                        <Button type="submit" variant="contained"
+                                disabled={readOnly || status !== 'idle'}>
+                            Save
+                        </Button>
+                    </Stack>
+                </Grid>
+            </Grid>
+        </form>
     )
 }
-
-export default ShipToForm;
-

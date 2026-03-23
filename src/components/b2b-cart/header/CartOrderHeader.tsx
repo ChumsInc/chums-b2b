@@ -2,55 +2,46 @@ import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
 import {generatePath, useNavigate} from "react-router";
 import AlertList from "@/components/alerts/AlertList";
-import {selectCartHeaderById,} from "@/ducks/carts/cartHeadersSlice";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice";
-import type {B2BCartHeader, CartProgress, ShipToAddress} from "chums-types/b2b";
-import {loadNextShipDate, processCart} from "@/ducks/carts/actions";
+import type {B2BCartHeader, CartProgress} from "chums-types/b2b";
+import {processCart} from "@/ducks/carts/actions";
 import CartCheckoutProgress from "@/components/b2b-cart/header/CartCheckoutProgress";
-import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice";
 import LinearProgress from "@mui/material/LinearProgress";
 import {ga4AddPaymentInfo, ga4AddShippingInfo, ga4BeginCheckout, ga4Purchase} from "@/utils/ga4/cart";
-import {selectActiveCartId, selectCartShippingAccount, selectNextShipDate} from "@/ducks/carts/activeCartSlice";
-import {selectCartDetailById, selectCartHasChanges} from "@/ducks/carts/cartDetailSlice";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
+import {selectCartHasChanges} from "@/ducks/carts/cartDetailSlice";
 import {cartProgress, nextCartProgress} from "@/utils/cart.ts";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef} from "react";
 import dayjs from "dayjs";
 import CartActionButtons from "@/components/b2b-cart/header/CartActionButtons.tsx";
-import isEqual from 'fast-deep-equal';
 import CartHeaderDelivery from "@/components/b2b-cart/header/CartHeaderDelivery.tsx";
 import CartHeaderPayment from "@/components/b2b-cart/header/CartHeaderPayment.tsx";
 import CartHeaderInfo from "@/components/b2b-cart/header/CartHeaderInfo.tsx";
 import CartHeaderShipTo from "@/components/b2b-cart/header/CartHeaderShipTo.tsx";
-import CartSkeleton from "@/components/b2b-cart/header/CartSkeleton.tsx";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
+import {useCartCheckout} from "@/hooks/cart-checkout/CartCheckoutContext.tsx";
+import {useEditorContext} from "@/hooks/editor/useEditorContext.ts";
 
 
 export default function CartOrderHeader() {
     const dispatch = useAppDispatch();
-    const customerKey = useAppSelector(selectCustomerKey);
+    const {customerKey} = useCustomer();
+    const {cartDetail, progress, setProgress, status, nextShipDate, shipDate} = useCartCheckout();
+    const {value, updateValue} = useEditorContext<B2BCartHeader>()
     const currentCartId = useAppSelector(selectActiveCartId);
-    const header = useAppSelector((state) => selectCartHeaderById(state, currentCartId));
-    const detail = useAppSelector((state) => selectCartDetailById(state, currentCartId));
-    const loadingStatus = useAppSelector((state) => selectCartStatusById(state, currentCartId));
     const shipDateRef = useRef<HTMLInputElement | null>(null);
     const shipMethodRef = useRef<HTMLDivElement | null>(null);
     const paymentMethodRef = useRef<HTMLDivElement | null>(null);
     const customerPORef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
     const detailChanged = useAppSelector((state) => selectCartHasChanges(state, currentCartId));
-    const shippingAccount = useAppSelector(selectCartShippingAccount);
-    const nextShipDate = useAppSelector(selectNextShipDate)
-
-    const [cartHeader, setCartHeader] = useState<B2BCartHeader | null>(header);
-    const [shipDate, setShipDate] = useState<string | null>(nextShipDate);
-    const [progress, setProgress] = useState<CartProgress>(cartProgress.cart);
 
     const promoteCart = useCallback(async () => {
-        if (!cartHeader || !shipDate) {
+        if (!shipDate) {
             return;
         }
         const response = await dispatch(processCart({
-            ...cartHeader,
+            ...value,
             shipExpireDate: shipDate
         }));
         if (response.payload && typeof response.payload === 'string') {
@@ -63,39 +54,26 @@ export default function CartOrderHeader() {
         navigate(generatePath('/account/:customerSlug/carts', {
             customerSlug: customerKey,
         }), {replace: true});
-    }, [dispatch, cartHeader, shippingAccount, customerKey, navigate])
-
-    useEffect(() => {
-        if (loadingStatus !== 'idle') {
-            setProgress(cartProgress.cart);
-        }
-    }, [loadingStatus]);
-
-    useEffect(() => {
-        dispatch(loadNextShipDate());
-    }, []);
+    }, [dispatch, value, customerKey, navigate, shipDate])
 
     const validateForm = (_progress: CartProgress): CartProgress => {
-        if (!cartHeader) {
-            return cartProgress.cart;
-        }
         if (_progress >= cartProgress.cart) {
-            const shipExpireDate = dayjs(cartHeader.shipExpireDate);
-            if (!cartHeader.shipExpireDate || !shipExpireDate.isValid() || shipExpireDate.isBefore(nextShipDate)) {
+            const shipExpireDate = dayjs(value.shipExpireDate);
+            if (!value.shipExpireDate || !shipExpireDate.isValid() || shipExpireDate.isBefore(nextShipDate)) {
                 shipDateRef.current?.focus();
                 return cartProgress.delivery;
             }
-            if (!cartHeader.shipVia) {
+            if (!value.shipVia) {
                 shipMethodRef.current?.focus();
                 return cartProgress.delivery;
             }
         }
         if (_progress >= cartProgress.delivery) {
-            if (!cartHeader.PaymentType) {
+            if (!value.PaymentType) {
                 paymentMethodRef.current?.focus();
                 return cartProgress.payment;
             }
-            if (!cartHeader.customerPONo) {
+            if (!value.customerPONo) {
                 customerPORef.current?.focus();
                 return cartProgress.payment;
             }
@@ -104,102 +82,65 @@ export default function CartOrderHeader() {
     }
 
     useEffect(() => {
-        if (!header) {
-            setCartHeader(null);
-            return;
-        }
         // @TODO: migrate the cart expire date away from the Ship Date field
-        setCartHeader(header);
-        setShipDate(nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD'));
-    }, [header, nextShipDate]);
-
-    const shipToChangeHandler = (value: string | null, address: ShipToAddress | null) => {
-        if (!cartHeader) {
-            return;
+        const _nextShipDate = nextShipDate ?? dayjs().add(7, 'days').format('YYYY-MM-DD')
+        if (dayjs(_nextShipDate).startOf('day').isAfter(value.shipExpireDate ?? _nextShipDate)) {
+            updateValue({shipExpireDate: _nextShipDate});
         }
-        if (!address) {
-            setCartHeader({...cartHeader, shipToCode: value});
-            setProgress(cartProgress.cart);
-            return;
-        }
-        setCartHeader({...cartHeader, shipToCode: value, ...address});
-        setProgress(cartProgress.cart);
-    }
+    }, [nextShipDate, value, updateValue]);
 
     const changeHandler = (arg: Partial<B2BCartHeader>) => {
-        if (!cartHeader) {
-            return;
-        }
-        setCartHeader({...cartHeader, ...arg});
+        updateValue(arg);
     }
 
     const submitHandler = async () => {
-        if (!cartHeader) {
-            return;
-        }
         if (progress < cartProgress.confirm) {
             const next = validateForm(progress);
             switch (next) {
                 case cartProgress.delivery:
-                    ga4BeginCheckout(header, detail);
-
+                    ga4BeginCheckout(value, cartDetail);
                     break;
                 case cartProgress.payment:
-                    ga4AddShippingInfo(header, detail);
+                    ga4AddShippingInfo(value, cartDetail);
                     break;
                 case cartProgress.confirm:
-                    ga4AddPaymentInfo(header, detail);
+                    ga4AddPaymentInfo(value, cartDetail);
                     break;
                 // no default
             }
             setProgress(next);
             return;
         }
-        ga4Purchase(header, detail)
+        ga4Purchase(value, cartDetail)
         await promoteCart();
     }
-
-    if (!customerKey || !header || !cartHeader) {
-        return (
-            <CartSkeleton/>
-        );
-    }
-
-    const changed = !isEqual(cartHeader, header);
-
 
     return (
         <Box component="div">
             <Grid container spacing={2} sx={{mb: 1}}>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <CartHeaderInfo cartHeader={cartHeader} customerPORef={customerPORef} onChange={changeHandler}/>
+                    <CartHeaderInfo customerPORef={customerPORef}/>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <CartHeaderShipTo cartHeader={cartHeader} onChangeShipTo={shipToChangeHandler}/>
+                    <CartHeaderShipTo/>
                 </Grid>
             </Grid>
             <Grid container spacing={2} sx={{mb: 1}}>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <CartHeaderDelivery cartHeader={cartHeader} progress={progress}
-                                        shipDate={shipDate} onChangeShipDate={setShipDate} shipDateRef={shipDateRef}
-                                        shipMethodRef={shipMethodRef}
-                                        onChange={changeHandler}/>
+                    <CartHeaderDelivery shipDateRef={shipDateRef}
+                                        shipMethodRef={shipMethodRef}/>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}}>
-                    <CartHeaderPayment cartHeader={cartHeader} progress={progress}
+                    <CartHeaderPayment cartHeader={value} progress={progress}
                                        paymentMethodRef={paymentMethodRef}
                                        onChange={changeHandler}/>
                 </Grid>
             </Grid>
-            <CartCheckoutProgress current={progress} disabled={loadingStatus !== 'idle'}
-                                  onChange={setProgress}/>
-            <CartActionButtons cartHeader={cartHeader} progress={progress} setProgress={setProgress}
-                               headerChanged={changed} detailChanged={detailChanged}
+            <CartCheckoutProgress disabled={status !== 'idle'}/>
+            <CartActionButtons detailChanged={detailChanged}
                                onSubmit={submitHandler}/>
-            {loadingStatus !== 'idle' && <LinearProgress variant="indeterminate"/>}
+            {status !== 'idle' && <LinearProgress variant="indeterminate"/>}
             <AlertList context={processCart.typePrefix}/>
-
-
         </Box>
     )
 }

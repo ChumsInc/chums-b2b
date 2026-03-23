@@ -3,7 +3,6 @@ import {documentTitles} from '@/constants/paths';
 import {useAppSelector} from "@/app/hooks";
 import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
-import StoredSettings from "@/components/user/profile/StoredSettings";
 import {selectAccessStatus} from "@/ducks/user/userAccessSlice";
 import CustomerAccessList from "@/components/user/profile/CustomerAccessList";
 import RepAccessList from "@/components/user/profile/RepAccessList";
@@ -23,7 +22,6 @@ export default function ProfilePage() {
             {accessStatus === 'loading' && <LinearProgress variant="indeterminate"/>}
             <CustomerAccessList/>
             <RepAccessList/>
-            <StoredSettings sx={{mt: 5}}/>
         </Container>
     );
 }

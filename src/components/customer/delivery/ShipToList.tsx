@@ -17,7 +17,7 @@ import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectShipToSort, selectSortedShipToList, setShipToSort} from "@/ducks/customer/customerShipToAddressSlice";
 import {selectCustomerLoadStatus, selectPrimaryShipToCode} from "@/ducks/customer/currentCustomerSlice";
 import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice.ts";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 export interface ShipToLinkProps extends Omit<LinkProps, 'to'> {
     shipTo: ShipToCustomer;

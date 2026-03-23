@@ -8,7 +8,7 @@ import {
     setDefaultShipTo
 } from "@/ducks/customer/actions";
 import {customerSlug, emptyCustomer} from "@/utils/customer";
-import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";
+import {setLoggedIn} from "@/ducks/user/actions";
 import {dismissContextAlert} from "@/ducks/alerts/alertsSlice";
 import {loadCustomerList} from "@/ducks/customers/actions";
 
@@ -53,24 +53,6 @@ const currentCustomerSlice = createSlice({
                     resetCustomerState(state)
                 }
             })
-            .addCase(saveBillingAddress.pending, (state) => {
-                state.status = 'saving';
-            })
-            .addCase(saveBillingAddress.rejected, (state) => {
-                state.status = 'rejected'
-            })
-            .addCase(saveShipToAddress.pending, (state) => {
-                state.status = 'saving'
-            })
-            .addCase(saveShipToAddress.rejected, (state) => {
-                state.status = 'rejected'
-            })
-            .addCase(setDefaultShipTo.pending, (state) => {
-                state.status = 'saving';
-            })
-            .addCase(setDefaultShipTo.rejected, (state) => {
-                state.status = 'rejected';
-            })
             .addCase(loadCustomer.pending, (state, action) => {
                 state.status = 'loading';
                 const customerKey = customerSlug(action.meta.arg);
@@ -79,18 +61,12 @@ const currentCustomerSlice = createSlice({
                     state.customerKey = customerKey;
                 }
             })
-            .addCase(loadCustomer.rejected, (state) => {
-                state.status = 'rejected';
-            })
             .addCase(dismissContextAlert, (state, action) => {
-                if ([saveBillingAddress.typePrefix, saveShipToAddress.typePrefix, loadCustomer.typePrefix].includes(action.payload)) {
+                if ([loadCustomer.typePrefix,
+                    setDefaultShipTo.typePrefix,
+                    saveBillingAddress.typePrefix,
+                    saveShipToAddress.typePrefix].includes(action.payload)) {
                     state.status = 'idle'
-                }
-            })
-            .addCase(setUserAccess.pending, (state, action) => {
-                const customerKey = customerSlug(action.meta.arg);
-                if (!action.meta.arg?.isRepAccount && state.customerKey !== customerKey) {
-                    resetCustomerState(state);
                 }
             })
             .addCase(loadCustomerList.fulfilled, (state, action) => {
@@ -102,6 +78,10 @@ const currentCustomerSlice = createSlice({
                     }
                 }
             })
+            .addMatcher(isAnyOf(saveBillingAddress.pending, saveShipToAddress.pending, setDefaultShipTo.pending),
+                (state) => {
+                state.status = 'saving'
+            })
             .addMatcher(isAnyOf(
                 loadCustomer.fulfilled,
                 setDefaultShipTo.fulfilled,
@@ -111,6 +91,14 @@ const currentCustomerSlice = createSlice({
                 state.status = 'idle';
                 state.account = action.payload?.customer ?? null;
                 state.loaded = true;
+            })
+            .addMatcher(isAnyOf(
+                loadCustomer.rejected,
+                setDefaultShipTo.rejected,
+                saveBillingAddress.rejected,
+                saveShipToAddress.rejected,
+            ), (state) => {
+                state.status = 'rejected'
             })
     },
     selectors: {

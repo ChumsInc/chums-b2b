@@ -1,6 +1,4 @@
-
-
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -17,10 +15,6 @@ export default function CartCommentInput({cartId, disabled}: CartCommentInputPro
     const dispatch = useAppDispatch();
     const customerKey = useAppSelector(selectCustomerKey);
     const [text, setText] = useState<string>('');
-
-    useEffect(() => {
-        setText('');
-    }, [cartId])
 
     const saveHandler = async () => {
         if (!customerKey || !text.trim()) {

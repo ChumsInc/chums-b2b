@@ -20,7 +20,7 @@ export default defineConfig({
             "@/components": path.resolve(process.cwd(), 'src/components'),
             "@/constants": path.resolve(process.cwd(), 'src/constants'),
             "@/ducks": path.resolve(process.cwd(), 'src/ducks'),
-            "@/hooks": path.resolve(process.cwd(), 'src/hooks'),
+            "@/hooks": path.resolve(process.cwd(), 'src/customer'),
             "@/slices": path.resolve(process.cwd(), 'src/slices'),
             "@/types": path.resolve(process.cwd(), 'src/types'),
             "@/utils": path.resolve(process.cwd(), 'src/utils'),

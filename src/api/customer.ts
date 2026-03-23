@@ -180,11 +180,14 @@ export async function postShipToAddress(arg: ShipToCustomer): Promise<FetchCusto
     }
 }
 
-export async function postDefaultShipToCode(arg: string, customer: CustomerKey): Promise<FetchCustomerResponse> {
+export async function postDefaultShipToCode(arg: string|null, customer: CustomerKey): Promise<FetchCustomerResponse> {
     try {
         const {ARDivisionNo, CustomerNo} = customer;
         const url = '/sage/b2b/set-primary-shipto.php?co=CHI';
-        const body = JSON.stringify({Company: 'chums', account: `${ARDivisionNo}-${CustomerNo}:${arg}`});
+        const body = JSON.stringify({
+            Company: 'chums',
+            account: arg ? `${ARDivisionNo}-${CustomerNo}:${arg}` : `${ARDivisionNo}-${CustomerNo}`,
+        });
         await fetchJSON(url, {method: 'POST', body});
         return await fetchCustomerAccount(customer);
     } catch (err: unknown) {

@@ -3,12 +3,13 @@ import Box from "@mui/material/Box";
 import {sortUserAccounts} from "@/utils/customer";
 import Stack from "@mui/material/Stack";
 import CustomerAccessButton from "@/components/user/profile/CustomerAccessButton";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook.ts";
 
 export default function CustomerAccessList() {
     const {list, currentAccess} = useProfile();
+    const customerAccounts = list.filter(acct => !acct.isRepAccount).sort(sortUserAccounts);
 
-    if (list.length === 0) {
+    if (customerAccounts.length === 0) {
         return null;
     }
 
@@ -16,11 +17,9 @@ export default function CustomerAccessList() {
         <Box sx={{mt: 3}}>
             <Typography variant="h2" component="h2">Customer Accounts</Typography>
             <Stack spacing={2} direction="row" useFlexGap flexWrap="wrap">
-                {list
-                    .sort(sortUserAccounts)
-                    .map(acct => (
-                        <CustomerAccessButton key={acct.id} access={acct} active={acct.id === currentAccess?.id}/>
-                    ))}
+                {customerAccounts.map(acct => (
+                    <CustomerAccessButton key={acct.id} access={acct} active={acct.id === currentAccess?.id}/>
+                ))}
             </Stack>
         </Box>
     )

@@ -1,7 +1,7 @@
 import {useAppSelector} from "@/app/hooks";
 import Button, {type ButtonProps} from "@mui/material/Button";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 export default function ReloadCustomerButton ({type, onClick, disabled, ...rest}: ButtonProps) {
     const {reloadCustomer} = useCustomer();

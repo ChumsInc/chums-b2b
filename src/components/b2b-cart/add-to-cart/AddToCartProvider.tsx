@@ -1,7 +1,7 @@
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import type {B2BCartHeader, CartProduct} from "chums-types/b2b";
 import {type ReactNode, useCallback, useMemo, useState} from "react";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 import {AddToCartContext, type AddToCartContextState} from "@/components/b2b-cart/add-to-cart/AddToCartContext.tsx";
 import type {AddToCartBody, AddToCartProps} from "@/types/cart/cart-action-props";
 import {addToCart} from "@/ducks/carts/actions.ts";

@@ -89,6 +89,7 @@ const invoiceListSlice = createSlice({
                 const customerKey = customerSlug(action.meta.arg);
                 if (state.customerKey !== customerKey) {
                     resetCustomerInvoices(state, customerKey);
+                    state.filters.shipToCode = action.meta.arg?.ShipToCode ?? null;
                 }
             })
             .addCase(setCustomerAccount.fulfilled, (state, action) => {
@@ -102,6 +103,7 @@ const invoiceListSlice = createSlice({
                 const customerKey = customerSlug(action.meta.arg.key);
                 if (state.customerKey !== customerKey) {
                     resetCustomerInvoices(state, customerKey);
+                    state.filters.shipToCode = action.meta.arg?.key?.ShipToCode ?? null;
                 }
             })
             .addCase(loadInvoices.fulfilled, (state, action) => {

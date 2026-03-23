@@ -1,4 +1,4 @@
-import {CustomerContext, type CustomerContextState} from "@/components/customer/CustomerContext.tsx";
+import {CustomerContext, type CustomerContextState} from "@/hooks/customer/CustomerContext.tsx";
 import {useContext} from "react";
 
 const useCustomer = ():CustomerContextState => {

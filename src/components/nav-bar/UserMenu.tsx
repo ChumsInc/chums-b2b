@@ -6,7 +6,7 @@ import MenuItemRouterLink from "./MenuItemRouterLink";
 import UserAvatar from "@/components/user/UserAvatar";
 import {generatePath} from "react-router";
 import {useAppSelector} from "@/app/hooks";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook";
 
 
 export default function UserMenu() {

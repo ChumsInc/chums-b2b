@@ -3,31 +3,37 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import Stack from "@mui/material/Stack";
 import PrimaryShipToIcon from "../common/PrimaryShipToIcon";
 import Typography from "@mui/material/Typography";
-import {useAppDispatch, useAppSelector} from "@/app/hooks";
-import {selectCustomerPermissions} from "@/ducks/customer/customerPermissionsSlice";
-import type {Editable, ShipToCustomer} from "chums-types/b2b";
+import {useAppDispatch} from "@/app/hooks";
+import type {ShipToCustomer} from "chums-types/b2b";
 import {setDefaultShipTo} from "@/ducks/customer/actions";
-import {selectPrimaryShipToCode} from "@/ducks/customer/currentCustomerSlice.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 
 export interface PrimaryShipToButtonProps {
-    shipTo: (ShipToCustomer & Editable) | null;
+    shipTo: ShipToCustomer|null;
     disabled?: boolean;
 }
 
-const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
+export default function PrimaryShipToButton({shipTo, disabled}: PrimaryShipToButtonProps) {
     const dispatch = useAppDispatch();
-    const primaryShipToCode = useAppSelector(selectPrimaryShipToCode);
-    const permissions = useAppSelector(selectCustomerPermissions);
+    const {customer, permissions} = useCustomer();
 
+    const primaryShipToCode = customer?.PrimaryShipToCode ?? null;
+    const canSetDefaultShipTo = (permissions?.canSetDefaultShipTo ?? false)
+        && (permissions?.billTo ?? false)
+        && !disabled
+        && shipTo?.ShipToCode !== primaryShipToCode;
 
     const onSetDefaultShipTo = async () => {
-        if (permissions?.canSetDefaultShipTo && shipTo && shipTo.ShipToCode !== primaryShipToCode) {
-            await dispatch(setDefaultShipTo(shipTo.ShipToCode))
+        if (!customer || !permissions?.canSetDefaultShipTo || disabled) {
+            return
+        }
+        if (shipTo?.ShipToCode !== primaryShipToCode) {
+            await dispatch(setDefaultShipTo(shipTo?.ShipToCode ?? null))
         }
     }
 
-    if (!shipTo) {
+    if (!shipTo || !customer) {
         return null;
     }
 
@@ -36,7 +42,7 @@ const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
             {primaryShipToCode !== shipTo.ShipToCode && (
                 <Button type="button" variant="outlined"
                         startIcon={<LocalShippingIcon/>}
-                        disabled={!permissions?.canSetDefaultShipTo || shipTo.changed || disabled || shipTo.ShipToCode === primaryShipToCode || !permissions?.billTo}
+                        disabled={!canSetDefaultShipTo}
                         onClick={onSetDefaultShipTo}>
                     Set as default delivery location
                 </Button>
@@ -50,5 +56,3 @@ const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
         </>
     )
 }
-
-export default PrimaryShipToButton;

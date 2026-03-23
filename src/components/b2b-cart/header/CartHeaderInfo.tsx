@@ -4,22 +4,17 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import {eventChangeHandler} from "@/components/b2b-cart/header/cartHeaderUtils.ts";
 import type {RefObject} from "react";
+import {useEditorContext} from "@/hooks/editor/useEditorContext.ts";
 
 export interface CartHeaderInfoProps {
-    cartHeader: B2BCartHeader | null;
     customerPORef: RefObject<HTMLInputElement | null>;
-    onChange: (arg: Partial<B2BCartHeader>) => void;
 }
 
 export default function CartHeaderInfo({
-                                           cartHeader,
                                            customerPORef,
-                                           onChange,
                                        }: CartHeaderInfoProps) {
-    if (!cartHeader) {
-        return null;
-    }
-    const orderDate = dayjs(cartHeader.dateCreated).format('YYYY-MM-DD');
+    const {value, updateValue} = useEditorContext<B2BCartHeader>()
+    const orderDate = dayjs(value.dateCreated).format('YYYY-MM-DD');
     return (
         <Stack spacing={2} direction="column">
             <Stack spacing={2} direction={{xs: 'column', lg: 'row'}}>
@@ -29,14 +24,14 @@ export default function CartHeaderInfo({
                                htmlInput: {readOnly: true}
                            }}/>
                 <TextField label="Cart Expires" type="date" size="small" variant="filled" fullWidth
-                           value={dayjs(cartHeader.shipExpireDate).format('YYYY-MM-DD')}
+                           value={dayjs(value.shipExpireDate).format('YYYY-MM-DD')}
                            slotProps={{
                                htmlInput: {readOnly: true}
                            }}/>
             </Stack>
             <TextField label="Cart Name" type="text" fullWidth variant="filled" size="small"
-                       value={cartHeader?.customerPONo ?? ''} required
-                       onChange={eventChangeHandler("customerPONo", onChange)}
+                       value={value?.customerPONo ?? ''} required
+                       onChange={eventChangeHandler("customerPONo", updateValue)}
                        slotProps={{
                            htmlInput: {ref: customerPORef, maxLength: 30}
                        }}/>
@@ -44,7 +39,7 @@ export default function CartHeaderInfo({
                        slotProps={{
                            htmlInput: {maxLength: 30}
                        }}
-                       value={cartHeader?.promoCode ?? ''} onChange={eventChangeHandler('promoCode', onChange)}
+                       value={value?.promoCode ?? ''} onChange={eventChangeHandler('promoCode', updateValue)}
                        variant="filled" size="small"/>
         </Stack>
     )

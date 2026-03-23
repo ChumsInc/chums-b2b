@@ -17,7 +17,7 @@ import LockPersonIcon from '@mui/icons-material/LockPerson';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook.ts";
 
 type EditableUserProfile = Pick<ExtendedUserProfile, 'name' | 'email'> & Editable;
 
@@ -66,10 +66,6 @@ const UserProfile = () => {
         dispatch(logoutUser());
     }
 
-    const clearSettingsHandler = () => {
-
-    }
-
     const renderEmailLockIcon = () => {
         return authType === AUTH_GOOGLE
             ? (<InputAdornment position="end" title="Logged in with Google"
@@ -111,8 +107,9 @@ const UserProfile = () => {
                                     component={NavLink} to="/profile/set-password">
                                 Change Password
                             </Button>
-                            <Button type="button" variant="text" onClick={clearSettingsHandler}>Clear All
-                                Settings</Button>
+                            <Button type="button" variant="text" component={NavLink} to="/profile/settings">
+                                Stored Settings
+                            </Button>
                             <Button type="submit" variant="contained" disabled={!user?.changed}>Save Changes</Button>
                         </Stack>
                         {user?.changed && (<Alert severity="warning">Don&apos;t forget to save your changes.</Alert>)}

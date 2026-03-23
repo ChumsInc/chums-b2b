@@ -1,31 +1,23 @@
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import NavItemButtonLink from "./NavItemButtonLink";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice";
 import {customerCartURL} from "@/ducks/user/utils";
 import CustomerIndicator from "@/components/nav-bar/CustomerIndicator";
 import CartIcon from "@/components/b2b-cart/CartIcon";
 import {selectActiveCartId} from "@/ducks/carts/activeCartSlice";
 import {useAppSelector} from "@/app/hooks";
-import {useEffect, useState} from "react";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
-
-const CartMenu = () => {
+export default function CartMenu() {
+    const {customer} = useCustomer();
     const isLoggedIn = useAppSelector(selectLoggedIn);
-    const currentCustomer = useAppSelector(selectCustomerAccount);
     const currentCart = useAppSelector(selectActiveCartId);
-    const [show, setShow] = useState(false);
 
-    useEffect(() => {
-        setShow(isLoggedIn);
-        // console.log({currentCustomer, isLoggedIn});
-    }, [isLoggedIn, currentCustomer]);
-
-    if (!show) {
+    if (!isLoggedIn) {
         return null;
     }
 
-    if (!currentCustomer) {
+    if (!customer) {
         return (
             <NavItemButtonLink to="/profile" aria-label="Cart requires a current customer">
                 <CustomerIndicator/>
@@ -34,20 +26,10 @@ const CartMenu = () => {
         )
     }
 
-    if (!currentCart || currentCart === 0) {
-        return (
-            <NavItemButtonLink to={customerCartURL(currentCustomer)}>
-                <CustomerIndicator/>
-                <CartIcon/>
-            </NavItemButtonLink>
-        )
-    }
-
     return (
-        <NavItemButtonLink to={customerCartURL(currentCustomer, currentCart)}>
+        <NavItemButtonLink to={customerCartURL(customer, currentCart)}>
             <CustomerIndicator/>
             <CartIcon/>
         </NavItemButtonLink>
     )
 }
-export default CartMenu;

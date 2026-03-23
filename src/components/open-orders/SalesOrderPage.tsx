@@ -11,7 +11,7 @@ import SalesOrderSkeleton from "./SalesOrderSkeleton";
 import SalesOrderLoadingProgress from "./SalesOrderLoadingProgress";
 import {selectSalesOrderHeader, selectSalesOrderStatus} from "@/ducks/open-orders/currentOrderSlice";
 import {useTitle} from "@/components/app/TitleContext";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 /**
  *

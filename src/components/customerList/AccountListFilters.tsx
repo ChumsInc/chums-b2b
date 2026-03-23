@@ -6,7 +6,7 @@ import AccountListCustomerFilter from "./AccountListCustomerFilter";
 import AccountListRepFilter from "./AccountListRepFilter";
 import AccountListStateFilter from "./AccountListStateFilter";
 import {selectCustomerStates} from "@/ducks/customers/customerListSlice";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook.ts";
 
 const AccountListFilters = () => {
     const {reloadAccountList} = useProfile();

@@ -1,5 +1,5 @@
 import {type ReactNode, useCallback, useEffect, useMemo} from "react";
-import {ProfileContext, type ProfileContextState} from "@/components/user/profile-provider/ProfileContext.tsx";
+import {ProfileContext, type ProfileContextState} from "@/hooks/profile-provider/ProfileContext.tsx";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
 import {selectAccessList, selectCurrentAccess, setUserAccess} from "@/ducks/user/userAccessSlice.ts";
 import {loadProfile} from "@/ducks/user/actions.ts";
@@ -40,18 +40,34 @@ export default function ProfileProvider({children}: ProfileProviderProps) {
     }, [dispatch, isLoggedIn, list, currentAccess]);
 
     useEffect(() => {
+        const access = LocalStore.getItem<UserCustomerAccess|null>(STORE_USER_ACCESS, null);
+        setCurrentAccess(access?.id ?? null);
+        if (access?.isRepAccount) {
+            dispatch(loadCustomerList(access));
+        } else {
+            loadCustomer(access);
+        }
+    }, [setCurrentAccess, dispatch]);
+
+    useEffect(() => {
         if (canStorePreferences()) {
             const access = LocalStore.getItem<UserCustomerAccess|null>(STORE_USER_ACCESS, null);
-            setCurrentAccess(access?.id ?? null);
-            dispatch(loadCustomerList(access));
+            if (!currentAccess && access) {
+                dispatch(loadCustomerList(access));
+            }
         }
-    }, [dispatch, setCurrentAccess]);
+    }, [dispatch, setCurrentAccess, currentAccess]);
 
     useEffect(() => {
         if (params.accessId) {
-            setCurrentAccess(params.accessId ? +params.accessId : null);
+            setCurrentAccess(+params.accessId);
+            return;
         }
     }, [params, setCurrentAccess])
+
+    useEffect(() => {
+
+    }, [isLoggedIn, profile]);
 
     const reloadProfile = useCallback(() => {
         if (isLoggedIn) {
@@ -66,13 +82,10 @@ export default function ProfileProvider({children}: ProfileProviderProps) {
     }, [isLoggedIn, currentAccess, dispatch])
 
     const value = useMemo(() => {
-        if (!isLoggedIn) {
-            return null;
-        }
         return {
-            profile,
-            currentAccess,
-            list,
+            profile: isLoggedIn ? profile : null,
+            currentAccess: isLoggedIn ? currentAccess : null,
+            list: isLoggedIn ? list : [],
             setCurrentAccess,
             reloadProfile,
             reloadAccountList,

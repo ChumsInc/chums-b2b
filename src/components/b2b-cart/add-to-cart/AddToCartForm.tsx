@@ -51,7 +51,7 @@ export default function AddToCartForm({
         <AddToCartProvider cart={activeCart} cartItem={cartItem} comment={_comment}
                            unitOfMeasure={unitOfMeasure ?? cartItem.salesUM ?? 'EA'}
                            setActiveCart={setActiveCart}>
-            <AddToCartUI disabled={disabled} loading={cartsStatus === 'loading'}
+            <AddToCartUI key={activeCart?.id} disabled={disabled} loading={cartsStatus === 'loading'}
                          unitOfMeasure={unitOfMeasure ?? cartItem.salesUM ?? 'EA'} onDone={onDone}
                          excludeCartId={excludeCartId}/>
         </AddToCartProvider>

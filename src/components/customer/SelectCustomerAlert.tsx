@@ -2,8 +2,8 @@ import {Link as RoutedLink, useLocation} from "react-router";
 import Alert from "@mui/material/Alert";
 import Link from '@mui/material/Link';
 import {useTheme} from "@mui/material/styles";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook.ts";
 
 const SelectCustomerAlert = () => {
     const {customer} = useCustomer();

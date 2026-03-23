@@ -5,7 +5,6 @@ import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
 import AppUpdateLocalLogin from "@/components/user/AppUpdateLocalLogin.tsx";
 import AlertList from "@/components/alerts/AlertList.tsx";
 import ErrorBoundary from "@/components/common/ErrorBoundary.tsx";
-import Header from "./Header.tsx";
 import Footer from "@/components/footer/Footer.tsx";
 import SiteMessages from "@/components/messages/SiteMessages.tsx";
 import GoogleSignInOneTap from "@/components/user/login/GoogleSignInOneTap.tsx";
@@ -13,9 +12,10 @@ import CartMessageSnackbar from "@/components/b2b-cart/CartMessageSnackbar.tsx";
 import CookieConsentDrawer from "@/components/cookie-consent/CookieConsentDrawer.tsx";
 import {useAppSelector} from "@/app/hooks.ts";
 import {useEffect} from "react";
-import CustomerProvider from "@/components/customer/CustomerProvider.tsx";
+import CustomerProvider from "@/hooks/customer/CustomerProvider.tsx";
 import {ga4PageView} from "@/utils/ga4/generic.ts";
-import ProfileProvider from "@/components/user/profile-provider/ProfileProvider.tsx";
+import ProfileProvider from "@/hooks/profile-provider/ProfileProvider.tsx";
+import NavBarUI from "@/components/nav-bar/NavBarUI.tsx";
 
 export default function MainOutlet() {
     const loggedIn = useAppSelector(selectLoggedIn);
@@ -30,8 +30,10 @@ export default function MainOutlet() {
     return (
         <ProfileProvider>
             <CustomerProvider>
-                <Header/>
-                <Box component="main" sx={{marginTop: '100px', marginBottom: '3res'}}>
+                <header>
+                    <NavBarUI/>
+                </header>
+                <Box component="main" sx={{marginTop: '100px', marginBottom: '3rem', flex: '1 0 auto'}}>
                     <SiteMessages/>
                     <Container maxWidth="xl">
                         {allowAuth && loggedIn && <AppUpdateLocalLogin/>}

@@ -2,7 +2,7 @@ import Alert from "@mui/material/Alert";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice";
 import {useAppSelector} from "@/app/hooks";
 import Box from "@mui/material/Box";
-import useCustomer from "@/components/customer/hooks/useCustomer.ts";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 export default function MissingTaxScheduleAlert() {
     const {customer, status} = useCustomer()

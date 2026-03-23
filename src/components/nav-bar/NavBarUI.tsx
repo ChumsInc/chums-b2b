@@ -16,6 +16,7 @@ import SearchBar from "@/components/search/SearchBar.tsx";
 import NavMenuList from "@/components/nav-bar/NavMenuList";
 import {useState} from "react";
 import {useLocation} from "react-router";
+import ErrorBoundary from "@/components/common/ErrorBoundary.tsx";
 
 
 export default function NavBarUI() {
@@ -27,47 +28,48 @@ export default function NavBarUI() {
     }
 
     return (
-        <div>
-            <HideOnScroll>
-                <AppBar component="nav" color="default">
-                    <Container maxWidth="xl">
-                        <Toolbar disableGutters>
-                            <IconButton color="inherit" aria-label="open drawer" edge="start"
-                                        onClick={handleDrawerToggle}
-                                        sx={{mr: 2, display: {md: 'none'}}}>
-                                <MenuIcon/>
-                            </IconButton>
-                            <HomeLink/>
-                            <Box sx={{
-                                display: {xs: 'none', md: 'flex'},
-                                flex: '1 1 auto',
-                                flexDirection: 'row',
-                                alignItems: 'center'
-                            }}>
-                                <NavMenuList/>
-                            </Box>
-                            <Box sx={{display: {xs: 'none', md: 'flex'}, flex: '1 1 auto'}}>
-                                <SearchBar/>
-                            </Box>
-                            <Stack spacing={2} direction="row" useFlexGap>
-                                <CartMenu/>
-                                <UserMenu key={location.pathname}/>
-                            </Stack>
-                        </Toolbar>
-                    </Container>
-                </AppBar>
-            </HideOnScroll>
-            <Toolbar/>
-            <NavDrawer open={open} onClose={onClose}>
-                <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
-                    <HomeLink sx={{display: {xs: 'block', md: 'none'}}}/>
-                    <Divider/>
-                    <List>
-                        <NavMenuList inDrawer/>
-                    </List>
-                </Box>
-            </NavDrawer>
-        </div>
-
+        <ErrorBoundary>
+            <div>
+                <HideOnScroll>
+                    <AppBar component="nav" color="default">
+                        <Container maxWidth="xl">
+                            <Toolbar disableGutters>
+                                <IconButton color="inherit" aria-label="open drawer" edge="start"
+                                            onClick={handleDrawerToggle}
+                                            sx={{mr: 2, display: {md: 'none'}}}>
+                                    <MenuIcon/>
+                                </IconButton>
+                                <HomeLink/>
+                                <Box sx={{
+                                    display: {xs: 'none', md: 'flex'},
+                                    flex: '1 1 auto',
+                                    flexDirection: 'row',
+                                    alignItems: 'center'
+                                }}>
+                                    <NavMenuList/>
+                                </Box>
+                                <Box sx={{display: {xs: 'none', md: 'flex'}, flex: '1 1 auto'}}>
+                                    <SearchBar/>
+                                </Box>
+                                <Stack spacing={2} direction="row" useFlexGap>
+                                    <CartMenu/>
+                                    <UserMenu key={location.pathname}/>
+                                </Stack>
+                            </Toolbar>
+                        </Container>
+                    </AppBar>
+                </HideOnScroll>
+                <Toolbar/>
+                <NavDrawer open={open} onClose={onClose}>
+                    <Box onClick={handleDrawerToggle} sx={{textAlign: 'center'}}>
+                        <HomeLink sx={{display: {xs: 'block', md: 'none'}}}/>
+                        <Divider/>
+                        <List>
+                            <NavMenuList inDrawer/>
+                        </List>
+                    </Box>
+                </NavDrawer>
+            </div>
+        </ErrorBoundary>
     )
 }

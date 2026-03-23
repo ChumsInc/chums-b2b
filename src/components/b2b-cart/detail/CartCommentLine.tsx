@@ -1,6 +1,6 @@
 
 
-import {type ChangeEvent, type RefObject, useEffect, useState} from 'react';
+import {type ChangeEvent, type RefObject, useCallback, useEffect, useState} from 'react';
 import classNames from "classnames";
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import Box from "@mui/material/Box";
@@ -32,12 +32,16 @@ export default function CartCommentLine({
     const [value, setValue] = useState<string>(line.commentText);
     const [commentText, setCommentText] = useDebounceValue<string>(line.commentText, 500);
 
-    useEffect(() => {
-        if (readOnly || line.commentText === commentText) {
+    const updateCartItem = useCallback((s: string) => {
+        if (readOnly || line.commentText === s) {
             return;
         }
-        dispatch(setCartItem({cartHeaderId: cartId, id: lineId, commentText: commentText}));
-    }, [commentText, line, readOnly]);
+        dispatch(setCartItem({cartHeaderId: cartId, id: lineId, commentText: s}));
+    }, [readOnly, line, dispatch, cartId, lineId])
+
+    useEffect(() => {
+        updateCartItem(commentText);
+    }, [commentText, updateCartItem]);
 
     const rowClassName = {
         'table-warning': line.changed,

@@ -3,28 +3,33 @@ import ShipToSelect from "@/components/customer/common/ShipToSelect.tsx";
 import TextField from "@mui/material/TextField";
 import {addressFromShipToAddress, multiLineAddress} from "@/ducks/customer/utils.ts";
 import Stack from "@mui/material/Stack";
-import {useAppSelector} from "@/app/hooks.ts";
-import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
+import {useEditorContext} from "@/hooks/editor/useEditorContext.ts";
+import {useCartCheckout} from "@/hooks/cart-checkout/CartCheckoutContext.tsx";
+import {cartProgress} from "@/utils/cart.ts";
 
-export interface CartHeaderShipToProps {
-    cartHeader: B2BCartHeader | null;
-    onChangeShipTo: (value: string | null, address: ShipToAddress | null) => void;
-}
+export default function CartHeaderShipTo() {
+    const {value, updateValue} = useEditorContext<B2BCartHeader>()
+    const {status, setProgress} = useCartCheckout();
+    const addressValue = multiLineAddress(addressFromShipToAddress(value), true).join('\n')
 
-export default function CartHeaderShipTo({cartHeader, onChangeShipTo}: CartHeaderShipToProps) {
-    const loadingStatus = useAppSelector((state) => selectCartStatusById(state, cartHeader?.id ?? -1));
-    if (!cartHeader) {
-        return null;
+    const changeHandler = (shipToCode: string | null, address: ShipToAddress | null) => {
+        if (!address) {
+            updateValue({shipToCode: shipToCode});
+            setProgress(cartProgress.cart);
+            return;
+        }
+        updateValue({shipToCode: shipToCode, ...address});
+        setProgress(cartProgress.cart);
+
     }
-    const address = multiLineAddress(addressFromShipToAddress(cartHeader), true).join('\n')
     return (
         <Stack spacing={2} direction="column">
-            <ShipToSelect value={cartHeader?.shipToCode ?? ''}
-                          disabled={loadingStatus !== 'idle'}
+            <ShipToSelect value={value?.shipToCode ?? ''}
+                          disabled={status !== 'idle'}
                           defaultName="Default Address"
-                          onChange={onChangeShipTo}/>
+                          onChange={changeHandler}/>
             <TextField label="Delivery Address" type="text" multiline variant="filled" size="small"
-                       value={address}
+                       value={addressValue}
                        slotProps={{
                            htmlInput: {readOnly: true},
                        }}/>

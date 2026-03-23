@@ -13,7 +13,7 @@ import AccountListFilters from "./AccountListFilters";
 import AccountListTable from "./AccountListTable";
 import {repAccessCode} from "@/ducks/user/utils";
 import {useTitle} from "@/components/app/TitleContext";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook.ts";
 
 const AccountList = () => {
     const location = useLocation();

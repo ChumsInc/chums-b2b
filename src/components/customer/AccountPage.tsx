@@ -1,17 +1,13 @@
 import AccountBreadcrumbs from "./AccountBreadcrumbs";
-import {selectCustomerAccount, selectCustomerLoadStatus,} from "@/ducks/customer/currentCustomerSlice";
 import {Outlet} from "react-router";
 import AccountTabs from "./AccountTabs";
-import {useAppSelector} from "@/app/hooks";
 import CustomerTitle from "@/components/customer/CustomerTitle";
-import {selectCustomerShipTo} from "@/ducks/customer/customerShipToAddressSlice";
 import {useTitle} from "@/components/app/TitleContext";
 import {useEffect} from "react";
+import useCustomer from "@/hooks/customer/useCustomer.ts";
 
 export default function AccountPage() {
-    const customer = useAppSelector(selectCustomerAccount);
-    const loadStatus = useAppSelector(selectCustomerLoadStatus);
-    const shipTo = useAppSelector(selectCustomerShipTo);
+    const {customer, status, shipTo} = useCustomer();
     const {setPageTitle} = useTitle();
 
     useEffect(() => {
@@ -23,7 +19,7 @@ export default function AccountPage() {
     return (
         <div>
             <AccountBreadcrumbs/>
-            <CustomerTitle customer={customer} shipTo={shipTo} loading={loadStatus !== 'idle'}/>
+            <CustomerTitle customer={customer} shipTo={shipTo} loading={status !== 'idle'}/>
             <AccountTabs/>
             <Outlet/>
         </div>

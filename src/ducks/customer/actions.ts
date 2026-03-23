@@ -140,7 +140,7 @@ export const saveShipToAddress = createAsyncThunk<FetchCustomerResponse | null, 
     }
 )
 
-export const setDefaultShipTo = createAsyncThunk<FetchCustomerResponse, string, { state: RootState }>(
+export const setDefaultShipTo = createAsyncThunk<FetchCustomerResponse, string|null, { state: RootState }>(
     'customer/setDefaultShipTo',
     async (arg, {getState}) => {
         const state = getState();

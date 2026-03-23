@@ -35,7 +35,7 @@ import {setAvatar} from "@/ducks/user/actions";
 import {setCartShippingAccount} from "@/ducks/carts/actions";
 import {getTokenExpirationDate, isTokenExpired} from "@/utils/jwtHelper";
 import {clearRecentCustomers} from "@/ducks/customers/recentCustomersSlice";
-import {useProfile} from "@/components/user/profile-provider/use-profile-hook.ts";
+import {useProfile} from "@/hooks/profile-provider/use-profile-hook.ts";
 
 export type StoredSettings = Record<string, string>;
 

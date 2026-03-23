@@ -1,3 +1,6 @@
+import type {SxProps} from "@mui/material/styles";
+import type {SortableTableField} from "@/components/common/DataTable";
+
 export default class B2BError extends Error {
     url?: string;
     debug?: unknown;
@@ -33,4 +36,9 @@ export interface KeyedObject<T = unknown> {
 export interface APIErrorResponse {
     error?: string;
     name?: string;
+}
+
+export interface VirtuoColumn<T = unknown> extends SortableTableField<T> {
+    width?: string|number;
+    sx?: SxProps;
 }

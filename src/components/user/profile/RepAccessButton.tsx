@@ -11,6 +11,9 @@ export interface AccessButtonProps {
 }
 export default function RepAccessButton({access, active}: AccessButtonProps) {
     const linkPath = generatePath(PATH_PROFILE_ACCOUNT, {id: `${access.id}`})
+    if (!access.isRepAccount) {
+        return null;
+    }
 
     return (
         <Button variant={active ? "contained" : "outlined"} component={RoutedLink} to={linkPath}>

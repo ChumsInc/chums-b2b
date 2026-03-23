@@ -80,11 +80,9 @@ export const longAccountNumber = (acct: UserCustomerAccess): string => acct.isRe
 
 
 export const sortUserAccounts = (a: UserCustomerAccess, b: UserCustomerAccess) => {
-    const acctA = longAccountNumber(a);
-    const acctB = longAccountNumber(b);
-    return a.Company === b.Company
-        ? (acctA === acctB ? (a.id - b.id) : (acctA > acctB ? 1 : -1))
-        : a.Company < b.Company ? 1 : -1;
+    const acctA = `${a.primaryAccount ? 1 : 2}:${longAccountNumber(a)}`;
+    const acctB = `${b.primaryAccount ? 1 : 2}:${longAccountNumber(b)}`;
+    return acctA.localeCompare(acctB);
 };
 
 export const compareCustomerAccountNumber = (a: CustomerKey, b: CustomerKey) => {

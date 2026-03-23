@@ -5,6 +5,7 @@ import {addToCart, duplicateSalesOrder, loadCart, loadCarts, saveCart, saveCartI
 import {loadCustomer} from "@/ducks/customer/actions";
 import {customerSlug} from "@/utils/customer";
 import {calcCartQty, cartDetailSorter} from "@/ducks/carts/utils";
+import {selectActiveCartId} from "@/ducks/carts/activeCartSlice.ts";
 
 const detailAdapter = createEntityAdapter<B2BCartDetail, number>({
     selectId: (arg) => arg.id,
@@ -146,6 +147,15 @@ export const selectCartDetailById = createSelector(
     [selectByCartId,  selectCartDetailSort],
     (rows, sort) => {
         return [...rows].sort(cartDetailSorter(sort));
+    }
+)
+
+export const selectActiveCartDetail = createSelector(
+    [selectActiveCartId, selectAll, selectCartDetailSort],
+    (cartId, rows, sort) => {
+        return rows
+            .filter(row => row.cartHeaderId === cartId)
+            .sort(cartDetailSorter(sort));
     }
 )
 
