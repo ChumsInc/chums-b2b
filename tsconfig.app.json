@@ -6,18 +6,17 @@
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "baseUrl": "./src",
     "paths": {
-      "@/src/*": ["./*"],
-      "@/api/*": ["./api/*"],
-      "@/app/*": ["./app/*"],
-      "@/components/*": ["./components/*"],
-      "@/constants/*": ["./constants/*"],
-      "@/ducks/*": ["./ducks/*"],
-      "@/hooks/*": ["./hooks/*"],
-      "@/slices/*": ["./slices/*"],
-      "@/types/*": ["./types/*"],
-      "@/utils/*": ["./utils/*"]
+      "@/src/*": ["./src/*"],
+      "@/api/*": ["./src/api/*"],
+      "@/app/*": ["./src/app/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/ducks/*": ["./src/ducks/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/slices/*": ["./src/slices/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/utils/*": ["./src/utils/*"]
     },
 
     /* Bundler mode */

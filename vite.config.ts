@@ -1,36 +1,11 @@
 import 'dotenv/config';
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from "node:path";
+import {defineConfig} from 'vite';
 import process from "node:process";
-import { visualizer } from "rollup-plugin-visualizer";
-
-function parseChunks(id: string):string | null {
-    if (id.includes('node_modules')) {
-        if (id.includes('mui')) {
-            return 'mui';
-        }
-        return 'vendor';
-    }
-    return null;
-}
+import {visualizer} from "rollup-plugin-visualizer";
+import {commonConfig} from "./vite.common.config.ts";
 
 export default defineConfig({
-    plugins: [react()],
-    resolve: {
-        alias: {
-            "@/": path.resolve(process.cwd(), 'src'),
-            "@/api": path.resolve(process.cwd(), 'src/api'),
-            "@/app": path.resolve(process.cwd(), 'src/app'),
-            "@/components": path.resolve(process.cwd(), 'src/components'),
-            "@/constants": path.resolve(process.cwd(), 'src/constants'),
-            "@/ducks": path.resolve(process.cwd(), 'src/ducks'),
-            "@/hooks": path.resolve(process.cwd(), 'src/hooks'),
-            "@/slices": path.resolve(process.cwd(), 'src/slices'),
-            "@/types": path.resolve(process.cwd(), 'src/types'),
-            "@/utils": path.resolve(process.cwd(), 'src/utils'),
-        }
-    },
+    ...commonConfig,
     server: {
         port: 8080,
         host: 'localhost',
@@ -57,12 +32,18 @@ export default defineConfig({
         // minify: false,
         outDir: 'dist-client',
         emptyOutDir: true,
-        rollupOptions: {
+        rolldownOptions: {
             input: './src/client/index.tsx',
+            plugins: [visualizer({filename: 'stats.html', gzipSize: true})],
             output: {
-                manualChunks: parseChunks,
-            },
-            plugins: [visualizer()]
+                codeSplitting: {
+                    groups: [
+                        {name: 'react', test: /node_modules\/(react|react-dom)/},
+                        {name: 'mui', test: /node_modules\/@mui/},
+                        {name: 'vendor', test: /node_modules/},
+                    ]
+                }
+            }
         },
         manifest: true,
         sourcemap: true,
