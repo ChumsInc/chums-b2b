@@ -167,6 +167,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
             seasonAvailable: product.additionalData?.seasonAvailable || product.season_available,
             quantityAvailable: product.QuantityAvailable,
             season: product.season ?? null,
+            productStatus: product.productStatus,
         };
     }
     return {
@@ -183,6 +184,7 @@ export const defaultCartItem = (product: Product | null, option?: CartItemColorP
         seasonCode: product.season_code,
         seasonAvailable: product.additionalData?.seasonAvailable || product.season_available,
         season: product.season ?? null,
+        productStatus: product.productStatus,
     };
 };
 
@@ -225,6 +227,7 @@ export function colorCartItem(item: ProductColorItem, product?: BasicProduct): C
             ? null
             : (item.additionalData?.season?.preSeasonMessage ?? product?.preSeasonMessage ?? product?.dateAvailable),
         message: item.additionalData?.message,
+        productStatus: item.productStatus
     }
 }
 
