@@ -1,4 +1,6 @@
 import 'dotenv/config';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import {defineConfig} from 'vite';
 import * as path from "node:path";
 import * as process from "node:process";
@@ -34,7 +36,7 @@ export default defineConfig({
         },
         emptyOutDir: true,
         rolldownOptions: {
-            input: './src/server/index.ts',
+            input: path.resolve(process.cwd(), './src/server/index.ts'),
             output: {
                 preserveModules: true,
                 // codeSplitting: false

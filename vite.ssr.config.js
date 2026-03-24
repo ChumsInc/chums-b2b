@@ -12,6 +12,8 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 var vite_1 = require("vite");
 var path = require("node:path");
 var process = require("node:process");
@@ -42,7 +44,7 @@ exports.default = (0, vite_1.defineConfig)(__assign(__assign({}, vite_common_con
         },
         emptyOutDir: true,
         rolldownOptions: {
-            input: './src/server/index.ts',
+            input: path.resolve(process.cwd(), './src/server/index.ts'),
             output: {
                 preserveModules: true,
                 // codeSplitting: false
