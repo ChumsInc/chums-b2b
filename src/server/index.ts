@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './load-env.ts';
 import _debug from 'debug';
 import express, {type NextFunction, type Request, type  Response} from "express";
 import favicon from "serve-favicon";
