@@ -12,7 +12,7 @@ import Table from '@mui/material/Table';
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import {useAppSelector} from "@/app/hooks.ts";
-
+import FeedbackIcon from '@mui/icons-material/Feedback';
 
 const CartItemDetailTableTHCell = styled(TableCell)`
     font-weight: 400;
@@ -87,19 +87,39 @@ const CartItemDetail = ({cartItem, msrp}: {
                                                    align="left">SKU</CartItemDetailTableTHCell>
                         <CartItemDetailTableTDCell align="right">{cartItem.itemCode}</CartItemDetailTableTDCell>
                     </TableRow>
+                    {cartItem.productStatus === 'MTO' && (
+                        <TableRow className="item-code" sx={{color: theme.palette.warning.main}}>
+                            <CartItemDetailTableTHCell component="th" scope="row"
+                                                       align="left">
+                                Availability
+                                <FeedbackIcon sx={{color: theme.palette.warning.main, ml: 1}} fontSize="small"/>
+                            </CartItemDetailTableTHCell>
+                            <CartItemDetailTableTDCell align="right">
+                                Made to Order
+                            </CartItemDetailTableTDCell>
+                        </TableRow>
+                    )}
                     {canViewAvailable && (
                         <TableRow
                             title="Availability is only visible for CHUMS employees"
-                            sx={{color: availableToday.lte(0) ? theme.palette.error.main : undefined}}>
-                            <CartItemDetailTableTHCell component="th" scope="row" align="left" sx={{color: 'inherit'}}>Available
-                                Today</CartItemDetailTableTHCell>
+                            sx={{
+                                color: cartItem.salesUM !== 'KIT' && availableToday.lte(0)
+                                    ? theme.palette.error.main
+                                    : undefined,
+                                backgroundColor: theme.palette.action.hover
+                            }}>
+                            <CartItemDetailTableTHCell component="th" scope="row" align="left" sx={{color: 'inherit'}}>
+                                Available Today
+                            </CartItemDetailTableTHCell>
                             <CartItemDetailTableTDCell align="right"
-                                                       sx={{color: 'inherit'}}>{numeral(availableToday.toString()).format('0,0')} ({cartItem.salesUM})</CartItemDetailTableTDCell>
+                                                       sx={{color: 'inherit'}}>
+                                {numeral(availableToday.toString()).format('0,0')} ({cartItem.salesUM})
+                            </CartItemDetailTableTDCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
-            {new Decimal(cartItem.quantity ?? 1).gt(availableToday) && (
+            {cartItem.salesUM !== 'KIT' && new Decimal(cartItem.quantity ?? 1).gt(availableToday) && (
                 <Alert severity="warning" sx={{my: 0.5}}>Product is not available for immediate delivery.</Alert>
             )}
         </Box>
