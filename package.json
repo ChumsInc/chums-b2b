@@ -11,7 +11,7 @@
     "build-dev": "npm run build-vite-dev && npm run build-vite-ssr",
     "build-vite": "tsc -b && vite build",
     "build-vite-dev": "tsc -b && vite build --mode development",
-    "build-vite-ssr": "vite build --config vite.ssr.config.ts",
+    "build-vite-ssr": "vite build --ssr",
     "start-dev-version-proxy": "nodemon dev-version-proxy.js",
     "start-server-vite": "nodemon ./dist-server/index.js",
     "version": "auto-changelog -p && git add CHANGELOG.md"
