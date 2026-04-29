@@ -69,9 +69,14 @@ export default function VariantButtons() {
     }
 
     return (
-        <Grid container spacing={1} sx={{mb: 1}} className="variant-buttons-container"
-              direction={{xs: variants.length > 2 ? 'row' : 'column', sm: 'row'}}
-              justifyContent={variants.length === 2 ? 'center' : 'flex-start'}>
+        <Grid container spacing={1} className="variant-buttons-container"
+              sx={{
+                  mb: 1,
+                  justifyContent: variants.length === 2 ? 'center' : 'flex-start',
+                  flexDirection: {
+                      xs: variants.length > 2 ? 'row' : 'column',
+                      sm: 'row'
+                  }}}>
             {variants
                 .map(variant => (
                     <Grid key={variant.id} size={{xs: variants.length > 2 ? 4 : 12, sm: 3, md: 4}}>

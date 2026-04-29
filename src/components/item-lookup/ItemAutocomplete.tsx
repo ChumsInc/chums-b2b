@@ -20,6 +20,7 @@ import {selectCartStatusById} from "@/ducks/carts/cartStatusSlice.ts";
 import {selectCustomerKey} from "@/ducks/customer/currentCustomerSlice.ts";
 import AddToCartButton from "@/components/b2b-cart/add-to-cart/AddToCartButton.tsx";
 import {ga4AddToCart} from "@/utils/ga4/cart.ts";
+import ErrorBoundary from "@/components/common/ErrorBoundary.tsx";
 
 
 const NumericTextField = styled(TextField)`
@@ -95,72 +96,84 @@ export default function ItemAutocomplete({cartId}: {
 
 
     return (
-        <Stack direction="row" spacing={1}>
-            <Autocomplete
-                size="small"
-                sx={{width: 300, display: 'inline-block'}}
-                renderInput={(params) => (
-                    <TextField {...params} variant="filled" size="small" label="Search Items" fullWidth
-                               slotProps={{
-                                   input: {
-                                       ...params.InputProps,
-                                       endAdornment: (
-                                           <>
-                                               {loading && (<CircularProgress color="inherit" size={20}/>)}
-                                               {params.InputProps.endAdornment}
-                                           </>
-                                       )
-                                   }
-                               }}
-                    />
-                )}
-                inputValue={inputValue}
-                onInputChange={inputChangeHandler}
-                isOptionEqualToValue={(option, arg) => option.ItemCode === arg.ItemCode}
-                options={options}
-                noOptionsText={fulfilled ? 'Item Not Found' : null}
-                blurOnSelect
-                getOptionLabel={(option) => option.ItemCode}
-                filterOptions={(x) => x}
-                onChange={changeHandler}
-                renderOption={(props, option) => {
-                    const src = CONTENT_PATH_SEARCH_IMAGE
-                        .replace(':image', encodeURIComponent(option.filename ?? 'missing.png'));
-                    return (
-                        <li {...props} key={option.ItemCode}>
-                            <div className="search-result row g-3">
-                                <div className="col-auto">
-                                    {!!option.filename && <img src={src} alt={option.ItemCodeDesc ?? option.ItemCode}
-                                                               className="img-fluid"/>}
+        <ErrorBoundary>
+            <Stack direction="row" spacing={1}>
+                <Autocomplete
+                    size="small"
+                    sx={{width: 300, display: 'inline-block'}}
+                    renderInput={(params) => (
+                        <TextField {...params}
+                                   variant="filled" size="small" label="Search Items" fullWidth
+                                   slotProps={{
+                                       ...params.slotProps,
+                                       input: {
+                                           ...params.slotProps.input,
+                                           endAdornment: (
+                                               <>
+                                                   {loading && (<CircularProgress color="inherit" size={20}/>)}
+                                                   {params.slotProps.input.endAdornment}
+                                               </>
+                                           )
+                                       }
+                                   }}
+                        />
+                    )}
+                    inputValue={inputValue}
+                    onInputChange={inputChangeHandler}
+                    isOptionEqualToValue={(option, arg) => option.ItemCode === arg.ItemCode}
+                    options={options}
+                    noOptionsText={fulfilled ? 'Item Not Found' : null}
+                    blurOnSelect
+                    getOptionLabel={(option) => option.ItemCode}
+                    filterOptions={(x) => x}
+                    onChange={changeHandler}
+                    renderOption={(props, option) => {
+                        const src = CONTENT_PATH_SEARCH_IMAGE
+                            .replace(':image', encodeURIComponent(option.filename ?? 'missing.png'));
+                        return (
+                            <li {...props} key={option.ItemCode}>
+                                <div className="search-result row g-3">
+                                    <div className="col-auto">
+                                        {!!option.filename && <img src={src} alt={option.ItemCodeDesc ?? option.ItemCode}
+                                                                   className="img-fluid"/>}
+                                    </div>
+                                    <div className="col">
+                                        <div>{option.ItemCode}</div>
+                                        {!!option.ItemCodeDesc &&
+                                            <div className="text-muted small">{option.ItemCodeDesc}</div>}
+                                    </div>
+                                    <div className="col-auto">{option.SalesUnitOfMeasure ?? 'EA'}</div>
                                 </div>
-                                <div className="col">
-                                    <div>{option.ItemCode}</div>
-                                    {!!option.ItemCodeDesc &&
-                                        <div className="text-muted small">{option.ItemCodeDesc}</div>}
-                                </div>
-                                <div className="col-auto">{option.SalesUnitOfMeasure ?? 'EA'}</div>
-                            </div>
-                        </li>
-                    )
-                }}
-                value={value}/>
-            <NumericTextField size="small" variant="filled"
-                              type="number"
-                              inputProps={{inputMode: 'numeric', min: 1, pattern: '[0-9]*', maxLength: 4}}
-                              label="Quantity" value={quantity}
-                              onChange={quantityChangeHandler}
-                              InputProps={{
-                                  endAdornment: (
-                                      <InputAdornment position="end">
-                                          {value?.SalesUnitOfMeasure ?? 'EA'}
-                                      </InputAdornment>
-                                  )
-                              }}
-            />
-            <AddToCartButton disabled={!quantity || !value || cartStatus !== 'idle'}
-                             type="button" size="small" color="primary" fullWidth={false}
-                             onClick={addToCartHandler}/>
-            <div/>
-        </Stack>
+                            </li>
+                        )
+                    }}
+                    value={value}/>
+                <NumericTextField size="small" variant="filled"
+                                  type="number"
+                                  slotProps={{
+                                      htmlInput: {
+                                          inputMode: 'numeric',
+                                          min: 1,
+                                          pattern: '[0-9]*',
+                                          maxLength: 4,
+                                      },
+                                      input: {
+                                          endAdornment: (
+                                              <InputAdornment position="end">
+                                                  {value?.SalesUnitOfMeasure ?? 'EA'}
+                                              </InputAdornment>
+                                          )
+                                      }
+                                  }}
+                                  label="Quantity" value={quantity}
+                                  onChange={quantityChangeHandler}
+                />
+                <AddToCartButton disabled={!quantity || !value || cartStatus !== 'idle'}
+                                 type="button" size="small" color="primary" fullWidth={false}
+                                 onClick={addToCartHandler}/>
+                <div/>
+            </Stack>
+        </ErrorBoundary>
+
     )
 }

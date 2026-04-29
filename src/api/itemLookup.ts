@@ -7,7 +7,9 @@ export async function fetchItemLookup(arg:string):Promise<ItemSearchResult[]> {
         if (!arg || !arg.trim()) {
             return [];
         }
-        const url = `/api/search/items/${encodeURIComponent(arg)}`;
+        const params = new URLSearchParams();
+        params.set('search', arg);
+        const url = `/api/search/items.json?${params.toString()}`;
         const res = await fetchJSON<{items: ItemSearchResult[]}>(url);
         return res?.items ?? [];
     } catch(err:unknown) {

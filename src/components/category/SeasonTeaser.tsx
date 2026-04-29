@@ -6,14 +6,14 @@ export interface SeasonTeaserProps extends StackProps {
     active?: boolean | null;
 }
 
-export default function SeasonTeaser({teaser, active, ...rest}: SeasonTeaserProps) {
+export default function SeasonTeaser({teaser, active, sx, ...rest}: SeasonTeaserProps) {
     const show: boolean = !!active && !!teaser;
     if (!show) {
         return null;
     }
 
     return (
-        <Stack direction="row" spacing={2} alignItems="center" justifyContent="center" {...rest}>
+        <Stack direction="row" spacing={2} sx={{alignItems: 'center', justifyContent: 'center', ...sx}} {...rest}>
             <ProductAttributeChip feature="new"/>
             <span>{teaser}</span>
         </Stack>

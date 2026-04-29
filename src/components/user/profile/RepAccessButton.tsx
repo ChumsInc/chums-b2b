@@ -14,7 +14,7 @@ export default function RepAccessButton({access, active}: AccessButtonProps) {
 
     return (
         <Button variant={active ? "contained" : "outlined"} component={RoutedLink} to={linkPath}>
-            <Stack direction="column" textAlign="center">
+            <Stack direction="column" sx={{textAlign: 'center'}}>
                 <div>
                     {longRepNo({
                         SalespersonDivisionNo: access.SalespersonDivisionNo,

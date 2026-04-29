@@ -156,7 +156,7 @@ export default function AddToCartForm({
     }
 
     return (
-        <form action={submitHandler} className="add-to-cart" method="post">
+        <form action={submitHandler} className="add-to-cart">
             <Stack spacing={2} direction="column">
                 <CartSelect cartId={cartId === excludeCartId ? 0 : cartId} onChange={cartChangeHandler} required
                             excludeCartId={excludeCartId}/>
@@ -178,7 +178,7 @@ export default function AddToCartForm({
                         </Box>
                     </Stack>
                 )}
-                <Stack direction="row" spacing={2} justifyContent="flex-end">
+                <Stack direction="row" spacing={2} sx={{justifyContent: 'flex-end'}}>
                     <CartQuantityInput quantity={quantity} onChange={onChangeQuantity}
                                        unitOfMeasure={unitOfMeasure ?? cartItem.salesUM ?? 'EA'}
                                        disabled={disabled} required/>

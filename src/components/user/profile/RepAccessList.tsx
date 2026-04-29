@@ -17,7 +17,7 @@ export default function RepAccessList() {
     return (
         <Box sx={{mt: 3}}>
             <Typography variant="h2" component="h2">Rep Accounts</Typography>
-            <Stack spacing={2} direction="row" useFlexGap flexWrap="wrap">
+            <Stack spacing={2} direction="row" useFlexGap sx={{flexWrap: 'wrap'}}>
                 {list
                     .sort(sortUserAccounts)
                     .map(acct => (

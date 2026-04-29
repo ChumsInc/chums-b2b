@@ -84,7 +84,7 @@ const UserProfile = () => {
     return (
         <Container maxWidth="xl">
             <Typography variant="h1" component="h1" sx={{mb: 5}}>Login Profile</Typography>
-            <Grid container spacing={3} alignItems="start">
+            <Grid container spacing={3} sx={{alignItems: 'start'}}>
                 <Grid size={{xs: 3, sm: 2}} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <Avatar alt={user?.name} src={profilePic ?? undefined} sx={{width: 80, height: 80}}
                             slotProps={{img: {referrerPolicy: 'no-referrer'}}}
@@ -108,7 +108,7 @@ const UserProfile = () => {
                                        helperText={authType === AUTH_GOOGLE ? 'Please contact CHUMS customer service if you need to change your email address' : undefined}
                             />
                         </Stack>
-                        <Stack direction="row" spacing={2} sx={{mt: 5}} useFlexGap justifyContent="flex-end">
+                        <Stack direction="row" spacing={2} useFlexGap sx={{mt: 5, justifyContent: 'flex-end'}}>
                             <Button type="button" variant="text" onClick={logoutHandler} color="error">Logout</Button>
                             <Button type="button" variant="text" onClick={refreshHandler}>Refresh</Button>
                             <Button type="button" variant="text" disabled={authType !== AUTH_LOCAL}

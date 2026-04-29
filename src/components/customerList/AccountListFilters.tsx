@@ -21,7 +21,7 @@ const AccountListFilters = () => {
     }
 
     return (
-        <Grid container spacing={2} alignContent="center" sx={{mt: 5, mb: 1}} justifyContent="space-between">
+        <Grid container spacing={2} sx={{mt: 5, mb: 1, alignContent: 'center', justifyContent: 'space-between'}}>
             <Grid sx={{flex: '1 1 auto'}}>
                 <AccountListCustomerFilter/>
             </Grid>

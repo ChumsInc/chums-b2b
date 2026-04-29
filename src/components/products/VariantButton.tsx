@@ -37,8 +37,7 @@ const VariantButton = ({variant, selected, direction, spacing, onClick}: {
     return (
         <VariantButtonBase variant={selected ? 'contained' : 'outlined'}
                            onClick={() => onClick(variant)}>
-            <Stack direction={direction ?? {xs: 'row', sm: 'column'}}
-                   spacing={spacing ?? {xs: 2, sm: 0}} alignItems="center">
+            <Stack direction={direction ?? {xs: 'row', sm: 'column'}} spacing={spacing ?? {xs: 2, sm: 0}}>
                 <Box>
                     <Typography variant="variantButtonText">{variant.title}</Typography>
                 </Box>

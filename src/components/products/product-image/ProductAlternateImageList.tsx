@@ -10,7 +10,7 @@ export default function ProductAlternateImageList({currentImage, images, onSelec
     onSelectImage: (img: ProductAlternateImage) => void;
 }) {
     return (
-        <Stack direction="column" useFlexGap flexWrap="wrap" spacing={2} sx={{justifyContent: 'center'}}>
+        <Stack direction="column" useFlexGap spacing={2} sx={{justifyContent: 'center', flexWrap: 'wrap'}}>
             {images
                 .sort((a, b) => a.priority - b.priority)
                 .map(img => (

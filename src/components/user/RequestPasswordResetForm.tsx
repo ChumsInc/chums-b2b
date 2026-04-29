@@ -62,7 +62,7 @@ const RequestPasswordResetForm = () => {
                                    }}
                                    required/>
                     </Box>
-                    <Stack direction="row" spacing={2} useFlexGap justifyContent="flex-end">
+                    <Stack direction="row" spacing={2} useFlexGap sx={{justifyContent: 'flex-end'}}>
                         <Button type="button" variant="text" component={NavLink} to="/login">
                             Cancel
                         </Button>

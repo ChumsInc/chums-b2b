@@ -11,7 +11,7 @@ export interface OrderFilterProps extends InputHTMLAttributes<HTMLInputElement> 
 const OrderFilter = ({value, onChange, children, placeholder, className, id, ...rest}: OrderFilterProps) => {
     const _id = useId();
     return (
-        <Stack direction="row" spacing={2} justifyContent="space-between">
+        <Stack direction="row" spacing={2} sx={{justifyContent: 'space-between'}}>
             <TextField type="search" value={value} onChange={onChange} variant="standard" size="small" id={id ?? _id}
                        fullWidth
                        slotProps={{

@@ -155,7 +155,7 @@ const InvoicesList = () => {
                                                  selected={invoiceNo}
                                                  fields={invoiceFields} currentSort={sort}
                                                  onChangeSort={sortChangeHandler}/>
-                <Box display="flex" justifyContent="flex-end">
+                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                     <TablePagination component="div"
                                      count={list.length} page={page} onPageChange={(_, arg) => setPage(arg)}
                                      rowsPerPage={rowsPerPage} onRowsPerPageChange={rowsPerPageChangeHandler}

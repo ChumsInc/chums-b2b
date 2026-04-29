@@ -50,7 +50,7 @@ export default function FooterLinks() {
             <Box sx={{ml: {xs: '1rem'}}}>
                 <AppVersion/>
             </Box>
-            <BottomLinks direction="row" useFlexGap flexWrap="wrap">
+            <BottomLinks direction="row" useFlexGap sx={{flexWrap: 'wrap'}}>
                 <FooterLink underline="hover" href="//intranet.chums.com/apps/current-openings"
                             target="_blank" rel="noreferrer">
                     CAREERS

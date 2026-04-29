@@ -73,7 +73,12 @@ const ShipToForm = () => {
     }
 
     const cancelHandler = () => {
-        navigate(generatePath('/account/:customerSlug/delivery', {customerSlug: billToCustomerSlug(shipTo)}));
+        const customerSlug = billToCustomerSlug(shipTo);
+        if (!customerSlug) {
+            navigate('/profile');
+            return;
+        }
+        navigate(generatePath('/account/:customerSlug/delivery', {customerSlug}));
     }
 
     if (!canEdit) {
@@ -91,7 +96,7 @@ const ShipToForm = () => {
             {(loading === 'loading' || loading === 'saving') && <LinearProgress variant="indeterminate"/>}
             {shipTo && (
                 <form action={submitHandler}>
-                    <Grid container spacing={2} alignItems="center">
+                    <Grid container spacing={2} sx={{alignItems: 'center'}}>
                         <Grid size={{xs: 12, sm: 6}}>
                             <TextField variant="filled" label="Location Name" fullWidth size="small"
                                        type="text" value={shipTo.ShipToName ?? ''}
@@ -131,7 +136,7 @@ const ShipToForm = () => {
                                         changes.</Alert>
                                 )}
                             </Stack>
-                            <Stack direction="row" spacing={2} sx={{my: 3}} justifyContent="flex-end">
+                            <Stack direction="row" spacing={2} sx={{my: 3, justifyContent: 'flex-end'}}>
                                 <Button type="button" onClick={cancelHandler}>Cancel</Button>
                                 <ReloadCustomerButton/>
                                 <Button type="submit" variant="contained"

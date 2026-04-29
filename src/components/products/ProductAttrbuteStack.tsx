@@ -6,23 +6,30 @@ import ProductAttributeChip from "./ProductAttributeChip.tsx";
 export interface ProductAttributeStackProps extends StackProps {
     product: Product;
     isNew?: boolean;
+    flexWrap?: "wrap" | "nowrap" | "wrap-reverse";
+    justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around" | "space-evenly";
+    alignItems?: "flex-start" | "center" | "flex-end" | "baseline" | "stretch";
 }
 
 export default function ProductAttributeStack({
                                                   product,
                                                   spacing,
                                                   direction,
-                                                  flexWrap,
-                                                  justifyContent,
-                                                  alignItems,
+                                                  sx,
+                                                  flexWrap, justifyContent, alignItems,
                                                   isNew,
                                                   ...rest
                                               }: ProductAttributeStackProps) {
     return (
         <Stack spacing={spacing ?? 1} useFlexGap
                direction={direction ?? "row"}
-               flexWrap={flexWrap ?? "wrap"}
-               justifyContent={justifyContent ?? "center"} alignItems={alignItems ?? "center"} {...rest}>
+               sx={{
+                   ...sx,
+                   flexWrap: flexWrap ?? 'wrap',
+                   justifyContent: justifyContent ?? 'center',
+                   alignItems: alignItems ?? 'center'
+               }}
+               {...rest}>
             {!!product.additionalData?.size && (<SizeIconList size={product.additionalData.size} spacing={1}/>)}
             {isNew && <ProductAttributeChip feature="new"/>}
             {product.additionalData?.best_seller && <ProductAttributeChip feature="best-seller"/>}

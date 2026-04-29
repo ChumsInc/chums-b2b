@@ -147,7 +147,7 @@ const BillToForm = () => {
                                     <Alert severity="warning" title="Hey!">Don&#39;t forget to save your
                                         changes.</Alert>
                                 }
-                                <Stack direction="row" spacing={2} sx={{my: 3}} justifyContent="flex-end">
+                                <Stack direction="row" spacing={2} sx={{my: 3, justifyContent: 'flex-end'}}>
                                     <ReloadCustomerButton/>
                                     <Button type="submit" variant="contained" disabled={!canEdit || loading !== 'idle'}>
                                         Save

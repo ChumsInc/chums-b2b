@@ -48,14 +48,11 @@ export default function SearchBar() {
     }
 
     return (
-        <Autocomplete
+        <Autocomplete size="small"
             sx={{width: 300, display: 'inline-block'}}
-            renderInput={({inputProps, ...params}) => (
+            renderInput={({...params}) => (
                 <TextField {...params}
-                           slotProps={{
-                               htmlInput: {...inputProps, maxLength: 30}
-                           }}
-                           variant="outlined" size="small" label="Search" fullWidth/>
+                           variant="outlined" label="Search" fullWidth/>
             )}
             inputValue={inputValue}
             onInputChange={inputChangeHandler}
@@ -66,8 +63,9 @@ export default function SearchBar() {
             filterOptions={(x) => x}
             onChange={changeHandler}
             renderOption={(props, option) => {
+                const {key, ...rest} = props;
                 return (
-                    <SearchBarResult option={option} {...props} />
+                    <SearchBarResult key={option.keyword} option={option} {...rest} />
                 )
             }}
             value={value}/>

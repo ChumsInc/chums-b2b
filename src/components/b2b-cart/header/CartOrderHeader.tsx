@@ -46,7 +46,7 @@ export default function CartOrderHeader() {
     const [progress, setProgress] = useState<CartProgress>(cartProgress.cart);
 
     const promoteCart = useCallback(async () => {
-        if (!cartHeader || !shipDate) {
+        if (!cartHeader || !shipDate || !customerKey) {
             return;
         }
         const response = await dispatch(processCart({

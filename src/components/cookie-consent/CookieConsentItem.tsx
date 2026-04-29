@@ -50,7 +50,7 @@ export default function CookieConsentItem({consentSection, checked, onChange, ..
             <ListItemText id={labelId}
                           slots={{primary: 'div', secondary: 'div'}}
                           primary={(
-                              <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
+                              <Stack direction="row" spacing={1} sx={{justifyContent: 'space-between', alignItems: 'center'}}>
                                   <Typography component="label" htmlFor={checkboxId} variant="body1">{section.title}</Typography>
                                   <IconButton onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label="show more">
                                       {expanded && <ExpandLess />}

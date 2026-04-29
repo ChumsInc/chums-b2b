@@ -44,7 +44,7 @@ const PrimaryShipToButton = ({shipTo, disabled}: PrimaryShipToButtonProps) => {
                 </Button>
             )}
             {primaryShipTo?.ShipToCode === shipTo.ShipToCode && (
-                <Stack direction="row" spacing={2} alignItems="center">
+                <Stack direction="row" spacing={2} sx={{alignItems: 'center'}}>
                     <PrimaryShipToIcon shipToCode={shipTo.ShipToCode}/>
                     <Typography variant="body1">Default delivery location</Typography>
                 </Stack>

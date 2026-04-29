@@ -56,7 +56,7 @@ export default function CategoryPage({keyword}: CategoryPageProps) {
             <Typography component="h1" variant="h1" sx={{textAlign: 'center', mb: 3}}>{title}</Typography>
             {loading && <LinearProgress variant="indeterminate"/>}
             {!!pageText && <HTMLContent html={pageText}/>}
-            <Grid container spacing={3} justifyContent={children.length < 4 ? 'center' : 'start'} sx={{mt: 3}}>
+            <Grid container spacing={3} sx={{mt: 3, justifyContent:children.length < 4 ? 'center' : 'start'}}>
                 {children
                     .filter(child => !!child.status)
                     .sort((a, b) => a.priority - b.priority)

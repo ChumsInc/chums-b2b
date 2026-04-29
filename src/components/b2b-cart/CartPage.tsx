@@ -37,8 +37,12 @@ export default function CartPage() {
     }, [params, customerKey]);
 
     useEffect(() => {
+        const customerSlug = billToCustomerSlug(customerKey);
+        if (!customerSlug) {
+            return;
+        }
         if (cartStatus === 'not-found') {
-            navigate(generatePath('/account/:customerSlug/carts', {customerSlug: billToCustomerSlug(customerKey)}), {replace: true});
+            navigate(generatePath('/account/:customerSlug/carts', {customerSlug}), {replace: true});
         }
     }, [cartStatus, customerKey]);
 
@@ -64,7 +68,7 @@ export default function CartPage() {
             <Typography variant="h3" component="h2">Cart #{cartHeader.id}</Typography>
             <CartOrderHeader/>
             <hr/>
-            <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between"
+            <Stack spacing={2} direction={{sm: 'column', md: 'row'}} sx={{justifyContent: 'space-between'}}
                    divider={<Divider orientation="vertical" flexItem/>}>
                 <ItemAutocomplete cartId={cartHeader.id}/>
                 <CartCommentInput cartId={cartHeader.id}/>

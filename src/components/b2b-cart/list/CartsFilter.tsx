@@ -26,7 +26,7 @@ export default function CartsFilter() {
     }
 
     return (
-        <Stack direction="row" spacing={2} justifyContent="space-between">
+        <Stack direction="row" spacing={2} sx={{justifyContent: 'space-between'}}>
             <TextField type="search" value={search} onChange={changeHandler} variant="standard" size="small" id={id}
                        fullWidth
                        slotProps={{

@@ -16,9 +16,9 @@ export default function SearchBarResult({option, ...props}: SearchResultProps) {
     const link = searchItemLink(option);
 
     return (
-        <Box component="li" {...props} key={option.keyword}>
+        <Box component="li" {...props}>
             <Link component={NavLink} to={link} sx={{width: '100%'}}>
-                <Stack direction="row" sx={{width: '100%'}} alignItems="center">
+                <Stack direction="row" sx={{width: '100%', alignItems: 'center'}}>
                     <SearchResultIcon option={option}/>
                     <SearchResultTitle option={option}/>
                 </Stack>

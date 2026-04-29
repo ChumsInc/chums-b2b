@@ -34,8 +34,10 @@ const ProductPageImage = () => {
                                   loading={loading}
                                   altImages={altImages}
                                   altText={product?.name}/>
-            <link rel="preload" as="image"
-                  imageSrcSet={altImages.map(img => `/images/products/800/${img.image} 800w`).join(', ')}/>
+            {altImages.length > 0 && (
+                <link rel="preload" as="image"
+                      imageSrcSet={altImages.map(img => `/images/products/800/${img.image} 800w`).join(', ')}/>
+            )}
 
         </>
     )

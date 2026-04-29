@@ -26,7 +26,7 @@ export default function CustomerUsers() {
     return (
         <Grid container spacing={2} sx={{mt: '2'}}>
             <Grid size={{xs: 12, sm: 6}}>
-                <Stack direction="row" spacing={2} justifyContent="space-between">
+                <Stack direction="row" spacing={2} sx={{justifyContent: 'space-between'}}>
                     <Typography variant="h3" component="h3">
                         User List
                     </Typography>

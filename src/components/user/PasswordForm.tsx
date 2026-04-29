@@ -75,7 +75,7 @@ const PasswordForm = ({email, disabled, isPasswordReset, onSubmit, onCancel}: Pa
                                        }
                                    }}
                                    helperText={password2 !== password1 ? 'Your new passwords do not match' : ''}/>
-                <Stack direction="row" justifyContent="flex-end" spacing={2}>
+                <Stack direction="row" spacing={2} sx={{justifyContent: 'flex-end'}}>
                     <Button type="button" variant="text" onClick={onCancel}>Cancel</Button>
                     <Button type="submit" variant="contained"
                             disabled={password1 !== password2 || disabled}>

@@ -89,7 +89,7 @@ const ShipToList = () => {
                        rowClassName={rowClassName}
                        currentSort={sort} onChangeSort={sortChangeHandler}
                        fields={fields} keyField="ShipToCode"/>
-            <Grid container spacing={2} justifyContent="end">
+            <Grid container spacing={2} sx={{justifyContent: 'end'}}>
                 <TablePagination component="div" count={list.length}
                                  page={page} onPageChange={(_, arg) => setPage(arg)}
                                  rowsPerPage={rowsPerPage}

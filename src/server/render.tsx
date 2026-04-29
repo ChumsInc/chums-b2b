@@ -134,6 +134,7 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
         }
 
         const css = await loadMainCSS();
+
         const _html = renderToString(<B2BHtml url={req.url} css={css} store={store}
                                               cspNonce={res.locals.cspNonce}
                                               manifestFiles={manifestFiles}

@@ -63,7 +63,7 @@ export default function CartActionButtons({
     }
 
     return (
-        <Stack spacing={2} direction={{sm: 'column', md: 'row'}} justifyContent="space-between">
+        <Stack spacing={2} direction={{sm: 'column', md: 'row'}} sx={{justifyContent: 'space-between'}}>
             <Stack sx={{flex: '1 1 auto'}}>
                 {(detailChanged || headerChanged) && progress === cartProgress.cart && (
                     <Alert severity="warning">Don&apos;t forget to save your changes!</Alert>

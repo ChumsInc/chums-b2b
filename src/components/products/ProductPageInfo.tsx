@@ -18,7 +18,7 @@ export default function ProductPageInfo() {
     const itemCode = cartItem?.itemCode ?? selectedProduct?.itemCode ?? null;
 
     return (
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" sx={{justifyContent: 'space-between'}}>
             <Box>
                 <Typography variant="caption" sx={{mr: 2}} component="span">SKU</Typography>
                 <Typography variant="body1" component="span" sx={{fontWeight: '600'}}>{itemCode}</Typography>
