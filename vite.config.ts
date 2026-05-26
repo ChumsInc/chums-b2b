@@ -37,6 +37,10 @@ const serverConfig = defineConfig({
                 target: 'https://b2b.chums.com',
                 changeOrigin: true,
             },
+            '/content/images': {
+                target: 'https://b2b.chums.com',
+                changeOrigin: true,
+            },
             '/pdf': {
                 target: 'https://b2b.chums.com',
                 changeOrigin: true,
