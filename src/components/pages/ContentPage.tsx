@@ -8,10 +8,14 @@ import ContentPage404 from "../ContentPage404.tsx";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
-import Alert from "@mui/material/Alert";
-import HTMLContent from "@/components/common/HTMLContent.tsx";
 import {useTitle} from "@/components/app/TitleContext.tsx";
 import ContentPageSkeleton from "@/components/pages/ContentPageSkeleton.tsx";
+import ContentRequiresLogin from "@/components/pages/ContentRequiresLogin.tsx";
+import parse from 'html-react-parser';
+import {Element} from "domhandler";
+import ContentSectionRequiresLogin from "@/components/pages/ContentSectionRequiresLogin.tsx";
+import {selectAllowsMarketing} from "@/ducks/cookie-consent";
+import Box from "@mui/material/Box";
 
 export default function ContentPage() {
     const dispatch = useAppDispatch();
@@ -24,6 +28,7 @@ export default function ContentPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const {setPageTitle} = useTitle()
     const documentTitle = `${loading === 'loading' ? 'Loading: ' : ''}${content?.title ?? params.keyword}`;
+    const allowsMarketing = useAppSelector(selectAllowsMarketing);
 
     useEffect(() => {
         setPageTitle({
@@ -71,22 +76,42 @@ export default function ContentPage() {
     }
     if (!isLoggedIn && content.requiresLogin) {
         return (
-            <div className={`page-${content?.keyword}`}>
-                <Typography component="h1" variant="h1">{content?.title}</Typography>
-                <Divider sx={{my: 3}}/>
-                <Alert severity="warning">Warning: This content requires login.</Alert>
-            </div>
+            <ContentRequiresLogin keyword={content.keyword} title={content.title}/>
         )
     }
+
+    const parsed = parse(html ?? '', {
+        replace: (domNode) => {
+            if (domNode instanceof Element && domNode.attribs && domNode.attribs['data-login-required']
+                && !isLoggedIn) {
+                // Replace login-required sections with a login-required message
+                return (
+                    <ContentSectionRequiresLogin/>
+                )
+            }
+            if (!allowsMarketing) {
+                // Replace YouTube iframes with non-cookie-blocking iframes
+                if (domNode instanceof Element && domNode.name === 'iframe'
+                    && domNode.attribs && domNode.attribs.src && domNode.attribs.src.includes('youtube.com')) {
+                    return (
+                        <iframe {...domNode.attribs}
+                                src={domNode.attribs.src.replace('youtube.com', 'youtube-nocookie.com')}/>
+                    )
+                }
+            }
+            return domNode;
+        }
+    })
+
 
     return (
         <div className={`page-${content?.keyword}`}>
             <Typography component="h1" variant="h1" onClick={onReload}>{content?.title}</Typography>
             <Divider sx={{my: 3}}/>
             {loading === 'loading' && <LinearProgress variant="indeterminate"/>}
-            {!!html && (
-                <HTMLContent html={html} className="has-bootstrap"/>
-            )}
+            <Box className="has-bootstrap">
+                {parsed}
+            </Box>
         </div>
     )
 }
