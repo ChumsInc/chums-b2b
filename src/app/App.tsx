@@ -62,13 +62,12 @@ export default function App() {
         <StrictMode>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <ThemeProvider theme={theme}>
-                    <CssBaseline>
-                        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID} nonce={nonce ?? undefined}>
-                            <TitleProvider>
-                                <AppRouter/>
-                            </TitleProvider>
-                        </GoogleOAuthProvider>
-                    </CssBaseline>
+                    <CssBaseline />
+                    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID} nonce={nonce ?? undefined}>
+                        <TitleProvider>
+                            <AppRouter/>
+                        </TitleProvider>
+                    </GoogleOAuthProvider>
                 </ThemeProvider>
             </LocalizationProvider>
         </StrictMode>

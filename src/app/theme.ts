@@ -73,7 +73,7 @@ theme = createTheme(theme, {
             color: {
                 light: '#78787b',
                 main: '#454547',
-                dark: '#232324'
+                dark: 'rgb(0 0 0 / 75%)'
             },
             name: 'chumsGrey',
         }),
@@ -83,6 +83,54 @@ theme = createTheme(theme, {
             dark: '#c2001e',
         }
     },
+    typography: {
+        // fontFamily: [
+        //     "Roboto Condensed",
+        //     '-apple-system',
+        //     'BlinkMacSystemFont',
+        //     "Segoe UI",
+        //     'Roboto',
+        //     "Helvetica Neue",
+        //     'Arial',
+        //     'sans-serif',
+        //     "Apple Color Emoji",
+        //     "Segoe UI Emoji",
+        //     "Segoe UI Symbol"
+        // ].join(','),
+        fontSize: 16,
+        h1: {
+            textTransform: 'uppercase',
+            fontWeight: 300,
+            fontSize: 40
+        },
+        h2: {
+            textTransform: 'uppercase',
+            fontWeight: 400,
+            fontSize: 30,
+        },
+        h3: {
+            textTransform: 'uppercase',
+            fontWeight: 400,
+            fontSize: 24
+        },
+        h4: {
+            textTransform: 'uppercase',
+            fontWeight: 600,
+            fontSize: 18
+        },
+        variantButtonText: {
+            fontWeight: 500,
+            fontSize: 16,
+        },
+        variantButtonPrice: {
+            fontWeight: 300,
+            fontSize: 14,
+        },
+        bodyMono: {
+            fontWeight: 500,
+            fontFamily: ['Roboto Mono', 'Monaco', 'Consolas', 'monospace'].join(',')
+        },
+    }
 });
 
 theme = createTheme(theme, {
@@ -122,6 +170,30 @@ theme = createTheme(theme, {
                         },
                     }
                 },
+                h2: {
+                    textTransform: theme.typography.h2.textTransform,
+                    fontSize: theme.typography.h2.fontSize,
+                    fontWeight: theme.typography.h2.fontWeight,
+                    color: theme.typography.h2.color,
+                },
+                h3: {
+                    textTransform: theme.typography.h3.textTransform,
+                    fontSize: theme.typography.h3.fontSize,
+                    fontWeight: theme.typography.h3.fontWeight,
+                    color: theme.typography.h3.color,
+                },
+                ul: {
+                   listStyle: 'none',
+                    padding: 0,
+                    margin: theme.spacing(0, 0, 3, 0)
+                },
+                li: {
+                    padding: theme.spacing(0.333, 2),
+                    color: theme.palette.text.primary,
+                    '&:hover': {
+                        backgroundColor: theme.palette.action.hover,
+                    },
+                }
             },
         },
         MuiTableFooter: {
@@ -179,54 +251,6 @@ theme = createTheme(theme, {
             }
         },
     },
-    typography: {
-        // fontFamily: [
-        //     "Roboto Condensed",
-        //     '-apple-system',
-        //     'BlinkMacSystemFont',
-        //     "Segoe UI",
-        //     'Roboto',
-        //     "Helvetica Neue",
-        //     'Arial',
-        //     'sans-serif',
-        //     "Apple Color Emoji",
-        //     "Segoe UI Emoji",
-        //     "Segoe UI Symbol"
-        // ].join(','),
-        fontSize: 16,
-        h1: {
-            textTransform: 'uppercase',
-            fontWeight: 300,
-            fontSize: 40
-        },
-        h2: {
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            fontSize: 36,
-        },
-        h3: {
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            fontSize: 32
-        },
-        h4: {
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            fontSize: 28
-        },
-        variantButtonText: {
-            fontWeight: 500,
-            fontSize: 16,
-        },
-        variantButtonPrice: {
-            fontWeight: 300,
-            fontSize: 14,
-        },
-        bodyMono: {
-            fontWeight: 500,
-            fontFamily: ['Roboto Mono', 'Monaco', 'Consolas', 'monospace'].join(',')
-        },
-    }
 })
 
 if (globalThis.window) {
