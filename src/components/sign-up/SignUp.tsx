@@ -11,6 +11,7 @@ import Grid from "@mui/material/Grid";
 import {useAppSelector} from "@/app/hooks";
 import {useTitle} from "@/components/app/TitleContext";
 import useAuthKey from "@/hooks/useAuthKey.ts";
+import ContentPageProvider from "@/components/pages/ContentPageProvider.tsx";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -41,8 +42,12 @@ const SignUp = () => {
             <Grid container spacing={2}>
                 <Grid size={{xs: 12, sm: 6}}>
                     <Stack direction="column" spacing={2}>
-                        <UsagePolicy/>
-                        <MAPPolicy/>
+                         <ContentPageProvider>
+                             <UsagePolicy/>
+                         </ContentPageProvider>
+                        <ContentPageProvider>
+                            <MAPPolicy/>
+                        </ContentPageProvider>
                     </Stack>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6}}>

@@ -1,14 +1,9 @@
-import {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {selectPageContent, selectPageHTML, selectPageLoaded, selectPageLoadingStatus} from "@/ducks/page/selectors.ts";
-import {useParams} from "react-router";
-import {loadPage} from "@/ducks/page/actions.ts";
+import {useAppSelector} from "@/app/hooks.ts";
 import LinearProgress from "@mui/material/LinearProgress";
 import ContentPage404 from "../ContentPage404.tsx";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
-import {useTitle} from "@/components/app/TitleContext.tsx";
 import ContentPageSkeleton from "@/components/pages/ContentPageSkeleton.tsx";
 import ContentRequiresLogin from "@/components/pages/ContentRequiresLogin.tsx";
 import parse from 'html-react-parser';
@@ -16,71 +11,40 @@ import {Element} from "domhandler";
 import ContentSectionRequiresLogin from "@/components/pages/ContentSectionRequiresLogin.tsx";
 import {selectAllowsMarketing} from "@/ducks/cookie-consent";
 import Box from "@mui/material/Box";
+import {useContentPage} from "@/components/pages/useContentPage.ts";
+import Alert from "@mui/material/Alert";
 
 export default function ContentPage() {
-    const dispatch = useAppDispatch();
-    const _isLoggedIn = useAppSelector(selectLoggedIn);
-    const content = useAppSelector(selectPageContent);
-    const loading = useAppSelector(selectPageLoadingStatus);
-    const loaded = useAppSelector(selectPageLoaded);
-    const html = useAppSelector(selectPageHTML);
-    const params = useParams<{ keyword: string }>();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const {setPageTitle} = useTitle()
-    const documentTitle = `${loading === 'loading' ? 'Loading: ' : ''}${content?.title ?? params.keyword}`;
+    const {page, status, error} = useContentPage();
+    const isLoggedIn = useAppSelector(selectLoggedIn);
     const allowsMarketing = useAppSelector(selectAllowsMarketing);
 
-    useEffect(() => {
-        setPageTitle({
-            title: documentTitle,
-        })
-    }, [documentTitle]);
-
-    useEffect(() => {
-        setIsLoggedIn(_isLoggedIn);
-    }, [_isLoggedIn]);
-
-    useEffect(() => {
-        dispatch(loadPage(params.keyword))
-    }, [params]);
-
-    const onReload = () => {
-        if (content?.keyword) {
-            dispatch(loadPage(content.keyword))
-        }
-    }
-
-
-    if (!content) {
-        if (loading === 'loading') {
+    if (!page) {
+        if (status === 'loading') {
             return (
                 <ContentPageSkeleton/>
             )
         }
-        if (loaded) {
-            return (
-                <ContentPage404/>
-            )
-        }
     }
 
 
-    if (!content?.status) {
+    if (!page?.status) {
         return (
-            <div className={`page-${content?.keyword}`}>
-                <Typography component="h1" variant="h1">{content?.title}</Typography>
+            <div className={`page-${page?.keyword}`}>
+                <Typography component="h1" variant="h1">{page?.title}</Typography>
                 <Divider sx={{my: 3}}/>
                 <ContentPage404/>
             </div>
         )
     }
-    if (!isLoggedIn && content.requiresLogin) {
+
+    if (!isLoggedIn && page.requiresLogin) {
         return (
-            <ContentRequiresLogin keyword={content.keyword} title={content.title}/>
+            <ContentRequiresLogin keyword={page.keyword} title={page.title}/>
         )
     }
 
-    const parsed = parse(html ?? '', {
+    const parsed = parse(page.content ?? '', {
         replace: (domNode) => {
             if (domNode instanceof Element && domNode.attribs && domNode.attribs['data-login-required']
                 && !isLoggedIn) {
@@ -105,10 +69,11 @@ export default function ContentPage() {
 
 
     return (
-        <div className={`page-${content?.keyword}`}>
-            <Typography component="h1" variant="h1" onClick={onReload}>{content?.title}</Typography>
+        <div className={`page-${page?.keyword}`}>
+            <Typography component="h1" variant="h1">{page?.title}</Typography>
             <Divider sx={{my: 3}}/>
-            {loading === 'loading' && <LinearProgress variant="indeterminate"/>}
+            {status === 'loading' && <LinearProgress variant="indeterminate"/>}
+            {error && <Alert color="error">{error}</Alert>}
             <Box className="has-bootstrap">
                 {parsed}
             </Box>

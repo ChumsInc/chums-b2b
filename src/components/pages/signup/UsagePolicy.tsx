@@ -1,30 +1,37 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import {useContentPage} from "@/components/pages/useContentPage.ts";
+import {useEffect} from "react";
+import Skeleton from "@mui/material/Skeleton";
+import Alert from "@mui/material/Alert";
+import HTMLContent from "@/components/common/HTMLContent.tsx";
 
 const UsagePolicy = () => {
+    const {page, status, error, loadPage} = useContentPage();
+
+    useEffect(() => {
+        loadPage('usage-policy', false)
+            .catch(err => {
+                // eslint-disable-next-line no-console
+                console.error(err)
+            });
+    }, []);
+
     return (
         <Card variant="outlined">
             <CardContent>
                 <Typography gutterBottom variant="h3" component="h3">Usage Policy</Typography>
                 <Typography variant="body1" sx={{fontSize: 'small'}}>
-                    <p>
-                        This system is for the use of authorized users only. Individuals using this computer system
-                        without
-                        authority, or in excess of their authority, are subject to having all of their activities on
-                        this
-                        system monitored and recorded by system personnel.
-                    </p>
-                    <p>
-                        In the course of monitoring individuals improperly using this system, or in the course of system
-                        maintenance, the activities of authorized users may also be monitored.
-                    </p>
-                    <p>
-                        Anyone using this system expressly consents to such monitoring and is advised that if such
-                        monitoring reveals possible evidence of criminal activity, system personnel may provide the
-                        evidence
-                        of such monitoring to law enforcement officials.
-                    </p>
+                    {!page?.content || status === 'loading' && (
+                        <div>
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                            <Skeleton variant="text" />
+                        </div>
+                    )}
+                    {error && (<Alert color="warning">Error loading MAP Policy</Alert>)}
+                    <HTMLContent html={page?.content ?? ''}/>
                 </Typography>
             </CardContent>
         </Card>
