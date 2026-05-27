@@ -7,7 +7,7 @@ import ContentSectionRequiresLogin from "@/components/pages/ContentSectionRequir
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
 
 export interface HTMLContentProps extends BoxProps {
-    html: string;
+    html: string|null;
 }
 
 export default function HTMLContent({html, ...rest}: HTMLContentProps) {
@@ -17,7 +17,10 @@ export default function HTMLContent({html, ...rest}: HTMLContentProps) {
     if (!html) {
         return null
     }
-    const parsed = parse(html, {
+
+    const cleanHtml = html.replace(/(\r\n|\n|\r)/g, '');
+
+    const parsed = parse(cleanHtml, {
         replace: (domNode) => {
             if (domNode instanceof Element && domNode.attribs && domNode.attribs['data-login-required']
                 && !isLoggedIn) {
