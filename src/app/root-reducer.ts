@@ -16,7 +16,7 @@ import itemLookupReducer from "@/ducks/item-lookup/index";
 import keywordsReducer from "@/ducks/keywords/index";
 import menuReducer from "@/ducks/menu/index";
 import messagesReducer from "@/ducks/messages/index";
-import pageReducer from "@/ducks/page/index";
+import pageSlice from "@/ducks/page/index";
 import productsReducer from "@/ducks/products/index";
 import promoCodeReducer from "@/ducks/promo-code/index";
 import searchReducer from "@/ducks/search/index";
@@ -68,7 +68,7 @@ const rootReducer = combineReducers({
     messages: messagesReducer,
     [openOrdersSlice.reducerPath]: openOrdersSlice.reducer,
     [currentOrderSlice.reducerPath]: currentOrderSlice.reducer,
-    page: pageReducer,
+    [pageSlice.reducerPath]: pageSlice.reducer,
     products: productsReducer,
     promoCode: promoCodeReducer,
     [salespersonSlice.reducerPath]: salespersonSlice.reducer,

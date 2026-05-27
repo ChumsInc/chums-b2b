@@ -96,7 +96,14 @@ theme = createTheme(theme, {
                     position: 'relative',
                 },
                 body: {
-                    minHeight: '100vh',
+                    '#root': {
+                        minHeight: '100dvh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        main: {
+                            flex: '1 0 auto',
+                        },
+                    },
                     '#app': {
                         boxSizing: 'border-box',
                         minHeight: '100vh',

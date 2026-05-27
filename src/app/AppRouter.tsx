@@ -3,7 +3,6 @@ import {Route, Routes} from "react-router";
 import MainOutlet from "@/components/app/MainOutlet.tsx";
 import Home from "@/components/home/Home.tsx";
 import ProductRouter from "@/components/products/ProductRouter.tsx";
-import ContentPage from "@/components/pages/ContentPage.tsx";
 import ResetPassword from "@/components/user/ResetPassword.tsx";
 import SignUp from "@/components/sign-up/SignUp.tsx";
 import RequestPasswordResetForm from "@/components/user/RequestPasswordResetForm.tsx";
@@ -27,6 +26,7 @@ import InvoicePage from "@/components/invoices/InvoicePage.tsx";
 import ContentPage404 from "@/components/ContentPage404.tsx";
 import {useAppSelector} from "@/app/hooks.ts";
 import {selectLoggedIn} from "@/ducks/user/userProfileSlice.ts";
+import ContentPageContainer from "@/components/pages/ContentPageContainer.tsx";
 
 
 export default function AppRouter() {
@@ -46,7 +46,7 @@ export default function AppRouter() {
                 <Route path="/products/:category" element={<ProductRouter/>}/>
                 <Route path="/products/:category/:product" element={<ProductRouter/>}/>
                 <Route path="/products/:category/:product/:sku" element={<ProductRouter/>}/>
-                <Route path="/pages/:keyword" element={<ContentPage/>}/>
+                <Route path="/pages/:keyword" element={<ContentPageContainer/>}/>
                 {!isLoggedIn && (
                     <>
                         <Route path="/set-password/:hash/:key" element={<ResetPassword/>}/>
