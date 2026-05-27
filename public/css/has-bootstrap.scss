@@ -1,15 +1,19 @@
 .has-bootstrap {
   // theme stuff from 'src/app/theme.ts'
 
-  --h2-font-size: 36px;
-  --h2-font-weight: 600;
+  --h1-font-size: 40px;
+  --h1-font-weight: 300;
+  --h1-text-transform: uppercase;
+
+  --h2-font-size: 30px;
+  --h2-font-weight: 400;
   --h2-text-transform: uppercase;
 
-  --h3-font-size: 32px;
-  --h3-font-weight: 600;
+  --h3-font-size: 24px;
+  --h3-font-weight: 400;
   --h3-text-transform: uppercase;
 
-  --h4-font-size: 28px;
+  --h4-font-size: 18px;
   --h4-font-weight: 600;
   --h4-text-transform: uppercase;
 
@@ -44,7 +48,12 @@
   @import "../../node_modules/bootstrap/scss/utilities/api";
   // scss-docs-end import-stack
 
-  // chums overrides
+  // chums overrides --- should match /src/app/theme.ts
+  h1 {
+    font-size: var(--h1-font-size);
+    font-weight: var(--h1-font-weight);
+    text-transform: var(--h1-text-transform);
+  }
   h2 {
     font-size: var(--h2-font-size);
     font-weight: var(--h2-font-weight);
