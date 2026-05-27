@@ -9,7 +9,12 @@ import {redirect, useLocation} from "react-router";
 import MissingTaxScheduleAlert from "@/components/customer/billing/MissingTaxScheduleAlert.tsx";
 import RequireLogin from "@/components/common/RequireLogin.tsx";
 import {useAppDispatch, useAppSelector} from "@/app/hooks.ts";
-import {selectCurrentProduct, selectProductCartItem, selectProductLoading, selectSelectedProduct} from "@/ducks/products/selectors.ts";
+import {
+    selectCurrentProduct,
+    selectProductCartItem,
+    selectProductLoading,
+    selectSelectedProduct
+} from "@/ducks/products/selectors.ts";
 import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice.ts";
 import ProductPageImage from "./ProductPageImage.tsx";
 import ProductPageTitle from "./ProductPageTitle.tsx";
@@ -23,8 +28,8 @@ import Grid from "@mui/material/Grid";
 import VariantButtons from "./VariantButtons.tsx";
 import Collapse from "@mui/material/Collapse";
 import {ga4ViewItem} from "@/utils/ga4/generic.ts";
-import HTMLContent from "@/components/common/HTMLContent.tsx";
 import styled from "@emotion/styled";
+import ProductDetailsCard from "@/components/products/ProductDetailsCard.tsx";
 
 //@TODO: figure out why this one not hydrating correctly
 
@@ -155,22 +160,8 @@ const ProductPage = ({keyword}: {
                             </Collapse>
                             <CartItemDetail cartItem={cartItem} msrp={[selectedProduct?.msrp]}/>
                         </RequireLogin>
-
-                        <hr/>
-
-                        {isProduct(product) && !!product.description && (
-                            <div className="mt-3">
-                                <HTMLContent html={product.description}/>
-                            </div>
-                        )}
-
-                        {isProduct(product) && !!product.details && (
-                            <div className="mt-3">
-                                <h3>Features</h3>
-                                <HTMLContent html={product.details}/>
-                            </div>
-                        )}
-
+                        <ProductDetailsCard description={product?.description ?? null}
+                                            details={product?.details ?? null}/>
                     </Grid>
                 </Grid>
             </ProductPanel>

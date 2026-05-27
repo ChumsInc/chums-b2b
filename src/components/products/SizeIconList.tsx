@@ -17,11 +17,12 @@ const sizeName:SizeIconList = {
 
 const SizeIcon = styled.div`
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 1.25rem;
+    height: 1.25rem;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    
 
     &.size--sm {
         background-image: url('/css/size-icon-sm.svg');
