@@ -179,9 +179,11 @@ export default function AddToCartForm({
                     </Stack>
                 )}
                 <Stack direction="row" spacing={2} sx={{justifyContent: 'flex-end'}}>
-                    <CartQuantityInput quantity={quantity} onChange={onChangeQuantity}
-                                       unitOfMeasure={unitOfMeasure ?? cartItem.salesUM ?? 'EA'}
-                                       disabled={disabled} required/>
+                    <div>
+                        <CartQuantityInput quantity={quantity} onChange={onChangeQuantity}
+                                           unitOfMeasure={unitOfMeasure ?? cartItem.salesUM ?? 'EA'}
+                                           disabled={disabled} required/>
+                    </div>
                     <AddToCartButton disabled={disabled || !quantity || cartStatus !== 'idle'}/>
                 </Stack>
                 {cartStatus !== 'idle' && <LinearProgress variant="indeterminate"/>}
