@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import {visuallyHidden} from "@mui/utils";
 import {styled, useTheme} from "@mui/material/styles";
+import {NumberField} from '@base-ui/react/number-field'
 
 const NumericInput = styled(FilledInput)`
     input[type=number]::-webkit-inner-spin-button,
@@ -17,14 +18,24 @@ const NumericInput = styled(FilledInput)`
         margin: 0;
     }
 `;
-const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, disabled, required}: {
+
+export interface CartQuantityInputProps extends NumberField.Root.Props {
     quantity: number;
     unitOfMeasure: string;
     onChange: (value: number) => void;
     min?: number;
     disabled?: boolean;
     required?: boolean;
-}) => {
+}
+
+const CartQuantityInput = ({
+                               quantity,
+                               unitOfMeasure = 'EA',
+                               onChange,
+                               min = 0,
+                               disabled,
+                               required,
+                           }: CartQuantityInputProps) => {
     const theme = useTheme();
     const id = useId();
 
@@ -57,10 +68,11 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
                               readOnly: disabled,
                               min: 1,
                               maxLength: 4,
-                              sx: {textAlign: 'center', minWidth: '4rem', flex: '1 0 4rem'},
+                              sx: {textAlign: 'center', minWidth: '4rem', flex: '1 0 4rem', py: 1.25},
                               id: id,
                               autoCorrect: 'off',
-                              autoComplete: 'off'
+                              autoComplete: 'off',
+                              ['aria-roledescription']: "quantity input"
                           }}
                           required={required}
                           aria-label="Quantity to add to cart"
@@ -80,7 +92,10 @@ const CartQuantityInput = ({quantity, unitOfMeasure = 'EA', onChange, min = 0, d
                                               disabled={disabled}>
                                       <AddIcon/>
                                   </IconButton>
-                                  <Box sx={{ml: 1}} color={theme.palette.chumsGrey.dark}>{unitOfMeasure ?? 'EA'}</Box>
+                                  <Box sx={{ml: 2}} color={theme.palette.chumsGrey.dark}
+                                       aria-label="unit of measure">
+                                      {unitOfMeasure ?? 'EA'}
+                                  </Box>
                               </InputAdornment>
                           }
             />
