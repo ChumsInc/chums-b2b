@@ -44,7 +44,9 @@ export default function ContentPage() {
         )
     }
 
-    const parsed = parse(page.content ?? '', {
+    const cleanHtml = (page.content ?? '').replace(/(\r\n|\n|\r)/g, '');
+
+    const parsed = parse(cleanHtml, {
         replace: (domNode) => {
             if (domNode instanceof Element && domNode.attribs && domNode.attribs['data-login-required']
                 && !isLoggedIn) {
