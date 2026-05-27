@@ -2,7 +2,7 @@ import 'dotenv/config';
 import _debug from 'debug';
 import type {NextFunction, Request, Response} from "express";
 import fetch from 'isomorphic-fetch';
-import type {Keyword} from "chums-types/b2b";
+import type {ContentPage, Keyword} from "chums-types/b2b";
 import {API_PORT} from "./config";
 import process from "node:process";
 
@@ -62,5 +62,20 @@ export async function loadKeywords(): Promise<Keyword[]> {
         }
         debug("loadKeywords()", err);
         return Promise.reject(new Error('Error in loadKeywords()'));
+    }
+}
+
+export async function loadPage(keyword:string):Promise<ContentPage|null> {
+    try {
+        const url = `http://localhost/api/pages/${encodeURIComponent(keyword)}.json`;
+        const response = await loadJSON<{page:ContentPage}>(url);
+        return response?.page ?? null;
+    } catch(err:unknown) {
+        if (err instanceof Error) {
+            debug("loadPage()", err.message);
+            return Promise.reject(err);
+        }
+        debug("loadPage()", err);
+        return Promise.reject(new Error('Error in loadPage()'));
     }
 }

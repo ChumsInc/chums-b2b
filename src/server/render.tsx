@@ -7,7 +7,7 @@ import {renderToString} from "react-dom/server";
 import {consentCookieName, type HasUUID} from 'cookie-consent'
 import {API_PORT} from "./config";
 import createServerSideStore from "@/app/server-side-store";
-import {loadJSON, loadKeywords} from "./utils";
+import {loadJSON, loadKeywords, loadPage} from "./utils";
 import {loadManifest} from "./manifest";
 import B2BHtml from "./B2BHTML";
 import util from "node:util";
@@ -101,15 +101,22 @@ export async function renderApp(req: Request, res: Response<unknown, HasNonce & 
             const keyword = keywords.find(kw => kw.keyword === req.params.keyword);
             // debug('renderApp() keyword', keyword);
             if (!keyword?.status) {
-                let redirect = '/';
                 if (req.params.category) {
                     // if params.category is specified, then the url is for a product page, so redirect to the category page
                     const category = keywords.find(kw => kw.keyword === req.params.category);
                     if (category && category.status) {
-                        redirect = `/products/${category.keyword}`;
+                        res.redirect(`/products/${category.keyword}`);
+                        return;
                     }
                 }
-                res.redirect(redirect);
+                if (keyword?.pagetype === 'page') {
+                    const page = await loadPage(keyword.keyword);
+                    if (page?.redirectTo) {
+                        res.redirect(`/pages/${page.redirectTo}`);
+                        return;
+                    }
+                }
+                res.redirect('/');
                 return;
             }
             if (keyword?.redirect_to_parent) {
