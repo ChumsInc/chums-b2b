@@ -18,7 +18,7 @@ export const ShippingMethods: ShippingMethodList = {
         carrier: 'ups',
         enabled: true
     },
-    'APP_PRI_EXP ': {code: 'APP_PRI_EXP', description: 'USPS Priority', allowCustomerAccount: false, carrier: 'usps', enabled: true},
+    'USPS PRIORITY': {code: 'USPS PRIORITY', description: 'USPS Priority', allowCustomerAccount: false, carrier: 'usps', enabled: true},
     'USPS GND ADV': {code: 'USPS GND ADV', description: 'USPS Ground Advantage', allowCustomerAccount: false, carrier: 'usps', enabled: true},
 
     '1FEX_1ST_ONIGHT': {
