@@ -38,21 +38,3 @@ export default defineConfig([
             globals: globals.browser,
         },
     }]);
-
-// export default defineConfig([
-//     globalIgnores(['dist', 'dist-server', 'dist-client']),
-//     {
-//         files: ['**/*.{ts,tsx}'],
-//         extends: [
-//             eslint.configs.recommended,
-//             tseslint.configs.recommended,
-//             reactRefresh.configs.vite,
-//             jetBrains,
-//             mySettings,
-//         ],
-//         languageOptions: {
-//             ecmaVersion: 2020,
-//             globals: globals.browser,
-//         },
-//     },
-// ])
