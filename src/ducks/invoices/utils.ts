@@ -1,6 +1,5 @@
 import Decimal from "decimal.js";
-import type {InvoiceHistoryHeader} from "chums-types/b2b";
-import type {SortProps} from "@/types/generic";
+import type {InvoiceHistoryHeader, SortProps} from "chums-types/b2b";
 
 /* eslint-disable no-nested-ternary */
 

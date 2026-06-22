@@ -35,7 +35,8 @@ export const DataTableRow = <T = KeyedObject>({
                 return (
                     <TableCell key={index} align={field.align} className={classNames(fieldClassName)}
                                    colSpan={field.colSpan}>
-                        {String(row[field.field] ?? '')}
+                        {!field.field.includes('.') && String(row[field.field as keyof T] ?? '')}
+                        {field.field.includes('.') && <span>Invalid Table Field</span>}
                     </TableCell>
                 );
             })}

@@ -1,5 +1,4 @@
-import type {Customer, RecentCustomer} from "chums-types/b2b";
-import type {SortProps} from "@/types/generic";
+import type {Customer, RecentCustomer, SortProps} from "chums-types/b2b";
 
 export interface CustomersState {
     key: number | null;

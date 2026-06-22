@@ -1,7 +1,6 @@
 import {createEntityAdapter, createSelector, createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {Customer} from "chums-types/b2b";
+import type {Customer, SortProps} from "chums-types/b2b";
 import {customerListSorter, customerSlug, shortCustomerKey} from "@/utils/customer";
-import type {SortProps} from "@/types/generic";
 import LocalStore from "@/utils/LocalStore";
 import {STORE_CUSTOMERS_FILTER_REP, STORE_CUSTOMERS_FILTER_STATE} from "@/constants/stores";
 import {setLoggedIn, setUserAccess} from "@/ducks/user/actions";

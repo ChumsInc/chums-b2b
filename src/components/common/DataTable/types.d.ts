@@ -1,6 +1,7 @@
 import type {ReactElement, ReactNode, Ref, TableHTMLAttributes} from "react";
 import type classNames from "classnames";
-import type {SortProps} from "@/types/generic";
+import type {SortProps} from "chums-types/b2b";
+import type {NestedPaths} from "chums-types";
 
 export type TableSelected<T = unknown> = string | number | null | boolean | ((row: T) => boolean);
 
@@ -23,7 +24,7 @@ export type DataTableClassNames<T = unknown> =
 
 export interface DataTableField<T = unknown> {
     id?: number | string;
-    field: keyof T,
+    field: NestedPaths<T>,
     title: ReactNode,
     align?: 'left' | 'center' | 'right';
     render?: (row: T) => ReactNode,

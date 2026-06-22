@@ -12,11 +12,6 @@ export default class B2BError extends Error {
     }
 }
 
-export interface SortProps<T = KeyedObject> {
-    field: keyof T;
-    ascending: boolean;
-}
-
 
 export interface Appendable {
     newLine?: boolean;

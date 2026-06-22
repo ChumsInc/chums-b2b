@@ -5,6 +5,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import type {KeyedObject} from "@/types/generic";
+import type {SortProps} from "chums-types/b2b";
 
 
 export const DataTableHead = <T = KeyedObject>({
@@ -13,7 +14,7 @@ export const DataTableHead = <T = KeyedObject>({
                                onChangeSort,
                            }: SortableTableHeadProps<T>) => {
     const {field, ascending} = currentSort;
-    const sortClickHandler = (sortField: keyof T) => () => {
+    const sortClickHandler = (sortField: SortProps<T>['field']) => () => {
         if (sortField === field) {
             onChangeSort({...currentSort, ascending: !ascending});
             return;

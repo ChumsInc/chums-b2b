@@ -12,9 +12,9 @@ import type {
     RecentCustomer,
     ShipToAddress,
     ShipToCustomer,
+    SortProps,
     UserCustomerAccess
 } from "chums-types/b2b";
-import type {SortProps} from "@/types/generic";
 import {customerKey} from "@/ducks/customer/utils";
 
 /* eslint-disable no-nested-ternary */

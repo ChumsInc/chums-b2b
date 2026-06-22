@@ -1,8 +1,7 @@
 import {type ChangeEvent, useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import TablePagination from "@mui/material/TablePagination";
-import type {SalesOrderHeader} from "chums-types/b2b";
-import type {SortProps} from "@/types/generic";
+import type {SalesOrderHeader, SortProps} from "chums-types/b2b";
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectOpenOrdersSort, setSalesOrderSort} from "@/ducks/open-orders/openOrdersSlice";
 

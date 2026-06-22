@@ -1,9 +1,8 @@
 import {useEffect, useState} from 'react';
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
-import type {ShipToCustomer} from "chums-types/b2b";
+import type {ShipToCustomer, SortProps} from "chums-types/b2b";
 import {billToCustomerSlug, customerSlug, stateCountry} from "@/utils/customer";
 import {selectPrimaryShipTo} from "@/ducks/customer/selectors";
-import type {SortProps} from "@/types/generic";
 import TablePagination from "@mui/material/TablePagination";
 import LinearProgress from "@mui/material/LinearProgress";
 import {generatePath, NavLink} from "react-router";

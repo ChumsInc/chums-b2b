@@ -1,5 +1,4 @@
-import type {CartItem, SalesOrderDetailLine, SalesOrderHeader} from "chums-types/b2b";
-import type {SortProps} from "@/types/generic";
+import type {CartItem, SalesOrderDetailLine, SalesOrderHeader, SortProps} from "chums-types/b2b";
 import dayjs from "dayjs";
 
 /* eslint-disable no-nested-ternary */
