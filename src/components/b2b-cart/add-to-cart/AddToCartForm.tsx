@@ -60,7 +60,7 @@ export default function AddToCartForm({
     const [shipToCode, setShipToCode] = useState<string | null>(activeCart?.shipToCode ?? currentShipToCode ?? null);
     const cartStatus = useAppSelector((state) => selectCartStatusById(state, cartId ?? 0));
 
-    const submitHandler = useCallback(async () => {
+    const addToCartHandler = useCallback(async () => {
         if (disabled || !customerKey || !cartName) {
             return;
         }
@@ -81,26 +81,24 @@ export default function AddToCartForm({
                     quantityOrdered: quantity,
                 }
             }))
-        } else {
-            await dispatch(addToCart({
-                cartId,
-                customerKey,
-                shipToCode,
-                setActiveCart,
-                item: {
-                    itemCode: cartItem.itemCode,
-                    itemType: '1',
-                    unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
-                    commentText: cartComment,
-                    productId: cartItem.productId,
-                    quantityOrdered: quantity,
-                }
-            }))
+            return;
         }
-        if (onDone) {
-            onDone();
-        }
-    }, [cartId, quantity, customerKey, cartName, shipToCode, cartItem, cartComment, setActiveCart, onDone]);
+        await dispatch(addToCart({
+            cartId,
+            customerKey,
+            shipToCode,
+            setActiveCart,
+            item: {
+                itemCode: cartItem.itemCode,
+                itemType: '1',
+                unitOfMeasure: unitOfMeasure ?? cartItem.salesUM ?? 'EA',
+                commentText: cartComment,
+                productId: cartItem.productId,
+                quantityOrdered: quantity,
+            }
+        }))
+
+    }, [cartId, quantity, customerKey, cartName, shipToCode, cartItem, cartComment, setActiveCart]);
 
     const setCartState = useCallback((cart: B2BCartHeader | null) => {
         setCartId(cart?.id ?? 0);
@@ -155,6 +153,16 @@ export default function AddToCartForm({
         setShipToCode(code)
     }
 
+    async function submitHandler() {
+        if (disabled || !customerKey || !cartName) {
+            return;
+        }
+        await addToCartHandler();
+        if (onDone) {
+            onDone();
+        }
+    }
+
     return (
         <form action={submitHandler} className="add-to-cart">
             <Stack spacing={2} direction="column">
@@ -174,7 +182,6 @@ export default function AddToCartForm({
                         </Box>
                         <Box sx={{width: '50%'}}>
                             <ShipToSelect value={shipToCode} onChange={shipToCodeChangeHandler}/>
-                            {/*<ShipToAutocomplete shipToCode={shipToCode} onChange={shipToCodeChangeHandler} />*/}
                         </Box>
                     </Stack>
                 )}
