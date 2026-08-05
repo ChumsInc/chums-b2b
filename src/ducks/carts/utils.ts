@@ -1,4 +1,4 @@
-import type {B2BCartHeader, BasicCustomer, CartProduct, SortProps} from "chums-types/b2b";
+import type {B2BCartHeader, BasicCustomer, CartProduct, NestedSortProps, SortProps} from "chums-types/b2b";
 import Decimal from "decimal.js";
 import type {B2BCartDetail} from "@/types/cart/cart-detail";
 import localStore from "@/utils/LocalStore";
@@ -9,7 +9,10 @@ import type {ActiveCartExtraState} from "@/ducks/carts/activeCartSlice";
 
 /* eslint-disable no-nested-ternary */
 
-export const cartsSorter = ({field, ascending}: SortProps<B2BCartHeader>) => (a: B2BCartHeader, b: B2BCartHeader) => {
+export const cartsSorter = ({
+                                field,
+                                ascending
+                            }: NestedSortProps<B2BCartHeader>) => (a: B2BCartHeader, b: B2BCartHeader) => {
     const sortMod = ascending ? 1 : -1;
     switch (field) {
         case 'salesOrderNo':

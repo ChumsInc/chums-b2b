@@ -1,7 +1,7 @@
 import {type ChangeEvent, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/app/hooks";
 import {selectCartsSort, selectFilteredCarts, setCartsSort} from "@/ducks/carts/cartHeadersSlice";
-import type {B2BCartHeader, SortProps} from "chums-types/b2b";
+import type {B2BCartHeader, NestedSortProps} from "chums-types/b2b";
 import DataTable, {type SortableTableField} from "@/components/common/DataTable";
 import TablePagination from "@mui/material/TablePagination";
 import CartButton from "./CartButton";
@@ -65,7 +65,7 @@ export default function CartsList() {
         setPage(0);
     }
 
-    const sortChangeHandler = (arg: SortProps<B2BCartHeader>) => {
+    const sortChangeHandler = (arg: NestedSortProps<B2BCartHeader>) => {
         dispatch(setCartsSort(arg));
     }
 

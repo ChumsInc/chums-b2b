@@ -5,21 +5,21 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import type {KeyedObject} from "@/types/generic";
-import type {SortProps} from "chums-types/b2b";
+import type {NestedSortProps} from "chums-types/b2b";
 
 
 export const DataTableHead = <T = KeyedObject>({
-                               currentSort,
-                               fields,
-                               onChangeSort,
-                           }: SortableTableHeadProps<T>) => {
+                                                   currentSort,
+                                                   fields,
+                                                   onChangeSort,
+                                               }: SortableTableHeadProps<T>) => {
     const {field, ascending} = currentSort;
-    const sortClickHandler = (sortField: SortProps<T>['field']) => () => {
+    const sortClickHandler = (sortField: NestedSortProps<T>['field']) => () => {
         if (sortField === field) {
             onChangeSort({...currentSort, ascending: !ascending});
             return;
         }
-        onChangeSort({field: sortField, ascending: !ascending});
+        onChangeSort({field: sortField, ascending: true});
     }
 
     return (

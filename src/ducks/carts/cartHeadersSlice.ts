@@ -1,4 +1,4 @@
-import type {B2BCartHeader, SortProps} from "chums-types/b2b";
+import type {B2BCartHeader, NestedSortProps} from "chums-types/b2b";
 import {createEntityAdapter, createSelector, createSlice, type  PayloadAction} from "@reduxjs/toolkit";
 import {
     addToCart,
@@ -24,7 +24,7 @@ export interface ExtraCartHeaderState {
     customerKey: string | null;
     status: 'idle' | 'loading' | 'rejected';
     search: string;
-    sort: SortProps<B2BCartHeader>;
+    sort: NestedSortProps<B2BCartHeader>;
 }
 
 const extraState: ExtraCartHeaderState = {
@@ -41,7 +41,7 @@ const cartHeadersSlice = createSlice({
         setCartSearch: (state, action: PayloadAction<string>) => {
             state.search = action.payload;
         },
-        setCartsSort: (state, action: PayloadAction<SortProps<B2BCartHeader>>) => {
+        setCartsSort: (state, action: PayloadAction<NestedSortProps<B2BCartHeader>>) => {
             state.sort = action.payload;
         }
     },

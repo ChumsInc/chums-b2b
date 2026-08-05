@@ -1,6 +1,6 @@
 import type {ReactElement, ReactNode, Ref, TableHTMLAttributes} from "react";
 import type classNames from "classnames";
-import type {SortProps} from "chums-types/b2b";
+import type {NestedSortProps} from "chums-types/b2b";
 import type {NestedPaths} from "chums-types";
 
 export type TableSelected<T = unknown> = string | number | null | boolean | ((row: T) => boolean);
@@ -58,8 +58,8 @@ export interface DataTableTBodyProps<T = unknown> extends TableHTMLAttributes<HT
 }
 
 export interface SortableTableProps<T = unknown> extends DataTableProps<T> {
-    currentSort: SortProps<T>,
-    onChangeSort: (sort: SortProps<T>) => void,
+    currentSort: NestedSortProps<T>,
+    onChangeSort: (sort: NestedSortProps<T>) => void,
 }
 
 export interface DataTableHeadProps<T = unknown> extends TableHTMLAttributes<HTMLTableSectionElement> {
@@ -67,7 +67,7 @@ export interface DataTableHeadProps<T = unknown> extends TableHTMLAttributes<HTM
 }
 
 export interface SortableTableHeadProps<T = unknown> extends DataTableHeadProps {
-    currentSort: SortProps<T>,
+    currentSort: NestedSortProps<T>,
     fields: SortableTableField<T>[],
-    onChangeSort: (sort: SortProps<T>) => void,
+    onChangeSort: (sort: NestedSortProps<T>) => void,
 }
