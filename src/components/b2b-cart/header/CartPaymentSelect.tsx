@@ -7,10 +7,11 @@ import Select, {type SelectChangeEvent} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl, {type FormControlProps} from "@mui/material/FormControl";
 import type {InputBaseComponentProps} from "@mui/material/InputBase";
-import {PAYMENT_TYPES} from "@/constants/account";
+import {filteredTermsCode, PAYMENT_TYPES} from "@/constants/account";
 import FormHelperText from "@mui/material/FormHelperText";
 import {useAppSelector} from "@/app/hooks";
 import {selectActiveCustomerPaymentCards} from "@/ducks/customer/customerPaymentCardsSlice";
+import {selectCustomerAccount} from "@/ducks/customer/currentCustomerSlice.ts";
 
 export interface CartPaymentSelectProps extends Omit<FormControlProps, 'onChange'> {
     value: string;
@@ -32,6 +33,8 @@ export default function CartPaymentSelect({
                                           }: CartPaymentSelectProps) {
     const id = useId();
     const paymentCards = useAppSelector(selectActiveCustomerPaymentCards);
+    const customerAccount = useAppSelector(selectCustomerAccount);
+    const allowTerms = (filteredTermsCode(customerAccount?.TermsCode ?? '')?.due ?? 0) > 0;
 
     const customerPaymentCardTypes: PaymentType[] = paymentCards
         .filter(cc => PAYMENT_TYPES[cc.PaymentType]?.allowCC && !PAYMENT_TYPES[cc.PaymentType].disabled)
@@ -44,7 +47,10 @@ export default function CartPaymentSelect({
             }
         });
 
-    const genericPaymentTypes = Object.values(PAYMENT_TYPES).filter(pt => !pt.disabled && !pt.allowCC);
+    const genericPaymentTypes = Object.values(PAYMENT_TYPES)
+        .filter(pt => !pt.disabled && !pt.allowCC)
+        .filter(pt => allowTerms || pt.code !== 'TERMS')
+    ;
 
     const changeHandler = (ev: SelectChangeEvent) => {
         onChange(ev.target.value);
@@ -57,7 +63,6 @@ export default function CartPaymentSelect({
                     labelId={id}
                     readOnly={readOnly} required={required}
                     inputProps={inputProps} variant="filled">
-                <MenuItem value=""></MenuItem>
                 {customerPaymentCardTypes.map(pt => (
                     <MenuItem key={pt.code} value={pt.code}>
                         {pt.description} [{pt.customerValue}]
