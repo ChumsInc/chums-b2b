@@ -57,12 +57,14 @@ export default function ContentPage() {
             }
             if (!allowsMarketing) {
                 // Replace YouTube iframes with non-cookie-blocking iframes
-                if (domNode instanceof Element && domNode.name === 'iframe'
-                    && domNode.attribs && domNode.attribs.src && domNode.attribs.src.includes('youtube.com')) {
-                    return (
-                        <iframe {...domNode.attribs}
-                                src={domNode.attribs.src.replace('youtube.com', 'youtube-nocookie.com')}/>
-                    )
+                if (domNode instanceof Element && domNode.name === 'iframe' && domNode.attribs && domNode.attribs.src) {
+                    const url = new URL(domNode.attribs.src);
+                    if (url.hostname === 'www.youtube.com' || url.hostname === 'youtube.com') {
+                        return (
+                            <iframe {...domNode.attribs}
+                                    src={domNode.attribs.src.replace('youtube.com', 'youtube-nocookie.com')}/>
+                        )
+                    }
                 }
             }
             return domNode;
