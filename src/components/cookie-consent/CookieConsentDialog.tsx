@@ -34,6 +34,10 @@ const defaultSettings: CookieConsentSettings = {
     marketing: false,
 }
 
+type SettingsKey = keyof CookieConsentSettings;
+
+const settingsKeys: SettingsKey[] = ['preferences', 'analytics', 'marketing'];
+
 export interface CookieConsentDialogProps extends DialogProps {
     open: boolean;
     onClose: () => void;
@@ -61,21 +65,13 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
             accepted: ['functional'],
             rejected: [],
         }
-        if (settings.preferences) {
-            body.accepted.push('preferences');
-        } else {
-            body.rejected.push('preferences');
-        }
-        if (settings.analytics) {
-            body.accepted.push('analytics');
-        } else {
-            body.rejected.push('analytics');
-        }
-        if (settings.marketing) {
-            body.accepted.push('marketing');
-        } else {
-            body.rejected.push('marketing');
-        }
+        settingsKeys.forEach(key => {
+            if (settings[key]) {
+                body.accepted.push(key);
+            } else {
+                body.rejected.push(key);
+            }
+        })
         await dispatch(saveCookieConsent(body));
         onClose();
     }
@@ -122,6 +118,10 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
                     This website uses cookies and similar technologies to enable site functionality as well as for
                     analytics, personalization and targeted advertising.
                 </DialogContentText>
+                <DialogContentText sx={{mb: 2}}>
+                    A cookie is also saved to help identify your opt in or out preferences. You can change your
+                    preferences at any time by clicking the options below.
+                </DialogContentText>
                 {consent?.gpc && (
                     <DialogContentText sx={{mb: 2}}>
                         We have detected a <strong>Global Privacy Control</strong> signal from your browser and have
@@ -137,8 +137,10 @@ export default function CookieConsentDialog({open, onClose, ...rest}: CookieCons
                         <CookieConsentItem consentSection="preferences" checked={preferences.preferences}
                                            onChange={changeHandler('preferences')}/>
                         <CookieConsentItem consentSection="analytics" checked={preferences.analytics}
+                                           gpc={consent?.gpc ?? null}
                                            onChange={changeHandler('analytics')}/>
                         <CookieConsentItem consentSection="marketing" checked={preferences.marketing}
+                                           gpc={consent?.gpc ?? null}
                                            onChange={changeHandler('marketing')}/>
                     </List>
                 </form>

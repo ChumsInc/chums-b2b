@@ -17,11 +17,12 @@ import {selectCookieConsentDetails} from "@/ducks/cookie-consent";
 
 export interface CookieConsentItemProps extends Omit<ListItemProps, 'onChange'> {
     consentSection: CookieConsentSection;
+    gpc?: boolean|null;
     checked: boolean;
     onChange: (checked: boolean) => void;
 }
 
-export default function CookieConsentItem({consentSection, checked, onChange, ...rest}: CookieConsentItemProps) {
+export default function CookieConsentItem({consentSection, gpc, checked, onChange, ...rest}: CookieConsentItemProps) {
     const detail = useAppSelector(selectCookieConsentDetails);
     const [section, setSection] = useState<CookieConsentSectionInfo|null>(detail?.[consentSection] ?? null);
     const [expanded, setExpanded] = useState(false);
@@ -63,6 +64,11 @@ export default function CookieConsentItem({consentSection, checked, onChange, ..
                                   <Typography component="div" variant="body2" color="text.primary" sx={{mb: 1}}>
                                       {section.description}
                                   </Typography>
+                                  {gpc && checked && (
+                                      <Typography component="div" variant="caption" color="chumsRed" sx={{mb: 1}}>
+                                        You have opted in to {section.title}
+                                    </Typography>
+                                  )}
                                   <Collapse in={expanded}>
                                       {section.cookies?.map((cookie, index) => (
                                           <Typography component="div" key={index} variant="caption" color="text.secondary" sx={{mb: 1}}>

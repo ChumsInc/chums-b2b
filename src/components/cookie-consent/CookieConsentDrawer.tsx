@@ -34,6 +34,14 @@ export default function CookieConsentDrawer() {
         dispatch(saveCookieConsent(body));
     }
 
+    const declineHandler = () => {
+        const body: CookieConsentBody = {
+            accepted: ['functional'],
+            rejected: ['analytics', 'marketing', 'preferences'],
+        }
+        dispatch(saveCookieConsent(body));
+    }
+
     const dismissHandler = () => {
         dispatch(dismissCookieConsent());
     }
@@ -50,16 +58,17 @@ export default function CookieConsentDrawer() {
         <Drawer open anchor="bottom" variant="permanent">
             <Grid container spacing={2} sx={{padding: 2, alignItems: 'center'}}>
                 <Grid size={{xs: 12, lg: "grow"}}>
-                    <Typography sx={{mb: 1}}>This website uses cookies and similar technologies to enable site
-                        functionality as well as for
-                        analytics, personalization and targeted advertising.</Typography>
+                    <Typography sx={{mb: 1}}>
+                        This website uses cookies and similar technologies to enable site functionality as well as
+                        for analytics, personalization and targeted advertising.
+                    </Typography>
                     {gpc && (
                         <Typography sx={{mb: 1}} component="p">
                             We have detected a{' '}<strong>Global Privacy Control</strong>{' '}signal from your browser
                             and have automatically opted you out of our marketing and analytics cookies.
                         </Typography>
                     )}
-                    <Typography sx={{fontWeight: 700}} color="chumsRed">Chums does not sell or rent personal information
+                    <Typography sx={{fontWeight: 700}} color="chumsRed">Chums does not share, sell or rent personal information
                         to third parties. See <Link component={RouterLink} to="/pages/privacy-policy">Privacy Policy</Link> for
                         more information.
                     </Typography>
@@ -69,6 +78,9 @@ export default function CookieConsentDrawer() {
                             aria-controls={id} aria-haspopup={true} aria-expanded={showDialog}>
                         Cookie Settings
                     </Button>
+                </Grid>
+                <Grid size={{xs: 5, lg: "auto"}}>
+                    <Button variant="contained" color="chumsGrey" onClick={declineHandler}>Decline Non-Essential Cookies</Button>
                 </Grid>
                 <Grid size={{xs: 5, lg: "auto"}}>
                     <Button variant="contained" color="chumsGrey" onClick={acceptHandler}>Accept Cookies</Button>

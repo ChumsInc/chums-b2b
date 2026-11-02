@@ -7,7 +7,11 @@ import LocalStore from "@/utils/LocalStore";
 import type {CookieConsentSettings} from "chums-types/b2b";
 import {STORE_COOKIE_CONSENT} from "@/constants/stores";
 
-export default function CookiePolicyLink() {
+export interface CookiePolicyLinkProps {
+    linkText?: string;
+}
+
+export default function CookiePolicyLink({linkText}:CookiePolicyLinkProps) {
     const consent = useAppSelector(selectCookieConsentRecord);
     const [show, setShow] = useState<boolean>(false);
     const id = useId();
@@ -22,7 +26,7 @@ export default function CookiePolicyLink() {
         <>
             <FooterLink sx={{cursor: 'pointer'}} onClick={() => setShow(true)}
                         role="button" aria-controls={id} aria-haspopup="true" aria-expanded={show}>
-                Cookie Policy
+                {linkText ?? 'Cookie Policy'}
             </FooterLink>
             <CookieConsentDialog open={show} onClose={() => setShow(false)} id={id} />
         </>
