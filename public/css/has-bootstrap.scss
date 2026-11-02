@@ -1,5 +1,7 @@
 .has-bootstrap {
   // theme stuff from 'src/app/theme.ts'
+  --bs-secondary-rgb: 108, 117, 125;
+  --bs-text-opacity: 1;
 
   --h1-font-size: 40px;
   --h1-font-weight: 300;
@@ -49,6 +51,7 @@
   @import "../../node_modules/bootstrap/scss/utilities/api";
   // scss-docs-end import-stack
 
+
   // chums overrides --- should match /src/app/theme.ts
   h1 {
     font-size: var(--h1-font-size);
@@ -69,5 +72,8 @@
     font-size: var(--h4-font-size);
     font-weight: var(--h4-font-weight);
     text-transform: var(--h4-text-transform);
+  }
+  .text-secondary {
+    color: var(--text-secondary-color) !important;
   }
 }
