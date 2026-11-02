@@ -1,0 +1,102 @@
+body {
+    @font-face {
+        font-family: 'Roboto';
+        font-display: swap;
+    }
+}
+
+:root {
+    --chums-red: #d0112b;
+    --chums-grey: #454547;
+    --footer-links-height: 40px;
+    --footer-contacts-padding: 1.5rem;
+    --footer-top-margin: 0;
+    --mountain-footer-height: 130px;
+    --resources-h4-color: #5f5f5f;
+    --social-icon-size: 25px;
+    --text-secondary-color: #6C757DFF;
+}
+
+a.pdf,
+a.pdf-icon {
+    background: url("/images/icons/Adobe_PDF_file_icon_24x24.png") center right no-repeat;
+    padding: 0 2rem 0 0;
+    background-size: contain;
+}
+
+a.xls,
+a.xlsx,
+a.xlsx-icon {
+    background: url("/images/icons/Microsoft_Excel_2013_logo.svg") center right no-repeat;
+    padding: 0 2rem 0 0;
+    background-size: contain;
+}
+
+a.ppt,
+a.ppt-icon,
+a.pptx-icon,
+a.pptx {
+    background: url("/images/icons/Microsoft_PowerPoint_2013_logo.svg") center right no-repeat;
+    padding: 0 2rem 0 0;
+    background-size: contain;
+}
+
+a.external {
+    background: url("/images/generic/external.png") center right no-repeat;
+    padding: 0 2rem 0 0;
+    background-size: contain;
+}
+
+.page-customer-resources section,
+.page-chums-reps section,
+.page-bc-reps section {
+    margin-bottom: 3rem;
+}
+
+.page-customer-resources h4,
+.page-chums-reps h4,
+.page-bc-reps h4 {
+        margin-top: 1.5rem;
+        font-size: 1rem;
+        color: var(--resources-h4-color);
+    }
+
+.usage-policy-container,
+.map-policy-container {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 75%;
+    max-height: 350px;
+    overflow: auto;
+}
+
+.usage-policy-container h2,
+.usage-policy-container h3 {
+    font-size: 1rem;
+}
+
+
+.icon-set {
+    float: right;
+    display: flex;
+    margin-left: 1rem;
+    flex-direction: column;
+}
+
+.icon-set .icon {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.ba-icon,
+.fr-icon {
+    float: right;
+    margin-left: 1rem;
+}
+
+.has-bootstrap {
+    .text-secondary {
+        color: var(--text-secondary-color) !important;
+    }
+}
