@@ -13,6 +13,8 @@ import {selectAllowsMarketing} from "@/ducks/cookie-consent";
 import Box from "@mui/material/Box";
 import {useContentPage} from "@/components/pages/useContentPage.ts";
 import Alert from "@mui/material/Alert";
+import CookieSettingsLink from "@/components/cookie-consent/CookieSettingsLink.tsx";
+
 
 export default function ContentPage() {
     const {page, status, error} = useContentPage();
@@ -75,6 +77,12 @@ export default function ContentPage() {
     return (
         <div className={`page-${page?.keyword}`}>
             <Typography component="h1" variant="h1">{page?.title}</Typography>
+            {page.keyword === 'product-videos' && (
+                <Typography variant="body1" sx={{mt: 3}}>
+                    Clicking play will load a YouTube video and may set third-party cookies. You can manage this
+                    anytime in your <CookieSettingsLink>Cookie Settings</CookieSettingsLink>.
+                </Typography>
+            )}
             <Divider sx={{my: 3}}/>
             {status === 'loading' && <LinearProgress variant="indeterminate"/>}
             {error && <Alert color="error">{error}</Alert>}
